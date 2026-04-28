@@ -18,6 +18,36 @@
     return window.matchMedia("(max-width: 720px), (pointer: coarse)").matches;
   }
 
+  function useFittedCalendar() {
+    return window.matchMedia("(min-width: 901px)").matches
+      && !window.matchMedia("(pointer: coarse)").matches;
+  }
+
+  function readPixelVariable(element, name, fallback) {
+    const value = Number.parseFloat(getComputedStyle(element).getPropertyValue(name));
+    return Number.isFinite(value) ? value : fallback;
+  }
+
+  function fitCalendarToGrid() {
+    if (!useFittedCalendar() || weeks.length === 0) {
+      calendar.style.removeProperty("--day-size");
+      return;
+    }
+
+    const weekCount = weeks.length;
+    const dayGap = readPixelVariable(calendar, "--day-gap", 4);
+    const weekdayWidth = readPixelVariable(calendar, "--weekday-width", 14);
+    const bodyGap = readPixelVariable(calendar, "--grid-body-gap", 8);
+    const availableWidth = grid.clientWidth - weekdayWidth - bodyGap - ((weekCount - 1) * dayGap);
+    const fittedSize = availableWidth / weekCount;
+    const boundedSize = Math.max(8, Math.min(40, fittedSize));
+    calendar.style.setProperty("--day-size", `${boundedSize.toFixed(2)}px`);
+  }
+
+  function scrollGridToEnd() {
+    grid.scrollLeft = Math.max(0, grid.scrollWidth - grid.clientWidth);
+  }
+
   function laDateParts(date) {
     const parts = new Intl.DateTimeFormat("en-US", {
       timeZone: "America/Los_Angeles",
@@ -289,10 +319,11 @@
   calendar.appendChild(monthLabels);
   calendar.appendChild(body);
   grid.appendChild(calendar);
+  fitCalendarToGrid();
 
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
-      grid.scrollLeft = grid.scrollWidth - grid.clientWidth;
+      scrollGridToEnd();
     });
   });
 
@@ -317,6 +348,8 @@
     closeDetail();
   });
   window.addEventListener("resize", () => {
+    fitCalendarToGrid();
+    requestAnimationFrame(scrollGridToEnd);
     if (!popover.hidden && activeAnchor) {
       if (useMobileModal()) document.body.classList.add("modal-open");
       else {
