@@ -43,6 +43,12 @@ npm run finalize:day -- --date 2026-04-28
 npm run build:site
 ```
 
+To re-run only the final adjudication for an already completed day:
+
+```bash
+npm run finalize:day -- --date 2026-04-28 --force
+```
+
 Backfill:
 
 ```bash

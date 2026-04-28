@@ -133,7 +133,7 @@ export const DailyEntitySchema = z.object({
   neutralCount: z.number().int().nonnegative(),
   negativeCount: z.number().int().nonnegative(),
   confidence: z.number().min(0).max(1),
-  judgementSnippet: z.string().max(240),
+  judgementSnippet: z.string(),
   evidenceIds: z.array(z.string()),
 });
 export type DailyEntity = z.infer<typeof DailyEntitySchema>;
@@ -143,8 +143,8 @@ export const DailyResultSchema = z.object({
   generatedAt: z.string(),
   samplingMethod: SamplingMethodSchema,
   winner: TargetSchema,
-  dailyJudgementSnippet: z.string().max(420),
-  winnerExplanation: z.string().max(360),
+  dailyJudgementSnippet: z.string(),
+  winnerExplanation: z.string(),
   lowConfidence: z.boolean(),
   closeCall: z.boolean(),
   margin: z.number(),

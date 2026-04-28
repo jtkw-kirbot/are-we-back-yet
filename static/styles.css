@@ -24,6 +24,10 @@ body {
   background: var(--bg);
 }
 
+body.modal-open {
+  overflow: hidden;
+}
+
 a {
   color: inherit;
 }
@@ -151,7 +155,6 @@ p {
 }
 
 .day.empty {
-  visibility: hidden;
   cursor: default;
 }
 
@@ -183,6 +186,10 @@ p {
   font-size: 13px;
 }
 
+.close-detail {
+  display: none;
+}
+
 .popover h2 {
   font-size: 15px;
   margin: 0 0 8px;
@@ -206,6 +213,20 @@ p {
   color: var(--ink);
   line-height: 1.45;
   margin-bottom: 12px;
+}
+
+.judgement.secondary {
+  color: var(--muted);
+}
+
+.judgement-block {
+  margin-bottom: 12px;
+}
+
+.judgement-block summary {
+  cursor: pointer;
+  font-weight: 650;
+  margin-bottom: 6px;
 }
 
 .scores {
@@ -265,8 +286,8 @@ p {
   }
 
   .month-labels {
-    grid-auto-columns: 12px;
-    gap: 3px;
+    grid-auto-columns: 18px;
+    gap: 4px;
     margin-left: 20px;
     font-size: 10px;
   }
@@ -276,20 +297,66 @@ p {
   }
 
   .weekday-labels {
-    grid-template-rows: repeat(7, 12px);
-    gap: 3px;
-    line-height: 12px;
+    grid-template-rows: repeat(7, 18px);
+    gap: 4px;
+    line-height: 18px;
     width: 14px;
   }
 
   .heatmap {
-    grid-auto-columns: 12px;
-    grid-template-rows: repeat(7, 12px);
-    gap: 3px;
+    grid-auto-columns: 18px;
+    grid-template-rows: repeat(7, 18px);
+    gap: 4px;
   }
 
   .day {
-    width: 12px;
-    height: 12px;
+    width: 18px;
+    height: 18px;
+    border-radius: 5px;
+  }
+
+  .popover.modal {
+    inset: 0;
+    width: auto;
+    max-height: none;
+    height: 100dvh;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: rgba(13, 17, 23, 0.96);
+    box-shadow: none;
+    font-size: 15px;
+  }
+
+  .popover.modal .detail-scroll {
+    height: 100%;
+    overflow: auto;
+    padding: 64px 18px 28px;
+  }
+
+  .popover.modal h2 {
+    font-size: 22px;
+    margin-bottom: 12px;
+  }
+
+  .popover.modal .close-detail {
+    display: block;
+    position: fixed;
+    top: 14px;
+    right: 14px;
+    z-index: 1;
+    min-height: 38px;
+    padding: 0 14px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--ink);
+    background: var(--panel);
+    font: inherit;
+  }
+
+  .popover.modal .entity-main {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 3px;
   }
 }

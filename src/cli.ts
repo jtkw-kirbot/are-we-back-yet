@@ -69,7 +69,7 @@ async function main(): Promise<void> {
       console.log(`updated ${await pollPendingBatches()} pending batch run(s)`);
       break;
     case "finalize:day":
-      console.log(`finalized ${await finalizeAll(typeof args.date === "string" ? args.date : undefined)} day(s)`);
+      console.log(`finalized ${await finalizeAll(typeof args.date === "string" ? args.date : undefined, { force: Boolean(args.force) })} day(s)`);
       break;
     case "build:site":
       await buildSite();

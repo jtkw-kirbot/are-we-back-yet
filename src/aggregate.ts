@@ -85,31 +85,16 @@ function validateCitations(snippets: string[], evidence: Evidence[]): void {
   }
 }
 
-export function limitText(value: string, maxLength: number): string {
-  const normalized = value.replace(/\s+/g, " ").trim();
-  if (normalized.length <= maxLength) return normalized;
-
-  const suffix = "...";
-  const budget = maxLength - suffix.length;
-  const candidate = normalized.slice(0, budget);
-  const wordBoundary = candidate.lastIndexOf(" ");
-  const clipped = wordBoundary > Math.floor(budget * 0.7)
-    ? candidate.slice(0, wordBoundary)
-    : candidate;
-
-  return `${clipped.replace(/\[(E\d*)?$/g, "").trimEnd()}${suffix}`;
-}
-
 function normalizeAdjudication(output: z.infer<typeof AdjudicationOutputSchema>): z.infer<typeof AdjudicationOutputSchema> {
   return {
     winner: output.winner,
-    dailyJudgementSnippet: limitText(output.dailyJudgementSnippet, 420),
-    winnerExplanation: limitText(output.winnerExplanation, 360),
+    dailyJudgementSnippet: output.dailyJudgementSnippet.replace(/\s+/g, " ").trim(),
+    winnerExplanation: output.winnerExplanation.replace(/\s+/g, " ").trim(),
     entityJudgements: {
-      openai: limitText(output.entityJudgements.openai, 240),
-      anthropic: limitText(output.entityJudgements.anthropic, 240),
-      google_gemini: limitText(output.entityJudgements.google_gemini, 240),
-      microsoft_copilot: limitText(output.entityJudgements.microsoft_copilot, 240),
+      openai: output.entityJudgements.openai.replace(/\s+/g, " ").trim(),
+      anthropic: output.entityJudgements.anthropic.replace(/\s+/g, " ").trim(),
+      google_gemini: output.entityJudgements.google_gemini.replace(/\s+/g, " ").trim(),
+      microsoft_copilot: output.entityJudgements.microsoft_copilot.replace(/\s+/g, " ").trim(),
     },
   };
 }
@@ -274,9 +259,9 @@ function winnerFromScores(scores: Record<Target, { score: number }>): { winner: 
   return { winner, margin };
 }
 
-export async function finalizeDay(date: string): Promise<boolean> {
+export async function finalizeDay(date: string, options: { force?: boolean } = {}): Promise<boolean> {
   const run = await readRun(date);
-  if (run.state !== "sentiment_complete") return false;
+  if (run.state !== "sentiment_complete" && !(options.force && run.state === "complete")) return false;
 
   const raw = await readRawDay(date);
   const sentiments = await readJson(batchParsedPath(date, "sentiment"), SentimentResultSchema.array());
@@ -336,8 +321,8 @@ export async function finalizeDay(date: string): Promise<boolean> {
   return true;
 }
 
-export async function finalizeAll(date?: string): Promise<number> {
-  if (date) return (await finalizeDay(date)) ? 1 : 0;
+export async function finalizeAll(date?: string, options: { force?: boolean } = {}): Promise<number> {
+  if (date) return (await finalizeDay(date, options)) ? 1 : 0;
   const { listRuns } = await import("./io.js");
   const runs = await listRuns();
   let count = 0;

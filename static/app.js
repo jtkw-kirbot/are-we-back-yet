@@ -10,6 +10,11 @@
   const popover = document.getElementById("popover");
   const rangeLabel = document.getElementById("range-label");
   let pinned = false;
+  let activeAnchor = null;
+
+  function useMobileModal() {
+    return window.matchMedia("(max-width: 720px), (pointer: coarse)").matches;
+  }
 
   function laDateParts(date) {
     const parts = new Intl.DateTimeFormat("en-US", {
@@ -105,14 +110,19 @@
     popover.style.top = `${top}px`;
   }
 
-  function renderPopover(anchor, date, day) {
+  function renderDetail(anchor, date, day) {
+    activeAnchor = anchor;
+    popover.className = useMobileModal() ? "popover modal" : "popover";
     if (!day) {
       popover.innerHTML = `
-        <h2>${escapeHtml(date)}</h2>
-        <div class="meta"><span class="pill">No completed data</span></div>
-        <p class="judgement">This day has not been processed yet.</p>
+        ${modalCloseButton()}
+        <div class="detail-scroll">
+          <h2>${escapeHtml(date)}</h2>
+          <div class="meta"><span class="pill">No completed data</span></div>
+          <p class="judgement">This day has not been processed yet.</p>
+        </div>
       `;
-      positionPopover(anchor);
+      showDetail(anchor);
       return;
     }
 
@@ -141,18 +151,48 @@
     ].filter(Boolean);
 
     popover.innerHTML = `
-      <h2>${escapeHtml(day.date)} · ${escapeHtml(labels[day.winner])}</h2>
-      <div class="meta">${flags.map((flag) => `<span class="pill">${escapeHtml(flag)}</span>`).join("")}</div>
-      <p class="judgement">${withEvidenceLinks(day.dailyJudgementSnippet, evidenceById)}</p>
-      <div class="scores">${entityRows}</div>
-      <div class="links">${links}</div>
+      ${modalCloseButton()}
+      <div class="detail-scroll">
+        <h2>${escapeHtml(day.date)} · ${escapeHtml(labels[day.winner])}</h2>
+        <div class="meta">${flags.map((flag) => `<span class="pill">${escapeHtml(flag)}</span>`).join("")}</div>
+        <details class="judgement-block" open>
+          <summary>Daily judgement</summary>
+          <p class="judgement">${withEvidenceLinks(day.dailyJudgementSnippet, evidenceById)}</p>
+          <p class="judgement secondary">${withEvidenceLinks(day.winnerExplanation || "", evidenceById)}</p>
+        </details>
+        <div class="scores">${entityRows}</div>
+        <div class="links">${links}</div>
+      </div>
     `;
+    showDetail(anchor);
+  }
+
+  function modalCloseButton() {
+    return `<button type="button" class="close-detail" aria-label="Close detail">Close</button>`;
+  }
+
+  function showDetail(anchor) {
+    popover.hidden = false;
+    if (useMobileModal()) {
+      document.body.classList.add("modal-open");
+      return;
+    }
+    document.body.classList.remove("modal-open");
     positionPopover(anchor);
   }
 
   function hidePopover() {
+    if (useMobileModal()) return;
     if (pinned) return;
     popover.hidden = true;
+  }
+
+  function closeDetail() {
+    pinned = false;
+    activeAnchor = null;
+    popover.hidden = true;
+    popover.className = "popover";
+    document.body.classList.remove("modal-open");
   }
 
   const response = await fetch("data/index.json");
@@ -204,15 +244,17 @@
       square.dataset.state = day ? "complete" : "missing";
       square.setAttribute("aria-label", day ? `${date}: ${labels[day.winner]} won` : `${date}: no data`);
       square.addEventListener("mouseenter", () => {
-        if (!pinned) renderPopover(square, date, day);
+        if (!useMobileModal() && !pinned) renderDetail(square, date, day);
       });
       square.addEventListener("mouseleave", hidePopover);
-      square.addEventListener("focus", () => renderPopover(square, date, day));
+      square.addEventListener("focus", () => {
+        if (!useMobileModal()) renderDetail(square, date, day);
+      });
       square.addEventListener("blur", hidePopover);
       square.addEventListener("click", (event) => {
         event.stopPropagation();
-        pinned = !pinned;
-        renderPopover(square, date, day);
+        pinned = true;
+        renderDetail(square, date, day);
       });
       heatmap.appendChild(square);
     }
@@ -224,12 +266,25 @@
   calendar.appendChild(body);
   grid.appendChild(calendar);
 
-  document.addEventListener("click", () => {
-    pinned = false;
-    popover.hidden = true;
+  popover.addEventListener("click", (event) => {
+    event.stopPropagation();
+    if (event.target.closest(".close-detail")) closeDetail();
+  });
+
+  document.addEventListener("click", (event) => {
+    if (useMobileModal()) return;
+    if (activeAnchor && event.target === activeAnchor) return;
+    closeDetail();
   });
   window.addEventListener("resize", () => {
-    pinned = false;
-    popover.hidden = true;
+    if (!popover.hidden && activeAnchor) {
+      if (useMobileModal()) document.body.classList.add("modal-open");
+      else {
+        document.body.classList.remove("modal-open");
+        positionPopover(activeAnchor);
+      }
+      return;
+    }
+    closeDetail();
   });
 })();
