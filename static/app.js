@@ -17,7 +17,7 @@
 
   function useFittedCalendar() {
     return window.matchMedia("(min-width: 901px)").matches
-      && !window.matchMedia("(pointer: coarse)").matches;
+      && (!window.matchMedia("(pointer: coarse)").matches || document.body.classList.contains("detail-open"));
   }
 
   function readPixelVariable(element, name, fallback) {
