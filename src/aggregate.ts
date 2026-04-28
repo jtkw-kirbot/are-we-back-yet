@@ -19,13 +19,13 @@ const PRIOR_WEIGHT = 10;
 
 const AdjudicationOutputSchema = z.object({
   winner: z.enum(TARGETS),
-  dailyJudgementSnippet: z.string().max(420),
-  winnerExplanation: z.string().max(360),
+  dailyJudgementSnippet: z.string(),
+  winnerExplanation: z.string(),
   entityJudgements: z.object({
-    openai: z.string().max(240),
-    anthropic: z.string().max(240),
-    google_gemini: z.string().max(240),
-    microsoft_copilot: z.string().max(240),
+    openai: z.string(),
+    anthropic: z.string(),
+    google_gemini: z.string(),
+    microsoft_copilot: z.string(),
   }),
 });
 
@@ -83,6 +83,35 @@ function validateCitations(snippets: string[], evidence: Evidence[]): void {
       if (!known.has(id)) throw new Error(`Adjudication snippet cited unknown evidence id ${id}.`);
     }
   }
+}
+
+export function limitText(value: string, maxLength: number): string {
+  const normalized = value.replace(/\s+/g, " ").trim();
+  if (normalized.length <= maxLength) return normalized;
+
+  const suffix = "...";
+  const budget = maxLength - suffix.length;
+  const candidate = normalized.slice(0, budget);
+  const wordBoundary = candidate.lastIndexOf(" ");
+  const clipped = wordBoundary > Math.floor(budget * 0.7)
+    ? candidate.slice(0, wordBoundary)
+    : candidate;
+
+  return `${clipped.replace(/\[(E\d*)?$/g, "").trimEnd()}${suffix}`;
+}
+
+function normalizeAdjudication(output: z.infer<typeof AdjudicationOutputSchema>): z.infer<typeof AdjudicationOutputSchema> {
+  return {
+    winner: output.winner,
+    dailyJudgementSnippet: limitText(output.dailyJudgementSnippet, 420),
+    winnerExplanation: limitText(output.winnerExplanation, 360),
+    entityJudgements: {
+      openai: limitText(output.entityJudgements.openai, 240),
+      anthropic: limitText(output.entityJudgements.anthropic, 240),
+      google_gemini: limitText(output.entityJudgements.google_gemini, 240),
+      microsoft_copilot: limitText(output.entityJudgements.microsoft_copilot, 240),
+    },
+  };
 }
 
 function buildEvidence(accumulators: Record<Target, EntityAccumulator>): Evidence[] {
@@ -273,7 +302,7 @@ export async function finalizeDay(date: string): Promise<boolean> {
     adjudicationInput(adjudicationPayload),
     jsonSchemaFormat("daily_adjudication", adjudicationJsonSchema),
   );
-  const adjudication = AdjudicationOutputSchema.parse(parseModelJson(adjudicationText));
+  const adjudication = normalizeAdjudication(AdjudicationOutputSchema.parse(parseModelJson(adjudicationText)));
 
   validateCitations([
     adjudication.dailyJudgementSnippet,
