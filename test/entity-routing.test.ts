@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { sentimentTargetsForMentions } from "../src/entity-routing.js";
-import { sentimentRequestBody } from "../src/prompts.js";
+import { entityRequestBody, sentimentRequestBody } from "../src/prompts.js";
 import { MentionSchema, type HnItem } from "../src/types.js";
 
 describe("entity sentiment routing", () => {
@@ -111,5 +111,24 @@ describe("entity sentiment routing", () => {
 
     expect(systemPrompt).toContain("Separate the underlying model/provider from the surface");
     expect(userPayload.detectedMentions).toEqual(mentions);
+  });
+
+  it("tells models not to route harness-only praise to the underlying provider", () => {
+    const harnessItem: HnItem = {
+      id: 47925062,
+      type: "comment",
+      depth: 1,
+      storyId: 47920787,
+      storyTitle: "Show HN: OSS Agent I built topped the TerminalBench on Gemini-3-flash-preview",
+      sourceUrl: "https://news.ycombinator.com/item?id=47925062",
+      text: "Really impressive results. The point about the harness mattering more than the model is spot on.",
+    };
+
+    const entityBody = entityRequestBody(harnessItem) as { input: Array<{ content: string }> };
+    const sentimentBody = sentimentRequestBody(harnessItem, ["google_gemini"]) as { input: Array<{ content: string }> };
+
+    expect(entityBody.input[0]?.content).toContain("harness, scaffold, benchmark setup");
+    expect(sentimentBody.input[0]?.content).toContain("merely because the project uses that model");
+    expect(sentimentBody.input[0]?.content).toContain("harness, scaffold, or surrounding tool matters more than the model");
   });
 });

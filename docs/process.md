@@ -36,6 +36,7 @@ Examples:
 - "Sonnet now costs 9x in GitHub Copilot" is mainly about Microsoft Copilot billing.
 - "GPT is too expensive on OpenRouter" should not automatically count as negative toward OpenAI unless the comment also criticizes OpenAI directly.
 - "Gemini in this VS Code extension keeps failing" may be about the extension or integration unless the model behavior is clearly blamed.
+- "This open-source harness using Gemini got great benchmark results" is not automatically positive for Gemini if the praise is for the harness, benchmark setup, or implementation technique. It should count for Gemini only when the comment clearly credits the model's quality or compares Gemini's model performance.
 
 When the owner is ambiguous, the system should prefer a lower-confidence or neutral judgement rather than forcing negativity onto the model owner.
 
