@@ -11,6 +11,8 @@
   const rangeLabel = document.getElementById("range-label");
   let pinned = false;
   let activeAnchor = null;
+  let hideTimer = 0;
+  let hoveringPopover = false;
 
   function useMobileModal() {
     return window.matchMedia("(max-width: 720px), (pointer: coarse)").matches;
@@ -111,6 +113,7 @@
   }
 
   function renderDetail(anchor, date, day) {
+    clearHideTimer();
     activeAnchor = anchor;
     popover.className = useMobileModal() ? "popover modal" : "popover";
     if (!day) {
@@ -184,12 +187,31 @@
   function hidePopover() {
     if (useMobileModal()) return;
     if (pinned) return;
+    if (hoveringPopover) return;
     popover.hidden = true;
   }
 
+  function clearHideTimer() {
+    if (!hideTimer) return;
+    window.clearTimeout(hideTimer);
+    hideTimer = 0;
+  }
+
+  function scheduleHidePopover() {
+    if (useMobileModal()) return;
+    if (pinned) return;
+    clearHideTimer();
+    hideTimer = window.setTimeout(() => {
+      hideTimer = 0;
+      hidePopover();
+    }, 90);
+  }
+
   function closeDetail() {
+    clearHideTimer();
     pinned = false;
     activeAnchor = null;
+    hoveringPopover = false;
     popover.hidden = true;
     popover.className = "popover";
     document.body.classList.remove("modal-open");
@@ -244,13 +266,15 @@
       square.dataset.state = day ? "complete" : "missing";
       square.setAttribute("aria-label", day ? `${date}: ${labels[day.winner]} won` : `${date}: no data`);
       square.addEventListener("mouseenter", () => {
+        clearHideTimer();
         if (!useMobileModal() && !pinned) renderDetail(square, date, day);
       });
-      square.addEventListener("mouseleave", hidePopover);
+      square.addEventListener("mouseleave", scheduleHidePopover);
       square.addEventListener("focus", () => {
+        clearHideTimer();
         if (!useMobileModal()) renderDetail(square, date, day);
       });
-      square.addEventListener("blur", hidePopover);
+      square.addEventListener("blur", scheduleHidePopover);
       square.addEventListener("click", (event) => {
         event.stopPropagation();
         pinned = true;
@@ -275,6 +299,16 @@
   popover.addEventListener("click", (event) => {
     event.stopPropagation();
     if (event.target.closest(".close-detail")) closeDetail();
+  });
+
+  popover.addEventListener("mouseenter", () => {
+    hoveringPopover = true;
+    clearHideTimer();
+  });
+
+  popover.addEventListener("mouseleave", () => {
+    hoveringPopover = false;
+    scheduleHidePopover();
   });
 
   document.addEventListener("click", (event) => {
