@@ -22,6 +22,7 @@ body {
   font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   color: var(--ink);
   background: var(--bg);
+  overflow-x: hidden;
 }
 
 body.modal-open {
@@ -41,6 +42,7 @@ a {
 
 .tracker {
   width: min(620px, 100%);
+  min-width: 0;
 }
 
 .tracker-header {
@@ -96,8 +98,26 @@ p {
 
 .grid {
   width: 100%;
+  min-width: 0;
   overflow-x: auto;
+  overscroll-behavior-x: contain;
   padding: 3px 0 10px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(139, 148, 158, 0.45) transparent;
+  -webkit-overflow-scrolling: touch;
+}
+
+.grid::-webkit-scrollbar {
+  height: 6px;
+}
+
+.grid::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.grid::-webkit-scrollbar-thumb {
+  background: rgba(139, 148, 158, 0.45);
+  border-radius: 999px;
 }
 
 .calendar {
@@ -283,6 +303,25 @@ p {
 @media (max-width: 720px) {
   .tracker {
     width: 100%;
+  }
+
+  .shell {
+    place-items: center stretch;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .grid {
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .calendar {
+    margin: 0;
   }
 
   .month-labels {

@@ -266,6 +266,12 @@
   calendar.appendChild(body);
   grid.appendChild(calendar);
 
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      grid.scrollLeft = grid.scrollWidth - grid.clientWidth;
+    });
+  });
+
   popover.addEventListener("click", (event) => {
     event.stopPropagation();
     if (event.target.closest(".close-detail")) closeDetail();
