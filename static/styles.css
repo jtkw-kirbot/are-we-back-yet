@@ -17,7 +17,7 @@
   --grid-body-gap: 8px;
   --month-font-size: 11px;
   --tracker-width: 620px;
-  --sheet-width: max(360px, min(clamp(420px, 42vw, 760px), calc(100vw - 620px)));
+  --sheet-width: min(clamp(420px, 42vw, 760px), calc(100vw - 40px));
 }
 
 * {
@@ -27,7 +27,7 @@
 body {
   margin: 0;
   min-height: 100vh;
-  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   color: var(--ink);
   background: var(--bg);
   overflow-x: hidden;
@@ -41,13 +41,16 @@ a {
   color: inherit;
 }
 
+button {
+  font: inherit;
+}
+
 .shell {
   width: 100%;
   min-height: 100vh;
   display: grid;
   place-items: center;
   padding: 32px 16px;
-  transition: width 180ms ease, padding 180ms ease;
 }
 
 .tracker {
@@ -248,15 +251,6 @@ p {
   to {
     opacity: 1;
     transform: translateX(0);
-  }
-}
-
-@media (min-width: 901px) {
-  body.detail-open .shell {
-    width: calc(100vw - var(--sheet-width));
-    place-items: center;
-    padding-left: 24px;
-    padding-right: 24px;
   }
 }
 

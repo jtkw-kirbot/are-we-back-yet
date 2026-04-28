@@ -17,7 +17,7 @@
 
   function useFittedCalendar() {
     return window.matchMedia("(min-width: 901px)").matches
-      && (!window.matchMedia("(pointer: coarse)").matches || document.body.classList.contains("detail-open"));
+      && !window.matchMedia("(pointer: coarse)").matches;
   }
 
   function readPixelVariable(element, name, fallback) {
@@ -43,17 +43,6 @@
 
   function scrollGridToEnd() {
     grid.scrollLeft = Math.max(0, grid.scrollWidth - grid.clientWidth);
-  }
-
-  function refitGridAfterLayoutChange() {
-    requestAnimationFrame(() => {
-      fitCalendarToGrid();
-      scrollGridToEnd();
-    });
-    window.setTimeout(() => {
-      fitCalendarToGrid();
-      scrollGridToEnd();
-    }, 220);
   }
 
   function laDateParts(date) {
@@ -203,7 +192,6 @@
     }
     document.body.classList.remove("modal-open");
     document.body.classList.add("detail-open");
-    refitGridAfterLayoutChange();
   }
 
   function closeDetail() {
@@ -213,7 +201,6 @@
     popover.className = "popover";
     document.body.classList.remove("modal-open");
     document.body.classList.remove("detail-open");
-    refitGridAfterLayoutChange();
   }
 
   const response = await fetch("data/index.json");
