@@ -39,6 +39,25 @@
     return dates;
   }
 
+  function monthName(date) {
+    return new Intl.DateTimeFormat("en-US", { month: "short", timeZone: "UTC" }).format(date);
+  }
+
+  function buildWeeks(dates) {
+    const weeks = [];
+    let week = new Array(7).fill(null);
+    for (const date of dates) {
+      const day = new Date(`${date}T00:00:00Z`).getUTCDay();
+      if (day === 0 && week.some(Boolean)) {
+        weeks.push(week);
+        week = new Array(7).fill(null);
+      }
+      week[day] = date;
+    }
+    if (week.some(Boolean)) weeks.push(week);
+    return weeks;
+  }
+
   function formatScore(value) {
     const sign = value > 0 ? "+" : "";
     return `${sign}${value.toFixed(2)}`;
@@ -134,34 +153,67 @@
   const currentYear = dates[0]?.slice(0, 4) ?? new Date().getFullYear();
   rangeLabel.textContent = `${currentYear} year to date`;
 
-  const firstDay = new Date(`${dates[0]}T00:00:00Z`).getUTCDay();
-  for (let i = 0; i < firstDay; i += 1) {
-    const spacer = document.createElement("span");
-    spacer.className = "spacer";
-    grid.appendChild(spacer);
+  const weeks = buildWeeks(dates);
+  const calendar = document.createElement("div");
+  calendar.className = "calendar";
+
+  const monthLabels = document.createElement("div");
+  monthLabels.className = "month-labels";
+  weeks.forEach((week) => {
+    const label = document.createElement("span");
+    label.className = "month-label";
+    const firstOfMonth = week.find((date) => date && date.endsWith("-01"));
+    if (firstOfMonth) label.textContent = monthName(new Date(`${firstOfMonth}T00:00:00Z`));
+    monthLabels.appendChild(label);
+  });
+
+  const body = document.createElement("div");
+  body.className = "grid-body";
+  const weekdayLabels = document.createElement("div");
+  weekdayLabels.className = "weekday-labels";
+  ["", "M", "", "W", "", "F", ""].forEach((label) => {
+    const node = document.createElement("span");
+    node.textContent = label;
+    weekdayLabels.appendChild(node);
+  });
+
+  const heatmap = document.createElement("div");
+  heatmap.className = "heatmap";
+
+  for (const week of weeks) {
+    for (const date of week) {
+      const day = date ? byDate.get(date) : undefined;
+      const square = document.createElement("button");
+      square.type = "button";
+      square.className = date ? `day ${day?.winner ?? ""}` : "day empty";
+      if (!date) {
+        square.tabIndex = -1;
+        heatmap.appendChild(square);
+        continue;
+      }
+      square.dataset.date = date;
+      square.dataset.state = day ? "complete" : "missing";
+      square.setAttribute("aria-label", day ? `${date}: ${labels[day.winner]} won` : `${date}: no data`);
+      square.addEventListener("mouseenter", () => {
+        if (!pinned) renderPopover(square, date, day);
+      });
+      square.addEventListener("mouseleave", hidePopover);
+      square.addEventListener("focus", () => renderPopover(square, date, day));
+      square.addEventListener("blur", hidePopover);
+      square.addEventListener("click", (event) => {
+        event.stopPropagation();
+        pinned = !pinned;
+        renderPopover(square, date, day);
+      });
+      heatmap.appendChild(square);
+    }
   }
 
-  for (const date of dates) {
-    const day = byDate.get(date);
-    const square = document.createElement("button");
-    square.type = "button";
-    square.className = `day ${day?.winner ?? ""}`;
-    square.dataset.date = date;
-    square.dataset.state = day ? "complete" : "missing";
-    square.setAttribute("aria-label", day ? `${date}: ${labels[day.winner]} won` : `${date}: no data`);
-    square.addEventListener("mouseenter", () => {
-      if (!pinned) renderPopover(square, date, day);
-    });
-    square.addEventListener("mouseleave", hidePopover);
-    square.addEventListener("focus", () => renderPopover(square, date, day));
-    square.addEventListener("blur", hidePopover);
-    square.addEventListener("click", (event) => {
-      event.stopPropagation();
-      pinned = !pinned;
-      renderPopover(square, date, day);
-    });
-    grid.appendChild(square);
-  }
+  body.appendChild(weekdayLabels);
+  body.appendChild(heatmap);
+  calendar.appendChild(monthLabels);
+  calendar.appendChild(body);
+  grid.appendChild(calendar);
 
   document.addEventListener("click", () => {
     pinned = false;
