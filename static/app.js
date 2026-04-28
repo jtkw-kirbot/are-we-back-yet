@@ -1,0 +1,174 @@
+(async function () {
+  const labels = {
+    openai: "OpenAI",
+    anthropic: "Anthropic",
+    google_gemini: "Gemini",
+    microsoft_copilot: "Copilot",
+  };
+
+  const grid = document.getElementById("grid");
+  const popover = document.getElementById("popover");
+  const rangeLabel = document.getElementById("range-label");
+  let pinned = false;
+
+  function laDateParts(date) {
+    const parts = new Intl.DateTimeFormat("en-US", {
+      timeZone: "America/Los_Angeles",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    }).formatToParts(date);
+    return Object.fromEntries(parts.map((part) => [part.type, part.value]));
+  }
+
+  function laDateString(date) {
+    const parts = laDateParts(date);
+    return `${parts.year}-${parts.month}-${parts.day}`;
+  }
+
+  function dateRangeYtd() {
+    const today = laDateString(new Date());
+    const year = today.slice(0, 4);
+    const dates = [];
+    const cursor = new Date(`${year}-01-01T00:00:00Z`);
+    const end = new Date(`${today}T00:00:00Z`);
+    while (cursor <= end) {
+      dates.push(cursor.toISOString().slice(0, 10));
+      cursor.setUTCDate(cursor.getUTCDate() + 1);
+    }
+    return dates;
+  }
+
+  function formatScore(value) {
+    const sign = value > 0 ? "+" : "";
+    return `${sign}${value.toFixed(2)}`;
+  }
+
+  function escapeHtml(value) {
+    return String(value)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#39;");
+  }
+
+  function withEvidenceLinks(text, evidenceById) {
+    return escapeHtml(text).replace(/\[(E\d+)]/g, (token, id) => {
+      const evidence = evidenceById.get(id);
+      if (!evidence) return token;
+      return `<a href="${escapeHtml(evidence.url)}" target="_blank" rel="noreferrer">[${id}]</a>`;
+    });
+  }
+
+  function positionPopover(anchor) {
+    const rect = anchor.getBoundingClientRect();
+    const margin = 12;
+    popover.hidden = false;
+    const width = popover.offsetWidth;
+    const height = popover.offsetHeight;
+    let left = rect.left + rect.width / 2 - width / 2;
+    let top = rect.bottom + 8;
+    left = Math.max(margin, Math.min(window.innerWidth - width - margin, left));
+    if (top + height > window.innerHeight - margin) {
+      top = Math.max(margin, rect.top - height - 8);
+    }
+    popover.style.left = `${left}px`;
+    popover.style.top = `${top}px`;
+  }
+
+  function renderPopover(anchor, date, day) {
+    if (!day) {
+      popover.innerHTML = `
+        <h2>${escapeHtml(date)}</h2>
+        <div class="meta"><span class="pill">No completed data</span></div>
+        <p class="judgement">This day has not been processed yet.</p>
+      `;
+      positionPopover(anchor);
+      return;
+    }
+
+    const evidenceById = new Map(day.evidence.map((item) => [item.id, item]));
+    const entityRows = Object.entries(labels).map(([target, label]) => {
+      const entity = day.entities[target];
+      return `
+        <div class="entity-row">
+          <div class="entity-main">
+            <span class="entity-name">${label}</span>
+            <span class="entity-score">${formatScore(entity.score)} · ${entity.mentionCount} mentions</span>
+          </div>
+          <div class="entity-detail">${withEvidenceLinks(entity.judgementSnippet || "No relevant signal.", evidenceById)}</div>
+        </div>
+      `;
+    }).join("");
+
+    const links = day.evidence.slice(0, 8).map((item) => {
+      return `<a href="${escapeHtml(item.url)}" target="_blank" rel="noreferrer">${escapeHtml(item.id)}</a>`;
+    }).join("");
+
+    const flags = [
+      day.samplingMethod === "algolia_date_search" ? "Backfill sample" : "9pm snapshot",
+      day.lowConfidence ? "Low confidence" : "",
+      day.closeCall ? "Close call" : "",
+    ].filter(Boolean);
+
+    popover.innerHTML = `
+      <h2>${escapeHtml(day.date)} · ${escapeHtml(labels[day.winner])}</h2>
+      <div class="meta">${flags.map((flag) => `<span class="pill">${escapeHtml(flag)}</span>`).join("")}</div>
+      <p class="judgement">${withEvidenceLinks(day.dailyJudgementSnippet, evidenceById)}</p>
+      <div class="scores">${entityRows}</div>
+      <div class="links">${links}</div>
+    `;
+    positionPopover(anchor);
+  }
+
+  function hidePopover() {
+    if (pinned) return;
+    popover.hidden = true;
+  }
+
+  const response = await fetch("data/index.json");
+  const data = response.ok ? await response.json() : { days: [] };
+  const byDate = new Map(data.days.map((day) => [day.date, day]));
+  const dates = dateRangeYtd();
+  const currentYear = dates[0]?.slice(0, 4) ?? new Date().getFullYear();
+  rangeLabel.textContent = `${currentYear} year to date`;
+
+  const firstDay = new Date(`${dates[0]}T00:00:00Z`).getUTCDay();
+  for (let i = 0; i < firstDay; i += 1) {
+    const spacer = document.createElement("span");
+    spacer.className = "spacer";
+    grid.appendChild(spacer);
+  }
+
+  for (const date of dates) {
+    const day = byDate.get(date);
+    const square = document.createElement("button");
+    square.type = "button";
+    square.className = `day ${day?.winner ?? ""}`;
+    square.dataset.date = date;
+    square.dataset.state = day ? "complete" : "missing";
+    square.setAttribute("aria-label", day ? `${date}: ${labels[day.winner]} won` : `${date}: no data`);
+    square.addEventListener("mouseenter", () => {
+      if (!pinned) renderPopover(square, date, day);
+    });
+    square.addEventListener("mouseleave", hidePopover);
+    square.addEventListener("focus", () => renderPopover(square, date, day));
+    square.addEventListener("blur", hidePopover);
+    square.addEventListener("click", (event) => {
+      event.stopPropagation();
+      pinned = !pinned;
+      renderPopover(square, date, day);
+    });
+    grid.appendChild(square);
+  }
+
+  document.addEventListener("click", () => {
+    pinned = false;
+    popover.hidden = true;
+  });
+  window.addEventListener("resize", () => {
+    pinned = false;
+    popover.hidden = true;
+  });
+})();

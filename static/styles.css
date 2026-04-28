@@ -1,0 +1,235 @@
+:root {
+  color-scheme: light;
+  --bg: #f6f8fa;
+  --ink: #1f2328;
+  --muted: #6e7781;
+  --line: #d8dee4;
+  --panel: #ffffff;
+  --missing: #d0d7de;
+  --openai: #2ea043;
+  --anthropic: #d97706;
+  --google_gemini: #2563eb;
+  --microsoft_copilot: #7c3aed;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+}
+
+a {
+  color: inherit;
+}
+
+.shell {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 32px 16px;
+}
+
+.tracker {
+  width: min(1040px, 100%);
+}
+
+.tracker-header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 18px;
+}
+
+h1 {
+  font-size: 22px;
+  line-height: 1.2;
+  margin: 0 0 4px;
+  font-weight: 680;
+  letter-spacing: 0;
+}
+
+p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.legend {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  background: var(--missing);
+}
+
+.swatch.openai { background: var(--openai); }
+.swatch.anthropic { background: var(--anthropic); }
+.swatch.google_gemini { background: var(--google_gemini); }
+.swatch.microsoft_copilot { background: var(--microsoft_copilot); }
+.swatch.missing { background: var(--missing); opacity: 0.45; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(53, 14px);
+  grid-template-rows: repeat(7, 14px);
+  grid-auto-flow: column;
+  gap: 4px;
+  width: max-content;
+  max-width: 100%;
+  overflow-x: auto;
+  padding: 4px 0 8px;
+}
+
+.day {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  border: 1px solid rgba(31, 35, 40, 0.08);
+  background: var(--missing);
+  opacity: 0.42;
+  cursor: pointer;
+}
+
+.day[data-state="complete"] {
+  opacity: 1;
+}
+
+.day.openai { background: var(--openai); }
+.day.anthropic { background: var(--anthropic); }
+.day.google_gemini { background: var(--google_gemini); }
+.day.microsoft_copilot { background: var(--microsoft_copilot); }
+
+.day:focus-visible {
+  outline: 2px solid #0969da;
+  outline-offset: 2px;
+}
+
+.popover {
+  position: fixed;
+  z-index: 20;
+  width: min(360px, calc(100vw - 24px));
+  max-height: min(540px, calc(100vh - 24px));
+  overflow: auto;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  box-shadow: 0 18px 48px rgba(31, 35, 40, 0.16);
+  font-size: 13px;
+}
+
+.popover h2 {
+  font-size: 15px;
+  margin: 0 0 8px;
+}
+
+.popover .meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 10px;
+  color: var(--muted);
+}
+
+.pill {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 2px 7px;
+}
+
+.judgement {
+  color: var(--ink);
+  line-height: 1.45;
+  margin-bottom: 12px;
+}
+
+.scores {
+  display: grid;
+  gap: 8px;
+}
+
+.entity-row {
+  border-top: 1px solid var(--line);
+  padding-top: 8px;
+}
+
+.entity-main {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.entity-name {
+  font-weight: 650;
+}
+
+.entity-score {
+  font-variant-numeric: tabular-nums;
+}
+
+.entity-detail {
+  margin-top: 3px;
+  color: var(--muted);
+  line-height: 1.35;
+}
+
+.links {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.links a,
+.judgement a,
+.entity-detail a {
+  color: #0969da;
+  text-decoration: none;
+}
+
+.links a:hover,
+.judgement a:hover,
+.entity-detail a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 720px) {
+  .tracker-header {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .grid {
+    grid-template-columns: repeat(53, 12px);
+    grid-template-rows: repeat(7, 12px);
+    gap: 3px;
+  }
+
+  .day {
+    width: 12px;
+    height: 12px;
+  }
+}
