@@ -9,13 +9,10 @@
   const grid = document.getElementById("grid");
   const popover = document.getElementById("popover");
   const rangeLabel = document.getElementById("range-label");
-  let pinned = false;
   let activeAnchor = null;
-  let hideTimer = 0;
-  let hoveringPopover = false;
 
-  function useMobileModal() {
-    return window.matchMedia("(max-width: 720px), (pointer: coarse)").matches;
+  function useCompactModal() {
+    return window.matchMedia("(max-width: 900px)").matches;
   }
 
   function useFittedCalendar() {
@@ -46,6 +43,17 @@
 
   function scrollGridToEnd() {
     grid.scrollLeft = Math.max(0, grid.scrollWidth - grid.clientWidth);
+  }
+
+  function refitGridAfterLayoutChange() {
+    requestAnimationFrame(() => {
+      fitCalendarToGrid();
+      scrollGridToEnd();
+    });
+    window.setTimeout(() => {
+      fitCalendarToGrid();
+      scrollGridToEnd();
+    }, 220);
   }
 
   function laDateParts(date) {
@@ -126,29 +134,14 @@
     });
   }
 
-  function positionPopover(anchor) {
-    const rect = anchor.getBoundingClientRect();
-    const margin = 12;
-    popover.hidden = false;
-    const width = popover.offsetWidth;
-    const height = popover.offsetHeight;
-    let left = rect.left + rect.width / 2 - width / 2;
-    let top = rect.bottom + 8;
-    left = Math.max(margin, Math.min(window.innerWidth - width - margin, left));
-    if (top + height > window.innerHeight - margin) {
-      top = Math.max(margin, rect.top - height - 8);
-    }
-    popover.style.left = `${left}px`;
-    popover.style.top = `${top}px`;
-  }
-
   function renderDetail(anchor, date, day) {
-    clearHideTimer();
+    activeAnchor?.classList.remove("selected");
     activeAnchor = anchor;
-    popover.className = useMobileModal() ? "popover modal" : "popover";
+    activeAnchor.classList.add("selected");
+    popover.className = useCompactModal() ? "popover modal" : "popover sheet";
     if (!day) {
       popover.innerHTML = `
-        ${modalCloseButton()}
+        ${detailCloseButton()}
         <div class="detail-scroll">
           <h2>${escapeHtml(date)}</h2>
           <div class="meta"><span class="pill">No completed data</span></div>
@@ -180,7 +173,7 @@
     ].filter(Boolean);
 
     popover.innerHTML = `
-      ${modalCloseButton()}
+      ${detailCloseButton()}
       <div class="detail-scroll">
         <h2>${escapeHtml(day.date)} · ${escapeHtml(labels[day.winner])}</h2>
         <div class="meta">${flags.map((flag) => `<span class="pill">${escapeHtml(flag)}</span>`).join("")}</div>
@@ -195,53 +188,32 @@
     showDetail(anchor);
   }
 
-  function modalCloseButton() {
-    return `<button type="button" class="close-detail" aria-label="Close detail">Close</button>`;
+  function detailCloseButton() {
+    return `<button type="button" class="close-detail" aria-label="Close detail"><span aria-hidden="true">X</span></button>`;
   }
 
   function showDetail(anchor) {
     popover.hidden = false;
-    if (useMobileModal()) {
-      popover.style.left = "";
-      popover.style.top = "";
+    popover.style.left = "";
+    popover.style.top = "";
+    if (useCompactModal()) {
+      document.body.classList.remove("detail-open");
       document.body.classList.add("modal-open");
       return;
     }
     document.body.classList.remove("modal-open");
-    positionPopover(anchor);
-  }
-
-  function hidePopover() {
-    if (useMobileModal()) return;
-    if (pinned) return;
-    if (hoveringPopover) return;
-    popover.hidden = true;
-  }
-
-  function clearHideTimer() {
-    if (!hideTimer) return;
-    window.clearTimeout(hideTimer);
-    hideTimer = 0;
-  }
-
-  function scheduleHidePopover() {
-    if (useMobileModal()) return;
-    if (pinned) return;
-    clearHideTimer();
-    hideTimer = window.setTimeout(() => {
-      hideTimer = 0;
-      hidePopover();
-    }, 90);
+    document.body.classList.add("detail-open");
+    refitGridAfterLayoutChange();
   }
 
   function closeDetail() {
-    clearHideTimer();
-    pinned = false;
+    activeAnchor?.classList.remove("selected");
     activeAnchor = null;
-    hoveringPopover = false;
     popover.hidden = true;
     popover.className = "popover";
     document.body.classList.remove("modal-open");
+    document.body.classList.remove("detail-open");
+    refitGridAfterLayoutChange();
   }
 
   const response = await fetch("data/index.json");
@@ -292,19 +264,8 @@
       square.dataset.date = date;
       square.dataset.state = day ? "complete" : "missing";
       square.setAttribute("aria-label", day ? `${date}: ${labels[day.winner]} won` : `${date}: no data`);
-      square.addEventListener("mouseenter", () => {
-        clearHideTimer();
-        if (!useMobileModal() && !pinned) renderDetail(square, date, day);
-      });
-      square.addEventListener("mouseleave", scheduleHidePopover);
-      square.addEventListener("focus", () => {
-        clearHideTimer();
-        if (!useMobileModal()) renderDetail(square, date, day);
-      });
-      square.addEventListener("blur", scheduleHidePopover);
       square.addEventListener("click", (event) => {
         event.stopPropagation();
-        pinned = true;
         renderDetail(square, date, day);
       });
       heatmap.appendChild(square);
@@ -329,18 +290,8 @@
     if (event.target.closest(".close-detail")) closeDetail();
   });
 
-  popover.addEventListener("mouseenter", () => {
-    hoveringPopover = true;
-    clearHideTimer();
-  });
-
-  popover.addEventListener("mouseleave", () => {
-    hoveringPopover = false;
-    scheduleHidePopover();
-  });
-
   document.addEventListener("click", (event) => {
-    if (useMobileModal()) return;
+    if (popover.hidden) return;
     if (activeAnchor && event.target === activeAnchor) return;
     closeDetail();
   });
@@ -348,11 +299,12 @@
     fitCalendarToGrid();
     requestAnimationFrame(scrollGridToEnd);
     if (!popover.hidden && activeAnchor) {
-      if (useMobileModal()) document.body.classList.add("modal-open");
-      else {
-        document.body.classList.remove("modal-open");
-        positionPopover(activeAnchor);
-      }
+      popover.className = useCompactModal() ? "popover modal" : "popover sheet";
+      document.body.classList.toggle("modal-open", useCompactModal());
+      document.body.classList.toggle("detail-open", !useCompactModal());
+      popover.style.left = "";
+      popover.style.top = "";
+      requestAnimationFrame(fitCalendarToGrid);
       return;
     }
     closeDetail();

@@ -67,4 +67,4 @@ The output stores:
 
 A stronger model reviews the aggregate scores and representative evidence, chooses the daily winner, and writes the short explanation shown in the UI.
 
-The static site is rebuilt and deployed to GitHub Pages. The homepage shows the year-to-date calendar, with each day colored by the winning entity. Hovering or tapping a day shows the per-entity sentiment and evidence-backed explanation.
+The static site is rebuilt and deployed to GitHub Pages. The homepage shows the year-to-date calendar, with each day colored by the winning entity. Selecting a day shows the per-entity sentiment and evidence-backed explanation in a right-side sheet on larger screens, or in a full-screen detail view on compact screens.
