@@ -2,7 +2,7 @@ import { promises as fs } from "node:fs";
 import path from "node:path";
 import { MODEL_CONFIG, METHOD_VERSION } from "./config.js";
 import { sentimentTargetsForMentions } from "./entity-routing.js";
-import { batchDir, ensureDir, listRuns, readJson, readRawDay, readRun, writeJson, writeRun } from "./io.js";
+import { DATA_DIR, batchDir, ensureDir, listRuns, pathExists, readJson, readRawDay, readRun, writeJson, writeRun } from "./io.js";
 import { createBatch, downloadFile, getBatch, parseBatchOutput, uploadBatchFile } from "./openai-client.js";
 import { entityRequestBody, sentimentRequestBody } from "./prompts.js";
 import {
@@ -14,11 +14,14 @@ import {
   type RunFile,
   type SentimentResult,
 } from "./types.js";
+import { z } from "zod";
 
 type BatchKind = "entity" | "sentiment";
 
 const ACTIVE_BATCH_STATUSES = new Set(["validating", "in_progress", "finalizing", "cancelling"]);
 const TOKEN_LIMIT_ERROR = "Enqueued token limit reached";
+const REPROCESS_QUEUE_PATH = path.join(DATA_DIR, "reprocess-queue.json");
+const ReprocessQueueSchema = z.object({ dates: z.array(z.string()) });
 
 function nowIso(): string {
   return new Date().toISOString();
@@ -79,6 +82,33 @@ function batchSubmitLimit(): number {
 
 function hasActiveBatch(runs: RunFile[]): boolean {
   return runs.some((run) => Object.values(run.batches).some((batch) => batch && ACTIVE_BATCH_STATUSES.has(batch.status)));
+}
+
+async function readReprocessQueue(): Promise<string[]> {
+  if (!(await pathExists(REPROCESS_QUEUE_PATH))) return [];
+  return (await readJson(REPROCESS_QUEUE_PATH, ReprocessQueueSchema)).dates;
+}
+
+async function writeReprocessQueue(dates: string[]): Promise<void> {
+  await writeJson(REPROCESS_QUEUE_PATH, { dates: [...new Set(dates)].sort() });
+}
+
+async function submitQueuedEntityBatch(queue: string[], runs: RunFile[]): Promise<boolean> {
+  const date = queue[0];
+  if (!date) return false;
+  const raw = await readRawDay(date);
+  const existing = runs.find((run) => run.date === date);
+  await writeRun({
+    date,
+    samplingMethod: raw.samplingMethod,
+    state: "fetched",
+    createdAt: existing?.createdAt ?? nowIso(),
+    updatedAt: existing?.updatedAt ?? nowIso(),
+    batches: {},
+  });
+  const submitted = await submitEntityBatch(date);
+  if (submitted) await writeReprocessQueue(queue.filter((item) => item !== date));
+  return submitted;
 }
 
 export async function createFetchedRun(date: string, samplingMethod: RunFile["samplingMethod"]): Promise<void> {
@@ -143,6 +173,7 @@ function mapItemsById(items: HnItem[]): Map<number, HnItem> {
 }
 
 export async function submitSentimentBatch(date: string): Promise<boolean> {
+  if ((await readReprocessQueue()).includes(date)) return false;
   const run = await readRun(date);
   if (run.state !== "entity_complete") return false;
 
@@ -282,6 +313,8 @@ export async function pollPendingBatches(): Promise<number> {
 export async function submitAllEntityBatches(date?: string): Promise<number> {
   const runs = await listRuns();
   if (hasActiveBatch(runs)) return 0;
+  const queue = await readReprocessQueue();
+  if (!date && queue.length > 0) return (await submitQueuedEntityBatch(queue, runs)) ? 1 : 0;
   if (date) return (await submitEntityBatch(date)) ? 1 : 0;
   let count = 0;
   const limit = batchSubmitLimit();
@@ -295,10 +328,12 @@ export async function submitAllEntityBatches(date?: string): Promise<number> {
 export async function submitAllSentimentBatches(date?: string): Promise<number> {
   const runs = await listRuns();
   if (hasActiveBatch(runs)) return 0;
+  const queue = await readReprocessQueue();
   if (date) return (await submitSentimentBatch(date)) ? 1 : 0;
   let count = 0;
   const limit = batchSubmitLimit();
   for (const run of runs) {
+    if (queue.includes(run.date)) continue;
     if (run.state === "entity_complete" && await submitSentimentBatch(run.date)) count += 1;
     if (count >= limit) break;
   }
@@ -321,6 +356,14 @@ export async function retryTokenLimitFailures(): Promise<number> {
     count += 1;
   }
   return count;
+}
+
+export async function queueReprocessDay(date: string): Promise<boolean> {
+  await readRawDay(date);
+  const queue = await readReprocessQueue();
+  if (queue.includes(date)) return false;
+  await writeReprocessQueue([...queue, date]);
+  return true;
 }
 
 export async function reprocessDay(date: string): Promise<boolean> {

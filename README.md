@@ -21,7 +21,7 @@ For a non-code overview of how posts are gathered, entities are matched, sentime
 ## GitHub Actions
 
 - `Daily HN snapshot`: captures the current HN front page and submits entity detection. It runs from two UTC cron entries with a time gate for 9pm America/Los_Angeles. Manual runs can set `force=true` to bypass the time gate.
-- `Finalize pending sentiment runs`: advances async OpenAI batches, submits the next sentiment or entity batch when no other OpenAI batch is active, finalizes completed days, rebuilds the static site, and deploys GitHub Pages. It runs every 30 minutes and can also be triggered manually.
+- `Finalize pending sentiment runs`: advances async OpenAI batches, prioritizes queued reprocess dates, submits the next sentiment or entity batch when no other OpenAI batch is active, finalizes completed days, rebuilds the static site, and deploys GitHub Pages. It runs every 30 minutes and can also be triggered manually.
 - `Backfill HN sentiment range`: manually fetches a historical date range using Algolia HN date search and queues entity detection for those days.
 - `Reprocess existing HN sentiment day`: manually restarts entity detection and downstream analysis from an existing raw snapshot for one date.
 
@@ -79,6 +79,12 @@ npm run build:site
 ```
 
 The same reset can be started from GitHub Actions with the `Reprocess existing HN sentiment day` workflow.
+
+To queue a reprocess date for the normal throttled finalizer instead of submitting it immediately:
+
+```bash
+npm run queue:reprocess -- --date 2026-04-28
+```
 
 Backfill:
 

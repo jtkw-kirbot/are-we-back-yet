@@ -1,5 +1,5 @@
 import { promises as fs } from "node:fs";
-import { createFetchedRun, pollPendingBatches, reprocessDay, retryTokenLimitFailures, submitAllEntityBatches, submitAllSentimentBatches } from "./batch.js";
+import { createFetchedRun, pollPendingBatches, queueReprocessDay, reprocessDay, retryTokenLimitFailures, submitAllEntityBatches, submitAllSentimentBatches } from "./batch.js";
 import { finalizeAll } from "./aggregate.js";
 import { fetchFrontPage, backfillDate } from "./hn.js";
 import { parseArgs, pathExists, rawPath, runPath, writeRawDay } from "./io.js";
@@ -67,6 +67,10 @@ async function main(): Promise<void> {
       break;
     case "retry:token-limit":
       console.log(`reset ${await retryTokenLimitFailures()} token-limit failed run(s)`);
+      break;
+    case "queue:reprocess":
+      if (typeof args.date !== "string") throw new Error("queue:reprocess requires --date YYYY-MM-DD");
+      console.log(await queueReprocessDay(args.date) ? `queued ${args.date} for reprocessing` : `${args.date} is already queued for reprocessing`);
       break;
     case "reprocess:day":
       if (typeof args.date !== "string") throw new Error("reprocess:day requires --date YYYY-MM-DD");
