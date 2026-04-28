@@ -27,6 +27,8 @@
 body {
   margin: 0;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   color: var(--ink);
   background: var(--bg);
@@ -47,10 +49,29 @@ button {
 
 .shell {
   width: 100%;
-  min-height: 100vh;
+  flex: 1;
   display: grid;
   place-items: center;
   padding: 32px 16px;
+}
+
+.site-footer {
+  width: 100%;
+  padding: 0 16px 18px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.site-footer a {
+  color: rgba(139, 148, 158, 0.72);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.site-footer a:hover {
+  color: var(--muted);
 }
 
 .tracker {
@@ -254,7 +275,7 @@ p {
   }
 }
 
-@media (min-width: 1100px) {
+@media (min-width: 901px) {
   :root {
     --tracker-width: 760px;
     --day-size: 17px;
@@ -439,31 +460,6 @@ p {
     --weekday-width: 16px;
     --grid-body-gap: 7px;
     --month-font-size: 11px;
-  }
-
-  .shell {
-    place-items: center stretch;
-  }
-
-  .tracker {
-    width: 100%;
-  }
-
-  .grid {
-    width: 100%;
-    max-width: 100%;
-    margin-left: 0;
-    margin-right: 0;
-    padding-left: 0;
-    padding-right: 0;
-  }
-
-  .calendar {
-    margin: 0;
-  }
-
-  .month-labels {
-    margin-left: calc(var(--weekday-width) + var(--grid-body-gap));
   }
 }
 

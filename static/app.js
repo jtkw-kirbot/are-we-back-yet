@@ -16,8 +16,7 @@
   }
 
   function useFittedCalendar() {
-    return window.matchMedia("(min-width: 901px)").matches
-      && !window.matchMedia("(pointer: coarse)").matches;
+    return window.matchMedia("(min-width: 721px)").matches;
   }
 
   function readPixelVariable(element, name, fallback) {
