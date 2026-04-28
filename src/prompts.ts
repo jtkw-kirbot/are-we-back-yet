@@ -1,5 +1,5 @@
 import { MODEL_CONFIG, TARGET_LABELS, TARGETS } from "./config.js";
-import type { HnItem } from "./types.js";
+import type { HnItem, Mention } from "./types.js";
 
 export const entityJsonSchema = {
   type: "object",
@@ -12,12 +12,26 @@ export const entityJsonSchema = {
       items: {
         type: "object",
         additionalProperties: false,
-        required: ["target", "text", "confidence", "mentionType"],
+        required: ["target", "text", "confidence", "mentionType", "surface", "aspect", "sentimentOwner"],
         properties: {
           target: { type: "string", enum: TARGETS },
           text: { type: "string" },
           confidence: { type: "number" },
           mentionType: { type: "string", enum: ["direct", "comparative", "implied", "irrelevant"] },
+          surface: { type: "string" },
+          aspect: {
+            type: "string",
+            enum: [
+              "model_quality",
+              "provider_pricing",
+              "reseller_billing",
+              "product_ux",
+              "company_strategy",
+              "procurement",
+              "unclear",
+            ],
+          },
+          sentimentOwner: { type: "string", enum: [...TARGETS, "same_as_target", "unknown"] },
         },
       },
     },
@@ -118,6 +132,12 @@ export function entityRequestBody(item: HnItem): unknown {
           "Copilot counts as Microsoft only when the context is an AI assistant, coding assistant, Bing/Windows/M365 Copilot, or GitHub Copilot.",
           "Do not count generic Microsoft or Google sentiment unless the item is clearly about AI assistant/model context.",
           "Use story title and URL as thread context for implied product mentions in comments.",
+          "For each mention, identify the surface where the entity appears, such as direct_provider, github_copilot, openrouter, cursor, chatgpt, claude_code, google_ai_studio, or unknown.",
+          "Classify the aspect as model_quality, provider_pricing, reseller_billing, product_ux, company_strategy, procurement, or unclear.",
+          "Set sentimentOwner to the canonical target that likely owns the sentiment, same_as_target, or unknown.",
+          "If a comment criticizes billing multipliers, included credits, quotas, plan limits, or wrapper pricing for a named model inside another product, keep the model-owner mention but set sentimentOwner to the product surface when it is one of the canonical targets.",
+          "If a tracked product surface is the likely owner because of the story context, include that product as an implied mention even if the comment body only names the underlying model.",
+          "Use same_as_target for direct API/provider pricing, model quality, product behavior, company strategy, or explicit blame aimed at the model owner.",
         ].join(" "),
       },
       {
@@ -134,11 +154,11 @@ export function entityRequestBody(item: HnItem): unknown {
       },
     ],
     text: { format: jsonSchemaFormat("entity_detection", entityJsonSchema) },
-    max_output_tokens: 1000,
+    max_output_tokens: 1400,
   };
 }
 
-export function sentimentRequestBody(item: HnItem, targets: string[]): unknown {
+export function sentimentRequestBody(item: HnItem, targets: string[], detectedMentions: Mention[] = []): unknown {
   return {
     model: MODEL_CONFIG.sentiment.model,
     reasoning: { effort: MODEL_CONFIG.sentiment.reasoningEffort },
@@ -149,6 +169,11 @@ export function sentimentRequestBody(item: HnItem, targets: string[]): unknown {
           "Score aspect-based sentiment in a Hacker News item toward the listed AI lab/product targets.",
           "Use -2 strongly negative, -1 mildly negative, 0 neutral/mixed/unclear, +1 mildly positive, +2 strongly positive.",
           "Judge the sentiment toward each target, not the overall mood of the comment.",
+          "Separate the underlying model/provider from the surface that sells, wraps, or meters it.",
+          "If a comment criticizes reseller billing, plan limits, included credits, usage multipliers, quotas, IDE integration, or wrapper availability, assign that sentiment to the surface product when it is one of the listed targets.",
+          "Do not count reseller or wrapper pricing complaints as negative toward the model owner unless the commenter explicitly blames the provider, direct API pricing, model quality, or company strategy.",
+          "If an untracked reseller or wrapper is the true object of the complaint, mark the provider target as neutral or not relevant unless the text directly judges that provider.",
+          "If both the surface and provider are explicitly judged, score both separately.",
           "Return a concise item-level judgement snippet and evidence summary for each target.",
           "Be conservative with sarcasm, jokes, and off-topic references.",
         ].join(" "),
@@ -159,6 +184,7 @@ export function sentimentRequestBody(item: HnItem, targets: string[]): unknown {
           itemId: item.id,
           targets,
           targetLabels: TARGET_LABELS,
+          detectedMentions,
           type: item.type,
           depth: item.depth,
           storyTitle: item.storyTitle,

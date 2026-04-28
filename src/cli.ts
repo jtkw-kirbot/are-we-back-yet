@@ -1,5 +1,5 @@
 import { promises as fs } from "node:fs";
-import { createFetchedRun, pollPendingBatches, submitAllEntityBatches, submitAllSentimentBatches } from "./batch.js";
+import { createFetchedRun, pollPendingBatches, reprocessDay, submitAllEntityBatches, submitAllSentimentBatches } from "./batch.js";
 import { finalizeAll } from "./aggregate.js";
 import { fetchFrontPage, backfillDate } from "./hn.js";
 import { parseArgs, pathExists, rawPath, runPath, writeRawDay } from "./io.js";
@@ -64,6 +64,10 @@ async function main(): Promise<void> {
       break;
     case "batch:sentiment":
       console.log(`submitted ${await submitAllSentimentBatches(typeof args.date === "string" ? args.date : undefined)} sentiment batch(es)`);
+      break;
+    case "reprocess:day":
+      if (typeof args.date !== "string") throw new Error("reprocess:day requires --date YYYY-MM-DD");
+      console.log(await reprocessDay(args.date) ? `reprocessing ${args.date} from existing raw snapshot` : `could not reprocess ${args.date}`);
       break;
     case "batch:poll":
       console.log(`updated ${await pollPendingBatches()} pending batch run(s)`);

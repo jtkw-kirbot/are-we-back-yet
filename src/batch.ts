@@ -1,6 +1,7 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { MODEL_CONFIG, METHOD_VERSION } from "./config.js";
+import { sentimentTargetsForMentions } from "./entity-routing.js";
 import { batchDir, ensureDir, listRuns, readJson, readRawDay, readRun, writeJson, writeRun } from "./io.js";
 import { createBatch, downloadFile, getBatch, parseBatchOutput, uploadBatchFile } from "./openai-client.js";
 import { entityRequestBody, sentimentRequestBody } from "./prompts.js";
@@ -123,11 +124,11 @@ export async function submitSentimentBatch(date: string): Promise<boolean> {
   for (const result of entityResults) {
     const item = items.get(result.itemId);
     if (!item) continue;
-    const targets = [...new Set(result.mentions
-      .filter((mention) => mention.mentionType !== "irrelevant" && mention.confidence >= 0.3)
-      .map((mention) => mention.target))];
+    const activeMentions = result.mentions
+      .filter((mention) => mention.mentionType !== "irrelevant" && mention.confidence >= 0.3);
+    const targets = sentimentTargetsForMentions(activeMentions, item);
     if (targets.length === 0) continue;
-    lines.push(jsonlLine(`sentiment:${date}:${item.id}`, sentimentRequestBody(item, targets)));
+    lines.push(jsonlLine(`sentiment:${date}:${item.id}`, sentimentRequestBody(item, targets, activeMentions)));
   }
 
   await writeJsonl(batchInputPath(date, "sentiment"), lines);
@@ -249,6 +250,12 @@ export async function submitAllSentimentBatches(date?: string): Promise<number> 
     if (run.state === "entity_complete" && await submitSentimentBatch(run.date)) count += 1;
   }
   return count;
+}
+
+export async function reprocessDay(date: string): Promise<boolean> {
+  const raw = await readRawDay(date);
+  await createFetchedRun(date, raw.samplingMethod);
+  return submitEntityBatch(date);
 }
 
 export function batchParsedPath(date: string, kind: BatchKind): string {

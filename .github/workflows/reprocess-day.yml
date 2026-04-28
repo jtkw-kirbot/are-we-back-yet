@@ -1,0 +1,31 @@
+name: Reprocess existing HN sentiment day
+
+on:
+  workflow_dispatch:
+    inputs:
+      date:
+        description: "Date to reprocess, YYYY-MM-DD"
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  reprocess:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: npm run reprocess:day -- --date "${{ inputs.date }}"
+      - run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data
+          git diff --cached --quiet || git commit -m "Reprocess HN sentiment ${{ inputs.date }}"
+          git push

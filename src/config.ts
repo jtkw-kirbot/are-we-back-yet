@@ -37,8 +37,8 @@ export const MODEL_CONFIG = {
 } as const;
 
 export const METHOD_VERSION = {
-  entityPrompt: "entity-v1",
-  sentimentPrompt: "sentiment-v1",
+  entityPrompt: "entity-v2",
+  sentimentPrompt: "sentiment-v2",
   adjudicationPrompt: "adjudication-v1",
   aggregation: "winner-v1",
   schema: "daily-v1",

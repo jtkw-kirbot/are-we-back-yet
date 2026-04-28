@@ -16,6 +16,8 @@ The live workflow captures the HN front page at 9pm America/Los_Angeles time. Hi
 
 The daily workflow is scheduled for 9pm America/Los_Angeles. The workflow has two UTC cron entries and a time gate so it works across daylight-saving changes.
 
+For a non-code overview of how posts are gathered, entities are matched, sentiment is routed, and winners are picked, see `docs/process.md`.
+
 ## Backfill February and March 2026
 
 Use the `Backfill HN sentiment range` workflow from the GitHub Actions tab:
@@ -48,6 +50,20 @@ To re-run only the final adjudication for an already completed day:
 ```bash
 npm run finalize:day -- --date 2026-04-28 --force
 ```
+
+To re-run entity detection and sentiment analysis from an existing raw snapshot:
+
+```bash
+export OPENAI_API_KEY=sk-...
+npm run reprocess:day -- --date 2026-04-28
+npm run batch:poll
+npm run batch:sentiment
+npm run batch:poll
+npm run finalize:day -- --date 2026-04-28 --force
+npm run build:site
+```
+
+The same reset can be started from GitHub Actions with the `Reprocess existing HN sentiment day` workflow.
 
 Backfill:
 

@@ -79,6 +79,21 @@ export const MentionSchema = z.object({
   text: z.string(),
   confidence: z.number().min(0).max(1),
   mentionType: z.enum(["direct", "comparative", "implied", "irrelevant"]),
+  surface: z.string().default("direct_provider"),
+  aspect: z.enum([
+    "model_quality",
+    "provider_pricing",
+    "reseller_billing",
+    "product_ux",
+    "company_strategy",
+    "procurement",
+    "unclear",
+  ]).default("unclear"),
+  sentimentOwner: z.union([
+    TargetSchema,
+    z.literal("same_as_target"),
+    z.literal("unknown"),
+  ]).default("same_as_target"),
 });
 export type Mention = z.infer<typeof MentionSchema>;
 
