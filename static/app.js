@@ -173,10 +173,6 @@
       `;
     }).join("");
 
-    const links = day.evidence.slice(0, 8).map((item) => {
-      return `<a href="${escapeHtml(item.url)}" target="_blank" rel="noreferrer">${escapeHtml(item.id)}</a>`;
-    }).join("");
-
     const flags = [
       day.samplingMethod === "algolia_date_search" ? "Backfill sample" : "9pm snapshot",
       day.lowConfidence ? "Low confidence" : "",
@@ -194,7 +190,6 @@
           <p class="judgement secondary">${withEvidenceLinks(day.winnerExplanation || "", evidenceById)}</p>
         </details>
         <div class="scores">${entityRows}</div>
-        <div class="links">${links}</div>
       </div>
     `;
     showDetail(anchor);
@@ -207,6 +202,8 @@
   function showDetail(anchor) {
     popover.hidden = false;
     if (useMobileModal()) {
+      popover.style.left = "";
+      popover.style.top = "";
       document.body.classList.add("modal-open");
       return;
     }

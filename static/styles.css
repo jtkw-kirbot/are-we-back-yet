@@ -207,8 +207,8 @@ p {
 .popover {
   position: fixed;
   z-index: 20;
-  width: min(360px, calc(100vw - 24px));
-  max-height: min(540px, calc(100vh - 24px));
+  width: min(clamp(360px, 42vw, 640px), calc(100vw - 24px));
+  max-height: min(720px, calc(100vh - 24px));
   overflow: auto;
   padding: 14px;
   border: 1px solid var(--line);
@@ -328,21 +328,12 @@ p {
   line-height: 1.35;
 }
 
-.links {
-  margin-top: 10px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.links a,
 .judgement a,
 .entity-detail a {
   color: #58a6ff;
   text-decoration: none;
 }
 
-.links a:hover,
 .judgement a:hover,
 .entity-detail a:hover {
   text-decoration: underline;
