@@ -44,8 +44,17 @@
   }
 
   function buildWeeks(dates) {
+    if (dates.length === 0) return [];
     const weeks = [];
     let week = new Array(7).fill(null);
+    const firstDate = new Date(`${dates[0]}T00:00:00Z`);
+    const firstDay = firstDate.getUTCDay();
+    for (let day = 0; day < firstDay; day += 1) {
+      const leadingDate = new Date(firstDate);
+      leadingDate.setUTCDate(firstDate.getUTCDate() - (firstDay - day));
+      week[day] = leadingDate.toISOString().slice(0, 10);
+    }
+
     for (const date of dates) {
       const day = new Date(`${date}T00:00:00Z`).getUTCDay();
       if (day === 0 && week.some(Boolean)) {
