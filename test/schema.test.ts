@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { DailyResultSchema, RawDaySchema } from "../src/types.js";
+import { DailyResultSchema, RawDaySchema, SentimentResultSchema } from "../src/types.js";
 
 describe("daily result schema", () => {
   it("requires all four canonical entities and evidence-backed snippets", () => {
@@ -75,5 +75,26 @@ describe("raw day schema", () => {
     });
 
     expect(parsed.items[0]?.storyUrl).toBeUndefined();
+  });
+});
+
+describe("sentiment result schema", () => {
+  it("trims overlong item-level judgement snippets from model output", () => {
+    const parsed = SentimentResultSchema.parse({
+      itemId: 123,
+      analyses: [{
+        target: "openai",
+        sentiment: 1,
+        confidence: 0.8,
+        relevance: true,
+        sarcasm: false,
+        comparison: false,
+        evidenceSummary: "Positive mention.",
+        judgementSnippet: "x".repeat(300),
+      }],
+    });
+
+    expect(parsed.analyses[0]?.judgementSnippet).toHaveLength(240);
+    expect(parsed.analyses[0]?.judgementSnippet.endsWith("...")).toBe(true);
   });
 });

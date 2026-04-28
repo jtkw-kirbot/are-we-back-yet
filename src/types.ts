@@ -1,6 +1,11 @@
 import { z } from "zod";
 import { TARGETS } from "./config.js";
 
+function trimLongSnippet(value: string): string {
+  if (value.length <= 240) return value;
+  return `${value.slice(0, 237).trimEnd()}...`;
+}
+
 export const TargetSchema = z.enum(TARGETS);
 export type Target = z.infer<typeof TargetSchema>;
 
@@ -121,7 +126,7 @@ export const SentimentAnalysisSchema = z.object({
   sarcasm: z.boolean().default(false),
   comparison: z.boolean().default(false),
   evidenceSummary: z.string(),
-  judgementSnippet: z.string().max(240),
+  judgementSnippet: z.string().transform(trimLongSnippet),
 });
 export type SentimentAnalysis = z.infer<typeof SentimentAnalysisSchema>;
 
