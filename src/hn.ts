@@ -23,24 +23,24 @@ type FirebaseItem = {
 
 type AlgoliaHit = {
   objectID: string;
-  title?: string;
-  url?: string;
-  author?: string;
-  points?: number;
-  num_comments?: number;
-  created_at_i?: number;
-  story_id?: number;
+  title?: string | null;
+  url?: string | null;
+  author?: string | null;
+  points?: number | null;
+  num_comments?: number | null;
+  created_at_i?: number | null;
+  story_id?: number | null;
 };
 
 type AlgoliaItem = {
   id: number;
-  type?: string;
-  author?: string;
-  created_at_i?: number;
-  title?: string;
-  url?: string;
-  text?: string;
-  points?: number;
+  type?: string | null;
+  author?: string | null;
+  created_at_i?: number | null;
+  title?: string | null;
+  url?: string | null;
+  text?: string | null;
+  points?: number | null;
   children?: AlgoliaItem[];
 };
 
@@ -76,18 +76,18 @@ function hnUrl(id: number): string {
 function compactItem(input: {
   id: number;
   type: string;
-  by?: string | undefined;
-  time?: number | undefined;
-  title?: string | undefined;
-  url?: string | undefined;
-  text?: string | undefined;
-  score?: number | undefined;
-  descendants?: number | undefined;
+  by?: string | null | undefined;
+  time?: number | null | undefined;
+  title?: string | null | undefined;
+  url?: string | null | undefined;
+  text?: string | null | undefined;
+  score?: number | null | undefined;
+  descendants?: number | null | undefined;
   depth: number;
-  parentId?: number | undefined;
+  parentId?: number | null | undefined;
   storyId: number;
   storyTitle: string;
-  storyUrl?: string | undefined;
+  storyUrl?: string | null | undefined;
 }): HnItem {
   const item: Record<string, unknown> = {
     id: input.id,
@@ -98,7 +98,7 @@ function compactItem(input: {
     sourceUrl: hnUrl(input.id),
   };
   for (const key of ["by", "time", "title", "url", "text", "score", "descendants", "parentId", "storyUrl"] as const) {
-    if (input[key] !== undefined) item[key] = input[key];
+    if (input[key] !== undefined && input[key] !== null) item[key] = input[key];
   }
   return item as HnItem;
 }

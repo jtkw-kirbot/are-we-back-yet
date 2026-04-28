@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { DailyResultSchema } from "../src/types.js";
+import { DailyResultSchema, RawDaySchema } from "../src/types.js";
 
 describe("daily result schema", () => {
   it("requires all four canonical entities and evidence-backed snippets", () => {
@@ -54,5 +54,26 @@ describe("daily result schema", () => {
     });
 
     expect(parsed.entities.microsoft_copilot.score).toBe(0.02);
+  });
+});
+
+describe("raw day schema", () => {
+  it("accepts backfilled HN items with omitted story urls", () => {
+    const parsed = RawDaySchema.parse({
+      date: "2026-04-01",
+      fetchedAt: "2026-04-02T04:00:00.000Z",
+      samplingMethod: "algolia_date_search",
+      source: "algolia",
+      items: [{
+        id: 123,
+        type: "story",
+        depth: 0,
+        storyId: 123,
+        storyTitle: "HN item 123",
+        sourceUrl: "https://news.ycombinator.com/item?id=123",
+      }],
+    });
+
+    expect(parsed.items[0]?.storyUrl).toBeUndefined();
   });
 });
