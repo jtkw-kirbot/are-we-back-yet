@@ -10,6 +10,7 @@ type OpenAiBatch = {
   input_file_id: string;
   output_file_id?: string;
   error_file_id?: string;
+  errors?: unknown;
   created_at?: number;
   completed_at?: number;
 };

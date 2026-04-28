@@ -47,8 +47,24 @@ function batchOutputPath(date: string, kind: BatchKind): string {
   return path.join(batchDir(date), `${kind}-output.jsonl`);
 }
 
+function batchErrorPath(date: string, kind: BatchKind): string {
+  return path.join(batchDir(date), `${kind}-error.jsonl`);
+}
+
 function parsedPath(date: string, kind: BatchKind): string {
   return path.join(batchDir(date), `${kind}-results.json`);
+}
+
+function summarizeBatchErrors(details: unknown): string | undefined {
+  if (typeof details !== "object" || details === null) return undefined;
+  const data = (details as { data?: unknown }).data;
+  if (!Array.isArray(data) || data.length === 0) return undefined;
+  const first = data[0];
+  if (typeof first !== "object" || first === null) return undefined;
+  const record = first as Record<string, unknown>;
+  const message = typeof record.message === "string" ? record.message : undefined;
+  const line = typeof record.line === "number" ? `line ${record.line}: ` : "";
+  return message ? `${line}${message}` : undefined;
 }
 
 export async function createFetchedRun(date: string, samplingMethod: RunFile["samplingMethod"]): Promise<void> {
@@ -181,6 +197,7 @@ async function completeBatch(run: RunFile, kind: BatchKind): Promise<RunFile> {
   };
   if (latest.output_file_id) updatedInfo.outputFileId = latest.output_file_id;
   if (latest.error_file_id) updatedInfo.errorFileId = latest.error_file_id;
+  if (latest.errors) updatedInfo.errorDetails = latest.errors;
   if (latest.completed_at) updatedInfo.completedAt = new Date(latest.completed_at * 1000).toISOString();
 
   if (latest.status === "completed") {
@@ -198,10 +215,15 @@ async function completeBatch(run: RunFile, kind: BatchKind): Promise<RunFile> {
   }
 
   if (["failed", "expired", "cancelled", "cancelling"].includes(latest.status)) {
+    if (latest.error_file_id) {
+      await ensureDir(batchDir(run.date));
+      await fs.writeFile(batchErrorPath(run.date, kind), await downloadFile(latest.error_file_id), "utf8");
+    }
+    const summary = summarizeBatchErrors(latest.errors);
     return {
       ...run,
       state: "failed",
-      error: `${kind} batch ${latest.id} ended with status ${latest.status}`,
+      error: `${kind} batch ${latest.id} ended with status ${latest.status}${summary ? `: ${summary}` : ""}`,
       batches: { ...run.batches, [kind]: updatedInfo },
     };
   }
@@ -226,6 +248,17 @@ export async function pollPendingBatches(): Promise<number> {
       const updated = await completeBatch(run, "sentiment");
       await writeRun(updated);
       if (updated.state !== run.state || updated.batches.sentiment?.status !== run.batches.sentiment?.status) changed += 1;
+    }
+    if (run.state === "failed") {
+      if (run.batches.sentiment?.status === "failed" && !run.batches.sentiment.errorDetails) {
+        const updated = await completeBatch(run, "sentiment");
+        await writeRun(updated);
+        if (updated.error !== run.error || updated.batches.sentiment?.errorDetails) changed += 1;
+      } else if (run.batches.entity?.status === "failed" && !run.batches.entity.errorDetails) {
+        const updated = await completeBatch(run, "entity");
+        await writeRun(updated);
+        if (updated.error !== run.error || updated.batches.entity?.errorDetails) changed += 1;
+      }
     }
   }
 

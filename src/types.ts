@@ -54,6 +54,7 @@ export const BatchInfoSchema = z.object({
   inputFileId: z.string(),
   outputFileId: z.string().optional(),
   errorFileId: z.string().optional(),
+  errorDetails: z.unknown().optional(),
   status: z.string(),
   submittedAt: z.string(),
   completedAt: z.string().optional(),
