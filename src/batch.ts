@@ -250,7 +250,17 @@ async function completeBatch(run: RunFile, kind: BatchKind): Promise<RunFile> {
     const output = await downloadFile(latest.output_file_id);
     await ensureDir(batchDir(run.date));
     await fs.writeFile(batchOutputPath(run.date, kind), output, "utf8");
-    const parsed = kind === "entity" ? parseEntityOutput(output) : parseSentimentOutput(output);
+    let parsed: EntityResult[] | SentimentResult[];
+    try {
+      parsed = kind === "entity" ? parseEntityOutput(output) : parseSentimentOutput(output);
+    } catch (error) {
+      return {
+        ...run,
+        state: "failed",
+        error: `${kind} batch ${latest.id} completed but output could not be parsed: ${error instanceof Error ? error.message : String(error)}`,
+        batches: { ...run.batches, [kind]: updatedInfo },
+      };
+    }
     await writeJson(parsedPath(run.date, kind), parsed);
     return {
       ...run,
