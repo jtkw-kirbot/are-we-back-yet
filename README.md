@@ -11,16 +11,25 @@ The live workflow captures the HN front page at 9pm America/Los_Angeles time. Hi
 2. Enable GitHub Pages:
    `Settings -> Pages -> Build and deployment -> Source -> GitHub Actions`.
 3. Run `Daily HN snapshot` manually from the Actions tab with `force=true`.
-4. Run `Finalize pending sentiment runs` manually until the run reaches `complete`.
+4. Wait for the scheduled `Finalize pending sentiment runs` workflow, or run it manually to move faster.
 5. Open the Pages URL shown by the finalizer deployment.
 
 The daily workflow is scheduled for 9pm America/Los_Angeles. The workflow has two UTC cron entries and a time gate so it works across daylight-saving changes.
 
-For a non-code overview of how posts are gathered, entities are matched, sentiment is routed, and winners are picked, see `docs/process.md`.
+For a non-code overview of how posts are gathered, entities are matched, sentiment is routed, and winners are picked, see [docs/process.md](docs/process.md).
 
-## Backfill February and March 2026
+## GitHub Actions
+
+- `Daily HN snapshot`: captures the current HN front page and submits entity detection. It runs from two UTC cron entries with a time gate for 9pm America/Los_Angeles. Manual runs can set `force=true` to bypass the time gate.
+- `Finalize pending sentiment runs`: advances async OpenAI batches, submits sentiment batches when entity batches finish, finalizes completed days, rebuilds the static site, and deploys GitHub Pages. It runs every 30 minutes and can also be triggered manually.
+- `Backfill HN sentiment range`: manually fetches a historical date range using Algolia HN date search and submits entity detection for those days.
+- `Reprocess existing HN sentiment day`: manually restarts entity detection and downstream analysis from an existing raw snapshot for one date.
+
+## Backfill a date range
 
 Use the `Backfill HN sentiment range` workflow from the GitHub Actions tab:
+
+Example for February and March 2026:
 
 ```text
 start_date: 2026-02-01
