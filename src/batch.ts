@@ -17,6 +17,9 @@ import {
 
 type BatchKind = "entity" | "sentiment";
 
+const ACTIVE_BATCH_STATUSES = new Set(["validating", "in_progress", "finalizing", "cancelling"]);
+const TOKEN_LIMIT_ERROR = "Enqueued token limit reached";
+
 function nowIso(): string {
   return new Date().toISOString();
 }
@@ -65,6 +68,17 @@ function summarizeBatchErrors(details: unknown): string | undefined {
   const message = typeof record.message === "string" ? record.message : undefined;
   const line = typeof record.line === "number" ? `line ${record.line}: ` : "";
   return message ? `${line}${message}` : undefined;
+}
+
+function batchSubmitLimit(): number {
+  const raw = process.env.BATCH_SUBMIT_LIMIT;
+  if (!raw) return 1;
+  const parsed = Number.parseInt(raw, 10);
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : 1;
+}
+
+function hasActiveBatch(runs: RunFile[]): boolean {
+  return runs.some((run) => Object.values(run.batches).some((batch) => batch && ACTIVE_BATCH_STATUSES.has(batch.status)));
 }
 
 export async function createFetchedRun(date: string, samplingMethod: RunFile["samplingMethod"]): Promise<void> {
@@ -266,21 +280,45 @@ export async function pollPendingBatches(): Promise<number> {
 }
 
 export async function submitAllEntityBatches(date?: string): Promise<number> {
-  if (date) return (await submitEntityBatch(date)) ? 1 : 0;
   const runs = await listRuns();
+  if (hasActiveBatch(runs)) return 0;
+  if (date) return (await submitEntityBatch(date)) ? 1 : 0;
   let count = 0;
+  const limit = batchSubmitLimit();
   for (const run of runs) {
     if (run.state === "fetched" && await submitEntityBatch(run.date)) count += 1;
+    if (count >= limit) break;
   }
   return count;
 }
 
 export async function submitAllSentimentBatches(date?: string): Promise<number> {
+  const runs = await listRuns();
+  if (hasActiveBatch(runs)) return 0;
   if (date) return (await submitSentimentBatch(date)) ? 1 : 0;
+  let count = 0;
+  const limit = batchSubmitLimit();
+  for (const run of runs) {
+    if (run.state === "entity_complete" && await submitSentimentBatch(run.date)) count += 1;
+    if (count >= limit) break;
+  }
+  return count;
+}
+
+export async function retryTokenLimitFailures(): Promise<number> {
   const runs = await listRuns();
   let count = 0;
   for (const run of runs) {
-    if (run.state === "entity_complete" && await submitSentimentBatch(run.date)) count += 1;
+    if (run.state !== "failed" || !run.error?.includes(TOKEN_LIMIT_ERROR)) continue;
+    await writeRun({
+      date: run.date,
+      samplingMethod: run.samplingMethod,
+      state: "fetched",
+      createdAt: run.createdAt,
+      updatedAt: run.updatedAt,
+      batches: {},
+    });
+    count += 1;
   }
   return count;
 }

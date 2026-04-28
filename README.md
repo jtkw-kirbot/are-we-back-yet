@@ -21,8 +21,8 @@ For a non-code overview of how posts are gathered, entities are matched, sentime
 ## GitHub Actions
 
 - `Daily HN snapshot`: captures the current HN front page and submits entity detection. It runs from two UTC cron entries with a time gate for 9pm America/Los_Angeles. Manual runs can set `force=true` to bypass the time gate.
-- `Finalize pending sentiment runs`: advances async OpenAI batches, submits sentiment batches when entity batches finish, finalizes completed days, rebuilds the static site, and deploys GitHub Pages. It runs every 30 minutes and can also be triggered manually.
-- `Backfill HN sentiment range`: manually fetches a historical date range using Algolia HN date search and submits entity detection for those days.
+- `Finalize pending sentiment runs`: advances async OpenAI batches, submits the next sentiment or entity batch when no other OpenAI batch is active, finalizes completed days, rebuilds the static site, and deploys GitHub Pages. It runs every 30 minutes and can also be triggered manually.
+- `Backfill HN sentiment range`: manually fetches a historical date range using Algolia HN date search and queues entity detection for those days.
 - `Reprocess existing HN sentiment day`: manually restarts entity detection and downstream analysis from an existing raw snapshot for one date.
 
 ## Backfill a date range
@@ -37,7 +37,13 @@ end_date:   2026-03-31
 force:      false
 ```
 
-That workflow fetches historical HN stories/comments using Algolia date search and submits entity-detection batches. The `Finalize pending sentiment runs` workflow runs every 30 minutes, but you can also trigger it manually to move faster. It will poll entity batches, submit sentiment batches, poll those, adjudicate completed days, and redeploy the site.
+That workflow fetches historical HN stories/comments using Algolia date search and queues entity detection. OpenAI batch limits are respected conservatively: by default the pipeline submits one new OpenAI batch only when no other batch is active. The `Finalize pending sentiment runs` workflow runs every 30 minutes, but you can also trigger it manually to move faster. It will poll entity batches, submit sentiment batches, submit the next queued entity batch, adjudicate completed days, and redeploy the site.
+
+If a run fails because the OpenAI enqueued-token limit was already full, reset those dates after the active batch drains:
+
+```bash
+npm run retry:token-limit
+```
 
 Backfilled days are marked as `algolia_date_search`, not exact 9pm front-page snapshots.
 
@@ -82,6 +88,7 @@ npm run backfill:hn -- --start 2026-02-01 --end 2026-03-31
 npm run batch:entity
 npm run batch:poll
 npm run batch:sentiment
+npm run batch:entity
 npm run batch:poll
 npm run finalize:day
 npm run build:site
