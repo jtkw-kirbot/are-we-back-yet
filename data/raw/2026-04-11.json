@@ -1,0 +1,2499 @@
+{
+  "date": "2026-04-11",
+  "fetchedAt": "2026-04-29T20:22:37.444Z",
+  "samplingMethod": "frontpage_day_query_story_comment_snapshot",
+  "source": "hn_front_day_query_firebase",
+  "items": [
+    {
+      "id": 47732020,
+      "type": "story",
+      "title": "Small models also found the vulnerabilities that Mythos found",
+      "rank": 1,
+      "depth": 0,
+      "storyId": 47732020,
+      "storyTitle": "Small models also found the vulnerabilities that Mythos found",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47732020",
+      "topComments": [
+        {
+          "id": 47732337,
+          "text": "The Anthropic writeup addresses this explicitly:\n> This was the most critical vulnerability we discovered in OpenBSD with Mythos Preview after a thousand runs through our scaffold. Across a thousand runs through our scaffold, the total cost was under $20,000 and found several dozen more findings. While the specific run that found the bug above cost under $50, that number only makes sense with full hindsight. Like any search process, we can't know in advance which run will succeed.\nMythos scoured the entire continent for gold and found some. For these small models, the authors pointed at a particular acre of land and said \"any gold there? eh? eh?\" while waggling their eyebrows suggestively.\nFor a true apples-to-apples comparison, let's see it sweep the entire FreeBSD codebase. I hypothesize it will find the exploit, but it will also turn up so much irrelevant nonsense that it won't matter.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47732337",
+          "by": "johnfn",
+          "time": 1775928436
+        },
+        {
+          "id": 47732254,
+          "text": "> We took the specific vulnerabilities Anthropic showcases in their announcement, isolated the relevant code, and ran them through small, cheap, open-weights models. Those models recovered much of the same analysis. Eight out of eight models detected Mythos's flagship FreeBSD exploit, including one with only 3.6 billion active parameters costing $0.11 per million tokens.\nImpressive, and very valuable work, but isolating the relevant code changes the situation so much that I'm not sure it's much of the same use case.\nBeing able to dump an entire code base and have the model scan it is they type of situation where it opens up vulnerability scans to an entirely larger class of people.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47732254",
+          "by": "epistasis",
+          "time": 1775927773
+        },
+        {
+          "id": 47732350,
+          "text": "If you cut out the vulnerable code from Heartbleed and just put it in front of a C programmer, they will immediately flag it. It's obvious. But it took Neel Mehta to   discover it. What's difficult about finding vulnerabilities isn't properly identifying whether code is mishandling buffers or holding references after freeing something; it's spotting that in the context of a large, complex program, and working out how attacker-controlled data hits that code.\nIt's weird that Aisle wrote this.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47732350",
+          "by": "tptacek",
+          "time": 1775928488
+        },
+        {
+          "id": 47732340,
+          "text": "Congrats: completely broken methodology, with a big conflict of interest. Giving specific bug hints, with an isolated function that is suspected to have bugs, is not the same task, NOR (crucially) is a task you can decompose the bigger task into. It is basically impossible to segment code in pieces, provide pieces to smaller models, and expect them to find all the bugs GPT 5.4 or other large models can find. Second: the smarter the model, and less the pipeline is important. In the latest couple of days I found tons if Redis bugs with a three prompts open-ended pipeline composed of a couple of shell scripts. Do you think I was not already tying with weaker models? I did, but it didn't work. Don't trust what you read, you have access to frontier models for 20$ a month. Download some C code, create a trivial pipeline that starts from a random file and looks for vulnerabilities, then another step that validates it under a hard test, like ASAN crash, or ability to reach some secret, and so forth, and only then the problem can be reported. Test yourself what it is possible. Don't let your fear make you blind. Also, there is a big problem that makes the blog post reasoning not just weak per se, but categorically weak: if small model X can find 80% of vulnerabilities, if there is a model Y that can find the other potential 20%, we need \"Y\": the maintainers should make sure they access to models that are at least as good as the black hats folks.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47732340",
+          "by": "antirez",
+          "time": 1775928451
+        },
+        {
+          "id": 47735605,
+          "text": "I think the \"Mythos\" name is genius. The people at Anthropic make a bunch of claims and the public is expected to just believe them without any possibility of testing those claims or reproducing those results, and since so many people are invested in this saviour for the Global economy, or in the industry in general, or in hype to feed their engagement-based income sources, then there is faith to spare.\nMeanwhile this mythical beast wasn't able to prevent the Bun vulnerability that exposed their code, let alone precluding the need to acquire that IP in the first place for presumably hundreds of millions of $$$, instead of coding a better replacement or a solution of its own.\nWhat is real and measurable is that subscription plan users are getting a much degraded service for the same money through both open and hidden policies, while Anthropic moves compute to serve off-the-counter customers. The same people who come with the most obvious and brazen lies to dismiss the clear degradation of their service also come with this \"security\" justification for a move that looks just like good old market segmentation which would perfectly fit the strong symptoms that they cannot afford to offer tokens at a competitive price in this market.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47735605",
+          "by": "muyuu",
+          "time": 1775960078
+        },
+        {
+          "id": 47732549,
+          "text": "The technique Anthropic uses was demonstrated by Nicholas Carlini in a talk he gave 2 weeks ago and it's very simple, when asking LLMs to review code, ask them to focus its review on one file in a single session. Here is the video with the timestamp (watch through to ~5:30, they show two different ways of prompting claude).\nhttps://youtu.be/1sd26pWhfmg?t=204\nhttps://youtu.be/1sd26pWhfmg?t=273\nIMO the big \"innovation\" being shown by Mythos is the effectiveness with prompting LLMs to look for security vulnerabilities by focusing on specific files one at a time and automating this prompting with a simple script.\nPrompting Mythos to focus on a single file per session is why I suspect it cost Anthropic $20k to find some of the bugs in these codebases. I know this same technique is effective with Opus 4.6 and GPT 5.4 because I've been using it on my own code. If you just ask the agent to review your pr with a low effort prompt they are not exhaustive, they will not actually read each changed file and look at how it interacts with the system as a whole. If the entire session is to review the changes for a single file, the llm will do much more work reviewing it.\nEdit: I changed my phrasing, it's not about restricting its entire context to one file but focusing it on one file but still allowing it to look at how other files interact with it.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47732549",
+          "by": "vmg12",
+          "time": 1775929810
+        },
+        {
+          "id": 47732343,
+          "text": "> Those models recovered much of the same analysis\nThis is an essentially unquantifiable statement that makes the underlying claim harder to believe as an external party. What does “much” mean here? The end state of vulnerability exploitation is typically eminently quantifiable (in the form of a functional PoC that demonstrates an exploited end state), so the strong version of the claims here would ideally be backed up by those kinds of PoCs.\n(Like other readers, I also find the trick of pre-feeding the smaller models the “relevant” code to be potentially disqualifying in a fair comparison. Discovering the relevant code is arguably one of the hardest parts of human VR.)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47732343",
+          "by": "woodruffw",
+          "time": 1775928463
+        },
+        {
+          "id": 47735019,
+          "text": "A lot of comments here are dismissing this post because the relevant code was isolated. But thats the exact same thing Anthropic did with Mythos! They describe their (very lean) harness in the Anthropic Red Mythos blog post. The harness first assigns each file in the given codebase an importance value. Then points claude code at the cpdebase with a prompt stating that it should focus on that file. It spawns a claude code instances for each file in the codebase.\nSo no, the fact that the posters isolated the relevant code does not invalidate their findings.\n[1] https://red.anthropic.com/2026/mythos-preview/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47735019",
+          "by": "StrauXX",
+          "time": 1775951846
+        },
+        {
+          "id": 47732441,
+          "text": "Without showing false-positive rates this analysis is useless.\nIf your model says every line if your code has a bug, it will catch 100% of the bugs, but it's not useful at all. They tested false-positives with only a single bug...\nI'm not defending anthropic and openai either. Their numbers are garbage too since they don't produce false-positive rates either.\nWhy is this \"analysis\" making the rounds?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47732441",
+          "by": "lordofgibbons",
+          "time": 1775929136
+        },
+        {
+          "id": 47732273,
+          "text": "I think they key thing here is they \"isolated the relevant code\"\nIf the exploits exist in e.g. one file, great. But many complex zerodays and exploits are chains of various bugs/behaviors in complex systems.\nImportant research but I don’t think it dispels anything about Mythos",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47732273",
+          "by": "MaxLeiter",
+          "time": 1775927964
+        }
+      ],
+      "by": "dominicq",
+      "time": 1775926048,
+      "url": "https://aisle.com/blog/ai-cybersecurity-after-mythos-the-jagged-frontier",
+      "score": 1284,
+      "descendants": 341,
+      "storyUrl": "https://aisle.com/blog/ai-cybersecurity-after-mythos-the-jagged-frontier"
+    },
+    {
+      "id": 47733217,
+      "type": "story",
+      "title": "Exploiting the most prominent AI agent benchmarks",
+      "rank": 2,
+      "depth": 0,
+      "storyId": 47733217,
+      "storyTitle": "Exploiting the most prominent AI agent benchmarks",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47733217",
+      "topComments": [
+        {
+          "id": 47733441,
+          "text": "This is a phenomenal paper on exploits and hopefully changes the way benchmarking is done.\nFrom the paper: We achieved near-perfect scores on all of them without solving a single task. The exploits range from the embarrassingly simple (sending {} to FieldWorkArena) to the technically involved (trojanizing binary wrappers in Terminal-Bench), but they all share a common thread: the evaluation was not designed to resist a system that optimizes for the score rather than the task.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47733441",
+          "by": "ggillas",
+          "time": 1775937003
+        },
+        {
+          "id": 47734204,
+          "text": "This is an interesting catalog of vulnerabilities, but I'm not sure how groundbreaking the main insight is.\nEvaluating AI models has always relied largely on trust. If you want to game the benchmarks, you can. Simply train on your test data.\nWhen an AI agent has autonomous control over the same computing environment where its scores are recorded, it's not surprising that it can, in principle, falsify its scores. A more interesting question would be whether agents behave in this way automatically, without manual tuning by the researcher.\nThat said, the main takeaway of \"don't trust the number, trust the methodology\" is valid. It's already a truism for researchers, and spreading the word to non-researchers is valuable.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47734204",
+          "by": "mzelling",
+          "time": 1775943185
+        },
+        {
+          "id": 47733670,
+          "text": "If only the blog itself wasn't written by AI?\n>No reasoning. No capability. Just exploitation of how the score is computed.\nshudder",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47733670",
+          "by": "danslo",
+          "time": 1775938810
+        },
+        {
+          "id": 47733462,
+          "text": "> “These are not isolated incidents. They are symptoms of a systemic problem: the benchmarks we rely on to measure AI capability are themselves vulnerable to the very capabilities they claim to measure.”\nAs a researcher in the same field, hard to trust other researchers who put out webpages that appear to be entirely AI-generated. I appreciate it takes time to write a blog post after doing a paper, but sometimes I'd prefer just a link to the paper.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47733462",
+          "by": "Cynddl",
+          "time": 1775937160
+        },
+        {
+          "id": 47736392,
+          "text": "This is great work by Dawn Song 's team. A huge part of botsbench.com for comparing agents & models for investigation has been in protecting against this kind of thing. As AI & agents keep getting more effective & tenacious, some of the things we've had to add protections against:\n- Contamination: AI models knowing the answers out of the gate b/c pretraining on the internet and everything big teams can afford to touch. At RSAC for example, we announced Anthropic's 4.6 series is the first frontier model to have serious training set contamination on Splunk BOTS.\n- Sandboxing: Agents attacking the harness, as is done here - so run the agent in a sandbox, and keep the test harness's code & answerset outside\n- Isolation: Frontier agent harnesses persist memory all over the place, where work done on one question might be used to accelerate the next. To protect against that, we do fresh sandboxing per question. This is a real feature for our work in unlocking long-horizon AI for investigations, so stay tuned for what's happening here :)\n\"You cannot improve what you cannot measure\" - Lord Kelvin",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47736392",
+          "by": "lmeyerov",
+          "time": 1775971629
+        },
+        {
+          "id": 47736312,
+          "text": "There are two independent issues here and I've seen people conflating them in this thread. Let's clarify:\n1. Should you care or even read SWE-bench etc. scores?\nThe answer is no, but it has nothing to do with the vulnerabilities presented in this article. There is absolutely no reason to care about a benchmark whose dataset has been publicly available for a while. Any other way to look at benchmark scores is cargo-culting.\n2. What does this article actually tell us?\nIt means that even if you prepared a private set of problems as benchmark, you still need to pay extra attention to how AI actually solves them. You can't lie to yourself and think this process can be 100% automated, because LLMs, as this article shows, might get the tests passed without solving the problems in a meaningful way.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47736312",
+          "by": "raincole",
+          "time": 1775970662
+        },
+        {
+          "id": 47733927,
+          "text": "I think we should all consider the possibility that part of the reason Anthropic hasn't immediately released Mythos is that it would be slightly disappointing relative to the benchmark scores.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47733927",
+          "by": "lukev",
+          "time": 1775940633
+        },
+        {
+          "id": 47733875,
+          "text": "The more research on this topic is created, the more knowledge how to game them will be stored in future training data. And since it comes from university, it is ranked higher in data corpus. It sounds like a self fulfilling prophecy.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47733875",
+          "by": "SoKamil",
+          "time": 1775940239
+        },
+        {
+          "id": 47734027,
+          "text": "Yes good evals are really hard - that’s not really news.\nThis team is doing a good job.  They use problems that were created in last 30days to avoid training set leakage.\nhttps://swe-rebench.com/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47734027",
+          "by": "bbcc90",
+          "time": 1775941623
+        },
+        {
+          "id": 47734848,
+          "text": "It feels like short-term thinking has been trained into LLMs.\nThey're good at solving well-defined puzzles under time constraints. It's interesting because that was the benchmark for hiring software engineers at big tech. The tech interview was and still is about fast puzzle-solving. Nothing about experience, architecture or system design in there... I suspect that's why it has a bias towards creating hacks instead of addressing the root cause.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47734848",
+          "by": "socketcluster",
+          "time": 1775949933
+        }
+      ],
+      "by": "Anon84",
+      "time": 1775934956,
+      "url": "https://rdi.berkeley.edu/blog/trustworthy-benchmarks-cont/",
+      "score": 588,
+      "descendants": 143,
+      "storyUrl": "https://rdi.berkeley.edu/blog/trustworthy-benchmarks-cont/"
+    },
+    {
+      "id": 47725583,
+      "type": "story",
+      "title": "Artemis II safely splashes down",
+      "rank": 3,
+      "depth": 0,
+      "storyId": 47725583,
+      "storyTitle": "Artemis II safely splashes down",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47725583",
+      "topComments": [
+        {
+          "id": 47725663,
+          "text": "Glad that they're safe and sound.\nIt's worth pointing out that this is the first extremely public, widely acknowledged high risk mission NASA has done in over 50 years. The Shuttle was risky, but it wasn't thought of or acknowledged by NASA as being risky until very late in its lifecycle.\nAccording to NASA's OIG, Artemis acceptable crew mortality rate is 1 in 30. Roughly 3x riskier than the shuttle. There genuinely is a world where they don't make it back home.\nI am grateful that they did. And I'm grateful that we're going to go even further. I can't wait to see what Jared's cooking up (for those who don't know, he made his own version of the Gemini program in Polaris and funded it out of pocket).",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47725663",
+          "by": "areoform",
+          "time": 1775866801
+        },
+        {
+          "id": 47726166,
+          "text": "As an American I feel like I've been going through a bit of an identity crisis from what I remember growing up.\nProbably the rose tinted glasses of being a child but being from Florida I always had a sense of amazement and wonder as I heard the sonic boom of the shuttle returning to earth.\nReally felt like I was coexisting in this incredible scientific powerhouse of a country full of bright and enabled peoples that knew how to prioritize curiosity and innovation.\nFeeling like a bit of a \"vibe\" post which is everything wrong lately but I can't help but feel some satisfaction that we're still able to accomplish something like this in our space endeavors.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47726166",
+          "by": "brianjlogan",
+          "time": 1775870002
+        },
+        {
+          "id": 47726338,
+          "text": "I had to explain to my wife and kids (not that I'm in this field, but I also have to remind myself) that we are able to pinpoint where the craft will land, when it will land down to the minute, because of ... just ... math. And we're able to get them there and back because of science.\nIt all boils down to equations that describe the world accurately, and a way of experimentation, iteration, thinking that gets us all the way to do something this unbelievably complex.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47726338",
+          "by": "atonse",
+          "time": 1775871207
+        },
+        {
+          "id": 47725721,
+          "text": "Wild that they manage to fly to the moon but still seem to be having those comms problems. Asking the astronauts if they’re really pressing the PTT button is wild.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47725721",
+          "by": "echoangle",
+          "time": 1775867215
+        },
+        {
+          "id": 47725840,
+          "text": "This whole mission was amazing, and the most positive and hopeful thing I have seen as a global event in the last 5 years at least. Bravo and cheers to everyone involved :)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47725840",
+          "by": "elcapitan",
+          "time": 1775868001
+        },
+        {
+          "id": 47725729,
+          "text": "Apparently there's more work than just clicking \"Recover Vessel\" after splashdown!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47725729",
+          "by": "qrush",
+          "time": 1775867255
+        },
+        {
+          "id": 47726124,
+          "text": "Watching this, I can only describe it as holy. An incredible reminder of what humanity can do, and the beauty of our curiosity and the universe around us. I grew up learning that my great uncle was in Mission Control for Apollo; missions like this are what inspired me to pursue engineering in the first place.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47726124",
+          "by": "collinmcnulty",
+          "time": 1775869734
+        },
+        {
+          "id": 47725824,
+          "text": "It’s been amazing - and inspirational - watching the live stream of Mission Control and the capsule over the last ten days. Or at least having it as background audio. I’m going to miss all these folks I’ve grown to know.\nBring on Artemis III and IV!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47725824",
+          "by": "jrmg",
+          "time": 1775867922
+        },
+        {
+          "id": 47725727,
+          "text": "\"NASA reporting four green crew members. That is not their complexion, it is that they are in good condition. That's what that means.\" LOL",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47725727",
+          "by": "carefree-bob",
+          "time": 1775867245
+        },
+        {
+          "id": 47731977,
+          "text": "I am trying hard to keep a positive attitude about this mission but I keep feeling like it's vanity marketing for America, more than science, or pushing the frontier. \"Hey everyone, remember when we got to the moon FIRST? Good times.\" Ultimately, we did all of this a half century ago. The lasting impression is a reminder of how underfunded the space program has been all these decades. Why go to the moon again? The answer in the 60s was: because it's there. And that was enough. But now? Is it -really- a training ground for Mars?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47731977",
+          "by": "mvkel",
+          "time": 1775925651
+        }
+      ],
+      "by": "areoform",
+      "time": 1775866251,
+      "url": "https://www.cbsnews.com/live-updates/artemis-ii-splashdown-return/",
+      "score": 1288,
+      "descendants": 453,
+      "storyUrl": "https://www.cbsnews.com/live-updates/artemis-ii-splashdown-return/"
+    },
+    {
+      "id": 47727960,
+      "type": "story",
+      "title": "Show HN: Pardonned.com – A searchable database of US Pardons",
+      "rank": 4,
+      "depth": 0,
+      "storyId": 47727960,
+      "storyTitle": "Show HN: Pardonned.com – A searchable database of US Pardons",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47727960",
+      "topComments": [
+        {
+          "id": 47733714,
+          "text": "Extracted all the raw pardons here: https://gist.githubusercontent.com/varenc/cb2e2dacf1c92d36bc...\nI wanted to do some stuff with this data so need a raw format.\n(process was so easy since its included on a single page load, so I assume you don't mind! thanks for making this )",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47733714",
+          "by": "varenc",
+          "time": 1775939097
+        },
+        {
+          "id": 47729648,
+          "text": "Are there any longer or more generic than this:\n> For any nonviolent offenses against the United States which they may have committed or taken part in during the period from January 1\n2014 through the date of this pardon (JAN 19, 2025).\nhttps://pardonned.com/pardon/details/biden-family/\nThat’s 11+ years with no detail or description.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47729648",
+          "by": "koolba",
+          "time": 1775906818
+        },
+        {
+          "id": 47729472,
+          "text": "Love this idea - if I were to extend it, I'd add some kind of analysis breaking down the % composition of pardons (fraud vs drug offences vs financial crime) by President to see if there's some common trend. I was a little surprised to see the Obama number quite so high, until it became apparent that the vast majority were drug offenders being pardoned",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47729472",
+          "by": "kupadapuku",
+          "time": 1775905059
+        },
+        {
+          "id": 47732150,
+          "text": "Are you able to track repeat pardons of the same offender? If not you have a bug.\nhttps://pardonned.com/pardon/details/adriana-isabel-camberos...\nAdriana Camberos was in fact pardoned twice.\nIn 2021, convicted fraudster Adriana Camberos was freed from prison when President Trump commuted her sentence. Rather than taking advantage of that second chance, Ms. Camberos returned to crime. She was convicted again in 2024 in an unrelated fraud. In 2026, Mr. Trump pardoned her again.\nFull story here: https://www.nytimes.com/2026/01/16/us/politics/trump-fraudst...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47732150",
+          "by": "lateforwork",
+          "time": 1775927049
+        },
+        {
+          "id": 47731695,
+          "text": "Presidents shouldn't have the right to outright pardon people. It should have to go through some sort of body beforehand and be voted on like everything else.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47731695",
+          "by": "millbj92",
+          "time": 1775923409
+        },
+        {
+          "id": 47730181,
+          "text": "This kind of civic data should have been easily searchable for years. The fact that someone had to build it says a lot about how accessible government records actually are.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47730181",
+          "by": "soumyaskartha",
+          "time": 1775912360
+        },
+        {
+          "id": 47729380,
+          "text": "Just yesterday, Trump said he's going to “pardon everyone who has come within 200 feet of the Oval.” [1] Free reign for crimes for the next 2.5 years.\nMaybe removing this pardoning power could be a bipartisan goal... I guess we shouldn't hold our breath.\n[1] https://www.yahoo.com/news/articles/trump-promises-pardon-ev...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47729380",
+          "by": "ks2048",
+          "time": 1775904161
+        },
+        {
+          "id": 47731221,
+          "text": "Thank you. Apologies in advance for nitpicking, but I think the correct spelling is \"pardoned\" (a quick search on Google confirms it).",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47731221",
+          "by": "cs702",
+          "time": 1775919597
+        },
+        {
+          "id": 47732627,
+          "text": "This is exactly the kind of thing the DOJ website should have provided natively. Good reminder that \"public record\" and \"actually accessible\" are very different things. Bookmarked.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47732627",
+          "by": "wavint",
+          "time": 1775930374
+        },
+        {
+          "id": 47730634,
+          "text": "We should at least ban the \"preemptive\" pardon if not all pardons.  Pardon means forgiveness for a specific convicted crime, not a means to grant blanket immunity.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47730634",
+          "by": "siliconc0w",
+          "time": 1775915680
+        }
+      ],
+      "by": "vidluther",
+      "time": 1775888365,
+      "score": 501,
+      "descendants": 277
+    },
+    {
+      "id": 47724118,
+      "type": "story",
+      "title": "Installing every* Firefox extension",
+      "rank": 5,
+      "depth": 0,
+      "storyId": 47724118,
+      "storyTitle": "Installing every* Firefox extension",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47724118",
+      "topComments": [
+        {
+          "id": 47728062,
+          "text": "I won the \"Middle Finger Emoji Sticker\" Award! (https://jack.cab/blog/every-firefox-extension#the-middle-fin...)\nI quickly wrote up how: https://www.arnevogel.com/firefox-permissions/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47728062",
+          "by": "ArneVogel",
+          "time": 1775889358
+        },
+        {
+          "id": 47726171,
+          "text": "Sad that no real pages can load successfully, but I thoroughly enjoyed the writing.\n> We turned on crash reporting on the way.\nI haven't burst out laughing like this in a while! You'll probably make for some horror stories to a poor Mozilla team.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47726171",
+          "by": "BoppreH",
+          "time": 1775870035
+        },
+        {
+          "id": 47724814,
+          "text": "I'm laughing so hard at the video, I imagine this is what browsing the web is like for the elderly that barely know how to use a computer. Can someone do this in Chrome?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47724814",
+          "by": "gathered",
+          "time": 1775861844
+        },
+        {
+          "id": 47724874,
+          "text": "This article is wonderful crazy.\nThe icing on the cake is the discovery of a potential performance bug in one or more of the about: pages, that's definitely worthy of following up.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47724874",
+          "by": "xnorswap",
+          "time": 1775862070
+        },
+        {
+          "id": 47729238,
+          "text": "> I did some research to find why this took so long. 13 years ago, extensions.json used to be extensions.sqlite. Nowadays, extensions.json is serialized and rewritten in full on every write debounced to 20 ms, which works fine for 15 extensions but not 84,194.\nI'm slightly worried how they arrived at that debounce value. Which extensions need to write to extensions.json continuously, several times a second?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47729238",
+          "by": "xg15",
+          "time": 1775902557
+        },
+        {
+          "id": 47727823,
+          "text": "Alternatively you may be able to list the extensions using the sitemap: https://addons.mozilla.org/sitemap.xml\nChrome Web Store has something similar: https://chromewebstore.google.com/sitemap\nAnd Edge: https://microsoftedge.microsoft.com/sitemap.xml",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47727823",
+          "by": "tech234a",
+          "time": 1775886613
+        },
+        {
+          "id": 47725059,
+          "text": "\"I got basically all the extensions with this, making everything I did before this look really stupid.\"\nI geel this on a deep personal level.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47725059",
+          "by": "username135",
+          "time": 1775863137
+        },
+        {
+          "id": 47725998,
+          "text": "In general concept this reminds me a bit of adding every possible installer .EXE based Internet Explorer browser toolbar to Windows 98\nhttps://www.reddit.com/media?url=https%3A%2F%2Fi.redd.it%2Fz...\nhttps://fergido.wordpress.com/wp-content/uploads/2011/06/too...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47725998",
+          "by": "walrus01",
+          "time": 1775869037
+        },
+        {
+          "id": 47728798,
+          "text": "Reminds me of the NPM package that depended es on all other NPM packages https://uncenter.dev/posts/npm-install-everything/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47728798",
+          "by": "cachius",
+          "time": 1775897406
+        },
+        {
+          "id": 47729229,
+          "text": "Brings back the memories of using Internet Explorer when every other installer was fighting for toolbar space!\nEvery Internet café had at least 2, with Ask.com, Google, Yahoo and later on, Bing being the main contenders.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47729229",
+          "by": "m132",
+          "time": 1775902434
+        }
+      ],
+      "by": "RohanAdwankar",
+      "time": 1775858193,
+      "url": "https://jack.cab/blog/every-firefox-extension",
+      "score": 692,
+      "descendants": 80,
+      "storyUrl": "https://jack.cab/blog/every-firefox-extension"
+    },
+    {
+      "id": 47695213,
+      "type": "story",
+      "title": "Optimal Strategy for Connect 4",
+      "rank": 6,
+      "depth": 0,
+      "storyId": 47695213,
+      "storyTitle": "Optimal Strategy for Connect 4",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47695213",
+      "topComments": [
+        {
+          "id": 47729149,
+          "text": "I'm surprised no one linked to his video on the topic. I can't overstate how high quality it is. The graphs are simply beautiful, and it made me think he had a whole production team behind him. That he was able to do cutting-edge work like this (it's new, which qualifies) while creating a work of art is incredible.\n\"I Solved Connect 4\" https://www.youtube.com/watch?v=KaljD3Q3ct0",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47729149",
+          "by": "sillysaurusx",
+          "time": 1775901351
+        },
+        {
+          "id": 47728901,
+          "text": "> which is fundamentally different from existing strong and weak solutions\nIt doesn't seem fundamentally different from Victor Allis' solution, but 2swap managed to generalize and streamline the  rules available for static solutions, while also picking the winning moves that reduce the overall tree size.\n> A weak solution can be visualized in a way that a strong solution (14tb uncompressed, 350gb compressed) cannot.\nThat is using an overly strict interpretation of strong solution.\nMy database of all roughly 68000 8-ply positions allows for computing the best move from any position within seconds and takes only 12KB compressed (using one trit per 8-ply position, 5 trits per byte, using remaining 256-3^5=13 values for run length encoding).\n[1] https://tromp.github.io/c4/c4.html",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47728901",
+          "by": "tromp",
+          "time": 1775898432
+        },
+        {
+          "id": 47695427,
+          "text": "FTA: “As a motivating example: player 1 (hereafter dubbed \"Red\") can win by playing in the center column on the first move and then following the weak solution's suggestions, but would not be guaranteed to win if the first disc is played elsewhere. The weak solution contains no information about what would happen in the other columns- As far as Red cares, it would be redundant to learn those branches, since they are not good.”\nI don’t think that “since they are not good” is necessary for a weak solution. Even if every first move were winning, it still would be redundant to learn how to win for every possible opening move.\nA weak solution gives you a guaranteed way to move from START to a win, whatever counterplay, not all ways to go from START to a win, whatever counterplay.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47695427",
+          "by": "Someone",
+          "time": 1775677993
+        },
+        {
+          "id": 47728789,
+          "text": "This guy’s videos are awesome. He also has one on Klotski and the double pendulum. Beautiful graph animations.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47728789",
+          "by": "cachius",
+          "time": 1775897330
+        },
+        {
+          "id": 47732015,
+          "text": "I've been intrigued about the thing they call the \"data product\" for a long time: the fact that there's a sort of equivalence between precomputing position analysis and doing no runtime analysis vs knowing nothing and doing everything at runtime. It is a general property of a lot of algorithms that you can precompute various amounts of computation in order to reduce runtime complexity. It's also the difference between \"telling an LLM to do a task\" and \"telling an LLM to write a bunch of code to do a task\", which are also the two ends of a spectrum.\nEspecially interesting is the fact that the optimal strategy, where on the spectrum you go, is affected by the effectiveness of your algorithms on each side. The more efficiently you can cognitively compress precomputed decisions, the more it makes sense to precompute; the more efficiently you can apply techniques for move selection at runtime. And the two interact a lot: for instance in chess, there are simple heuristics for a lot of endgames, meaning that the state space you explore at runtime can terminate as soon as it gets to an endgame that you have memorized a solution for.\nI wonder if anyone knows anyone examining this phenomenon in generality?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47732015",
+          "by": "ajkjk",
+          "time": 1775925993
+        },
+        {
+          "id": 47730169,
+          "text": "Connect 4 is one of those games that looks simple until you realize it was solved in 1988 and the optimal strategy still takes serious compute to run in real time.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47730169",
+          "by": "soumyaskartha",
+          "time": 1775912213
+        },
+        {
+          "id": 47730263,
+          "text": "Sadly this doesnt have a simple way to know how to win besides the ForceEven approach and offering an Anki Deck. I wish there was some more intuition or guidance around winning that humans can memorize",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47730263",
+          "by": "donkeyboy",
+          "time": 1775913041
+        },
+        {
+          "id": 47731856,
+          "text": "for those who are into books i'd recommend taking a look at alphago simplified by mark liu. It has rule based strategies + DL for connect for and other simple games.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47731856",
+          "by": "tadasv",
+          "time": 1775924728
+        },
+        {
+          "id": 47730335,
+          "text": "This is the clearest breakdown of Connect 4 I’ve seen.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47730335",
+          "by": "anant_who",
+          "time": 1775913548
+        },
+        {
+          "id": 47730170,
+          "text": "sounds like 5 dimensional chess to me",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47730170",
+          "by": "sipsi",
+          "time": 1775912214
+        }
+      ],
+      "by": "marvinborner",
+      "time": 1775677070,
+      "url": "https://2swap.github.io/WeakC4/explanation/",
+      "score": 318,
+      "descendants": 33,
+      "storyUrl": "https://2swap.github.io/WeakC4/explanation/"
+    },
+    {
+      "id": 47698455,
+      "type": "story",
+      "title": "Starfling: A one-tap endless orbital slingshot game in a single HTML file",
+      "rank": 7,
+      "depth": 0,
+      "storyId": 47698455,
+      "storyTitle": "Starfling: A one-tap endless orbital slingshot game in a single HTML file",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47698455",
+      "topComments": [
+        {
+          "id": 47698456,
+          "text": "Hey HN,\nI built STARFLING, a simple hyper-casual space game you can play right in your browser.\nYou orbit a star with a ball. Tap anywhere to release and sling it through space. Catch the next star to lock in orbit and keep going. Miss and it's game over.\nThe whole thing is just one HTML file with vanilla JS, Canvas, and Web Audio. No frameworks, no build step. Loads in under 2 seconds on phone or desktop.\nThere's a combo system if you release quick, a skip bonus for jumping over stars, and it gets harder the longer you last. When you die you get a cool trail art picture of your whole run that you can share.\nAudio is all generated on the fly and it has haptics too. Pretty satisfying once you get the timing down.\nPlay it here: https://playstarfling.com?utm_source=hn&utm_medium=showhn\nWould love your thoughts on the feel, difficulty, and whether the trail art is fun or not.\nThanks!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47698456",
+          "by": "iceberger2001",
+          "time": 1775699567
+        },
+        {
+          "id": 47730201,
+          "text": "I would make restarting much much faster than it is now.  That's the most annoying part and it breaks the satisfying chain completely for me.  I miss and then have to watch it slowly fall, or struggle to find the reset button.  And even if I hit the reset, I have to go through the menu.\nAt the very least, put the reset and play again buttons in the same spot, so I can just keep tapping/clicking there.\nSuper Meat Boy is how all games like this should be.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47730201",
+          "by": "0x3f",
+          "time": 1775912519
+        },
+        {
+          "id": 47728726,
+          "text": "I am completely confused about the orbital mechanics in this game.  They seem completely broken; at any rate they do not work remotely like any other simulation I've played with (e.g. Gravitation or Kerbal Space Program).  The bodies other than the first body appear to actively deflect the spacecraft away!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47728726",
+          "by": "cpcallen",
+          "time": 1775896544
+        },
+        {
+          "id": 47731812,
+          "text": "I gave Codex 5.4 Playwright MCP access to the site and a prompt of \"Use Playwright CLI Skill to open https://playstarfling.com/ and load the game. Work out how to play it, and devise a strategy to win.\" After a about half a dozen attempts it had figured the game out. Then I prompted it to \"Score as much as you can.\" It wrote itself an auto-play script that just keeps going.\nI stopped it running at 10866. That's currently the high score. I appreciate that this is pointless and proves nothing, but I've been experimenting with automating testing games (I work at a gaming company at the moment) so it felt like an opportunity to try an experiment.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47731812",
+          "by": "onion2k",
+          "time": 1775924395
+        },
+        {
+          "id": 47727625,
+          "text": "Fun. Not sure if this applies on desktop, but on mobile the quick/fast/blazing/skip text often blocks vision of the ball making it harder than it should be to make combos",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47727625",
+          "by": "muti",
+          "time": 1775884548
+        },
+        {
+          "id": 47728066,
+          "text": "This is good fun! I’ve added it to the HN Arcade :) https://hnarcade.com/games/games/starfling",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47728066",
+          "by": "yuppiepuppie",
+          "time": 1775889370
+        },
+        {
+          "id": 47727874,
+          "text": "Fun, but dark grey text on a dark background? Bit hard to read a bunch of the text.\nIt also seems like there's gravity coming from off screen assets (or maybe it's the bottom of the screen?) causing the projectile to curve in unexpected ways, and not be captured as strongly by the gravity of the visible objects as I'd expect.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47727874",
+          "by": "Twirrim",
+          "time": 1775887328
+        },
+        {
+          "id": 47727524,
+          "text": "Fun, but the way they fly doesn't quite match my intuition. Why would an object curve when I send it out on the tangent? Wouldn't that be a straight line unless it's affected by a different gravity well?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47727524",
+          "by": "ericskiff",
+          "time": 1775883275
+        },
+        {
+          "id": 47734127,
+          "text": "It's cool but the marketing is deceptive and through me off at first.\nYou're describing this as \"orbital\" and \"starfling\" but there seems to be constant downwards gravity. That's not at all how space works. I was expecting every 'star' to have its own gravity that would suck it in.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47734127",
+          "by": "hdjrudni",
+          "time": 1775942617
+        },
+        {
+          "id": 47728875,
+          "text": "Looks and plays quite nicely. I don't know how well it represents the real slingshot physics, but it's quite fun.\nI've made a similar little web game based on Lunar Lander, check it out!\nhttps://landed.theelderscripts.com/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47728875",
+          "by": "haarlemist",
+          "time": 1775898122
+        }
+      ],
+      "by": "iceberger2001",
+      "time": 1775699567,
+      "url": "https://playstarfling.com",
+      "score": 628,
+      "descendants": 153,
+      "storyUrl": "https://playstarfling.com"
+    },
+    {
+      "id": 47730194,
+      "type": "story",
+      "title": "Cirrus Labs to join OpenAI",
+      "rank": 8,
+      "depth": 0,
+      "storyId": 47730194,
+      "storyTitle": "Cirrus Labs to join OpenAI",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47730194",
+      "topComments": [
+        {
+          "id": 47730966,
+          "text": "Note that this is fundamentally different from the Astral acquisition. At the end of their announcement, they stated:\n> Cirrus CI will shut down effective Monday, June 1, 2026.\nAnd earlier in the article:\n> Joining OpenAI allows us to extend the mission we started with Cirrus Labs: building new kinds of tooling and environments that make engineers more effective, for both human engineers and agentic engineers.\nIt isn't a product-led acquisition, but more a talent one.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47730966",
+          "by": "maxloh",
+          "time": 1775917887
+        },
+        {
+          "id": 47730898,
+          "text": "This does raise some concerns in major open-source projects:\nhttps://github.com/scipy/scipy/issues/24990\nhttps://www.postgresql.org/message-id/3ydjipcr7kbss57nvi67no...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47730898",
+          "by": "seekdeep",
+          "time": 1775917452
+        },
+        {
+          "id": 47732561,
+          "text": "Did anyone else think this was Cirrus Logic?\nhttps://en.wikipedia.org/wiki/Cirrus_Logic",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47732561",
+          "by": "elromulous",
+          "time": 1775929887
+        },
+        {
+          "id": 47731362,
+          "text": "Wow, this is surprising.\nI’m happy for the founders, they’re great folks. I contributed to CirrusCI a bit in the past and it was a great experience. I even advocated for Cirrus in a couple of my last $DAYJOBs (with varied success). Congrats Fedor!\nI’m very sad they’re shutting down, though. IMHO CirrusCI was very close to a perfect CI system (I wrote a blogpost about it [0]). I’ll now have to find something to replace it with in my personal projects. I guess I’ll run their cirrus-cli in GitHub Actions for a while. But GitHub Actions is really poor. I heard some good things about Buildkite.\n[0]: https://garden.pacia.tech/cirrus_ci_is_the_best.html",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47731362",
+          "by": "bartekpacia",
+          "time": 1775920766
+        },
+        {
+          "id": 47730983,
+          "text": "FTA:\n> In 2022, we built Tart, which became the most popular virtualization solution for Apple Silicon, along with several other tools along the way.\nfrom Tart's github:\n>  [Tart is for] macOS and Linux VMs on Apple Silicon to use in CI and other automations\nMy (naive?) hypothesis is this kind of expertise is why OpenAI chose to acquihire.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47730983",
+          "by": "MaxLeiter",
+          "time": 1775917970
+        },
+        {
+          "id": 47730617,
+          "text": "I liked “our incredible journey” more when it wasn’t rushing headlong into OpenMawAI",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47730617",
+          "by": "bombcar",
+          "time": 1775915588
+        },
+        {
+          "id": 47731991,
+          "text": "So AI company buys devs again, but devs are dead",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47731991",
+          "by": "jwpapi",
+          "time": 1775925764
+        },
+        {
+          "id": 47731138,
+          "text": "The level of aqui-hires is getting interesting - at this point, it appears that if one wants one's career to progress, you need to start some kind of tiny startup like Astral or Bun and hope to be notable enough you can get acquired by someone like OpenAI or Anthropic.\nIt certainly makes the idea of a career progression / promotion more challenging than it used to be, but perhaps it also opens up some new opportunities. It becomes far more \"high stakes\" since you have to take the risk of starting and running a startup that ultimately fails if it does not get acqui-hired.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47731138",
+          "by": "trollbridge",
+          "time": 1775919039
+        },
+        {
+          "id": 47730844,
+          "text": "I've moved most companies away from using others stuff\nToday we use Hertzner and OVH and roll out our own solution whenever possible.\nRunning lean and mean.\nDepending on such third party services is a trap.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47730844",
+          "by": "faangguyindia",
+          "time": 1775917020
+        },
+        {
+          "id": 47731251,
+          "text": "Cirrus gave a ton of support for years to open source projects. I congratulate them on cashing out. Running a business like Cirrus did is always a hard road and I will never fault folks who gave time and resources on their platform away for taking the money.\nI wish Fedor and everyone at Cirrus the best of luck and OpenAI and thank them immensely for the years of free CI they gave to us in the Pony programming language despite it not having any marketing value to them.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47731251",
+          "by": "spooneybarger",
+          "time": 1775919865
+        }
+      ],
+      "by": "seekdeep",
+      "time": 1775912494,
+      "url": "https://cirruslabs.org/",
+      "score": 282,
+      "descendants": 144,
+      "storyUrl": "https://cirruslabs.org/"
+    },
+    {
+      "id": 47693559,
+      "type": "story",
+      "title": "Surelock: Deadlock-Free Mutexes for Rust",
+      "rank": 9,
+      "depth": 0,
+      "storyId": 47693559,
+      "storyTitle": "Surelock: Deadlock-Free Mutexes for Rust",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47693559",
+      "topComments": [
+        {
+          "id": 47731829,
+          "text": "The Level<> abstraction is a really neat way to have your cake and eat it too: you only need a consistent arbitrary order to avoid deadlocks, but the order can have performance consequences when some locks are more coarse than others.\nBut the example seems backwards to me: unless every callsite that locks any item always locks the big global lock first (probably not true, because if you serialize all item access on a global lock then a per-item lock serves no purpose...), aren't you begging for priority inversions by acquiring the big global lock before you acquire the item lock?\nMy only gripe is missing the obvious opportunity for Ferengi memes (\"rules of acquisition\") :D :D",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47731829",
+          "by": "jcalvinowens",
+          "time": 1775924566
+        },
+        {
+          "id": 47732652,
+          "text": "I really agree with jandrewrogers' point about the insularity of the database domain. While working on a custom C++ engine to handle 10M vectors in minimal RAM, I’ve noticed that many 'mainstream' concurrency patterns simply don't scale when cache-locality is your primary bottleneck.\nIn the DB world, we often trade complex locking for deterministic ordering or latch-free structures, but translating those to general-purpose app code (like what this Rust crate tries to do) is where the friction happens. It’s great to see more 'DB-style' rigour (like total ordering for locks) making its way into library design.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47732652",
+          "by": "EffCompute",
+          "time": 1775930523
+        },
+        {
+          "id": 47732002,
+          "text": "I feel like Fuschia’s DAG approach can still be made compile time lock free by either disallowing holding locks from different branches or requiring an ordering when that does happen to prevent cycles (ie you can’t acquire them independently, you have to acquire all independent branches as a single group.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47732002",
+          "by": "vlovich123",
+          "time": 1775925839
+        },
+        {
+          "id": 47731586,
+          "text": "I agree with the author: it's a shame that TVars aren't catching on in more languages.  They are a great idea from the database world, that we could use in the rest of computing, too.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47731586",
+          "by": "eru",
+          "time": 1775922552
+        },
+        {
+          "id": 47731690,
+          "text": "I appreciate that this appears to be an incremental improvement on Fuschia's tree_lock, with the sharp edges sanded off. Good work! I hope I won't have to use it :p",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47731690",
+          "by": "cptroot",
+          "time": 1775923352
+        },
+        {
+          "id": 47732770,
+          "text": "I can't understand why address instability is a problem: if a Mutex is moved, then it can't be locked (because you need to hold a borrow while locked, which impedes moving), so using addresses is perfectly fine and there is absolutely no need to use IDs.\nAlso the fact that it doesn't detect locking the same mutex twice makes no sense: a static order obviously detects that and when locking multiple mutexes at the same level all you need to do is check for equal consecutive addresses after sorting, which is trivial.\nOverall it seems like the authors are weirdly both quite competent and very incompetent. This is typical of LLMs, but it doesn't seem ZlLM-made.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47732770",
+          "by": "lifis",
+          "time": 1775931440
+        },
+        {
+          "id": 47733664,
+          "text": "Most of the deadlocks I've faced are with different proccesses/devices both waiting on reads from each end of a socket/uart/etc. I've taken to putting timeouts on read calls, though then you have to deal with legitimate long request cycles timing out.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47733664",
+          "by": "accelbred",
+          "time": 1775938774
+        },
+        {
+          "id": 47733221,
+          "text": "Hrm. I'm not immediately impressed by the \"Level<>\" construct. That feels like a lot of new cognitive burden. It's also not at all obvious to me that multiple levels of mutex is a common pattern? I'm not sure I've ever encountered a situation where locking Account also and always requires locking Config? Heaven help you if you have 3 or more levels.\nI dunno. I appreciate the opposition to \"just be careful\". But this feels to me like it's inducing bad design patterns. So it feels like it's wandering down the wrong path.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47733221",
+          "by": "forrestthewoods",
+          "time": 1775935008
+        },
+        {
+          "id": 47732120,
+          "text": ">Why a Total Order, Not a DAG?\n>This is a deliberate design decision. lock_tree uses a DAG, which lets you declare that branches A and B are independent — neither needs to come before the other. Sounds great, but it has a subtle problem: if thread 1 acquires A then B, and thread 2 acquires B then A, and both orderings are valid in the DAG, you have a deadlock that the compiler happily approved.\nWould it be possible to build one at compile time?  Static levels seem like they won't let you share code without level-collaboration, so that might be kinda important for larger-scale use.\nI don't know enough about Rust's type system to know if that's possible though. Feels like it's pushing into \"maybe\" territory, like maybe not with just linear types but what about proc macros?\nI can definitely see why it's easier to build this way though, and for some contexts that limitation seems entirely fine. Neat library, and nice post :)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47732120",
+          "by": "Groxx",
+          "time": 1775926830
+        },
+        {
+          "id": 47732241,
+          "text": "I'm intrigued! I was fighting deadlocks in some Java code this week, and I'm working on a Rust project to maybe replace some of that.\nOne thing I didn't see in the post or the repo: does this work with async code?\nI couldn't find the \"search\" button on Codeberg, and tests/integration.rs didn't have any async.\nFor embedded, I have had my eye on https://github.com/embassy-rs/embassy (which has an async runtime for embedded) and would love a nice locking crate to go with it.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47732241",
+          "by": "electromech",
+          "time": 1775927685
+        }
+      ],
+      "by": "codetheweb",
+      "time": 1775669779,
+      "url": "https://notes.brooklynzelenka.com/Blog/Surelock",
+      "score": 248,
+      "descendants": 84,
+      "storyUrl": "https://notes.brooklynzelenka.com/Blog/Surelock"
+    },
+    {
+      "id": 47733561,
+      "type": "story",
+      "title": "447 TB/cm² at zero retention energy – atomic-scale memory on fluorographane",
+      "rank": 10,
+      "depth": 0,
+      "storyId": 47733561,
+      "storyTitle": "447 TB/cm² at zero retention energy – atomic-scale memory on fluorographane",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47733561",
+      "topComments": [
+        {
+          "id": 47734973,
+          "text": "Every year or so there's a new article about some new spectacular storage medium. Crystals, graphene, lasers, quartz, holograms, whatever. It never materializes.\nDemonstrating this stuff is possible isn't the hard part, it seems. Productionizing it is. You have to have exceedingly fast read and write speeds: who cares if it can store an exabyte if it takes all month to read it, or if you produce data faster than you can write it? It has to be durable under adverse conditions. It has to be practical to manufacture the medium and the drives. You probably don't want to have to need a separate device to read and a device to write. By the time most of these problems are worked out, most of these technologies aren't a whole lot better than existing tech.\nStick this on the \"Wouldn't it be nice if graphene...\" pile.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47734973",
+          "by": "bastawhiz",
+          "time": 1775951324
+        },
+        {
+          "id": 47734810,
+          "text": "The concept is interesting, but I'm getting a lot of red flags from this - there's no experimental data or proof-of-concept work at all, which makes this feel more like a blue-sky \"Look what we could do if we could arrange atoms however we wanted!\" pipe dream in the Drexlerian mode. Something about the writing style's also pinging my LLM radar, which while not disqualifying in-and-of-itself is very discouraging in combination with the other funkiness. The chemistry and manufacturability strike me as questionable in particular, and I'm not convinced the physics of reading and writing are nearly as clean as the author seems to think.\n(I'm also unclear how the bit is supposed to actually flip under the applied electric charge without the fluorine and carbon having to pass through each other.)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47734810",
+          "by": "MrEldritch",
+          "time": 1775949422
+        },
+        {
+          "id": 47734723,
+          "text": "This is a pipe dream and I’m almost tempted to say a fever dream. The chemistry part seems somewhat sound, even though that’s outside of my field of expertise. But the entire readout process is questionable, and has clear signs of heavy AI writing.\nThe AFM mechanism described as “tier 1” (very strong LLMism, btw) is somewhat optimistic but realistic. The fields needed are large compared to usual values in solid state devices, but I’d guess achievable with an AFM. But “tier 2” is vague and completely speculative. Some random things I noted:\n- handwaving that (not exact quote) “the read controller is cached. No need to read the same bit twice”. Cached with what?? If this miraculous technology can achieve 25 PB/s, what can possibly hope to cache it? More generally, it’s a strange thing to point out.\n- some magic and completely handwaved MEMS array that converts an 8um spot size laser beam into atomic-resolution 2D addressing? In my opinion this is the biggest sin of the manuscript. What I understood to be depicted is just fundamentally physically impossible.\n- a general misunderstanding of integrated electronics, and dishonest benchmarking, comparing real memory technologies being sold at scale right now, vs theoretical physical bounds on an untested idea. Also no mention of existing magnetic tape as far as I can tell.\n- constantly pulling out specific numbers or estimates with no citation and insufficient justification. Too many examples to even count.\nI’m sorry for the harsh language, I wouldn’t use it for a usual review. But in my opinion this needs a very heavy toning down and complete rewrite, and is unfit for a proper review. Final remark: electronics is, and will always fundamentally be, intrinsically denser than optics. Some techniques “described” here, if they were possible, would have been applied to existing optical tech (i.e. phase change materials in blue-ray).",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47734723",
+          "by": "dgfl",
+          "time": 1775948234
+        },
+        {
+          "id": 47734318,
+          "text": "\"A scanning-probe prototype already constitutes a functional non-volatile memory device with areal density exceeding all existing technologies by more than five orders of magnitude.\"\nDoes that mean a scanning tunneling microscope is the I/O mechanism?\nThat's been demoed for atom-level storage in the past. But it's too slow for use.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47734318",
+          "by": "Animats",
+          "time": 1775944143
+        },
+        {
+          "id": 47734179,
+          "text": "Sniff test: a paper with a single author and 53 revisions, listing a gmail address as contact information despite the author, after a brief internet search, appearing to have affiliations with CSU Global, (maybe) the University of Central Florida, and the San Jose State University Department of Aerospace.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47734179",
+          "by": "mkprc",
+          "time": 1775942990
+        },
+        {
+          "id": 47734220,
+          "text": "Remarkable. If this material works and is flexible enough, we could someday see tape drives with hundreds of exabytes of capacity.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47734220",
+          "by": "aperrien",
+          "time": 1775943293
+        },
+        {
+          "id": 47736274,
+          "text": "I don’t understand the comments here. They say in the last paragraph:\n> A scanning-probe prototype already constitutes a functional non-volatile memory device with areal density exceeding all existing technologies by more than five orders of magnitude.\nAre we supposed to read all these stories as lies?\nNow it doesn’t say that this is easy to produce, but if those claims are true, it doesn’t really matter if it is  very expensive.\nIt doesn’t say either if the stuff can withstand live conditions.\nIt’s annoying not to be able to trust whether solutions like these are viable or not.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47736274",
+          "by": "d--b",
+          "time": 1775970035
+        },
+        {
+          "id": 47734313,
+          "text": "Perhaps title had a typo?\nfluorographane -> Fluorographene\nCan't find a single page about fluorographane\nhttps://en.wikipedia.org/w/index.php?search=fluorographane&t...\nBut this\nhttps://en.wikipedia.org/wiki/Fluorographene",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47734313",
+          "by": "est",
+          "time": 1775944109
+        },
+        {
+          "id": 47736793,
+          "text": "Looks interesting but cant take it seriously when there are so many red flags of LLM style writing. The author continues to use AI to even reply to comments in this thread. (its not X its Y, Em Dashes, etc.)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47736793",
+          "by": "dazhbog",
+          "time": 1775976590
+        },
+        {
+          "id": 47734524,
+          "text": "The Now I Get non-technical version, because I need someone to explain this to me x)\nhttps://nowigetit.us/pages/d7f94fd0-e608-47f9-8805-429898105...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47734524",
+          "by": "dlev_pika",
+          "time": 1775946118
+        }
+      ],
+      "by": "iliatoli",
+      "time": 1775938126,
+      "url": "https://zenodo.org/records/19513269",
+      "score": 265,
+      "descendants": 154,
+      "storyUrl": "https://zenodo.org/records/19513269"
+    },
+    {
+      "id": 47731506,
+      "type": "story",
+      "title": "Advanced Mac Substitute is an API-level reimplementation of 1980s-era Mac OS",
+      "rank": 11,
+      "depth": 0,
+      "storyId": 47731506,
+      "storyTitle": "Advanced Mac Substitute is an API-level reimplementation of 1980s-era Mac OS",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47731506",
+      "topComments": [
+        {
+          "id": 47735512,
+          "text": "This is super cool. I love that look. Something about classic black & white macos has a timeless \"alternative timeline\" L'Air de Panache aesthetic that to me says credibility and stability. Maybe it's the memory of the rows of Macintosh SE or Plus, those solid little upright beige bricks, in the computer room at my elementary school.\nI made a MacOS system 7 web desktop UI with real web browsing: https://win9-5.com/macos/\nA re-imagining.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47735512",
+          "by": "keepamovin",
+          "time": 1775958533
+        },
+        {
+          "id": 47733324,
+          "text": "This is pretty neat. I have been spending the past few months adding an ARM64 JIT to Basilisk II (https://github.com/rcarmo/macemu) and totally appreciate what's involved (I'm currently stuck patching a Quadra ROM to bypass NuBus hardware detection...)\nWill definitely give it a try, since I would _love_ to have a Classic Mac environment with some modern creature comforts (like file sharing) in tiny machines.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47733324",
+          "by": "rcarmo",
+          "time": 1775935963
+        },
+        {
+          "id": 47733017,
+          "text": "I am amazed that 1980's software works on binary API compatibility rather than relying on API quirks like timing, memory alignment quirks, memory  layout from specific allocator behaviour, etc.\nIt only takes one unintentional reliance on an implementation detail to make an application not run on another OS implementation...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47733017",
+          "by": "londons_explore",
+          "time": 1775933338
+        },
+        {
+          "id": 47732336,
+          "text": "I can't imagine how fast this is compared to the original hardware that ran it. I remember using a Mac 512k with a single floppy drive (no hard drive support) and doing the insert-floppy-dance. Computers were far more mechanical then.\nIt would be fun to have a \"slow it down\" feature that also has the various floppy read/write noises paired with it. Bonus points for different generations of hardware and having the OG HD noises to pair with those too!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47732336",
+          "by": "imoverclocked",
+          "time": 1775928432
+        },
+        {
+          "id": 47731872,
+          "text": "how does it compare to executor? https://en.wikipedia.org/wiki/Executor_(software)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47731872",
+          "by": "homarp",
+          "time": 1775924891
+        },
+        {
+          "id": 47735470,
+          "text": "Very cool! This reminds me of ARDI Executor [1] - a piece of (discontinued) commercial software first released in 1990 that took the same API-level reimplementation approach used here. And it did so jaw-droppingly fast considering that it was running on 90s PC hardware. As a little kid using it to play a few Mac games on my Windows PC, it was genuinely inspiring to me to see that this was possible at a time when I was first learning how to code. :) Great to see something with a more modern implementation doing this as well!\nIt was discontinued in 2005, but the developers subsequently open sourced it and put the code on GitHub a couple years later. [2]\n[1] https://en.wikipedia.org/wiki/Executor_(software)\n[2] https://github.com/ctm/executor\nBonus: One of the engineers from ARDI, the startup that created Executor, was very briefly featured in Bob Cringely's 1996 documentary Triumph of the Nerds talking about the lifestyle of working at prototypical mid-90s Silicon Valley startup.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47735470",
+          "by": "epenn",
+          "time": 1775957955
+        },
+        {
+          "id": 47732269,
+          "text": "I'd like to see something like Carbon for old apps so that they boot in modern window frames (without the missing Tahoe corners) and can save to files.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47732269",
+          "by": "hyperhello",
+          "time": 1775927875
+        },
+        {
+          "id": 47732291,
+          "text": "make ams-vnc\n   ./build.pl -i exhibit graft skif minivx xv68k freemountd listen vnc-interact\n\n   ...\n\n   Daemon starting up... done.\n   T=0.037s  ERROR:    OpenDF is unimplemented\n\nHm, doesn't seem to work. Let's try the X11 version:\n   make ams-x11\n   ./build.pl -i exhibit graft skif minivx xv68k freemountd interact-x11\n\n   ...\n\n   T=0.275s  ERROR:    OpenDF is unimplemented\n\nNope, it seems to be missing something. OpenDF? All I find is this: https://github.com/PrjEnt/OpenDF, a long-abandoned project which seems to be a more compact version of another abandoned thing.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47732291",
+          "by": "hagbard_c",
+          "time": 1775928082
+        },
+        {
+          "id": 47733304,
+          "text": "So has this beaten MACE to the finish line? Or are the goals different? https://mace.home.blog",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47733304",
+          "by": "msephton",
+          "time": 1775935778
+        },
+        {
+          "id": 47732202,
+          "text": "But will it run Dark Castle??\nMany hours were wasted on that game.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47732202",
+          "by": "shermantanktop",
+          "time": 1775927490
+        }
+      ],
+      "by": "zdw",
+      "time": 1775921959,
+      "url": "https://www.v68k.org/advanced-mac-substitute/",
+      "score": 267,
+      "descendants": 69,
+      "storyUrl": "https://www.v68k.org/advanced-mac-substitute/"
+    },
+    {
+      "id": 47733521,
+      "type": "story",
+      "title": "Dark Castle",
+      "rank": 12,
+      "depth": 0,
+      "storyId": 47733521,
+      "storyTitle": "Dark Castle",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47733521",
+      "topComments": [
+        {
+          "id": 47735014,
+          "text": "Note that Dark Castle was programmed by Jonathan Gay, who would eventually go on to make FutureSplash. You might know it better from what it was renamed to: Flash (of Macromedia/Adobe).",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47735014",
+          "by": "gausswho",
+          "time": 1775951719
+        },
+        {
+          "id": 47733919,
+          "text": "Also playable in browser at https://classicreload.com/play/mac-dark-castle.html",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47733919",
+          "by": "xnx",
+          "time": 1775940542
+        },
+        {
+          "id": 47734868,
+          "text": "Z Sculpt sells an updated version of Return to Dark Castle:\nhttps://store.steampowered.com/app/4054940/Return_to_Dark_Ca...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47734868",
+          "by": "mjmsmith",
+          "time": 1775950146
+        },
+        {
+          "id": 47735432,
+          "text": "This game came out the same year the original Castlevania did.  They're different enough games, but there are a few similarities that do make you wonder if they had any particular shared influences.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47735432",
+          "by": "CMay",
+          "time": 1775957459
+        },
+        {
+          "id": 47735463,
+          "text": "I'd love to see a Fabien-style Game Engine Black Book for some of these older Macintosh games.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47735463",
+          "by": "bombcar",
+          "time": 1775957866
+        },
+        {
+          "id": 47733953,
+          "text": "The download links are all dead.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47733953",
+          "by": "kelsolaar",
+          "time": 1775940903
+        },
+        {
+          "id": 47734755,
+          "text": "Such a classic. Played these for many hours as a kid.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47734755",
+          "by": "st3fan",
+          "time": 1775948698
+        },
+        {
+          "id": 47735074,
+          "text": "You can also play it in the browser in Infinite Mac:\nhttps://infinitemac.org/1991/System%207.0\n(Worked somewhat better for me than the classicreload version)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47735074",
+          "by": "staplung",
+          "time": 1775952804
+        },
+        {
+          "id": 47736028,
+          "text": "Would it be possible to play this in those retro platform emulation handhelds? Was able to find ports for DOS, Mac, Genesis, C64, Amiga, Atari ST, Apple IIgs, CD-i. Is this a viable portmaster suggestion?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47736028",
+          "by": "astennumero",
+          "time": 1775966289
+        },
+        {
+          "id": 47735684,
+          "text": "The other thing I remember of that era was the (unrelated) Talking Moose",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47735684",
+          "by": "m463",
+          "time": 1775961176
+        }
+      ],
+      "by": "evo_9",
+      "time": 1775937719,
+      "url": "https://darkcastle.co.uk/",
+      "score": 248,
+      "descendants": 34,
+      "storyUrl": "https://darkcastle.co.uk/"
+    },
+    {
+      "id": 47687443,
+      "type": "story",
+      "title": "Volunteers turn a fan's recordings of 10K concerts into an online treasure trove",
+      "rank": 13,
+      "depth": 0,
+      "storyId": 47687443,
+      "storyTitle": "Volunteers turn a fan's recordings of 10K concerts into an online treasure trove",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47687443",
+      "topComments": [
+        {
+          "id": 47728669,
+          "text": "https://archive.org/details/@aadam_jacobs_collection\nThe Nirvana gig mentioned is https://archive.org/details/ajc00795_nirvana-1989-07-08  The quality is surprisingly good for a bootleg and the band are super-tight!\nDonate to the IA here: https://archive.org/donate",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47728669",
+          "by": "rwmj",
+          "time": 1775896091
+        },
+        {
+          "id": 47730163,
+          "text": "The team needs to talk to Charlie miller et al, the ones who have been cleaning up and posting the grateful dead archive for the last few decades. They are audio magicians.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47730163",
+          "by": "mannyv",
+          "time": 1775912167
+        },
+        {
+          "id": 47732022,
+          "text": "Shout out to everyone in this thread who seem unable to understand a club might have three unrelated acts on, so each performance is called a \"concert\" under this collection. Aadam and the crew are focused on making each performance a separate entity instead of grouping them up. Substitute \"performance\" for \"concert\" if it helps.\nCarry on.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47732022",
+          "by": "textfiles",
+          "time": 1775926063
+        },
+        {
+          "id": 47730910,
+          "text": "\"... fan's recordings of 10k concerts...\"\n59-year-old Aadam [sic] Jacobs made his first recording 42 years ago in 1984 when he was 17.\nHe would have had to average 238 recordings/concerts per year — nearly 5/week — over those 42 years to accumulate 10,000 of them.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47730910",
+          "by": "bookofjoe",
+          "time": 1775917522
+        },
+        {
+          "id": 47730041,
+          "text": "I saw Aadam at almost every show I went to in the early aughts, and he recorded a few of my shows, too! Great guy!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47730041",
+          "by": "selfsimilar",
+          "time": 1775910859
+        },
+        {
+          "id": 47730429,
+          "text": "i've always been impressed by the work put into the nine inch nails live archive https://ninlive.com (and the tour history site as well https://www.nintourhistory.com )",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47730429",
+          "by": "xnobodyx",
+          "time": 1775914220
+        },
+        {
+          "id": 47729484,
+          "text": "Absolutely amazing collection, and it has lossless FLACs too! Many thanks to the fans and IA for making this possible.\nRemember to donate and help keep the Internet Archive alive.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47729484",
+          "by": "throwaway2046",
+          "time": 1775905186
+        },
+        {
+          "id": 47729737,
+          "text": "Glad they're uploading it publicly and not to some private torrent trackers like Concertos",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47729737",
+          "by": "Myzel394",
+          "time": 1775907789
+        },
+        {
+          "id": 47728924,
+          "text": "Found a few bands whose names I recognise. :)\n* Midnight Oil: https://archive.org/details/@aadam_jacobs_collection?and[]=c...\nThis one has a fairly decent quality recording of \"Beds are Burning\" too.  Australian Classic Rock. :)\n---\n* Tracy Chapman: https://archive.org/details/@aadam_jacobs_collection?and[]=c...\nAudio quality is decent here too.  Listening to \"Fast Car\" now, and the quality is solid. :)\n---\n* Ben Folds Five: https://archive.org/details/@aadam_jacobs_collection?and[]=c...\n* R.E.M: https://archive.org/details/@aadam_jacobs_collection?and[]=c...\n* Björk: https://archive.org/details/@aadam_jacobs_collection?and[]=c...\n* Born to Run: https://archive.org/details/@aadam_jacobs_collection?and[]=c...\n* Captain of Industry: https://archive.org/details/@aadam_jacobs_collection?and[]=c...\n* Depeche Mode: https://archive.org/details/@aadam_jacobs_collection?and[]=c...\n* Lemonheads: https://archive.org/details/@aadam_jacobs_collection?and[]=c...\n* Nick Cave and the Bad Seeds: https://archive.org/details/aadamjacobs?and[]=creator%3A%22n...\n* Nirvana: https://archive.org/details/@aadam_jacobs_collection?and[]=c...\n* Sonic Youth: https://archive.org/details/@aadam_jacobs_collection?and[]=c...\n* Suzanne Vega: https://archive.org/details/@aadam_jacobs_collection?and[]=c...\n* The Bangles: https://archive.org/details/@aadam_jacobs_collection?and[]=c...\n* The Cure: https://archive.org/details/@aadam_jacobs_collection?and[]=c...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47728924",
+          "by": "justinclift",
+          "time": 1775898693
+        },
+        {
+          "id": 47729512,
+          "text": "Some fantastic albums here. Clearly dedicated to his craft of recording. There are still a few quality bootleg bloggers out there that give me hope the web can still be special and enjoyable.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47729512",
+          "by": "ktallett",
+          "time": 1775905515
+        }
+      ],
+      "by": "geox",
+      "time": 1775639470,
+      "url": "https://apnews.com/article/aadam-jacobs-collection-concerts-internet-archive-chicago-b1c9c4466a2db409a83523ad84b79d62",
+      "score": 403,
+      "descendants": 76,
+      "storyUrl": "https://apnews.com/article/aadam-jacobs-collection-concerts-internet-archive-chicago-b1c9c4466a2db409a83523ad84b79d62"
+    },
+    {
+      "id": 47694064,
+      "type": "story",
+      "title": "Every plane you see in the sky – you can now follow it from the cockpit in 3D",
+      "rank": 14,
+      "depth": 0,
+      "storyId": 47694064,
+      "storyTitle": "Every plane you see in the sky – you can now follow it from the cockpit in 3D",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47694064",
+      "topComments": [
+        {
+          "id": 47733237,
+          "text": "I'm currently flying at Mach 10 on a custom call sign, breaking all kinds of barriers on a single heading. I cannot be stopped.\nhttps://flight-viz.com/cockpit.html?lat=40.64&lon=-73.78&alt...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47733237",
+          "by": "tetris11",
+          "time": 1775935223
+        },
+        {
+          "id": 47694065,
+          "text": "Creator here. I posted Flight-Viz a few days ago (https://news.ycombinator.com/item?id=47603966) and the feedback was great. Since then I added a cockpit mode that follows any liveflight with real 3D terrain.\nHow to try it: go to flight-viz.com, click any plane, then click \"Cockpit\" in the action buttons. You'll get a first-person view wit h real buildings, terrain, atmosphere, and a HUD showing altitude/speed/heading — all driven by live ADS-B data.\nHao",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47694065",
+          "by": "coolwulf",
+          "time": 1775671852
+        },
+        {
+          "id": 47734877,
+          "text": "Before browsers were up to this, I implemented something related, using Google Earth Plugin.\nYou could load up the flight data recorder data (which contains more parameters than ADS-B), and watch 3rd-person view animation of a 3D model of that aircraft's movements as it flies over terrain.  With instruments, plus visual annotations of flight path over terrain.\nOne kludge I was proud/relieved to find: At the start of the flight, there's a zoom in to the aircraft on the ground, from the Earth view, and then a particular dance of the camera around the aircraft itself.  The purpose wasn't to try to look cool at the time, but to make sure that the plugin would render the aircraft model at all, before we started to change the position or orientation of the model.  (The plugin was overly aggressive about deciding some annotations weren't in the scene.  Once this camera dance ritual forced the plane into the scene, it stayed in the scene, even as it moved and twisted, and as the camera moved with it.)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47734877",
+          "by": "neilv",
+          "time": 1775950234
+        },
+        {
+          "id": 47733035,
+          "text": "This is so impressive, love it!\nA bit of feedback:\nClicking exit cockpit goes back to the previous page (in this case this HN thread).\nNot sure if just me, but I really had to search hard for the actions under menu and the cockpit button.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47733035",
+          "by": "lastdong",
+          "time": 1775933491
+        },
+        {
+          "id": 47694183,
+          "text": "The FlightRadar24 app has had this feature for quite some time. I like your implementation though - it’s very easy on the eye.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47694183",
+          "by": "RichardHesketh",
+          "time": 1775672374
+        },
+        {
+          "id": 47732656,
+          "text": "Cromite on Android 15 stock Pixel ROM:\nError constructing CesiumWidget.\nVisit http://get.webgl.org to verify that your web browser and hardware support WebGL.  Consider trying a different web browser or updating your video drivers.  Detailed error information is below:\nRuntimeError: The browser supports WebGL, but initialization failed.\nError\n    at new kL (https://cesium.com/downloads/cesiumjs/releases/1.125/Build/C...)\n    at DEe (https://cesium.com/downloads/cesiumjs/releases/1.125/Build/C...)\n    at new dd (https://cesium.com/downloads/cesiumjs/releases/1.125/Build/C...)\n    at new li (https://cesium.com/downloads/cesiumjs/releases/1.125/Build/C...)\n    at new Go (https://cesium.com/downloads/cesiumjs/releases/1.125/Build/C...)\n    at new ji...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47732656",
+          "by": "Markoff",
+          "time": 1775930567
+        },
+        {
+          "id": 47735315,
+          "text": "I never realized the earth actually looked like a Mode 7 SNES game from\nup there!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47735315",
+          "by": "Waterluvian",
+          "time": 1775955550
+        },
+        {
+          "id": 47735389,
+          "text": "Will it be possible to have a “Record” feature, say for a few minutes? Would be lovely to save videos, especially the landings.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47735389",
+          "by": "Brajeshwar",
+          "time": 1775956691
+        },
+        {
+          "id": 47735690,
+          "text": "Really cool! Is this using a Google API? How is it not costing a small fortune?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47735690",
+          "by": "jfoster",
+          "time": 1775961273
+        },
+        {
+          "id": 47734386,
+          "text": "I'd love if it could tell when a plane is ascending or descending and then add the last known rate of change to the simulation. Then you could watch a plane land.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47734386",
+          "by": "randerson",
+          "time": 1775944676
+        }
+      ],
+      "by": "coolwulf",
+      "time": 1775671852,
+      "url": "https://flight-viz.com/cockpit.html?lat=40.64&lon=-73.78&alt=3000&hdg=220&spd=130&cs=DAL123",
+      "score": 393,
+      "descendants": 74,
+      "storyUrl": "https://flight-viz.com/cockpit.html?lat=40.64&lon=-73.78&alt=3000&hdg=220&spd=130&cs=DAL123"
+    },
+    {
+      "id": 47733971,
+      "type": "story",
+      "title": "Apple Silicon and Virtual Machines: Beating the 2 VM Limit (2023)",
+      "rank": 15,
+      "depth": 0,
+      "storyId": 47733971,
+      "storyTitle": "Apple Silicon and Virtual Machines: Beating the 2 VM Limit (2023)",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47733971",
+      "topComments": [
+        {
+          "id": 47734130,
+          "text": "This is a very silly restriction, at least to apply uniformly to all Macs. I think if you buy a more powerful Mac they should let you virtualize more Mac instances. Like an M5 maybe limit to 2, but maybe let an M5 Pro do 4 and an M5 Max do 8 or something.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47734130",
+          "by": "kylec",
+          "time": 1775942667
+        },
+        {
+          "id": 47735290,
+          "text": "Seems Mykola Grymalyuk started working at Apple 2 years after this blog post.  You either die a hero..",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47735290",
+          "by": "dvrp",
+          "time": 1775955258
+        },
+        {
+          "id": 47734246,
+          "text": "starting with M3+ you can use Hypervisor.framework/Virtualization.framework to spin up nested VMs.\nit would be amusing if that bypassed the limit.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47734246",
+          "by": "czk",
+          "time": 1775943513
+        },
+        {
+          "id": 47734211,
+          "text": "I’m very curious, why did Apple put such a limitation?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47734211",
+          "by": "Khalid_nowaf",
+          "time": 1775943247
+        },
+        {
+          "id": 47734852,
+          "text": "It’s crazy that you can compile a custom kernel and it’ll boot and the GUI will run.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47734852",
+          "by": "rayiner",
+          "time": 1775949987
+        },
+        {
+          "id": 47734159,
+          "text": "This is a really cool article, but the existence of such an arbitrary limit on any serious development platform is weird.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47734159",
+          "by": "RestartKernel",
+          "time": 1775942889
+        },
+        {
+          "id": 47735226,
+          "text": "> When using a custom kernel collection with Apple Silicon, there are some unfortunate downsides. The biggest being that streamlined OS updates are no longer available.\nThis might be a blessing in disguise.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47735226",
+          "by": "jadar",
+          "time": 1775954696
+        },
+        {
+          "id": 47734201,
+          "text": "Can this work with lume as well? Currently it has a similar limitation.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47734201",
+          "by": "obilgic",
+          "time": 1775943166
+        },
+        {
+          "id": 47734700,
+          "text": "IIRC you can just turn off sip and set the boot argument that controls it without a custom kernel",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47734700",
+          "by": "edude03",
+          "time": 1775947983
+        },
+        {
+          "id": 47734547,
+          "text": "Very funny to see HN hate on Microsoft and Google but then love a company where they cannot even run an app on their mobile platform without Apple's permission  or only a certain number of VMs on the hardware they own .",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47734547",
+          "by": "ab_testing",
+          "time": 1775946279
+        }
+      ],
+      "by": "krackers",
+      "time": 1775941128,
+      "url": "https://khronokernel.com/macos/2023/08/08/AS-VM.html",
+      "score": 236,
+      "descendants": 177,
+      "storyUrl": "https://khronokernel.com/macos/2023/08/08/AS-VM.html"
+    },
+    {
+      "id": 47730407,
+      "type": "story",
+      "title": "South Korea introduces universal basic mobile data access",
+      "rank": 16,
+      "depth": 0,
+      "storyId": 47730407,
+      "storyTitle": "South Korea introduces universal basic mobile data access",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47730407",
+      "topComments": [
+        {
+          "id": 47733044,
+          "text": "To quote something from a favorite fiction-series, where someone is visiting a relatively backwards planet:\n> \"Poor?\" said Cordelia, bewildered. \"No electricity? How can it be on the comm network?\"\n> \"It's not, of course,\" answered Vorkosigan.\n> \"Then how can anybody get their schooling?\"\n> \"They don't.\"\n> Cordelia stared. \"I don't understand. How do they get their jobs?\"\n> \"A few escape to the Service. The rest prey on each other, mostly.\" Vorkosigan regarded her face uneasily. \"Have you no poverty on Beta Colony?\"\n> \"Poverty? Well, some people have more money than others, of course, but... no comconsoles?\"\n> Vorkosigan was diverted from his interrogation. \"Is not owning a comconsole the lowest standard of living you can imagine?\" he said in wonder.\n> \"It's the first article in the constitution. 'Access to information shall not be abridged.' \"\n-- Shards of Honor (1986) by Lois McMaster Bujold",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47733044",
+          "by": "Terr_",
+          "time": 1775933618
+        },
+        {
+          "id": 47731011,
+          "text": "Crazy, I've never heard of such a plan anywhere.\nBut given how essential the internet is to everything we do on a daily basis, that makes a lot of sense. However, I would like to see the existing situation that lead to this decision. Were there many people who couldn't do things anymore due to lacking internet access? Was there public pressure to do this or did they just think it a good idea?\nMy assumption so far was that there are those who use the internet, they're usually fine, and those that don't - they won't benefit much. But no idea about South Korea.\nAnyway, cheaper and unlimited access is always a good idea!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47731011",
+          "by": "Leomuck",
+          "time": 1775918158
+        },
+        {
+          "id": 47730613,
+          "text": "> the scheme will provide over seven million subscribers with unlimited downloads at just 400 kbps after their data allowances expire.\nDoes this mean it’s not a universal entitlement as such, because you presumably first have to pay for a plan with an allowance? (Not to mention having to pay for a device).",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47730613",
+          "by": "jl6",
+          "time": 1775915563
+        },
+        {
+          "id": 47732478,
+          "text": "This is actually a really great idea. There should also\nbe universal terminals that people can access on public\nplaces or so, even without having a smartphone ready.\nNow here in Germany we'll wait for decades for this to\nhappen. For some reason Merz gave up on Germany.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47732478",
+          "by": "shevy-java",
+          "time": 1775929379
+        },
+        {
+          "id": 47731541,
+          "text": "I'd perfectly live with a forever free connection with about 16/32 KBPS. It can do lots of stuff in text mode. Not for video or big files, but enough to fill some pages.\nThat would mean accesible web pages, and forget about JS based captchas and the like.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47731541",
+          "by": "anthk",
+          "time": 1775922238
+        },
+        {
+          "id": 47732522,
+          "text": "This would be huge for IoT. It'll obviously be abused to send \"metrics\" (a.k.a. private data to be sold) by companies, but still. I hope there's no limit on SIM cards.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47732522",
+          "by": "flowerthoughts",
+          "time": 1775929600
+        },
+        {
+          "id": 47735444,
+          "text": "Part of me is all for this but I also get the knee jerk reaction of ‘if something is free, you’re the product’\nWhat’s in this for the for profit companies? wouldn’t this cannibalize sales to the demographics that would be buying a cheap prepaid plan if it doesn’t already exist?\nMaybe i live less chronically online (but still on my phone) than most, but having spent a few weeks in Japan. I’ll assume prices are similar due to localities, similar-enough cultures and densities. My partner and I shared a 3gb SIM and wifi tethering because of the pricing and lack of need for on demand data (we download movies to our devices when on a high speed networks). I would be fine on 400kpbs while away from hotels and public wifi, and I imagine many tourists will be in the same boat, killing a lucrative segment of the market.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47735444",
+          "by": "hsbauauvhabzb",
+          "time": 1775957635
+        },
+        {
+          "id": 47731299,
+          "text": "> unlimited downloads at just 400 kbps after their data allowances expire\nThis is not new. Many Korean mobile plans actually offer even higher unlimited throttled speeds (up to 10 Mbps!)\n- You can filter plans by the unlimited throttled speed on this site. The plans are usually titled by `{data amount} + {throttled speed}`: https://www.moyoplan.com/plans\n- Even if not throttled, I think data overage charges were capped at about $13 (20K KRW)\nSo perhaps unlimited 400 kbps will become standard: i.e. no plans will ever charge data overage fees?\n---\nThe linked statement didn't seem to specifically mention the 400 kbps thing at all.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47731299",
+          "by": "Leftium",
+          "time": 1775920241
+        },
+        {
+          "id": 47732704,
+          "text": "brazil and india had these since 2012.\nbrazil was .25/24h of internet at top (4g) speeds then. which is like $7/mo max. until the gov elected with a steven banon campaign dropped the mandatory plan.\nthe plan was a punishment for companies not maintaining payphones after getting the spectrum monopoly, which was a requirement on the auction.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47732704",
+          "by": "iririririr",
+          "time": 1775930913
+        },
+        {
+          "id": 47731134,
+          "text": "Seems nice but is actually a terrible move. It's another step towards the presumption that everyone should have a smartphone.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47731134",
+          "by": "everdrive",
+          "time": 1775918985
+        }
+      ],
+      "by": "saikatsg",
+      "time": 1775914036,
+      "url": "https://www.theregister.com/2026/04/10/south_korea_data_access_universal/",
+      "score": 422,
+      "descendants": 126,
+      "storyUrl": "https://www.theregister.com/2026/04/10/south_korea_data_access_universal/"
+    },
+    {
+      "id": 47728653,
+      "type": "story",
+      "title": "France's government is ditching Windows for Linux, says US tech a strategic risk",
+      "rank": 17,
+      "depth": 0,
+      "storyId": 47728653,
+      "storyTitle": "France's government is ditching Windows for Linux, says US tech a strategic risk",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47728653",
+      "topComments": [
+        {
+          "id": 47730796,
+          "text": "The chain of facts makes me sad:\n1. The French government announces its digital agency is to write a plan, by the end of the year, so that France could reduce its extra-European dependencies. The communiqué is wrapped up with minor facts (e.g. the digital agency is to switch to Linux on dozens of computers) and big promises from Ministers.\n2. Various news sites state that \"France is ditching Windows\", at least in their titles.\n3. On new aggregators, most people react to the titles. Some do read the articles. Very few realize it's about promises to act toward a vague goal, with an unknown calendar, and many political uncertainties.\nI would have hoped for more cautious reactions. It's not a leading act, not a reason to be proud, not a example to follow. It's just words.\nThe French government already made similar promises in the past. Sometimes, it did happen, like the Gendarmerie (rural police) switching to a Linux distribution. Sometimes, it didn't, like the pact signed by the Army Ministry with Microsoft in 2022: many clauses are still secret, even the prices.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47730796",
+          "by": "idoubtit",
+          "time": 1775916749
+        },
+        {
+          "id": 47729892,
+          "text": "Really proud as a French, I think the government has had some success with moving to something matrix based for the public sector too.\nhttps://tchap.numerique.gouv.fr\nI just hope we end up having more wins at the EU-level, instead of massive fails like GAIA-X...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47729892",
+          "by": "selfsigned",
+          "time": 1775909448
+        },
+        {
+          "id": 47732457,
+          "text": "Has anyone noticed an increased of one-liner controversial commentary, usually assertions, with a bunch of replies, sometimes, \"No and no\" or something like \"this is the right answer\" or a bunch of greyed comments?\nHN is not Reddit, and that's a Reddit pattern.  It's an anti-intellectual pattern because it's a popularity/anger contest and there's nothing of substance.\nI'd love to hear the pros and cons and even likelihood of Linux in government, but I'm having trouble finding the smart commentary from the grey noise.\nHelp!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47732457",
+          "by": "mancerayder",
+          "time": 1775929236
+        },
+        {
+          "id": 47728850,
+          "text": "Dupe: https://news.ycombinator.com/item?id=47719486",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47728850",
+          "by": "BLKNSLVR",
+          "time": 1775897930
+        },
+        {
+          "id": 47730080,
+          "text": "Microsoft is a strategic risk for the US, too",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47730080",
+          "by": "e-dant",
+          "time": 1775911133
+        },
+        {
+          "id": 47730317,
+          "text": "Glad that France takes the lead, that Germany fumbled. Allez Les Blues!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47730317",
+          "by": "_ink_",
+          "time": 1775913439
+        },
+        {
+          "id": 47732373,
+          "text": "Again? what was wrong with the previous two discussions about this OP? with 1400+ upvotes\n[dupe]\nhttps://news.ycombinator.com/item?id=47719486\nhttps://news.ycombinator.com/item?id=47716043",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47732373",
+          "by": "ChrisArchitect",
+          "time": 1775928639
+        },
+        {
+          "id": 47730764,
+          "text": "This sounds interesting on paper but I wonder how likely it is they actually pull it off. Even putting aside the logistics of installing new oses across a bunch of workstations, migrating from legacy Active Directory domains is something even small enterprises struggle with.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47730764",
+          "by": "tjarjoura",
+          "time": 1775916515
+        },
+        {
+          "id": 47735870,
+          "text": "We also migrated from Windows to Linux and Mac.\nWe also migrated from AWS and Azure to European cloud.\nBut as you can see Mac is still from the USA so although the making things European sounds nice, it's only part of the reason.\nMac has greatly improved with the M chip line. Windows has greatly degraded over time.\nAWS and Azure are by now something like 10x the price per year of just buying the hardware yourselves. They always compare the price to the salary of a senior engineer in San Francisco if you include vested stocks.\nHowever installing a database with the correct security settings has also become a lot easier since AWS started.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47735870",
+          "by": "jurschreuder",
+          "time": 1775963997
+        },
+        {
+          "id": 47735786,
+          "text": "The negative view of this and framing that it will be abandoned is interesting. France has already transitioned over 100,000 of their machines from Windows to Linux for their police force. They run a modified version of Ubuntu. Yes, it took them near a decade to do it.\nThere are roughly 80,000 more systems currently in transition at varying levels of complete.\nYes, this new directive is to move towards a goal of 2.5M systems. Yes, that's a lot more than their current number. They are making progress and now have a clear directive that guides them.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47735786",
+          "by": "ddtaylor",
+          "time": 1775962715
+        }
+      ],
+      "by": "pabs3",
+      "time": 1775895914,
+      "url": "https://www.xda-developers.com/frances-government-ditching-windows-for-linux/",
+      "score": 511,
+      "descendants": 305,
+      "storyUrl": "https://www.xda-developers.com/frances-government-ditching-windows-for-linux/"
+    },
+    {
+      "id": 47732697,
+      "type": "story",
+      "title": "How to build a `Git diff` driver",
+      "rank": 18,
+      "depth": 0,
+      "storyId": 47732697,
+      "storyTitle": "How to build a `Git diff` driver",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47732697",
+      "topComments": [
+        {
+          "id": 47733758,
+          "text": "Related: my favorite viewer is diff2html-cli which lets you see the diff in your browser:\nhttps://diff2html.xyz/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47733758",
+          "by": "yboris",
+          "time": 1775939375
+        },
+        {
+          "id": 47735431,
+          "text": "The point about textconv being sufficient in many cases is worth emphasizing — the cases where you actually need a full diff driver are when the file has semantics that text diff destroys. OpenAPI specs are a good example: a field rename looks like a deletion + addition in text diff but is a single semantic change.\nI ran into the same thing building a semantic diff for a DSL compiler — text diff would report noise on every whitespace or reorder change, but the meaningful question is \"which fields changed type, which statements were added or removed.\" Once you're operating on the AST the signal-to-noise ratio is completely different.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47735431",
+          "by": "semanticintent",
+          "time": 1775957442
+        },
+        {
+          "id": 47736730,
+          "text": "https://diffoscope.org/ is my favorite diff tool.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47736730",
+          "by": "pabs3",
+          "time": 1775975697
+        },
+        {
+          "id": 47735842,
+          "text": "Is there an OSS git diff for images and multimedia?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47735842",
+          "by": "tarun_anand",
+          "time": 1775963550
+        },
+        {
+          "id": 47736293,
+          "text": "Nothing beats sublime merge for this.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47736293",
+          "by": "faangguyindia",
+          "time": 1775970437
+        },
+        {
+          "id": 47733516,
+          "text": "I recently implemented a diff driver as part of git-dogs. The  integration part Claude one-shotted.\nMine is token based: https://replicated.wiki/blog/img/difflet.png\nThe set of git tools itself, very much in development: https://github.com/gritzko/git-dogs",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47733516",
+          "by": "gritzko",
+          "time": 1775937695
+        }
+      ],
+      "by": "zdw",
+      "time": 1775930869,
+      "url": "https://www.jvt.me/posts/2026/04/11/how-git-diff-driver/",
+      "score": 132,
+      "descendants": 14,
+      "storyUrl": "https://www.jvt.me/posts/2026/04/11/how-git-diff-driver/"
+    },
+    {
+      "id": 47730712,
+      "type": "story",
+      "title": "The Problem That Built an Industry",
+      "rank": 19,
+      "depth": 0,
+      "storyId": 47730712,
+      "storyTitle": "The Problem That Built an Industry",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47730712",
+      "topComments": [
+        {
+          "id": 47731474,
+          "text": "Interesting to note right at the start of the article that they sat on a plane next to each other in 1953 but the formal partnership between AA and IBM was not till 1959 - 6 years later! The article makes it look like all this happened magically fast but in reality a reminder that things take time!\n>> is almost mythological. In 1953, C.R. Smith, president of American Airlines, was seated next to R. Blair Smith, an IBM salesman, on a cross-country flight. By the time they landed, the outline of a solution had been sketched. IBM and American Airlines entered a formal development partnership in 1959.\nedit: oh and then the actual system didn't actually go live another 5 years later - in 1964. Over a decade after the two  of them sat next to each other.\nReminder to myself when my potential customers don't sign the deal 5 minutes after my pitch!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47731474",
+          "by": "arrsingh",
+          "time": 1775921690
+        },
+        {
+          "id": 47731494,
+          "text": "\"The key insight is [...]. No daemons. No background threads. No connection state persisted in memory between transactions.\"\nClosed the tab.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47731494",
+          "by": "StilesCrisis",
+          "time": 1775921859
+        },
+        {
+          "id": 47736789,
+          "text": "This wasn't the first electronic reservation system. It was preceded by the Magnetronic Reservisor, custom built for American Airlines by Teleregister. It didn't use general-purpose computers. It had magnetic drums and remote terminals, but it was not general purpose.\nTeleregister built a range of such special-purpose systems, for several airlines, railroads, and air traffic control. General purpose CPUs were both too expensive and too slow for these jobs in the early 1950s. Using a general purpose computer for everything didn't really happen until the minicomputer era in the mid-1970s. SABRE had to wait until general-purpose computers got better.\nIt's interesting that transaction processing operating systems died out. Tandem's OS worked that way. But the \nrun transaction program once and flush it approach is almost dead. Except, amusingly, for CGI programs, which are true use-once transaction programs, with an inefficient implementation.\n[1] https://www.youtube.com/watch?v=F4d-OFDs1hY\n[2] https://s3data.computerhistory.org/brochures/teleregister.sp...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47736789",
+          "by": "Animats",
+          "time": 1775976558
+        },
+        {
+          "id": 47731725,
+          "text": "ITA Software integrated with the mainframe network, and was acquired by Google.\nAn exec made a public quote that they couldn't have done it if they hadn't used Lisp.\n(Today, the programming language landscape is somewhat more powerful.  Rust got some metaprogramming features informed by Lisps, for example, and the team might've been able to slog through that.)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47731725",
+          "by": "neilv",
+          "time": 1775923626
+        },
+        {
+          "id": 47736285,
+          "text": "Interesting they went from 90 minute manual booking time to microseconds. I’m unsure of what the landscape was really like before Unix and such, maybe this was just how software was and everything was a bespoke ordeal. But, it makes me wonder if something less fast could have been “better”. As in, faster to build or easier to maintain/improve, something where we still weren’t talking about wrestling with legacy software that runs the world, those kinds of things.\nEven 1 second transaction speed sounds slow today but if it’s replacing a 90 minute manual process I’d rather have that solution now than a microsecond fast solution that takes 5-10 years.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47736285",
+          "by": "conductr",
+          "time": 1775970274
+        },
+        {
+          "id": 47732908,
+          "text": ">TPF is not modern. It would fail every architectural review a contemporary engineering team would apply to it. It also handles 50,000 transactions per second with sub-100ms latency on hardware that costs a fraction of an equivalent cloud footprint. It has been doing this for 60 years.\nWhat kind of review would it fail? Sounds like it's pretty well designed to me.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47732908",
+          "by": "andai",
+          "time": 1775932539
+        },
+        {
+          "id": 47731473,
+          "text": "It is interesting to think how AI will potentially change the dynamics back to this from general purpose software.\nIn a world where implementation is free, will we see a return to built for purpose systems like this where we define the inputs and outputs desired and AI builds it from the ground up, completely for purpose?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47731473",
+          "by": "outside1234",
+          "time": 1775921689
+        },
+        {
+          "id": 47731249,
+          "text": "> It...handles 50,000 transactions per second with sub-100ms latency on hardware that costs a fraction of an equivalent cloud footprint. It has been doing this for 60 years.\nEat that, Bitcoin.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47731249",
+          "by": "paulnpace",
+          "time": 1775919825
+        },
+        {
+          "id": 47731874,
+          "text": "SABRE, is a reminder that things that are well designed just work.\nHow many banks and ERP's, how many accounting systems are still running COBOL scripts? (A lot).\nThink about modern web infrastructure and how we deploy...\ncpu -> hypervisor -> vm -> container -> run time -> library code -> your code\nDo we really need to stack all these turtles (abstractions) just to get instructions to a CPU?\nEvery one of those layers has offshoots to other abstractions, tools and functionality that only adds to the complexity and convolution. Languages like Rust and Go compiling down to an executable are a step, revisiting how we deploy (the container layer) is probably on the table next... The use case for \"serverless\" is there (and edge compute), but the costs are still backwards because the software hasn't caught up yet.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47731874",
+          "by": "zer00eyz",
+          "time": 1775924897
+        },
+        {
+          "id": 47731613,
+          "text": "Can you add RSS to your site? I’d love to follow but can’t.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47731613",
+          "by": "cr125rider",
+          "time": 1775922745
+        }
+      ],
+      "by": "ShaggyHotDog",
+      "time": 1775916183,
+      "url": "https://ajitem.com/blog/iron-core-part-1-the-problem-that-built-an-industry/",
+      "score": 152,
+      "descendants": 48,
+      "storyUrl": "https://ajitem.com/blog/iron-core-part-1-the-problem-that-built-an-industry/"
+    },
+    {
+      "id": 47730981,
+      "type": "story",
+      "title": "The future of everything is lies, I guess – Part 5: Annoyances",
+      "rank": 20,
+      "depth": 0,
+      "storyId": 47730981,
+      "storyTitle": "The future of everything is lies, I guess – Part 5: Annoyances",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47730981",
+      "topComments": [
+        {
+          "id": 47731775,
+          "text": "I don't need to conduct 1000 transactions per day. I don't forsee a world in which it will be some sort of fatal inconvenience to need to approve all purchases. I certainly don't plan on ever just handing over my credit card to an LLM, due to its fundamental architectural issues with injection, and I still don't anticipate handing it over to any future AI architecture anytime soon because I struggle to imagine what benefits could possibly be worth the risk of taking down such a basic, cheap barrier.\nAll that stuff about support, though, inevitable.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47731775",
+          "by": "jerf",
+          "time": 1775924086
+        },
+        {
+          "id": 47731609,
+          "text": "So basically more ways of trying to make people buy things, do things, think things than before? I feel like our whole world more and more circulates around manipulation and the absence of truth and discourse.\nThen again, I do think LLMs are an incredible technological achievement. The issue is not so much what they do or that they exist, but how they are utilized. Right now, they are utilized to further the class divide between rich and poor.\nWho are we to trust in the future? Not big companies, not the state, not LLMs. Time to organize around groups and collectives that we know we can trust and that we know have our wellbeing in mind.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47731609",
+          "by": "Leomuck",
+          "time": 1775922715
+        },
+        {
+          "id": 47733409,
+          "text": "My father just changed his car key battery with the help of ai and he likes that. He also consulted it about about car insurance regulations and he got more out of it than searching the web himself.\nFor most simple mainstream questions I just ask ai instead of googling shitty results.\nMost of the time ai is good enough and often better than the status ante.\nPeople do not care if it is a stupid token prediction machine as long as the job gets done.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47733409",
+          "by": "morgengold",
+          "time": 1775936722
+        },
+        {
+          "id": 47731772,
+          "text": "have worked closely with customer support teams, can confirm that the goal of any technical improvements that go in front of CS agents is to reduce ticket volume, and thus costs. of course they measure retention and satisfaction but ticket volume is always the big one. chatbots were big for this long before LLMs existed.\na fun side effect is that CS is also an early warning system for companies, so when you make it harder to get through to a human, you start throwing out info on your users' pain points. of course this only matters if people have a choice about whether to use your product, so that's gotta be an upside for insurance companies, etc.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47731772",
+          "by": "vyr",
+          "time": 1775924009
+        },
+        {
+          "id": 47731920,
+          "text": "A COMPUTER CAN NEVER BE HELD ACCOUNTABLE\nTHEREFORE A COMPUTER MUST NEVER MAKE A MANAGEMENT DECISION\n—IBM internal training,\n 1979\nIt took me a while to realise that the premise is saying the same thing as the reason why we have so many \"Computer says no\" experiences today.\nThe conclusion only follows if you want someone to be accountable.\nIf you want to avoid being accountable, computers should make all management decisions.\n This has nothing to do with AI other than it provides another mechanism to do that.\nPeople saying \"I'd love to help you but the computer won't let me do that\" has been happening for years now.\nWebsites develop abusive patterns because A/B testing lets a process decide based on the goal you want,  It doesn't measure the repercussions so you have made no decision to allow them.\nManagement read it as\nA COMPUTER CAN NEVER BE HELD ACCOUNTABLE\nTHEREFORE THERE CAN BE NO LIABILITY IF COMPUTERS  MAKE ALL MANAGEMENT DECISIONS",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47731920",
+          "by": "Lerc",
+          "time": 1775925256
+        },
+        {
+          "id": 47731850,
+          "text": "The erosion and further diffusion of responsibility is the trend that worries me the most, since it’s already how all mid-size organisations, businesses and institutions alike, operate by design, and LLMs are likely to make that much worse.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47731850",
+          "by": "Hoasi",
+          "time": 1775924694
+        },
+        {
+          "id": 47731804,
+          "text": "I sent the entire series by Aphyr [1] to some friends. Two of them, independently, responded with a variant of, \"TLDR, can you give a summary?\"\nI chat with these friends a lot but I rarely send articles that I suggest they read and that I think are profound, so I expected them to read it. These are smart people that have a history of reading lots of books.\nThey are both huge AI proponents now and use AI for nearly everything now. Debates on various topics with them used to be rich; now, they're shallow and they just send me AI summaries of points they're clearly just predisposed to. Their attention spans are dwindling.\n[1] https://aphyr.com/data/posts/411/the-future-of-everything-is...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47731804",
+          "by": "kevg123",
+          "time": 1775924325
+        },
+        {
+          "id": 47731477,
+          "text": "https://archive.is/c2sBh",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47731477",
+          "by": "tao_oat",
+          "time": 1775921704
+        },
+        {
+          "id": 47733297,
+          "text": "> Perhaps we’ll see distributed boycotts where many people deploy personal models to force Burger King’s models to burn through tokens at a fantastic rate.\nGiven how many people hate AI in general, I'm surprised there hasn't been anything like this happening. They could even get around the irony of using \"AI\" themselves, I bet low-tech language models like Markov chains could provide sufficient time wasting potential (I'd love to see it done with an old fashioned AIML chatbot). Asymmetric chatbot warfare.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47733297",
+          "by": "gs17",
+          "time": 1775935683
+        },
+        {
+          "id": 47732413,
+          "text": "I've been enjoying these articles by 'aphyr and I think they raise important points. Primarily though, they read to me as polemics of a curiously American nature.\nThe pattern goes something like this:\n- this development is bad\n- companies will be unrestrained in their use of this development\n- there will be no rules so they can do whatever they want\n- we are all fucked as a result\nBut then...propose that we make some laws to put rules around this stuff, also known as regulations and everybody goes \"whoa hold up hold up hold up...I dunno about that part.\"\nDear friends - America has always been this way. Study your 19th and 20th century history. Companies will exploit the shit out of us unless we put some rules in place to prevent it. Yes, that might mean making less money in the short term as regulations cause friction. But in the long term it means we can have a better and actually livable society.\n(For what it's worth I'm an American and not an uppity European or Australian taking potshots from across the pond; no offense to Euros or Aussies intended, love you guys)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47732413",
+          "by": "_doctor_love",
+          "time": 1775928943
+        }
+      ],
+      "by": "aphyr",
+      "time": 1775917959,
+      "url": "https://aphyr.com/posts/415-the-future-of-everything-is-lies-i-guess-annoyances",
+      "score": 283,
+      "descendants": 169,
+      "storyUrl": "https://aphyr.com/posts/415-the-future-of-everything-is-lies-i-guess-annoyances"
+    },
+    {
+      "id": 47725403,
+      "type": "story",
+      "title": "Italo Calvino: A traveller in a world of uncertainty",
+      "rank": 21,
+      "depth": 0,
+      "storyId": 47725403,
+      "storyTitle": "Italo Calvino: A traveller in a world of uncertainty",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47725403",
+      "topComments": [
+        {
+          "id": 47725958,
+          "text": "If on a Winter’s Night a Traveller gives the reader the impression that there must be a system at play and gives up some of its secrets easily. However, there remains a persistent feeling, after reading each section, that there are other connections - threads of deliberate meaning - between them all that slip through your fingers as you desperately try to clutch more and more fragments passing by.\nIt's one of my favorite books precisely because it generates this feeling and led me to Perec's Life: A User's Manual among other fantastic works.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47725958",
+          "by": "kelseyfrog",
+          "time": 1775868855
+        },
+        {
+          "id": 47727239,
+          "text": "Related. Others?\nThe Timeless Magic of Italo Calvino's Invisible Cities at 50 - https://news.ycombinator.com/item?id=43511876 - March 2025 (1 comment)\nThe Human Reader: Italo Calvino foresaw generative AI’s necessary companion - https://news.ycombinator.com/item?id=35764984 - April 2023 (1 comment)\nThe Worlds of Italo Calvino - https://news.ycombinator.com/item?id=35178426 - March 2023 (47 comments)\nWhat would it be like if Italo Calvino and Sun Tzu explained refactoring? - https://news.ycombinator.com/item?id=35150753 - March 2023 (3 comments)\nItalo Calvino, The Art of Fiction No. 130 (1992) - https://news.ycombinator.com/item?id=26395898 - March 2021 (28 comments)\nThe Penguin Book of Oulipo review – writing, a user's manual - https://news.ycombinator.com/item?id=21869669 - Dec 2019 (2 comments)\nItalo Calvino, The Art of Fiction No. 130 (1992) - https://news.ycombinator.com/item?id=21340794 - Oct 2019 (29 comments)\nThe Movies of My Youth - https://news.ycombinator.com/item?id=10151334 - Sept 2015 (5 comments)\nCybernetics and Ghosts (1967) - https://news.ycombinator.com/item?id=9001508 - Feb 2015 (1 comment)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47727239",
+          "by": "dang",
+          "time": 1775879963
+        },
+        {
+          "id": 47726189,
+          "text": "As a fan of Calvino I will say that If on a Winter’s Night a Traveller is somewhat more enjoyable after you've read a bunch of other Calvino, since it has a somewhat cheeky, self-referential feel and the more you sympathize with the author the more you may like it.\nNumbers in the Dark is very good as a place to start.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47726189",
+          "by": "simonsarris",
+          "time": 1775870154
+        },
+        {
+          "id": 47725777,
+          "text": "Great article - \"Invisible Cities\" was my introduction to his work and remains a favorite.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47725777",
+          "by": "sgwizdak",
+          "time": 1775867625
+        },
+        {
+          "id": 47726667,
+          "text": "Reminds me of this linked in profile: https://www.linkedin.com/in/julien-de-foucauld-0b1323287/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47726667",
+          "by": "OhMeadhbh",
+          "time": 1775874324
+        },
+        {
+          "id": 47728730,
+          "text": "Only read Path To The Spider‘s Nest so far, had no trouble finishing it. Rare these days. Recommend!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47728730",
+          "by": "MrBuddyCasino",
+          "time": 1775896618
+        },
+        {
+          "id": 47730234,
+          "text": "I've never been able to get into Calvino. Those works of his that I've read mostly felt like games and puzzles, sterile mental exercises, or inconsequential fantasy.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47730234",
+          "by": "xhevahir",
+          "time": 1775912801
+        }
+      ],
+      "by": "lermontov",
+      "time": 1775864887,
+      "url": "https://www.historytoday.com/archive/portrait-author-historian/italo-calvino-traveller-world-uncertainty",
+      "score": 122,
+      "descendants": 21,
+      "storyUrl": "https://www.historytoday.com/archive/portrait-author-historian/italo-calvino-traveller-world-uncertainty"
+    },
+    {
+      "id": 47674075,
+      "type": "story",
+      "title": "What is a property?",
+      "rank": 22,
+      "depth": 0,
+      "storyId": 47674075,
+      "storyTitle": "What is a property?",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47674075",
+      "topComments": [
+        {
+          "id": 47733967,
+          "text": "Maybe I have a bit of a brain problem, but for me, 90% of the effort that goes into learning anything in tech is spent on identifying which nouns are Nouns, and which are just nouns, and the (often mushy) semantics of how people use those nouns in varying contexts and sub-contexts. I understand the reasons for this complexity - domain-specific terminology is valuable and forms naturally from pre-existing words. It's just that, in tech, everything is abstract, and everything consists of multiple contexts spread across multiple dimensions (vertically, in abstraction layers; horizontally, in use cases), so the domain-specific terminology explodes like an exponential web. Sometimes I'm talking to somebody and they are using some word, and it takes me days to even realize that they are using it in a much more specific context than I assumed. It's a little hellish.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47733967",
+          "by": "happytoexplain",
+          "time": 1775941085
+        },
+        {
+          "id": 47735023,
+          "text": "The property being tested in this example is “after inserting a row into a database table, the same row can be read back again.”\nThe insert statement isn’t independent of the database because the table needs to exist and its schema has to allow the inserted values. If the database is generated randomly, you need access to it to generate an insert statement that will work.\nThis is straightforward to do if the library is designed for it. Using my own TypeScript library [1]:\nconst insertCaseArb: Arbitrary = arb.from((pick) => {\n  const db = pick(dbArb);\n  const table = pick(arb.of(...db.tables));\n  const values = pick(rowArbForTable(table));\n\n  return {\n    db,\n    tableName: table.name,\n    insert: {\n      kind: \"insert\",\n      table: table.name,\n      values,\n    },\n  };\n });\n\nWhy might that be difficult? Some property testing libraries don’t let you call a pick function directly.\n[1] https://jsr.io/@skybrian/repeat-test",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47735023",
+          "by": "skybrian",
+          "time": 1775951886
+        },
+        {
+          "id": 47734758,
+          "text": "I missed the \"a\" in the title and expected something about Proudhon",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47734758",
+          "by": "cristoperb",
+          "time": 1775948724
+        }
+      ],
+      "by": "alpaylan",
+      "time": 1775564187,
+      "url": "https://alperenkeles.com/posts/what-is-a-property/",
+      "score": 89,
+      "descendants": 26,
+      "storyUrl": "https://alperenkeles.com/posts/what-is-a-property/"
+    },
+    {
+      "id": 47698111,
+      "type": "story",
+      "title": "Bevy game development tutorials and in-depth resources",
+      "rank": 23,
+      "depth": 0,
+      "storyId": 47698111,
+      "storyTitle": "Bevy game development tutorials and in-depth resources",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47698111",
+      "topComments": [
+        {
+          "id": 47729588,
+          "text": "I really want to like bevy but compile times are slow and the output binaries are huge.\nI built a few games in WASM and was shocked to see many of the bevy variants larger than the Unity versions.\nThere’s definitely a market for rust game engines but it seems that no one’s hit the sweet spot yet.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47729588",
+          "by": "tyleo",
+          "time": 1775906291
+        },
+        {
+          "id": 47727639,
+          "text": "- since we are on the topic, i wanted to ask people here\n- could someone kindly share some resources on c++ game development\n- here is what i have\n- https://gamedev.net/tutorials/\n- https://shader-learning.com/\n- https://learnopengl.com/\n- https://shaderacademy.com/\n- https://www.gabrielgambetta.com/client-server-game-architect...\n- https://github.com/0xFA11/MultiplayerNetworkingResources\n- just a headsup, i am looking for 3D game development without unreal, unity , godot or any of those engines",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47727639",
+          "by": "vivzkestrel",
+          "time": 1775884704
+        },
+        {
+          "id": 47727979,
+          "text": "Those of us unfamiliar with Bevy can deduce what it might be, but it would be really nice if your introduction included at least a link titled \"Bevy game engine\" which links to bevy.org.\nThen your unfamiliar readers can first hop to bevy.org to see what it's all about.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47727979",
+          "by": "michaelteter",
+          "time": 1775888534
+        },
+        {
+          "id": 47727186,
+          "text": "> These guides are up to date with Bevy version 0.18\nThis is huge, thanks. Unfortunately many Bevy resources became stale (the Bevy cookbook was even abandoned, there was little interest in keeping it up to date and so there were many sections for, say, Bevy 0.12)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47727186",
+          "by": "nextaccountic",
+          "time": 1775879499
+        },
+        {
+          "id": 47727986,
+          "text": "There's also ongoing work on the (for now hidden) Bevy Book https://bevy.org/learn/book/intro/\nAlready seems like a great resource to me but it's still WIP.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47727986",
+          "by": "roflcopter69",
+          "time": 1775888615
+        },
+        {
+          "id": 47727708,
+          "text": "This site is excellent. I emailed the author to thank them after reading it cover to cover, and they replied and asked if anything was unclear or if there was anything I wanted to see explored more.\nQuite the dedication to a free resource!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47727708",
+          "by": "reitzensteinm",
+          "time": 1775885399
+        },
+        {
+          "id": 47731025,
+          "text": "My problem with bevy isn't the basics, but the architecture. I always feel like I'm making wrong decisions on if something should be a component or a field, and how it interacts with other stuff in systems. I just feel like I'm making an unmaintainable mess, but I'm not sure how it could be improved.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47731025",
+          "by": "jvuygbbkuurx",
+          "time": 1775918242
+        },
+        {
+          "id": 47729317,
+          "text": "This has been on my list to kick off for a while. From previous times I looked at it, these tutorials are the only text based tutorials that are really kept up to date. Love it",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47729317",
+          "by": "Ugvx",
+          "time": 1775903392
+        },
+        {
+          "id": 47726790,
+          "text": "Thank you. Not many free and in-depth resource for Bevy engine. Mostly are paid ones. I am surprised that you switch from Ruby to Rust. \nSeems a different beast to me.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47726790",
+          "by": "jippo",
+          "time": 1775875305
+        },
+        {
+          "id": 47728307,
+          "text": "Thank you :)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47728307",
+          "by": "SilentM68",
+          "time": 1775891906
+        }
+      ],
+      "by": "GenericCanadian",
+      "time": 1775696327,
+      "url": "https://taintedcoders.com/",
+      "score": 140,
+      "descendants": 118,
+      "storyUrl": "https://taintedcoders.com/"
+    },
+    {
+      "id": 47731838,
+      "type": "story",
+      "title": "Keeping a Postgres Queue Healthy",
+      "rank": 24,
+      "depth": 0,
+      "storyId": 47731838,
+      "storyTitle": "Keeping a Postgres Queue Healthy",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47731838",
+      "topComments": [
+        {
+          "id": 47733687,
+          "text": "In short:\n* Postgres still has the same problem with vacuum horizon, when a long-running query can block vacuuming of a quick-churning table. (The author uses a benchmark from 2015 when the problem was already well-understood.)\n* Stock Postgres still has no tools good enough against it.\n* The author's company special version of Postgres does have such tools; a few polite promotions of it are strewn across the article.\nMy conclusion: it's still not wise to mix long (OLAP-style) loads and quick-churning (queue-style) loads on the same Postgres instance. Maybe running 0MQ or even RMQ may be an easier solution, depending on the requirements to the queue.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47733687",
+          "by": "nine_k",
+          "time": 1775938902
+        },
+        {
+          "id": 47733308,
+          "text": "Decent article, but some remarks:\n1) It seems these two statements conflict with each other:\n> The oldest such transaction sets the cutoff—referred to as the \"MVCC horizon.\" Until that transaction completes, every dead tuple newer than its snapshot is retained.\nand\n> For example, imagine three analytics queries, each running for 40 seconds, staggered 20 seconds apart. No individual query would trigger a timeout for running too long. But because one is always active, the horizon never advances, and the effect on vacuum is the same as one transaction that never ends.\nIf the three analytics *transactions* (it's transactions that matter, not queries, although there is some subtlety around deferred transactions not acquiring a snapshot until the first query) are started \nat different times, they will have staggered snapshots and so once the first completes, this should allow the vacuum to advance.\n2) Although the problem about this query:\n    SELECT * FROM jobs\n    WHERE status = 'pending'\n    ORDER BY run_at\n    LIMIT 1\n    FOR UPDATE SKIP LOCKED;\n\nhaving to consider dead tuples is a genuine concern and performance problem,\nthis can also be mitigated by adding a monotonically increasing column\nand adding a `WHERE column < ?` clause, provided you have also added an\nindex to make that pagination efficient.\nThis way you don't need to consider dead tuples and they 'only' waste space\nwhilst waiting to be vacuumed, rather than also bogging down read perf.\nThere is a little subtlety around how you guarantee that the column is monotonically\nincreasing, given concurrent writers, but the answer to that depends on what tricks\nyou can fit into your application.\n3) I almost want to say that the one-line summary is 'Don't combine (very) long-running transactions with (very) high transaction rates in Postgres'\n(Is this a fair representation?)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47733308",
+          "by": "cataflutter",
+          "time": 1775935821
+        },
+        {
+          "id": 47733001,
+          "text": "Yo! Author here, I’ll be around if anyone’s got questions!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47733001",
+          "by": "simeonGriggs",
+          "time": 1775933253
+        },
+        {
+          "id": 47732870,
+          "text": "It would be nice if this ad at least explained a little bit of the technical side of the solution.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47732870",
+          "by": "richwater",
+          "time": 1775932226
+        },
+        {
+          "id": 47733204,
+          "text": "Postgres can do so much. I see people choose Kafka and SQS for things that Graphile Worker could do all day long.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47733204",
+          "by": "sebmellen",
+          "time": 1775934833
+        },
+        {
+          "id": 47734514,
+          "text": "The problem is way worse if you update rows, if you stick with insert and delete you can get quite far.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47734514",
+          "by": "sp1982",
+          "time": 1775946049
+        }
+      ],
+      "by": "tanelpoder",
+      "time": 1775924648,
+      "url": "https://planetscale.com/blog/keeping-a-postgres-queue-healthy",
+      "score": 117,
+      "descendants": 28,
+      "storyUrl": "https://planetscale.com/blog/keeping-a-postgres-queue-healthy"
+    },
+    {
+      "id": 47732402,
+      "type": "story",
+      "title": "The APL programming language source code (2012)",
+      "rank": 25,
+      "depth": 0,
+      "storyId": 47732402,
+      "storyTitle": "The APL programming language source code (2012)",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47732402",
+      "topComments": [
+        {
+          "id": 47734761,
+          "text": "APL is how non-programmers imagine what programming is, a kind of sorcery involving exotic symbols and elaborate ritual processes to create data and algorithms out of thin air. Like LISP, it's an eternal classic that every generation rediscovers and gets their mind blown as an educational experience about the strange nature of computing, logic, and language.\nNotation as a Tool for Thought, the 1979 ACM Turing Award Lecture by Ken Iverson who developed APL, is insightful in understanding some of the thinking behind it.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47734761",
+          "by": "lioeters",
+          "time": 1775948749
+        },
+        {
+          "id": 47735050,
+          "text": "Well that opened a bit of a rabbit hole.  Looking at the source code I saw this which made me chuckle:\n    RNUMBER  DC    F'16807'            RANDOM NUMBER.\n\nSurely we wouldn't have DailyWTF quality code here.  Looking for how it's referenced we find the RANDOM function itself:\n    *        RANDOM NUMBER GENERATOR.\n    *        LEHMER'S METHOD, CACM JUNE '66, P 432.\n    *        N(I+1) = P RES Q X N(I)\n    *        P = (2**31)-1\n    *        Q = 7**5\n\nFollowing that lead to the original ACM article referenced:\nhttps://dl.acm.org/doi/epdf/10.1145/365696.365712\nWhich further lead to this rather interesting article on the history of the ROLL function which relies on this random number generator:\nhttps://www.jsoftware.com/papers/roll.htm\nNeat!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47735050",
+          "by": "themafia",
+          "time": 1775952277
+        },
+        {
+          "id": 47734933,
+          "text": "I went out to talk with a guy, back in about 1995, in Chicago, fired up APL on his notebook, loaded the JPMorgan Risk Metrics data set, fiddled a bit, and reduced the thing to a one-line formula in an interactive window - like a Jupyter Notebook.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47734933",
+          "by": "flint",
+          "time": 1775950894
+        },
+        {
+          "id": 47734981,
+          "text": "APL was the first programming language I learned, I was obsessed with learning every intricacy of the language. I almost lost my mind when I had to switch to a procedural language. APL warped my mind in such a way that it took almost a month to feel comfortable using anything else.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47734981",
+          "by": "QuantumSeed",
+          "time": 1775951397
+        },
+        {
+          "id": 47734081,
+          "text": "At my very first professional EE position, in 1978, there was an older staff member, PhD, kind of a professor type, who was programming in APL. Naturally curious, I asked him about it and what the strange symbols on the keyboard meant. His explanation mostly flew right over my head but I asked a few questions, thanked him, and went away. In 43 years, he's the only person I ever saw using it.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47734081",
+          "by": "sizzzzlerz",
+          "time": 1775942261
+        },
+        {
+          "id": 47733450,
+          "text": "Related. Others?\nThe APL Source Code (2012) - https://news.ycombinator.com/item?id=34064480 - Dec 2022 (58 comments)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47733450",
+          "by": "dang",
+          "time": 1775937073
+        },
+        {
+          "id": 47736221,
+          "text": "If the Keyboard requirements for this language were not so high, I might have gotten into this language, but the cost of purchasing the equipment put me off. That is not to say that I don't find the language intriguing since that it is.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47736221",
+          "by": "SilentM68",
+          "time": 1775969003
+        }
+      ],
+      "by": "tosh",
+      "time": 1775928850,
+      "url": "https://computerhistory.org/blog/the-apl-programming-language-source-code/",
+      "score": 83,
+      "descendants": 29,
+      "storyUrl": "https://computerhistory.org/blog/the-apl-programming-language-source-code/"
+    },
+    {
+      "id": 47702890,
+      "type": "story",
+      "title": "How Passive Radar Works",
+      "rank": 26,
+      "depth": 0,
+      "storyId": 47702890,
+      "storyTitle": "How Passive Radar Works",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47702890",
+      "topComments": [
+        {
+          "id": 47731900,
+          "text": "I will actually concur with one of the less upvoted comments here: the most fascinating thing about this article is the website. I've seen that pattern on HN a couple of times in the past couple of months.\nIt's an incredibly specific vanity domain called passiveradar.com. Who would want that unless they're a radar manufacturer or an expert in the field? In both cases, they would put their name on it, but there's no attribution whatsoever.\nThe site contains two short articles, mostly illustrated with photos lifted from elsewhere. For example, the schematic of how the radar works in the earlier article comes from:\nhttps://www.researchgate.net/figure/A-schematic-diagram-show...\nThe article is also illustrated with what appear to be two vibecoded SVG animations that don't look quite right.\nSo, what's going on here? I suspect it's an attempt to farm domains for resale, or for LLM spam operations down the line?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47731900",
+          "by": "chromacity",
+          "time": 1775925104
+        },
+        {
+          "id": 47730869,
+          "text": "> By listening to how broadcasts like FM radio and digital TV bounce off objects, it's possible to determine their positions and velocities.\nWasn't some Github repo ITAR'd, couple of years ago, due to having python code for some SDR doing this?\nEdit: Found it. 3years ago https://www.reddit.com/r/RTLSDR/comments/yu9rei/krakenrf_pul...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47730869",
+          "by": "kklisura",
+          "time": 1775917191
+        },
+        {
+          "id": 47730798,
+          "text": "There is a lot of talk of military uses here, but this technique is also used for environmental monitoring.\nGNSS interferometric reflectometry (GNSS-IR) uses navigation satellites as the transmitter for a bi-static radar. The measurement device is any GNSS receiver (even your phone).\nThe technique can estimate environmental parameters like sea level, soil moisture, snow depth, and vegetation water content from systematic changes in the the multi-path around the antenna.\nThere is an open source Python package for this technique: https://github.com/kristinemlarson/gnssrefl\nAn introductory paper \"The Accidental Tide Gauge\": https://www.kristinelarson.net/wp-content/uploads/2015/10/La...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47730798",
+          "by": "Geo_ge",
+          "time": 1775916764
+        },
+        {
+          "id": 47733993,
+          "text": "Here's a 10 year old study from Norway's navy.[1] It's a marginal technology for navies. It's more useful for defending urban areas from air strikes, because urban areas have lots of emitters, too many to attack.\nThere's a lot of current interest in what Iran is using for air defense.\nSearch \"Iran air defense passive radar\". Some people speculate passive infrared. Some speculate passive radar. Nobody who's posting really knows, of course.\nUkraine uses many passive systems, including audio. Sort of like Shot Spotter, but for drones.\n[1] https://apps.dtic.mil/sti/pdfs/ADA470685.pdf",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47733993",
+          "by": "Animats",
+          "time": 1775941288
+        },
+        {
+          "id": 47730501,
+          "text": "I read a lot about passive radars trying to leech off of opportunistic waves, and lots about actual troops preferring to play hide-and-seem with anti-radiation weapons just to use active machines.\nA config that strikes me as obvious but doesn’t seem to be popular would be just bistatic where you fire your own transmitter far away from yourself?\nThere’s got to be a reason, but it seems like best of both worlds.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47730501",
+          "by": "amoshebb",
+          "time": 1775914672
+        },
+        {
+          "id": 47731420,
+          "text": "I am searching for (part-time) business partners who want to pursue a grant (or find a customer) to develop and build a passive radar system.\nWe know of such grants and customers, we need motivated people to help us get the grant.\nIt is mostly a computational software problem that needs a cheap supercomputer, we believe we are experts at that [1].\nWe already have two test area's where we are not restricted by laws: the Ukraine battlefield (brimming wit jammers and radar) and a radio silence area LOFAR receiver next to a military low fly zone near a large nature reserve and sea.\nWe hope to find people through Hacker News who can help us get the funding. Maybe even apply at YC.\nPlease contact me through my HN profile.\nSee my other comment below on how passive radar could become a game changer (that got downvoted just because I mentioned it here).\nSome nice graphics related to passive radar:\n[1] Cheap Wafer Scale Integration Supercomputer https://www.youtube.com/watch?v=vbqKClBwFwI\n[2] How The U.S. Will Track EVERY Vehicle from Space: SAR GMTI/AMTI https://www.youtube.com/watch?v=-GTpBMPjjFc\n[3] The Insane Engineering of Starlink V3 https://www.youtube.com/watch?v=U6veU66z2TQ",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47731420",
+          "by": "morphle",
+          "time": 1775921252
+        },
+        {
+          "id": 47732573,
+          "text": "This is fascinating! I'm very tempted to build a \"early warning door bell\". Being the only house on our road, it'd be fun to try and set up a few of these to detect when a car takes the exit from the bigger road ours connects to, and give a heads up that visitors are coming!\nThere will be a few false positives from farmers coming to work the fields by our road, or people looking to hike in the nearby forests, etc. but it could be pretty fun nonetheless!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47732573",
+          "by": "amarant",
+          "time": 1775929981
+        },
+        {
+          "id": 47729671,
+          "text": "If one visualizes the electromagnetic field in the environment, including all objects in it and any changes, one would naturally come across many applications in sensing the associated changes in the field. One classic example is the eavesdropping case at Moscow US embassy in the former Soviet Union.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47729671",
+          "by": "quantum_state",
+          "time": 1775907054
+        },
+        {
+          "id": 47730348,
+          "text": "What's this website? Who put it up?\nThose have always been good questions to ask, but especially these days.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47730348",
+          "by": "wpietri",
+          "time": 1775913609
+        },
+        {
+          "id": 47731431,
+          "text": "A friend of mine did his PhD thesis on a passive radar that uses the GPS signal. I always found it such a brilliant idea, because the gps signal is everywhere and always available.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47731431",
+          "by": "ziofill",
+          "time": 1775921356
+        }
+      ],
+      "by": "surprisetalk",
+      "time": 1775738124,
+      "url": "https://www.passiveradar.com/how-passive-radar-works/",
+      "score": 200,
+      "descendants": 58,
+      "storyUrl": "https://www.passiveradar.com/how-passive-radar-works/"
+    },
+    {
+      "id": 47730370,
+      "type": "story",
+      "title": "Bitcoin miners are losing on every coin produced as difficulty drops",
+      "rank": 27,
+      "depth": 0,
+      "storyId": 47730370,
+      "storyTitle": "Bitcoin miners are losing on every coin produced as difficulty drops",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47730370",
+      "topComments": [
+        {
+          "id": 47730472,
+          "text": "The headline is dramatic but this is literally how bitcoin is designed to work. Miners leave, difficulty drops, costs go down, mining becomes profitable again. The interesting part isn’t the loss per coin, it’s how long the lag between unprofitable mining and difficulty adjustment keeps forced selling pressure on the market.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47730472",
+          "by": "dmk",
+          "time": 1775914541
+        },
+        {
+          "id": 47731503,
+          "text": "No one is producing Bitcoin at loss, because it doesn't make any sense, but it might happen temporarily. Imagine the mining cost as a distribution curve, and bitcoin miners filling the distribution from the cheapest upwards to where the cost equals the revenue, i.e. the highest cost miner is at break-even, so that total of 3.125 (+transaction fees) bitcoin worth of hashrate is produced every 10 minutes. All but the highest cost miner operate at profit.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47731503",
+          "by": "Geee",
+          "time": 1775921927
+        },
+        {
+          "id": 47730434,
+          "text": "This is just a lie. Coindesk is the worst media in the world.\nThey can't calculate correct price of mining because it's more complex and enerrgy costs are different in so many regions and inside the electiric producers etc. !",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47730434",
+          "by": "kingleopold",
+          "time": 1775914241
+        },
+        {
+          "id": 47730924,
+          "text": "If bitcoin miners are losing $19k for every bitcoin they mine, why would they sell bitcoin to continue funding their mining operations. That just makes it even less profitable because they are driving down the price of their remaining bitcoin. It makes more sense to shut their rigs off completely and wait for the price to rise.\nThe funny thing about bitcoin is that the rate of bitcoin discovery doesn’t change when they shut off their rigs so it won’t change supply. It would actually make more sense to sell all their bitcoin, flood the market with coins to do the price, wait for large miners to collapse and then restart mining at hopefully lower prices.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47730924",
+          "by": "reenorap",
+          "time": 1775917608
+        },
+        {
+          "id": 47730426,
+          "text": "> When miners can't cover costs, they sell bitcoin to fund operations\nSurely they should stop producing until its profitable again, or am I missing something?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47730426",
+          "by": "helsinkiandrew",
+          "time": 1775914189
+        },
+        {
+          "id": 47732158,
+          "text": "Sensationalistic headline.\nThe compute supply/demand for mining is designed in the bitcoin algorithm to oscillate, and the mining game is about being able to forecast a complex combo of BTCUSD price, power price, hardware price and depreciation.\nRemarks like the title of this clickbait article are strictly meaningless, they assume the instantaneous price of bitcoin / power / hardware is what's used to compute profitability, when in practice mining is basically a futures market.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47732158",
+          "by": "ur-whale",
+          "time": 1775927102
+        },
+        {
+          "id": 47731069,
+          "text": "It's 2026 and there's still people that believe that proof-of-work makes sense as a consensus mechanism",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47731069",
+          "by": "paoliniluis",
+          "time": 1775918466
+        },
+        {
+          "id": 47730450,
+          "text": "Isn't AI the new hot thing, why are the miners still going after Bitcoin, when they can probably just use the same infra for AI and make more money, stay profitable.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47730450",
+          "by": "suryajena",
+          "time": 1775914383
+        },
+        {
+          "id": 47732089,
+          "text": "My big picture take here; this is precisely why bitcoin itself could perhaps go to zero, and yet other cryptocurrencies could survive, aka the so-called \"flippening.\"\nIt may come to pass that \"proof-of-work\" was merely a good proof of concept to launch the idea; but proof-of-stake is (of course) better.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47732089",
+          "by": "jrm4",
+          "time": 1775926612
+        },
+        {
+          "id": 47730905,
+          "text": "Maybe a basic question - do miners use solar?\nPrices are dropping so fast it seems like the cheapest way to power mining rigs.\nAlso free grid electricity for three hours a day in Australia will be interesting.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47730905",
+          "by": "testing22321",
+          "time": 1775917476
+        }
+      ],
+      "by": "PaulHoule",
+      "time": 1775913745,
+      "url": "https://www.coindesk.com/markets/2026/03/22/bitcoin-miners-are-losing-usd19-000-on-every-btc-produced-as-difficulty-drops-7-8",
+      "score": 244,
+      "descendants": 229,
+      "storyUrl": "https://www.coindesk.com/markets/2026/03/22/bitcoin-miners-are-losing-usd19-000-on-every-btc-produced-as-difficulty-drops-7-8"
+    },
+    {
+      "id": 47727659,
+      "type": "story",
+      "title": "Productive Procrastination",
+      "rank": 28,
+      "depth": 0,
+      "storyId": 47727659,
+      "storyTitle": "Productive Procrastination",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47727659",
+      "topComments": [
+        {
+          "id": 47729646,
+          "text": "I have a few tricks for handling procrastination that are in this ballpark:\n1. When I see myself wanting to procrastinate, I ask myself 'If I follow this feeling, will it increase my power (i.e. capacity/agency/utility) or decrease it?'. Then I have a dialogue with myself: Nope, let's refocus, maybe try reading things out loud or draw a diagram or some other perspective change OR Yeah, I should stop for now, do something else, as long as that increases my power.\n2. I observed that usually procrastination really is tied to novelty, quite similar with how it's presented in the article so I did this thing: instead of going on YouTube or games I started typing exercises online. After some time, I realised that I could get better at typing and get some extra-novelty by typing an existing book! So I have a Tampermonkey script that, whenever I try to go on a random typing website, redirects me to a website where I can type books (I could push it as a gist if anyone's interested). It stores in Local Storage what page I reached and from where I left them of. I got to read On the Origin of Species this way and now I type around 100 WPM from 80 WPM.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47729646",
+          "by": "gobdovan",
+          "time": 1775906815
+        },
+        {
+          "id": 47732260,
+          "text": "The article identifies novelty and avoidance as separate drivers, but they're one mechanism viewed from two angles. The productive side tasks aren't just novel. They're safe. They generate evidence of competence without risking a verdict on the thing that actually matters.\nThe temporal discounting data is the most interesting part because it reveals something the article doesn't quite name: the older a task gets, the more it shifts from \"work I'm choosing to do\" to \"work I should have already done.\" That transforms its emotional signature from opportunity to obligation, and obligations trigger avoidance regardless of whether you enjoy the underlying work.\nThe Zeigarnik point works against its own framing too. Multiple productive side projects create multiple open loops, all competing for the same working memory as the main task. The \"productive\" procrastination isn't just avoiding the main task. It's actively fragmenting the attention budget that the main task needs.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47732260",
+          "by": "laughing_abder",
+          "time": 1775927808
+        },
+        {
+          "id": 47733122,
+          "text": "I recently heard the saying “if you wait to the last minute, it’ll only take you a minute!”\nFor some tasks I have, I need to live this way. Obsessing over a task next week takes away from what I’m doing now. I have to trust in my ability to pull it together efficiently. And when it’s due, the work often needs to be fresh in my mind - not something from weeks ago.\nSometimes that means unexpected late nights. But it’s mostly worked out.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47733122",
+          "by": "softwaredoug",
+          "time": 1775934211
+        },
+        {
+          "id": 47730823,
+          "text": "I believe everyone has a different strategy for this, so here’s mine in case it’s useful to someone:\nI noticed that when I procrastinate, it still weighs on my mind, often more (cumulatively over time) than the actual discomfort of doing the task in the end. Now whenever I have the chance and enough mental energy, I attack the task immediately, so I don’t have to worry about it. Basically I've trained myself to want to avoid procrastination-induced stress. It only works if I have enough mental energy for the task tho.\nThe second trick I use, for bigger or more (perceived) challenging things, is saying to myself I’ll just start it and get it rolling today, so I don’t feel bad about completely avoiding it. Sometimes, I get carried away and just complete it, but even if not, it’s still easier to pick it up (a short while later) - a win in any case.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47730823",
+          "by": "senko",
+          "time": 1775916901
+        },
+        {
+          "id": 47733139,
+          "text": "I think novelty-seeking is a symptom rather than cause of procrastination.\nIf you're in an impulsive mode, that's what causes procrastination. Being impulsive will obviously lead to novelty seeking.\nHere's how I model the action loop (image at the top):\nhttps://wisedayplanner.com/blog/action-loop-impulsive-vs-eff...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47733139",
+          "by": "codersfocus",
+          "time": 1775934355
+        },
+        {
+          "id": 47728229,
+          "text": "See structured procrastination for a slightly different approach.\nhttps://structuredprocrastination.com/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47728229",
+          "by": "d--b",
+          "time": 1775891124
+        },
+        {
+          "id": 47729113,
+          "text": "Great article, especially appreciated the graphs. The idea of \"keep adding novelty\" is probably what separated my successful long term projects from the unsuccessful ones.\nI previously attributed that to having lots of variety and freedom, but the consequence of those factors was indeed novelty.\nI want to mention Neil Fiore's excellent book The Now Habit, which is a practical manual on overcoming procrastination. The core thesis is training yourself out of the Victim Mindset, with language like \"I have to\", and into the Producer Mindset, with language like \"I choose to.\"\nWhat's interesting to me is that this isn't an arbitrary choice. \"I have to\" is actually a delusion.\nThink of the most extreme scenario. Someone has a gun and is \"forcing\" you to blow up a school. Do you \"have to\" do it? Or would it be better to say no?\nIf that freedom holds even in the most extreme scenario... doesn't it always hold?\nSometimes your options are truly terrible, but you always have a choice.\nThat might sound too philosophical, but I think that's an important distinction to learn to recognize in everyday life.\nBecause the failure to recognize it is what supports this delusion of \"I have to\", which seems to be the main cause of procrastination: the resentment and pushing against perceived loss of autonomy.\nSo my meaning here is that it isn't just more useful to think this way, as some psychological trick, but that it is actually more true as well.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47729113",
+          "by": "andai",
+          "time": 1775900925
+        },
+        {
+          "id": 47729630,
+          "text": "The whole of it seems more a question of an easily distracted mind. For one side because caveman brain looks away and does not adress the negative emotion , from the other because it's easily diverted from new shiny object. It's a question of effectively polish focus.\nBudhist monks would simply do a mandala for the sake of it. Then they destroy it afterward, the whole purpose is to get some reps training focus.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47729630",
+          "by": "rulesmen",
+          "time": 1775906643
+        },
+        {
+          "id": 47732408,
+          "text": "Sometimes procrastination means I’m not even suppose to do it. Maybe I just overheard an idea that sounded something “I should do” but there is nothing more to it.\nHow I hack this: I say to myself “I’m never going to do it” and there is an instant feeling if that statement is true or not. Then I either start it right away or let it go.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47732408",
+          "by": "miika",
+          "time": 1775928916
+        },
+        {
+          "id": 47729936,
+          "text": "I get it but I still believe that the most efficient answer to productivity is discipline, all the tricks to trick (sorry for the word play) are just effort taken away from our work",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47729936",
+          "by": "Chrisszz",
+          "time": 1775909940
+        }
+      ],
+      "by": "maxvij",
+      "time": 1775884881,
+      "url": "https://www.maxvanijsselmuiden.nl/blog/productive-procrastination/",
+      "score": 169,
+      "descendants": 50,
+      "storyUrl": "https://www.maxvanijsselmuiden.nl/blog/productive-procrastination/"
+    },
+    {
+      "id": 47700556,
+      "type": "story",
+      "title": "The Zettelkasten method in Obsidian",
+      "rank": 29,
+      "depth": 0,
+      "storyId": 47700556,
+      "storyTitle": "The Zettelkasten method in Obsidian",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47700556",
+      "topComments": [
+        {
+          "id": 47727909,
+          "text": "How many people actually find utility from a Zettelkasten system?\nI just can't bring myself to go to the effort of documenting a thought and adding links/tags unless it is something I predict that I will need sometime in the future and won't just remember. Due to this, my Obsidian vault is pretty much a collection of a bunch of temporary to-do lists and then some folders with specific reference information. If I'm linking thoughts together I'm doing it real time in my head, anything else takes me too far out of my thought process.\nI can see it if you are a person working in academia or a writer where you may be generating concepts that you want to link together in the future. But as someone that does project type work, I'm following too much of a defined process to see any benefit.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47727909",
+          "by": "starky",
+          "time": 1775887700
+        },
+        {
+          "id": 47727362,
+          "text": "It is too complicated. We just get, save or write something, maybe with some categories, keywords, or tags.\nAfter saving, maybe you need some organization later, but most time they are just there. Most time you search content by categories, keywords, or tags.\nI think we need right tools for different requirements.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47727362",
+          "by": "lilerjee",
+          "time": 1775881174
+        },
+        {
+          "id": 47727572,
+          "text": "I have written something similar! Used and improved my Obsidian setup through years of use.\nMy practical guide on setting up a smart notes / Zettelkasten / atomic notes Vault: https://bryanhogan.com/blog/obsidian-zettelkasten\nAlso wrote about how it fits into my overall Vault setup: https://bryanhogan.com/blog/obsidian-vault",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47727572",
+          "by": "bryanhogan",
+          "time": 1775883813
+        },
+        {
+          "id": 47730246,
+          "text": "Can anyone share agent skills that specifically help with the organizing, structuring, and linking of Obsidian files like a Karpathy style wiki? (Eg taking /raw content and processing it following some protocol)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47730246",
+          "by": "jzig",
+          "time": 1775912891
+        },
+        {
+          "id": 47730366,
+          "text": "I see a lot of people say you have to use methodology X, or that methodology Y is worthless.\nI'm the end, I think we have maybe different uses for notes. Journaling, scratchpads, to-do lists, research, etc.\nTake a methodology with a grain of salt. If it doesn't fit, there's a good chance it's solving someone else's problem, but you can always inform your own approach with it.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47730366",
+          "by": "netghost",
+          "time": 1775913731
+        },
+        {
+          "id": 47731035,
+          "text": "Zettelkasten is great for researchers. I actually don't think it's that valuable for practicing technologists. The general practice of taking notes and connecting ideas together is of course useful, but most technologists don't need such a sophisticated system.\nAmid all the fanaticism that grew around zettelkasten method the past few years people have forgotten and de-emphasized the fact that for Luhmann it was not a \"second brain\" to be referenced on demand, it was explicitly a system to support writing. It is tailored to help researchers write papers. It shines if you actually need a system in which to keep notions coherent and organized so that ideas are clear and citations precise when you need them during the writing process. If that's not you, the overhead probably isn't worth it. Just keep a notebook.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47731035",
+          "by": "voidhorse",
+          "time": 1775918294
+        },
+        {
+          "id": 47732264,
+          "text": "The article highlights that the real value of the ZK method is in the discovery of the deeper connections that run between ideas that on the surface may appear unrelated.\nI can see how that could be useful in contexts where the work is about mulling over concepts, trying to uncover some hidden patterns. Philosophy, sociology, psychology come to mind. But looking at my large cache of notes on well known technology, I have a hard time seeing where the value would be.\nI think it's worth pointing out because ZK pops up quite often on HN, as if it's the pinnacle of note taking. In reality, a lot of people here may just be wasting much of their time.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47732264",
+          "by": "mekoka",
+          "time": 1775927845
+        },
+        {
+          "id": 47727604,
+          "text": "On a different note, the website feels a bit quickly AI generated just made to promote this desktopcommander app?\nEdit: Oh, I actually just found the comment from the author here, sounds like AI slop.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47727604",
+          "by": "bryanhogan",
+          "time": 1775884204
+        },
+        {
+          "id": 47730750,
+          "text": "Having to manage links and tags for every note quickly makes the notion of a note system less than appealing.\nPersonally, I use a \"temporary -Zettelkasten\" strategy in my inbox. But it's more that I just timestamp new notes.\nThe power of obsidian imo is that I can quickly organize those inbox notes into their respective project notes with the touch of a hotkey\nAnd then again in the project note, the Obsidian editor features (mostly around useful hotkeys) allow me to quickly manage my notes how I see fit (no particular strategy here other than being heavily influenced by GTD)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47730750",
+          "by": "obsidianbases1",
+          "time": 1775916412
+        },
+        {
+          "id": 47728356,
+          "text": "I built the AS Notes extension for VS Code (https://asnotes.io) partly because I wanted to be able to write my notes with the support of other VS Code extensions, and because of the agent harness options in VS Code (copilot etc). The key thing for easy zettlekasten management is really good wikilink support in markdown. AS Notes supports nested wikilinking and automatic updating in the index on rename etc.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47728356",
+          "by": "gbro3n",
+          "time": 1775892509
+        }
+      ],
+      "by": "rkrizanovskis",
+      "time": 1775721480,
+      "url": "https://desktopcommander.app/blog/zettelkasten-obsidian/",
+      "score": 117,
+      "descendants": 71,
+      "storyUrl": "https://desktopcommander.app/blog/zettelkasten-obsidian/"
+    },
+    {
+      "id": 47727711,
+      "type": "story",
+      "title": "20 years on AWS and never not my job",
+      "rank": 30,
+      "depth": 0,
+      "storyId": 47727711,
+      "storyTitle": "20 years on AWS and never not my job",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47727711",
+      "topComments": [
+        {
+          "id": 47728213,
+          "text": "The author calls it a 'joke' that Heroes are just unpaid Amazon employees, but reality doesn't become a joke just because it's funny. The asymmetry here is staggering. I find myself holding back private research because I don't want to provide free R&D for a value-extraction machine that is already efficient enough.\nThe author was at least dependency-driven in their contribution, but outside that kind of dependency, it's hard to justify contributing even 'in the open' when the relationship is this one-sided. Amazon in particular has done enormous damage to the economic assumptions that permissive open source once relied on. There's increasingly more projects adopting 'Business Source Licenses', precisely to prevent open work from becoming a free input into hyperscaler monetization.\nThese devs know Amazon is grabby and, at some point, the only dominant outcome their community contribution is upstream of is unpaid labor for a trillion-dollar entity that also diverts support and community engagement away from the original projects by funneling users into managed versions of the same software.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47728213",
+          "by": "gobdovan",
+          "time": 1775890943
+        },
+        {
+          "id": 47729178,
+          "text": "I understand people have a viewpoint here about not giving time to large behemoths. I'll counter with a story and perhaps a larger point.\nBack in 2006/7 I had an idea for a project for which, in all enthusiasm, I setup a mailing list, but ended up never pursuing it. It's a very unique name.\nIn 2012, another developer landed on the same name for their project, but saw that the mailing list was taken up and reach out inquiring if he could take over, and I obliged because here's another person doing something in cryptography and open source, 2 of my favorite things then (and now).\nThe project was \"scrypt\" and the developer was Colin! :) I knew nothing about Colin or tarsnap then, IIRC.\nSometimes you just do kindnesses of which you're able, with people who you feel a sense of community with, without expectation of anything commercial. Karma adds up, and it's benefits are large, though hard to always articulate.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47729178",
+          "by": "anilgulecha",
+          "time": 1775901735
+        },
+        {
+          "id": 47730022,
+          "text": "> in fact in one of Jeff Barr's AWS user meetups in Second Life\nThere's so much about that phrase that makes me smile. Easy to forget that Second Life was also one of the earliest users of AWS, S3 first. Jeff Bezos had personally invested in our 2005 round (a round that made Linden Lab a unicorn before that was a thing) and pointed us at Jeff Barr and the work coming from AWS.\nIn return, Jeff Barr started hosting AWS meetups in Second Life -- this was the era of lots of groups setting up Second Life outposts, from Jonathan Coulton to Reuters.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47730022",
+          "by": "CoryOndrejka",
+          "time": 1775910697
+        },
+        {
+          "id": 47728647,
+          "text": "> In April 2024 I confided in an Amazonian that I was \"not really doing a good job of owning FreeBSD/EC2 right now\" and asked if he could find some funding to support my work, on the theory that at a certain point time and dollars are fungible\n>I received sponsorship from Amazon via GitHub Sponsors for 10 hours per week for a year\nFor whatever reason, I remember being shocked that you were only charging $300/hr [1] which was what a mere L6 google engineer would make salaried. I hope they are paying you more nowadays\n[1] https://news.ycombinator.com/item?id=30188512",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47728647",
+          "by": "few",
+          "time": 1775895881
+        },
+        {
+          "id": 47728472,
+          "text": "I strongly disagree with the part about IAM roles for EC2\n> a useful improvement (especially given the urgency after the Capital One breach) but in my view just a mitigation of one particular exploit path rather than addressing the fundamental problem that credentials were being exposed via an interface which was entirely unsuitable for that purpose.\nWhat alternative interface does the author propose we use to securely exchange credentials? The only other approaches I can come up with involve allowing monkey hands to come into direct contact with secret materials. Outlook, slack and teams cannot possibly be more secure than IMDSv2. I think if you are manually passing around things like PFX files you've already lost the game.\nThe entire point of the IAM roles is to make everything a matter of policy rather than procedure. The difference here is insane when you play through all of the edges. IAM policy management is significantly easier to lock down than the alternative paths. I can prove to an auditor in 5 minutes that it is mathematically impossible for a member of my team to even see the signing keys we use for certain vendors without triggering alerts to other administrators. I've got KMS signing keys that I cannot delete with my root account because I applied inappropriate policies at creation time. This stuff can be very powerful when used well. Azure has a similar idea that makes accessing things like mssql servers way less messy.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47728472",
+          "by": "bob1029",
+          "time": 1775894180
+        },
+        {
+          "id": 47729136,
+          "text": "Fantastic piece of lore. Fascinating to read the journey. But also hearing some of the names here (Tavis Ormandy is famous for his role on Project Zero, for instance) and knowing that even top engineers can bomb interviews for making poor choices.\nNothing useful to add except that I Like these blog posts from someone who actually did a bunch of things. Nice round-up of the past.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47729136",
+          "by": "arjie",
+          "time": 1775901125
+        },
+        {
+          "id": 47732874,
+          "text": "I had forgotten that you had to individually request AWS services early on. I checked my email history from 2007 and it's true, I was initially only granted access to \"Amazon E-Commerce Service\"! I got a separate email confirming that I had signed up for S3. Funny that they hadn't yet figured out that the automatic \"package deal\" is one of their biggest selling points.\nThe next service I signed up for was \"Alexa Web Information Service\". Web search as a service, back when \"Alexa\" was the search company they had acquired, not a voice assistant. By mid-2007 I was (finally) accepted into the EC2 beta. The rest, as they say, is history.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47732874",
+          "by": "electroly",
+          "time": 1775932255
+        },
+        {
+          "id": 47728355,
+          "text": "I remember many of these events as I was running FreeBSD a lot and subscribed to the mailing lists.\nWhy on earth would you give this monstrosity of a company so much free labour?\nI get that volunteering is fun, but donating your time and competence to a hyper capitalist company is short sighted. I hope there was appropriate compensation, and I'm not including \"early access\".",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47728355",
+          "by": "ysleepy",
+          "time": 1775892503
+        },
+        {
+          "id": 47727959,
+          "text": "He gave them so much free labor",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47727959",
+          "by": "wahnfrieden",
+          "time": 1775888334
+        },
+        {
+          "id": 47731827,
+          "text": "A 20 year retrospective with no Hetzner or OVH numbers in sight is a bit of a tell. I run workloads across AWS, Hetzner, and a couple of smaller providers, and the gap is not subtle. For a small to medium web stack you are looking at roughly $350 a month on AWS versus 20 to 25 euros on Hetzner for similar specs, plus 20 TB of bandwidth included instead of being billed at 9 cents a gig after the first 100. What AWS actually sells at this point is not compute, it is the IAM model, the global footprint, the deep integrations, and the org chart consensus that nobody gets fired for picking it. That is a real product and worth a lot in some shops, but it is a very different product from what cloud meant in 2006. For the people who have actually moved a real workload off AWS recently, what was the part that turned out to be more painful than you expected?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47731827",
+          "by": "MyUltiDev",
+          "time": 1775924564
+        }
+      ],
+      "by": "cperciva",
+      "time": 1775885470,
+      "url": "https://www.daemonology.net/blog/2026-04-11-20-years-on-AWS-and-never-not-my-job.html",
+      "score": 260,
+      "descendants": 66,
+      "storyUrl": "https://www.daemonology.net/blog/2026-04-11-20-years-on-AWS-and-never-not-my-job.html"
+    }
+  ]
+}
