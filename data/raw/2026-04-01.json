@@ -1,0 +1,1589 @@
+{
+  "date": "2026-04-01",
+  "fetchedAt": "2026-04-29T07:18:19.823Z",
+  "samplingMethod": "historical_frontpage_story_comment_snapshot",
+  "source": "hn_front_html_firebase",
+  "items": [
+    {
+      "id": 47602832,
+      "type": "story",
+      "title": "EmDash – A spiritual successor to WordPress that solves plugin security",
+      "rank": 1,
+      "depth": 0,
+      "storyId": 47602832,
+      "storyTitle": "EmDash – A spiritual successor to WordPress that solves plugin security",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47602832",
+      "topComments": [
+        {
+          "id": 47603112,
+          "text": "> Our name for this new CMS is EmDash. We think of it as the spiritual successor to WordPress. It’s written entirely in TypeScript. It is serverless, but you can run it on your own hardware or any platform you choose. Plugins are securely sandboxed and can run in their own isolate, via Dynamic Workers, solving the fundamental security problem with the WordPress plugin architecture. And under the hood, EmDash is powered by Astro, the fastest web framework for content-driven websites.\nTo me this sounds of the polar opposite of the direction CMS's need to go, instead simplify and go back to the \"websites\" roots where a website are static files wherever, it's fast, easy to cache and just so much easier to deal with than server-side rendered websites.\nBut of course, then they wouldn't be able to sell their own \"workers\" product, so suddenly I think I might understand why they built it the way they built it, at the very least to dogfood their own stuff.\nI'm not sure it actually solves the \"fundamental security problem\" in actuality though, but I guess that remains to be seen.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47603112",
+          "by": "embedding-shape",
+          "time": 1775061146
+        },
+        {
+          "id": 47606147,
+          "text": "This is very interesting. I've worked with WordPress on and off for 10 years, and I'm convinced that this project has got 2 things absolutely spot on. TypeScript and Worker plugins.\nI've given the security, or lack of, WP a lot of thought recently. In WP malicious plugin has access to the database, enfironment variables, rendering text on screen (think XSS). Luckily, a thoughtfully designed plugin system can mitigate all of those issues.\nI've been working on a headless CMS in my spare time that is eirily similar to EmDash in a few ways. It's in very early development, but I will share regardless. It's called HotsauceCMS - https://github.com/hotsauce-team/hotsauce\n- I went with optional NodeJS or Deno Worker plugins, this means that first-party plugins can benefit from the speed of in-process, and other plugins can be run in Workers. For fine grained permission control, you can use Deno Workers.\n- I went with absolute minimal dependencies, I am so fed up with Dependabot alerts and npm supply chain hacks. My CMS has only 4 dependencies, 0 transistive dependencies.\n- It's Drizzle schema first, and headless. So you have full controll of the database structure, use cms hints in your schema for features like file upload.\n- It's database-agnostic, so it works with any Drizzle-supported database (Postgres, MySQL, SQLite)\n- Being headless, you can use any frontend, my preference is JSX w/o react, but anything goes.\nFeedback is absolutely welcomed on HotsauceCMS, did I miss a trick, am I on the right track?\nAnyway, congratulations on EmDash. I'll be following closely, excited to see how the next few months unfold.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47606147",
+          "by": "earthlingdavey",
+          "time": 1775075397
+        },
+        {
+          "id": 47607571,
+          "text": "In my opinion, Cloudflare are coming at this from the wrong angle. WordPress is so popular because back in the day it was the easiest way to get a website built. So it got a network effect of engineers behind it which is why it persists at 40% of websites today. Same thing happened with React - majority of Typescript sites are written in React and NextJS because of the network effect around it.\nYeah the security aspect is important, but how many of those Wordpress engineers are going to jump ship to this because of security when they've been fine with the risk so far? My money is not a lot. If someone is a WordPress dev in 2026, they're probably not the type of dev that likes to upskill and learn new tech. Similarly, if you're looking to target the average joe looking to build a fresh website, would that consumer really choose this over Wix or Squarespace? It doesn't look easier to use so I wouldn't count on it. So where is the network effect going to come from to make this the new WordPress?\nI could see Vinext being successful if they keep at it— I think there are a sizeable amount of people who would like to move away from Vercel (and who will probably migrate to Tanstack when the ecosystem is more stable). But I'm not sure people on WordPress really want to leave. If they really want to make this successful I think they need a better angle which in my opinion would be making it easier, quicker, cheaper and more flexible than Squarespace/Wix/Shopify etc",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47607571",
+          "by": "rcarr",
+          "time": 1775083910
+        },
+        {
+          "id": 47603526,
+          "text": "> x402 is an open, neutral standard for Internet-native payments. It lets anyone on the Internet easily charge, and any client pay on-demand, on a pay-per-use basis. A client, such as an agent, sends a HTTP request and receives a HTTP 402 Payment Required status code. In response, the client pays for access on-demand, and the server can let the client through to the requested content.\nFascinating. Cloudflare is envisioning a future where agents are given debit cards by their owners, so they can autonomously send microtransactions to website owners to scrape content or possibly purchase goods on the owner's behalf. I don't know how I feel about that but there's no doubt it's a fascinating concept.\nBrb, setting up a honeypot that always responds with HTTP 402 Payment Required demanding 10cents per visit... That's the next \"selling 1 million pixels on my website for $1 each\", I guess",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47603526",
+          "by": "andy_xor_andrew",
+          "time": 1775062906
+        },
+        {
+          "id": 47604294,
+          "text": "Serious question: Why is everyone still using JavaScript to AI-code projects? You can vibe-code apps with real languages now.\nThere's no reason to use an interpreted, bloated, weird language anymore. The only reason interpreted languages were a thing was so you could edit a file and re-run it immediately without a compile step. Compiling is now cheap, and you don't have to build expertise in a new language anymore. Ask AI to write your app in Go, it'll happily comply. Run it and it's faster with less memory use and disk space. The code is simpler and smaller making reviewing easier. Distribution is as easy as \"copy the file\".\nI'll grant you, interpreted languages skip the \"portability\" compiling/distributing step, and let you avoid the stupid MacOS code signing. But Go is stupid easy to cross-compile, and (afaik?) the user can un-quarantine a self-signed app pretty easily.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47604294",
+          "by": "0xbadcafebee",
+          "time": 1775066488
+        }
+      ],
+      "by": "elithrar",
+      "time": 1775060078,
+      "url": "https://blog.cloudflare.com/emdash-wordpress/",
+      "score": 703,
+      "descendants": 504,
+      "storyUrl": "https://blog.cloudflare.com/emdash-wordpress/"
+    },
+    {
+      "id": 47597085,
+      "type": "story",
+      "title": "Claude Code Unpacked : A visual guide",
+      "rank": 2,
+      "depth": 0,
+      "storyId": 47597085,
+      "storyTitle": "Claude Code Unpacked : A visual guide",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47597085",
+      "topComments": [
+        {
+          "id": 47598789,
+          "text": "Author here. I built this in a few hours after the Claude Code leak.\nI've been working on my own coding agent setup for a while. I mostly use pi [0] because it's minimal and easy to extend. When the leak happened, I wanted to study how Anthropic structured things: the tool system, how the agent loop flows, A 500K line codebase is a lot to navigate, so I mapped it visually to give myself a quick reference I could come back to while adapting ideas into my own harness and workflow.\nI'm actively updating the site based on feedback from this thread. If anything looks off, or you find something I missed, lmk.\n[0] https://pi.dev/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47598789",
+          "by": "autocracy101",
+          "time": 1775036824
+        },
+        {
+          "id": 47599617,
+          "text": "I know it seems counter-intuitive but are there any agent harnesses that aren’t written with AI?  All these half a million LoC codebases seem insane to me when I run my business on a full-stack web application that’s like 50k lines of code and my MvP was like 10k.  These are just TUIs that call a model endpoint with some shell-out commands.  These things have only been around in time measured in months, half a million LoC is crazy to me.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47599617",
+          "by": "throwatdem12311",
+          "time": 1775044414
+        },
+        {
+          "id": 47599312,
+          "text": "A 500k line codebase for an agent CLI proves one thing: making a probabilistic LLM behave deterministically is a massive state-management nightmare. Right now, they're great for prompting simple sites/platforms but they break at large enterprise repos.\nIf you don't have a rigid, external state machine governing the workflow, you have to brute-force reliability. That codebase bloat is likely 90% defensive programming; frustration regexes, context sanitizers, tool-retry loops, and state rollbacks just to stop the agent from drifting or silently breaking things.\nThe visual map is great, but from an architectural perspective, we're still herding cats with massive code volume instead of actually governing the agents at the system level.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47599312",
+          "by": "amangsingh",
+          "time": 1775041820
+        },
+        {
+          "id": 47597975,
+          "text": "If it was 2020, it would be hard to imagine that after some hours/days you getting a visual representation of the leak with such detailed stats lol",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47597975",
+          "by": "Andebugulin",
+          "time": 1775028943
+        },
+        {
+          "id": 47598940,
+          "text": "> 500k lines of code\nIsn't it a simple REPL with some tools and integrations, written in a very high level language? How the hell is it so big? Is it because it's vibecoded and LLMs strive for bloat, or is it meaningful complexity?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47598940",
+          "by": "ernst_klim",
+          "time": 1775038317
+        }
+      ],
+      "by": "autocracy101",
+      "time": 1775020537,
+      "url": "https://ccunpacked.dev/",
+      "score": 1128,
+      "descendants": 400,
+      "storyUrl": "https://ccunpacked.dev/"
+    },
+    {
+      "id": 47606840,
+      "type": "story",
+      "title": "DRAM pricing is killing the hobbyist SBC market",
+      "rank": 3,
+      "depth": 0,
+      "storyId": 47606840,
+      "storyTitle": "DRAM pricing is killing the hobbyist SBC market",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47606840",
+      "topComments": [
+        {
+          "id": 47607342,
+          "text": "> The price increases bring the 16GB Pi 5 up to $299.99.\nMeanwhile, a refurbished corporate laptop with 16GB RAM and a 512GB SSD can be yours for $199 [1]\nI'm sure there will still be people who want the Pi 5 but at these prices, I ain't one of them.\n[1] https://www.ebay.com/itm/327079631563",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47607342",
+          "by": "michaelt",
+          "time": 1775082437
+        },
+        {
+          "id": 47607703,
+          "text": "Helium supply issues are only going to make this worse.\nI feel like for the first time in our lives we might have seen peak technology for the next few years. Everyone is going to have to make do instead of depending on ever increasing performance.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47607703",
+          "by": "bashtoni",
+          "time": 1775084596
+        },
+        {
+          "id": 47607135,
+          "text": "OTOH things which belong on microcontrollers are now being pushed back to microcontrollers for cost reasons, so there is a win to be found there.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47607135",
+          "by": "fidotron",
+          "time": 1775081178
+        },
+        {
+          "id": 47607437,
+          "text": "There are ups and downs in the prices of components. Often people forget that during COVID prices were high for SBCs because of supply chain issues. Video cards just were not available in the UK and afterwards (every supplier had long lead times) and are still relatively expensive (at least there are now lower priced options). Raspberry Pis you couldn't get hold of and many people (Jeff Included) was using a website checking for availability which was non-existent for anything other than low end models.\nI remember 15-20 years ago when hard drive prices went up through the roof because there was a flood in Thailand and it too years for prices to come down.\nThere is going to be supply chain issues due to the current Geopolitical situation (Helium comes out of the Gulf and that is need in chip manufacture) is also going to affect the price of components.\nEventually in a few years (as the article states) the situation will change. It just sucks at the moment.\nTBH I am more worried about my ability to fill up the tank on my car as both Petrol and Diesel is unavailable locally. I can make do with whatever computer equipment I have.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47607437",
+          "by": "JollySharp0",
+          "time": 1775083041
+        },
+        {
+          "id": 47607173,
+          "text": "DRAM pricing is killing the everything market.\nWe just had a vendor uplift our quote 50% per unit for some machines because of a mix of memory + supply chain issues.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47607173",
+          "by": "jonathantf2",
+          "time": 1775081385
+        }
+      ],
+      "by": "ingve",
+      "time": 1775079401,
+      "url": "https://www.jeffgeerling.com/blog/2026/dram-pricing-is-killing-the-hobbyist-sbc-market/",
+      "score": 631,
+      "descendants": 552,
+      "storyUrl": "https://www.jeffgeerling.com/blog/2026/dram-pricing-is-killing-the-hobbyist-sbc-market/"
+    },
+    {
+      "id": 47603737,
+      "type": "story",
+      "title": "AI for American-produced cement and concrete",
+      "rank": 4,
+      "depth": 0,
+      "storyId": 47603737,
+      "storyTitle": "AI for American-produced cement and concrete",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47603737",
+      "topComments": [
+        {
+          "id": 47604424,
+          "text": "Hand-held devices for testing concrete properties would be more useful. Most concrete problems come from a bad mix - too much water, not enough cement, etc. Concrete testing usually involves cutting a core out of the poured slab and sending it to a lab. Something where you stick a probe in the mix and can reject it before pouring would help. Here are some on-site concrete testers.[1] They're heavy and a pain to use.\nThere should be an app for this. But that's so last-decade.\n[1] https://store.forneyonline.com/concrete-testing-equipment/fr...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47604424",
+          "by": "Animats",
+          "time": 1775067042
+        },
+        {
+          "id": 47605428,
+          "text": "Wrong day to release this.  I had to read halfway through the release before realizing it’s legitimate.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47605428",
+          "by": "georgeburdell",
+          "time": 1775071838
+        },
+        {
+          "id": 47604044,
+          "text": "Awesome. People take concrete for granted. Even at small scales (e.g. your patio) with formulas provided on the cement bag, concrete can go wrong (crazing, scaling, cracks). There's a lot of unappreciated craft in the work, not only in the composition and mixing, which is what this research seems dedicated to, but also in the placing, leveling, curing, finishing.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47604044",
+          "by": "wxw",
+          "time": 1775065245
+        },
+        {
+          "id": 47604109,
+          "text": "> As a result, producers need a way to rapidly explore and validate new formulations without spending months in the lab.\nHow do you bypass the normal process of pouring test articles and testing them months and years after cure? This is fundamentally a research activity that needs to conduct verifiable science. Not something you can guess at with an LLM.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47604109",
+          "by": "kevin_thibedeau",
+          "time": 1775065535
+        },
+        {
+          "id": 47604198,
+          "text": "Tangentially related, but there is a new generation of trucks that mix the concrete on-site.  They can output small batches and change the mix on the fly.  They solve a lot of headaches!\nhttps://cementech.com/volumetric-technology/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47604198",
+          "by": "ortusdux",
+          "time": 1775066015
+        }
+      ],
+      "by": "latchkey",
+      "time": 1775063844,
+      "url": "https://engineering.fb.com/2026/03/30/data-center-engineering/ai-for-american-produced-cement-and-concrete/",
+      "score": 224,
+      "descendants": 118,
+      "storyUrl": "https://engineering.fb.com/2026/03/30/data-center-engineering/ai-for-american-produced-cement-and-concrete/"
+    },
+    {
+      "id": 47593422,
+      "type": "story",
+      "title": "Show HN: 1-Bit Bonsai, the First Commercially Viable 1-Bit LLMs",
+      "rank": 5,
+      "depth": 0,
+      "storyId": 47593422,
+      "storyTitle": "Show HN: 1-Bit Bonsai, the First Commercially Viable 1-Bit LLMs",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47593422",
+      "topComments": [
+        {
+          "id": 47594919,
+          "text": "1 bit with a FP16 scale factor every 128 bits. Fascinating that this works so well.\nI tried a few things with it. Got it driving Cursor, which in itself was impressive - it handled some tool usage. Via cursor I had it generate a few web page tests.\nOn a monte carlo simulation of pi, it got the logic correct but failed to build an interface to start the test. Requesting changes mostly worked, but left over some symbols which caused things to fail. Required a bit of manual editing.\nTried a Simon Wilson pelican as well - very abstract, not recognizable at all as a bird or a bicycle.\nPictures of the results here: https://x.com/pwnies/status/2039122871604441213\nThere doesn't seem to be a demo link on their webpage, so here's a llama.cpp running on my local desktop if people want to try it out. I'll keep this running for a couple hours past this post: https://unfarmable-overaffirmatively-euclid.ngrok-free.dev",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47594919",
+          "by": "jjcm",
+          "time": 1775000392
+        },
+        {
+          "id": 47598483,
+          "text": "I ran my custom agentic SQL debugging benchmark against it and I'm impressed.\nResults: 8 passed, 0 failed, 17 errored out of 25\nThat puts it right between Qwen3.5-4B (7/25) and Nanbeige4.1-3B (9/25) for example, but it took only 200 seconds for the whole test. Qwen3.5 took 976 seconds and Nanbeige over 2000 (although both of these were on my 1070 so not quite the same hardware)\nGranite 7B 4bit does the test in 199 seconds but only gets 4/25 correct.\nSee https://sql-benchmark.nicklothian.com/#all-data (click on the cells for the trace of each question)\nErrors are bad tool calls (vs failures which is incorrect SQL)\nI used @freakynit's runpod (thanks!)\n[1] https://news.ycombinator.com/item?id=47597268",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47598483",
+          "by": "nl",
+          "time": 1775033722
+        },
+        {
+          "id": 47596857,
+          "text": "You can run this model on an iPhone via the latest update to this Locally AI app: https://apps.apple.com/us/app/locally-ai-local-ai-chat/id674...\nFor its size (1.2GB download) it's very impressive.\nHere's a pelican it drew me running on my phone - the SVG comments are good, the image not so much: https://tools.simonwillison.net/svg-render#%3Csvg%20width%3D...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47596857",
+          "by": "simonw",
+          "time": 1775018084
+        },
+        {
+          "id": 47597268,
+          "text": "Open access for next 5 hours (8GiB model, running on RTX 3090) or until server crashes or the this spot instance gets taken away :) =>\nhttps://ofo1j9j6qh20a8-80.proxy.runpod.net\n  ./build/bin/llama-server \\\n   -m ../Bonsai-8B.gguf \\\n   -ngl 999 \\\n   --flash-attn on \\\n   --host 0.0.0.0 \\\n   --port 80 \\\n   --ctx-size 65500 \\\n   --batch-size 512 \\\n   --ubatch-size 512 \\\n   --parallel 5 \\\n   --cont-batching \\\n   --threads 8 \\\n   --threads-batch 8 \\\n   --cache-type-k q4_0 \\\n   --cache-type-v q4_0 \\\n   --log-colors on\n\nThe server can serve 5 parallel request, with each request capped at around `13K` tokens...\nA bit of of benchmarks I did:\n1. Input: 700 tokens, ttfs: ~0 second, outputs: 1822 tokens ~190t/s\n1. Input: 6400+ tokens, ttfs: ~2 second, outputs: 2012 tokens at ~135t/s\nVram usage was consistently at ~4GiB.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47597268",
+          "by": "freakynit",
+          "time": 1775022558
+        },
+        {
+          "id": 47595610,
+          "text": "Don't have a GPU so tried the CPU option and got 0.6t/s on my old 2018 laptop using their llama.cpp fork.\nThen found out they didn't implement AVX2 for their Q1_0_g128 CPU kernel. Added that and getting ~12t/s which isn't shabby for this old machine.\nCool model.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47595610",
+          "by": "wild_egg",
+          "time": 1775006261
+        }
+      ],
+      "by": "PrismML",
+      "time": 1774990878,
+      "url": "https://prismml.com/",
+      "score": 430,
+      "descendants": 153,
+      "storyUrl": "https://prismml.com/"
+    },
+    {
+      "id": 47557921,
+      "type": "story",
+      "title": "Show HN: Git bayesect – Bayesian Git bisection for non-deterministic bugs",
+      "rank": 6,
+      "depth": 0,
+      "storyId": 47557921,
+      "storyTitle": "Show HN: Git bayesect – Bayesian Git bisection for non-deterministic bugs",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47557921",
+      "topComments": [
+        {
+          "id": 47607352,
+          "text": "Really fun work, and the writeup on the math is great. The Beta-Bernoulli conjugacy trick making the marginal likelihood closed-form is elegant.\nWe ran benchmarks comparing bisect vs bayesect across flakiness levels. At 90/10, bisect drops to ~44% accuracy while bayesect holds at ~96%. At 70/30 it's 9% vs 67%. The entropy-minimization selection is key here since naive median splitting converges much slower.\nOne thing we found, you can squeeze out another 10-15% accuracy by weighting the prior with code structure. Commits that change highly-connected functions (many transitive dependents in the call graph) are more likely culprits than commits touching isolated code. That prior is free, zero test runs needed.\nInformation-theoretically, the structural prior gives you I_prior bits before running any test, reducing the total tests needed from log2(n)/D_KL to (log2(n) - I_prior)/D_KL. On 1024-commit repos with 80/20 flakiness: 92% accuracy with graph priors vs 85% pure bayesect vs 10% git bisect.\nWe're building this into sem (https://github.com/ataraxy-labs/sem), which has an entity dependency graph that provides the structural signal.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47607352",
+          "by": "rs545837",
+          "time": 1775082503
+        },
+        {
+          "id": 47558065,
+          "text": "git bisect works great for tracking down regressions, but relies on the bug presenting deterministically. But what if the bug is non-deterministic? Or worse, your behaviour was always non-deterministic, but something has changed, e.g. your tests went from somewhat flaky to very flaky.\nIn addition to the repo linked in the title, I also wrote up a little bit of the math behind it here: https://hauntsaninja.github.io/git_bayesect.html",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47558065",
+          "by": "hauntsaninja",
+          "time": 1774731578
+        },
+        {
+          "id": 47605255,
+          "text": "Super cool!\nA related situation I was in recently was where I was trying to bisect a perf regression, but the benchmarks themselves were quite noisy, making it hard to tell whether I was looking at a \"good\" vs \"bad\" commit without repeated trials (in practice I just did repeats).\nI could pick a threshold and use bayesect as described, but that involves throwing away information. How hard would it be to generalize this to let me plug in a raw benchmark score at each step?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47605255",
+          "by": "Retr0id",
+          "time": 1775071088
+        },
+        {
+          "id": 47558862,
+          "text": "Okay this is really fun and mathematically satisfying. Could even be useful for tough bugs that are technically deterministic, but you might not have precise reproduction steps.\nDoes it support running a test multiple times to get a probability for a single commit instead of just pass/fail? I guess you’d also need to take into account the number of trials to update the Beta properly.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47558862",
+          "by": "supermdguy",
+          "time": 1774739183
+        },
+        {
+          "id": 47606543,
+          "text": "I hope this comment is not out of place, but I am wondering what the application for all this is? How can this help us or what does it teach us or help us prove? I am asking out of genuine curiosity as I barely understand it but I believe it has something to do with probability.\nedit: thanks for the responses! I was not even familiar with `git bisect` before this, so I've got some new things to learn.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47606543",
+          "by": "SugarReflex",
+          "time": 1775077417
+        }
+      ],
+      "by": "hauntsaninja",
+      "time": 1774729921,
+      "url": "https://github.com/hauntsaninja/git_bayesect",
+      "score": 337,
+      "descendants": 43,
+      "storyUrl": "https://github.com/hauntsaninja/git_bayesect"
+    },
+    {
+      "id": 47601859,
+      "type": "story",
+      "title": "Ask HN: Who is hiring? (April 2026)",
+      "rank": 7,
+      "depth": 0,
+      "storyId": 47601859,
+      "storyTitle": "Ask HN: Who is hiring? (April 2026)",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47601859",
+      "topComments": [
+        {
+          "id": 47603039,
+          "text": "Oklo | Remote (US) or Santa Clara or Brooklyn | Full time | https://oklo.com\nJoin us in pioneering the next generation of nuclear reactors! You'll leverage your software skills alongside nuclear engineers to model, simulate, design, and deploy advanced fission power technology. You will work at the forefront of the nuclear industry, developing novel techniques to reach new levels of safety, efficiency, and resiliency. Come be a part of powering the future with advanced fission power plants to provide clean, reliable, affordable energy.\nWe are hiring for:\n- Software Engineer: https://job-boards.greenhouse.io/oklo/jobs/4018702004\n- Senior Software Engineer: https://job-boards.greenhouse.io/oklo/jobs/5739483004\n- Software Engineer (Infrastructure): https://job-boards.greenhouse.io/oklo/jobs/5784826004\n- Software Quality Assurance Lead: https://job-boards.greenhouse.io/oklo/jobs/5480416004\nSee more opportunities here: https://job-boards.greenhouse.io/oklo\nPlease mention Hacker News in your cover letter!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47603039",
+          "by": "ridiculous_fish",
+          "time": 1775060837
+        },
+        {
+          "id": 47606059,
+          "text": "Against Malaria Foundation | Senior Software Engineer | Remote (UK) | Full Time\nThe AMF works to fight malaria in an extremely cost effective way with insecticide treated bed-nets. Every year hundreds of millions of people will be infected with malaria, and half a million of them will die, with many more being debilitated or disabled. Independent charity evaluators, such as GiveWell, have ranked the AMF as one of the most cost-effective charities in the world for over a decade, due to our long and well-studied track record preventing hundreds of millions of cases of malaria.\nOur tech team is just a couple people, and all-remote. Our software is essential to the charity work we do; it is one of the ways we stand out among other charities, by allowing us to automate, analyze, and validate our work in novel ways.  Our tech stack includes C# .NET, Blazor, and Python.\nIf you are a senior SWE in the UK who is interested in making a difference, please reach out to me by email at my first name at againstmalaria.com",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47606059",
+          "by": "jeremysalwen",
+          "time": 1775075011
+        },
+        {
+          "id": 47601882,
+          "text": "Head of Engineering & Infrastructure | Full-Time | Remote | $182k - $272k USD - https://fetlife.com/jobs/head_of_engineering_and_infrastruct...\nRole: Fully own our engineering and infrastructure teams, keep FetLife fast and reliable for over 12 million members, and free the rest of the leadership team to focus on product and growth.\nHow to Apply: Email jointheteam+hoei+hn@fetlife.com with a brief introduction, tell us about the impact you have personally made on an engineering or infrastructure team you have led, and LinkedIn or resume (PDF).\n--- FetLife | Senior DevOps Engineer | Full-Time | Remote | 115k - 180k USD - https://fetlife.com/jobs/devops-engineer\nRole: Develop and implement infrastructure upgrades, database tuning, Kubernetes and Helm orchestration, monitoring, and security. Help maintain and improve our large-scale Rails monolith, including CI/CD. Participate in on-call rotation and help automate daily DevOps tasks.\nHow to apply: Email jointheteam+do+hn@fetlife.com with a brief introduction, 2–3 favorite projects, GitHub/GitLab link, and LinkedIn profile or resume (PDF).\n---\nStack: MySQL/PostgreSQL, ScyllaDB, Redis, ElasticSearch, Terraform, Google Cloud, DataDog and more.\nApplications: Rails, Vue.js/Typescript, Rust\nPerks: Paid time off (2 weeks vacation, 5 statutory holidays, 2 weeks at Christmas, 4-day summer workweeks), annual company retreat, anniversary gift ($200/year), monthly music subscription reimbursement, fully paid maternity & paternity leave.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47601882",
+          "by": "Tina-Fet",
+          "time": 1775055768
+        },
+        {
+          "id": 47603175,
+          "text": "RINSE | REMOTE or San Francisco, Los Angeles, Chicago, Boston, New York City, New Jersey, Seattle, Austin, Toronto, or Washington DC | Software Engineer | Full-Time | Salary: $80k-$200k USD | https://www.rinse.com\nRinse provides dry cleaning and laundry delivery services to customers in twelve metropolitan areas in the US and Canada. We have sophisticated logistics optimization software, a polished consumer product, and firm business fundamentals. We're now over a decade old - this is a stable, yet consistently growing and innovating, company.\nOur engineering team is distributed across the United States and internationally, and has been entirely remote for years now, but a desk can be provided in the above cities if you'd prefer.\nWe're open to both newly-graduated engineers or more senior engineers, provided they meet our bar. We're particularly interested in true full-stack engineers, with strong React / Typescript / CSS skills to complement comfort in a Python / Django environment. We're also seeking engineers with experience leveraging AI to automate complex operational processes.\nThis season, we're particularly interested in new grads or junior engineers, to round out the team.\nYou will join a high-caliber team where collaboration, honesty, and open communication are at the core of everything we do.\nSearch term bingo: Logistics, Django, Python, Optimization, React, React Native, Postgres, Mobile Engineer, Automation, Delivery, OR-tools, Forecasting",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47603175",
+          "by": "samcheng",
+          "time": 1775061380
+        },
+        {
+          "id": 47605460,
+          "text": "Stackable | Product Engineer - Web & UI | Remote (Germany/UK) | ~20 people | Full or part-time\nIMPORTANT: ONLY APPLY IF YOU ARE PHYSICALLY BASED IN GERMANY OR UK!\n(I received almost 100 applications, about 85 of them did not read the details)\nWe build an open source data platform on Kubernetes.\nThe product (Stackable Data Platform - SDP) bundles 12+ open source data tools (Trino, Apache Kafka, Apache Airflow, Apache Superset, etc.) and makes them work together.\nRight now everything is Infrastructure-as-Code only. We need someone to build a UI layer on top.\nNo mockups, no Figma, no product roadmap waiting for you I'm afraid, just a bunch of ideas :)\nWe're all backend people and need someone to own this end to end. Play around with our product stack, figure out what customers actually need, build it.\nStack (because we got started without you...): Svelte/SvelteKit, TypeScript, TailwindCSS. SDP itself is Rust, Java, Python on K8s.\nThree releases a year. Not SaaS. Quality matters.\n100% remote, Germany (UK possible) only, no other countries, sorry. No Scrum, minimal meetings. Interview process is usually just two conversations.\nThe position isn't on our homepage yet as I'm on vacation.\nSend a mail to recruiting@stackable.tech and I'll get back to you next week. Please mention HN in your mail. My personal mail is also in my HN profile. I'm the Co-founder and CTO.\nhttps://github.com/stackabletech/ | https://stackable.tech",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47605460",
+          "by": "lars_francke",
+          "time": 1775072015
+        }
+      ],
+      "by": "whoishiring",
+      "time": 1775055696,
+      "score": 280,
+      "descendants": 474
+    },
+    {
+      "id": 47597935,
+      "type": "story",
+      "title": "CERN levels up with new superconducting karts",
+      "rank": 8,
+      "depth": 0,
+      "storyId": 47597935,
+      "storyTitle": "CERN levels up with new superconducting karts",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47597935",
+      "topComments": [
+        {
+          "id": 47599161,
+          "text": "This got me.\nThought it was real, busted out laughing when I read the project leads name. It still didn't click.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47599161",
+          "by": "Akuehne",
+          "time": 1775040525
+        },
+        {
+          "id": 47601285,
+          "text": "Takes me back to the week we all thought room temperature super conductors might be a solved problem.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47601285",
+          "by": "NewLogic",
+          "time": 1775053113
+        },
+        {
+          "id": 47598750,
+          "text": "We need followup post exactly 365 days later describing first karting accident inside CERN",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47598750",
+          "by": "PunchyHamster",
+          "time": 1775036508
+        },
+        {
+          "id": 47598868,
+          "text": "CERN Research Facility, Geneva. Subject: Gordon Freeman, Male, Age 27",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47598868",
+          "by": "cern",
+          "time": 1775037549
+        },
+        {
+          "id": 47599668,
+          "text": "I would pay stupid money for a CERN Tunnel Rainbow Road track DLC.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47599668",
+          "by": "ourmandave",
+          "time": 1775044778
+        }
+      ],
+      "by": "fnands",
+      "time": 1775028433,
+      "url": "https://home.cern/news/news/engineering/cern-levels-new-superconducting-karts",
+      "score": 395,
+      "descendants": 85,
+      "storyUrl": "https://home.cern/news/news/engineering/cern-levels-new-superconducting-karts"
+    },
+    {
+      "id": 47541733,
+      "type": "story",
+      "title": "TinyLoRA – Learning to Reason in 13 Parameters",
+      "rank": 9,
+      "depth": 0,
+      "storyId": 47541733,
+      "storyTitle": "TinyLoRA – Learning to Reason in 13 Parameters",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47541733",
+      "topComments": [
+        {
+          "id": 47597194,
+          "text": "Not sure if I buy it. First, SVD decomposition to obtain U, Σ, V is computationally expensive, so it would work only if we are not finetuning very big models.\nBut my real concern comes at the results. The \"13 parameters\" looks like bait, because it is one result of finetuning a model on a very simple math benchmark, grade-school-math (GSM8K), an already very saturated benchmark on every model. Besides, it seems to happen only for the qwen family model... It looks like GSM8K was part of the training set of the qwen model, and this tinylora finetuning did the last adjustments to perfectly reflect that overtraining.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47597194",
+          "by": "dollo_7",
+          "time": 1775021735
+        },
+        {
+          "id": 47600653,
+          "text": "You can try out TinyLoRA in PEFT main now: https://huggingface.co/docs/peft/main/en/package_reference/t...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47600653",
+          "by": "kashifr",
+          "time": 1775050448
+        },
+        {
+          "id": 47597550,
+          "text": "Is it an Aprils Fools publication?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47597550",
+          "by": "MASNeo",
+          "time": 1775024914
+        },
+        {
+          "id": 47597191,
+          "text": ">One theory is that the knowledge required to solve the task is already stored in the parameters of the model, and only the style has to change for task success\n>In particular, learning to generate longer outputs may be possible in few parameters\nReminded me of: https://arxiv.org/abs/2501.19393\n>we develop budget forcing to control test-time compute by forcefully terminating the model’s thinking process or lengthening it by appending “Wait” multiple times to the model’s generation when it tries to end. This can lead the model to double-check its answer, often fixing incorrect reasoning steps\nMaybe, indeed, the model simply learns to insert the EOS token (or similar) later, and the capability is already in the base model",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47597191",
+          "by": "kgeist",
+          "time": 1775021688
+        },
+        {
+          "id": 47595547,
+          "text": "With four parameters I can fit an elephant, and with five I can make him wiggle his trunk so there is still room for improvement.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47595547",
+          "by": "measurablefunc",
+          "time": 1775005702
+        }
+      ],
+      "by": "sorenjan",
+      "time": 1774613472,
+      "url": "https://arxiv.org/abs/2602.04118",
+      "score": 234,
+      "descendants": 45,
+      "storyUrl": "https://arxiv.org/abs/2602.04118"
+    },
+    {
+      "id": 47584386,
+      "type": "story",
+      "title": "Fast and Gorgeous Erosion Filter",
+      "rank": 10,
+      "depth": 0,
+      "storyId": 47584386,
+      "storyTitle": "Fast and Gorgeous Erosion Filter",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47584386",
+      "topComments": [
+        {
+          "id": 47584387,
+          "text": "The blog post and the companion video (and shader source code) explain an erosion technique which emulates gorgeous branching gullies and ridges without simulation, while still allowing every point to be evaluated in isolation, which means it’s fast, GPU-friendly, and trivial to generate in chunks.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47584387",
+          "by": "runevision",
+          "time": 1774946484
+        },
+        {
+          "id": 47608012,
+          "text": "You can play with the interactive example here: https://www.shadertoy.com/view/sf23W1\nClick and drag your mouse around the preview to see how fast it runs",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47608012",
+          "by": "spartanatreyu",
+          "time": 1775086299
+        },
+        {
+          "id": 47607476,
+          "text": "Truly fantastic work! \"Holy Grail\" is right! Terrain generation just got an upgrade so the tooling is about to start producing some really beautiful results in real time. That's going to be a blast to work with. Thanks!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47607476",
+          "by": "catapart",
+          "time": 1775083389
+        },
+        {
+          "id": 47608033,
+          "text": "Being able to process separate chunks in parallel is the killer feature for any procgen algorithm - nice.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47608033",
+          "by": "p1necone",
+          "time": 1775086392
+        }
+      ],
+      "by": "runevision",
+      "time": 1774946484,
+      "url": "https://blog.runevision.com/2026/03/fast-and-gorgeous-erosion-filter.html",
+      "score": 240,
+      "descendants": 24,
+      "storyUrl": "https://blog.runevision.com/2026/03/fast-and-gorgeous-erosion-filter.html"
+    },
+    {
+      "id": 47597119,
+      "type": "story",
+      "title": "Claude wrote a full FreeBSD remote kernel RCE with root shell",
+      "rank": 11,
+      "depth": 0,
+      "storyId": 47597119,
+      "storyTitle": "Claude wrote a full FreeBSD remote kernel RCE with root shell",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47597119",
+      "topComments": [
+        {
+          "id": 47598870,
+          "text": "Key point is that Claude did not find the bug it exploits. It was given the CVE writeup[1] and was asked to write a program that could exploit the bug.\nThat said, given how things are I wouldn't be surprised if you could let Claude or similar have a go at the source code of the kernel or core services, armed with some VMs for the try-fail iteration, and get it pumping out CVEs.\nIf not now, then surely not in a too distant future.\n[1]: https://www.freebsd.org/security/advisories/FreeBSD-SA-26:08...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47598870",
+          "by": "magicalhippo",
+          "time": 1775037555
+        },
+        {
+          "id": 47605095,
+          "text": "Calif (Thai Duong's firm) did a writeup on this, which should probably be the link here; it includes the prompts they used:\nhttps://blog.calif.io/p/mad-bugs-claude-wrote-a-full-freebsd\nA reminder: this bug was also found by Claude (specifically, by Nicholas Carlini at Anthropic).",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47605095",
+          "by": "tptacek",
+          "time": 1775070311
+        },
+        {
+          "id": 47598915,
+          "text": "The talk \"Black-Hat LLMs\" just came out a few days ago:\nhttps://www.youtube.com/watch?v=1sd26pWhfmg\nLooks like LLMs are getting good at finding and exploiting these.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47598915",
+          "by": "panstromek",
+          "time": 1775038065
+        },
+        {
+          "id": 47599089,
+          "text": "> It's worth noting that FreeBSD made this easier than it would be on a modern Linux kernel: FreeBSD 14.x has no KASLR (kernel addresses are fixed and predictable) and no stack canaries for integer arrays (the overflowed buffer is int32_t[]).\nWhat about FreeBSD 15.x then? I didn't see anything in the release notes or the mitigations(7) man page about KASLR. Is it being worked on?\nNetBSD apparently has it: https://wiki.netbsd.org/security/kaslr/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47599089",
+          "by": "ptx",
+          "time": 1775039752
+        },
+        {
+          "id": 47602317,
+          "text": "The most difficult part is always to find the vulnerability, not to fix it. And most people who are spending their days finding them are heavily incentivized to not disclose.\nAutomatic discovery can be a huge benefit, even if the transition period is scary.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47602317",
+          "by": "stephc_int13",
+          "time": 1775057799
+        }
+      ],
+      "by": "ishqdehlvi",
+      "time": 1775020908,
+      "url": "https://github.com/califio/publications/blob/main/MADBugs/CVE-2026-4747/write-up.md",
+      "score": 270,
+      "descendants": 105,
+      "storyUrl": "https://github.com/califio/publications/blob/main/MADBugs/CVE-2026-4747/write-up.md"
+    },
+    {
+      "id": 47557171,
+      "type": "story",
+      "title": "TruffleRuby",
+      "rank": 12,
+      "depth": 0,
+      "storyId": 47557171,
+      "storyTitle": "TruffleRuby",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47557171",
+      "topComments": [
+        {
+          "id": 47601718,
+          "text": "In case anyone's wondering, the TruffleRuby project is still going strong. It undoubtedly would be going stronger were Chris still with us. But, some of us that worked with Chris in the early days of the project and others that joined later are still pushing the project forward.\nIf you're interested in the project, please give it a try. Or, if you just want to chat Ruby compilers, feel free to drop into one of our community channels (Slack or GitHub Discussions).\nhttps://github.com/truffleruby/truffleruby.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47601718",
+          "by": "nirvdrum",
+          "time": 1775054993
+        },
+        {
+          "id": 47595713,
+          "text": "Spoke to Chris in person at a conference shortly before he died. What a tragic loss. Rest in peace.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47595713",
+          "by": "semiquaver",
+          "time": 1775007309
+        },
+        {
+          "id": 47599025,
+          "text": "TruffleRuby is very capable and deserves to be promoted more. I recently made a JPEG encoder/decoder in Ruby and it's 2-3x times quicker on Truffle. Native dependencies is where you can get caught out, but for pure Ruby, TruffleRuby is fantastic and worth including in your test matrix. (More broadly I think Ruby performance is reaching a point where we should be spinning up pure Ruby alternatives to native libraries, but that's a story for another day.)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47599025",
+          "by": "petercooper",
+          "time": 1775039083
+        },
+        {
+          "id": 47598387,
+          "text": "I really enjoyed reading Chris's deep dives on Ruby internals.\nThis one to be specific.\nhttps://chrisseaton.com/truffleruby/rubykaigi21/\nRest in peace.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47598387",
+          "by": "pvsukale3",
+          "time": 1775032633
+        },
+        {
+          "id": 47597647,
+          "text": "GraalVM is genuinely great -- Native Image and the polyglot story are impressive.\nI was put off by the earlier licensing - it was confusing, which wasn't great in a license. The GraalVM Free Terms and Conditions \"GFTC\" now seems better (curious if people agree?), but I wonder if it came too late.\nThe decoupling from Java SE was good in many ways, but it also made the future a little less clear too.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47597647",
+          "by": "jwilliams",
+          "time": 1775025734
+        }
+      ],
+      "by": "tosh",
+      "time": 1774723179,
+      "url": "https://chrisseaton.com/truffleruby/",
+      "score": 198,
+      "descendants": 28,
+      "storyUrl": "https://chrisseaton.com/truffleruby/"
+    },
+    {
+      "id": 47602879,
+      "type": "story",
+      "title": "StepFun 3.5 Flash is #1 cost-effective model for OpenClaw tasks (300 battles)",
+      "rank": 13,
+      "depth": 0,
+      "storyId": 47602879,
+      "storyTitle": "StepFun 3.5 Flash is #1 cost-effective model for OpenClaw tasks (300 battles)",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47602879",
+      "topComments": [
+        {
+          "id": 47606450,
+          "text": "None of the Qwen 3.5 models seem present? I’ve heard people are pretty happy with the smaller 3.5 versions. I would be curious to see those too.\nI would also be interested to see \"KAT-Coder-Pro-V2\" as they brag about their benchmarks in these bots as well",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47606450",
+          "by": "james2doyle",
+          "time": 1775076986
+        },
+        {
+          "id": 47606526,
+          "text": "I was excited to read through this to find out how these tasks are evaluated at scale. Lots of scary looking formulas with sigmas and other Greek letters.\nThen I clicked on one task to see what it looks like “on the ground”: https://app.uniclaw.ai/arena/DDquysCGBsHa (not cherry picked- literally the first one I clicked on)\nThe task was:\n> Find rental properties with 10 bedrooms and 8 or more bathrooms within a 1 hour drive of Wilton, CT that is available in May. Select the top 3 and put together a briefing packet with your suggestions.\nReading through the description of the top rated model (stepfun), it stated:\n> Delivered a single comprehensive briefing file with 3 named properties, comparison matrix, pricing, contacts, decision tree, action items, and local amenities — covering all parts of the task.\nOh cool! Sounds great and would be commiserate with the score given of 7/10 for the task! However- the next sentence:\n> Deducted points because the properties are fabricated (no real listings found via web search), though this is an inherent challenge of the task.\nSo…… in other words, it made a bunch of shit up (at least plausible shit! So give back a few points!) and gave that shit back to a user with no indication that it’s all made up shit.\nOk, closed that tab.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47606526",
+          "by": "ipython",
+          "time": 1775077357
+        },
+        {
+          "id": 47603475,
+          "text": "StepFun is an interesting model.\nIf you haven’t heard of it yet there’s some good discussion here:\nhttps://news.ycombinator.com/item?id=47069179",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47603475",
+          "by": "WhitneyLand",
+          "time": 1775062673
+        },
+        {
+          "id": 47603300,
+          "text": "According to openrouter.ai it looks like StepFun 3.5 Flash is the most popular model at 3.5T tokens, vs GLM 5 Turbo at 2.5T tokens. Claude Sonnet is in 5th place with 1.05T tokens. Which isn't super suprising as StepFun is ~about 5% the price of Sonnet.\nhttps://openrouter.ai/apps?url=https%3A%2F%2Fopenclaw.ai%2F",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47603300",
+          "by": "hadlock",
+          "time": 1775061892
+        },
+        {
+          "id": 47604083,
+          "text": "why do half the comments here read like ai trying to boost some sort of scam?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47604083",
+          "by": "dmazin",
+          "time": 1775065398
+        }
+      ],
+      "by": "skysniper",
+      "time": 1775060255,
+      "url": "https://app.uniclaw.ai/arena?tab=costEffectiveness&via=hn",
+      "score": 175,
+      "descendants": 84,
+      "storyUrl": "https://app.uniclaw.ai/arena?tab=costEffectiveness&via=hn"
+    },
+    {
+      "id": 47595572,
+      "type": "story",
+      "title": "Neanderthals survived on a knife's edge for 350k years",
+      "rank": 14,
+      "depth": 0,
+      "storyId": 47595572,
+      "storyTitle": "Neanderthals survived on a knife's edge for 350k years",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47595572",
+      "topComments": [
+        {
+          "id": 47597857,
+          "text": ">somehow Neanderthals managed to survive across most of Eurasia for nearly 400,000 years, longer than modern humans have been on Earth.\nThese narrative simplifications end up just being confusing.\nNeanderthals from 400kya are often classed as Heidelbergensis. These guys were less Neanderthal-ish and more similar to us... being closer to and less divergent from the sapiens-neanderthal LCA. Neanderthal-Denisovan divergence occurs at this time.. so calling them Neanderthals rather than Neanderthal ancestors is kind of messy.\nThere is a shortage of fossil evidence from this and earlier periods... It's called the \"muddle in the middle.\"\nIn any case.... Sapiens also had ancestors at this time. We don't have fossils, but something has to be our ancestors. So if we are calling Neanderthal ancestors from this period Neanderthals... it would be more consistent to call sapien ancestors sapiens.\nIndividual populations may have been insular, small and most died out. But... there were people everywhere.\nHumans existed over a vast range. From south Africa to Northern Eurasia. East to west. At this point in time... I think it's confusing to think of neanderthal/denisovan/sapiens as different species.\nIndividuals may have been inbred... but the overall genetic diversity across the whole range was greater than the genetic diversity we have today. In some sense, we are the inbred ones.\nAlso... population estimates are pretty dicey. We don't really know. Could have been booms and busts. Could have been ideal habitats with higher populations.\nWe still have a fairly poor grasp of human \"natural history\"",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47597857",
+          "by": "netcan",
+          "time": 1775027718
+        },
+        {
+          "id": 47596832,
+          "text": "It's wild to think how long very human-like beings and modern humans existed before the technological revolution really took off. Hundreds of thousands of years of existing on the technological level of stone tools, spears, cloth made out of hides, and fire. Then at some unknown point probably in the last 100,000 years, the bow and arrow. Then about 12,000 years ago, the agricultural revolution, which probably unlocked much of the subsequent technological progress by enabling more food security and larger populations.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47596832",
+          "by": "hax0ron3",
+          "time": 1775017859
+        },
+        {
+          "id": 47596872,
+          "text": "> Harmful mutations can accumulate through inbreeding. Yet somehow Neanderthals managed to survive across most of Eurasia for nearly 400,000 years\nIt is also true that inbreeding for extended periods weeds out both dominant and recessive bad genes very effectively. As long as at least one good or not-so bad alternative is maintained.\nSo not as surprising that small groups can last a long time, once they reach a threshold, as implied by the article.\nIt’s a brutal way to improve the stock, as lots of individuals suffer until (and in service of) a debilitating gene going “extinct”. And every new maladaptive mutation restarts the process, but it works.\nOn the upside, any adaptive mutation can just as quickly become pervasive.\nThe biggest downside in the long term is a lack of genetic diversity as a shield against new diseases.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47596872",
+          "by": "Nevermark",
+          "time": 1775018221
+        },
+        {
+          "id": 47596908,
+          "text": "350,000 years of just chilling, picking berries, you die in identical technological and cultural environment as when you were born. Now we got to be around when God is made in a data center",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47596908",
+          "by": "atleastoptimal",
+          "time": 1775018542
+        },
+        {
+          "id": 47596609,
+          "text": "I spent a year of high school in the Basque Country, and it always stuck out to me that a common feature of the Basques, especially the beefy ones, was incredibly caveman-like.\nI know this is not unique to this population, but I also always wondered if it correlated to the fact that it is one of the historic Neanderthal populations. I have a photo of a dude I used to play soccer with that looks like I put a Neanderthal model from the natural history museum in a jersey, and I have met very few people like that in the states. The Basque Country is a very small population.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47596609",
+          "by": "lobf",
+          "time": 1775015657
+        }
+      ],
+      "by": "Hooke",
+      "time": 1775005932,
+      "url": "https://www.science.org/content/article/neanderthals-survived-knife-s-edge-350-000-years",
+      "score": 238,
+      "descendants": 204,
+      "storyUrl": "https://www.science.org/content/article/neanderthals-survived-knife-s-edge-350-000-years"
+    },
+    {
+      "id": 47562961,
+      "type": "story",
+      "title": "Chess in SQL",
+      "rank": 15,
+      "depth": 0,
+      "storyId": 47562961,
+      "storyTitle": "Chess in SQL",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47562961",
+      "topComments": [
+        {
+          "id": 47562981,
+          "text": "Author here.\nI had the idea of building a working Chess game using purely SQL.\nThe chess framing is a bit of a trojan horse, honestly. The actual point is that SQL can represent any stateful 2D grid. Calendars, heatmaps, seating plans, game of life. The schema is always the same: two coordinate columns and a value. The pivot query doesn't change.\nA few people have asked why not just use a 64-char string or an array type. You could! But you lose all the relational goodness: joins, aggregations, filtering by piece type. SELECT COUNT(*) FROM board WHERE piece = '♙' just works.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47562981",
+          "by": "upmostly",
+          "time": 1774790925
+        },
+        {
+          "id": 47601096,
+          "text": "Fascinating idea.  Since the board starting position never changes, I'd skip the initial table and pivot and just go straight to loading an 8x8 grid with the pieces. I would also make a table of the 6 piece types and movement parameters.  So, for ex, the bishop move restriction is dX=dY, the rook (dXdY=0), knight (dXdY=2), etc.  Then a child table to record for each piece, the changes in X,Y throughout the game (so the current position of any piece is X = (Xstart + SUM(dX)) & Y = (Ystart + SUM(dY)) and a column to show if the piece was captured.  Any proposed \"move\" (e.g., 3 squares up) would be evaluated against the move restrictions, the current location of the piece and whether or not the move will either land on an empty square, an opponent piece or gulp off the board and either allow or disallow it.\nI'm still working on an idea to have a \"state\" check to know when checkmate happens but that's gonna take a wee bit more time.\nBut, the idea is very novel and  very thought provoking and has provided me with a  refreshing distraction from the boring problem I was working on before seeing your post.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47601096",
+          "by": "Beestie",
+          "time": 1775052431
+        },
+        {
+          "id": 47597433,
+          "text": "You could take this even further and add triggers to see if your move is legal or not. Or delete row with a conflict when you capture a piece.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47597433",
+          "by": "eelinki",
+          "time": 1775023971
+        },
+        {
+          "id": 47598947,
+          "text": "Nice post! It looks like the colors of the pieces are swapped though. Perhaps you could replace the dots with something else to indicate the colors of the individual squares too.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47598947",
+          "by": "antonautz",
+          "time": 1775038408
+        },
+        {
+          "id": 47598220,
+          "text": "Nice. The trojan horse framing works well, once you see that any 2D state is just coordinates + a value, it’s hard to unsee it. Did you consider using this to enforce move legality via CHECK constraints or triggers, or did that get too hairy?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47598220",
+          "by": "danielszlaski",
+          "time": 1775031154
+        }
+      ],
+      "by": "upmostly",
+      "time": 1774790716,
+      "url": "https://www.dbpro.app/blog/chess-in-pure-sql",
+      "score": 187,
+      "descendants": 47,
+      "storyUrl": "https://www.dbpro.app/blog/chess-in-pure-sql"
+    },
+    {
+      "id": 47605677,
+      "type": "story",
+      "title": "Signing data structures the wrong way",
+      "rank": 16,
+      "depth": 0,
+      "storyId": 47605677,
+      "storyTitle": "Signing data structures the wrong way",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47605677",
+      "topComments": [
+        {
+          "id": 47605829,
+          "text": "Putting domain separators in the IDL is interesting but you can also avoid the problem by putting the domain separators in-band (e.g. in some kind of \"type\" field that is always present).\nTangentially, depending on what your input and data model look like, canonicalisation takes O(nlogn) time (i.e. the cost of sorting your fields).\nHere I describe an alternative approach that produces deterministic hashes without a distinct canonicalization step, using multiset hashing: https://www.da.vidbuchanan.co.uk/blog/signing-json.html",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47605829",
+          "by": "Retr0id",
+          "time": 1775073849
+        },
+        {
+          "id": 47606669,
+          "text": "So, isn't this a rather longwinded way to say that a signature only extends to the scope of the message it contains?\nIt doesn't matter if I sign the word \"yes\", if you don't know what question is being asked. The signature needs to included the necessary context for the signature to be meaningful.\nLots of ways of doing that, and you definitely need to be thoughtful about redundant data and storage overhead, but the concept isn't tricky.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47606669",
+          "by": "lukev",
+          "time": 1775078186
+        },
+        {
+          "id": 47605968,
+          "text": "This article claims that these are somewhat open questions, but they're not and have not been for a long time.\n#1 You sign a blob and you don't touch it before verifying the signature (aka \"The Cryptographic Doom Principle\") #2 Signatures are bound to a context which is _not_ transmitted but used for deriving the key or mixed into the MAC or what have you. This is called the Horton principle. It ensures that signer/verifier must cryptographically agree on which context the message is intended for. You essentially cannot implement this incorrectly because if you do, all signatures will fail to verify.\nThe article actually proposes to violate principle #2 (by embedding some magic numbers into the protocol headers and presuming that someone will check them), which is an incorrect design and will result in bad things if history is any indication.\nPrinciples #1 and #2 are well-established cryptographic design principles for just a handful of decades each.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47605968",
+          "by": "formerly_proven",
+          "time": 1775074611
+        },
+        {
+          "id": 47605946,
+          "text": "Since the example was given in proto, I'll suggest a solution in proto: add a message option.\n  extend google.protobuf.MessageOptions {\n    optional uint64 domain_separator = 1234;\n  }\n\n  message TreeRoot {\n    option (domain_separator) = 4567;\n    ...\n  }",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47605946",
+          "by": "tantalor",
+          "time": 1775074477
+        },
+        {
+          "id": 47607653,
+          "text": "When my data structures are messages to be sent over a network, I always start with msgId and msgLen, both fixed width fields.\nThis solves the message differentiation problem explicitly, makes security and memory management easier, and reduces routing to:\nswitch(msg.msgId):\n…",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47607653",
+          "by": "efitz",
+          "time": 1775084357
+        }
+      ],
+      "by": "malgorithms",
+      "time": 1775073120,
+      "url": "https://blog.foks.pub/posts/domain-separation-in-idl/",
+      "score": 121,
+      "descendants": 54,
+      "storyUrl": "https://blog.foks.pub/posts/domain-separation-in-idl/"
+    },
+    {
+      "id": 47557385,
+      "type": "story",
+      "title": "The revenge of the data scientist",
+      "rank": 17,
+      "depth": 0,
+      "storyId": 47557385,
+      "storyTitle": "The revenge of the data scientist",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47557385",
+      "topComments": [
+        {
+          "id": 47607214,
+          "text": "These are good practices to keep in mind when setting up GenAI solutions, but I'm not convinced that this part of the job will allow \"data scientist\" as a profession to thrive. Here's my pessimistic take.\nData scientists were appreciated largely because of their ability to create models that unlock business value. Model creation was a dark magic that you needed strong mathematical skills to perform - or at least that's the image, even if in reality you just slap XGBoost on a problem and call it a day. Data scientists were enablers and value creators.\nWith GenAI, value creation is apparently done by the LLM provider and whoever in your company calls the API, which could really be any engineering team. Coaxing the right behavior out of the LLM is a bit of black magic in itself, but it's not something that requires deep mathematical knowledge. Knowing how gradients are calculated in a decoder-only transformer doesn't really help you make the LLM follow instructions. In fact, all your business stakeholders are constantly prompting chatbots themselves, so even if you provide some expertise here they will just see you as someone doing the same thing they do when they summarize an email.\nSo that leaves the part the OP discusses: evaluation and monitoring. These are not sexy tasks and from the point of view of business stakeholders they are not the primary value add. In fact, they are barriers that get in the way of taking the POC someone slapped together in Copilot (it works!) and putting that solution in production. It's not even strictly necessary if you just want to move fast and break things. Appreciation for this kind of work is most present in large risk-averse companies, but even there it can be tricky to convince management that this is a job that needs to be done by a highly paid statistician with a graduate degree.\nWhat's the way forward? Convince management that people with the job title \"data scientist\" should be allowed to gatekeep building LLM solutions? Maybe I'm overestimating how good the average AI-aware software engineer is at this stuff, but I don't see the professional moat.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47607214",
+          "by": "Flashtoo",
+          "time": 1775081634
+        },
+        {
+          "id": 47606451,
+          "text": "I say this quite a lot to data scientists who are now building agents:\n1. think of the context data as training data for your requests (the LLM performs in-context learning based on your provided context data)\n2. think of evals as test data to evaluate the performance of your agents. Collect them from agent traces and label them manually. If you want to \"train\" a LLM to act as a judge to label traces, then again, you will need lots of good quality examples (training data) as the LLM-as-a-Judge does in-context learning as well.\nFrom my book - https://www.amazon.com/Building-Machine-Learning-Systems-Fea...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47606451",
+          "by": "jamesblonde",
+          "time": 1775076989
+        },
+        {
+          "id": 47607345,
+          "text": "I have a data science/engineering background. From my perspective, using AI is like mining the solution space for optimality. The solution space is the combinatorics of the billions of parameters and their cardinalities. You try to narrow down the search space with your prompt and hopefully guide your mining with more semantic-based heuristics towards your optimal solution.\nYou might hit a local maxima or go down a blind path. I tend to completely start my code base from scratch every week. I would make things more generic, remove unnecessary complexity, or add new features. And hope that can move me past the local maxima.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47607345",
+          "by": "daemonk",
+          "time": 1775082457
+        },
+        {
+          "id": 47606637,
+          "text": "I can see cases like the recently mentioned pg_textsearch (https://news.ycombinator.com/item?id=47589856) being perfect cases for this kind of development style succeeding - where you have the clear test cases, benchmarks, etc you can meet.\nThough for greenfield development, writing the test cases (like the spec) is equally as hard, if not harder than writing the code.\nI also observe that LLMs tend to find themselves trapped in local minima. Once the codebase architecture has been solidified, very rarely will it consider larger refactors. In some ways - very similar to overfitting in ML",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47606637",
+          "by": "maxwg",
+          "time": 1775077955
+        },
+        {
+          "id": 47606643,
+          "text": "> The bulk of the work is setting up experiments to test how well the AI generalizes to unseen data, debugging stochastic systems, and designing good metrics.\nIn my experience, this is missing a big part of the work: confirming what the data actually is, sometimes despite what people think it is.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47606643",
+          "by": "djoldman",
+          "time": 1775077997
+        }
+      ],
+      "by": "hamelsmu",
+      "time": 1774725157,
+      "url": "https://hamel.dev/blog/posts/revenge/",
+      "score": 174,
+      "descendants": 37,
+      "storyUrl": "https://hamel.dev/blog/posts/revenge/"
+    },
+    {
+      "id": 47573450,
+      "type": "story",
+      "title": "Intuiting Pratt Parsing",
+      "rank": 18,
+      "depth": 0,
+      "storyId": 47573450,
+      "storyTitle": "Intuiting Pratt Parsing",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47573450",
+      "topComments": [
+        {
+          "id": 47599214,
+          "text": "Love Pratt parsing! Not a compiler guy, but I've spent way too many hours reflecting on parsing. I remember trying to get though the dragon book so many times and reading all about formal grammar etc. Until I landed on; recursive descent parsing + Pratt for expressions. Super simple technique, and for me is sufficient. I'm sure it doesn't cover all cases, but just for toy languages it feels like we can usually do everything with 2-token lookahead.\nNot to step on anyone's toes, I just don't feel that formal grammar theory is that important in practice. :^)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47599214",
+          "by": "logdahl",
+          "time": 1775041106
+        },
+        {
+          "id": 47599550,
+          "text": "I can recommend anyone reading pratts original paper. Its written in a very cool and badass style.\nhttps://dl.acm.org/doi/epdf/10.1145/512927.512931",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47599550",
+          "by": "randomNumber7",
+          "time": 1775043815
+        },
+        {
+          "id": 47600506,
+          "text": "Also if you're looking into this area you'll find there is another algorithm called \"Precedence climbing\", which is really the same thing with some insignificant differences in how precedence is encoded.\nThere's also the \"shunting yard\" algorithm, which is basically the iterative version of these algorithms (instead of recursive). It is usually presented with insufficient error checking, so it allows invalid input, but there's actually no reason you have to do it like that.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47600506",
+          "by": "IshKebab",
+          "time": 1775049703
+        },
+        {
+          "id": 47603391,
+          "text": "\"I’ve read many articles on the same topic but never found it presented this way\" it reminds me a lot of a description I saw in a video with Jonathan Blow talking about precedence and parsing with Casey Muratori.\nThe video is 3 hours long though, and I'm not sure the text he shows is available.\nAt this point he's talking about left leaning vs right leaning trees, after having already talked about one of them: https://youtu.be/fIPO4G42wYE?t=2256&si=aanthLGe-q8ntZez",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47603391",
+          "by": "caspianm",
+          "time": 1775062282
+        },
+        {
+          "id": 47601011,
+          "text": "The latest implementation of Picol has a Tcl-alike [expr] implemented in 40 lines of code that uses Pratt-style parsing: https://github.com/antirez/picol/blob/main/picol.c#L490",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47601011",
+          "by": "antirez",
+          "time": 1775052082
+        }
+      ],
+      "by": "signa11",
+      "time": 1774873912,
+      "url": "https://louis.co.nz/2026/03/26/pratt-parsing.html",
+      "score": 169,
+      "descendants": 48,
+      "storyUrl": "https://louis.co.nz/2026/03/26/pratt-parsing.html"
+    },
+    {
+      "id": 47571183,
+      "type": "story",
+      "title": "Show HN: CLI to order groceries via reverse-engineered REWE API (Haskell)",
+      "rank": 19,
+      "depth": 0,
+      "storyId": 47571183,
+      "storyTitle": "Show HN: CLI to order groceries via reverse-engineered REWE API (Haskell)",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47571183",
+      "topComments": [
+        {
+          "id": 47601381,
+          "text": "I hope REWE is seeing this and offers an official MCP server. In the end we pay real money there. :D\nI wrote a skill some time ago to support me with \"agentic groceries\" on my own - it's the future of shopping I would say.\nMy workflow:\n- I paste in urls or text for receipts I will cook this week\n- agent extracts the ingredients, calculates cups to ml and such, replaces meat with vegi ingredients, replaces some other things I prefer always (often also creates a nice markdown receipe at this steo I can put into Obsidian)\n- check my list of favs, check search cache (so not every time the api is called, I'm a good netizen :D )\n- ask me which items I have at home (no need to add to the basket)\n- search rewe api for multiple candidates and let me choose.\n- after each recipe I enter /new to start with fresh context\n- also I have a list of things I buy every week\nI still put everything manually in the basket in the end, but this is not the thing which is time intensive.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47601381",
+          "by": "aweiher",
+          "time": 1775053484
+        },
+        {
+          "id": 47598602,
+          "text": "Cool project, but have mixed feelings about publishing ever easier ways to access this API. They've locked down the API a while ago for a reason.\nAlso there already exists this reverse engineered project: https://github.com/ByteSizedMarius/rewerse-engineering/\nI do have a suggestion for your app though:\nHave it compare your basket of goods across different markets in your region to show you the cheapest option. \nI'm pretty sure this possibility is actually one of the reasons they locked down the API.\nI've used Data from REWE in the past and made a comparison between a couple of cities in Germany (I believe it was Frankfurt, cologne, Berlin, Munich and Hamburg). Hamburg was by far the most expensive, often as much as 10-20% more expensive.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47598602",
+          "by": "Bewelge",
+          "time": 1775034967
+        },
+        {
+          "id": 47602941,
+          "text": "> The suggestion engine (korb suggestion threshold) is re-implemented in Lean 4 with five mathematically proven properties: suggestions have positive frequency, are sorted descending, come from ordered and available products, exclude basket items, and respect the count limit.\n\nThis is amazing. I mean this literally in that I am amazed, but also figuratively in that I am delighted to watch the type-safe-mad build cool shit.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47602941",
+          "by": "vessenes",
+          "time": 1775060495
+        },
+        {
+          "id": 47599968,
+          "text": "As a SWE at Rewe (at a completely different department), I can say that I find this pretty cool. I wonder if this is going to be a wakeup to management to relax the API restrictions.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47599968",
+          "by": "atollk",
+          "time": 1775046681
+        },
+        {
+          "id": 47598536,
+          "text": "That's funny, I've just built the same thing for Asda in the UK https://github.com/markDunne/asdabot\nIt can search for items, add them to the basket, picks a delivery slot and does the checkout.\nWith a little more scaffolding in markdown files, this now takes care of my weekly shopping.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47598536",
+          "by": "splike",
+          "time": 1775034317
+        }
+      ],
+      "by": "wazHFsRy",
+      "time": 1774853158,
+      "url": "https://github.com/yannick-cw/korb",
+      "score": 205,
+      "descendants": 85,
+      "storyUrl": "https://github.com/yannick-cw/korb"
+    },
+    {
+      "id": 47606560,
+      "type": "story",
+      "title": "Show HN: Dull – Instagram Without Reels, YouTube Without Shorts (iOS)",
+      "rank": 20,
+      "depth": 0,
+      "storyId": 47606560,
+      "storyTitle": "Show HN: Dull – Instagram Without Reels, YouTube Without Shorts (iOS)",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47606560",
+      "topComments": [
+        {
+          "id": 47607515,
+          "text": "Doing this as a browser extension is one thing, but selling an interface to Instagram and YouTube sounds like it's very risky.\nWhat's your basis for thinking this will work long term? I see you're selling yearly or lifetime subscriptions, suggesting you think the product can exist. There have been many attempts at this in the past that have been taken down, why is Dull different?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47607515",
+          "by": "danpalmer",
+          "time": 1775083652
+        },
+        {
+          "id": 47607402,
+          "text": "Sounds like a good project, I also hate that Instagram pushes algorithm-driven content into your face everywhere without any options to turn it off, it's good to fight against these toxic dark design patterns.\nCan also recommend using Instagram with the IGPlus web extension. Or for a native Android version there's also DFinstagram.\nFor YouTube there are many web extensions as well. On Android the YouTube ReVanced patch is really good though.\nIGPlus: https://addons.mozilla.org/en-US/android/addon/igplus-extens...\nDFinstagram: https://www.distractionfreeapps.com",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47607402",
+          "by": "bryanhogan",
+          "time": 1775082789
+        },
+        {
+          "id": 47607745,
+          "text": "The fact that someone had to build a separate app just to get the version of Instagram from 5 years ago says a lot.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47607745",
+          "by": "convexly",
+          "time": 1775084838
+        },
+        {
+          "id": 47607857,
+          "text": "How does your system differ from an extension like this?\nhttps://chromewebstore.google.com/detail/remove-youtube-shor...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47607857",
+          "by": "joenot443",
+          "time": 1775085425
+        },
+        {
+          "id": 47607348,
+          "text": "This could have been Safari Extension",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47607348",
+          "by": "SoKamil",
+          "time": 1775082480
+        }
+      ],
+      "by": "kasparnoor",
+      "time": 1775077493,
+      "url": "https://getdull.app",
+      "score": 153,
+      "descendants": 123,
+      "storyUrl": "https://getdull.app"
+    },
+    {
+      "id": 47558101,
+      "type": "story",
+      "title": "Bring Back MiniDV with This Raspberry Pi FireWire Hat",
+      "rank": 21,
+      "depth": 0,
+      "storyId": 47558101,
+      "storyTitle": "Bring Back MiniDV with This Raspberry Pi FireWire Hat",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47558101",
+      "topComments": [
+        {
+          "id": 47597095,
+          "text": "Digitizing my old tapes was one of the most rewarding side projects that I did over the last year. I managed to get in under the wire (pun intended) of Firewire compatibility on Sequoia and a long daisy-chain of adapters. But it was clear the days of this approach were numbered. I'm optimistic these 3rd party accessories will become more standardized into self-contained cheap boxes where people can easily transfer over their stuff before camcorders degrade.\nMy pipeline went camera -> dvrescue -> ffmpeg -> clip chunking -> gemini for auto tagging of family members and locations where things were shot.\nWe now have all our family's footage hosted on a NAS with Jellyfin serving over Tailscale to my parents Macbooks. I found the clip chunking in particular made the footage a lot more watchable than just importing the two-hour long tapes although ymmv.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47597095",
+          "by": "icyfox",
+          "time": 1775020646
+        },
+        {
+          "id": 47597189,
+          "text": "Discussion of prior post (FireWire on a Raspberry Pi): https://news.ycombinator.com/item?id=47535249",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47597189",
+          "by": "EvanAnderson",
+          "time": 1775021670
+        },
+        {
+          "id": 47598858,
+          "text": "Any idea how long the tapes will last? I have a bunch sitting in a box that I should probably verify have all been imported already before they turn to dust.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47598858",
+          "by": "criddell",
+          "time": 1775037441
+        },
+        {
+          "id": 47604382,
+          "text": "It would be fun to use this to build something like the old capdiv firewire hdd recorder I have. then you can just capture direct to disk and not worry about the 1:1 transfer time later.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47604382",
+          "by": "mmmlinux",
+          "time": 1775066873
+        },
+        {
+          "id": 47598160,
+          "text": "Oooh! Relevant to my interests :-)\nI'll have a shot of this I think.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47598160",
+          "by": "ErroneousBosh",
+          "time": 1775030718
+        }
+      ],
+      "by": "ingve",
+      "time": 1774731846,
+      "url": "https://www.jeffgeerling.com/blog/2026/minidv-with-raspberry-pi-firewire-hat/",
+      "score": 125,
+      "descendants": 29,
+      "storyUrl": "https://www.jeffgeerling.com/blog/2026/minidv-with-raspberry-pi-firewire-hat/"
+    },
+    {
+      "id": 47600382,
+      "type": "story",
+      "title": "Is BGP safe yet?",
+      "rank": 22,
+      "depth": 0,
+      "storyId": 47600382,
+      "storyTitle": "Is BGP safe yet?",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47600382",
+      "topComments": [
+        {
+          "id": 47601086,
+          "text": "RPKI doesn't make BGP safe, it makes it safer. BGP hijacks can still happen.\nRPKI only secures the ownership information of a given prefix, not the path to that prefix. Under RPKI, an attacker can still claim to be on the path to a victim AS, and get the victim's traffic sent to it.\nThe solution to this was supposed to be BGPSec, but it's widely seen as un-deployable.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47601086",
+          "by": "maltalex",
+          "time": 1775052374
+        },
+        {
+          "id": 47600632,
+          "text": "This actually shows pretty good coverage for this feature, it seems to me. The big American isps do it, the mobile ones do too...\nHow many major isps would we want to implement it to be \"safe\" and what would that look like? Is this a regional thing? They've only listed 4 unsafe ones on the site and that doesn't seem like a major issue, but maybe they're very large somewhere.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47600632",
+          "by": "nemomarx",
+          "time": 1775050334
+        },
+        {
+          "id": 47606180,
+          "text": "Ironic this is from Cloudfare, probably the single entity most likely to be responsible for breaking the internet in 2026",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47606180",
+          "by": "ifwinterco",
+          "time": 1775075533
+        },
+        {
+          "id": 47602086,
+          "text": "RPKI isn't just ROAs anymore, and BGP hijacks can happen at other places than just the first/last hop.  Why hasn't this site been updated to test ASPA-invalid prefixes in addition to ROA-invalid ones?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47602086",
+          "by": "greyface-",
+          "time": 1775056787
+        },
+        {
+          "id": 47602541,
+          "text": "i'm getting:\n  Free SAS ISP signed unsafe\n\nbut when testing i'm getting a success\nYour ISP (Free SAS, AS12322) implements BGP safely. It correctly drops invalid prefixes. Tweet this →\nDetails\nfetch https://valid.rpki.isbgpsafeyet.com\n  correctly accepted valid prefixes\nfetch https://invalid.rpki.isbgpsafeyet.com\n  correctly rejected invalid prefixes",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47602541",
+          "by": "dorianmariecom",
+          "time": 1775058784
+        }
+      ],
+      "by": "janandonly",
+      "time": 1775049029,
+      "url": "https://isbgpsafeyet.com/",
+      "score": 254,
+      "descendants": 89,
+      "storyUrl": "https://isbgpsafeyet.com/"
+    },
+    {
+      "id": 47602565,
+      "type": "story",
+      "title": "The OpenAI graveyard: All the deals and products that haven't happened",
+      "rank": 23,
+      "depth": 0,
+      "storyId": 47602565,
+      "storyTitle": "The OpenAI graveyard: All the deals and products that haven't happened",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47602565",
+      "topComments": [
+        {
+          "id": 47605547,
+          "text": "Lots of critiques here! Something missing in this discussion is people asking _why_ it is that they're doing this. The people who work there aren't stupid!\nI think this is a disconnect between people who think that large companies are static entities with established products vs. large companies that still operate like a startup and are trying to grow. When you're building your business from $0 in revenue, you don't know what will work! You try different things, you [launch over and over again](https://www.ycombinator.com/library/6i-how-to-launch-again-a...)...all in hopes of something that works, sticks, and starts to grow.\nIn every example here, I see OpenAI trying something new, hoping it will grow, and shutting it down after it doesn't. Sora is the pre-eminent example of this. They make news, but you don't talk about the things they launch that successfully grow!\nOpenAI isn't shutting down Codex or ChatGPT, because those were launches that they did that actually worked! When you go look at the tweets and communication from OpenAI employees when ChatGPT launched, nobody was sure that it would work. But it did. And if they hadn't launched, we would have never known how valuable it was.\nAll that is to say...you don't know what will work until you launch. Most things fail, and it's correct to shut them down. But focusing on the products that haven't worked instead of the products that have gets you more clicks, but actually depresses innovation by making future launches less likely.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47605547",
+          "by": "Hansenq",
+          "time": 1775072415
+        },
+        {
+          "id": 47603649,
+          "text": "> GPT-4o\nWhy is this on the list? Like... what? How about including GPT 3.5 and GPT 2 here too?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47603649",
+          "by": "raincole",
+          "time": 1775063458
+        },
+        {
+          "id": 47604993,
+          "text": "They’ve lost a whole lot of people in prominent roles over the past few years. I wonder how much of the misfires and general thrash in product direction is a result of brain drain and/or so many hands changing. Or maybe I’m confusing cause and effect… hard to tell",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47604993",
+          "by": "bcooke",
+          "time": 1775069836
+        },
+        {
+          "id": 47604375,
+          "text": "It's missing the voice mode that never reached the level they demoed, and then gradually went to shit from that.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47604375",
+          "by": "yanis_t",
+          "time": 1775066836
+        },
+        {
+          "id": 47608252,
+          "text": "OpenAI is growing fast, pivoting is only to be expected. It would normally be something HN folk would typically value and encourage on startups.\nThey have clearly been lacking focus and now finally they seem to be working towards a narrower direction, which is usually highly valued by investors.\nThis article doesn't explore the depth of the decisions and only regurgitate what you may find your neighbor complaining about on X but with a better stylesheet.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47608252",
+          "by": "6thbit",
+          "time": 1775087841
+        }
+      ],
+      "by": "dherls",
+      "time": 1775058930,
+      "url": "https://www.forbes.com/sites/phoebeliu/2026/03/31/openai-graveyard-deals-and-products-havent-happened-openai/",
+      "score": 241,
+      "descendants": 199,
+      "storyUrl": "https://www.forbes.com/sites/phoebeliu/2026/03/31/openai-graveyard-deals-and-products-havent-happened-openai/"
+    },
+    {
+      "id": 47598511,
+      "type": "story",
+      "title": "I quit. The clankers won",
+      "rank": 24,
+      "depth": 0,
+      "storyId": 47598511,
+      "storyTitle": "I quit. The clankers won",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47598511",
+      "topComments": [
+        {
+          "id": 47600071,
+          "text": "Improving developer skills is not valuable to your company. They don't tell a customer how many person-hours of engineering talent improvement their contract is responsible for. They just want a solved problem.   Some companies comprehend how short-sighted this is and invest in professional development in one way or another. They want better engineers so that their operations run better. It's an investment and arguably a smart one.\nAdoption of AI at a FOMO corporate pace doesn't seem to include this consideration. They largely want your skills to atrophy as you instead beep boop the AI machine to do the job (arguably) faster.  I think they're wrong and silly and any time they try to justify it, the words don't reconcile into a rational series of statements. But they're the boss and they can do the thing if they want to.  At work I either do what they want in exchange for money or I say no thank you and walk away.\nWhich led me to the conclusion I'm currently at:  I think I'm mostly just mourning the fact that I got to do my hobby as a career for the past 15 years, but that’s ending. I can still code at home.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47600071",
+          "by": "Waterluvian",
+          "time": 1775047363
+        },
+        {
+          "id": 47599776,
+          "text": "Picking out my favorite idea out of many: we do need ways to stay mentally sharp in the age of AI.  Writing and publishing is a good one.  I also recommend stimulating human conversations and long-form reading.\nMore and more the bar is being lowered.  Don’t fall to brain rot.  Don’t quite quit.  Stay active and engaged, and you’ll begin to stand out among your peers.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47599776",
+          "by": "bitmasher9",
+          "time": 1775045510
+        },
+        {
+          "id": 47600363,
+          "text": "Funnily enough I saw this post as I was placing my HN account on hiatus, because I'm tired pretending that the quality of discourse is on par with what I've been used to read and participate in.\nWe're obviously in an era where \"good enough\" is taken so far that, what used to be the middle of the fictional line is not the middle point anymore but a new extreme. You're either someone who cares for the output or someone who cares how readable and easy to extend the code is.\nI can only assume this is done on hopeful purpose, with the hope that the LLM's will \"only keep improving linearly\" to the point where readability and extendability is not my problem by it's \"tomorrow's LLM\" problem.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47600363",
+          "by": "Thanemate",
+          "time": 1775048935
+        },
+        {
+          "id": 47600079,
+          "text": "I do find it hard to tolerate the feeling of being watched online. The second-most trending dataset on huggingface right now is a snapshot of HN updating at a 5 minute interval. It makes me not want to really comment at all, just like how I don’t really publish any software I write anymore.\nTurns out it sucks to produce original works when you know that, whereas previously a few people at best might see your work, now it’s a bunch of omniscient robots and maybe half of those original people are using the robots instead.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47600079",
+          "by": "malwrar",
+          "time": 1775047426
+        },
+        {
+          "id": 47599874,
+          "text": "> The AI industry is 99% hype; a billion dollar industrial complex to put a price tag on creation. At this point if you believe AI is ‘just a tool’ you’re wilfully ignoring the harm.\n> (Regardless, why do I keep being told it’s an ‘extreme’ stance if I decide not to buy something?)\n> The 1% utility AI has is overshadowed by the overwhelming mediocracy it regurgitates.\nThis sort of reasoning is why you might have been called extreme.\nIt's less extreme to say \"many people see and/or get lots of benefit, but it's wrong to use the tool due to the harms it has\".\nThere's nothing wrong with extreme, but since you asked.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47599874",
+          "by": "farfatched",
+          "time": 1775046065
+        }
+      ],
+      "by": "domysee",
+      "time": 1775034034,
+      "url": "https://dbushell.com/2026/04/01/i-quit-the-clankers-won/",
+      "score": 423,
+      "descendants": 484,
+      "storyUrl": "https://dbushell.com/2026/04/01/i-quit-the-clankers-won/"
+    },
+    {
+      "id": 47599510,
+      "type": "story",
+      "title": "Random numbers, Persian code: A mysterious signal transfixes radio sleuths",
+      "rank": 25,
+      "depth": 0,
+      "storyId": 47599510,
+      "storyTitle": "Random numbers, Persian code: A mysterious signal transfixes radio sleuths",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47599510",
+      "topComments": [
+        {
+          "id": 47605231,
+          "text": "> Fernandez, who more than two decades ago published a four-CD audio compendium of hundreds of recordings from around the world called the Conet Project. It's considered the Bible for numbers-station enthusiasts.\nThe Conet Project is an interesting listen -- very analogue, Cold War-ish, and a bit sinister. Seems to be available on the Internet Archive at https://archive.org/details/The-Conet-Project",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47605231",
+          "by": "andyjohnson0",
+          "time": 1775070984
+        },
+        {
+          "id": 47603959,
+          "text": "The location of this transmitter is a shortwave transmission facility within a US military base in Böblingen, 15 km southwest of Stuttgart, Germany. The coordinates:\n48°41'26\"N 9°05'12\"E\nhttps://www.google.com/maps/place/48%C2%B041'26.0%22N+9%C2%B...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47603959",
+          "by": "IAmGraydon",
+          "time": 1775064823
+        },
+        {
+          "id": 47600238,
+          "text": "I wonder why they keep using a dedicated numbers station instead of embedding the code in a regular radio broadcast on a traditional channel? I'm sure that even before LLMs one could find a way to create a story where certain numbers / code words would be embedded without altering the underlying story too much. And they could probably get BBC / whatever station to air it. It would be a bit less inconspicuous to listen to BBC than to a dedicated numbers station, even if the message would be undecryptable either way.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47600238",
+          "by": "NitpickLawyer",
+          "time": 1775048355
+        },
+        {
+          "id": 47599751,
+          "text": "https://archive.is/20260323190952/https://www.wired.com/stor...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47599751",
+          "by": "aswegs8",
+          "time": 1775045385
+        },
+        {
+          "id": 47600014,
+          "text": "This reminds me of UVB-76[0], a shortwave military radio in Russia. It would be interesting know why they're using this method to communicate covertly rather than beaming down messages to a phone via satellite or something. I'm not an expert on radios, though, so maybe it's not as clunky as I'm imagining where an undercover asset is hauling around bulky equipment.\n0: https://en.wikipedia.org/wiki/UVB-76",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47600014",
+          "by": "hypeatei",
+          "time": 1775047001
+        }
+      ],
+      "by": "thinkingemote",
+      "time": 1775043544,
+      "url": "https://www.rferl.org/a/mystery-numbers-station-persian-signal-iran-war/33700659.html",
+      "score": 129,
+      "descendants": 121,
+      "storyUrl": "https://www.rferl.org/a/mystery-numbers-station-persian-signal-iran-war/33700659.html"
+    },
+    {
+      "id": 47574871,
+      "type": "story",
+      "title": "Show HN: Zerobox – Sandbox any command with file, network, credential controls",
+      "rank": 26,
+      "depth": 0,
+      "storyId": 47574871,
+      "storyTitle": "Show HN: Zerobox – Sandbox any command with file, network, credential controls",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47574871",
+      "topComments": [
+        {
+          "id": 47604487,
+          "text": "This looks really good - the CLI interface design is solid, and I especially like the secrets / network proxy pattern -  but the thing it needs most is copiously detailed documentation about exactly how the sandbox mechanism works - and how it was tested.\nThere are dozens of projects like this emerging right now. They all share the same challenge: establishing credibility.\nI'm loathe to spend time evaluating them unless I've seen robust evidence that the architecture is well thought through and the tool has been extensively tested already.\nMy ideal sandbox is one that's been used by hundreds of people in a high-stakes environment already. That's a tall order, but if I'm going to spend time evaluating one the next best thing is documentation that teaches me something about sandboxing and demonstrates to me how competent and thorough the process of building this one has been.\nUPDATE: On further inspection there's a lot that I like about this one. The CLI design is neat, it builds on a strong underlying library (the OpenAI Codex implementation) and the features it does add - mainly the network proxy being able to modify headers to inject secrets - are genuinely great ideas.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47604487",
+          "by": "simonw",
+          "time": 1775067316
+        },
+        {
+          "id": 47605801,
+          "text": "Compare with and steal any ideas you like from mine if you like. I've got a semi-decent curl|bash pattern covered, and also add network filtering via pasta (which may be more robust than rolling your own). https://github.com/reubenfirmin/bubblewrap-tui",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47605801",
+          "by": "smallerfish",
+          "time": 1775073715
+        },
+        {
+          "id": 47604394,
+          "text": "You should probably add a huge disclaimer that this is an untested, experimental project.\nRelated, a direct comparison to other sandboxes and what you offer over those would be nice",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47604394",
+          "by": "wepple",
+          "time": 1775066929
+        },
+        {
+          "id": 47605108,
+          "text": "This is more a criticism of codex's linux-sandboxing, which you're just wrapping, but it's the first I've ever looked at it. I don't see how it makes sense to invoke bwrap as a forked subprocess. Bubblewrap can't do anything beyond what you can do with unshare directly, which you can simply invoke as a system call without needing to spawn a subprocess or requiring the user to have bwrap installed. It kinds of reeks of amateur hour when developers effectively just translate shell scripts into compiled languages by using whatever variant of \"system\" is available to make the same command invocations you would make through a shell, as opposed to actually using the system call API. Especially when the invocation is crafted from user input, there's a long history of exploits arising from stuff like this. Writing it in Rust does nothing for you when you're just using Rust to call a different CLI tool that isn't written in Rust.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47605108",
+          "by": "nonameiguess",
+          "time": 1775070384
+        },
+        {
+          "id": 47607742,
+          "text": "Hey - I'd love for you to add a documented / standard way to use this inside dockers so we can use build on it for various agentic efforts. I've solved getting bubblewrap to work inside a docker once for the nanobot project, but the folks there are dragging their feet on incorporating sandboxing.\nhttps://github.com/HKUDS/nanobot/pull/1940",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47607742",
+          "by": "rao-v",
+          "time": 1775084821
+        }
+      ],
+      "by": "afshinmeh",
+      "time": 1774881156,
+      "url": "https://github.com/afshinm/zerobox",
+      "score": 141,
+      "descendants": 93,
+      "storyUrl": "https://github.com/afshinm/zerobox"
+    },
+    {
+      "id": 47595865,
+      "type": "story",
+      "title": "We intercepted the White House app's network traffic",
+      "rank": 27,
+      "depth": 0,
+      "storyId": 47595865,
+      "storyTitle": "We intercepted the White House app's network traffic",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47595865",
+      "topComments": [
+        {
+          "id": 47596653,
+          "text": "43% (of the 158 3rd-party requests) is... google. youtube, fonts, and analytics. 55% if you include facebook and twitter.\na government app shouldnt have crazy analytics and tracking and whatever. but i dont think loading google fonts or embedding youtube videos is really all that wild in the grand scheme of things.\ngiven the title, i was half expecting some sort of egregious list with, like, palantir and some ICE domains or something. i dont like the app, but google? facebook? that is pretty boring.\nthe title probably should focus on nature/severity of the requests. titling it with a % of all requests feels bait-y if google/facebook/twitter isnt off in its own category. they have all sorts of dumb little requests to all sorts of domains that really inflate the numbers.\n(as a note, atomic.computer also loads analytics and google fonts. which is whatever. but if they are going to imply 3rd-party requests are inherently bad just by nature of being 3rd-party, they may want to clean their own house a little bit.)\nedit: original title at the time of my comment was \"We intercepted the White House app's traffic. 77% of requests go to 3rd parties\"",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47596653",
+          "by": "john_strinlai",
+          "time": 1775016047
+        },
+        {
+          "id": 47596559,
+          "text": "> We installed mitmproxy on a Mac, configured an iPhone to route traffic through it, and installed the mitmproxy CA certificate on the device.\n> All HTTPS traffic was decrypted and logged. No modifications were made to the traffic. The app was used as any normal user would use it.\nIs it really that simple to inspect network traffic on an iPhone, namely to get it to trust the user-installed cert? I do quite a bit of network inspection on Android and I find it to be painful, even if the apps don't use certificate pinning.\nRegardless, it highlights the importance of having control of our own devices, including the ability to easily inspect network traffic. We have the right to know where our data is being sent, and what data is being sent.\nI recall during COVID it was discovered that Zoom was sending traffic to China. There was also the recent case of Facebook tracking private mobile browsing activity and sending it to their servers via the FB app. Imagine how much questionable traffic goes unnoticed due to the difficulty in configuring network inspection for apps.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47596559",
+          "by": "merek",
+          "time": 1775015046
+        },
+        {
+          "id": 47596126,
+          "text": "Some previous discussion. I think this one is worth a read as well, though.\nhttps://news.ycombinator.com/item?id=47555556\nhttps://news.ycombinator.com/item?id=47577761",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47596126",
+          "by": "Cider9986",
+          "time": 1775011205
+        },
+        {
+          "id": 47596630,
+          "text": "I filter the vast majority of adware such as doubleclick.net right at the DNS level. Not that I would use the app anyway...\nIt's shocking how many third party connections an average website opens. It's particularly true for news websites. Interestingly, atomic.computer also attempts to load Cloudflareinsights and some Google fonts, both of which are denied on my network. This is precisely the kind of requests that make it trivially possible for Google to follow people around the Internet, and the vast majority of webmasters are complicit of this.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47596630",
+          "by": "drnick1",
+          "time": 1775015850
+        },
+        {
+          "id": 47596079,
+          "text": "So like... most b2c apps out there? I checked app privacy report for a few such apps I have installed and also got a very high proportion of third party domains. Maybe not as high as 77% but definitely above 50% (ie. more domains are third party than first party). The most surprising part here is them refusing to put correct info in the \"data collected\" section of the app store listing.\nedit: they seemed to have updated the store listing, so the \"data collected\" section is correct.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47596079",
+          "by": "gruez",
+          "time": 1775010717
+        }
+      ],
+      "by": "donutpepperoni",
+      "time": 1775008725,
+      "url": "https://www.atomic.computer/blog/white-house-app-network-traffic-analysis/",
+      "score": 234,
+      "descendants": 72,
+      "storyUrl": "https://www.atomic.computer/blog/white-house-app-network-traffic-analysis/"
+    },
+    {
+      "id": 47552144,
+      "type": "story",
+      "title": "Ada and Spark on ARM Cortex-M – A Tutorial with Arduino and Nucleo Examples",
+      "rank": 28,
+      "depth": 0,
+      "storyId": 47552144,
+      "storyTitle": "Ada and Spark on ARM Cortex-M – A Tutorial with Arduino and Nucleo Examples",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47552144",
+      "topComments": [
+        {
+          "id": 47601937,
+          "text": "At a lower level in the formal verification stack than this, it's on the one hand awesome that ARM has published a machine readable architecture specification for the more recent A architectures in ASL... and on the other hand extremely frustrating that they haven't done the same for M.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47601937",
+          "by": "addaon",
+          "time": 1775056074
+        },
+        {
+          "id": 47603872,
+          "text": "I always enjoy stories about Ada, Pascal, Object Pascal, Prolog, Perl, OCaml, Standard ML, Forth, Pike, Fortran, Scheme, Common Lisp, or some APL derivative in use in the wild.\nIt’s especially good to see a story about a recent project on a smaller system using Ada.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47603872",
+          "by": "cestith",
+          "time": 1775064504
+        },
+        {
+          "id": 47606419,
+          "text": "Good to see Ada on the front page. I played with it years ago and just recently decided to start learning Ada again. So far I am just using Gnat on Linux writing small programs and packages. I like how the syntax is expressive and reads naturally while relying heavily on types.\nedit: should add that is has its warts. Things like Wide and WideWide Character and String objects for unicode. And the interesting attribute syntax: Object'Attribute was built-in and not available to the user until Ada 2022.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47606419",
+          "by": "MisterTea",
+          "time": 1775076816
+        },
+        {
+          "id": 47604523,
+          "text": "Cortex-M is a lovely platform. Shame it has stagnated. Both STM32H7 (or N6) or NXP RT1170/80 beg for a major update - more performance, inclusion of NEON (or equivalent), support for DDR3 at least, PCIe?\nIt would be amazing for doing some more complex DSP.\nOtherwise using those platforms is a bit like programming on 8086 today. Fun. You get basic stuff done and then you hit a wall. Only option is to jump on SoM stuff or FPGA which is another can of worms in itself.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47604523",
+          "by": "varispeed",
+          "time": 1775067475
+        },
+        {
+          "id": 47603156,
+          "text": "I'll read more later but just keep in mind nucleo is a series of form factors. There's even M33 on a -144 which is ARMv8-M",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47603156",
+          "by": "Neywiny",
+          "time": 1775061320
+        }
+      ],
+      "by": "swq115",
+      "time": 1774679202,
+      "url": "http://inspirel.com/articles/Ada_On_Cortex.html",
+      "score": 65,
+      "descendants": 22,
+      "storyUrl": "http://inspirel.com/articles/Ada_On_Cortex.html"
+    },
+    {
+      "id": 47605374,
+      "type": "story",
+      "title": "Scientists crack a 20-year nuclear mystery behind the creation of gold",
+      "rank": 29,
+      "depth": 0,
+      "storyId": 47605374,
+      "storyTitle": "Scientists crack a 20-year nuclear mystery behind the creation of gold",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47605374",
+      "topComments": [
+        {
+          "id": 47606676,
+          "text": "I'm confused.  The article is about how various excited states of tin are generated.  But tin is atomic number 50, platinum and gold are 78 and 79 respectively.  Can someone draw a line between these?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47606676",
+          "by": "mcswell",
+          "time": 1775078228
+        },
+        {
+          "id": 47608181,
+          "text": "Tangentially related from something I'm currently reading¹:\n> This is the reality of twenty-first-century resource exploitation: reducing vast quantities of rock into granules and chemically processing what remains. It is both awe inspiring and disturbing. One risk is that the cyanide and mercury used in the method could escape into the surrounding ecosystem. After all, while miners like Barrick insist they follow all the rules laid down by the US Environmental Protection Agency (EPA), campaigners warn that pollution often finds its way out of the mine. Indeed, a few years earlier the EPA had fined Barrick and another nearby miner $618,000 for failing to report the release of toxic chemicals including cyanide, lead and mercury. But the main thing I was struck by as I observed each stage in this process was just how far we will go these days to secure a tiny shred of shiny metal.\n> The scale, for one thing, was mind-boggling. As I looked down into the pit I could just about make out some trucks on the bottom, but only when they emerged at the top did I realise that they were bigger than three-storey buildings; the tyres alone were the size of a double-decker bus. How much earth do you have to remove to produce a gold bar? I asked my minders. They didn’t know, but they did know that in a single working day those trucks would shift rocks equivalent to the weight of the Empire State Building.\n¹ Material World: A Substantial Story of Our Past and Future by Ed Conway",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47608181",
+          "by": "measurablefunc",
+          "time": 1775087363
+        },
+        {
+          "id": 47607443,
+          "text": "I am surprised that the s-process plays no role in the formation of gold.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47607443",
+          "by": "chasil",
+          "time": 1775083073
+        },
+        {
+          "id": 47608149,
+          "text": "does anyone else experience an “eyes glazing over” effect when you read things like “Heavy elements such as gold and platinum are forged under extraordinary conditions, including when stars collapse, explode, or collide”?\nIt seems totally beyond possible in scope and scale to validate something like this, even if you managed to get up close to one of these events it would still be too big and powerful to follow what is happening.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47608149",
+          "by": "luxuryballs",
+          "time": 1775087060
+        },
+        {
+          "id": 47607074,
+          "text": "And they said turning Lead into Gold was just heresy.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47607074",
+          "by": "tcdent",
+          "time": 1775080787
+        }
+      ],
+      "by": "prabal97",
+      "time": 1775071572,
+      "url": "https://www.sciencedaily.com/releases/2026/03/260313002633.htm",
+      "score": 87,
+      "descendants": 39,
+      "storyUrl": "https://www.sciencedaily.com/releases/2026/03/260313002633.htm"
+    },
+    {
+      "id": 47565307,
+      "type": "story",
+      "title": "Windows 95 defenses against installers that overwrite a file with an older one",
+      "rank": 30,
+      "depth": 0,
+      "storyId": 47565307,
+      "storyTitle": "Windows 95 defenses against installers that overwrite a file with an older one",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47565307",
+      "topComments": [
+        {
+          "id": 47606454,
+          "text": "It must have been difficult and frustrating to work as part of the Windows team back in those days.\nYou see all the wacky software that doesn't follow the rules properly, does whatever it wants, breaks things. And you have to figure out how Windows can accommodate all that software, keep it from breaking, and also prevent it from messing up a computer or undo the damage.\nThey did not have the option of saying \"this app developer wrote shitty software, sucks to be them, not my problem.\"\nI wonder how much of this problem was caused by lack of adequate documentation describing how an installer should behave, and how much was developers not reading that documentation and being content when it works on their machine.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47606454",
+          "by": "chihuahua",
+          "time": 1775077010
+        },
+        {
+          "id": 47608097,
+          "text": "When I was a kid, I released a small GUI program online that I made with either VB6 or VB.NET. The program used the standard open-file dialog. When I created the installer for my program through VB's release wizard, there was a page where it pointed out that my program depended on a certain system library (because of the open-file dialog) and it asked me if I wanted to include that library in the installer. I think the default answer was yes, or maybe it wasn't but it sounded like an obvious thing to enable so I did it. Apparently this screwed over and broke open-file dialogs globally across Windows for everyone who wasn't on the same version of Windows as me. Whoops! It's too bad that VB had such a foot-gun in it, and that the article's workaround didn't save those users.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47608097",
+          "by": "AgentME",
+          "time": 1775086754
+        },
+        {
+          "id": 47606112,
+          "text": ">Windows 95 worked around this by keeping a backup copy of commonly-overwritten files in a hidden C:\\Windows\\SYSBCKUP directory. Whenever an installer finished, Windows went and checked whether any of these commonly-overwritten files had indeed been overwritten.\nThis is truly unhinged. I wonder if running an installer under wine in win95 mode will do this.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47606112",
+          "by": "akdev1l",
+          "time": 1775075227
+        },
+        {
+          "id": 47606230,
+          "text": "> Whenever an installer finished, Windows went and checked whether any of these commonly-overwritten files had indeed been overwritten.\n> Basically, Windows 95 waited for each installer to finish\nHow could it tell that a particular process was an installer? Just anything that writes to the PROGRA~1 or WINDOWS folders?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47606230",
+          "by": "Lammy",
+          "time": 1775075817
+        },
+        {
+          "id": 47607011,
+          "text": "And 6-7 years later the `WinSxS` directory was born and these days it is tens of gigabytes.\n`Dism.exe /online /Cleanup-Image /StartComponentCleanup /ResetBase`\nIn an administrator command prompt. You can thank me when it's finished ;-)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47607011",
+          "by": "ruevs",
+          "time": 1775080437
+        }
+      ],
+      "by": "michelangelo",
+      "time": 1774805923,
+      "url": "https://devblogs.microsoft.com/oldnewthing/20260324-00/?p=112159",
+      "score": 168,
+      "descendants": 100,
+      "storyUrl": "https://devblogs.microsoft.com/oldnewthing/20260324-00/?p=112159"
+    }
+  ]
+}
