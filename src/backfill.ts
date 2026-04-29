@@ -108,7 +108,7 @@ function pathIsAllowedGenerated(pathName: string, allowedRoots: string[]): boole
 
 async function requireCleanExceptGenerated(dates: string[]): Promise<void> {
   const allowedRoots = dates.flatMap(generatedDatePaths);
-  const { stdout } = await runCommand("git", ["status", "--porcelain"]);
+  const { stdout } = await runCommand("git", ["status", "--porcelain", "--untracked-files=all"]);
   const unexpected = parseGitStatus(stdout).filter((entry) => !pathIsAllowedGenerated(entry.path, allowedRoots));
   if (unexpected.length > 0) {
     throw new Error(`Working tree has changes outside this backfill range:\n${unexpected.map((entry) => `${entry.status} ${entry.path}`).join("\n")}`);
