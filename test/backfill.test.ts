@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { expandDateRange } from "../src/backfill.js";
+import { expandDateRange, githubRetryDelayMs, isRetryableGithubErrorText } from "../src/backfill.js";
 import { historicalFetchDelayMs, parseHistoricalFrontPageStoryIds } from "../src/hn.js";
 
 describe("historical HN front page parsing", () => {
@@ -31,5 +31,26 @@ describe("backfill date ranges", () => {
       "2026-04-21",
       "2026-04-22",
     ]);
+  });
+});
+
+describe("backfill GitHub publish retries", () => {
+  it("detects transient GitHub transport failures", () => {
+    expect(isRetryableGithubErrorText(
+      "fatal: unable to access 'https://github.com/jtkw-kirbot/hn-ai-sentiment.git/': Failed to connect to github.com port 443 after 134884 ms: Could not connect to server",
+    )).toBe(true);
+    expect(isRetryableGithubErrorText("Post https://api.github.com/graphql: dial tcp: i/o timeout")).toBe(true);
+    expect(isRetryableGithubErrorText("HTTP 503 Service Unavailable")).toBe(true);
+  });
+
+  it("does not retry permanent git failures", () => {
+    expect(isRetryableGithubErrorText("CONFLICT (content): Merge conflict in data/index.json")).toBe(false);
+    expect(isRetryableGithubErrorText("remote: Invalid username or password. fatal: Authentication failed")).toBe(false);
+  });
+
+  it("backs off retries with a cap", () => {
+    expect(githubRetryDelayMs(0)).toBe(3_000);
+    expect(githubRetryDelayMs(1)).toBe(6_000);
+    expect(githubRetryDelayMs(10)).toBe(30_000);
   });
 });

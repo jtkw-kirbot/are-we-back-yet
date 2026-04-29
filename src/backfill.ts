@@ -20,6 +20,7 @@ import type { RunFile } from "./types.js";
 
 const execFile = promisify(execFileCallback);
 const BACKFILL_CONCURRENCY = 10;
+const GITHUB_COMMAND_ATTEMPTS = 5;
 
 type BackfillOptions = {
   start: string;
@@ -82,6 +83,57 @@ async function runCommand(file: string, args: string[], options: { allowExitCode
     }
     throw error;
   }
+}
+
+function commandErrorText(error: unknown): string {
+  const maybe = error as Error & { stdout?: string; stderr?: string };
+  return [
+    maybe.message,
+    maybe.stdout,
+    maybe.stderr,
+  ].filter(Boolean).join("\n");
+}
+
+export function isRetryableGithubErrorText(text: string): boolean {
+  return [
+    /failed to connect to github\.com.*443/i,
+    /could not connect to server/i,
+    /could not resolve host/i,
+    /connection timed out/i,
+    /operation timed out/i,
+    /\bi\/o timeout\b/i,
+    /tls.*timeout/i,
+    /connection reset/i,
+    /connection refused/i,
+    /remote end hung up unexpectedly/i,
+    /early eof/i,
+    /rpc failed/i,
+    /\bhttp\s+5\d\d\b/i,
+    /bad gateway/i,
+    /service unavailable/i,
+    /gateway timeout/i,
+  ].some((pattern) => pattern.test(text));
+}
+
+export function githubRetryDelayMs(attempt: number): number {
+  return Math.min(30_000, 2 ** attempt * 3_000);
+}
+
+async function runGithubCommand(file: string, args: string[]): Promise<CommandResult> {
+  let lastError: unknown;
+  for (let attempt = 0; attempt < GITHUB_COMMAND_ATTEMPTS; attempt += 1) {
+    try {
+      return await runCommand(file, args);
+    } catch (error) {
+      lastError = error;
+      const retryable = isRetryableGithubErrorText(commandErrorText(error));
+      if (!retryable || attempt === GITHUB_COMMAND_ATTEMPTS - 1) throw error;
+      const delayMs = githubRetryDelayMs(attempt);
+      console.warn(`${file} ${args.join(" ")} hit a transient GitHub/network error; retrying in ${Math.round(delayMs / 1000)}s (${attempt + 2}/${GITHUB_COMMAND_ATTEMPTS})`);
+      await new Promise((resolve) => setTimeout(resolve, delayMs));
+    }
+  }
+  throw lastError;
 }
 
 function generatedDatePaths(date: string): string[] {
@@ -206,18 +258,18 @@ async function commitAndPublish(dates: string[]): Promise<void> {
   }
 
   await runCommand("git", ["commit", "-m", `Backfill HN story sentiment ${rangeLabel(dates)}`]);
-  await runCommand("git", ["pull", "--rebase", "origin", "main"]);
-  await runCommand("git", ["push", "origin", "main"]);
+  await runGithubCommand("git", ["pull", "--rebase", "origin", "main"]);
+  await runGithubCommand("git", ["push", "origin", "main"]);
   const { stdout: sha } = await runCommand("git", ["rev-parse", "HEAD"]);
   const headSha = sha.trim();
   const startedAt = new Date(Date.now() - 5_000).toISOString();
 
-  await runCommand("gh", ["workflow", "run", "publish-site.yml", "--ref", "main"]);
+  await runGithubCommand("gh", ["workflow", "run", "publish-site.yml", "--ref", "main"]);
   await new Promise((resolve) => setTimeout(resolve, 5_000));
 
   let runId = "";
   for (let attempt = 0; attempt < 12; attempt += 1) {
-    const { stdout } = await runCommand("gh", [
+    const { stdout } = await runGithubCommand("gh", [
       "run",
       "list",
       "--workflow",
@@ -239,7 +291,7 @@ async function commitAndPublish(dates: string[]): Promise<void> {
   }
   if (!runId) throw new Error("Could not find triggered Publish static site run");
 
-  await runCommand("gh", ["run", "watch", runId, "--exit-status"]);
+  await runGithubCommand("gh", ["run", "watch", runId, "--exit-status"]);
   console.log(`${rangeLabel(dates)}: published via workflow run ${runId}`);
 }
 
