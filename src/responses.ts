@@ -4,7 +4,7 @@ import path from "node:path";
 import { MODEL_CONFIG, METHOD_VERSION } from "./config.js";
 import { writeDailyReport } from "./aggregate.js";
 import { sentimentTargetsForMentions } from "./entity-routing.js";
-import { ensureDir, listRuns, pathExists, readJson, readRawDay, readRun, responseDir, runPath, writeJson, writeRun } from "./io.js";
+import { ensureDir, pathExists, readJson, readRawDay, readRun, responseDir, writeJson, writeRun } from "./io.js";
 import { createResponse, OpenAiStatusError, type OpenAiUsage } from "./openai-client.js";
 import { entityRequestBody, sentimentRequestBody } from "./prompts.js";
 import { OUTPUT_TOKEN_CAPS, preflightResponseBody, withResponseSafeguards } from "./token-budget.js";
@@ -476,31 +476,4 @@ export async function processDay(date: string, options: { force?: boolean; budge
     console.error(error instanceof Error ? error.message : error);
     return true;
   }
-}
-
-export async function processPending(): Promise<number> {
-  const runs = await listRuns();
-  const budget = { remaining: maxRowsPerRun() };
-  let changed = 0;
-  for (const run of runs) {
-    if (budget.remaining <= 0) break;
-    if (["fetched", "entity_processing", "entity_complete", "sentiment_processing", "sentiment_complete"].includes(run.state)) {
-      if (await processDay(run.date, { budget })) changed += 1;
-    }
-  }
-  return changed;
-}
-
-export async function reprocessDay(date: string): Promise<boolean> {
-  if (!(await pathExists(runPath(date)))) return false;
-  const run = await readRun(date);
-  const { error: _error, ...cleanRun } = run;
-  await fs.rm(responseDir(date), { recursive: true, force: true });
-  await writeRun({
-    ...cleanRun,
-    state: "fetched",
-    responses: {},
-  });
-  await processDay(date, { force: true });
-  return true;
 }

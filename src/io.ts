@@ -80,15 +80,6 @@ export async function listJsonDates(dir: string): Promise<string[]> {
     .sort();
 }
 
-export async function listRuns(): Promise<RunFile[]> {
-  const dates = await listJsonDates(RUNS_DIR);
-  const runs: RunFile[] = [];
-  for (const date of dates) {
-    runs.push(await readRun(date));
-  }
-  return runs;
-}
-
 export async function readDailyResults(): Promise<DailyResult[]> {
   const dates = await listJsonDates(DAILY_DIR);
   const days: DailyResult[] = [];

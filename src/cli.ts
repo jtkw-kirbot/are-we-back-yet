@@ -1,7 +1,7 @@
 import { promises as fs } from "node:fs";
 import { fetchFrontPage } from "./hn.js";
 import { parseArgs, pathExists, rawPath, runPath, writeRawDay } from "./io.js";
-import { createFetchedRun, processDay, processPending, reprocessDay } from "./responses.js";
+import { createFetchedRun, processDay } from "./responses.js";
 import { buildSite } from "./site.js";
 import { isLosAngelesRunWindow, localDate } from "./time.js";
 
@@ -41,13 +41,6 @@ async function main(): Promise<void> {
     case "process:day":
       if (typeof args.date !== "string") throw new Error("process:day requires --date YYYY-MM-DD");
       console.log(await processDay(args.date, { force: Boolean(args.force) }) ? `processed ${args.date}` : `${args.date} did not need processing`);
-      break;
-    case "process:pending":
-      console.log(`processed ${await processPending()} pending day(s)`);
-      break;
-    case "reprocess:day":
-      if (typeof args.date !== "string") throw new Error("reprocess:day requires --date YYYY-MM-DD");
-      console.log(await reprocessDay(args.date) ? `reprocessed ${args.date}` : `could not reprocess ${args.date}`);
       break;
     case "build:site":
       await buildSite();

@@ -8,7 +8,7 @@ Each daily run captures the Hacker News front page and the comments under each f
 
 ## 2. Identify relevant AI entities
 
-Each story and comment is scanned for mentions of the tracked entities and their products. This is a direct OpenAI Responses call per item, so interrupted runs can resume from the rows that already succeeded.
+Each story and comment is scanned for mentions of the tracked entities and their products. This is a direct OpenAI Responses call per item, and row-level artifacts are stored for auditability.
 
 Examples:
 
@@ -67,8 +67,8 @@ An adjudication model reviews the aggregate scores and representative evidence, 
 
 The static site is rebuilt and deployed to GitHub Pages. The homepage shows daily snapshots from April 27, 2026 onward, with each day colored by the winning entity. Selecting a day shows the per-entity sentiment and evidence-backed explanation in a right-side sheet on larger screens, or in a full-screen detail view on compact screens.
 
-## 7. Resume safely
+## 7. Fail safely
 
-The processor stores row-level progress and token usage. If a run is interrupted, the next scheduled pending run skips rows that already succeeded and continues from the remaining work.
+The processor stores row-level progress and token usage. The daily workflow verifies that the daily report exists before it publishes the site, so partial processing fails loudly instead of deploying a misleading successful day.
 
 Before each OpenAI request, the system estimates the request size with a tokenizer, compares it against the selected model's known context window, and disables API-side truncation. Oversized or repeatedly invalid rows are quarantined instead of blocking the whole day, as long as they remain below the small daily tolerance.
