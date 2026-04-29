@@ -38,7 +38,7 @@ npm run fetch:hn -- --date 2026-04-28
 npm run process:day -- --date 2026-04-28
 ```
 
-Historical backfills use HN's `front?day=YYYY-MM-DD` page for the first page of ranked stories, then fetch those story records and their top comments from the Firebase item API. The command processes up to five days concurrently, prints per-day costs, then commits, pushes, and publishes the completed range once:
+Historical backfills use HN's `front?day=YYYY-MM-DD` page for the first page of ranked stories, then fetch those story records and their top comments from the Firebase item API. The command processes up to ten days concurrently, prints per-day costs, then commits, pushes, and publishes the completed range once:
 
 ```bash
 npm run backfill -- --start 2026-04-20 --end 2026-04-26

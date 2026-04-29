@@ -19,7 +19,7 @@ import { buildSite } from "./site.js";
 import type { RunFile } from "./types.js";
 
 const execFile = promisify(execFileCallback);
-const BACKFILL_CONCURRENCY = 5;
+const BACKFILL_CONCURRENCY = 10;
 
 type BackfillOptions = {
   start: string;
