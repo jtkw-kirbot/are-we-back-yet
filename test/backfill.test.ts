@@ -43,7 +43,7 @@ describe("backfill date ranges", () => {
 describe("backfill GitHub publish retries", () => {
   it("detects transient GitHub transport failures", () => {
     expect(isRetryableGithubErrorText(
-      "fatal: unable to access 'https://github.com/jtkw-kirbot/hn-ai-sentiment.git/': Failed to connect to github.com port 443 after 134884 ms: Could not connect to server",
+      "fatal: unable to access 'https://github.com/jtkw-kirbot/are-we-back-yet.git/': Failed to connect to github.com port 443 after 134884 ms: Could not connect to server",
     )).toBe(true);
     expect(isRetryableGithubErrorText("Post https://api.github.com/graphql: dial tcp: i/o timeout")).toBe(true);
     expect(isRetryableGithubErrorText("HTTP 503 Service Unavailable")).toBe(true);

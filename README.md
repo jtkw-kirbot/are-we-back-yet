@@ -1,4 +1,4 @@
-# HN AI Lab Sentiment
+# Are We Back Yet?
 
 Static GitHub Pages tracker for daily Hacker News front-page sentiment toward OpenAI, Anthropic, Google Gemini, and Microsoft Copilot.
 

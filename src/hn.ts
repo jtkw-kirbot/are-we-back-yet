@@ -42,7 +42,7 @@ async function fetchWithRetry(url: string): Promise<Response> {
     let response: Response;
     try {
       response = await fetch(url, {
-        headers: { "user-agent": "hn-ai-sentiment/0.1" },
+        headers: { "user-agent": "are-we-back-yet/0.1" },
       });
     } catch (error) {
       lastError = error;
