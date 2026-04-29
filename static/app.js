@@ -311,7 +311,7 @@
                 <a href="${escapeHtml(item.hnUrl)}" target="_blank" rel="noreferrer">${escapeHtml(item.id)}</a>
                 <span>${escapeHtml(evidenceTypeLabel(item))} · story ${escapeHtml(item.storyId)}</span>
               </div>
-              <p class="source-excerpt">${escapeHtml(item.excerpt)}</p>
+              <p class="source-excerpt">&quot;${escapeHtml(item.excerpt)}&quot;</p>
               <div class="source-targets">
                 ${item.annotations.map((annotation) => `
                   <span class="source-chip ${annotationTone(annotation)}">${escapeHtml(labels[annotation.target] ?? annotation.target)} · ${escapeHtml(annotation.stanceLabel.replaceAll("_", " "))}</span>
