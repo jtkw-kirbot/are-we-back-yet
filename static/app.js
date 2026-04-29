@@ -553,6 +553,10 @@
       scrollGridToEnd();
     });
   });
+  window.setTimeout(() => {
+    const routeDate = routeDateFromLocation();
+    if (routeDate && activeDate !== routeDate) openDetailForDate(routeDate);
+  }, 100);
 
   popover.addEventListener("click", (event) => {
     event.stopPropagation();
