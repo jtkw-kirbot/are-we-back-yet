@@ -26,7 +26,7 @@ describe("daily result schema", () => {
       closeCall: false,
       margin: 0.12,
       models: {
-        titleAnalysis: "gpt-5.4-mini-2026-03-17",
+        titleAnalysis: "gpt-5.4-2026-03-05",
       },
       methodVersion: {
         titleAnalysisPrompt: "title-analysis-v1",

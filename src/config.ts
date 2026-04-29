@@ -23,7 +23,7 @@ export const TARGET_COLORS: Record<Target, string> = {
 
 export const MODEL_CONFIG = {
   titleAnalysis: {
-    model: "gpt-5.4-mini-2026-03-17",
+    model: "gpt-5.4-2026-03-05",
     reasoningEffort: "medium",
   },
 } as const;

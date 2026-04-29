@@ -31,6 +31,11 @@ const MODEL_PRICES: Record<string, ModelPrice> = {
     cachedInputPerMillion: 0.075,
     outputPerMillion: 4.50,
   },
+  "gpt-5.4-2026-03-05": {
+    inputPerMillion: 2.50,
+    cachedInputPerMillion: 0.25,
+    outputPerMillion: 15.00,
+  },
 };
 
 function stageModel(stage: StageName): string {

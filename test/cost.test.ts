@@ -25,7 +25,7 @@ describe("cost calculation", () => {
 
     const cost = calculateRunCost(run);
 
-    expect(cost.stages.find((stage) => stage.stage === "titleAnalysis")?.standardUsd).toBeCloseTo(1.065);
-    expect(cost.standardUsd).toBeCloseTo(1.065);
+    expect(cost.stages.find((stage) => stage.stage === "titleAnalysis")?.standardUsd).toBeCloseTo(3.55);
+    expect(cost.standardUsd).toBeCloseTo(3.55);
   });
 });
