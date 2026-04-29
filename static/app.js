@@ -123,17 +123,34 @@
     return {
       strongly_negative: "strongly negative",
       negative: "negative",
-      mixed_neutral: "mixed/neutral",
+      mixed_neutral: "mixed or neutral",
       positive: "positive",
       strongly_positive: "strongly positive",
     }[value] ?? value;
   }
 
+  function evidenceStrengthLabel(value) {
+    return {
+      low: "limited evidence",
+      medium: "some evidence",
+      high: "broad evidence",
+    }[value] ?? value;
+  }
+
+  function certaintyLabel(value, support) {
+    if (support === "low") return "";
+    return {
+      low: "low certainty",
+      medium: "medium certainty",
+      high: "high certainty",
+    }[value] ?? value;
+  }
+
   function rankNoteLabel(value) {
     return {
-      low_support: "low support",
+      low_support: "",
       close_tie: "close tie",
-      mixed_high_volume: "mixed high volume",
+      mixed_high_volume: "mixed high-volume evidence",
     }[value] ?? value;
   }
 
@@ -156,8 +173,20 @@
       .replaceAll("'", "&#39;");
   }
 
+  function displayCopy(value) {
+    return String(value)
+      .replace(/\bthe signal is low-support\b/gi, "the signal has limited evidence")
+      .replace(/\bthis is low-support\b/gi, "evidence is limited")
+      .replace(/\bsupport is low\b/gi, "evidence is limited")
+      .replace(/\bsupport was low\b/gi, "evidence was limited")
+      .replace(/\bis low-support\b/gi, "has limited evidence")
+      .replace(/\blow-support\b/gi, "limited evidence")
+      .replace(/\blow support\b/gi, "limited evidence")
+      .replace(/\bweak support\b/gi, "limited evidence");
+  }
+
   function withEvidenceLinks(text, evidenceById) {
-    return escapeHtml(text).replace(/\[(E\d+)]/g, (token, id) => {
+    return escapeHtml(displayCopy(text)).replace(/\[(E\d+)]/g, (token, id) => {
       const evidence = evidenceById.get(id);
       if (!evidence) return token;
       return `<a href="${escapeHtml(evidence.hnUrl)}" target="_blank" rel="noreferrer">[${id}]</a>`;
@@ -183,6 +212,14 @@
       Number(b.adjustedMean ?? 0) - Number(a.adjustedMean ?? 0)
       || String(a.target).localeCompare(String(b.target))
     ));
+  }
+
+  function evidenceBalanceItems(row) {
+    return [
+      ["positive", row.evidenceBalance.positive],
+      ["neutral", row.evidenceBalance.neutral],
+      ["negative", row.evidenceBalance.negative],
+    ].filter(([, count]) => Number(count) > 0);
   }
 
   function applyDayBackground(square, day) {
@@ -219,12 +256,12 @@
         <div class="provider-list">
           ${rows.map((row, index) => {
             const notes = [...new Set([
-              Number(row.adjustedMean ?? 0) > 0 ? "positive signal" : "",
               bucketLabel(row.bucket),
-              `${row.support} support`,
-              `${row.confidence} confidence`,
+              evidenceStrengthLabel(row.support),
+              certaintyLabel(row.confidence, row.support),
               row.rankNote ? rankNoteLabel(row.rankNote) : "",
             ].filter(Boolean))];
+            const balanceItems = evidenceBalanceItems(row);
             return `
               <article class="provider-row ${escapeHtml(row.direction)}" style="--provider-color: var(${providerColorVars[row.target]});">
                 <div class="provider-rank">${index + 1}</div>
@@ -236,9 +273,7 @@
                   <p>${withEvidenceLinks(row.summary || "", evidenceById)}</p>
                 </div>
                 <div class="balance" aria-label="Evidence balance">
-                  <span>${row.evidenceBalance.positive} positive</span>
-                  <span>${row.evidenceBalance.neutral} neutral</span>
-                  <span>${row.evidenceBalance.negative} negative</span>
+                  ${balanceItems.map(([tone, count]) => `<span>${count} ${tone}</span>`).join("")}
                 </div>
               </article>
             `;

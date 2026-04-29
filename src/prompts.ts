@@ -202,7 +202,7 @@ export function dailySummaryRequestBody(result: DailyResult): unknown {
           "Cite evidence with [E1] tokens only. Do not include raw URLs.",
           "headlineSummary must include at least one [E#] citation whenever any approved evidence exists.",
           "Every target summary must include at least one [E#] citation from that target's evidenceIds.",
-          "Mention low support when a ranked position depends on thin evidence.",
+          "Use user-facing wording: say limited evidence, not low support, when a ranked position depends on thin evidence.",
           "Disclose close ties when tiedWith is non-empty or rankNote is close_tie.",
           "Keep headlineSummary to one concise sentence.",
           "Each ranked target must have one concise summary grounded in that target's evidence ids.",
