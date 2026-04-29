@@ -18,8 +18,12 @@
   const popover = document.getElementById("popover");
   const rangeLabel = document.getElementById("range-label");
   let activeAnchor = null;
+  let activeDate = null;
+  let openedFromGridRoute = false;
   let calendar = null;
   let weeks = [];
+  const squareByDate = new Map();
+  const routeDatePattern = /^\d{4}-\d{2}-\d{2}$/;
 
   function useCompactModal() {
     return window.matchMedia("(max-width: 900px)").matches;
@@ -202,21 +206,38 @@
     });
   }
 
-  function dayPositiveSignalRows(day) {
+  function dayMostPositiveRows(day) {
     if (!day) return [];
-    const positiveRows = (day.ranking ?? []).filter((row) => Number(row.adjustedMean) > 0);
-    if (positiveRows.length === 0) return [];
-    const topRow = positiveRows.reduce((best, row) => (
+    const rows = day.ranking ?? [];
+    if (rows.length === 0) return [];
+    const topRow = rows.reduce((best, row) => (
       Number(row.adjustedMean) > Number(best.adjustedMean) ? row : best
     ));
     const tiedTargets = new Set([topRow.target, ...(topRow.tiedWith ?? [])]);
-    return positiveRows
+    return rows
       .filter((row) => tiedTargets.has(row.target))
       .sort((a, b) => providerOrder.indexOf(a.target) - providerOrder.indexOf(b.target));
   }
 
   function daySignalTargets(day) {
-    return dayPositiveSignalRows(day).map((row) => row.target);
+    return dayMostPositiveRows(day).map((row) => row.target);
+  }
+
+  function routeDateFromLocation() {
+    const segments = window.location.pathname.split("/").filter(Boolean);
+    const lastSegment = segments[segments.length - 1];
+    return lastSegment && routeDatePattern.test(lastSegment) ? lastSegment : null;
+  }
+
+  function routeBasePath() {
+    const segments = window.location.pathname.split("/").filter(Boolean);
+    const lastSegment = segments[segments.length - 1];
+    if (lastSegment && routeDatePattern.test(lastSegment)) segments.pop();
+    return `/${segments.join("/")}${segments.length > 0 ? "/" : ""}`;
+  }
+
+  function routePathForDate(date) {
+    return `${routeBasePath()}${date}`;
   }
 
   function displayRankingRows(day) {
@@ -373,11 +394,10 @@
     }
 
     const evidenceById = new Map(day.evidence.map((item) => [item.id, item]));
-    const signalRows = dayPositiveSignalRows(day);
     const signalTargets = daySignalTargets(day).map((target) => labels[target] ?? target);
     const flags = [
       "HN story/comment snapshot",
-      signalTargets.length > 0 ? `Top positive signal: ${signalTargets.join(", ")}` : "No positive signal",
+      signalTargets.length > 0 ? `Most positive: ${signalTargets.join(", ")}` : "No ranked signal",
     ].filter(Boolean);
 
     popover.innerHTML = `
@@ -421,10 +441,35 @@
   function closeDetail() {
     activeAnchor?.classList.remove("selected");
     activeAnchor = null;
+    activeDate = null;
     popover.hidden = true;
     popover.className = "popover";
     document.body.classList.remove("modal-open");
     document.body.classList.remove("detail-open");
+  }
+
+  function openDetailForDate(date, options = {}) {
+    const anchor = squareByDate.get(date);
+    if (!anchor) return false;
+    renderDetail(anchor, date, byDate.get(date));
+    activeDate = date;
+    anchor.scrollIntoView({ block: "nearest", inline: "center" });
+    if (options.pushRoute) {
+      window.history.pushState({ date }, "", routePathForDate(date));
+      openedFromGridRoute = true;
+    }
+    return true;
+  }
+
+  function dismissDetail() {
+    const routeDate = routeDateFromLocation();
+    if (routeDate && openedFromGridRoute) {
+      window.history.back();
+      return;
+    }
+    closeDetail();
+    openedFromGridRoute = false;
+    if (routeDate) window.history.replaceState(null, "", routeBasePath());
   }
 
   const response = await fetch("data/index.json");
@@ -479,14 +524,16 @@
       }
       square.dataset.date = date;
       square.dataset.state = day ? "complete" : "missing";
+      squareByDate.set(date, square);
       applyDayBackground(square, day);
       const label = targets.length > 0
-        ? `${targets.map((target) => labels[target] ?? target).join(", ")} strongest positive signal`
-        : "no meaningful positive provider signal";
+        ? `${targets.map((target) => labels[target] ?? target).join(", ")} most positive signal`
+        : "no ranked signal";
       square.setAttribute("aria-label", day ? `${date}: ${label}` : `${date}: no data`);
       square.addEventListener("click", (event) => {
         event.stopPropagation();
-        renderDetail(square, date, day);
+        if (activeDate === date && !popover.hidden) return;
+        openDetailForDate(date, { pushRoute: true });
       });
       heatmap.appendChild(square);
     }
@@ -501,18 +548,33 @@
 
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
+      const routeDate = routeDateFromLocation();
+      if (routeDate && openDetailForDate(routeDate)) return;
       scrollGridToEnd();
     });
   });
 
   popover.addEventListener("click", (event) => {
     event.stopPropagation();
-    if (event.target.closest(".close-detail")) closeDetail();
+    if (event.target.closest(".close-detail")) dismissDetail();
   });
 
   document.addEventListener("click", (event) => {
     if (popover.hidden) return;
     if (activeAnchor && event.target === activeAnchor) return;
+    dismissDetail();
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape" || popover.hidden) return;
+    dismissDetail();
+  });
+  window.addEventListener("popstate", () => {
+    openedFromGridRoute = false;
+    const routeDate = routeDateFromLocation();
+    if (routeDate) {
+      openDetailForDate(routeDate);
+      return;
+    }
     closeDetail();
   });
   window.addEventListener("resize", () => {

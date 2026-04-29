@@ -5,6 +5,7 @@ import { DailyResultSchema, RawDaySchema, RunFileSchema, type DailyResult, type 
 
 export const ROOT = process.cwd();
 export const DATA_DIR = path.join(ROOT, "data");
+export const DOCS_DIR = path.join(ROOT, "docs");
 export const RAW_DIR = path.join(DATA_DIR, "raw");
 export const RUNS_DIR = path.join(DATA_DIR, "runs");
 export const DAILY_DIR = path.join(DATA_DIR, "daily");
