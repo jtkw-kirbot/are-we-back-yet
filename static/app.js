@@ -248,12 +248,15 @@
         <h2>${escapeHtml(day.date)} · ${escapeHtml(winnerLabel)}</h2>
         <div class="meta">${flags.map((flag) => `<span class="pill">${escapeHtml(flag)}</span>`).join("")}</div>
         ${renderRankingChart(day)}
-        <details class="judgement-block" open>
-          <summary>Daily judgement</summary>
+        <section class="detail-section judgement-block" aria-label="Overall judgement">
+          <div class="section-title">overall judgement</div>
           <p class="judgement">${withEvidenceLinks(day.dailyJudgementSnippet, evidenceById)}</p>
           <p class="judgement secondary">${withEvidenceLinks(day.winnerExplanation || "", evidenceById)}</p>
-        </details>
-        <div class="scores">${entityRows}</div>
+        </section>
+        <section class="detail-section" aria-label="Provider breakdown">
+          <div class="section-title">breakdown</div>
+          <div class="scores">${entityRows}</div>
+        </section>
       </div>
     `;
     showDetail(anchor);
