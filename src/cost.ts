@@ -1,7 +1,7 @@
 import { MODEL_CONFIG } from "./config.js";
 import type { ResponseStageInfo, RunFile } from "./types.js";
 
-type StageName = "entity" | "sentiment" | "adjudication";
+type StageName = "titleAnalysis";
 
 type ModelPrice = {
   inputPerMillion: number;
@@ -17,14 +17,12 @@ type StageCost = {
   outputTokens: number;
   totalTokens: number;
   standardUsd: number;
-  batchEstimateUsd: number;
 };
 
 export type RunCost = {
   date: string;
   stages: StageCost[];
   standardUsd: number;
-  batchEstimateUsd: number;
 };
 
 const MODEL_PRICES: Record<string, ModelPrice> = {
@@ -33,17 +31,11 @@ const MODEL_PRICES: Record<string, ModelPrice> = {
     cachedInputPerMillion: 0.075,
     outputPerMillion: 4.50,
   },
-  "gpt-5.4-2026-03-05": {
-    inputPerMillion: 2.50,
-    cachedInputPerMillion: 0.25,
-    outputPerMillion: 15.00,
-  },
 };
 
 function stageModel(stage: StageName): string {
-  if (stage === "entity") return MODEL_CONFIG.entity.model;
-  if (stage === "sentiment") return MODEL_CONFIG.sentiment.model;
-  return MODEL_CONFIG.adjudication.model;
+  if (stage === "titleAnalysis") return MODEL_CONFIG.titleAnalysis.model;
+  throw new Error(`Unknown stage: ${stage}`);
 }
 
 function stageCost(stage: StageName, info: ResponseStageInfo | undefined): StageCost {
@@ -68,21 +60,17 @@ function stageCost(stage: StageName, info: ResponseStageInfo | undefined): Stage
     outputTokens,
     totalTokens: info?.totalTokens ?? 0,
     standardUsd,
-    batchEstimateUsd: standardUsd * 0.5,
   };
 }
 
 export function calculateRunCost(run: RunFile): RunCost {
   const stages: StageCost[] = [
-    stageCost("entity", run.responses.entity),
-    stageCost("sentiment", run.responses.sentiment),
-    stageCost("adjudication", run.responses.adjudication),
+    stageCost("titleAnalysis", run.responses.titleAnalysis),
   ];
   return {
     date: run.date,
     stages,
     standardUsd: stages.reduce((sum, stage) => sum + stage.standardUsd, 0),
-    batchEstimateUsd: stages.reduce((sum, stage) => sum + stage.batchEstimateUsd, 0),
   };
 }
 

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { DailyResultSchema, RawDaySchema, SentimentResultSchema } from "../src/types.js";
+import { DailyResultSchema, RawDaySchema, TitleAnalysisSchema } from "../src/types.js";
 
 describe("daily result schema", () => {
   it("requires all four canonical entities and evidence-backed snippets", () => {
@@ -11,14 +11,14 @@ describe("daily result schema", () => {
       neutralCount: 1,
       negativeCount: 0,
       confidence: 0.8,
-      judgementSnippet: "Positive due to comments [E1].",
+      judgementSnippet: "Positive due to titles [E1].",
       evidenceIds: ["E1"],
     };
 
     const parsed = DailyResultSchema.parse({
       date: "2026-04-28",
       generatedAt: "2026-04-29T04:00:00.000Z",
-      samplingMethod: "frontpage_snapshot",
+      samplingMethod: "frontpage_title_snapshot",
       winner: "openai",
       dailyJudgementSnippet: "OpenAI led the day [E1].",
       winnerExplanation: "OpenAI had the strongest positive signal [E1].",
@@ -26,15 +26,11 @@ describe("daily result schema", () => {
       closeCall: false,
       margin: 0.12,
       models: {
-        entity: "gpt-5.4-mini-2026-03-17",
-        sentiment: "gpt-5.4-mini-2026-03-17",
-        adjudication: "gpt-5.4-2026-03-05",
+        titleAnalysis: "gpt-5.4-mini-2026-03-17",
       },
       methodVersion: {
-        entityPrompt: "entity-v1",
-        sentimentPrompt: "sentiment-v1",
-        adjudicationPrompt: "adjudication-v1",
-        aggregation: "winner-v1",
+        titleAnalysisPrompt: "title-analysis-v1",
+        aggregation: "title-winner-v1",
         schema: "daily-v1",
       },
       entities: {
@@ -62,11 +58,13 @@ describe("raw day schema", () => {
     const parsed = RawDaySchema.parse({
       date: "2026-04-28",
       fetchedAt: "2026-04-29T04:00:00.000Z",
-      samplingMethod: "frontpage_snapshot",
+      samplingMethod: "frontpage_title_snapshot",
       source: "firebase",
       items: [{
         id: 123,
         type: "story",
+        title: "HN item 123",
+        rank: 1,
         depth: 0,
         storyId: 123,
         storyTitle: "HN item 123",
@@ -81,32 +79,28 @@ describe("raw day schema", () => {
     const parsed = RawDaySchema.parse({
       date: "2026-04-20",
       fetchedAt: "2026-04-29T04:00:00.000Z",
-      samplingMethod: "historical_frontpage_snapshot",
+      samplingMethod: "historical_frontpage_title_snapshot",
       source: "hn_front_html_firebase",
       items: [],
     });
 
-    expect(parsed.samplingMethod).toBe("historical_frontpage_snapshot");
+    expect(parsed.samplingMethod).toBe("historical_frontpage_title_snapshot");
   });
 });
 
-describe("sentiment result schema", () => {
-  it("trims overlong item-level judgement snippets from model output", () => {
-    const parsed = SentimentResultSchema.parse({
+describe("title analysis schema", () => {
+  it("trims overlong title-level judgement snippets from model output", () => {
+    const parsed = TitleAnalysisSchema.parse({
       itemId: 123,
-      analyses: [{
-        target: "openai",
-        sentiment: 1,
-        confidence: 0.8,
-        relevance: true,
-        sarcasm: false,
-        comparison: false,
-        evidenceSummary: "Positive mention.",
-        judgementSnippet: "x".repeat(300),
-      }],
+      target: "openai",
+      sentiment: 1,
+      confidence: 0.8,
+      relevance: true,
+      evidenceSummary: "Positive title.",
+      judgementSnippet: "x".repeat(400),
     });
 
-    expect(parsed.analyses[0]?.judgementSnippet).toHaveLength(240);
-    expect(parsed.analyses[0]?.judgementSnippet.endsWith("...")).toBe(true);
+    expect(parsed.judgementSnippet).toHaveLength(320);
+    expect(parsed.judgementSnippet.endsWith("...")).toBe(true);
   });
 });

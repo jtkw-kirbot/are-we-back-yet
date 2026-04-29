@@ -2,6 +2,7 @@ import { execFile as execFileCallback } from "node:child_process";
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { promisify } from "node:util";
+import { analyzeDay, createFetchedRun } from "./analyze.js";
 import { calculateRunCost, formatUsd, type RunCost } from "./cost.js";
 import { fetchHistoricalFrontPage } from "./hn.js";
 import {
@@ -9,29 +10,19 @@ import {
   pathExists,
   rawPath,
   readRun,
-  responseDir,
   ROOT,
   runPath,
   writeRawDay,
 } from "./io.js";
-import { createFetchedRun, processDay } from "./responses.js";
 import { buildSite } from "./site.js";
-import type { RunFile, SamplingMethod } from "./types.js";
+import type { RunFile } from "./types.js";
 
 const execFile = promisify(execFileCallback);
-
-export type AnalysisBackendName = "responses";
-
-type AnalysisBackend = {
-  name: AnalysisBackendName;
-  processDay(date: string): Promise<RunFile>;
-};
 
 type BackfillOptions = {
   start: string;
   end: string;
   force?: boolean;
-  backend?: string;
 };
 
 type CommandResult = {
@@ -67,21 +58,12 @@ export function expandDateRange(start: string, end: string): string[] {
   return dates;
 }
 
-export function analysisBackend(name = "responses"): AnalysisBackend {
-  if (name !== "responses") throw new Error(`Unsupported analysis backend: ${name}`);
-  return {
-    name: "responses",
-    processDay: processWithResponses,
-  };
-}
-
 async function runCommand(file: string, args: string[], options: { allowExitCode?: number } = {}): Promise<CommandResult> {
   try {
-    const result = await execFile(file, args, {
+    return await execFile(file, args, {
       cwd: ROOT,
       maxBuffer: 20 * 1024 * 1024,
     });
-    return result;
   } catch (error) {
     const maybe = error as Error & { code?: number; stdout?: string; stderr?: string };
     if (options.allowExitCode !== undefined && maybe.code === options.allowExitCode) {
@@ -94,17 +76,11 @@ async function runCommand(file: string, args: string[], options: { allowExitCode
   }
 }
 
-async function requireCleanWorktree(): Promise<void> {
-  const { stdout } = await runCommand("git", ["status", "--porcelain"]);
-  if (stdout.trim()) throw new Error(`Working tree is not clean:\n${stdout}`);
-}
-
 function generatedDatePaths(date: string): string[] {
   return [
     rawPath(date),
     runPath(date),
     dailyPath(date),
-    responseDir(date),
   ].map((filePath) => path.relative(ROOT, filePath));
 }
 
@@ -141,43 +117,26 @@ async function resetGeneratedDate(date: string): Promise<void> {
   await fs.rm(rawPath(date), { force: true });
   await fs.rm(runPath(date), { force: true });
   await fs.rm(dailyPath(date), { force: true });
-  await fs.rm(responseDir(date), { recursive: true, force: true });
 }
 
 async function ensureHistoricalRaw(date: string, force: boolean): Promise<void> {
   if (force) await resetGeneratedDate(date);
   if (await pathExists(rawPath(date))) {
     if (!(await pathExists(runPath(date)))) {
-      await createFetchedRun(date, "historical_frontpage_snapshot" satisfies SamplingMethod);
+      await createFetchedRun(date, "historical_frontpage_title_snapshot");
     }
-    console.log(`${date}: using existing raw snapshot`);
+    console.log(`${date}: using existing title snapshot`);
     return;
   }
 
   const day = await fetchHistoricalFrontPage(date);
   await writeRawDay(day);
   await createFetchedRun(date, day.samplingMethod);
-  console.log(`${date}: fetched ${day.items.length} historical HN items`);
-}
-
-async function processWithResponses(date: string): Promise<RunFile> {
-  while (true) {
-    console.log(`${date}: processing next Responses chunk`);
-    const changed = await processDay(date);
-    const run = await readRun(date);
-    if (run.state === "complete") return run;
-    if (run.state === "failed") throw new Error(`${date} failed: ${run.error ?? "unknown error"}`);
-    if (!changed) throw new Error(`${date} did not advance from ${run.state}`);
-    const entity = run.responses.entity;
-    const sentiment = run.responses.sentiment;
-    const entityProgress = entity ? `entity ${entity.processedCount}/${entity.successCount + entity.quarantineCount}` : "entity pending";
-    const sentimentProgress = sentiment ? `sentiment ${sentiment.processedCount}/${sentiment.successCount + sentiment.quarantineCount}` : "sentiment pending";
-    console.log(`${date}: ${run.state}; ${entityProgress}; ${sentimentProgress}; continuing`);
-  }
+  console.log(`${date}: fetched ${day.items.length} historical HN front-page titles`);
 }
 
 function printCost(cost: RunCost): void {
-  console.log(`${cost.date}: Responses ${formatUsd(cost.standardUsd)}; Batch estimate ${formatUsd(cost.batchEstimateUsd)}`);
+  console.log(`${cost.date}: Responses ${formatUsd(cost.standardUsd)}`);
   for (const stage of cost.stages) {
     if (stage.totalTokens === 0) continue;
     const cached = stage.cachedInputTokens ? `, ${stage.cachedInputTokens} cached input` : "";
@@ -195,7 +154,7 @@ async function commitAndPublish(date: string): Promise<void> {
     return;
   }
 
-  await runCommand("git", ["commit", "-m", `Backfill HN sentiment ${date}`]);
+  await runCommand("git", ["commit", "-m", `Backfill HN title sentiment ${date}`]);
   await runCommand("git", ["pull", "--rebase", "origin", "main"]);
   await runCommand("git", ["push", "origin", "main"]);
   const { stdout: sha } = await runCommand("git", ["rev-parse", "HEAD"]);
@@ -233,27 +192,29 @@ async function commitAndPublish(date: string): Promise<void> {
   console.log(`${date}: published via workflow run ${runId}`);
 }
 
+async function processDate(date: string): Promise<RunFile> {
+  const run = await analyzeDay(date);
+  if (run.state === "failed") throw new Error(`${date} failed: ${run.error ?? "unknown error"}`);
+  return await readRun(date);
+}
+
 export async function runBackfill(options: BackfillOptions): Promise<void> {
   const dates = expandDateRange(options.start, options.end);
-  const backend = analysisBackend(options.backend ?? "responses");
   let totalStandard = 0;
-  let totalBatchEstimate = 0;
 
   await requireCleanExceptGenerated(dates);
-  console.log(`Backfilling ${dates[0]} through ${dates[dates.length - 1]} with ${backend.name}`);
+  console.log(`Backfilling ${dates[0]} through ${dates[dates.length - 1]} with title-only Responses analysis`);
 
   for (const date of dates) {
     await requireCleanExceptGenerated(dates);
     console.log(`\n=== ${date} ===`);
     await ensureHistoricalRaw(date, Boolean(options.force));
-    const run = await backend.processDay(date);
+    const run = await processDate(date);
     const cost = calculateRunCost(run);
     totalStandard += cost.standardUsd;
-    totalBatchEstimate += cost.batchEstimateUsd;
     printCost(cost);
     await commitAndPublish(date);
   }
 
   console.log(`\nTotal Responses cost: ${formatUsd(totalStandard)}`);
-  console.log(`Total Batch estimate: ${formatUsd(totalBatchEstimate)}`);
 }

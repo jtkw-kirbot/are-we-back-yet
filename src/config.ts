@@ -22,33 +22,20 @@ export const TARGET_COLORS: Record<Target, string> = {
 };
 
 export const MODEL_CONFIG = {
-  entity: {
+  titleAnalysis: {
     model: "gpt-5.4-mini-2026-03-17",
-    reasoningEffort: "low",
-  },
-  sentiment: {
-    model: "gpt-5.4-mini-2026-03-17",
-    reasoningEffort: "medium",
-  },
-  adjudication: {
-    model: "gpt-5.4-2026-03-05",
     reasoningEffort: "medium",
   },
 } as const;
 
 export const METHOD_VERSION = {
-  entityPrompt: "entity-v3",
-  sentimentPrompt: "sentiment-v3",
-  adjudicationPrompt: "adjudication-v1",
-  aggregation: "winner-v1",
+  titleAnalysisPrompt: "title-analysis-v1",
+  aggregation: "title-winner-v1",
   schema: "daily-v1",
 } as const;
 
 export const FETCH_LIMITS = {
   topStories: 30,
-  maxCommentsPerStory: 500,
-  maxDepth: 6,
-  maxCommentsPerDay: 5000,
 } as const;
 
 export const LOS_ANGELES_TZ = "America/Los_Angeles";

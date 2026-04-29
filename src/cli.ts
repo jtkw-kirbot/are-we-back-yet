@@ -1,8 +1,8 @@
 import { promises as fs } from "node:fs";
 import { runBackfill } from "./backfill.js";
-import { fetchFrontPage } from "./hn.js";
+import { analyzeDay, createFetchedRun, hasDailyResult } from "./analyze.js";
+import { fetchFrontPage, fetchHistoricalFrontPage } from "./hn.js";
 import { parseArgs, pathExists, rawPath, runPath, writeRawDay } from "./io.js";
-import { createFetchedRun, processDay } from "./responses.js";
 import { buildSite } from "./site.js";
 import { isLosAngelesRunWindow, localDate } from "./time.js";
 
@@ -16,7 +16,22 @@ async function fetchHn(args: Record<string, string | boolean>): Promise<void> {
   const day = await fetchFrontPage(date);
   await writeRawDay(day);
   await createFetchedRun(date, day.samplingMethod);
-  console.log(`fetched ${day.items.length} HN items for ${date}`);
+  console.log(`fetched ${day.items.length} HN front-page titles for ${date}`);
+}
+
+async function captureDay(args: Record<string, string | boolean>): Promise<void> {
+  const date = typeof args.date === "string" ? args.date : localDate();
+  const force = Boolean(args.force);
+  const historical = Boolean(args.historical);
+  if (!force && await hasDailyResult(date)) {
+    console.log(`daily report already exists for ${date}; use --force to overwrite`);
+    return;
+  }
+  const day = historical ? await fetchHistoricalFrontPage(date) : await fetchFrontPage(date);
+  await writeRawDay(day);
+  await createFetchedRun(date, day.samplingMethod);
+  const run = await analyzeDay(date, { force: true });
+  console.log(`captured ${day.items.length} HN front-page titles for ${date}; ${run.state}`);
 }
 
 async function checkTimegate(args: Record<string, string | boolean>): Promise<void> {
@@ -39,9 +54,12 @@ async function main(): Promise<void> {
     case "fetch:hn":
       await fetchHn(args);
       break;
+    case "capture:day":
+      await captureDay(args);
+      break;
     case "process:day":
       if (typeof args.date !== "string") throw new Error("process:day requires --date YYYY-MM-DD");
-      console.log(await processDay(args.date, { force: Boolean(args.force) }) ? `processed ${args.date}` : `${args.date} did not need processing`);
+      console.log(`processed ${args.date}: ${(await analyzeDay(args.date, { force: Boolean(args.force) })).state}`);
       break;
     case "build:site":
       await buildSite();
@@ -57,7 +75,6 @@ async function main(): Promise<void> {
         start: args.start,
         end: args.end,
         force: Boolean(args.force),
-        ...(typeof args.backend === "string" ? { backend: args.backend } : {}),
       });
       break;
     default:

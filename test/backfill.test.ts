@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { analysisBackend, expandDateRange } from "../src/backfill.js";
+import { expandDateRange } from "../src/backfill.js";
 import { parseHistoricalFrontPageStoryIds } from "../src/hn.js";
 
 describe("historical HN front page parsing", () => {
@@ -23,9 +23,5 @@ describe("backfill date ranges", () => {
       "2026-04-21",
       "2026-04-22",
     ]);
-  });
-
-  it("rejects unsupported backends", () => {
-    expect(() => analysisBackend("batch")).toThrow("Unsupported analysis backend");
   });
 });

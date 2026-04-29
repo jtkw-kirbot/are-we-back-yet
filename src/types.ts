@@ -2,25 +2,22 @@ import { z } from "zod";
 import { TARGETS } from "./config.js";
 
 function trimLongSnippet(value: string): string {
-  if (value.length <= 240) return value;
-  return `${value.slice(0, 237).trimEnd()}...`;
+  if (value.length <= 320) return value;
+  return `${value.slice(0, 317).trimEnd()}...`;
 }
 
 export const TargetSchema = z.enum(TARGETS);
 export type Target = z.infer<typeof TargetSchema>;
 
 export const SamplingMethodSchema = z.enum([
-  "frontpage_snapshot",
-  "historical_frontpage_snapshot",
+  "frontpage_title_snapshot",
+  "historical_frontpage_title_snapshot",
 ]);
 export type SamplingMethod = z.infer<typeof SamplingMethodSchema>;
 
 export const RunStateSchema = z.enum([
   "fetched",
-  "entity_processing",
-  "entity_complete",
-  "sentiment_processing",
-  "sentiment_complete",
+  "analysis_processing",
   "complete",
   "failed",
 ]);
@@ -31,13 +28,12 @@ export const HnItemSchema = z.object({
   type: z.string(),
   by: z.string().optional(),
   time: z.number().optional(),
-  title: z.string().optional(),
+  title: z.string(),
   url: z.string().optional(),
-  text: z.string().optional(),
   score: z.number().optional(),
   descendants: z.number().optional(),
-  depth: z.number(),
-  parentId: z.number().optional(),
+  rank: z.number().int().positive(),
+  depth: z.literal(0),
   storyId: z.number(),
   storyTitle: z.string(),
   storyUrl: z.string().optional(),
@@ -74,72 +70,14 @@ export const RunFileSchema = z.object({
   createdAt: z.string(),
   updatedAt: z.string(),
   responses: z.object({
-    entity: ResponseStageInfoSchema.optional(),
-    sentiment: ResponseStageInfoSchema.optional(),
-    adjudication: ResponseStageInfoSchema.optional(),
+    titleAnalysis: ResponseStageInfoSchema.optional(),
   }).default({}),
   error: z.string().optional(),
 });
 export type RunFile = z.infer<typeof RunFileSchema>;
 
-export const MentionSchema = z.object({
-  target: TargetSchema,
-  text: z.string(),
-  confidence: z.number().min(0).max(1),
-  mentionType: z.enum(["direct", "comparative", "implied", "irrelevant"]),
-  surface: z.string().default("direct_provider"),
-  aspect: z.enum([
-    "model_quality",
-    "provider_pricing",
-    "reseller_billing",
-    "product_ux",
-    "company_strategy",
-    "procurement",
-    "unclear",
-  ]).default("unclear"),
-  sentimentOwner: z.union([
-    TargetSchema,
-    z.literal("same_as_target"),
-    z.literal("unknown"),
-  ]).default("same_as_target"),
-});
-export type Mention = z.infer<typeof MentionSchema>;
-
-export const UnknownMentionSchema = z.object({
-  text: z.string(),
-  likelyTarget: z.union([TargetSchema, z.literal("unknown")]),
-  confidence: z.number().min(0).max(1),
-  reason: z.string(),
-});
-export type UnknownMention = z.infer<typeof UnknownMentionSchema>;
-
-export const EntityResultSchema = z.object({
-  itemId: z.number(),
-  mentions: z.array(MentionSchema),
-  unknownAiEntities: z.array(UnknownMentionSchema).default([]),
-});
-export type EntityResult = z.infer<typeof EntityResultSchema>;
-
-export const SentimentAnalysisSchema = z.object({
-  target: TargetSchema,
-  sentiment: z.number().int().min(-2).max(2),
-  confidence: z.number().min(0).max(1),
-  relevance: z.boolean(),
-  sarcasm: z.boolean().default(false),
-  comparison: z.boolean().default(false),
-  evidenceSummary: z.string(),
-  judgementSnippet: z.string().transform(trimLongSnippet),
-});
-export type SentimentAnalysis = z.infer<typeof SentimentAnalysisSchema>;
-
-export const SentimentResultSchema = z.object({
-  itemId: z.number(),
-  analyses: z.array(SentimentAnalysisSchema),
-});
-export type SentimentResult = z.infer<typeof SentimentResultSchema>;
-
 export const EvidenceSchema = z.object({
-  id: z.string(),
+  id: z.string().regex(/^E\d+$/),
   entity: TargetSchema,
   hnItemId: z.number(),
   url: z.string(),
@@ -156,18 +94,29 @@ export const DailyEntitySchema = z.object({
   neutralCount: z.number().int().nonnegative(),
   negativeCount: z.number().int().nonnegative(),
   confidence: z.number().min(0).max(1),
-  judgementSnippet: z.string(),
+  judgementSnippet: z.string().transform(trimLongSnippet),
   evidenceIds: z.array(z.string()),
 });
 export type DailyEntity = z.infer<typeof DailyEntitySchema>;
+
+export const TitleAnalysisSchema = z.object({
+  itemId: z.number(),
+  target: TargetSchema,
+  sentiment: z.number().int().min(-2).max(2),
+  confidence: z.number().min(0).max(1),
+  relevance: z.boolean(),
+  evidenceSummary: z.string(),
+  judgementSnippet: z.string().transform(trimLongSnippet),
+});
+export type TitleAnalysis = z.infer<typeof TitleAnalysisSchema>;
 
 export const DailyResultSchema = z.object({
   date: z.string(),
   generatedAt: z.string(),
   samplingMethod: SamplingMethodSchema,
   winner: TargetSchema,
-  dailyJudgementSnippet: z.string(),
-  winnerExplanation: z.string(),
+  dailyJudgementSnippet: z.string().transform(trimLongSnippet),
+  winnerExplanation: z.string().transform(trimLongSnippet),
   lowConfidence: z.boolean(),
   closeCall: z.boolean(),
   margin: z.number(),

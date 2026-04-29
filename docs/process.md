@@ -1,80 +1,73 @@
 # Gathering and Analysis Process
 
-This project takes a daily snapshot of Hacker News discussion and turns it into a simple daily winner among OpenAI, Anthropic, Google Gemini, and Microsoft Copilot.
+This project turns a daily Hacker News front-page title snapshot into a simple daily winner among OpenAI, Anthropic, Google Gemini, and Microsoft Copilot.
 
-## 1. Gather the Hacker News discussion
+The tracker is intentionally title-only. It measures the vibe of what reached the HN front page, not the sentiment of the comment threads or linked articles.
 
-Each daily run captures the Hacker News front page and the comments under each front-page post. The daily live run happens at 9pm America/Los_Angeles time.
+## 1. Gather Front-Page Titles
 
-Historical backfills use Hacker News' `front?day=YYYY-MM-DD` page for the first page of ranked stories on that date, then fetch the story and comment data from the Firebase item API. Comments created after the end of the requested UTC date are filtered out so later discussion does not leak into the backfilled day.
+The live daily run captures the current HN front page at 9pm America/Los_Angeles time. It fetches the first 30 story IDs from the Hacker News Firebase API, then stores the story title, HN link, URL, rank, score, and comment count.
 
-## 2. Identify relevant AI entities
+Historical backfills use Hacker News' `front?day=YYYY-MM-DD` page to recover the first page of ranked stories for that date. The system then fetches those story records from the Firebase item API. It does not fetch comments.
 
-Each story and comment is scanned for mentions of the tracked entities and their products. This is a direct OpenAI Responses call per item, and row-level artifacts are stored for auditability.
+## 2. Judge Titles in One Model Call
 
-Examples:
-
-- "ChatGPT", "GPT", "Codex", and "Sora" point to OpenAI.
-- "Claude", "Sonnet", "Opus", and "Claude Code" point to Anthropic.
-- "Gemini" and "Google AI Studio" point to Google Gemini.
-- "GitHub Copilot", "Bing Copilot", "Windows Copilot", and "M365 Copilot" point to Microsoft Copilot.
-
-The entity pass also records where the mention appears. This matters because a model can be discussed inside another product.
-
-Example:
-
-- "Sonnet is now 9x in GitHub Copilot" mentions an Anthropic model, but the surface being judged is GitHub Copilot.
-
-## 3. Decide who owns the sentiment
-
-The system separates the underlying model owner from the product surface that packages or sells access to the model.
+The full daily title list is sent to one OpenAI Responses request. The model identifies tracked entities and scores title-level sentiment in the same response.
 
 Examples:
 
-- "Claude gives better answers than GPT for this codebase" is about Anthropic and OpenAI model quality.
-- "Claude API prices are too high" is about Anthropic provider pricing.
-- "Sonnet now costs 9x in GitHub Copilot" is mainly about Microsoft Copilot billing.
-- "GPT is too expensive on OpenRouter" should not automatically count as negative toward OpenAI unless the comment also criticizes OpenAI directly.
-- "Gemini in this VS Code extension keeps failing" may be about the extension or integration unless the model behavior is clearly blamed.
-- "This open-source harness using Gemini got great benchmark results" is not automatically positive for Gemini if the praise is for the harness, benchmark setup, or implementation technique. It should count for Gemini only when the comment clearly credits the model's quality or compares Gemini's model performance.
+- "OpenAI launches ..." can create an OpenAI analysis.
+- "Claude beats GPT on ..." can create Anthropic and OpenAI analyses.
+- "GitHub Copilot raises usage prices for Claude models" should mainly count as Microsoft Copilot pricing sentiment unless the title directly blames Anthropic.
+- "Show HN: An open-source harness using Gemini ..." should not automatically count as positive Gemini sentiment if the title is mainly about the harness.
 
-When the owner is ambiguous, the system should prefer a lower-confidence or neutral judgement rather than forcing negativity onto the model owner.
+The model only uses the title, URL/domain, HN link, and front-page metadata. It is told not to infer sentiment from comments, article bodies, linked pages, or outside knowledge.
 
-## 4. Score sentiment per entity
+## 3. Produce Evidence and Snippets
 
-The sentiment model scores each relevant tracked entity for the item. Scores range from strongly negative to strongly positive.
+The model returns:
 
-The score is aspect-based. A single comment can produce separate scores for multiple entities.
+- title-level analyses for each relevant provider
+- representative evidence items linked to HN stories
+- a short judgement for each provider
+- a short daily judgement
+- a proposed daily winner
 
-Example:
+Snippets cite evidence with tokens such as `[E1]`. The UI turns those tokens into HN links.
 
-- "Copilot is too expensive now, but Claude itself still works great" can be negative for Microsoft Copilot and positive for Anthropic.
+## 4. Aggregate the Day
 
-## 5. Aggregate the day
+The code deterministically aggregates the model's title-level analyses into per-provider scores.
 
-All item-level scores are combined into daily per-entity scores. Higher-level story comments get more weight than deeply nested replies, and low-confidence judgements contribute less.
+Each relevant title contributes based on:
+
+- sentiment direction from strongly negative to strongly positive
+- model confidence
+- front-page rank, with higher-ranked titles weighted slightly more
+
+A neutral prior is included so a provider with one weak positive title does not automatically beat a provider with broader but mixed coverage. This keeps the daily score somewhat volume-aware while still letting strong title framing matter.
 
 The output stores:
 
 - the daily winner
-- each entity's score
-- positive, neutral, and negative counts
+- each provider's score
+- positive, neutral, and negative title counts
 - confidence
 - evidence links back to Hacker News
-- a short judgement explaining the result
+- short judgement snippets explaining the result
 
-## 6. Adjudicate and publish
+## 5. Publish
 
-An adjudication model reviews the aggregate scores and representative evidence, chooses the daily winner, and writes the short explanation shown in the UI.
+The static site is rebuilt and deployed to GitHub Pages. The homepage starts from the earliest available daily result, with each day colored by the winning provider.
 
-The static site is rebuilt and deployed to GitHub Pages. The homepage starts from the earliest available daily result, with each day colored by the winning entity. Selecting a day shows a ranked provider chart, the evidence-backed daily judgement, and the per-entity sentiment in a right-side sheet on larger screens, or in a full-screen detail view on compact screens.
+Selecting a day shows a ranked provider chart, the evidence-backed daily judgement, and the per-provider title sentiment in a right-side sheet on larger screens or in a full-screen detail view on compact screens.
 
 For UI-only changes, the publish workflow can rebuild and deploy the checked-in site without fetching Hacker News or running model analysis again.
 
-For historical backfills, the local backfill command processes and publishes one day at a time, then prints actual Responses API cost and a Batch API estimate for comparison.
+For historical backfills, the local backfill command processes and publishes one day at a time, then prints actual Responses API cost.
 
-## 7. Fail safely
+## 6. Fail Safely
 
-The processor stores row-level progress and token usage. The daily workflow verifies that the daily report exists before it publishes the site, so partial processing fails loudly instead of deploying a misleading successful day.
+Before the OpenAI request, the system estimates request size with a tokenizer, compares it against the selected model's known context window, and disables API-side truncation.
 
-Before each OpenAI request, the system estimates the request size with a tokenizer, compares it against the selected model's known context window, and disables API-side truncation. Oversized or repeatedly invalid rows are quarantined instead of blocking the whole day, as long as they remain below the small daily tolerance.
+The daily workflow verifies that the daily report exists before it publishes the site, so failed analysis does not deploy a misleading successful day.

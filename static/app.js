@@ -122,7 +122,7 @@
   }
 
   function formatMentions(value) {
-    return `${value} mention${value === 1 ? "" : "s"}`;
+    return `${value} title${value === 1 ? "" : "s"}`;
   }
 
   function clampScore(value) {
@@ -216,7 +216,7 @@
         <div class="entity-row">
           <div class="entity-main">
             <span class="entity-name">${label}</span>
-            <span class="entity-score">${formatScore(entity.score)} · ${entity.mentionCount} mentions</span>
+            <span class="entity-score">${formatScore(entity.score)} · ${formatMentions(entity.mentionCount)}</span>
           </div>
           <div class="entity-detail">${withEvidenceLinks(entity.judgementSnippet || "No relevant signal.", evidenceById)}</div>
         </div>
@@ -224,7 +224,7 @@
     }).join("");
 
     const flags = [
-      day.samplingMethod === "historical_frontpage_snapshot" ? "Historical front page" : "9pm snapshot",
+      day.samplingMethod === "historical_frontpage_title_snapshot" ? "Historical title snapshot" : "9pm title snapshot",
       day.lowConfidence ? "Low confidence" : "",
       day.closeCall ? "Close call" : "",
     ].filter(Boolean);

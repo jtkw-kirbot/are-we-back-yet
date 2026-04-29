@@ -7,7 +7,6 @@ export const ROOT = process.cwd();
 export const DATA_DIR = path.join(ROOT, "data");
 export const RAW_DIR = path.join(DATA_DIR, "raw");
 export const RUNS_DIR = path.join(DATA_DIR, "runs");
-export const RESPONSES_DIR = path.join(DATA_DIR, "responses");
 export const DAILY_DIR = path.join(DATA_DIR, "daily");
 export const STATIC_DIR = path.join(ROOT, "static");
 export const DIST_DIR = path.join(ROOT, "dist");
@@ -41,10 +40,6 @@ export function rawPath(date: string): string {
 
 export function runPath(date: string): string {
   return path.join(RUNS_DIR, `${date}.json`);
-}
-
-export function responseDir(date: string): string {
-  return path.join(RESPONSES_DIR, date);
 }
 
 export function dailyPath(date: string): string {
