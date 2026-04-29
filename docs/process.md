@@ -82,7 +82,7 @@ A deterministic alias audit also scans titles and comments for obvious missed al
 
 The static site is rebuilt from new-method daily records and deployed to GitHub Pages.
 
-The calendar is colored by the strongest meaningful positive adjusted provider signal for the date. If positive signals are tied within the tie threshold, the tile shows horizontal color bands. Days without a meaningful positive signal use the neutral styling.
+The calendar is colored by the strongest positive adjusted provider signal for the date. If positive signals are tied within the tie threshold, the tile shows horizontal color bands. Days without a positive adjusted signal use the neutral styling.
 
 Selecting a day shows:
 

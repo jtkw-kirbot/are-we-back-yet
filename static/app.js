@@ -12,7 +12,6 @@
     microsoft_copilot: "--microsoft_copilot",
   };
   const fallbackTrackerStartDate = "2026-01-01";
-  const positiveSignalThreshold = 0.35;
   const tieThreshold = 0.2;
 
   const grid = document.getElementById("grid");
@@ -157,7 +156,7 @@
 
   function dayPositiveSignalRows(day) {
     if (!day) return [];
-    const positiveRows = (day.ranking ?? []).filter((row) => Number(row.adjustedMean) >= positiveSignalThreshold);
+    const positiveRows = (day.ranking ?? []).filter((row) => Number(row.adjustedMean) > 0);
     if (positiveRows.length === 0) return [];
     const maxPositive = Math.max(...positiveRows.map((row) => Number(row.adjustedMean)));
     return positiveRows
