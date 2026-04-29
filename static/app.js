@@ -247,7 +247,11 @@
       const end = ((index + 1) * stop).toFixed(2);
       return `var(${providerColorVars[target]}) ${start}% ${end}%`;
     });
-    square.style.background = `linear-gradient(to right, ${bands.join(", ")})`;
+    if (targets.length === 2) {
+      square.style.background = `linear-gradient(135deg, ${bands.join(", ")})`;
+      return;
+    }
+    square.style.background = `conic-gradient(${bands.join(", ")})`;
   }
 
   function renderRankingChart(day, evidenceById) {
