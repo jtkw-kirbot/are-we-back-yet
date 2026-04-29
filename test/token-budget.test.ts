@@ -2,13 +2,13 @@ import { describe, expect, it } from "vitest";
 import { estimateTokens, OUTPUT_TOKEN_CAPS, preflightResponseBody, withResponseSafeguards } from "../src/token-budget.js";
 
 describe("token budget preflight", () => {
-  it("allows normal title-analysis requests with disabled truncation", () => {
+  it("allows normal evidence-detection requests with disabled truncation", () => {
     const body = withResponseSafeguards({
       model: "gpt-5.4-2026-03-05",
       input: [{ role: "user", content: "Short Hacker News title about GPT." }],
-    }, OUTPUT_TOKEN_CAPS.titleAnalysis);
+    }, OUTPUT_TOKEN_CAPS.evidenceDetection);
 
-    const result = preflightResponseBody(body, "gpt-5.4-2026-03-05", OUTPUT_TOKEN_CAPS.titleAnalysis);
+    const result = preflightResponseBody(body, "gpt-5.4-2026-03-05", OUTPUT_TOKEN_CAPS.evidenceDetection);
 
     expect(body.truncation).toBe("disabled");
     expect(result.ok).toBe(true);
@@ -20,9 +20,9 @@ describe("token budget preflight", () => {
     const body = withResponseSafeguards({
       model: "gpt-5.4-2026-03-05",
       input: [{ role: "user", content: hugeText }],
-    }, OUTPUT_TOKEN_CAPS.titleAnalysis);
+    }, OUTPUT_TOKEN_CAPS.evidenceDetection);
 
-    const result = preflightResponseBody(body, "gpt-5.4-2026-03-05", OUTPUT_TOKEN_CAPS.titleAnalysis);
+    const result = preflightResponseBody(body, "gpt-5.4-2026-03-05", OUTPUT_TOKEN_CAPS.evidenceDetection);
 
     expect(result.ok).toBe(false);
     expect(result.reason).toBe("oversize_input_preflight");

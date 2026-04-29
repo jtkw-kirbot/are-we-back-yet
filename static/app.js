@@ -11,12 +11,14 @@
     google_gemini: "--google_gemini",
     microsoft_copilot: "--microsoft_copilot",
   };
-  const fallbackTrackerStartDate = "2026-04-27";
+  const fallbackTrackerStartDate = "2026-01-01";
 
   const grid = document.getElementById("grid");
   const popover = document.getElementById("popover");
   const rangeLabel = document.getElementById("range-label");
   let activeAnchor = null;
+  let calendar = null;
+  let weeks = [];
 
   function useCompactModal() {
     return window.matchMedia("(max-width: 900px)").matches;
@@ -32,8 +34,8 @@
   }
 
   function fitCalendarToGrid() {
-    if (!useFittedCalendar() || weeks.length === 0) {
-      calendar.style.removeProperty("--day-size");
+    if (!calendar || !useFittedCalendar() || weeks.length === 0) {
+      calendar?.style.removeProperty("--day-size");
       return;
     }
 
@@ -101,33 +103,46 @@
 
   function buildWeeks(dates) {
     if (dates.length === 0) return [];
-    const weeks = [];
+    const out = [];
     let week = new Array(7).fill(null);
 
     for (const date of dates) {
       const day = new Date(`${date}T00:00:00Z`).getUTCDay();
       if (day === 0 && week.some(Boolean)) {
-        weeks.push(week);
+        out.push(week);
         week = new Array(7).fill(null);
       }
       week[day] = date;
     }
-    if (week.some(Boolean)) weeks.push(week);
-    return weeks;
+    if (week.some(Boolean)) out.push(week);
+    return out;
   }
 
-  function formatScore(value) {
-    if (value === null || value === undefined) return "N/A";
+  function bucketLabel(value) {
+    return {
+      strongly_negative: "strongly negative",
+      negative: "negative",
+      mixed_neutral: "mixed/neutral",
+      positive: "positive",
+      strongly_positive: "strongly positive",
+    }[value] ?? value;
+  }
+
+  function rankNoteLabel(value) {
+    return {
+      low_support: "low support",
+      close_tie: "close tie",
+      mixed_high_volume: "mixed high volume",
+    }[value] ?? value;
+  }
+
+  function formatMean(value) {
     const sign = value > 0 ? "+" : "";
-    return `${sign}${value.toFixed(2)}`;
+    return `${sign}${Number(value || 0).toFixed(2)}`;
   }
 
-  function formatMentions(value) {
-    return `${value} relevant stor${value === 1 ? "y" : "ies"}`;
-  }
-
-  function clampScore(value) {
-    return Math.max(-1, Math.min(1, Number(value) || 0));
+  function clampMean(value) {
+    return Math.max(-2, Math.min(2, Number(value) || 0));
   }
 
   function escapeHtml(value) {
@@ -143,15 +158,32 @@
     return escapeHtml(text).replace(/\[(E\d+)]/g, (token, id) => {
       const evidence = evidenceById.get(id);
       if (!evidence) return token;
-      return `<a href="${escapeHtml(evidence.url)}" target="_blank" rel="noreferrer">[${id}]</a>`;
+      return `<a href="${escapeHtml(evidence.hnUrl)}" target="_blank" rel="noreferrer">[${id}]</a>`;
     });
   }
 
-  function renderRankingChart(day) {
-    const rows = Object.entries(labels)
-      .map(([target, label]) => ({ target, label, entity: day.entities[target] }))
-      .filter((row) => row.entity && row.entity.score !== null)
-      .sort((a, b) => b.entity.score - a.entity.score);
+  function daySignalTargets(day) {
+    if (!day) return [];
+    if (Array.isArray(day.primarySignalTargets) && day.primarySignalTargets.length > 0) {
+      return day.primarySignalTargets;
+    }
+    return day.primarySignalTarget ? [day.primarySignalTarget] : [];
+  }
+
+  function applyDayBackground(square, day) {
+    const targets = daySignalTargets(day);
+    if (targets.length <= 1) return;
+    const stop = 100 / targets.length;
+    const bands = targets.flatMap((target, index) => {
+      const start = (index * stop).toFixed(2);
+      const end = ((index + 1) * stop).toFixed(2);
+      return [`var(${providerColorVars[target]}) ${start}%`, `var(${providerColorVars[target]}) ${end}%`];
+    });
+    square.style.background = `linear-gradient(to bottom, ${bands.join(", ")})`;
+  }
+
+  function renderRankingChart(day, evidenceById) {
+    const rows = day.ranking ?? [];
     if (rows.length === 0) {
       return `
         <section class="ranking-block" aria-label="Provider ranking">
@@ -160,25 +192,31 @@
         </section>
       `;
     }
-    const maxAbsScore = Math.max(0.05, ...rows.map((row) => Math.abs(clampScore(row.entity.score))));
+    const maxAbsScore = Math.max(0.1, ...rows.map((row) => Math.abs(clampMean(row.adjustedMean))));
 
     return `
       <section class="ranking-block" aria-label="Provider ranking">
         <div class="section-title">ranking</div>
         <div class="ranking-list">
-          ${rows.map((row, index) => {
-            const score = clampScore(row.entity.score);
+          ${rows.map((row) => {
+            const score = clampMean(row.adjustedMean);
             const barWidth = Math.min(50, (Math.abs(score) / maxAbsScore) * 50);
             const barLeft = score < 0 ? 50 - barWidth : 50;
-            const scoreDirection = score < 0 ? "negative" : score > 0 ? "positive" : "neutral";
+            const scoreDirection = row.direction;
+            const notes = [
+              bucketLabel(row.bucket),
+              `${row.support} support`,
+              `${row.confidence} confidence`,
+              row.rankNote ? rankNoteLabel(row.rankNote) : "",
+            ].filter(Boolean);
             return `
-              <div class="rank-row ${row.target === day.winner ? "winner" : ""}">
+              <div class="rank-row">
                 <div class="rank-meta">
                   <span class="rank-label">
-                    <span class="rank-position">${index + 1}</span>
-                    <span>${escapeHtml(row.label)}</span>
+                    <span class="rank-position">${row.displayRank}</span>
+                    <span>${escapeHtml(labels[row.target] ?? row.target)}</span>
                   </span>
-                  <span class="rank-score">${formatScore(row.entity.score)} · ${formatMentions(row.entity.mentionCount)}</span>
+                  <span class="rank-score">${escapeHtml(notes.join(" · "))}</span>
                 </div>
                 <div class="rank-bar-track" aria-hidden="true">
                   <span class="rank-zero"></span>
@@ -188,14 +226,59 @@
                   ></span>
                 </div>
                 <div class="rank-counts">
-                  <span>${row.entity.positiveCount} positive</span>
-                  <span>${row.entity.neutralCount} neutral</span>
-                  <span>${row.entity.negativeCount} negative</span>
+                  <span>adjusted ${formatMean(row.adjustedMean)}</span>
+                  <span>raw ${formatMean(row.rawMean)}</span>
+                  <span>support ${Number(row.effectiveSupport).toFixed(2)}</span>
+                  <span>${row.evidenceBalance.positive} positive</span>
+                  <span>${row.evidenceBalance.neutral} neutral</span>
+                  <span>${row.evidenceBalance.negative} negative</span>
                 </div>
+                <p class="rank-summary">${withEvidenceLinks(row.summary || "", evidenceById)}</p>
               </div>
             `;
           }).join("")}
         </div>
+      </section>
+    `;
+  }
+
+  function renderEvidence(day) {
+    if (!day.evidence?.length) return "";
+    return `
+      <section class="detail-section" aria-label="Evidence">
+        <div class="section-title">evidence</div>
+        <div class="evidence-list">
+          ${day.evidence.map((item) => `
+            <article class="evidence-card">
+              <div class="evidence-head">
+                <a href="${escapeHtml(item.hnUrl)}" target="_blank" rel="noreferrer">${escapeHtml(item.id)}</a>
+                <span>${escapeHtml(item.sourceType)} · story ${escapeHtml(item.storyId)}</span>
+              </div>
+              <blockquote>${escapeHtml(item.excerpt)}</blockquote>
+              <div class="annotation-list">
+                ${item.annotations.map((annotation) => `
+                  <div class="annotation">
+                    <strong>${escapeHtml(labels[annotation.target] ?? annotation.target)}</strong>
+                    <span>${escapeHtml(annotation.stanceLabel.replaceAll("_", " "))}</span>
+                    <span>${escapeHtml(annotation.relevance)}</span>
+                    <span>${escapeHtml(annotation.referenceBasis.replaceAll("_", " "))}</span>
+                    <p>${escapeHtml(annotation.rationale)}</p>
+                  </div>
+                `).join("")}
+              </div>
+            </article>
+          `).join("")}
+        </div>
+      </section>
+    `;
+  }
+
+  function renderUnmentioned(day) {
+    if (!day.unmentioned?.length) return "";
+    return `
+      <section class="detail-section" aria-label="Unmentioned providers">
+        <div class="section-title">unmentioned</div>
+        <p class="judgement secondary">${day.unmentioned.map((target) => escapeHtml(labels[target] ?? target)).join(", ")}</p>
       </section>
     `;
   }
@@ -214,59 +297,40 @@
           <p class="judgement">This day has not been processed yet.</p>
         </div>
       `;
-      showDetail(anchor);
+      showDetail();
       return;
     }
 
     const evidenceById = new Map(day.evidence.map((item) => [item.id, item]));
-    const entityRows = Object.entries(labels).map(([target, label]) => {
-      const entity = day.entities[target];
-      return `
-        <div class="entity-row">
-          <div class="entity-main">
-            <span class="entity-name">${label}</span>
-            <span class="entity-score">${formatScore(entity.score)} · ${formatMentions(entity.mentionCount)}</span>
-          </div>
-          <div class="entity-detail">${withEvidenceLinks(entity.judgementSnippet || "No relevant signal.", evidenceById)}</div>
-        </div>
-      `;
-    }).join("");
-
+    const signalTargets = daySignalTargets(day).map((target) => labels[target] ?? target);
     const flags = [
-      day.samplingMethod === "historical_frontpage_story_comment_snapshot" ? "Historical story/comment snapshot" :
-        day.samplingMethod === "historical_frontpage_title_snapshot" ? "Historical title snapshot" :
-          day.samplingMethod === "frontpage_title_snapshot" ? "9pm title snapshot" : "9pm story/comment snapshot",
-      day.lowConfidence ? "Low confidence" : "",
-      day.closeCall ? "Close call" : "",
+      "front?day story/comment snapshot",
+      day.primarySignalTie ? `Tied signal: ${signalTargets.join(", ")}` : signalTargets.length === 1 ? `Primary signal: ${signalTargets[0]}` : "No primary signal",
+      day.hasLowSupportLeader ? "Low-support leader" : "",
     ].filter(Boolean);
-
-    const winnerLabel = day.winner ? labels[day.winner] : "No winner";
 
     popover.innerHTML = `
       ${detailCloseButton()}
       <div class="detail-scroll">
-        <h2>${escapeHtml(day.date)} · ${escapeHtml(winnerLabel)}</h2>
+        <h2>${escapeHtml(day.date)}</h2>
         <div class="meta">${flags.map((flag) => `<span class="pill">${escapeHtml(flag)}</span>`).join("")}</div>
-        ${renderRankingChart(day)}
+        ${renderRankingChart(day, evidenceById)}
         <section class="detail-section judgement-block" aria-label="Overall judgement">
-          <div class="section-title">overall judgement</div>
-          <p class="judgement">${withEvidenceLinks(day.dailyJudgementSnippet, evidenceById)}</p>
-          <p class="judgement secondary">${withEvidenceLinks(day.winnerExplanation || "", evidenceById)}</p>
+          <div class="section-title">daily summary</div>
+          <p class="judgement">${withEvidenceLinks(day.headlineSummary || "No tracked provider had relevant HN signal.", evidenceById)}</p>
         </section>
-        <section class="detail-section" aria-label="Provider breakdown">
-          <div class="section-title">breakdown</div>
-          <div class="scores">${entityRows}</div>
-        </section>
+        ${renderUnmentioned(day)}
+        ${renderEvidence(day)}
       </div>
     `;
-    showDetail(anchor);
+    showDetail();
   }
 
   function detailCloseButton() {
     return `<button type="button" class="close-detail" aria-label="Close detail"><span aria-hidden="true">X</span></button>`;
   }
 
-  function showDetail(anchor) {
+  function showDetail() {
     popover.hidden = false;
     popover.style.left = "";
     popover.style.top = "";
@@ -295,8 +359,8 @@
   const dates = dateRange(startDate);
   rangeLabel.textContent = `since ${displayDate(startDate)}`;
 
-  const weeks = buildWeeks(dates);
-  const calendar = document.createElement("div");
+  weeks = buildWeeks(dates);
+  calendar = document.createElement("div");
   calendar.className = "calendar";
 
   const monthLabels = document.createElement("div");
@@ -327,10 +391,11 @@
   for (const week of weeks) {
     for (const date of week) {
       const day = date ? byDate.get(date) : undefined;
-      const winner = day?.winner ?? null;
+      const targets = daySignalTargets(day);
+      const primary = targets.length === 1 ? targets[0] : null;
       const square = document.createElement("button");
       square.type = "button";
-      square.className = date ? `day ${winner ?? "no_winner"}` : "day empty";
+      square.className = date ? `day ${primary ?? "no_signal"}` : "day empty";
       if (!date) {
         square.tabIndex = -1;
         heatmap.appendChild(square);
@@ -338,7 +403,11 @@
       }
       square.dataset.date = date;
       square.dataset.state = day ? "complete" : "missing";
-      square.setAttribute("aria-label", day ? `${date}: ${winner ? `${labels[winner]} won` : "no relevant provider signal"}` : `${date}: no data`);
+      applyDayBackground(square, day);
+      const label = targets.length > 0
+        ? `${targets.map((target) => labels[target] ?? target).join(", ")} strongest ${day.primarySignalDirection} signal`
+        : "no primary provider signal";
+      square.setAttribute("aria-label", day ? `${date}: ${label}` : `${date}: no data`);
       square.addEventListener("click", (event) => {
         event.stopPropagation();
         renderDetail(square, date, day);

@@ -1,4 +1,5 @@
-import { FETCH_LIMITS } from "./config.js";
+import { FETCH_LIMITS, RAW_SOURCE, SAMPLING_METHOD } from "./config.js";
+import { endOfLocalDateUnixSeconds } from "./time.js";
 import { type HnComment, type HnItem, type RawDay } from "./types.js";
 
 const FIREBASE_BASE = "https://hacker-news.firebaseio.com/v0";
@@ -185,36 +186,31 @@ async function fetchStories(ids: number[], options: { commentCutoffUnixSeconds?:
   return items;
 }
 
-function endOfUtcDateUnixSeconds(date: string): number {
-  const endMs = Date.parse(`${date}T23:59:59.999Z`);
-  if (!Number.isFinite(endMs)) throw new Error(`Invalid date: ${date}`);
-  return Math.floor(endMs / 1000);
+export async function fetchFrontPageStoryIdsForDate(date: string): Promise<number[]> {
+  const html = await fetchHistoricalFrontPageHtml(date);
+  return parseHistoricalFrontPageStoryIds(html).slice(0, FETCH_LIMITS.topStories);
+}
+
+export async function fetchFrontPageForDate(date: string, options: { allowEmpty?: boolean } = {}): Promise<RawDay> {
+  const ids = await fetchFrontPageStoryIdsForDate(date);
+  if (ids.length === 0 && !options.allowEmpty) {
+    throw new Error(`No HN front-page stories found for ${date}`);
+  }
+  const items = await fetchStories(ids, { commentCutoffUnixSeconds: endOfLocalDateUnixSeconds(date) });
+
+  return {
+    date,
+    fetchedAt: new Date().toISOString(),
+    samplingMethod: SAMPLING_METHOD,
+    source: RAW_SOURCE,
+    items,
+  };
 }
 
 export async function fetchFrontPage(date: string): Promise<RawDay> {
-  const ids = await fetchJson<number[]>(`${FIREBASE_BASE}/topstories.json`);
-  const items = await fetchStories(ids.slice(0, FETCH_LIMITS.topStories));
-
-  return {
-    date,
-    fetchedAt: new Date().toISOString(),
-    samplingMethod: "frontpage_story_comment_snapshot",
-    source: "firebase",
-    items,
-  };
+  return fetchFrontPageForDate(date);
 }
 
 export async function fetchHistoricalFrontPage(date: string): Promise<RawDay> {
-  const html = await fetchHistoricalFrontPageHtml(date);
-  const ids = parseHistoricalFrontPageStoryIds(html).slice(0, FETCH_LIMITS.topStories);
-  if (ids.length === 0) throw new Error(`No historical HN front-page stories found for ${date}`);
-  const items = await fetchStories(ids, { commentCutoffUnixSeconds: endOfUtcDateUnixSeconds(date) });
-
-  return {
-    date,
-    fetchedAt: new Date().toISOString(),
-    samplingMethod: "historical_frontpage_story_comment_snapshot",
-    source: "hn_front_html_firebase",
-    items,
-  };
+  return fetchFrontPageForDate(date);
 }

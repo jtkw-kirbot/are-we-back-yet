@@ -1,7 +1,7 @@
 import { MODEL_CONFIG } from "./config.js";
 import type { ResponseStageInfo, RunFile } from "./types.js";
 
-type StageName = "titleAnalysis";
+type StageName = "evidenceDetection" | "dailySummary";
 
 type ModelPrice = {
   inputPerMillion: number;
@@ -39,7 +39,8 @@ const MODEL_PRICES: Record<string, ModelPrice> = {
 };
 
 function stageModel(stage: StageName): string {
-  if (stage === "titleAnalysis") return MODEL_CONFIG.titleAnalysis.model;
+  if (stage === "evidenceDetection") return MODEL_CONFIG.evidenceDetection.model;
+  if (stage === "dailySummary") return MODEL_CONFIG.dailySummary.model;
   throw new Error(`Unknown stage: ${stage}`);
 }
 
@@ -70,7 +71,8 @@ function stageCost(stage: StageName, info: ResponseStageInfo | undefined): Stage
 
 export function calculateRunCost(run: RunFile): RunCost {
   const stages: StageCost[] = [
-    stageCost("titleAnalysis", run.responses.titleAnalysis),
+    stageCost("evidenceDetection", run.responses.evidenceDetection),
+    stageCost("dailySummary", run.responses.dailySummary),
   ];
   return {
     date: run.date,

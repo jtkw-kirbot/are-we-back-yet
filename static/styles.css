@@ -235,7 +235,7 @@ p {
 .day.anthropic { background: var(--anthropic); }
 .day.google_gemini { background: var(--google_gemini); }
 .day.microsoft_copilot { background: var(--microsoft_copilot); }
-.day.no_winner { background: var(--missing); }
+.day.no_signal { background: var(--missing); }
 
 .day:focus-visible {
   outline: 2px solid #0969da;
@@ -423,11 +423,6 @@ p {
   font-size: 11px;
 }
 
-.rank-row.winner .rank-position {
-  color: var(--ink);
-  border-color: rgba(240, 246, 252, 0.5);
-}
-
 .rank-score {
   color: var(--ink);
   font-variant-numeric: tabular-nums;
@@ -475,6 +470,12 @@ p {
   color: var(--muted);
   font-size: 11px;
   line-height: 1.3;
+}
+
+.rank-summary {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.4;
 }
 
 .judgement {
@@ -535,14 +536,68 @@ p {
 }
 
 .judgement a,
-.entity-detail a {
+.entity-detail a,
+.rank-summary a,
+.evidence-card a {
   color: #58a6ff;
   text-decoration: none;
 }
 
 .judgement a:hover,
-.entity-detail a:hover {
+.entity-detail a:hover,
+.rank-summary a:hover,
+.evidence-card a:hover {
   text-decoration: underline;
+}
+
+.evidence-list {
+  display: grid;
+  gap: 10px;
+}
+
+.evidence-card {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px;
+  background: rgba(13, 17, 23, 0.36);
+}
+
+.evidence-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.evidence-card blockquote {
+  margin: 8px 0;
+  color: var(--ink);
+  line-height: 1.42;
+}
+
+.annotation-list {
+  display: grid;
+  gap: 8px;
+}
+
+.annotation {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px 8px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.35;
+}
+
+.annotation strong {
+  color: var(--ink);
+}
+
+.annotation p {
+  flex-basis: 100%;
+  line-height: 1.35;
 }
 
 @media (max-width: 900px) {

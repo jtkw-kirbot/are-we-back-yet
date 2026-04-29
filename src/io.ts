@@ -79,7 +79,13 @@ export async function readDailyResults(): Promise<DailyResult[]> {
   const dates = await listJsonDates(DAILY_DIR);
   const days: DailyResult[] = [];
   for (const date of dates) {
-    days.push(await readJson(dailyPath(date), DailyResultSchema));
+    try {
+      const day = await readJson(dailyPath(date), DailyResultSchema);
+      days.push(day);
+    } catch (error) {
+      if (error instanceof z.ZodError) continue;
+      throw error;
+    }
   }
   return days;
 }

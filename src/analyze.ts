@@ -1,73 +1,76 @@
-import { MODEL_CONFIG, METHOD_VERSION, TARGET_LABELS, TARGETS, type Target } from "./config.js";
-import { dailyPath, pathExists, readRawDay, readRun, writeDaily, writeRun } from "./io.js";
+import { aggregateDailyEvidence, withDailySummaries } from "./aggregate.js";
+import { runDeterministicAudit } from "./audit.js";
+import { MODEL_CONFIG, TARGETS, type Target } from "./config.js";
+import { dailyPath, pathExists, readJson, readRawDay, readRun, writeDaily, writeRun } from "./io.js";
 import { createResponse, OpenAiStatusError, type OpenAiUsage } from "./openai-client.js";
-import { titleAnalysisRequestBody } from "./prompts.js";
+import { dailySummaryRequestBody, evidenceDetectionRequestBody } from "./prompts.js";
 import { OUTPUT_TOKEN_CAPS, preflightResponseBody, withResponseSafeguards } from "./token-budget.js";
 import {
   DailyResultSchema,
   EvidenceSchema,
-  type DailyEntity,
+  LabelConfidenceSchema,
+  ReferenceBasisSchema,
+  RelevanceSchema,
+  StanceLabelSchema,
+  StanceSchema,
+  TargetSchema,
+  TopicSchema,
+  type DailyResult,
   type Evidence,
   type RawDay,
   type ResponseStageInfo,
   type RunFile,
+  type RunObservability,
   type SamplingMethod,
 } from "./types.js";
 import { z } from "zod";
 
-const CLOSE_CALL_MARGIN = 0.1;
-const SCORE_EPSILON = 0.000001;
+type StageName = "evidenceDetection" | "dailySummary";
 
-const ModelDailyEntitySchema = z.object({
-  score: z.number().min(-1).max(1).nullable(),
-  mentionCount: z.number().int().nonnegative(),
-  positiveCount: z.number().int().nonnegative(),
-  neutralCount: z.number().int().nonnegative(),
-  negativeCount: z.number().int().nonnegative(),
-  confidence: z.number().min(0).max(1),
-  judgementSnippet: z.string(),
-  evidenceIds: z.array(z.string()),
+const ModelEvidenceSchema = z.object({
+  id: z.string().regex(/^E\d+$/),
+  storyId: z.number(),
+  commentId: z.number().nullable(),
+  hnUrl: z.string(),
+  sourceType: z.enum(["title", "comment"]),
+  excerpt: z.string(),
+  annotations: z.array(z.object({
+    target: TargetSchema,
+    referenceBasis: ReferenceBasisSchema,
+    stance: StanceSchema,
+    stanceLabel: StanceLabelSchema,
+    relevance: RelevanceSchema,
+    topic: TopicSchema,
+    confidence: LabelConfidenceSchema,
+    attributionConfidence: LabelConfidenceSchema,
+    rationale: z.string(),
+  })).min(1),
+}).transform((value) => {
+  const { commentId, ...rest } = value;
+  return commentId === null ? rest : { ...rest, commentId };
+}).pipe(EvidenceSchema);
+
+const EvidenceDetectionOutputSchema = z.object({
+  evidence: z.array(ModelEvidenceSchema),
 });
+type EvidenceDetectionOutput = z.infer<typeof EvidenceDetectionOutputSchema>;
 
-const TitleAnalysisOutputSchema = z.object({
-  winner: z.enum(TARGETS).nullable(),
-  dailyJudgementSnippet: z.string(),
-  winnerExplanation: z.string(),
-  entities: z.object({
-    openai: ModelDailyEntitySchema,
-    anthropic: ModelDailyEntitySchema,
-    google_gemini: ModelDailyEntitySchema,
-    microsoft_copilot: ModelDailyEntitySchema,
-  }),
-  evidence: z.array(EvidenceSchema),
+const DailySummaryOutputSchema = z.object({
+  headlineSummary: z.string(),
+  targetSummaries: z.array(z.object({
+    target: TargetSchema,
+    summary: z.string(),
+  })),
 });
+type DailySummaryOutput = z.infer<typeof DailySummaryOutputSchema>;
 
-type TitleAnalysisOutput = z.infer<typeof TitleAnalysisOutputSchema>;
-type ModelDailyEntity = z.infer<typeof ModelDailyEntitySchema>;
-type NormalizedDailyOutput = {
-  winner: Target | null;
-  dailyJudgementSnippet: string;
-  winnerExplanation: string;
-  entities: Record<Target, DailyEntity>;
-  evidence: Evidence[];
+type SourceRecord = {
+  text: string;
+  hnUrl: string;
 };
 
 function nowIso(): string {
   return new Date().toISOString();
-}
-
-function emptyEntity(snippet = ""): DailyEntity {
-  return {
-    score: null,
-    rawWeightedSentiment: null,
-    mentionCount: 0,
-    positiveCount: 0,
-    neutralCount: 0,
-    negativeCount: 0,
-    confidence: 0,
-    judgementSnippet: snippet,
-    evidenceIds: [],
-  };
 }
 
 function parseModelJson(text: string): unknown {
@@ -83,6 +86,14 @@ function normalizeText(value: string): string {
   return value.replace(/\s+/g, " ").trim();
 }
 
+function comparableText(value: string): string {
+  return normalizeText(value)
+    .replaceAll("\u00a0", " ")
+    .replace(/[“”]/g, "\"")
+    .replace(/[‘’]/g, "'")
+    .toLowerCase();
+}
+
 function stageInfoFromUsage(startedAt: string, usage: OpenAiUsage | undefined): ResponseStageInfo {
   return {
     startedAt,
@@ -94,6 +105,19 @@ function stageInfoFromUsage(startedAt: string, usage: OpenAiUsage | undefined): 
     cachedInputTokens: usage?.input_tokens_details?.cached_tokens ?? 0,
     outputTokens: usage?.output_tokens ?? 0,
     totalTokens: usage?.total_tokens ?? 0,
+  };
+}
+
+function inProgressStageInfo(startedAt: string): ResponseStageInfo {
+  return {
+    startedAt,
+    processedCount: 0,
+    successCount: 0,
+    quarantineCount: 0,
+    inputTokens: 0,
+    cachedInputTokens: 0,
+    outputTokens: 0,
+    totalTokens: 0,
   };
 }
 
@@ -111,6 +135,19 @@ function failStageInfo(startedAt: string, usage: OpenAiUsage | undefined): Respo
   };
 }
 
+function mergeUsage(left: OpenAiUsage | undefined, right: OpenAiUsage | undefined): OpenAiUsage | undefined {
+  if (!left) return right;
+  if (!right) return left;
+  return {
+    input_tokens: (left.input_tokens ?? 0) + (right.input_tokens ?? 0),
+    input_tokens_details: {
+      cached_tokens: (left.input_tokens_details?.cached_tokens ?? 0) + (right.input_tokens_details?.cached_tokens ?? 0),
+    },
+    output_tokens: (left.output_tokens ?? 0) + (right.output_tokens ?? 0),
+    total_tokens: (left.total_tokens ?? 0) + (right.total_tokens ?? 0),
+  };
+}
+
 function isRetryableOpenAiError(error: unknown): error is OpenAiStatusError {
   return error instanceof OpenAiStatusError && (error.status === 429 || error.status >= 500);
 }
@@ -119,197 +156,116 @@ function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-function validateEvidence(day: RawDay, output: TitleAnalysisOutput): void {
-  const validItemIds = new Set(day.items.map((item) => item.id));
-  const seenEvidenceIds = new Set<string>();
-  for (const evidence of output.evidence) {
-    if (!validItemIds.has(evidence.hnItemId)) {
-      throw new Error(`Model returned evidence for unknown HN item ${evidence.hnItemId}`);
-    }
-    if (seenEvidenceIds.has(evidence.id)) {
-      throw new Error(`Model returned duplicate evidence id ${evidence.id}`);
-    }
-    seenEvidenceIds.add(evidence.id);
-  }
-
-  const snippets = [
-    output.dailyJudgementSnippet,
-    output.winnerExplanation,
-    ...TARGETS.map((target) => output.entities[target].judgementSnippet),
-  ];
-  for (const snippet of snippets) {
-    if (/https?:\/\//i.test(snippet)) {
-      throw new Error("Model snippet included a raw URL; expected [E#] evidence citations.");
-    }
-    for (const id of citationIds(snippet)) {
-      if (!seenEvidenceIds.has(id)) throw new Error(`Model snippet cited unknown evidence id ${id}`);
-    }
-  }
+function stanceLabelFor(stance: number): string {
+  if (stance === -2) return "strong_negative";
+  if (stance === -1) return "negative";
+  if (stance === 0) return "neutral_mixed";
+  if (stance === 1) return "positive";
+  if (stance === 2) return "strong_positive";
+  throw new Error(`Invalid stance ${stance}`);
 }
 
-function validateEntityText(target: Target, entity: DailyEntity): void {
-  if (entity.score === null) return;
-  for (const id of citationIds(entity.judgementSnippet)) {
-    if (!entity.evidenceIds.includes(id)) {
-      throw new Error(`Model cited ${id} in ${target} snippet without attaching it to that provider`);
-    }
-  }
-  const text = entity.judgementSnippet.toLowerCase();
-  const positiveSummary = /\b(slightly positive overall|mostly positive|net positive|overall positive|positive overall|clearly positive|strongly positive)\b/;
-  const negativeSummary = /\b(slightly negative overall|mostly negative|net negative|overall negative|negative overall|clearly negative|strongly negative)\b/;
-  if (entity.score <= -0.1 && positiveSummary.test(text)) {
-    throw new Error(`Model returned positive summary language for negative ${target} score`);
-  }
-  if (entity.score >= 0.1 && negativeSummary.test(text)) {
-    throw new Error(`Model returned negative summary language for positive ${target} score`);
-  }
-  if (Math.abs(entity.score) < 0.1 && (positiveSummary.test(text) || negativeSummary.test(text))) {
-    throw new Error(`Model returned directional summary language for neutral ${target} score`);
-  }
+function sourceKey(sourceType: "title" | "comment", storyId: number, commentId?: number): string {
+  return `${sourceType}:${storyId}:${commentId ?? ""}`;
 }
 
-function normalizeEntity(target: Target, entity: ModelDailyEntity, evidenceById: Map<string, Evidence>): DailyEntity {
-  const judgementSnippet = normalizeText(entity.judgementSnippet);
-  const evidenceIds = entity.evidenceIds.map((id) => id.trim()).filter(Boolean);
-  const uniqueEvidenceIds = new Set<string>();
-
-  for (const id of evidenceIds) {
-    if (uniqueEvidenceIds.has(id)) throw new Error(`Model returned duplicate evidence id ${id} for ${target}`);
-    uniqueEvidenceIds.add(id);
-    const evidence = evidenceById.get(id);
-    if (!evidence) throw new Error(`Model returned unknown evidence id ${id} for ${target}`);
-    if (evidence.entity !== target) {
-      throw new Error(`Model attached evidence id ${id} for ${evidence.entity} to ${target}`);
+function sourceRecords(day: RawDay): Map<string, SourceRecord> {
+  const records = new Map<string, SourceRecord>();
+  for (const story of day.items) {
+    records.set(sourceKey("title", story.id), {
+      text: story.title,
+      hnUrl: story.sourceUrl,
+    });
+    for (const comment of story.topComments) {
+      records.set(sourceKey("comment", story.id, comment.id), {
+        text: comment.text,
+        hnUrl: comment.sourceUrl,
+      });
     }
   }
+  return records;
+}
 
-  const countSum = entity.positiveCount + entity.neutralCount + entity.negativeCount;
-  if (countSum !== entity.mentionCount) {
-    throw new Error(`Model returned ${target} counts that do not sum to mentionCount`);
-  }
+function validateEvidenceText(day: RawDay, evidence: Evidence[]): Evidence[] {
+  const records = sourceRecords(day);
+  const seenIds = new Set<string>();
+  return evidence.map((item) => {
+    if (seenIds.has(item.id)) throw new Error(`Model returned duplicate evidence id ${item.id}`);
+    seenIds.add(item.id);
 
-  if (entity.score === null) {
-    if (
-      entity.mentionCount !== 0 ||
-      countSum !== 0 ||
-      entity.confidence !== 0 ||
-      evidenceIds.length !== 0 ||
-      judgementSnippet !== "N/A"
-    ) {
-      throw new Error(`Model returned inconsistent N/A fields for ${target}`);
+    const record = records.get(sourceKey(item.sourceType, item.storyId, item.commentId));
+    if (!record) {
+      throw new Error(`Model returned evidence ${item.id} for an unknown ${item.sourceType} source`);
     }
-    return emptyEntity("N/A");
-  }
 
-  if (entity.mentionCount === 0) throw new Error(`Model returned score for ${target} without relevant stories`);
-  if (entity.confidence === 0) throw new Error(`Model returned score for ${target} with zero confidence`);
-  if (evidenceIds.length === 0) throw new Error(`Model returned score for ${target} without evidence ids`);
-
-  const dailyEntity: DailyEntity = {
-    score: entity.score,
-    rawWeightedSentiment: entity.score,
-    mentionCount: entity.mentionCount,
-    positiveCount: entity.positiveCount,
-    neutralCount: entity.neutralCount,
-    negativeCount: entity.negativeCount,
-    confidence: entity.confidence,
-    judgementSnippet,
-    evidenceIds,
-  };
-  validateEntityText(target, dailyEntity);
-  return dailyEntity;
-}
-
-function validateWinner(entities: Record<Target, DailyEntity>, winner: Target | null): { margin: number | null } {
-  const ranked = TARGETS
-    .flatMap((target) => {
-      const score = entities[target].score;
-      return score === null ? [] : [{ target, score }];
-    })
-    .sort((a, b) => b.score - a.score);
-
-  if (ranked.length === 0) {
-    if (winner !== null) throw new Error(`Model returned winner ${winner} but no provider had a score`);
-    return { margin: null };
-  }
-  if (winner === null) throw new Error("Model returned null winner despite scored providers");
-
-  const topScore = ranked[0]?.score;
-  const winnerScore = entities[winner].score;
-  if (topScore === undefined || winnerScore === null) {
-    throw new Error(`Model returned winner ${winner} without a score`);
-  }
-  if (Math.abs(winnerScore - topScore) > SCORE_EPSILON) {
-    throw new Error(`Model winner ${winner} does not match top score`);
-  }
-
-  const runnerUp = ranked.find((item) => item.target !== winner);
-  return { margin: runnerUp ? winnerScore - runnerUp.score : null };
-}
-
-function validateWinnerText(output: NormalizedDailyOutput): void {
-  const snippets = [
-    ["dailyJudgementSnippet", output.dailyJudgementSnippet],
-    ["winnerExplanation", output.winnerExplanation],
-  ] as const;
-  const expectedPrefix = output.winner === null ? "n/a" : TARGET_LABELS[output.winner].toLowerCase();
-  for (const [field, value] of snippets) {
-    if (!value.toLowerCase().startsWith(expectedPrefix)) {
-      throw new Error(`Model ${field} does not start with ${output.winner === null ? "N/A" : TARGET_LABELS[output.winner]}`);
+    const excerpt = normalizeText(item.excerpt);
+    if (!excerpt) throw new Error(`Model returned empty excerpt for ${item.id}`);
+    if (!comparableText(record.text).includes(comparableText(excerpt))) {
+      throw new Error(`Model excerpt for ${item.id} is not a substring of the source text`);
     }
-  }
-}
 
-function validateEvidenceCoverage(output: NormalizedDailyOutput): void {
-  const referencedEvidenceIds = new Set(TARGETS.flatMap((target) => output.entities[target].evidenceIds));
-  for (const evidence of output.evidence) {
-    if (!referencedEvidenceIds.has(evidence.id)) {
-      throw new Error(`Model returned unused evidence id ${evidence.id}`);
+    for (const annotation of item.annotations) {
+      if (annotation.stanceLabel !== stanceLabelFor(annotation.stance)) {
+        throw new Error(`Model returned stanceLabel ${annotation.stanceLabel} for stance ${annotation.stance} in ${item.id}`);
+      }
+      if (!normalizeText(annotation.rationale)) {
+        throw new Error(`Model returned empty rationale in ${item.id}`);
+      }
     }
-  }
-}
 
-function normalizeOutput(day: RawDay, output: TitleAnalysisOutput): NormalizedDailyOutput {
-  validateEvidence(day, output);
-  const itemsById = new Map(day.items.map((item) => [item.id, item]));
-  const evidence = output.evidence.map((item) => {
-    const sourceUrl = itemsById.get(item.hnItemId)?.sourceUrl ?? item.url;
     return {
       ...item,
-      url: sourceUrl,
-      summary: normalizeText(item.summary),
+      hnUrl: record.hnUrl,
+      excerpt,
+      annotations: item.annotations.map((annotation) => ({
+        ...annotation,
+        rationale: normalizeText(annotation.rationale),
+      })),
     };
   });
-  const evidenceById = new Map(evidence.map((item) => [item.id, item]));
-  const entities = Object.fromEntries(
-    TARGETS.map((target) => [target, normalizeEntity(target, output.entities[target], evidenceById)]),
-  ) as Record<Target, DailyEntity>;
-  const normalized: NormalizedDailyOutput = {
-    winner: output.winner,
-    dailyJudgementSnippet: normalizeText(output.dailyJudgementSnippet),
-    winnerExplanation: normalizeText(output.winnerExplanation),
-    entities,
-    evidence,
-  };
-  validateWinner(entities, output.winner);
-  validateWinnerText(normalized);
-  validateEvidenceCoverage(normalized);
+}
+
+function observabilityFor(day: RawDay, evidence: Evidence[]): RunObservability {
+  const audit = runDeterministicAudit(day, evidence);
+  const annotations = evidence.flatMap((item) => item.annotations);
+  const annotationsByTarget = Object.fromEntries(TARGETS.map((target) => [
+    target,
+    annotations.filter((annotation) => annotation.target === target).length,
+  ])) as Record<Target, number>;
+  const annotationsByReferenceBasis: Record<string, number> = {};
+  for (const annotation of annotations) {
+    annotationsByReferenceBasis[annotation.referenceBasis] = (annotationsByReferenceBasis[annotation.referenceBasis] ?? 0) + 1;
+  }
   return {
-    ...normalized,
+    evidenceRecords: evidence.length,
+    annotations: annotations.length,
+    annotationsByTarget,
+    annotationsByReferenceBasis,
+    deterministicAuditHits: audit.hits.length,
+    deterministicAuditMisses: audit.missed.length,
+    deterministicAuditMissSamples: audit.missed.slice(0, 25),
   };
 }
 
-async function callTitleAnalysis(day: RawDay): Promise<{ output: TitleAnalysisOutput; usage: OpenAiUsage | undefined }> {
-  const caps = [OUTPUT_TOKEN_CAPS.titleAnalysis, OUTPUT_TOKEN_CAPS.titleAnalysisRetry];
+async function callStructuredOutput<T>(
+  options: {
+    stage: StageName;
+    body: unknown;
+    model: string;
+    caps: readonly number[];
+    schema: z.ZodType<T>;
+  },
+): Promise<{ output: T; usage: OpenAiUsage | undefined }> {
   let attempt = 0;
   let validationRetried = false;
   let rateAttempt = 0;
 
   while (true) {
-    const cap = caps[Math.min(attempt, caps.length - 1)] ?? OUTPUT_TOKEN_CAPS.titleAnalysisRetry;
-    const body = withResponseSafeguards(titleAnalysisRequestBody(day) as Record<string, unknown>, cap);
-    const preflight = preflightResponseBody(body, MODEL_CONFIG.titleAnalysis.model, cap);
-    if (!preflight.ok) throw new Error(`Title analysis request failed token preflight: ${preflight.reason}`);
+    const cap = options.caps[Math.min(attempt, options.caps.length - 1)] ?? options.caps[options.caps.length - 1];
+    if (cap === undefined) throw new Error(`No output token cap configured for ${options.stage}`);
+    const body = withResponseSafeguards(options.body as Record<string, unknown>, cap);
+    const preflight = preflightResponseBody(body, options.model, cap);
+    if (!preflight.ok) throw new Error(`${options.stage} request failed token preflight: ${preflight.reason}`);
 
     try {
       const response = await createResponse(body);
@@ -320,8 +276,10 @@ async function callTitleAnalysis(day: RawDay): Promise<{ output: TitleAnalysisOu
       if (response.status === "incomplete") {
         throw new Error(response.incompleteReason ?? "response_incomplete");
       }
-      const output = TitleAnalysisOutputSchema.parse(parseModelJson(response.text));
-      return { output, usage: response.usage };
+      return {
+        output: options.schema.parse(parseModelJson(response.text)),
+        usage: response.usage,
+      };
     } catch (error) {
       if (isRetryableOpenAiError(error) && rateAttempt < 3) {
         const retryAfterMs = (error.retryAfter ?? 0) * 1000;
@@ -339,39 +297,75 @@ async function callTitleAnalysis(day: RawDay): Promise<{ output: TitleAnalysisOu
   }
 }
 
-function dailyResultFromOutput(day: RawDay, output: TitleAnalysisOutput) {
-  const normalized = normalizeOutput(day, output);
-  const { margin } = validateWinner(normalized.entities, normalized.winner);
-  const winner = normalized.winner;
-  const lowConfidence = winner === null || normalized.entities[winner].mentionCount < 2 || normalized.entities[winner].confidence < 0.55;
-  const closeCall = margin !== null && margin < CLOSE_CALL_MARGIN;
-
-  return DailyResultSchema.parse({
-    date: day.date,
-    generatedAt: nowIso(),
-    samplingMethod: day.samplingMethod,
-    winner,
-    dailyJudgementSnippet: normalized.dailyJudgementSnippet,
-    winnerExplanation: normalized.winnerExplanation,
-    lowConfidence,
-    closeCall,
-    margin,
-    models: {
-      titleAnalysis: MODEL_CONFIG.titleAnalysis.model,
-    },
-    methodVersion: METHOD_VERSION,
-    entities: normalized.entities,
-    evidence: normalized.evidence,
+async function callEvidenceDetection(day: RawDay): Promise<{ output: EvidenceDetectionOutput; usage: OpenAiUsage | undefined }> {
+  return callStructuredOutput({
+    stage: "evidenceDetection",
+    body: evidenceDetectionRequestBody(day),
+    model: MODEL_CONFIG.evidenceDetection.model,
+    caps: [OUTPUT_TOKEN_CAPS.evidenceDetection, OUTPUT_TOKEN_CAPS.evidenceDetectionRetry],
+    schema: EvidenceDetectionOutputSchema,
   });
 }
 
-async function failRun(run: RunFile, startedAt: string, error: unknown, usage?: OpenAiUsage): Promise<void> {
+async function callDailySummary(result: DailyResult): Promise<{ output: DailySummaryOutput; usage: OpenAiUsage | undefined }> {
+  return callStructuredOutput({
+    stage: "dailySummary",
+    body: dailySummaryRequestBody(result),
+    model: MODEL_CONFIG.dailySummary.model,
+    caps: [OUTPUT_TOKEN_CAPS.dailySummary, OUTPUT_TOKEN_CAPS.dailySummaryRetry],
+    schema: DailySummaryOutputSchema,
+  });
+}
+
+function validateSummary(result: DailyResult, output: DailySummaryOutput): DailySummaryOutput {
+  const rankedTargets = new Set(result.ranking.map((item) => item.target));
+  const evidenceIds = new Set(result.evidence.map((item) => item.id));
+  const seenTargets = new Set<Target>();
+  if (/https?:\/\//i.test(output.headlineSummary)) {
+    throw new Error("Daily summary included a raw URL; expected [E#] citations.");
+  }
+  for (const id of citationIds(output.headlineSummary)) {
+    if (!evidenceIds.has(id)) throw new Error(`Daily headline cited unknown evidence id ${id}`);
+  }
+  if (result.evidence.length > 0 && citationIds(output.headlineSummary).length === 0) {
+    throw new Error("Daily headline must cite approved evidence.");
+  }
+
+  for (const item of output.targetSummaries) {
+    if (seenTargets.has(item.target)) throw new Error(`Daily summary returned duplicate target ${item.target}`);
+    seenTargets.add(item.target);
+    if (!rankedTargets.has(item.target)) throw new Error(`Daily summary returned unranked target ${item.target}`);
+    if (/https?:\/\//i.test(item.summary)) {
+      throw new Error(`Daily summary for ${item.target} included a raw URL; expected [E#] citations.`);
+    }
+    const ranking = result.ranking.find((row) => row.target === item.target);
+    const allowed = new Set(ranking?.evidenceIds ?? []);
+    const cited = citationIds(item.summary);
+    if (cited.length === 0) throw new Error(`Daily summary for ${item.target} must cite approved evidence.`);
+    for (const id of cited) {
+      if (!allowed.has(id)) throw new Error(`Daily summary for ${item.target} cited evidence ${id} not attached to that target`);
+    }
+  }
+  for (const target of rankedTargets) {
+    if (!seenTargets.has(target)) throw new Error(`Daily summary omitted ranked target ${target}`);
+  }
+  return {
+    headlineSummary: normalizeText(output.headlineSummary),
+    targetSummaries: output.targetSummaries.map((item) => ({
+      target: item.target,
+      summary: normalizeText(item.summary),
+    })),
+  };
+}
+
+async function failRun(date: string, stage: StageName, startedAt: string, error: unknown, usage?: OpenAiUsage): Promise<void> {
+  const run = await readRun(date);
   await writeRun({
     ...run,
     state: "failed",
     responses: {
       ...run.responses,
-      titleAnalysis: failStageInfo(startedAt, usage),
+      [stage]: failStageInfo(startedAt, usage),
     },
     error: error instanceof Error ? error.message : String(error),
   });
@@ -389,58 +383,127 @@ export async function createFetchedRun(date: string, samplingMethod: SamplingMet
   });
 }
 
+export async function markSkippedRun(date: string, samplingMethod: SamplingMethod, reason: string): Promise<void> {
+  const createdAt = nowIso();
+  await writeRun({
+    date,
+    samplingMethod,
+    state: "skipped",
+    createdAt,
+    updatedAt: createdAt,
+    responses: {},
+    error: reason,
+  });
+}
+
 export async function analyzeDay(date: string, options: { force?: boolean } = {}): Promise<RunFile> {
   let run = await readRun(date);
   if (run.state === "complete" && !options.force) return run;
-  if (run.state === "failed" && !options.force) return run;
-  if (options.force || run.state === "complete" || run.state === "failed") {
-    const { error: _error, ...cleanRun } = run;
+  if ((run.state === "failed" || run.state === "skipped") && !options.force) return run;
+  if (options.force || run.state === "complete" || run.state === "failed" || run.state === "skipped") {
+    const { error: _error, observability: _observability, ...cleanRun } = run;
     await writeRun({ ...cleanRun, state: "fetched", responses: {} });
     run = await readRun(date);
   }
 
-  const startedAt = nowIso();
-  await writeRun({
-    ...run,
-    state: "analysis_processing",
-    responses: {
-      ...run.responses,
-      titleAnalysis: {
-        startedAt,
-        processedCount: 0,
-        successCount: 0,
-        quarantineCount: 0,
-        inputTokens: 0,
-        cachedInputTokens: 0,
-        outputTokens: 0,
-        totalTokens: 0,
-      },
-    },
-  });
-  run = await readRun(date);
-
+  const raw = await readRawDay(date);
+  let stage: StageName = "evidenceDetection";
+  let startedAt = nowIso();
   let usage: OpenAiUsage | undefined;
   try {
-    const raw = await readRawDay(date);
-    const result = await callTitleAnalysis(raw);
-    usage = result.usage;
-    const daily = dailyResultFromOutput(raw, result.output);
-    await writeDaily(daily);
     await writeRun({
       ...run,
+      state: "analysis_processing",
+      responses: {
+        evidenceDetection: inProgressStageInfo(startedAt),
+      },
+    });
+
+    let evidence: Evidence[] | undefined;
+    for (let attempt = 0; attempt < 3; attempt += 1) {
+      const evidenceResult = await callEvidenceDetection(raw);
+      usage = mergeUsage(usage, evidenceResult.usage);
+      try {
+        evidence = validateEvidenceText(raw, evidenceResult.output.evidence);
+        break;
+      } catch (error) {
+        if (attempt < 2) continue;
+        throw error;
+      }
+    }
+    if (!evidence) throw new Error("Evidence validation did not produce accepted evidence");
+    const observability = observabilityFor(raw, evidence);
+    const aggregated = aggregateDailyEvidence({
+      date: raw.date,
+      generatedAt: nowIso(),
+      evidence,
+      models: {
+        evidenceDetection: MODEL_CONFIG.evidenceDetection.model,
+        dailySummary: MODEL_CONFIG.dailySummary.model,
+      },
+    });
+
+    await writeRun({
+      ...(await readRun(date)),
+      state: "analysis_processing",
+      responses: {
+        evidenceDetection: stageInfoFromUsage(startedAt, usage),
+      },
+      observability,
+    });
+
+    stage = "dailySummary";
+    startedAt = nowIso();
+    usage = undefined;
+    const runBeforeSummary = await readRun(date);
+    await writeRun({
+      ...runBeforeSummary,
+      state: "analysis_processing",
+      responses: {
+        ...runBeforeSummary.responses,
+        dailySummary: inProgressStageInfo(startedAt),
+      },
+    });
+
+    let summaries: DailySummaryOutput | undefined;
+    for (let attempt = 0; attempt < 3; attempt += 1) {
+      const summaryResult = await callDailySummary(aggregated);
+      usage = mergeUsage(usage, summaryResult.usage);
+      try {
+        summaries = validateSummary(aggregated, summaryResult.output);
+        break;
+      } catch (error) {
+        if (attempt < 2) continue;
+        throw error;
+      }
+    }
+    if (!summaries) throw new Error("Daily summary validation did not produce summaries");
+    const daily = DailyResultSchema.parse(withDailySummaries(aggregated, summaries));
+    await writeDaily(daily);
+    const finalRun = await readRun(date);
+    const { error: _error, ...runWithoutError } = finalRun;
+    await writeRun({
+      ...runWithoutError,
       state: "complete",
       responses: {
-        ...run.responses,
-        titleAnalysis: stageInfoFromUsage(startedAt, usage),
+        ...finalRun.responses,
+        dailySummary: stageInfoFromUsage(startedAt, usage),
       },
+      observability,
     });
     return await readRun(date);
   } catch (error) {
-    await failRun(run, startedAt, error, usage);
+    await failRun(date, stage, startedAt, error, usage);
     throw error;
   }
 }
 
 export async function hasDailyResult(date: string): Promise<boolean> {
-  return pathExists(dailyPath(date));
+  if (!(await pathExists(dailyPath(date)))) return false;
+  try {
+    await readJson(dailyPath(date), DailyResultSchema);
+    return true;
+  } catch {
+    return false;
+  }
 }

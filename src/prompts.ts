@@ -1,67 +1,107 @@
-import { MODEL_CONFIG, TARGET_LABELS, TARGETS } from "./config.js";
-import type { RawDay } from "./types.js";
+import { MODEL_CONFIG, TARGET_ALIAS_HINTS, TARGET_LABELS, TARGETS } from "./config.js";
+import type { DailyResult, RawDay } from "./types.js";
 
-export const titleAnalysisJsonSchema = {
+const referenceBases = [
+  "explicit_alias",
+  "title_context",
+  "url_context",
+  "implicit_coreference",
+  "model_inferred_alias",
+];
+
+const stanceLabels = [
+  "strong_negative",
+  "negative",
+  "neutral_mixed",
+  "positive",
+  "strong_positive",
+];
+
+const relevanceValues = ["central", "direct", "incidental"];
+const confidenceValues = ["low", "medium", "high"];
+const topicValues = [
+  "model_quality",
+  "pricing",
+  "access",
+  "policy",
+  "trust",
+  "business_strategy",
+  "legal_ip",
+  "privacy",
+  "safety",
+  "comparison",
+  "release",
+  "other",
+];
+
+export const evidenceDetectionJsonSchema = {
   type: "object",
   additionalProperties: false,
-  required: [
-    "winner",
-    "dailyJudgementSnippet",
-    "winnerExplanation",
-    "entities",
-    "evidence",
-  ],
+  required: ["evidence"],
   properties: {
-    winner: { type: ["string", "null"], enum: [...TARGETS, null] },
-    dailyJudgementSnippet: { type: "string" },
-    winnerExplanation: { type: "string" },
-    entities: {
-      type: "object",
-      additionalProperties: false,
-      required: TARGETS,
-      properties: Object.fromEntries(TARGETS.map((target) => [target, {
-        type: "object",
-        additionalProperties: false,
-        required: [
-          "score",
-          "mentionCount",
-          "positiveCount",
-          "neutralCount",
-          "negativeCount",
-          "confidence",
-          "judgementSnippet",
-          "evidenceIds",
-        ],
-        properties: {
-          score: { type: ["number", "null"], minimum: -1, maximum: 1 },
-          mentionCount: { type: "integer", minimum: 0 },
-          positiveCount: { type: "integer", minimum: 0 },
-          neutralCount: { type: "integer", minimum: 0 },
-          negativeCount: { type: "integer", minimum: 0 },
-          confidence: { type: "number", minimum: 0, maximum: 1 },
-          judgementSnippet: { type: "string" },
-          evidenceIds: {
-            type: "array",
-            items: { type: "string" },
-          },
-        },
-      }])),
-    },
     evidence: {
       type: "array",
       items: {
         type: "object",
         additionalProperties: false,
-        required: ["id", "entity", "hnItemId", "url", "role", "summary"],
+        required: ["id", "storyId", "commentId", "hnUrl", "sourceType", "excerpt", "annotations"],
         properties: {
-          id: { type: "string" },
-          entity: { type: "string", enum: TARGETS },
-          hnItemId: { type: "integer" },
-          url: { type: "string" },
-          role: {
-            type: "string",
-            enum: ["positive_driver", "negative_driver", "neutral_context"],
+          id: { type: "string", pattern: "^E[0-9]+$" },
+          storyId: { type: "integer" },
+          commentId: { type: ["integer", "null"] },
+          hnUrl: { type: "string" },
+          sourceType: { type: "string", enum: ["title", "comment"] },
+          excerpt: { type: "string" },
+          annotations: {
+            type: "array",
+            minItems: 1,
+            items: {
+              type: "object",
+              additionalProperties: false,
+              required: [
+                "target",
+                "referenceBasis",
+                "stance",
+                "stanceLabel",
+                "relevance",
+                "topic",
+                "confidence",
+                "attributionConfidence",
+                "rationale",
+              ],
+              properties: {
+                target: { type: "string", enum: TARGETS },
+                referenceBasis: { type: "string", enum: referenceBases },
+                stance: { type: "integer", enum: [-2, -1, 0, 1, 2] },
+                stanceLabel: { type: "string", enum: stanceLabels },
+                relevance: { type: "string", enum: relevanceValues },
+                topic: { type: "string", enum: topicValues },
+                confidence: { type: "string", enum: confidenceValues },
+                attributionConfidence: { type: "string", enum: confidenceValues },
+                rationale: { type: "string" },
+              },
+            },
           },
+        },
+      },
+    },
+  },
+};
+
+export const dailySummaryJsonSchema = {
+  type: "object",
+  additionalProperties: false,
+  required: ["headlineSummary", "targetSummaries"],
+  properties: {
+    headlineSummary: { type: "string" },
+    targetSummaries: {
+      type: "array",
+      items: {
+        type: "object",
+        additionalProperties: false,
+        required: ["target", "summary"],
+        properties: {
+          target: { type: "string", enum: TARGETS },
           summary: { type: "string" },
         },
       },
@@ -79,42 +119,32 @@ export function jsonSchemaFormat(name: string, description: string, schema: unkn
   };
 }
 
-export function titleAnalysisRequestBody(day: RawDay): unknown {
+export function evidenceDetectionRequestBody(day: RawDay): unknown {
   return {
-    model: MODEL_CONFIG.titleAnalysis.model,
-    reasoning: { effort: MODEL_CONFIG.titleAnalysis.reasoningEffort },
+    model: MODEL_CONFIG.evidenceDetection.model,
+    reasoning: { effort: MODEL_CONFIG.evidenceDetection.reasoningEffort },
     input: [
       {
         role: "system",
         content: [
-          "You evaluate Hacker News front-page stories using only each story title and the provided top-level Hacker News comments.",
+          "You identify source-backed Hacker News sentiment evidence for a fixed set of AI targets.",
           "Return JSON only, matching the supplied structured output schema.",
-          "Do not infer sentiment from article bodies, linked pages, omitted comments, or your own outside knowledge.",
-          "The task is to produce the final daily Hacker News story-and-comment sentiment report for OpenAI, Anthropic, Google Gemini, and Microsoft Copilot.",
-          "You own the final per-provider scores, counts, winner, and written judgement. The application will validate internal consistency but will not recompute the winner from story-level scores.",
-          "Use canonical targets only: openai, anthropic, google_gemini, microsoft_copilot.",
-          "Entity matching examples: ChatGPT, GPT, Codex, Sora, OpenAI API -> openai; Claude, Claude Code, Sonnet, Opus, Haiku -> anthropic; Gemini, Google AI Studio, Google AI model titles -> google_gemini; GitHub Copilot, Microsoft Copilot, Bing Copilot, Windows Copilot, M365 Copilot -> microsoft_copilot.",
-          "Do not count generic Google or Microsoft references unless the story or comments are clearly about their AI assistant, AI model, or Copilot product.",
-          "A story can mention multiple targets; judge each target independently for that story.",
-          "A provider is relevant only when the HN title or provided HN comments discuss that provider, its model quality, product behavior, pricing, access, company strategy, or a direct comparison.",
-          "Do not assign praise or criticism of an open-source harness, benchmark scaffold, editor extension, reseller, or wrapper to an underlying model provider merely because the story uses that model.",
-          "If the story/comments criticize pricing, quotas, or usage multipliers in a wrapper product such as GitHub Copilot, assign that sentiment to the wrapper target when it is tracked, not automatically to the model owner.",
-          "Use score from -1 to 1 for each provider's final daily vibe: -1 overwhelmingly negative, -0.5 clearly negative, 0 neutral/mixed, +0.5 clearly positive, +1 overwhelmingly positive.",
-          "Score should consider relevance strength, volume of relevant stories, intensity, HN comment sentiment, and whether the mention is direct or incidental.",
-          "Avoid giving a high score to a provider with only one weak or incidental mention. A single thin positive signal should usually be near neutral unless HN reaction is clearly strong.",
-          "A relevant but factual launch, release, benchmark, funding, or policy story is often neutral unless the title or comments clearly praise or criticize the target.",
-          "Confidence should reflect how much the title and provided comments support the final score for that provider.",
-          "mentionCount is the count of front-page stories with meaningful relevant signal for that provider, not the number of comments.",
-          "positiveCount, neutralCount, and negativeCount count those relevant stories by their net provider sentiment and must sum to mentionCount.",
-          "For providers with no meaningful relevant HN story/comment signal, set score null, all counts 0, confidence 0, judgementSnippet exactly N/A, and evidenceIds empty.",
-          "Evidence must cite HN stories only. Use ids E1, E2, etc. Snippets may cite evidence using [E1] tokens, never raw URLs.",
-          "Each ranked provider with a non-null score must have at least one evidence id. Evidence should represent the stories and comments that most affected the provider score.",
-          "Do not put a categorical label such as 'slightly positive overall' or 'negative overall' in provider judgement snippets; explain the concrete drivers instead.",
-          "Pick winner as the tracked provider with the highest final daily score after considering both sentiment and amount of coverage.",
-          "Your dailyJudgementSnippet and winnerExplanation must explain why the winner won. Do not name another provider as having the strongest day unless that provider is the winner.",
-          "If winner is not null, start dailyJudgementSnippet and winnerExplanation with the exact winning provider label from targetLabels, such as 'OpenAI' or 'Google Gemini'.",
-          "If no tracked provider has any relevant HN story/comment signal, set winner to null and write brief N/A daily judgement text.",
-          "If winner is null, start dailyJudgementSnippet and winnerExplanation with 'N/A'.",
+          "Use only the story title, URL/domain, HN URL, metadata, and provided top-level comments.",
+          "Do not use article bodies, omitted comments, sibling-comment context, or outside knowledge as sentiment evidence.",
+          "The tracked targets are openai, anthropic, google_gemini, and microsoft_copilot.",
+          "Alias hints are context, not hard rules. Generic Google or Microsoft references count only when the AI model, assistant, product, or Copilot context is clear.",
+          "Annotate a title or comment when it clearly applies to a tracked target through explicit_alias, title_context, url_context, implicit_coreference, or model_inferred_alias.",
+          "A comment can use title_context, url_context, or implicit_coreference only when its own text plus the story title/domain makes provider attribution clear.",
+          "Do not propagate a target from one top-level comment to a sibling top-level comment.",
+          "Omit generic AI sentiment, article-quality discussion, HN moderation, benchmark-methodology discussion, and wrapper/tool criticism unless the wording clearly assigns sentiment to the tracked provider.",
+          "A single evidence record may contain multiple target annotations when the same excerpt compares or discusses multiple tracked targets.",
+          "Judge each target independently. A positive comparison for one target does not automatically create negative evidence for another unless the excerpt supports it.",
+          "Use stance -2 for strong criticism, -1 for mild criticism, 0 for factual/ambiguous/mixed, 1 for mild praise, and 2 for strong praise.",
+          "stanceLabel must exactly match stance: -2 strong_negative, -1 negative, 0 neutral_mixed, 1 positive, 2 strong_positive.",
+          "Excerpts must be exact contiguous verbatim substrings copied from the title or comment, long enough to audit the annotation.",
+          "Do not paraphrase, splice separate phrases together, normalize punctuation, add ellipses, or quote text that is not exactly present in the source.",
+          "Use evidence ids E1, E2, E3 in the order you emit evidence.",
+          "If there is no accepted evidence, return an empty evidence array.",
         ].join(" "),
       },
       {
@@ -123,19 +153,24 @@ export function titleAnalysisRequestBody(day: RawDay): unknown {
           date: day.date,
           samplingMethod: day.samplingMethod,
           targetLabels: TARGET_LABELS,
+          aliasHints: TARGET_ALIAS_HINTS,
           stories: day.items.map((item) => ({
-            itemId: item.id,
+            storyId: item.id,
             rank: item.rank,
             title: item.title,
-            url: item.url,
             hnUrl: item.sourceUrl,
+            outboundUrl: item.url,
+            outboundDomain: item.url ? safeDomain(item.url) : undefined,
             score: item.score,
             descendants: item.descendants,
+            by: item.by,
+            time: item.time,
             topComments: item.topComments.map((comment) => ({
               commentId: comment.id,
               by: comment.by,
-              text: comment.text,
+              time: comment.time,
               hnUrl: comment.sourceUrl,
+              text: comment.text,
             })),
           })),
         }),
@@ -144,10 +179,91 @@ export function titleAnalysisRequestBody(day: RawDay): unknown {
     store: false,
     text: {
       format: jsonSchemaFormat(
-        "story_comment_sentiment_daily_report",
-        "Final model-owned daily Hacker News sentiment report with provider scores, winner, snippets, and HN evidence links.",
-        titleAnalysisJsonSchema,
+        "hn_sentiment_evidence_detection",
+        "Accepted source-backed HN title/comment evidence records with per-target sentiment annotations.",
+        evidenceDetectionJsonSchema,
       ),
     },
   };
+}
+
+export function dailySummaryRequestBody(result: DailyResult): unknown {
+  return {
+    model: MODEL_CONFIG.dailySummary.model,
+    reasoning: { effort: MODEL_CONFIG.dailySummary.reasoningEffort },
+    input: [
+      {
+        role: "system",
+        content: [
+          "You write a short daily explanation from an already aggregated Hacker News sentiment result.",
+          "Return JSON only, matching the supplied structured output schema.",
+          "Do not change rankings, buckets, support, confidence, evidence, or target membership.",
+          "Use only the approved evidence records and ranking fields in the user payload.",
+          "Cite evidence with [E1] tokens only. Do not include raw URLs.",
+          "headlineSummary must include at least one [E#] citation whenever any approved evidence exists.",
+          "Every target summary must include at least one [E#] citation from that target's evidenceIds.",
+          "Mention low support when a ranked position depends on thin evidence.",
+          "Disclose close ties when tiedWith is non-empty or rankNote is close_tie.",
+          "Keep headlineSummary to one concise sentence.",
+          "Each ranked target must have one concise summary grounded in that target's evidence ids.",
+          "Do not write summaries for unmentioned targets.",
+        ].join(" "),
+      },
+      {
+        role: "user",
+        content: JSON.stringify({
+          date: result.date,
+          rankingDirection: result.rankingDirection,
+          primarySignalTargets: result.primarySignalTargets,
+          primarySignalDirection: result.primarySignalDirection,
+          ranking: result.ranking.map((item) => ({
+            target: item.target,
+            label: TARGET_LABELS[item.target],
+            bucket: item.bucket,
+            direction: item.direction,
+            support: item.support,
+            confidence: item.confidence,
+            displayRank: item.displayRank,
+            tiedWith: item.tiedWith,
+            rankNote: item.rankNote,
+            evidenceBalance: item.evidenceBalance,
+            evidenceIds: item.evidenceIds,
+          })),
+          unmentioned: result.unmentioned,
+          evidence: result.evidence.map((item) => ({
+            id: item.id,
+            storyId: item.storyId,
+            commentId: item.commentId,
+            sourceType: item.sourceType,
+            excerpt: item.excerpt,
+            annotations: item.annotations.map((annotation) => ({
+              target: annotation.target,
+              stance: annotation.stance,
+              relevance: annotation.relevance,
+              topic: annotation.topic,
+              confidence: annotation.confidence,
+              attributionConfidence: annotation.attributionConfidence,
+              rationale: annotation.rationale,
+            })),
+          })),
+        }),
+      },
+    ],
+    store: false,
+    text: {
+      format: jsonSchemaFormat(
+        "hn_sentiment_daily_summary",
+        "Cited headline and target summaries for an already aggregated daily HN sentiment ranking.",
+        dailySummaryJsonSchema,
+      ),
+    },
+  };
+}
+
+function safeDomain(url: string): string | undefined {
+  try {
+    return new URL(url).hostname;
+  } catch {
+    return undefined;
+  }
 }

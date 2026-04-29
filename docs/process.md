@@ -1,100 +1,104 @@
 # Gathering and Analysis Process
 
-This project turns a daily Hacker News front-page snapshot into a simple daily winner among OpenAI, Anthropic, Google Gemini, and Microsoft Copilot.
+This project turns each dated Hacker News front page into an auditable sentiment ranking for OpenAI, Anthropic, Google Gemini, and Microsoft Copilot.
 
 The tracker measures the vibe of HN front-page stories and the top visible discussion under each story. It does not read linked article bodies or full comment trees.
 
 ## 1. Gather Front-Page Stories
 
-The live daily run captures the current HN front page at 9pm America/Los_Angeles time. It fetches the first 30 story IDs from the Hacker News Firebase API.
+Daily sync and manual backfills use the same Hacker News source:
 
-For each story, the snapshot stores:
+```text
+https://news.ycombinator.com/front?day=YYYY-MM-DD
+```
+
+For each date, the snapshot stores the first 30 front-page stories and the top 10 top-level comments on each story. Story and comment records come from the Hacker News Firebase item API. Comments posted after the end of the target date in America/Los_Angeles are ignored.
+
+Each raw snapshot stores:
 
 - title
 - HN link
-- outbound URL
+- outbound URL/domain
 - front-page rank
 - story score and comment count
-- top five top-level HN comments, when available
+- top 10 top-level HN comments, when available
 
-Historical backfills use Hacker News' `front?day=YYYY-MM-DD` page to recover the first page of ranked stories for that date. The system lightly staggers and retries those HN requests, then fetches the story records and top comments from the Firebase item API, filtering out comments posted after the end of the requested UTC date.
+## 2. Detect Evidence
 
-## 2. Judge the Day in One Model Call
+The first OpenAI Responses call is defined in [`src/prompts.ts`](../src/prompts.ts) as `evidenceDetectionRequestBody`.
 
-The full daily story list is sent to one OpenAI Responses request. The model identifies tracked entities and returns the final daily report: per-provider scores, relevant story counts, confidence, evidence, snippets, and the daily winner.
+The model receives every story as a complete unit: title, URL/domain, HN URL, metadata, top comments, the fixed target list, and alias hints. It identifies only accepted source-backed evidence from titles and comments.
 
-Examples:
+Evidence can be attributed through:
 
-- A title saying "OpenAI launches ..." can create an OpenAI analysis.
-- A story titled "Claude beats GPT on ..." can create Anthropic and OpenAI analyses.
-- A top comment saying Copilot pricing for Claude models is too high should mainly count as Microsoft Copilot pricing sentiment unless the comment directly blames Anthropic.
-- A Show HN project using Gemini should not automatically count as positive Gemini sentiment if the title and comments mainly praise the harness or project.
+- explicit aliases
+- story title context
+- URL/domain context
+- clear coreference such as "this model" or "the company"
+- confidently inferred model or product aliases
 
-The model only uses the story title, URL/domain, HN link, front-page metadata, and the provided top comments. It is told not to infer sentiment from article bodies, omitted comments, or outside knowledge.
+A single excerpt can annotate multiple targets when the same title or comment compares providers. Generic AI sentiment, article-quality discussion, benchmark-methodology discussion, or wrapper-tool criticism is omitted unless the text clearly assigns sentiment to a tracked target.
 
-The score is a holistic daily vibe score from `-1` to `1`. It should account for relevance strength, volume of relevant stories, intensity of praise or criticism, HN comment sentiment, and whether a mention is direct or incidental. A single weak mention should usually stay close to neutral.
+## 3. Aggregate in Code
 
-## 3. Handle Missing Provider Signal
+The model does not choose a winner or final numeric score. Code validates the evidence and computes the ranking deterministically.
 
-Providers without relevant HN story/comment signal for the day are stored as `N/A`.
+Aggregation applies:
 
-This means:
+- title and comment weights
+- relevance multipliers
+- a per-story influence cap
+- shrinkage toward neutral for low support
+- support and confidence labels
+- bucket labels
+- rank ties and primary-signal ties
 
-- no numeric score
-- no ranking position
-- no provider judgement beyond `N/A`
-- no effect on winner selection
+The public ranking is ordered from most negative to most positive. Providers with no accepted evidence are excluded from the ranking and listed as unmentioned.
 
-If no tracked provider has relevant HN signal, the daily winner is `null` and the day is shown without a provider color.
+## 4. Summarize the Day
 
-## 4. Produce Evidence and Snippets
+The second OpenAI Responses call is defined in [`src/prompts.ts`](../src/prompts.ts) as `dailySummaryRequestBody`.
 
-The model returns:
+The model receives the already-aggregated result and approved evidence only. It writes a short headline summary and one short summary per ranked target. Summaries cite source excerpts with `[E1]` tokens; the UI turns those tokens into HN links.
 
-- final scores for each relevant provider
-- relevant story counts split into positive, neutral, and negative stories
-- representative evidence items linked to HN stories
-- a short judgement for each relevant provider
-- a short daily judgement
-- the daily winner, or `null`
+This call cannot change rankings, buckets, support, confidence, or evidence membership.
 
-Snippets cite evidence with tokens such as `[E1]`. The UI turns those tokens into HN links.
+## 5. Validate the Output
 
-## 5. Validate the Day
+Before writing a daily result, code checks that:
 
-The model owns the final judgement. The code validates the structured report before writing it.
+- evidence references real titles or comments
+- excerpts are substrings of the source text after whitespace normalization
+- target ids and enum fields are valid
+- stance labels match stance values
+- one evidence record does not duplicate a target annotation
+- every ranked target has evidence
+- unmentioned targets are not ranked
+- summaries cite known evidence ids instead of raw URLs
 
-Validation checks that:
-
-- the winner is the provider with the highest non-null score
-- providers with no signal are consistently stored as `N/A`
-- positive, neutral, and negative counts add up to the relevant story count
-- ranked providers have evidence
-- daily judgement text starts with the winning provider, or `N/A` when there is no winner
-- snippets cite known evidence ids rather than raw URLs
-- provider snippets do not use obvious summary labels that contradict their numeric scores
-
-The output stores:
-
-- the daily winner, if any
-- each relevant provider's score
-- positive, neutral, and negative relevant story counts
-- confidence
-- evidence links back to Hacker News
-- short judgement snippets explaining the result
+A deterministic alias audit also scans titles and comments for obvious missed aliases. Audit hits are stored in run metadata for review and prompt improvement; they do not affect aggregation.
 
 ## 6. Publish
 
-The static site is rebuilt and deployed to GitHub Pages. The homepage starts from the earliest available daily result, with each day colored by the winning provider.
+The static site is rebuilt from new-method daily records and deployed to GitHub Pages.
 
-Selecting a day shows a ranked provider chart, the evidence-backed daily judgement, and the per-provider sentiment in a right-side sheet on larger screens or in a full-screen detail view on compact screens.
+The calendar is colored by the strongest provider signal for the date. If the strongest signal is tied, the tile shows horizontal color bands. Neutral or no-signal days use the neutral styling.
 
-For UI-only changes, the publish workflow can rebuild and deploy the checked-in site without fetching Hacker News or running model analysis again.
+Selecting a day shows:
 
-For historical backfills, the local backfill command analyzes up to ten days at a time, prints actual Responses API cost for each day, then publishes the completed range once.
+- headline summary
+- ranking from most negative to most positive
+- bucket, support, and confidence labels
+- evidence balance
+- rank notes for low support, ties, or high-volume mixed signals
+- unmentioned providers
+- source excerpts with HN links
+- per-target annotations under each excerpt
+
+For UI-only changes, the publish workflow rebuilds and deploys the checked-in site without fetching Hacker News or calling OpenAI.
 
 ## 7. Fail Safely
 
-Before the OpenAI request, the system estimates request size with a tokenizer, compares it against the selected model's known context window, and disables API-side truncation.
+Before each OpenAI request, the system estimates request size with a tokenizer, compares it against the selected model's known context window, and disables API-side truncation.
 
-The daily workflow verifies that the daily report exists before it publishes the site, so failed analysis does not deploy a misleading successful day.
+Scheduled sync catches up from the latest contiguous completed date. If one date fails, the run records the failure, continues later dates, commits successful dates, and retries the skipped date on a later scheduled sync.

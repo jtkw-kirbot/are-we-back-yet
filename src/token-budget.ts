@@ -17,8 +17,10 @@ export const MODEL_LIMITS: Record<string, ModelLimit> = {
 };
 
 export const OUTPUT_TOKEN_CAPS = {
-  titleAnalysis: 8_192,
-  titleAnalysisRetry: 12_288,
+  evidenceDetection: 16_384,
+  evidenceDetectionRetry: 24_576,
+  dailySummary: 4_096,
+  dailySummaryRetry: 6_144,
 } as const;
 
 const SAFETY_BUFFER = 1.2;

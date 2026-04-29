@@ -2,7 +2,7 @@
 
 Static GitHub Pages tracker for daily Hacker News front-page sentiment toward OpenAI, Anthropic, Google Gemini, and Microsoft Copilot.
 
-The live workflow captures the HN front page at 9pm America/Los_Angeles time. Each daily report is based on the 30 front-page stories visible in that snapshot plus the top five top-level HN comments on each story. It does not fetch linked article bodies or deeper comment threads.
+Each daily report is based on the 30 stories from `https://news.ycombinator.com/front?day=YYYY-MM-DD` plus the top 10 top-level HN comments on each story. It does not fetch linked article bodies or deeper comment threads.
 
 For a non-code overview of how stories are gathered, judged, and published, see [docs/process.md](docs/process.md).
 
@@ -12,14 +12,14 @@ For a non-code overview of how stories are gathered, judged, and published, see 
    `Settings -> Secrets and variables -> Actions -> New repository secret`.
 2. Enable GitHub Pages:
    `Settings -> Pages -> Build and deployment -> Source -> GitHub Actions`.
-3. Run `Daily live HN story sentiment pipeline` manually from the Actions tab with `force=true`.
+3. Run `Daily HN sentiment sync` manually from the Actions tab.
 4. Open the Pages URL shown by the workflow deployment.
 
-The daily workflow is scheduled for 9pm America/Los_Angeles. The workflow has two UTC cron entries and a time gate so it works across daylight-saving changes.
+The daily workflow runs from the latest contiguous completed date through today in America/Los_Angeles. If Hacker News has not produced a dated front page yet, that end date is skipped without failing the whole sync.
 
 ## GitHub Actions
 
-- `Daily live HN story sentiment pipeline`: captures the current HN front-page stories and their top comments, sends them to one OpenAI Responses call for a model-owned daily report, verifies the report was produced, commits `data/`, rebuilds the static site, and deploys GitHub Pages. Manual runs can set `force=true` to bypass the 9pm time gate and refetch the current live front page.
+- `Daily HN sentiment sync`: runs `npm run sync:daily`, rebuilds the static site, commits generated `data/` changes, rebases, pushes, and deploys GitHub Pages.
 - `Publish static site`: manually rebuilds and deploys GitHub Pages from the current checked-in data and static files. Use this for UI-only changes because it does not fetch Hacker News or call OpenAI.
 
 ## Local Commands
@@ -27,38 +27,45 @@ The daily workflow is scheduled for 9pm America/Los_Angeles. The workflow has tw
 ```bash
 npm ci
 export OPENAI_API_KEY=sk-...
-npm run capture:day -- --date 2026-04-28
+npm run sync -- --start 2026-04-20 --end 2026-04-26 --no-publish
 npm run build:site
 ```
 
-You can still run the two phases separately when debugging:
+Daily catch-up sync:
+
+```bash
+npm run sync:daily
+```
+
+Single-day debugging still works:
 
 ```bash
 npm run fetch:hn -- --date 2026-04-28
-npm run process:day -- --date 2026-04-28
+npm run process:day -- --date 2026-04-28 --force
 ```
 
-Historical backfills use HN's `front?day=YYYY-MM-DD` page for the first page of ranked stories, then fetch those story records and their top comments from the Firebase item API. The command processes up to ten days concurrently, prints per-day costs, then commits, pushes, and publishes the completed range once:
+`npm run backfill` remains as a compatibility alias for `sync`:
 
 ```bash
-npm run backfill -- --start 2026-04-20 --end 2026-04-26
+npm run backfill -- --start 2026-04-20 --end 2026-04-26 --no-publish
 ```
 
-The backfill command requires a clean git worktree, authenticated `gh` CLI, and `OPENAI_API_KEY`. It prints per-day and total Responses API cost.
-Historical HN requests are lightly staggered and retried for transient `429`, `502`, `503`, and `504` responses.
-The final GitHub publish step retries transient `github.com` and GitHub API transport failures, including common port `443` connection timeouts. Each GitHub command attempt is capped at 45 seconds, with a 3 minute total retry budget per command. Permanent errors such as merge conflicts or authentication failures still fail immediately.
+The sync command prints per-day and total Responses API cost. Historical HN requests are lightly staggered and retried for transient `429`, `502`, `503`, and `504` responses.
 
 ## Data Model
 
-Final daily records are written to `data/daily/YYYY-MM-DD.json`. The UI starts its grid from the earliest daily record included in `data/index.json`. Each record stores:
+Final daily records are written to `data/daily/YYYY-MM-DD.json`. The UI starts its grid from the earliest new-method daily record included in `data/index.json`.
 
-- the winner, or `null` when no tracked provider had relevant HN signal
-- model-judged per-entity score, relevant story counts, confidence, and judgement snippet
-- `N/A` score values for providers without relevant HN stories or comments
-- a day-level judgement snippet
-- evidence IDs and HN links
-- model snapshot, prompt version, aggregation version, and sampling method
+Each record stores:
 
-Raw story/comment snapshots are written to `data/raw/YYYY-MM-DD.json`. Run files in `data/runs/YYYY-MM-DD.json` store token usage for the single analysis call so backfills can report actual cost.
+- ranking from most negative to most positive
+- bucket, support, confidence, raw mean, and adjusted mean for ranked targets
+- primary signal target or tied primary signal targets for calendar coloring
+- unmentioned targets excluded from the ranking
+- source-backed evidence excerpts and HN links
+- per-evidence target annotations
+- model snapshots, prompt versions, aggregation version, and sampling method
 
-The model owns the final scores and winner. Code validates that the winner matches the highest score, daily judgement text names that winner first, counts are internally consistent, ranked providers have evidence, and snippets cite known evidence using `[E1]` tokens. The UI converts those tokens to HN links from the stored evidence array.
+Raw story/comment snapshots are written to `data/raw/YYYY-MM-DD.json`. Run files in `data/runs/YYYY-MM-DD.json` store token usage for the evidence detection and daily summary calls, plus deterministic audit counts.
+
+The model identifies evidence and writes cited summaries. Code validates source excerpts and computes ranking, buckets, support, confidence, and ties deterministically.

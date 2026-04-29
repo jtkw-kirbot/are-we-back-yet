@@ -1,7 +1,7 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { TARGETS } from "./config.js";
-import { DIST_DIR, ensureDir, readDailyResults, STATIC_DIR, writeJson } from "./io.js";
+import { DATA_DIR, DIST_DIR, ensureDir, readDailyResults, STATIC_DIR, writeJson } from "./io.js";
 import type { SiteIndex } from "./types.js";
 
 async function copyDir(from: string, to: string): Promise<void> {
@@ -31,5 +31,6 @@ export async function buildSite(): Promise<void> {
     days: await readDailyResults(),
   };
 
+  await writeJson(path.join(DATA_DIR, "index.json"), index);
   await writeJson(path.join(DIST_DIR, "data", "index.json"), index);
 }
