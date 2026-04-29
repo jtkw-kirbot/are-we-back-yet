@@ -137,6 +137,16 @@
     }[value] ?? value;
   }
 
+  function annotationTone(annotation) {
+    if (annotation.stance > 0) return "positive";
+    if (annotation.stance < 0) return "negative";
+    return "neutral";
+  }
+
+  function evidenceTypeLabel(item) {
+    return item.sourceType === "title" ? "title" : "comment";
+  }
+
   function escapeHtml(value) {
     return String(value)
       .replaceAll("&", "&amp;")
@@ -168,6 +178,13 @@
     return dayPositiveSignalRows(day).map((row) => row.target);
   }
 
+  function displayRankingRows(day) {
+    return [...(day.ranking ?? [])].sort((a, b) => (
+      Number(b.adjustedMean ?? 0) - Number(a.adjustedMean ?? 0)
+      || String(a.target).localeCompare(String(b.target))
+    ));
+  }
+
   function applyDayBackground(square, day) {
     const targets = daySignalTargets(day);
     if (targets.length <= 1) return;
@@ -181,42 +198,49 @@
   }
 
   function renderRankingChart(day, evidenceById) {
-    const rows = day.ranking ?? [];
+    const rows = displayRankingRows(day);
     if (rows.length === 0) {
       return `
-        <section class="ranking-block" aria-label="Provider ranking">
-          <div class="section-title">ranking</div>
+        <section class="detail-section" aria-label="Provider ranking">
+          <div class="section-heading">
+            <span>ranking</span>
+            <span>most positive first</span>
+          </div>
           <p class="judgement secondary">No tracked provider had relevant HN story/comment signal.</p>
         </section>
       `;
     }
     return `
-      <section class="ranking-block" aria-label="Provider ranking">
-        <div class="section-title">ranking</div>
-        <div class="ranking-list">
-          ${rows.map((row) => {
-            const notes = [
+      <section class="detail-section provider-section" aria-label="Provider ranking">
+        <div class="section-heading">
+          <span>ranking</span>
+          <span>most positive first</span>
+        </div>
+        <div class="provider-list">
+          ${rows.map((row, index) => {
+            const notes = [...new Set([
+              Number(row.adjustedMean ?? 0) > 0 ? "positive signal" : "",
               bucketLabel(row.bucket),
               `${row.support} support`,
               `${row.confidence} confidence`,
               row.rankNote ? rankNoteLabel(row.rankNote) : "",
-            ].filter(Boolean);
+            ].filter(Boolean))];
             return `
-              <div class="rank-row">
-                <div class="rank-meta">
-                  <span class="rank-label">
-                    <span class="rank-position">${row.displayRank}</span>
-                    <span>${escapeHtml(labels[row.target] ?? row.target)}</span>
-                  </span>
-                  <span class="rank-score">${escapeHtml(notes.join(" · "))}</span>
+              <article class="provider-row ${escapeHtml(row.direction)}" style="--provider-color: var(${providerColorVars[row.target]});">
+                <div class="provider-rank">${index + 1}</div>
+                <div class="provider-body">
+                  <div class="provider-topline">
+                    <strong>${escapeHtml(labels[row.target] ?? row.target)}</strong>
+                    <span>${escapeHtml(notes.join(" · "))}</span>
+                  </div>
+                  <p>${withEvidenceLinks(row.summary || "", evidenceById)}</p>
                 </div>
-                <div class="rank-counts">
+                <div class="balance" aria-label="Evidence balance">
                   <span>${row.evidenceBalance.positive} positive</span>
                   <span>${row.evidenceBalance.neutral} neutral</span>
                   <span>${row.evidenceBalance.negative} negative</span>
                 </div>
-                <p class="rank-summary">${withEvidenceLinks(row.summary || "", evidenceById)}</p>
-              </div>
+              </article>
             `;
           }).join("")}
         </div>
@@ -227,27 +251,37 @@
   function renderEvidence(day) {
     if (!day.evidence?.length) return "";
     return `
-      <section class="detail-section" aria-label="Evidence">
-        <div class="section-title">evidence</div>
-        <div class="evidence-list">
+      <section class="detail-section source-section" aria-label="Evidence">
+        <div class="section-heading">
+          <span>sources</span>
+          <span>${day.evidence.length} excerpt${day.evidence.length === 1 ? "" : "s"}</span>
+        </div>
+        <div class="source-list">
           ${day.evidence.map((item) => `
-            <article class="evidence-card">
-              <div class="evidence-head">
+            <article class="source-row">
+              <div class="source-head">
                 <a href="${escapeHtml(item.hnUrl)}" target="_blank" rel="noreferrer">${escapeHtml(item.id)}</a>
-                <span>${escapeHtml(item.sourceType)} · story ${escapeHtml(item.storyId)}</span>
+                <span>${escapeHtml(evidenceTypeLabel(item))} · story ${escapeHtml(item.storyId)}</span>
               </div>
-              <blockquote>${escapeHtml(item.excerpt)}</blockquote>
-              <div class="annotation-list">
+              <p class="source-excerpt">${escapeHtml(item.excerpt)}</p>
+              <div class="source-targets">
                 ${item.annotations.map((annotation) => `
-                  <div class="annotation">
-                    <strong>${escapeHtml(labels[annotation.target] ?? annotation.target)}</strong>
-                    <span>${escapeHtml(annotation.stanceLabel.replaceAll("_", " "))}</span>
-                    <span>${escapeHtml(annotation.relevance)}</span>
-                    <span>${escapeHtml(annotation.referenceBasis.replaceAll("_", " "))}</span>
-                    <p>${escapeHtml(annotation.rationale)}</p>
-                  </div>
+                  <span class="source-chip ${annotationTone(annotation)}">${escapeHtml(labels[annotation.target] ?? annotation.target)} · ${escapeHtml(annotation.stanceLabel.replaceAll("_", " "))}</span>
                 `).join("")}
               </div>
+              <details class="annotation-details">
+                <summary>annotation${item.annotations.length === 1 ? "" : "s"}</summary>
+                <div class="annotation-list">
+                  ${item.annotations.map((annotation) => `
+                    <div class="annotation">
+                      <strong>${escapeHtml(labels[annotation.target] ?? annotation.target)}</strong>
+                      <span>${escapeHtml(annotation.relevance)}</span>
+                      <span>${escapeHtml(annotation.referenceBasis.replaceAll("_", " "))}</span>
+                      <p>${escapeHtml(annotation.rationale)}</p>
+                    </div>
+                  `).join("")}
+                </div>
+              </details>
             </article>
           `).join("")}
         </div>
@@ -258,9 +292,9 @@
   function renderUnmentioned(day) {
     if (!day.unmentioned?.length) return "";
     return `
-      <section class="detail-section" aria-label="Unmentioned providers">
-        <div class="section-title">unmentioned</div>
-        <p class="judgement secondary">${day.unmentioned.map((target) => escapeHtml(labels[target] ?? target)).join(", ")}</p>
+      <section class="unmentioned" aria-label="Unmentioned providers">
+        <span>unmentioned</span>
+        <span>${day.unmentioned.map((target) => escapeHtml(labels[target] ?? target)).join(", ")}</span>
       </section>
     `;
   }
@@ -287,21 +321,24 @@
     const signalRows = dayPositiveSignalRows(day);
     const signalTargets = daySignalTargets(day).map((target) => labels[target] ?? target);
     const flags = [
-      "front?day story/comment snapshot",
+      "HN story/comment snapshot",
       signalTargets.length > 1 ? `Tied positive signal: ${signalTargets.join(", ")}` : signalTargets.length === 1 ? `Primary positive: ${signalTargets[0]}` : "No positive signal",
-      signalRows.some((row) => row.support === "low") ? "Low-support positive signal" : "",
     ].filter(Boolean);
 
     popover.innerHTML = `
       ${detailCloseButton()}
       <div class="detail-scroll">
-        <h2>${escapeHtml(day.date)}</h2>
-        <div class="meta">${flags.map((flag) => `<span class="pill">${escapeHtml(flag)}</span>`).join("")}</div>
-        ${renderRankingChart(day, evidenceById)}
-        <section class="detail-section judgement-block" aria-label="Overall judgement">
-          <div class="section-title">daily summary</div>
+        <header class="detail-header">
+          <h2>${escapeHtml(displayDate(day.date))}</h2>
+          <div class="meta">${flags.map((flag) => `<span class="pill">${escapeHtml(flag)}</span>`).join("")}</div>
+        </header>
+        <section class="summary-block" aria-label="Daily summary">
+          <div class="section-heading">
+            <span>summary</span>
+          </div>
           <p class="judgement">${withEvidenceLinks(day.headlineSummary || "No tracked provider had relevant HN signal.", evidenceById)}</p>
         </section>
+        ${renderRankingChart(day, evidenceById)}
         ${renderUnmentioned(day)}
         ${renderEvidence(day)}
       </div>
@@ -388,7 +425,7 @@
       square.dataset.state = day ? "complete" : "missing";
       applyDayBackground(square, day);
       const label = targets.length > 0
-        ? `${targets.map((target) => labels[target] ?? target).join(", ")} strongest positive adjusted signal`
+        ? `${targets.map((target) => labels[target] ?? target).join(", ")} strongest positive signal`
         : "no meaningful positive provider signal";
       square.setAttribute("aria-label", day ? `${date}: ${label}` : `${date}: no data`);
       square.addEventListener("click", (event) => {
