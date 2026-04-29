@@ -123,12 +123,18 @@ async function appendJsonl(filePath: string, rows: unknown[]): Promise<void> {
   await fs.appendFile(filePath, `${rows.map((row) => JSON.stringify(row)).join("\n")}\n`, "utf8");
 }
 
-function usageTotals(rows: Array<StageRow<unknown>>): { inputTokens: number; outputTokens: number; totalTokens: number } {
+function usageTotals(rows: Array<StageRow<unknown>>): {
+  inputTokens: number;
+  cachedInputTokens: number;
+  outputTokens: number;
+  totalTokens: number;
+} {
   return rows.reduce((totals, row) => ({
     inputTokens: totals.inputTokens + (row.usage?.input_tokens ?? 0),
+    cachedInputTokens: totals.cachedInputTokens + (row.usage?.input_tokens_details?.cached_tokens ?? 0),
     outputTokens: totals.outputTokens + (row.usage?.output_tokens ?? 0),
     totalTokens: totals.totalTokens + (row.usage?.total_tokens ?? 0),
-  }), { inputTokens: 0, outputTokens: 0, totalTokens: 0 });
+  }), { inputTokens: 0, cachedInputTokens: 0, outputTokens: 0, totalTokens: 0 });
 }
 
 function freshStageInfo(startedAt = nowIso()): ResponseStageInfo {
@@ -138,6 +144,7 @@ function freshStageInfo(startedAt = nowIso()): ResponseStageInfo {
     successCount: 0,
     quarantineCount: 0,
     inputTokens: 0,
+    cachedInputTokens: 0,
     outputTokens: 0,
     totalTokens: 0,
   };
@@ -368,6 +375,7 @@ async function updateStageRun(
     successCount: progress.successRows.length,
     quarantineCount: progress.quarantineRows.length,
     inputTokens: totals.inputTokens,
+    cachedInputTokens: totals.cachedInputTokens,
     outputTokens: totals.outputTokens,
     totalTokens: totals.totalTokens,
   };

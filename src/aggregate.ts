@@ -100,6 +100,20 @@ function normalizeAdjudication(output: z.infer<typeof AdjudicationOutputSchema>)
   };
 }
 
+function stageInfoFromUsage(startedAt: string, usage: { input_tokens?: number; input_tokens_details?: { cached_tokens?: number }; output_tokens?: number; total_tokens?: number } | undefined) {
+  return {
+    startedAt,
+    completedAt: new Date().toISOString(),
+    processedCount: 1,
+    successCount: 1,
+    quarantineCount: 0,
+    inputTokens: usage?.input_tokens ?? 0,
+    cachedInputTokens: usage?.input_tokens_details?.cached_tokens ?? 0,
+    outputTokens: usage?.output_tokens ?? 0,
+    totalTokens: usage?.total_tokens ?? 0,
+  };
+}
+
 function buildEvidence(accumulators: Record<Target, EntityAccumulator>): Evidence[] {
   const evidence: Evidence[] = [];
   let id = 1;
@@ -296,7 +310,9 @@ export async function writeDailyReport(date: string, options: { force?: boolean 
   }, OUTPUT_TOKEN_CAPS.adjudication);
   const preflight = preflightResponseBody(adjudicationBody, MODEL_CONFIG.adjudication.model, OUTPUT_TOKEN_CAPS.adjudication);
   if (!preflight.ok) throw new Error(`Adjudication request for ${date} failed token preflight: ${preflight.reason}`);
-  const adjudicationText = (await createResponse(adjudicationBody)).text;
+  const adjudicationStartedAt = new Date().toISOString();
+  const adjudicationResponse = await createResponse(adjudicationBody);
+  const adjudicationText = adjudicationResponse.text;
   const adjudication = normalizeAdjudication(AdjudicationOutputSchema.parse(parseModelJson(adjudicationText)));
 
   validateCitations([
@@ -327,6 +343,13 @@ export async function writeDailyReport(date: string, options: { force?: boolean 
   });
 
   await writeDaily(result);
-  await writeRun({ ...run, state: "complete" });
+  await writeRun({
+    ...run,
+    state: "complete",
+    responses: {
+      ...run.responses,
+      adjudication: stageInfoFromUsage(adjudicationStartedAt, adjudicationResponse.usage),
+    },
+  });
   return true;
 }

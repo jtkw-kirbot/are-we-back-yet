@@ -2,6 +2,9 @@ const OPENAI_BASE = "https://api.openai.com/v1";
 
 export type OpenAiUsage = {
   input_tokens?: number;
+  input_tokens_details?: {
+    cached_tokens?: number;
+  };
   output_tokens?: number;
   total_tokens?: number;
 };

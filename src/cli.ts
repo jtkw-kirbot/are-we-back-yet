@@ -1,4 +1,5 @@
 import { promises as fs } from "node:fs";
+import { runBackfill } from "./backfill.js";
 import { fetchFrontPage } from "./hn.js";
 import { parseArgs, pathExists, rawPath, runPath, writeRawDay } from "./io.js";
 import { createFetchedRun, processDay } from "./responses.js";
@@ -48,6 +49,16 @@ async function main(): Promise<void> {
       break;
     case "check:timegate":
       await checkTimegate(args);
+      break;
+    case "backfill":
+      if (typeof args.start !== "string") throw new Error("backfill requires --start YYYY-MM-DD");
+      if (typeof args.end !== "string") throw new Error("backfill requires --end YYYY-MM-DD");
+      await runBackfill({
+        start: args.start,
+        end: args.end,
+        force: Boolean(args.force),
+        ...(typeof args.backend === "string" ? { backend: args.backend } : {}),
+      });
       break;
     default:
       throw new Error(`Unknown command: ${command ?? "(missing)"}`);

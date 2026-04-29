@@ -11,7 +11,7 @@
     google_gemini: "--google_gemini",
     microsoft_copilot: "--microsoft_copilot",
   };
-  const trackerStartDate = "2026-04-27";
+  const fallbackTrackerStartDate = "2026-04-27";
 
   const grid = document.getElementById("grid");
   const popover = document.getElementById("popover");
@@ -66,10 +66,10 @@
     return `${parts.year}-${parts.month}-${parts.day}`;
   }
 
-  function dateRange() {
+  function dateRange(startDate) {
     const today = laDateString(new Date());
     const dates = [];
-    const cursor = new Date(`${trackerStartDate}T00:00:00Z`);
+    const cursor = new Date(`${startDate}T00:00:00Z`);
     const end = new Date(`${today}T00:00:00Z`);
     while (cursor <= end) {
       dates.push(cursor.toISOString().slice(0, 10));
@@ -80,6 +80,23 @@
 
   function monthName(date) {
     return new Intl.DateTimeFormat("en-US", { month: "short", timeZone: "UTC" }).format(date);
+  }
+
+  function displayDate(date) {
+    return new Intl.DateTimeFormat("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+      timeZone: "UTC",
+    }).format(new Date(`${date}T00:00:00Z`));
+  }
+
+  function trackerStartDate(days) {
+    const dates = days
+      .map((day) => day.date)
+      .filter((date) => /^\d{4}-\d{2}-\d{2}$/.test(date))
+      .sort();
+    return dates[0] ?? fallbackTrackerStartDate;
   }
 
   function buildWeeks(dates) {
@@ -207,7 +224,7 @@
     }).join("");
 
     const flags = [
-      "9pm snapshot",
+      day.samplingMethod === "historical_frontpage_snapshot" ? "Historical front page" : "9pm snapshot",
       day.lowConfidence ? "Low confidence" : "",
       day.closeCall ? "Close call" : "",
     ].filter(Boolean);
@@ -258,8 +275,9 @@
   const response = await fetch("data/index.json");
   const data = response.ok ? await response.json() : { days: [] };
   const byDate = new Map(data.days.map((day) => [day.date, day]));
-  const dates = dateRange();
-  rangeLabel.textContent = "since Apr 27, 2026";
+  const startDate = trackerStartDate(data.days);
+  const dates = dateRange(startDate);
+  rangeLabel.textContent = `since ${displayDate(startDate)}`;
 
   const weeks = buildWeeks(dates);
   const calendar = document.createElement("div");

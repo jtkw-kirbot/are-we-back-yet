@@ -76,6 +76,18 @@ describe("raw day schema", () => {
 
     expect(parsed.items[0]?.storyUrl).toBeUndefined();
   });
+
+  it("accepts historical front-page snapshots", () => {
+    const parsed = RawDaySchema.parse({
+      date: "2026-04-20",
+      fetchedAt: "2026-04-29T04:00:00.000Z",
+      samplingMethod: "historical_frontpage_snapshot",
+      source: "hn_front_html_firebase",
+      items: [],
+    });
+
+    expect(parsed.samplingMethod).toBe("historical_frontpage_snapshot");
+  });
 });
 
 describe("sentiment result schema", () => {

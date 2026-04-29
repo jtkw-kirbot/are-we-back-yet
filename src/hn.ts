@@ -29,6 +29,32 @@ async function fetchJson<T>(url: string): Promise<T> {
   return (await response.json()) as T;
 }
 
+async function fetchText(url: string): Promise<string> {
+  const response = await fetch(url, {
+    headers: { "user-agent": "hn-ai-sentiment/0.1" },
+  });
+  if (!response.ok) {
+    throw new Error(`GET ${url} failed with ${response.status}`);
+  }
+  return response.text();
+}
+
+export function parseHistoricalFrontPageStoryIds(html: string): number[] {
+  const ids: number[] = [];
+  const seen = new Set<number>();
+  for (const match of html.matchAll(/<tr\b[^>]*>/gi)) {
+    const tag = match[0];
+    if (!/\bathing\b/i.test(tag) || !/\bsubmission\b/i.test(tag)) continue;
+    const idMatch = tag.match(/\bid=(?:"|')?(\d+)(?:"|')?/i);
+    if (!idMatch?.[1]) continue;
+    const id = Number(idMatch[1]);
+    if (!Number.isInteger(id) || seen.has(id)) continue;
+    seen.add(id);
+    ids.push(id);
+  }
+  return ids;
+}
+
 function decodeEntities(value: string): string {
   return value
     .replaceAll("<p>", "\n")
@@ -85,6 +111,7 @@ async function getFirebaseItem(id: number): Promise<FirebaseItem | null> {
 async function fetchFirebaseThread(
   story: FirebaseItem,
   counters: { storyComments: number; dayComments: number },
+  options: { commentCutoffUnixSeconds?: number } = {},
 ): Promise<HnItem[]> {
   if (!story.id || story.deleted || story.dead) return [];
   const storyTitle = story.title ?? `HN item ${story.id}`;
@@ -112,6 +139,7 @@ async function fetchFirebaseThread(
 
     const item = await getFirebaseItem(id);
     if (!item || item.deleted || item.dead || !item.id) return;
+    if (options.commentCutoffUnixSeconds !== undefined && item.time !== undefined && item.time > options.commentCutoffUnixSeconds) return;
 
     counters.storyComments += 1;
     counters.dayComments += 1;
@@ -160,6 +188,40 @@ export async function fetchFrontPage(date: string): Promise<RawDay> {
     fetchedAt: new Date().toISOString(),
     samplingMethod: "frontpage_snapshot",
     source: "firebase",
+    items,
+  };
+}
+
+function endOfUtcDateUnixSeconds(date: string): number {
+  const endMs = Date.parse(`${date}T23:59:59.999Z`);
+  if (!Number.isFinite(endMs)) throw new Error(`Invalid date: ${date}`);
+  return Math.floor(endMs / 1000);
+}
+
+export async function fetchHistoricalFrontPage(date: string): Promise<RawDay> {
+  const html = await fetchText(`https://news.ycombinator.com/front?day=${encodeURIComponent(date)}`);
+  const ids = parseHistoricalFrontPageStoryIds(html).slice(0, FETCH_LIMITS.topStories);
+  if (ids.length === 0) throw new Error(`No historical HN front-page stories found for ${date}`);
+
+  const items: HnItem[] = [];
+  const counters = { dayComments: 0 };
+  const commentCutoffUnixSeconds = endOfUtcDateUnixSeconds(date);
+
+  for (const id of ids) {
+    const story = await getFirebaseItem(id);
+    if (!story || story.deleted || story.dead) continue;
+    const localCounters = { storyComments: 0, dayComments: counters.dayComments };
+    const thread = await fetchFirebaseThread(story, localCounters, { commentCutoffUnixSeconds });
+    counters.dayComments = localCounters.dayComments;
+    items.push(...thread);
+    if (counters.dayComments >= FETCH_LIMITS.maxCommentsPerDay) break;
+  }
+
+  return {
+    date,
+    fetchedAt: new Date().toISOString(),
+    samplingMethod: "historical_frontpage_snapshot",
+    source: "hn_front_html_firebase",
     items,
   };
 }

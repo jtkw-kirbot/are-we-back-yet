@@ -11,6 +11,7 @@ export type Target = z.infer<typeof TargetSchema>;
 
 export const SamplingMethodSchema = z.enum([
   "frontpage_snapshot",
+  "historical_frontpage_snapshot",
 ]);
 export type SamplingMethod = z.infer<typeof SamplingMethodSchema>;
 
@@ -48,7 +49,7 @@ export const RawDaySchema = z.object({
   date: z.string(),
   fetchedAt: z.string(),
   samplingMethod: SamplingMethodSchema,
-  source: z.literal("firebase"),
+  source: z.enum(["firebase", "hn_front_html_firebase"]),
   items: z.array(HnItemSchema),
 });
 export type RawDay = z.infer<typeof RawDaySchema>;
@@ -60,6 +61,7 @@ export const ResponseStageInfoSchema = z.object({
   successCount: z.number().int().nonnegative().default(0),
   quarantineCount: z.number().int().nonnegative().default(0),
   inputTokens: z.number().int().nonnegative().default(0),
+  cachedInputTokens: z.number().int().nonnegative().default(0),
   outputTokens: z.number().int().nonnegative().default(0),
   totalTokens: z.number().int().nonnegative().default(0),
 });
@@ -74,6 +76,7 @@ export const RunFileSchema = z.object({
   responses: z.object({
     entity: ResponseStageInfoSchema.optional(),
     sentiment: ResponseStageInfoSchema.optional(),
+    adjudication: ResponseStageInfoSchema.optional(),
   }).default({}),
   error: z.string().optional(),
 });

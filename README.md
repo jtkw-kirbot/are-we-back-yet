@@ -2,7 +2,7 @@
 
 Static GitHub Pages tracker for daily Hacker News sentiment toward OpenAI, Anthropic, Google Gemini, and Microsoft Copilot.
 
-The live workflow captures the HN front page at 9pm America/Los_Angeles time. The public tracker starts on April 27, 2026.
+The live workflow captures the HN front page at 9pm America/Los_Angeles time. The public tracker starts at the earliest checked-in daily result.
 
 For a non-code overview of how posts are gathered, entities are matched, sentiment is routed, and winners are picked, see [docs/process.md](docs/process.md).
 
@@ -34,9 +34,17 @@ npm run build:site
 
 Large local live snapshots can raise the row cap with `RESPONSES_MAX_ROWS_PER_RUN`.
 
+Historical backfills use HN's `front?day=YYYY-MM-DD` page for the first page of ranked stories, then fetch comments from the Firebase item API. The command processes, commits, pushes, and publishes one completed day at a time:
+
+```bash
+npm run backfill -- --start 2026-04-20 --end 2026-04-26
+```
+
+The backfill command requires a clean git worktree, authenticated `gh` CLI, and `OPENAI_API_KEY`. It prints per-day and total Responses cost, plus a 50% Batch API estimate for comparison. It defaults to `--backend responses`; other backends are intentionally rejected until implemented.
+
 ## Data model
 
-Final daily records are written to `data/daily/YYYY-MM-DD.json`. Published records start on April 27, 2026. Each record stores:
+Final daily records are written to `data/daily/YYYY-MM-DD.json`. The UI starts its grid from the earliest daily record included in `data/index.json`. Each record stores:
 
 - the winner
 - per-entity score, counts, confidence, and judgement snippet
@@ -44,6 +52,6 @@ Final daily records are written to `data/daily/YYYY-MM-DD.json`. Published recor
 - evidence IDs and HN links
 - model snapshots, prompt versions, aggregation version, and sampling method
 
-Direct OpenAI Responses artifacts are written to `data/responses/YYYY-MM-DD/`. Row-level JSONL files store request hashes, attempts, response IDs, usage, parsed results, and quarantined failures for auditability.
+Direct OpenAI Responses artifacts are written to `data/responses/YYYY-MM-DD/`. Row-level JSONL files store request hashes, attempts, response IDs, usage, parsed results, and quarantined failures for auditability. Run files in `data/runs/YYYY-MM-DD.json` store token usage for entity detection, sentiment, and adjudication so historical backfills can report actual cost.
 
 Judgement snippets cite evidence using `[E1]` tokens. The UI converts those tokens to HN links from the stored evidence array.
