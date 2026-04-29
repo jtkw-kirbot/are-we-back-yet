@@ -89,7 +89,7 @@ describe("raw day schema", () => {
 });
 
 describe("title analysis schema", () => {
-  it("trims overlong title-level judgement snippets from model output", () => {
+  it("keeps full title-level judgement snippets from model output", () => {
     const parsed = TitleAnalysisSchema.parse({
       itemId: 123,
       target: "openai",
@@ -100,7 +100,6 @@ describe("title analysis schema", () => {
       judgementSnippet: "x".repeat(400),
     });
 
-    expect(parsed.judgementSnippet).toHaveLength(320);
-    expect(parsed.judgementSnippet.endsWith("...")).toBe(true);
+    expect(parsed.judgementSnippet).toHaveLength(400);
   });
 });

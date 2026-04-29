@@ -1,11 +1,6 @@
 import { z } from "zod";
 import { TARGETS } from "./config.js";
 
-function trimLongSnippet(value: string): string {
-  if (value.length <= 320) return value;
-  return `${value.slice(0, 317).trimEnd()}...`;
-}
-
 export const TargetSchema = z.enum(TARGETS);
 export type Target = z.infer<typeof TargetSchema>;
 
@@ -94,7 +89,7 @@ export const DailyEntitySchema = z.object({
   neutralCount: z.number().int().nonnegative(),
   negativeCount: z.number().int().nonnegative(),
   confidence: z.number().min(0).max(1),
-  judgementSnippet: z.string().transform(trimLongSnippet),
+  judgementSnippet: z.string(),
   evidenceIds: z.array(z.string()),
 });
 export type DailyEntity = z.infer<typeof DailyEntitySchema>;
@@ -106,7 +101,7 @@ export const TitleAnalysisSchema = z.object({
   confidence: z.number().min(0).max(1),
   relevance: z.boolean(),
   evidenceSummary: z.string(),
-  judgementSnippet: z.string().transform(trimLongSnippet),
+  judgementSnippet: z.string(),
 });
 export type TitleAnalysis = z.infer<typeof TitleAnalysisSchema>;
 
@@ -115,8 +110,8 @@ export const DailyResultSchema = z.object({
   generatedAt: z.string(),
   samplingMethod: SamplingMethodSchema,
   winner: TargetSchema,
-  dailyJudgementSnippet: z.string().transform(trimLongSnippet),
-  winnerExplanation: z.string().transform(trimLongSnippet),
+  dailyJudgementSnippet: z.string(),
+  winnerExplanation: z.string(),
   lowConfidence: z.boolean(),
   closeCall: z.boolean(),
   margin: z.number(),
