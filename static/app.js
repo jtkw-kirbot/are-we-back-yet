@@ -188,9 +188,9 @@
                   ></span>
                 </div>
                 <div class="rank-counts">
-                  <span>${row.entity.positiveCount} positive stories</span>
-                  <span>${row.entity.neutralCount} neutral stories</span>
-                  <span>${row.entity.negativeCount} negative stories</span>
+                  <span>${row.entity.positiveCount} positive</span>
+                  <span>${row.entity.neutralCount} neutral</span>
+                  <span>${row.entity.negativeCount} negative</span>
                 </div>
               </div>
             `;
