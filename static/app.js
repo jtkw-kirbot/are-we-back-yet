@@ -269,10 +269,10 @@
       return `var(${providerColorVars[target]}) ${start}% ${end}%`;
     });
     if (targets.length === 2) {
-      square.style.background = `linear-gradient(135deg, ${bands.join(", ")})`;
+      square.style.setProperty("--tie-background", `linear-gradient(135deg, ${bands.join(", ")})`);
       return;
     }
-    square.style.background = `conic-gradient(${bands.join(", ")})`;
+    square.style.setProperty("--tie-background", `conic-gradient(${bands.join(", ")})`);
   }
 
   function renderRankingChart(day, evidenceById) {
