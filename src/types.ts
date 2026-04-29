@@ -11,7 +11,6 @@ export type Target = z.infer<typeof TargetSchema>;
 
 export const SamplingMethodSchema = z.enum([
   "frontpage_snapshot",
-  "algolia_date_search",
 ]);
 export type SamplingMethod = z.infer<typeof SamplingMethodSchema>;
 
@@ -49,7 +48,7 @@ export const RawDaySchema = z.object({
   date: z.string(),
   fetchedAt: z.string(),
   samplingMethod: SamplingMethodSchema,
-  source: z.enum(["firebase", "algolia"]),
+  source: z.literal("firebase"),
   items: z.array(HnItemSchema),
 });
 export type RawDay = z.infer<typeof RawDaySchema>;

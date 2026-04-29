@@ -6,8 +6,6 @@ This project takes a daily snapshot of Hacker News discussion and turns it into 
 
 Each daily run captures the Hacker News front page and the comments under each front-page post. The daily live run happens at 9pm America/Los_Angeles time.
 
-Historical backfills use Hacker News Algolia date search. Those backfilled days are useful for trend analysis, but they are not exact historical front-page snapshots.
-
 ## 2. Identify relevant AI entities
 
 Each story and comment is scanned for mentions of the tracked entities and their products. This is a direct OpenAI Responses call per item, so interrupted runs can resume from the rows that already succeeded.
@@ -67,7 +65,7 @@ The output stores:
 
 An adjudication model reviews the aggregate scores and representative evidence, chooses the daily winner, and writes the short explanation shown in the UI.
 
-The static site is rebuilt and deployed to GitHub Pages. The homepage shows the year-to-date calendar, with each day colored by the winning entity. Selecting a day shows the per-entity sentiment and evidence-backed explanation in a right-side sheet on larger screens, or in a full-screen detail view on compact screens.
+The static site is rebuilt and deployed to GitHub Pages. The homepage shows daily snapshots from April 27, 2026 onward, with each day colored by the winning entity. Selecting a day shows the per-entity sentiment and evidence-backed explanation in a right-side sheet on larger screens, or in a full-screen detail view on compact screens.
 
 ## 7. Resume safely
 

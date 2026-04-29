@@ -9,7 +9,7 @@ Important docs to check include:
 - `README.md`
 - `docs/process.md`
 - GitHub Actions setup and workflow descriptions
-- setup, backfill, reprocess, and deployment instructions
+- setup, reprocess, and deployment instructions
 
 ## What Counts as Code Logic
 

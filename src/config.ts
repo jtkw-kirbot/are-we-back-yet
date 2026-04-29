@@ -49,25 +49,6 @@ export const FETCH_LIMITS = {
   maxCommentsPerStory: 500,
   maxDepth: 6,
   maxCommentsPerDay: 5000,
-  backfillHitsPerPage: 100,
-  backfillMaxPagesPerTerm: 5,
 } as const;
-
-export const BACKFILL_TERMS = [
-  "OpenAI",
-  "ChatGPT",
-  "GPT",
-  "Sora",
-  "Anthropic",
-  "Claude",
-  "Gemini",
-  "Google AI",
-  "DeepMind",
-  "Microsoft Copilot",
-  "GitHub Copilot",
-  "Bing Copilot",
-  "Windows Copilot",
-  "M365 Copilot",
-] as const;
 
 export const LOS_ANGELES_TZ = "America/Los_Angeles";

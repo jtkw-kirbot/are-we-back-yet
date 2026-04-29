@@ -58,12 +58,12 @@ describe("daily result schema", () => {
 });
 
 describe("raw day schema", () => {
-  it("accepts backfilled HN items with omitted story urls", () => {
+  it("accepts front-page HN items with omitted story urls", () => {
     const parsed = RawDaySchema.parse({
-      date: "2026-04-01",
-      fetchedAt: "2026-04-02T04:00:00.000Z",
-      samplingMethod: "algolia_date_search",
-      source: "algolia",
+      date: "2026-04-28",
+      fetchedAt: "2026-04-29T04:00:00.000Z",
+      samplingMethod: "frontpage_snapshot",
+      source: "firebase",
       items: [{
         id: 123,
         type: "story",

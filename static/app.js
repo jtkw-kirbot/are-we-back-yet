@@ -5,6 +5,7 @@
     google_gemini: "Gemini",
     microsoft_copilot: "Copilot",
   };
+  const trackerStartDate = "2026-04-27";
 
   const grid = document.getElementById("grid");
   const popover = document.getElementById("popover");
@@ -59,11 +60,10 @@
     return `${parts.year}-${parts.month}-${parts.day}`;
   }
 
-  function dateRangeYtd() {
+  function dateRange() {
     const today = laDateString(new Date());
-    const year = today.slice(0, 4);
     const dates = [];
-    const cursor = new Date(`${year}-01-01T00:00:00Z`);
+    const cursor = new Date(`${trackerStartDate}T00:00:00Z`);
     const end = new Date(`${today}T00:00:00Z`);
     while (cursor <= end) {
       dates.push(cursor.toISOString().slice(0, 10));
@@ -80,13 +80,6 @@
     if (dates.length === 0) return [];
     const weeks = [];
     let week = new Array(7).fill(null);
-    const firstDate = new Date(`${dates[0]}T00:00:00Z`);
-    const firstDay = firstDate.getUTCDay();
-    for (let day = 0; day < firstDay; day += 1) {
-      const leadingDate = new Date(firstDate);
-      leadingDate.setUTCDate(firstDate.getUTCDate() - (firstDay - day));
-      week[day] = leadingDate.toISOString().slice(0, 10);
-    }
 
     for (const date of dates) {
       const day = new Date(`${date}T00:00:00Z`).getUTCDay();
@@ -155,7 +148,7 @@
     }).join("");
 
     const flags = [
-      day.samplingMethod === "algolia_date_search" ? "Backfill sample" : "9pm snapshot",
+      "9pm snapshot",
       day.lowConfidence ? "Low confidence" : "",
       day.closeCall ? "Close call" : "",
     ].filter(Boolean);
@@ -205,9 +198,8 @@
   const response = await fetch("data/index.json");
   const data = response.ok ? await response.json() : { days: [] };
   const byDate = new Map(data.days.map((day) => [day.date, day]));
-  const dates = dateRangeYtd();
-  const currentYear = dates[0]?.slice(0, 4) ?? new Date().getFullYear();
-  rangeLabel.textContent = `${currentYear} year to date`;
+  const dates = dateRange();
+  rangeLabel.textContent = "since Apr 27, 2026";
 
   const weeks = buildWeeks(dates);
   const calendar = document.createElement("div");
@@ -215,11 +207,13 @@
 
   const monthLabels = document.createElement("div");
   monthLabels.className = "month-labels";
-  weeks.forEach((week) => {
+  weeks.forEach((week, index) => {
     const label = document.createElement("span");
     label.className = "month-label";
-    const firstOfMonth = week.find((date) => date && date.endsWith("-01"));
-    if (firstOfMonth) label.textContent = monthName(new Date(`${firstOfMonth}T00:00:00Z`));
+    const monthStart = week.find((date) => date && date.endsWith("-01"));
+    const firstRangeDate = index === 0 ? week.find(Boolean) : undefined;
+    const labelDate = monthStart ?? firstRangeDate;
+    if (labelDate) label.textContent = monthName(new Date(`${labelDate}T00:00:00Z`));
     monthLabels.appendChild(label);
   });
 

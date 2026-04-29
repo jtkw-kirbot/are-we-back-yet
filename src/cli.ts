@@ -1,9 +1,9 @@
 import { promises as fs } from "node:fs";
-import { fetchFrontPage, backfillDate } from "./hn.js";
+import { fetchFrontPage } from "./hn.js";
 import { parseArgs, pathExists, rawPath, runPath, writeRawDay } from "./io.js";
 import { createFetchedRun, processDay, processPending, reprocessDay } from "./responses.js";
 import { buildSite } from "./site.js";
-import { dateRangeInclusive, isLosAngelesRunWindow, localDate } from "./time.js";
+import { isLosAngelesRunWindow, localDate } from "./time.js";
 
 async function fetchHn(args: Record<string, string | boolean>): Promise<void> {
   const date = typeof args.date === "string" ? args.date : localDate();
@@ -16,23 +16,6 @@ async function fetchHn(args: Record<string, string | boolean>): Promise<void> {
   await writeRawDay(day);
   await createFetchedRun(date, day.samplingMethod);
   console.log(`fetched ${day.items.length} HN items for ${date}`);
-}
-
-async function backfillHn(args: Record<string, string | boolean>): Promise<void> {
-  if (typeof args.start !== "string" || typeof args.end !== "string") {
-    throw new Error("backfill:hn requires --start YYYY-MM-DD --end YYYY-MM-DD");
-  }
-  const force = Boolean(args.force);
-  for (const date of dateRangeInclusive(args.start, args.end)) {
-    if (!force && await pathExists(rawPath(date))) {
-      console.log(`raw snapshot already exists for ${date}; skipping`);
-      continue;
-    }
-    const day = await backfillDate(date);
-    await writeRawDay(day);
-    await createFetchedRun(date, day.samplingMethod);
-    console.log(`backfilled ${day.items.length} HN items for ${date}`);
-  }
 }
 
 async function checkTimegate(args: Record<string, string | boolean>): Promise<void> {
@@ -54,9 +37,6 @@ async function main(): Promise<void> {
   switch (command) {
     case "fetch:hn":
       await fetchHn(args);
-      break;
-    case "backfill:hn":
-      await backfillHn(args);
       break;
     case "process:day":
       if (typeof args.date !== "string") throw new Error("process:day requires --date YYYY-MM-DD");
