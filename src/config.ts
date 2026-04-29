@@ -31,7 +31,7 @@ export const MODEL_CONFIG = {
     reasoningEffort: "medium",
   },
   adjudication: {
-    model: "gpt-5.5-2026-04-23",
+    model: "gpt-5.4-2026-03-05",
     reasoningEffort: "medium",
   },
 } as const;

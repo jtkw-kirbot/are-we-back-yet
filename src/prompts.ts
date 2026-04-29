@@ -156,7 +156,6 @@ export function entityRequestBody(item: HnItem): unknown {
       },
     ],
     text: { format: jsonSchemaFormat("entity_detection", entityJsonSchema) },
-    max_output_tokens: 1400,
   };
 }
 
@@ -201,7 +200,6 @@ export function sentimentRequestBody(item: HnItem, targets: string[], detectedMe
       },
     ],
     text: { format: jsonSchemaFormat("sentiment_scoring", sentimentJsonSchema) },
-    max_output_tokens: 1400,
   };
 }
 

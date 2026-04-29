@@ -1,8 +1,7 @@
 import { promises as fs } from "node:fs";
-import { createFetchedRun, pollPendingBatches, queueReprocessDay, reprocessDay, retryTokenLimitFailures, submitAllEntityBatches, submitAllSentimentBatches } from "./batch.js";
-import { finalizeAll } from "./aggregate.js";
 import { fetchFrontPage, backfillDate } from "./hn.js";
 import { parseArgs, pathExists, rawPath, runPath, writeRawDay } from "./io.js";
+import { createFetchedRun, processDay, processPending, reprocessDay } from "./responses.js";
 import { buildSite } from "./site.js";
 import { dateRangeInclusive, isLosAngelesRunWindow, localDate } from "./time.js";
 
@@ -59,28 +58,16 @@ async function main(): Promise<void> {
     case "backfill:hn":
       await backfillHn(args);
       break;
-    case "batch:entity":
-      console.log(`submitted ${await submitAllEntityBatches(typeof args.date === "string" ? args.date : undefined)} entity batch(es)`);
+    case "process:day":
+      if (typeof args.date !== "string") throw new Error("process:day requires --date YYYY-MM-DD");
+      console.log(await processDay(args.date, { force: Boolean(args.force) }) ? `processed ${args.date}` : `${args.date} did not need processing`);
       break;
-    case "batch:sentiment":
-      console.log(`submitted ${await submitAllSentimentBatches(typeof args.date === "string" ? args.date : undefined)} sentiment batch(es)`);
-      break;
-    case "retry:token-limit":
-      console.log(`reset ${await retryTokenLimitFailures()} token-limit failed run(s)`);
-      break;
-    case "queue:reprocess":
-      if (typeof args.date !== "string") throw new Error("queue:reprocess requires --date YYYY-MM-DD");
-      console.log(await queueReprocessDay(args.date) ? `queued ${args.date} for reprocessing` : `${args.date} is already queued for reprocessing`);
+    case "process:pending":
+      console.log(`processed ${await processPending()} pending day(s)`);
       break;
     case "reprocess:day":
       if (typeof args.date !== "string") throw new Error("reprocess:day requires --date YYYY-MM-DD");
-      console.log(await reprocessDay(args.date) ? `reprocessing ${args.date} from existing raw snapshot` : `could not reprocess ${args.date}`);
-      break;
-    case "batch:poll":
-      console.log(`updated ${await pollPendingBatches()} pending batch run(s)`);
-      break;
-    case "finalize:day":
-      console.log(`finalized ${await finalizeAll(typeof args.date === "string" ? args.date : undefined, { force: Boolean(args.force) })} day(s)`);
+      console.log(await reprocessDay(args.date) ? `reprocessed ${args.date}` : `could not reprocess ${args.date}`);
       break;
     case "build:site":
       await buildSite();

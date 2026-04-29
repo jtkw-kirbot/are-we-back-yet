@@ -17,9 +17,9 @@ export type SamplingMethod = z.infer<typeof SamplingMethodSchema>;
 
 export const RunStateSchema = z.enum([
   "fetched",
-  "entity_submitted",
+  "entity_processing",
   "entity_complete",
-  "sentiment_submitted",
+  "sentiment_processing",
   "sentiment_complete",
   "complete",
   "failed",
@@ -54,17 +54,17 @@ export const RawDaySchema = z.object({
 });
 export type RawDay = z.infer<typeof RawDaySchema>;
 
-export const BatchInfoSchema = z.object({
-  id: z.string(),
-  inputFileId: z.string(),
-  outputFileId: z.string().optional(),
-  errorFileId: z.string().optional(),
-  errorDetails: z.unknown().optional(),
-  status: z.string(),
-  submittedAt: z.string(),
+export const ResponseStageInfoSchema = z.object({
+  startedAt: z.string().optional(),
   completedAt: z.string().optional(),
+  processedCount: z.number().int().nonnegative().default(0),
+  successCount: z.number().int().nonnegative().default(0),
+  quarantineCount: z.number().int().nonnegative().default(0),
+  inputTokens: z.number().int().nonnegative().default(0),
+  outputTokens: z.number().int().nonnegative().default(0),
+  totalTokens: z.number().int().nonnegative().default(0),
 });
-export type BatchInfo = z.infer<typeof BatchInfoSchema>;
+export type ResponseStageInfo = z.infer<typeof ResponseStageInfoSchema>;
 
 export const RunFileSchema = z.object({
   date: z.string(),
@@ -72,9 +72,9 @@ export const RunFileSchema = z.object({
   state: RunStateSchema,
   createdAt: z.string(),
   updatedAt: z.string(),
-  batches: z.object({
-    entity: BatchInfoSchema.optional(),
-    sentiment: BatchInfoSchema.optional(),
+  responses: z.object({
+    entity: ResponseStageInfoSchema.optional(),
+    sentiment: ResponseStageInfoSchema.optional(),
   }).default({}),
   error: z.string().optional(),
 });

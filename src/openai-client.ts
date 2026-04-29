@@ -1,28 +1,32 @@
-import { promises as fs } from "node:fs";
-import path from "node:path";
-import { MODEL_CONFIG } from "./config.js";
-
 const OPENAI_BASE = "https://api.openai.com/v1";
 
-type OpenAiBatch = {
-  id: string;
-  status: string;
-  input_file_id: string;
-  output_file_id?: string;
-  error_file_id?: string;
-  errors?: unknown;
-  created_at?: number;
-  completed_at?: number;
+export type OpenAiUsage = {
+  input_tokens?: number;
+  output_tokens?: number;
+  total_tokens?: number;
 };
 
-type BatchLine = {
-  custom_id: string;
-  response?: {
-    status_code: number;
-    body: unknown;
-  };
-  error?: unknown;
+export type OpenAiResponseResult = {
+  id: string | undefined;
+  status: string | undefined;
+  incompleteReason: string | undefined;
+  text: string;
+  usage: OpenAiUsage | undefined;
+  raw: unknown;
 };
+
+export class OpenAiStatusError extends Error {
+  readonly status: number;
+  readonly body: string;
+  readonly retryAfter: number | undefined;
+
+  constructor(pathName: string, status: number, body: string, retryAfter?: number) {
+    super(`OpenAI ${pathName} failed with ${status}: ${body}`);
+    this.status = status;
+    this.body = body;
+    this.retryAfter = retryAfter;
+  }
+}
 
 function apiKey(): string {
   const key = process.env.OPENAI_API_KEY;
@@ -30,59 +34,29 @@ function apiKey(): string {
   return key;
 }
 
+function retryAfterSeconds(value: string | null): number | undefined {
+  if (!value) return undefined;
+  const seconds = Number(value);
+  if (Number.isFinite(seconds) && seconds >= 0) return seconds;
+  const dateMs = Date.parse(value);
+  if (Number.isFinite(dateMs)) return Math.max(0, Math.ceil((dateMs - Date.now()) / 1000));
+  return undefined;
+}
+
 async function openAiFetch<T>(pathName: string, init: RequestInit = {}): Promise<T> {
   const response = await fetch(`${OPENAI_BASE}${pathName}`, {
     ...init,
     headers: {
       authorization: `Bearer ${apiKey()}`,
-      ...(init.body instanceof FormData ? {} : { "content-type": "application/json" }),
+      "content-type": "application/json",
       ...init.headers,
     },
   });
   if (!response.ok) {
     const body = await response.text();
-    throw new Error(`OpenAI ${pathName} failed with ${response.status}: ${body}`);
+    throw new OpenAiStatusError(pathName, response.status, body, retryAfterSeconds(response.headers.get("retry-after")));
   }
   return (await response.json()) as T;
-}
-
-export async function uploadBatchFile(filePath: string): Promise<string> {
-  const content = await fs.readFile(filePath);
-  const form = new FormData();
-  form.append("purpose", "batch");
-  form.append("file", new Blob([content], { type: "application/jsonl" }), path.basename(filePath));
-  const result = await openAiFetch<{ id: string }>("/files", {
-    method: "POST",
-    body: form,
-  });
-  return result.id;
-}
-
-export async function createBatch(inputFileId: string, metadata: Record<string, string>): Promise<OpenAiBatch> {
-  return openAiFetch<OpenAiBatch>("/batches", {
-    method: "POST",
-    body: JSON.stringify({
-      input_file_id: inputFileId,
-      endpoint: "/v1/responses",
-      completion_window: "24h",
-      metadata,
-    }),
-  });
-}
-
-export async function getBatch(batchId: string): Promise<OpenAiBatch> {
-  return openAiFetch<OpenAiBatch>(`/batches/${batchId}`);
-}
-
-export async function downloadFile(fileId: string): Promise<string> {
-  const response = await fetch(`${OPENAI_BASE}/files/${fileId}/content`, {
-    headers: { authorization: `Bearer ${apiKey()}` },
-  });
-  if (!response.ok) {
-    const body = await response.text();
-    throw new Error(`OpenAI file download failed with ${response.status}: ${body}`);
-  }
-  return response.text();
 }
 
 export function extractResponseText(body: unknown): string {
@@ -106,34 +80,21 @@ export function extractResponseText(body: unknown): string {
   return chunks.join("\n");
 }
 
-export function parseBatchOutput(content: string): Array<{ customId: string; text: string; raw: BatchLine }> {
-  return content
-    .split(/\n+/)
-    .filter(Boolean)
-    .map((line) => JSON.parse(line) as BatchLine)
-    .map((line) => {
-      if (line.error) throw new Error(`Batch row ${line.custom_id} failed: ${JSON.stringify(line.error)}`);
-      if (!line.response || line.response.status_code >= 400) {
-        throw new Error(`Batch row ${line.custom_id} returned ${line.response?.status_code ?? "no response"}`);
-      }
-      return {
-        customId: line.custom_id,
-        text: extractResponseText(line.response.body),
-        raw: line,
-      };
-    });
-}
-
-export async function createResponse(input: unknown, textFormat: unknown): Promise<string> {
+export async function createResponse(body: unknown): Promise<OpenAiResponseResult> {
   const response = await openAiFetch<unknown>("/responses", {
     method: "POST",
-    body: JSON.stringify({
-      model: MODEL_CONFIG.adjudication.model,
-      reasoning: { effort: MODEL_CONFIG.adjudication.reasoningEffort },
-      input,
-      text: { format: textFormat },
-      max_output_tokens: 2200,
-    }),
+    body: JSON.stringify(body),
   });
-  return extractResponseText(response);
+  const record = typeof response === "object" && response !== null ? response as Record<string, unknown> : {};
+  const incompleteDetails = typeof record.incomplete_details === "object" && record.incomplete_details !== null
+    ? record.incomplete_details as Record<string, unknown>
+    : {};
+  return {
+    id: typeof record.id === "string" ? record.id : undefined,
+    status: typeof record.status === "string" ? record.status : undefined,
+    incompleteReason: typeof incompleteDetails.reason === "string" ? incompleteDetails.reason : undefined,
+    text: extractResponseText(response),
+    usage: typeof record.usage === "object" && record.usage !== null ? record.usage as OpenAiUsage : undefined,
+    raw: response,
+  };
 }

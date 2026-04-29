@@ -28,7 +28,7 @@ describe("daily result schema", () => {
       models: {
         entity: "gpt-5.4-mini-2026-03-17",
         sentiment: "gpt-5.4-mini-2026-03-17",
-        adjudication: "gpt-5.5-2026-04-23",
+        adjudication: "gpt-5.4-2026-03-05",
       },
       methodVersion: {
         entityPrompt: "entity-v1",

@@ -1,8 +1,8 @@
 import { MODEL_CONFIG, METHOD_VERSION, TARGET_LABELS, TARGETS, type Target } from "./config.js";
-import { batchParsedPath } from "./batch.js";
-import { readJson, readRawDay, readRun, writeDaily, writeRun } from "./io.js";
+import { readJson, readRawDay, readRun, responseDir, writeDaily, writeRun } from "./io.js";
 import { createResponse } from "./openai-client.js";
 import { adjudicationInput, adjudicationJsonSchema, jsonSchemaFormat } from "./prompts.js";
+import { OUTPUT_TOKEN_CAPS, preflightResponseBody, withResponseSafeguards } from "./token-budget.js";
 import {
   DailyResultSchema,
   SentimentResultSchema,
@@ -14,6 +14,7 @@ import {
   type SentimentResult,
 } from "./types.js";
 import { z } from "zod";
+import path from "node:path";
 
 const PRIOR_WEIGHT = 10;
 
@@ -259,12 +260,16 @@ function winnerFromScores(scores: Record<Target, { score: number }>): { winner: 
   return { winner, margin };
 }
 
-export async function finalizeDay(date: string, options: { force?: boolean } = {}): Promise<boolean> {
+export function sentimentResultsPath(date: string): string {
+  return path.join(responseDir(date), "sentiment-results.json");
+}
+
+export async function writeDailyReport(date: string, options: { force?: boolean } = {}): Promise<boolean> {
   const run = await readRun(date);
   if (run.state !== "sentiment_complete" && !(options.force && run.state === "complete")) return false;
 
   const raw = await readRawDay(date);
-  const sentiments = await readJson(batchParsedPath(date, "sentiment"), SentimentResultSchema.array());
+  const sentiments = await readJson(sentimentResultsPath(date), SentimentResultSchema.array());
   const { accumulators, scores } = prelimAggregation(raw.items, sentiments);
   const evidence = buildEvidence(accumulators);
   const { winner: preliminaryWinner, margin } = winnerFromScores(scores);
@@ -283,10 +288,15 @@ export async function finalizeDay(date: string, options: { force?: boolean } = {
     scores,
     evidence,
   };
-  const adjudicationText = await createResponse(
-    adjudicationInput(adjudicationPayload),
-    jsonSchemaFormat("daily_adjudication", adjudicationJsonSchema),
-  );
+  const adjudicationBody = withResponseSafeguards({
+    model: MODEL_CONFIG.adjudication.model,
+    reasoning: { effort: MODEL_CONFIG.adjudication.reasoningEffort },
+    input: adjudicationInput(adjudicationPayload),
+    text: { format: jsonSchemaFormat("daily_adjudication", adjudicationJsonSchema) },
+  }, OUTPUT_TOKEN_CAPS.adjudication);
+  const preflight = preflightResponseBody(adjudicationBody, MODEL_CONFIG.adjudication.model, OUTPUT_TOKEN_CAPS.adjudication);
+  if (!preflight.ok) throw new Error(`Adjudication request for ${date} failed token preflight: ${preflight.reason}`);
+  const adjudicationText = (await createResponse(adjudicationBody)).text;
   const adjudication = normalizeAdjudication(AdjudicationOutputSchema.parse(parseModelJson(adjudicationText)));
 
   validateCitations([
@@ -319,15 +329,4 @@ export async function finalizeDay(date: string, options: { force?: boolean } = {
   await writeDaily(result);
   await writeRun({ ...run, state: "complete" });
   return true;
-}
-
-export async function finalizeAll(date?: string, options: { force?: boolean } = {}): Promise<number> {
-  if (date) return (await finalizeDay(date, options)) ? 1 : 0;
-  const { listRuns } = await import("./io.js");
-  const runs = await listRuns();
-  let count = 0;
-  for (const run of runs) {
-    if (run.state === "sentiment_complete" && await finalizeDay(run.date)) count += 1;
-  }
-  return count;
 }

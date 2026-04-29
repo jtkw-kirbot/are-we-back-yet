@@ -10,7 +10,7 @@ Historical backfills use Hacker News Algolia date search. Those backfilled days 
 
 ## 2. Identify relevant AI entities
 
-Each story and comment is scanned for mentions of the tracked entities and their products.
+Each story and comment is scanned for mentions of the tracked entities and their products. This is a direct OpenAI Responses call per item, so interrupted runs can resume from the rows that already succeeded.
 
 Examples:
 
@@ -65,6 +65,12 @@ The output stores:
 
 ## 6. Adjudicate and publish
 
-A stronger model reviews the aggregate scores and representative evidence, chooses the daily winner, and writes the short explanation shown in the UI.
+An adjudication model reviews the aggregate scores and representative evidence, chooses the daily winner, and writes the short explanation shown in the UI.
 
 The static site is rebuilt and deployed to GitHub Pages. The homepage shows the year-to-date calendar, with each day colored by the winning entity. Selecting a day shows the per-entity sentiment and evidence-backed explanation in a right-side sheet on larger screens, or in a full-screen detail view on compact screens.
+
+## 7. Resume safely
+
+The processor stores row-level progress and token usage. If a run is interrupted, the next scheduled pending run skips rows that already succeeded and continues from the remaining work.
+
+Before each OpenAI request, the system estimates the request size with a tokenizer, compares it against the selected model's known context window, and disables API-side truncation. Oversized or repeatedly invalid rows are quarantined instead of blocking the whole day, as long as they remain below the small daily tolerance.

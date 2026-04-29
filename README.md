@@ -4,6 +4,8 @@ Static GitHub Pages tracker for daily Hacker News sentiment toward OpenAI, Anthr
 
 The live workflow captures the HN front page at 9pm America/Los_Angeles time. Historical backfills use Algolia HN date search and are stored as `algolia_date_search` samples, not exact historical front-page snapshots.
 
+For a non-code overview of how posts are gathered, entities are matched, sentiment is routed, and winners are picked, see [docs/process.md](docs/process.md).
+
 ## Setup
 
 1. Add the repository secret `OPENAI_API_KEY` in GitHub:
@@ -11,23 +13,20 @@ The live workflow captures the HN front page at 9pm America/Los_Angeles time. Hi
 2. Enable GitHub Pages:
    `Settings -> Pages -> Build and deployment -> Source -> GitHub Actions`.
 3. Run `Daily HN snapshot` manually from the Actions tab with `force=true`.
-4. Wait for the scheduled `Finalize pending sentiment runs` workflow, or run it manually to move faster.
-5. Open the Pages URL shown by the finalizer deployment.
+4. Open the Pages URL shown by the workflow deployment.
 
-The daily workflow is scheduled for 9pm America/Los_Angeles. The workflow has two UTC cron entries and a time gate so it works across daylight-saving changes.
-
-For a non-code overview of how posts are gathered, entities are matched, sentiment is routed, and winners are picked, see [docs/process.md](docs/process.md).
+The daily workflow is scheduled for 9pm America/Los_Angeles. The workflow has two UTC cron entries and a time gate so it works across daylight-saving changes. A separate `Continue pending processing` workflow runs every 30 minutes as a safety net for interrupted runs, rate limits, and larger backfills; normal daily snapshots complete without a manual follow-up step.
 
 ## GitHub Actions
 
-- `Daily HN snapshot`: captures the current HN front page and submits entity detection. It runs from two UTC cron entries with a time gate for 9pm America/Los_Angeles. Manual runs can set `force=true` to bypass the time gate.
-- `Finalize pending sentiment runs`: advances async OpenAI batches, prioritizes queued reprocess dates, submits the next sentiment or entity batch when no other OpenAI batch is active, finalizes completed days, rebuilds the static site, and deploys GitHub Pages. It runs every 30 minutes and can also be triggered manually.
-- `Backfill HN sentiment range`: manually fetches a historical date range using Algolia HN date search and queues entity detection for those days.
-- `Reprocess existing HN sentiment day`: manually restarts entity detection and downstream analysis from an existing raw snapshot for one date.
+- `Daily HN snapshot`: captures the current HN front page, runs entity detection, sentiment analysis, daily adjudication, rebuilds the static site, and deploys GitHub Pages. Manual runs can set `force=true` to bypass the 9pm time gate.
+- `Continue pending processing`: resumes any fetched or partially processed day, writes daily reports once sentiment is complete, rebuilds the static site, and deploys GitHub Pages. It runs every 30 minutes and can also be triggered manually.
+- `Backfill HN sentiment range`: manually fetches a historical date range using Algolia HN date search. It stores raw snapshots as `fetched`; the pending workflow processes them.
+- `Reprocess existing HN sentiment day`: manually clears direct Responses artifacts for one existing raw snapshot, reruns analysis, rebuilds the static site, and deploys GitHub Pages.
 
 ## Backfill a date range
 
-Use the `Backfill HN sentiment range` workflow from the GitHub Actions tab:
+Use the `Backfill HN sentiment range` workflow from the GitHub Actions tab.
 
 Example for February and March 2026:
 
@@ -37,13 +36,7 @@ end_date:   2026-03-31
 force:      false
 ```
 
-That workflow fetches historical HN stories/comments using Algolia date search and queues entity detection. OpenAI batch limits are respected conservatively: by default the pipeline submits one new OpenAI batch only when no other batch is active. The `Finalize pending sentiment runs` workflow runs every 30 minutes, but you can also trigger it manually to move faster. It will poll entity batches, submit sentiment batches, submit the next queued entity batch, adjudicate completed days, and redeploy the site.
-
-If a run fails because the OpenAI enqueued-token limit was already full, reset those dates after the active batch drains:
-
-```bash
-npm run retry:token-limit
-```
+That workflow fetches historical HN stories/comments using Algolia date search. The `Continue pending processing` workflow runs every 30 minutes and advances those days through direct OpenAI Responses processing. You can also trigger `Continue pending processing` manually to move faster.
 
 Backfilled days are marked as `algolia_date_search`, not exact 9pm front-page snapshots.
 
@@ -53,52 +46,28 @@ Backfilled days are marked as `algolia_date_search`, not exact 9pm front-page sn
 npm ci
 export OPENAI_API_KEY=sk-...
 npm run fetch:hn -- --date 2026-04-28
-npm run batch:entity -- --date 2026-04-28
-npm run batch:poll
-npm run batch:sentiment -- --date 2026-04-28
-npm run finalize:day -- --date 2026-04-28
+npm run process:day -- --date 2026-04-28
 npm run build:site
 ```
 
-To re-run only the final adjudication for an already completed day:
-
-```bash
-npm run finalize:day -- --date 2026-04-28 --force
-```
-
-To re-run entity detection and sentiment analysis from an existing raw snapshot:
+To re-run entity detection, sentiment analysis, and daily adjudication from an existing raw snapshot:
 
 ```bash
 export OPENAI_API_KEY=sk-...
 npm run reprocess:day -- --date 2026-04-28
-npm run batch:poll
-npm run batch:sentiment
-npm run batch:poll
-npm run finalize:day -- --date 2026-04-28 --force
 npm run build:site
 ```
 
-The same reset can be started from GitHub Actions with the `Reprocess existing HN sentiment day` workflow.
-
-To queue a reprocess date for the normal throttled finalizer instead of submitting it immediately:
-
-```bash
-npm run queue:reprocess -- --date 2026-04-28
-```
-
-Backfill:
+Backfill locally:
 
 ```bash
 export OPENAI_API_KEY=sk-...
 npm run backfill:hn -- --start 2026-02-01 --end 2026-03-31
-npm run batch:entity
-npm run batch:poll
-npm run batch:sentiment
-npm run batch:entity
-npm run batch:poll
-npm run finalize:day
+npm run process:pending
 npm run build:site
 ```
+
+Large backfills may require multiple `process:pending` runs. The default processor limit is 1000 new OpenAI row requests per run and can be changed with `RESPONSES_MAX_ROWS_PER_RUN`.
 
 ## Data model
 
@@ -109,5 +78,7 @@ Final daily records are written to `data/daily/YYYY-MM-DD.json`. Each record sto
 - a day-level judgement snippet
 - evidence IDs and HN links
 - model snapshots, prompt versions, aggregation version, and sampling method
+
+Direct OpenAI Responses artifacts are written to `data/responses/YYYY-MM-DD/`. Row-level JSONL files store request hashes, attempts, response IDs, usage, parsed results, and quarantined failures so interrupted runs can resume without repeating successful work.
 
 Judgement snippets cite evidence using `[E1]` tokens. The UI converts those tokens to HN links from the stored evidence array.
