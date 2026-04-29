@@ -5,6 +5,12 @@
     google_gemini: "Gemini",
     microsoft_copilot: "Copilot",
   };
+  const providerColorVars = {
+    openai: "--openai",
+    anthropic: "--anthropic",
+    google_gemini: "--google_gemini",
+    microsoft_copilot: "--microsoft_copilot",
+  };
   const trackerStartDate = "2026-04-27";
 
   const grid = document.getElementById("grid");
@@ -98,6 +104,14 @@
     return `${sign}${value.toFixed(2)}`;
   }
 
+  function formatMentions(value) {
+    return `${value} mention${value === 1 ? "" : "s"}`;
+  }
+
+  function clampScore(value) {
+    return Math.max(-1, Math.min(1, Number(value) || 0));
+  }
+
   function escapeHtml(value) {
     return String(value)
       .replaceAll("&", "&amp;")
@@ -113,6 +127,51 @@
       if (!evidence) return token;
       return `<a href="${escapeHtml(evidence.url)}" target="_blank" rel="noreferrer">[${id}]</a>`;
     });
+  }
+
+  function renderRankingChart(day) {
+    const rows = Object.entries(labels)
+      .map(([target, label]) => ({ target, label, entity: day.entities[target] }))
+      .filter((row) => row.entity)
+      .sort((a, b) => b.entity.score - a.entity.score);
+    const maxAbsScore = Math.max(0.05, ...rows.map((row) => Math.abs(clampScore(row.entity.score))));
+
+    return `
+      <section class="ranking-block" aria-label="Provider ranking">
+        <div class="section-title">ranking</div>
+        <div class="ranking-list">
+          ${rows.map((row, index) => {
+            const score = clampScore(row.entity.score);
+            const barWidth = Math.min(50, (Math.abs(score) / maxAbsScore) * 50);
+            const barLeft = score < 0 ? 50 - barWidth : 50;
+            const scoreDirection = score < 0 ? "negative" : score > 0 ? "positive" : "neutral";
+            return `
+              <div class="rank-row ${row.target === day.winner ? "winner" : ""}">
+                <div class="rank-meta">
+                  <span class="rank-label">
+                    <span class="rank-position">${index + 1}</span>
+                    <span>${escapeHtml(row.label)}</span>
+                  </span>
+                  <span class="rank-score">${formatScore(row.entity.score)} · ${formatMentions(row.entity.mentionCount)}</span>
+                </div>
+                <div class="rank-bar-track" aria-hidden="true">
+                  <span class="rank-zero"></span>
+                  <span
+                    class="rank-bar-fill ${scoreDirection}"
+                    style="left: ${barLeft.toFixed(2)}%; width: ${barWidth.toFixed(2)}%; --provider-color: var(${providerColorVars[row.target]});"
+                  ></span>
+                </div>
+                <div class="rank-counts">
+                  <span>${row.entity.positiveCount} positive</span>
+                  <span>${row.entity.neutralCount} neutral</span>
+                  <span>${row.entity.negativeCount} negative</span>
+                </div>
+              </div>
+            `;
+          }).join("")}
+        </div>
+      </section>
+    `;
   }
 
   function renderDetail(anchor, date, day) {
@@ -158,6 +217,7 @@
       <div class="detail-scroll">
         <h2>${escapeHtml(day.date)} · ${escapeHtml(labels[day.winner])}</h2>
         <div class="meta">${flags.map((flag) => `<span class="pill">${escapeHtml(flag)}</span>`).join("")}</div>
+        ${renderRankingChart(day)}
         <details class="judgement-block" open>
           <summary>Daily judgement</summary>
           <p class="judgement">${withEvidenceLinks(day.dailyJudgementSnippet, evidenceById)}</p>

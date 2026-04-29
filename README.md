@@ -20,6 +20,7 @@ The daily workflow is scheduled for 9pm America/Los_Angeles. The workflow has tw
 ## GitHub Actions
 
 - `Daily live HN sentiment pipeline`: captures the current HN front page, runs entity detection, sentiment analysis, daily adjudication, verifies the daily report was produced, commits `data/`, rebuilds the static site, and deploys GitHub Pages. Manual runs can set `force=true` to bypass the 9pm time gate and refetch the current live front page.
+- `Publish static site`: manually rebuilds and deploys GitHub Pages from the current checked-in data and static files. Use this for UI-only changes because it does not fetch Hacker News or call OpenAI.
 
 ## Local commands
 

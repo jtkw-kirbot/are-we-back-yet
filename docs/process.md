@@ -65,7 +65,9 @@ The output stores:
 
 An adjudication model reviews the aggregate scores and representative evidence, chooses the daily winner, and writes the short explanation shown in the UI.
 
-The static site is rebuilt and deployed to GitHub Pages. The homepage shows daily snapshots from April 27, 2026 onward, with each day colored by the winning entity. Selecting a day shows the per-entity sentiment and evidence-backed explanation in a right-side sheet on larger screens, or in a full-screen detail view on compact screens.
+The static site is rebuilt and deployed to GitHub Pages. The homepage shows daily snapshots from April 27, 2026 onward, with each day colored by the winning entity. Selecting a day shows a ranked provider chart, the evidence-backed daily judgement, and the per-entity sentiment in a right-side sheet on larger screens, or in a full-screen detail view on compact screens.
+
+For UI-only changes, the publish workflow can rebuild and deploy the checked-in site without fetching Hacker News or running model analysis again.
 
 ## 7. Fail safely
 
