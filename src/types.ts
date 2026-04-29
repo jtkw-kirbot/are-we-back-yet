@@ -94,8 +94,8 @@ export const EvidenceSchema = z.object({
 export type Evidence = z.infer<typeof EvidenceSchema>;
 
 export const DailyEntitySchema = z.object({
-  score: z.number().nullable(),
-  rawWeightedSentiment: z.number().nullable(),
+  score: z.number().min(-1).max(1).nullable(),
+  rawWeightedSentiment: z.number().min(-1).max(1).nullable(),
   mentionCount: z.number().int().nonnegative(),
   positiveCount: z.number().int().nonnegative(),
   neutralCount: z.number().int().nonnegative(),
@@ -105,17 +105,6 @@ export const DailyEntitySchema = z.object({
   evidenceIds: z.array(z.string()),
 });
 export type DailyEntity = z.infer<typeof DailyEntitySchema>;
-
-export const TitleAnalysisSchema = z.object({
-  itemId: z.number(),
-  target: TargetSchema,
-  sentiment: z.number().int().min(-2).max(2),
-  confidence: z.number().min(0).max(1),
-  relevance: z.boolean(),
-  evidenceSummary: z.string(),
-  judgementSnippet: z.string(),
-});
-export type TitleAnalysis = z.infer<typeof TitleAnalysisSchema>;
 
 export const DailyResultSchema = z.object({
   date: z.string(),

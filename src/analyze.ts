@@ -1,4 +1,4 @@
-import { MODEL_CONFIG, METHOD_VERSION, TARGETS, type Target } from "./config.js";
+import { MODEL_CONFIG, METHOD_VERSION, TARGET_LABELS, TARGETS, type Target } from "./config.js";
 import { dailyPath, pathExists, readRawDay, readRun, writeDaily, writeRun } from "./io.js";
 import { createResponse, OpenAiStatusError, type OpenAiUsage } from "./openai-client.js";
 import { titleAnalysisRequestBody } from "./prompts.js";
@@ -6,60 +6,54 @@ import { OUTPUT_TOKEN_CAPS, preflightResponseBody, withResponseSafeguards } from
 import {
   DailyResultSchema,
   EvidenceSchema,
-  TitleAnalysisSchema,
   type DailyEntity,
   type Evidence,
   type RawDay,
   type ResponseStageInfo,
   type RunFile,
   type SamplingMethod,
-  type TitleAnalysis,
 } from "./types.js";
 import { z } from "zod";
 
-const PRIOR_WEIGHT = 3;
-const MIN_CONFIDENCE = 0.25;
+const CLOSE_CALL_MARGIN = 0.1;
+const SCORE_EPSILON = 0.000001;
+
+const ModelDailyEntitySchema = z.object({
+  score: z.number().min(-1).max(1).nullable(),
+  mentionCount: z.number().int().nonnegative(),
+  positiveCount: z.number().int().nonnegative(),
+  neutralCount: z.number().int().nonnegative(),
+  negativeCount: z.number().int().nonnegative(),
+  confidence: z.number().min(0).max(1),
+  judgementSnippet: z.string(),
+  evidenceIds: z.array(z.string()),
+});
 
 const TitleAnalysisOutputSchema = z.object({
   winner: z.enum(TARGETS).nullable(),
   dailyJudgementSnippet: z.string(),
   winnerExplanation: z.string(),
-  entityJudgements: z.object({
-    openai: z.string(),
-    anthropic: z.string(),
-    google_gemini: z.string(),
-    microsoft_copilot: z.string(),
+  entities: z.object({
+    openai: ModelDailyEntitySchema,
+    anthropic: ModelDailyEntitySchema,
+    google_gemini: ModelDailyEntitySchema,
+    microsoft_copilot: ModelDailyEntitySchema,
   }),
-  analyses: z.array(TitleAnalysisSchema),
   evidence: z.array(EvidenceSchema),
 });
 
 type TitleAnalysisOutput = z.infer<typeof TitleAnalysisOutputSchema>;
-
-type EntityAccumulator = {
-  sentimentSum: number;
-  weightSum: number;
-  confidenceSum: number;
-  mentionCount: number;
-  positiveCount: number;
-  neutralCount: number;
-  negativeCount: number;
+type ModelDailyEntity = z.infer<typeof ModelDailyEntitySchema>;
+type NormalizedDailyOutput = {
+  winner: Target | null;
+  dailyJudgementSnippet: string;
+  winnerExplanation: string;
+  entities: Record<Target, DailyEntity>;
+  evidence: Evidence[];
 };
 
 function nowIso(): string {
   return new Date().toISOString();
-}
-
-function emptyAccumulator(): EntityAccumulator {
-  return {
-    sentimentSum: 0,
-    weightSum: 0,
-    confidenceSum: 0,
-    mentionCount: 0,
-    positiveCount: 0,
-    neutralCount: 0,
-    negativeCount: 0,
-  };
 }
 
 function emptyEntity(snippet = ""): DailyEntity {
@@ -125,10 +119,6 @@ function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-function rankWeight(rank: number): number {
-  return Math.max(0.7, 1.25 - (rank - 1) * 0.02);
-}
-
 function validateEvidence(day: RawDay, output: TitleAnalysisOutput): void {
   const validItemIds = new Set(day.items.map((item) => item.id));
   const seenEvidenceIds = new Set<string>();
@@ -145,7 +135,7 @@ function validateEvidence(day: RawDay, output: TitleAnalysisOutput): void {
   const snippets = [
     output.dailyJudgementSnippet,
     output.winnerExplanation,
-    ...TARGETS.map((target) => output.entityJudgements[target]),
+    ...TARGETS.map((target) => output.entities[target].judgementSnippet),
   ];
   for (const snippet of snippets) {
     if (/https?:\/\//i.test(snippet)) {
@@ -157,112 +147,155 @@ function validateEvidence(day: RawDay, output: TitleAnalysisOutput): void {
   }
 }
 
-function normalizeOutput(day: RawDay, output: TitleAnalysisOutput): TitleAnalysisOutput {
-  validateEvidence(day, output);
-  const itemsById = new Map(day.items.map((item) => [item.id, item]));
-  return {
-    winner: output.winner,
-    dailyJudgementSnippet: normalizeText(output.dailyJudgementSnippet),
-    winnerExplanation: normalizeText(output.winnerExplanation),
-    entityJudgements: {
-      openai: normalizeText(output.entityJudgements.openai),
-      anthropic: normalizeText(output.entityJudgements.anthropic),
-      google_gemini: normalizeText(output.entityJudgements.google_gemini),
-      microsoft_copilot: normalizeText(output.entityJudgements.microsoft_copilot),
-    },
-    analyses: output.analyses,
-    evidence: output.evidence.map((item) => {
-      const sourceUrl = itemsById.get(item.hnItemId)?.sourceUrl ?? item.url;
-      return {
-        ...item,
-        url: sourceUrl,
-        summary: normalizeText(item.summary),
-      };
-    }),
-  };
-}
-
-function accumulatorsFromAnalyses(day: RawDay, analyses: TitleAnalysis[]): Record<Target, EntityAccumulator> {
-  const itemsById = new Map(day.items.map((item) => [item.id, item]));
-  const accumulators: Record<Target, EntityAccumulator> = {
-    openai: emptyAccumulator(),
-    anthropic: emptyAccumulator(),
-    google_gemini: emptyAccumulator(),
-    microsoft_copilot: emptyAccumulator(),
-  };
-
-  for (const analysis of analyses) {
-    if (!analysis.relevance || analysis.confidence < MIN_CONFIDENCE) continue;
-    const item = itemsById.get(analysis.itemId);
-    if (!item) continue;
-    const normalizedSentiment = analysis.sentiment / 2;
-    const weight = analysis.confidence * rankWeight(item.rank);
-    const accumulator = accumulators[analysis.target];
-    accumulator.sentimentSum += normalizedSentiment * weight;
-    accumulator.weightSum += weight;
-    accumulator.confidenceSum += analysis.confidence;
-    accumulator.mentionCount += 1;
-    if (analysis.sentiment > 0) accumulator.positiveCount += 1;
-    else if (analysis.sentiment < 0) accumulator.negativeCount += 1;
-    else accumulator.neutralCount += 1;
-  }
-
-  return accumulators;
-}
-
-function buildEntities(
-  accumulators: Record<Target, EntityAccumulator>,
-  snippets: Record<Target, string>,
-  evidence: Evidence[],
-): Record<Target, DailyEntity> {
-  const entities: Record<Target, DailyEntity> = {
-    openai: emptyEntity(snippets.openai),
-    anthropic: emptyEntity(snippets.anthropic),
-    google_gemini: emptyEntity(snippets.google_gemini),
-    microsoft_copilot: emptyEntity(snippets.microsoft_copilot),
-  };
-
-  for (const target of TARGETS) {
-    const accumulator = accumulators[target];
-    if (accumulator.mentionCount === 0 || accumulator.weightSum === 0) {
-      entities[target] = emptyEntity("N/A");
-      continue;
+function validateEntityText(target: Target, entity: DailyEntity): void {
+  if (entity.score === null) return;
+  for (const id of citationIds(entity.judgementSnippet)) {
+    if (!entity.evidenceIds.includes(id)) {
+      throw new Error(`Model cited ${id} in ${target} snippet without attaching it to that provider`);
     }
-    const rawWeightedSentiment = accumulator.sentimentSum / accumulator.weightSum;
-    entities[target] = {
-      score: accumulator.sentimentSum / (accumulator.weightSum + PRIOR_WEIGHT),
-      rawWeightedSentiment,
-      mentionCount: accumulator.mentionCount,
-      positiveCount: accumulator.positiveCount,
-      neutralCount: accumulator.neutralCount,
-      negativeCount: accumulator.negativeCount,
-      confidence: accumulator.mentionCount === 0 ? 0 : accumulator.confidenceSum / accumulator.mentionCount,
-      judgementSnippet: snippets[target],
-      evidenceIds: evidence.filter((item) => item.entity === target).map((item) => item.id),
-    };
   }
-
-  return entities;
+  const text = entity.judgementSnippet.toLowerCase();
+  const positiveSummary = /\b(slightly positive overall|mostly positive|net positive|overall positive|positive overall|clearly positive|strongly positive)\b/;
+  const negativeSummary = /\b(slightly negative overall|mostly negative|net negative|overall negative|negative overall|clearly negative|strongly negative)\b/;
+  if (entity.score <= -0.1 && positiveSummary.test(text)) {
+    throw new Error(`Model returned positive summary language for negative ${target} score`);
+  }
+  if (entity.score >= 0.1 && negativeSummary.test(text)) {
+    throw new Error(`Model returned negative summary language for positive ${target} score`);
+  }
+  if (Math.abs(entity.score) < 0.1 && (positiveSummary.test(text) || negativeSummary.test(text))) {
+    throw new Error(`Model returned directional summary language for neutral ${target} score`);
+  }
 }
 
-function winnerFromEntities(entities: Record<Target, DailyEntity>, proposedWinner: Target | null): {
-  winner: Target | null;
-  margin: number | null;
-} {
-  const ordered = TARGETS
+function normalizeEntity(target: Target, entity: ModelDailyEntity, evidenceById: Map<string, Evidence>): DailyEntity {
+  const judgementSnippet = normalizeText(entity.judgementSnippet);
+  const evidenceIds = entity.evidenceIds.map((id) => id.trim()).filter(Boolean);
+  const uniqueEvidenceIds = new Set<string>();
+
+  for (const id of evidenceIds) {
+    if (uniqueEvidenceIds.has(id)) throw new Error(`Model returned duplicate evidence id ${id} for ${target}`);
+    uniqueEvidenceIds.add(id);
+    const evidence = evidenceById.get(id);
+    if (!evidence) throw new Error(`Model returned unknown evidence id ${id} for ${target}`);
+    if (evidence.entity !== target) {
+      throw new Error(`Model attached evidence id ${id} for ${evidence.entity} to ${target}`);
+    }
+  }
+
+  const countSum = entity.positiveCount + entity.neutralCount + entity.negativeCount;
+  if (countSum !== entity.mentionCount) {
+    throw new Error(`Model returned ${target} counts that do not sum to mentionCount`);
+  }
+
+  if (entity.score === null) {
+    if (
+      entity.mentionCount !== 0 ||
+      countSum !== 0 ||
+      entity.confidence !== 0 ||
+      evidenceIds.length !== 0 ||
+      judgementSnippet !== "N/A"
+    ) {
+      throw new Error(`Model returned inconsistent N/A fields for ${target}`);
+    }
+    return emptyEntity("N/A");
+  }
+
+  if (entity.mentionCount === 0) throw new Error(`Model returned score for ${target} without relevant stories`);
+  if (entity.confidence === 0) throw new Error(`Model returned score for ${target} with zero confidence`);
+  if (evidenceIds.length === 0) throw new Error(`Model returned score for ${target} without evidence ids`);
+
+  const dailyEntity: DailyEntity = {
+    score: entity.score,
+    rawWeightedSentiment: entity.score,
+    mentionCount: entity.mentionCount,
+    positiveCount: entity.positiveCount,
+    neutralCount: entity.neutralCount,
+    negativeCount: entity.negativeCount,
+    confidence: entity.confidence,
+    judgementSnippet,
+    evidenceIds,
+  };
+  validateEntityText(target, dailyEntity);
+  return dailyEntity;
+}
+
+function validateWinner(entities: Record<Target, DailyEntity>, winner: Target | null): { margin: number | null } {
+  const ranked = TARGETS
     .flatMap((target) => {
       const score = entities[target].score;
       return score === null ? [] : [{ target, score }];
     })
     .sort((a, b) => b.score - a.score);
-  const top = ordered[0];
-  if (!top) return { winner: null, margin: null };
-  const runnerUp = ordered[1] ?? { target: top.target, score: top.score };
-  const allTied = ordered.every((item) => Math.abs(item.score - top.score) < 0.000001);
-  const proposedScore = proposedWinner === null ? null : entities[proposedWinner].score;
+
+  if (ranked.length === 0) {
+    if (winner !== null) throw new Error(`Model returned winner ${winner} but no provider had a score`);
+    return { margin: null };
+  }
+  if (winner === null) throw new Error("Model returned null winner despite scored providers");
+
+  const topScore = ranked[0]?.score;
+  const winnerScore = entities[winner].score;
+  if (topScore === undefined || winnerScore === null) {
+    throw new Error(`Model returned winner ${winner} without a score`);
+  }
+  if (Math.abs(winnerScore - topScore) > SCORE_EPSILON) {
+    throw new Error(`Model winner ${winner} does not match top score`);
+  }
+
+  const runnerUp = ranked.find((item) => item.target !== winner);
+  return { margin: runnerUp ? winnerScore - runnerUp.score : null };
+}
+
+function validateWinnerText(output: NormalizedDailyOutput): void {
+  const snippets = [
+    ["dailyJudgementSnippet", output.dailyJudgementSnippet],
+    ["winnerExplanation", output.winnerExplanation],
+  ] as const;
+  const expectedPrefix = output.winner === null ? "n/a" : TARGET_LABELS[output.winner].toLowerCase();
+  for (const [field, value] of snippets) {
+    if (!value.toLowerCase().startsWith(expectedPrefix)) {
+      throw new Error(`Model ${field} does not start with ${output.winner === null ? "N/A" : TARGET_LABELS[output.winner]}`);
+    }
+  }
+}
+
+function validateEvidenceCoverage(output: NormalizedDailyOutput): void {
+  const referencedEvidenceIds = new Set(TARGETS.flatMap((target) => output.entities[target].evidenceIds));
+  for (const evidence of output.evidence) {
+    if (!referencedEvidenceIds.has(evidence.id)) {
+      throw new Error(`Model returned unused evidence id ${evidence.id}`);
+    }
+  }
+}
+
+function normalizeOutput(day: RawDay, output: TitleAnalysisOutput): NormalizedDailyOutput {
+  validateEvidence(day, output);
+  const itemsById = new Map(day.items.map((item) => [item.id, item]));
+  const evidence = output.evidence.map((item) => {
+    const sourceUrl = itemsById.get(item.hnItemId)?.sourceUrl ?? item.url;
+    return {
+      ...item,
+      url: sourceUrl,
+      summary: normalizeText(item.summary),
+    };
+  });
+  const evidenceById = new Map(evidence.map((item) => [item.id, item]));
+  const entities = Object.fromEntries(
+    TARGETS.map((target) => [target, normalizeEntity(target, output.entities[target], evidenceById)]),
+  ) as Record<Target, DailyEntity>;
+  const normalized: NormalizedDailyOutput = {
+    winner: output.winner,
+    dailyJudgementSnippet: normalizeText(output.dailyJudgementSnippet),
+    winnerExplanation: normalizeText(output.winnerExplanation),
+    entities,
+    evidence,
+  };
+  validateWinner(entities, output.winner);
+  validateWinnerText(normalized);
+  validateEvidenceCoverage(normalized);
   return {
-    winner: allTied && proposedWinner !== null && proposedScore !== null ? proposedWinner : top.target,
-    margin: top.score - runnerUp.score,
+    ...normalized,
   };
 }
 
@@ -308,11 +341,10 @@ async function callTitleAnalysis(day: RawDay): Promise<{ output: TitleAnalysisOu
 
 function dailyResultFromOutput(day: RawDay, output: TitleAnalysisOutput) {
   const normalized = normalizeOutput(day, output);
-  const accumulators = accumulatorsFromAnalyses(day, normalized.analyses);
-  const entities = buildEntities(accumulators, normalized.entityJudgements, normalized.evidence);
-  const { winner, margin } = winnerFromEntities(entities, normalized.winner);
-  const lowConfidence = winner === null || entities[winner].mentionCount < 2 || entities[winner].confidence < 0.55;
-  const closeCall = margin !== null && margin < 0.05;
+  const { margin } = validateWinner(normalized.entities, normalized.winner);
+  const winner = normalized.winner;
+  const lowConfidence = winner === null || normalized.entities[winner].mentionCount < 2 || normalized.entities[winner].confidence < 0.55;
+  const closeCall = margin !== null && margin < CLOSE_CALL_MARGIN;
 
   return DailyResultSchema.parse({
     date: day.date,
@@ -328,7 +360,7 @@ function dailyResultFromOutput(day: RawDay, output: TitleAnalysisOutput) {
       titleAnalysis: MODEL_CONFIG.titleAnalysis.model,
     },
     methodVersion: METHOD_VERSION,
-    entities,
+    entities: normalized.entities,
     evidence: normalized.evidence,
   });
 }

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { DailyResultSchema, RawDaySchema, TitleAnalysisSchema } from "../src/types.js";
+import { DailyResultSchema, RawDaySchema } from "../src/types.js";
 
 const entity = {
   score: 0.1,
@@ -29,9 +29,9 @@ describe("daily result schema", () => {
         titleAnalysis: "gpt-5.4-2026-03-05",
       },
       methodVersion: {
-        titleAnalysisPrompt: "story-comments-v1",
-        aggregation: "story-comment-winner-v1",
-        schema: "daily-v2",
+        titleAnalysisPrompt: "model-owned-story-comments-v1",
+        aggregation: "model-owned-rollup-v1",
+        schema: "daily-v3",
       },
       entities: {
         openai: entity,
@@ -65,15 +65,15 @@ describe("daily result schema", () => {
       margin: null,
       models: { titleAnalysis: "gpt-5.4-2026-03-05" },
       methodVersion: {
-        titleAnalysisPrompt: "story-comments-v1",
-        aggregation: "story-comment-winner-v1",
-        schema: "daily-v2",
+        titleAnalysisPrompt: "model-owned-story-comments-v1",
+        aggregation: "model-owned-rollup-v1",
+        schema: "daily-v3",
       },
       entities: {
-        openai: { ...entity, score: null, rawWeightedSentiment: null, mentionCount: 0, judgementSnippet: "N/A", evidenceIds: [] },
-        anthropic: { ...entity, score: null, rawWeightedSentiment: null, mentionCount: 0, judgementSnippet: "N/A", evidenceIds: [] },
-        google_gemini: { ...entity, score: null, rawWeightedSentiment: null, mentionCount: 0, judgementSnippet: "N/A", evidenceIds: [] },
-        microsoft_copilot: { ...entity, score: null, rawWeightedSentiment: null, mentionCount: 0, judgementSnippet: "N/A", evidenceIds: [] },
+        openai: { ...entity, score: null, rawWeightedSentiment: null, mentionCount: 0, positiveCount: 0, neutralCount: 0, negativeCount: 0, confidence: 0, judgementSnippet: "N/A", evidenceIds: [] },
+        anthropic: { ...entity, score: null, rawWeightedSentiment: null, mentionCount: 0, positiveCount: 0, neutralCount: 0, negativeCount: 0, confidence: 0, judgementSnippet: "N/A", evidenceIds: [] },
+        google_gemini: { ...entity, score: null, rawWeightedSentiment: null, mentionCount: 0, positiveCount: 0, neutralCount: 0, negativeCount: 0, confidence: 0, judgementSnippet: "N/A", evidenceIds: [] },
+        microsoft_copilot: { ...entity, score: null, rawWeightedSentiment: null, mentionCount: 0, positiveCount: 0, neutralCount: 0, negativeCount: 0, confidence: 0, judgementSnippet: "N/A", evidenceIds: [] },
       },
       evidence: [],
     });
@@ -121,21 +121,5 @@ describe("raw day schema", () => {
     });
 
     expect(parsed.samplingMethod).toBe("historical_frontpage_story_comment_snapshot");
-  });
-});
-
-describe("title analysis schema", () => {
-  it("keeps full story-level judgement snippets from model output", () => {
-    const parsed = TitleAnalysisSchema.parse({
-      itemId: 123,
-      target: "openai",
-      sentiment: 1,
-      confidence: 0.8,
-      relevance: true,
-      evidenceSummary: "Positive story and comment signal.",
-      judgementSnippet: "x".repeat(400),
-    });
-
-    expect(parsed.judgementSnippet).toHaveLength(400);
   });
 });

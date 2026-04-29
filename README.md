@@ -19,7 +19,7 @@ The daily workflow is scheduled for 9pm America/Los_Angeles. The workflow has tw
 
 ## GitHub Actions
 
-- `Daily live HN story sentiment pipeline`: captures the current HN front-page stories and their top comments, sends them to one OpenAI Responses call, verifies the daily report was produced, commits `data/`, rebuilds the static site, and deploys GitHub Pages. Manual runs can set `force=true` to bypass the 9pm time gate and refetch the current live front page.
+- `Daily live HN story sentiment pipeline`: captures the current HN front-page stories and their top comments, sends them to one OpenAI Responses call for a model-owned daily report, verifies the report was produced, commits `data/`, rebuilds the static site, and deploys GitHub Pages. Manual runs can set `force=true` to bypass the 9pm time gate and refetch the current live front page.
 - `Publish static site`: manually rebuilds and deploys GitHub Pages from the current checked-in data and static files. Use this for UI-only changes because it does not fetch Hacker News or call OpenAI.
 
 ## Local Commands
@@ -52,7 +52,7 @@ Historical HN requests are lightly staggered and retried for transient `429`, `5
 Final daily records are written to `data/daily/YYYY-MM-DD.json`. The UI starts its grid from the earliest daily record included in `data/index.json`. Each record stores:
 
 - the winner, or `null` when no tracked provider had relevant HN signal
-- per-entity score, relevant story counts, confidence, and judgement snippet
+- model-judged per-entity score, relevant story counts, confidence, and judgement snippet
 - `N/A` score values for providers without relevant HN stories or comments
 - a day-level judgement snippet
 - evidence IDs and HN links
@@ -60,4 +60,4 @@ Final daily records are written to `data/daily/YYYY-MM-DD.json`. The UI starts i
 
 Raw story/comment snapshots are written to `data/raw/YYYY-MM-DD.json`. Run files in `data/runs/YYYY-MM-DD.json` store token usage for the single analysis call so backfills can report actual cost.
 
-Judgement snippets cite evidence using `[E1]` tokens. The UI converts those tokens to HN links from the stored evidence array.
+The model owns the final scores and winner. Code validates that the winner matches the highest score, daily judgement text names that winner first, counts are internally consistent, ranked providers have evidence, and snippets cite known evidence using `[E1]` tokens. The UI converts those tokens to HN links from the stored evidence array.

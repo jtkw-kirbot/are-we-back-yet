@@ -19,9 +19,9 @@ For each story, the snapshot stores:
 
 Historical backfills use Hacker News' `front?day=YYYY-MM-DD` page to recover the first page of ranked stories for that date. The system lightly staggers and retries those HN requests, then fetches the story records and top comments from the Firebase item API, filtering out comments posted after the end of the requested UTC date.
 
-## 2. Judge Stories in One Model Call
+## 2. Judge the Day in One Model Call
 
-The full daily story list is sent to one OpenAI Responses request. The model identifies tracked entities and scores story-level sentiment in the same response.
+The full daily story list is sent to one OpenAI Responses request. The model identifies tracked entities and returns the final daily report: per-provider scores, relevant story counts, confidence, evidence, snippets, and the daily winner.
 
 Examples:
 
@@ -31,6 +31,8 @@ Examples:
 - A Show HN project using Gemini should not automatically count as positive Gemini sentiment if the title and comments mainly praise the harness or project.
 
 The model only uses the story title, URL/domain, HN link, front-page metadata, and the provided top comments. It is told not to infer sentiment from article bodies, omitted comments, or outside knowledge.
+
+The score is a holistic daily vibe score from `-1` to `1`. It should account for relevance strength, volume of relevant stories, intensity of praise or criticism, HN comment sentiment, and whether a mention is direct or incidental. A single weak mention should usually stay close to neutral.
 
 ## 3. Handle Missing Provider Signal
 
@@ -49,25 +51,28 @@ If no tracked provider has relevant HN signal, the daily winner is `null` and th
 
 The model returns:
 
-- story-level analyses for each relevant provider
+- final scores for each relevant provider
+- relevant story counts split into positive, neutral, and negative stories
 - representative evidence items linked to HN stories
 - a short judgement for each relevant provider
 - a short daily judgement
-- a proposed daily winner, or `null`
+- the daily winner, or `null`
 
 Snippets cite evidence with tokens such as `[E1]`. The UI turns those tokens into HN links.
 
-## 5. Aggregate the Day
+## 5. Validate the Day
 
-The code deterministically aggregates the model's story-level analyses into per-provider scores.
+The model owns the final judgement. The code validates the structured report before writing it.
 
-Each relevant story contributes based on:
+Validation checks that:
 
-- sentiment direction from strongly negative to strongly positive
-- model confidence
-- front-page rank, with higher-ranked stories weighted slightly more
-
-A neutral prior is included so a provider with one weak positive story does not automatically beat a provider with broader but mixed coverage. Providers with no relevant stories stay `N/A` and are excluded from this calculation.
+- the winner is the provider with the highest non-null score
+- providers with no signal are consistently stored as `N/A`
+- positive, neutral, and negative counts add up to the relevant story count
+- ranked providers have evidence
+- daily judgement text starts with the winning provider, or `N/A` when there is no winner
+- snippets cite known evidence ids rather than raw URLs
+- provider snippets do not use obvious summary labels that contradict their numeric scores
 
 The output stores:
 

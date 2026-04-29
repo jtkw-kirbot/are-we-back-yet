@@ -29,9 +29,9 @@ export const MODEL_CONFIG = {
 } as const;
 
 export const METHOD_VERSION = {
-  titleAnalysisPrompt: "story-comments-v1",
-  aggregation: "story-comment-winner-v1",
-  schema: "daily-v2",
+  titleAnalysisPrompt: "model-owned-story-comments-v1",
+  aggregation: "model-owned-rollup-v1",
+  schema: "daily-v3",
 } as const;
 
 export const FETCH_LIMITS = {
