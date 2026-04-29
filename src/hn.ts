@@ -2,6 +2,7 @@ import { FETCH_LIMITS } from "./config.js";
 import { type HnComment, type HnItem, type RawDay } from "./types.js";
 
 const FIREBASE_BASE = "https://hacker-news.firebaseio.com/v0";
+const MAX_HN_FETCH_ATTEMPTS = 5;
 
 type FirebaseItem = {
   id: number;
@@ -18,24 +19,65 @@ type FirebaseItem = {
   dead?: boolean;
 };
 
-async function fetchJson<T>(url: string): Promise<T> {
-  const response = await fetch(url, {
-    headers: { "user-agent": "hn-ai-sentiment/0.1" },
-  });
-  if (!response.ok) {
-    throw new Error(`GET ${url} failed with ${response.status}`);
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function retryAfterMs(value: string | null): number | undefined {
+  if (!value) return undefined;
+  const seconds = Number(value);
+  if (Number.isFinite(seconds) && seconds >= 0) return seconds * 1000;
+  const dateMs = Date.parse(value);
+  if (Number.isFinite(dateMs)) return Math.max(0, dateMs - Date.now());
+  return undefined;
+}
+
+function isRetryableStatus(status: number): boolean {
+  return status === 429 || status === 502 || status === 503 || status === 504;
+}
+
+async function fetchWithRetry(url: string): Promise<Response> {
+  let lastError: unknown;
+  for (let attempt = 1; attempt <= MAX_HN_FETCH_ATTEMPTS; attempt += 1) {
+    let response: Response;
+    try {
+      response = await fetch(url, {
+        headers: { "user-agent": "hn-ai-sentiment/0.1" },
+      });
+    } catch (error) {
+      lastError = error;
+      if (attempt === MAX_HN_FETCH_ATTEMPTS) break;
+      await sleep(2 ** attempt * 1000);
+      continue;
+    }
+    if (response.ok) return response;
+    if (!isRetryableStatus(response.status) || attempt === MAX_HN_FETCH_ATTEMPTS) {
+      throw new Error(`GET ${url} failed with ${response.status}`);
+    }
+    await sleep(retryAfterMs(response.headers.get("retry-after")) ?? 2 ** attempt * 1000);
   }
+  throw lastError instanceof Error ? lastError : new Error(`GET ${url} failed`);
+}
+
+async function fetchJson<T>(url: string): Promise<T> {
+  const response = await fetchWithRetry(url);
   return (await response.json()) as T;
 }
 
 async function fetchText(url: string): Promise<string> {
-  const response = await fetch(url, {
-    headers: { "user-agent": "hn-ai-sentiment/0.1" },
-  });
-  if (!response.ok) {
-    throw new Error(`GET ${url} failed with ${response.status}`);
-  }
+  const response = await fetchWithRetry(url);
   return response.text();
+}
+
+export function historicalFetchDelayMs(date: string): number {
+  const match = date.match(/-(\d{2})$/);
+  const day = match?.[1] ? Number(match[1]) : 0;
+  return Number.isFinite(day) ? (day % 10) * 350 : 0;
+}
+
+async function fetchHistoricalFrontPageHtml(date: string): Promise<string> {
+  await sleep(historicalFetchDelayMs(date));
+  return fetchText(`https://news.ycombinator.com/front?day=${encodeURIComponent(date)}`);
 }
 
 export function parseHistoricalFrontPageStoryIds(html: string): number[] {
@@ -163,7 +205,7 @@ export async function fetchFrontPage(date: string): Promise<RawDay> {
 }
 
 export async function fetchHistoricalFrontPage(date: string): Promise<RawDay> {
-  const html = await fetchText(`https://news.ycombinator.com/front?day=${encodeURIComponent(date)}`);
+  const html = await fetchHistoricalFrontPageHtml(date);
   const ids = parseHistoricalFrontPageStoryIds(html).slice(0, FETCH_LIMITS.topStories);
   if (ids.length === 0) throw new Error(`No historical HN front-page stories found for ${date}`);
   const items = await fetchStories(ids, { commentCutoffUnixSeconds: endOfUtcDateUnixSeconds(date) });

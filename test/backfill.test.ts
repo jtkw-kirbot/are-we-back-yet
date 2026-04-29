@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { expandDateRange } from "../src/backfill.js";
-import { parseHistoricalFrontPageStoryIds } from "../src/hn.js";
+import { historicalFetchDelayMs, parseHistoricalFrontPageStoryIds } from "../src/hn.js";
 
 describe("historical HN front page parsing", () => {
   it("extracts first-page story ids in ranked order", () => {
@@ -13,6 +13,14 @@ describe("historical HN front page parsing", () => {
     `;
 
     expect(parseHistoricalFrontPageStoryIds(html)).toEqual([111, 222]);
+  });
+});
+
+describe("historical HN fetch staggering", () => {
+  it("derives a small deterministic delay from the day of month", () => {
+    expect(historicalFetchDelayMs("2026-04-10")).toBe(0);
+    expect(historicalFetchDelayMs("2026-04-11")).toBe(350);
+    expect(historicalFetchDelayMs("2026-04-19")).toBe(3150);
   });
 });
 

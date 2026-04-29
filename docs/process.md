@@ -17,7 +17,7 @@ For each story, the snapshot stores:
 - story score and comment count
 - top five top-level HN comments, when available
 
-Historical backfills use Hacker News' `front?day=YYYY-MM-DD` page to recover the first page of ranked stories for that date. The system then fetches those story records and their top comments from the Firebase item API, filtering out comments posted after the end of the requested UTC date.
+Historical backfills use Hacker News' `front?day=YYYY-MM-DD` page to recover the first page of ranked stories for that date. The system lightly staggers and retries those HN requests, then fetches the story records and top comments from the Firebase item API, filtering out comments posted after the end of the requested UTC date.
 
 ## 2. Judge Stories in One Model Call
 

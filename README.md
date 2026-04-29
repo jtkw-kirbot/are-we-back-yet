@@ -45,6 +45,7 @@ npm run backfill -- --start 2026-04-20 --end 2026-04-26
 ```
 
 The backfill command requires a clean git worktree, authenticated `gh` CLI, and `OPENAI_API_KEY`. It prints per-day and total Responses API cost.
+Historical HN requests are lightly staggered and retried for transient `429`, `502`, `503`, and `504` responses.
 
 ## Data Model
 
