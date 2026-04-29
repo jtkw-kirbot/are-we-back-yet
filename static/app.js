@@ -268,11 +268,7 @@
       const end = ((index + 1) * stop).toFixed(2);
       return `var(${providerColorVars[target]}) ${start}% ${end}%`;
     });
-    if (targets.length === 2) {
-      square.style.setProperty("--tie-background", `linear-gradient(135deg, ${bands.join(", ")})`);
-      return;
-    }
-    square.style.setProperty("--tie-background", `conic-gradient(${bands.join(", ")})`);
+    square.style.background = `linear-gradient(to right, ${bands.join(", ")})`;
   }
 
   function renderRankingChart(day, evidenceById) {
