@@ -46,7 +46,7 @@ npm run backfill -- --start 2026-04-20 --end 2026-04-26
 
 The backfill command requires a clean git worktree, authenticated `gh` CLI, and `OPENAI_API_KEY`. It prints per-day and total Responses API cost.
 Historical HN requests are lightly staggered and retried for transient `429`, `502`, `503`, and `504` responses.
-The final GitHub publish step retries transient `github.com` and GitHub API transport failures, including common port `443` connection timeouts. Permanent errors such as merge conflicts or authentication failures still fail immediately.
+The final GitHub publish step retries transient `github.com` and GitHub API transport failures, including common port `443` connection timeouts. Each GitHub command attempt is capped at 45 seconds, with a 3 minute total retry budget per command. Permanent errors such as merge conflicts or authentication failures still fail immediately.
 
 ## Data Model
 

@@ -1,5 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { expandDateRange, githubRetryDelayMs, isRetryableGithubErrorText } from "../src/backfill.js";
+import {
+  expandDateRange,
+  githubCommandAttemptTimeoutMs,
+  githubCommandTotalTimeoutMs,
+  githubRetryDelayMs,
+  isRetryableGithubErrorText,
+} from "../src/backfill.js";
 import { historicalFetchDelayMs, parseHistoricalFrontPageStoryIds } from "../src/hn.js";
 
 describe("historical HN front page parsing", () => {
@@ -41,6 +47,7 @@ describe("backfill GitHub publish retries", () => {
     )).toBe(true);
     expect(isRetryableGithubErrorText("Post https://api.github.com/graphql: dial tcp: i/o timeout")).toBe(true);
     expect(isRetryableGithubErrorText("HTTP 503 Service Unavailable")).toBe(true);
+    expect(isRetryableGithubErrorText("process timed out or was killed")).toBe(true);
   });
 
   it("does not retry permanent git failures", () => {
@@ -52,5 +59,10 @@ describe("backfill GitHub publish retries", () => {
     expect(githubRetryDelayMs(0)).toBe(3_000);
     expect(githubRetryDelayMs(1)).toBe(6_000);
     expect(githubRetryDelayMs(10)).toBe(30_000);
+  });
+
+  it("caps individual GitHub command attempts and total retry budget", () => {
+    expect(githubCommandAttemptTimeoutMs()).toBe(45_000);
+    expect(githubCommandTotalTimeoutMs()).toBe(180_000);
   });
 });

@@ -21,6 +21,8 @@ import type { RunFile } from "./types.js";
 const execFile = promisify(execFileCallback);
 const BACKFILL_CONCURRENCY = 10;
 const GITHUB_COMMAND_ATTEMPTS = 5;
+const GITHUB_COMMAND_ATTEMPT_TIMEOUT_MS = 45_000;
+const GITHUB_COMMAND_TOTAL_TIMEOUT_MS = 180_000;
 
 type BackfillOptions = {
   start: string;
@@ -67,12 +69,14 @@ export function expandDateRange(start: string, end: string): string[] {
   return dates;
 }
 
-async function runCommand(file: string, args: string[], options: { allowExitCode?: number } = {}): Promise<CommandResult> {
+async function runCommand(file: string, args: string[], options: { allowExitCode?: number; timeoutMs?: number } = {}): Promise<CommandResult> {
+  const execOptions: { cwd: string; maxBuffer: number; timeout?: number } = {
+    cwd: ROOT,
+    maxBuffer: 20 * 1024 * 1024,
+  };
+  if (options.timeoutMs !== undefined) execOptions.timeout = options.timeoutMs;
   try {
-    return await execFile(file, args, {
-      cwd: ROOT,
-      maxBuffer: 20 * 1024 * 1024,
-    });
+    return await execFile(file, args, execOptions);
   } catch (error) {
     const maybe = error as Error & { code?: number; stdout?: string; stderr?: string };
     if (options.allowExitCode !== undefined && maybe.code === options.allowExitCode) {
@@ -86,9 +90,11 @@ async function runCommand(file: string, args: string[], options: { allowExitCode
 }
 
 function commandErrorText(error: unknown): string {
-  const maybe = error as Error & { stdout?: string; stderr?: string };
+  const maybe = error as Error & { killed?: boolean; signal?: string; stdout?: string; stderr?: string };
   return [
     maybe.message,
+    maybe.killed ? "process timed out or was killed" : undefined,
+    maybe.signal,
     maybe.stdout,
     maybe.stderr,
   ].filter(Boolean).join("\n");
@@ -101,6 +107,7 @@ export function isRetryableGithubErrorText(text: string): boolean {
     /could not resolve host/i,
     /connection timed out/i,
     /operation timed out/i,
+    /process timed out/i,
     /\bi\/o timeout\b/i,
     /tls.*timeout/i,
     /connection reset/i,
@@ -119,16 +126,35 @@ export function githubRetryDelayMs(attempt: number): number {
   return Math.min(30_000, 2 ** attempt * 3_000);
 }
 
+export function githubCommandAttemptTimeoutMs(): number {
+  return GITHUB_COMMAND_ATTEMPT_TIMEOUT_MS;
+}
+
+export function githubCommandTotalTimeoutMs(): number {
+  return GITHUB_COMMAND_TOTAL_TIMEOUT_MS;
+}
+
 async function runGithubCommand(file: string, args: string[]): Promise<CommandResult> {
   let lastError: unknown;
+  const startedAt = Date.now();
   for (let attempt = 0; attempt < GITHUB_COMMAND_ATTEMPTS; attempt += 1) {
+    const remainingTotalMs = GITHUB_COMMAND_TOTAL_TIMEOUT_MS - (Date.now() - startedAt);
+    if (remainingTotalMs <= 0) {
+      throw new Error(`${file} ${args.join(" ")} exceeded ${Math.round(GITHUB_COMMAND_TOTAL_TIMEOUT_MS / 1000)}s GitHub retry budget`);
+    }
     try {
-      return await runCommand(file, args);
+      return await runCommand(file, args, {
+        timeoutMs: Math.min(GITHUB_COMMAND_ATTEMPT_TIMEOUT_MS, remainingTotalMs),
+      });
     } catch (error) {
       lastError = error;
       const retryable = isRetryableGithubErrorText(commandErrorText(error));
       if (!retryable || attempt === GITHUB_COMMAND_ATTEMPTS - 1) throw error;
-      const delayMs = githubRetryDelayMs(attempt);
+      const remainingAfterFailureMs = GITHUB_COMMAND_TOTAL_TIMEOUT_MS - (Date.now() - startedAt);
+      if (remainingAfterFailureMs <= 0) {
+        throw new Error(`${file} ${args.join(" ")} exceeded ${Math.round(GITHUB_COMMAND_TOTAL_TIMEOUT_MS / 1000)}s GitHub retry budget`);
+      }
+      const delayMs = Math.min(githubRetryDelayMs(attempt), remainingAfterFailureMs);
       console.warn(`${file} ${args.join(" ")} hit a transient GitHub/network error; retrying in ${Math.round(delayMs / 1000)}s (${attempt + 2}/${GITHUB_COMMAND_ATTEMPTS})`);
       await new Promise((resolve) => setTimeout(resolve, delayMs));
     }
