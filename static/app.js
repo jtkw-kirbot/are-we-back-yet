@@ -129,6 +129,15 @@
     }[value] ?? value;
   }
 
+  function sentimentLabel(row) {
+    const adjustedMean = Number(row.adjustedMean ?? 0);
+    if (row.bucket === "mixed_neutral") {
+      if (adjustedMean > 0.05) return "slightly positive";
+      if (adjustedMean < -0.05) return "slightly negative";
+    }
+    return bucketLabel(row.bucket);
+  }
+
   function evidenceStrengthLabel(value) {
     return {
       low: "limited evidence",
@@ -141,7 +150,7 @@
     if (support === "low") return "";
     return {
       low: "low certainty",
-      medium: "medium certainty",
+      medium: "moderate certainty",
       high: "high certainty",
     }[value] ?? value;
   }
@@ -150,7 +159,7 @@
     return {
       low_support: "",
       close_tie: "close tie",
-      mixed_high_volume: "mixed high-volume evidence",
+      mixed_high_volume: "mixed reactions",
     }[value] ?? value;
   }
 
@@ -222,6 +231,10 @@
     ].filter(([, count]) => Number(count) > 0);
   }
 
+  function mentionLabel(tone, count) {
+    return `${count} ${tone} mention${Number(count) === 1 ? "" : "s"}`;
+  }
+
   function applyDayBackground(square, day) {
     const targets = daySignalTargets(day);
     if (targets.length <= 1) return;
@@ -256,7 +269,7 @@
         <div class="provider-list">
           ${rows.map((row, index) => {
             const notes = [...new Set([
-              bucketLabel(row.bucket),
+              sentimentLabel(row),
               evidenceStrengthLabel(row.support),
               certaintyLabel(row.confidence, row.support),
               row.rankNote ? rankNoteLabel(row.rankNote) : "",
@@ -273,7 +286,7 @@
                   <p>${withEvidenceLinks(row.summary || "", evidenceById)}</p>
                 </div>
                 <div class="balance" aria-label="Evidence balance">
-                  ${balanceItems.map(([tone, count]) => `<span>${count} ${tone}</span>`).join("")}
+                  ${balanceItems.map(([tone, count]) => `<span>${escapeHtml(mentionLabel(tone, count))}</span>`).join("")}
                 </div>
               </article>
             `;
@@ -357,7 +370,7 @@
     const signalTargets = daySignalTargets(day).map((target) => labels[target] ?? target);
     const flags = [
       "HN story/comment snapshot",
-      signalTargets.length > 1 ? `Tied positive signal: ${signalTargets.join(", ")}` : signalTargets.length === 1 ? `Primary positive: ${signalTargets[0]}` : "No positive signal",
+      signalTargets.length > 0 ? `Top positive signal: ${signalTargets.join(", ")}` : "No positive signal",
     ].filter(Boolean);
 
     popover.innerHTML = `
