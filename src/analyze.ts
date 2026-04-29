@@ -21,7 +21,7 @@ const PRIOR_WEIGHT = 3;
 const MIN_CONFIDENCE = 0.25;
 
 const TitleAnalysisOutputSchema = z.object({
-  winner: z.enum(TARGETS),
+  winner: z.enum(TARGETS).nullable(),
   dailyJudgementSnippet: z.string(),
   winnerExplanation: z.string(),
   entityJudgements: z.object({
@@ -64,8 +64,8 @@ function emptyAccumulator(): EntityAccumulator {
 
 function emptyEntity(snippet = ""): DailyEntity {
   return {
-    score: 0,
-    rawWeightedSentiment: 0,
+    score: null,
+    rawWeightedSentiment: null,
     mentionCount: 0,
     positiveCount: 0,
     neutralCount: 0,
@@ -224,9 +224,11 @@ function buildEntities(
 
   for (const target of TARGETS) {
     const accumulator = accumulators[target];
-    const rawWeightedSentiment = accumulator.weightSum === 0
-      ? 0
-      : accumulator.sentimentSum / accumulator.weightSum;
+    if (accumulator.mentionCount === 0 || accumulator.weightSum === 0) {
+      entities[target] = emptyEntity("N/A");
+      continue;
+    }
+    const rawWeightedSentiment = accumulator.sentimentSum / accumulator.weightSum;
     entities[target] = {
       score: accumulator.sentimentSum / (accumulator.weightSum + PRIOR_WEIGHT),
       rawWeightedSentiment,
@@ -243,18 +245,23 @@ function buildEntities(
   return entities;
 }
 
-function winnerFromEntities(entities: Record<Target, DailyEntity>, proposedWinner: Target): {
-  winner: Target;
-  margin: number;
+function winnerFromEntities(entities: Record<Target, DailyEntity>, proposedWinner: Target | null): {
+  winner: Target | null;
+  margin: number | null;
 } {
   const ordered = TARGETS
-    .map((target) => ({ target, score: entities[target].score }))
+    .flatMap((target) => {
+      const score = entities[target].score;
+      return score === null ? [] : [{ target, score }];
+    })
     .sort((a, b) => b.score - a.score);
-  const top = ordered[0] ?? { target: proposedWinner, score: 0 };
-  const runnerUp = ordered[1] ?? { target: proposedWinner, score: 0 };
+  const top = ordered[0];
+  if (!top) return { winner: null, margin: null };
+  const runnerUp = ordered[1] ?? { target: top.target, score: top.score };
   const allTied = ordered.every((item) => Math.abs(item.score - top.score) < 0.000001);
+  const proposedScore = proposedWinner === null ? null : entities[proposedWinner].score;
   return {
-    winner: allTied ? proposedWinner : top.target,
+    winner: allTied && proposedWinner !== null && proposedScore !== null ? proposedWinner : top.target,
     margin: top.score - runnerUp.score,
   };
 }
@@ -304,8 +311,8 @@ function dailyResultFromOutput(day: RawDay, output: TitleAnalysisOutput) {
   const accumulators = accumulatorsFromAnalyses(day, normalized.analyses);
   const entities = buildEntities(accumulators, normalized.entityJudgements, normalized.evidence);
   const { winner, margin } = winnerFromEntities(entities, normalized.winner);
-  const lowConfidence = entities[winner].mentionCount < 2 || entities[winner].confidence < 0.55;
-  const closeCall = margin < 0.05;
+  const lowConfidence = winner === null || entities[winner].mentionCount < 2 || entities[winner].confidence < 0.55;
+  const closeCall = margin !== null && margin < 0.05;
 
   return DailyResultSchema.parse({
     date: day.date,

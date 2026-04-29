@@ -1,5 +1,5 @@
 import { FETCH_LIMITS } from "./config.js";
-import { type HnItem, type RawDay } from "./types.js";
+import { type HnComment, type HnItem, type RawDay } from "./types.js";
 
 const FIREBASE_BASE = "https://hacker-news.firebaseio.com/v0";
 
@@ -10,8 +10,10 @@ type FirebaseItem = {
   time?: number;
   title?: string;
   url?: string;
+  text?: string;
   score?: number;
   descendants?: number;
+  kids?: number[];
   deleted?: boolean;
   dead?: boolean;
 };
@@ -52,6 +54,21 @@ export function parseHistoricalFrontPageStoryIds(html: string): number[] {
   return ids;
 }
 
+function decodeEntities(value: string): string {
+  return value
+    .replaceAll("<p>", "\n")
+    .replaceAll("<br>", "\n")
+    .replaceAll("&#x27;", "'")
+    .replaceAll("&#x2F;", "/")
+    .replaceAll("&quot;", "\"")
+    .replaceAll("&amp;", "&")
+    .replaceAll("&lt;", "<")
+    .replaceAll("&gt;", ">")
+    .replace(/<[^>]+>/g, "")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+}
+
 function hnUrl(id: number): string {
   return `https://news.ycombinator.com/item?id=${id}`;
 }
@@ -60,7 +77,42 @@ async function getFirebaseItem(id: number): Promise<FirebaseItem | null> {
   return fetchJson<FirebaseItem | null>(`${FIREBASE_BASE}/item/${id}.json`);
 }
 
-function compactStory(story: FirebaseItem, rank: number): HnItem | undefined {
+function compactComment(comment: FirebaseItem): HnComment | undefined {
+  if (!comment.id || comment.deleted || comment.dead || !comment.text) return undefined;
+  const item: Record<string, unknown> = {
+    id: comment.id,
+    text: decodeEntities(comment.text),
+    sourceUrl: hnUrl(comment.id),
+  };
+  for (const key of ["by", "time"] as const) {
+    if (comment[key] !== undefined) item[key] = comment[key];
+  }
+  return item as HnComment;
+}
+
+async function fetchTopComments(
+  story: FirebaseItem,
+  options: { commentCutoffUnixSeconds?: number } = {},
+): Promise<HnComment[]> {
+  const comments: HnComment[] = [];
+  for (const id of story.kids ?? []) {
+    if (comments.length >= FETCH_LIMITS.topCommentsPerStory) break;
+    const comment = await getFirebaseItem(id);
+    if (!comment) continue;
+    if (options.commentCutoffUnixSeconds !== undefined && comment.time !== undefined && comment.time > options.commentCutoffUnixSeconds) {
+      continue;
+    }
+    const compact = compactComment(comment);
+    if (compact) comments.push(compact);
+  }
+  return comments;
+}
+
+async function compactStory(
+  story: FirebaseItem,
+  rank: number,
+  options: { commentCutoffUnixSeconds?: number } = {},
+): Promise<HnItem | undefined> {
   if (!story.id || story.deleted || story.dead || !story.title) return undefined;
   const item: Record<string, unknown> = {
     id: story.id,
@@ -71,6 +123,7 @@ function compactStory(story: FirebaseItem, rank: number): HnItem | undefined {
     storyId: story.id,
     storyTitle: story.title,
     sourceUrl: hnUrl(story.id),
+    topComments: await fetchTopComments(story, options),
   };
   for (const key of ["by", "time", "url", "score", "descendants"] as const) {
     if (story[key] !== undefined) item[key] = story[key];
@@ -79,15 +132,21 @@ function compactStory(story: FirebaseItem, rank: number): HnItem | undefined {
   return item as HnItem;
 }
 
-async function fetchStories(ids: number[]): Promise<HnItem[]> {
+async function fetchStories(ids: number[], options: { commentCutoffUnixSeconds?: number } = {}): Promise<HnItem[]> {
   const items: HnItem[] = [];
   for (const [index, id] of ids.entries()) {
     const story = await getFirebaseItem(id);
     if (!story) continue;
-    const item = compactStory(story, index + 1);
+    const item = await compactStory(story, index + 1, options);
     if (item) items.push(item);
   }
   return items;
+}
+
+function endOfUtcDateUnixSeconds(date: string): number {
+  const endMs = Date.parse(`${date}T23:59:59.999Z`);
+  if (!Number.isFinite(endMs)) throw new Error(`Invalid date: ${date}`);
+  return Math.floor(endMs / 1000);
 }
 
 export async function fetchFrontPage(date: string): Promise<RawDay> {
@@ -97,7 +156,7 @@ export async function fetchFrontPage(date: string): Promise<RawDay> {
   return {
     date,
     fetchedAt: new Date().toISOString(),
-    samplingMethod: "frontpage_title_snapshot",
+    samplingMethod: "frontpage_story_comment_snapshot",
     source: "firebase",
     items,
   };
@@ -107,12 +166,12 @@ export async function fetchHistoricalFrontPage(date: string): Promise<RawDay> {
   const html = await fetchText(`https://news.ycombinator.com/front?day=${encodeURIComponent(date)}`);
   const ids = parseHistoricalFrontPageStoryIds(html).slice(0, FETCH_LIMITS.topStories);
   if (ids.length === 0) throw new Error(`No historical HN front-page stories found for ${date}`);
-  const items = await fetchStories(ids);
+  const items = await fetchStories(ids, { commentCutoffUnixSeconds: endOfUtcDateUnixSeconds(date) });
 
   return {
     date,
     fetchedAt: new Date().toISOString(),
-    samplingMethod: "historical_frontpage_title_snapshot",
+    samplingMethod: "historical_frontpage_story_comment_snapshot",
     source: "hn_front_html_firebase",
     items,
   };

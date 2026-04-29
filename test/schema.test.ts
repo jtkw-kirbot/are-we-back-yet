@@ -1,24 +1,24 @@
 import { describe, expect, it } from "vitest";
 import { DailyResultSchema, RawDaySchema, TitleAnalysisSchema } from "../src/types.js";
 
+const entity = {
+  score: 0.1,
+  rawWeightedSentiment: 0.2,
+  mentionCount: 3,
+  positiveCount: 2,
+  neutralCount: 1,
+  negativeCount: 0,
+  confidence: 0.8,
+  judgementSnippet: "Positive due to stories and comments [E1].",
+  evidenceIds: ["E1"],
+};
+
 describe("daily result schema", () => {
   it("requires all four canonical entities and evidence-backed snippets", () => {
-    const entity = {
-      score: 0.1,
-      rawWeightedSentiment: 0.2,
-      mentionCount: 3,
-      positiveCount: 2,
-      neutralCount: 1,
-      negativeCount: 0,
-      confidence: 0.8,
-      judgementSnippet: "Positive due to titles [E1].",
-      evidenceIds: ["E1"],
-    };
-
     const parsed = DailyResultSchema.parse({
       date: "2026-04-28",
       generatedAt: "2026-04-29T04:00:00.000Z",
-      samplingMethod: "frontpage_title_snapshot",
+      samplingMethod: "frontpage_story_comment_snapshot",
       winner: "openai",
       dailyJudgementSnippet: "OpenAI led the day [E1].",
       winnerExplanation: "OpenAI had the strongest positive signal [E1].",
@@ -29,9 +29,9 @@ describe("daily result schema", () => {
         titleAnalysis: "gpt-5.4-2026-03-05",
       },
       methodVersion: {
-        titleAnalysisPrompt: "title-analysis-v1",
-        aggregation: "title-winner-v1",
-        schema: "daily-v1",
+        titleAnalysisPrompt: "story-comments-v1",
+        aggregation: "story-comment-winner-v1",
+        schema: "daily-v2",
       },
       entities: {
         openai: entity,
@@ -51,6 +51,36 @@ describe("daily result schema", () => {
 
     expect(parsed.entities.microsoft_copilot.score).toBe(0.02);
   });
+
+  it("allows providers with no relevant HN story/comment signal to be N/A", () => {
+    const parsed = DailyResultSchema.parse({
+      date: "2026-04-28",
+      generatedAt: "2026-04-29T04:00:00.000Z",
+      samplingMethod: "frontpage_story_comment_snapshot",
+      winner: null,
+      dailyJudgementSnippet: "N/A.",
+      winnerExplanation: "No tracked provider had relevant HN story/comment signal.",
+      lowConfidence: true,
+      closeCall: false,
+      margin: null,
+      models: { titleAnalysis: "gpt-5.4-2026-03-05" },
+      methodVersion: {
+        titleAnalysisPrompt: "story-comments-v1",
+        aggregation: "story-comment-winner-v1",
+        schema: "daily-v2",
+      },
+      entities: {
+        openai: { ...entity, score: null, rawWeightedSentiment: null, mentionCount: 0, judgementSnippet: "N/A", evidenceIds: [] },
+        anthropic: { ...entity, score: null, rawWeightedSentiment: null, mentionCount: 0, judgementSnippet: "N/A", evidenceIds: [] },
+        google_gemini: { ...entity, score: null, rawWeightedSentiment: null, mentionCount: 0, judgementSnippet: "N/A", evidenceIds: [] },
+        microsoft_copilot: { ...entity, score: null, rawWeightedSentiment: null, mentionCount: 0, judgementSnippet: "N/A", evidenceIds: [] },
+      },
+      evidence: [],
+    });
+
+    expect(parsed.winner).toBeNull();
+    expect(parsed.entities.openai.score).toBeNull();
+  });
 });
 
 describe("raw day schema", () => {
@@ -58,7 +88,7 @@ describe("raw day schema", () => {
     const parsed = RawDaySchema.parse({
       date: "2026-04-28",
       fetchedAt: "2026-04-29T04:00:00.000Z",
-      samplingMethod: "frontpage_title_snapshot",
+      samplingMethod: "frontpage_story_comment_snapshot",
       source: "firebase",
       items: [{
         id: 123,
@@ -69,34 +99,40 @@ describe("raw day schema", () => {
         storyId: 123,
         storyTitle: "HN item 123",
         sourceUrl: "https://news.ycombinator.com/item?id=123",
+        topComments: [{
+          id: 456,
+          text: "Interesting context from HN.",
+          sourceUrl: "https://news.ycombinator.com/item?id=456",
+        }],
       }],
     });
 
     expect(parsed.items[0]?.storyUrl).toBeUndefined();
+    expect(parsed.items[0]?.topComments).toHaveLength(1);
   });
 
   it("accepts historical front-page snapshots", () => {
     const parsed = RawDaySchema.parse({
       date: "2026-04-20",
       fetchedAt: "2026-04-29T04:00:00.000Z",
-      samplingMethod: "historical_frontpage_title_snapshot",
+      samplingMethod: "historical_frontpage_story_comment_snapshot",
       source: "hn_front_html_firebase",
       items: [],
     });
 
-    expect(parsed.samplingMethod).toBe("historical_frontpage_title_snapshot");
+    expect(parsed.samplingMethod).toBe("historical_frontpage_story_comment_snapshot");
   });
 });
 
 describe("title analysis schema", () => {
-  it("keeps full title-level judgement snippets from model output", () => {
+  it("keeps full story-level judgement snippets from model output", () => {
     const parsed = TitleAnalysisSchema.parse({
       itemId: 123,
       target: "openai",
       sentiment: 1,
       confidence: 0.8,
       relevance: true,
-      evidenceSummary: "Positive title.",
+      evidenceSummary: "Positive story and comment signal.",
       judgementSnippet: "x".repeat(400),
     });
 

@@ -29,13 +29,14 @@ export const MODEL_CONFIG = {
 } as const;
 
 export const METHOD_VERSION = {
-  titleAnalysisPrompt: "title-analysis-v1",
-  aggregation: "title-winner-v1",
-  schema: "daily-v1",
+  titleAnalysisPrompt: "story-comments-v1",
+  aggregation: "story-comment-winner-v1",
+  schema: "daily-v2",
 } as const;
 
 export const FETCH_LIMITS = {
   topStories: 30,
+  topCommentsPerStory: 5,
 } as const;
 
 export const LOS_ANGELES_TZ = "America/Los_Angeles";

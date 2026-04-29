@@ -9,6 +9,7 @@ import {
   dailyPath,
   pathExists,
   rawPath,
+  readRawDay,
   readRun,
   ROOT,
   runPath,
@@ -158,17 +159,24 @@ async function mapWithConcurrency<T, R>(
 async function ensureHistoricalRaw(date: string, force: boolean): Promise<void> {
   if (force) await resetGeneratedDate(date);
   if (await pathExists(rawPath(date))) {
-    if (!(await pathExists(runPath(date)))) {
-      await createFetchedRun(date, "historical_frontpage_title_snapshot");
+    const raw = await readRawDay(date);
+    const hasStoryCommentData = raw.samplingMethod === "historical_frontpage_story_comment_snapshot" &&
+      raw.items.every((item) => Array.isArray(item.topComments));
+    if (hasStoryCommentData) {
+      if (!(await pathExists(runPath(date)))) {
+        await createFetchedRun(date, "historical_frontpage_story_comment_snapshot");
+      }
+      console.log(`${date}: using existing story/comment snapshot`);
+      return;
     }
-    console.log(`${date}: using existing title snapshot`);
-    return;
+    console.log(`${date}: replacing older snapshot with story/comment snapshot`);
+    await resetGeneratedDate(date);
   }
 
   const day = await fetchHistoricalFrontPage(date);
   await writeRawDay(day);
   await createFetchedRun(date, day.samplingMethod);
-  console.log(`${date}: fetched ${day.items.length} historical HN front-page titles`);
+  console.log(`${date}: fetched ${day.items.length} historical HN front-page stories with top comments`);
 }
 
 function printCost(cost: RunCost): void {
@@ -197,7 +205,7 @@ async function commitAndPublish(dates: string[]): Promise<void> {
     return;
   }
 
-  await runCommand("git", ["commit", "-m", `Backfill HN title sentiment ${rangeLabel(dates)}`]);
+  await runCommand("git", ["commit", "-m", `Backfill HN story sentiment ${rangeLabel(dates)}`]);
   await runCommand("git", ["pull", "--rebase", "origin", "main"]);
   await runCommand("git", ["push", "origin", "main"]);
   const { stdout: sha } = await runCommand("git", ["rev-parse", "HEAD"]);
@@ -246,7 +254,7 @@ export async function runBackfill(options: BackfillOptions): Promise<void> {
   let totalStandard = 0;
 
   await requireCleanExceptGenerated(dates);
-  console.log(`Backfilling ${rangeLabel(dates)} with title-only Responses analysis at concurrency ${BACKFILL_CONCURRENCY}`);
+  console.log(`Backfilling ${rangeLabel(dates)} with story/comment Responses analysis at concurrency ${BACKFILL_CONCURRENCY}`);
 
   const results = await mapWithConcurrency(dates, BACKFILL_CONCURRENCY, async (date): Promise<BackfillResult> => {
     console.log(`\n=== ${date} ===`);

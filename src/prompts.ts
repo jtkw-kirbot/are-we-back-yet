@@ -13,7 +13,7 @@ export const titleAnalysisJsonSchema = {
     "evidence",
   ],
   properties: {
-    winner: { type: "string", enum: TARGETS },
+    winner: { type: ["string", "null"], enum: [...TARGETS, null] },
     dailyJudgementSnippet: { type: "string" },
     winnerExplanation: { type: "string" },
     entityJudgements: {
@@ -86,20 +86,24 @@ export function titleAnalysisRequestBody(day: RawDay): unknown {
       {
         role: "system",
         content: [
-          "You evaluate only Hacker News front-page story titles.",
-          "Do not infer sentiment from comments, article bodies, linked pages, or your own outside knowledge.",
-          "The task is to judge title framing toward OpenAI, Anthropic, Google Gemini, and Microsoft Copilot for this one day.",
+          "You evaluate Hacker News front-page stories using only each story title and the provided top-level Hacker News comments.",
+          "Do not infer sentiment from article bodies, linked pages, omitted comments, or your own outside knowledge.",
+          "The task is to judge Hacker News story-and-comment signal toward OpenAI, Anthropic, Google Gemini, and Microsoft Copilot for this one day.",
           "Use canonical targets only: openai, anthropic, google_gemini, microsoft_copilot.",
           "Entity matching examples: ChatGPT, GPT, Codex, Sora, OpenAI API -> openai; Claude, Claude Code, Sonnet, Opus, Haiku -> anthropic; Gemini, Google AI Studio, Google AI model titles -> google_gemini; GitHub Copilot, Microsoft Copilot, Bing Copilot, Windows Copilot, M365 Copilot -> microsoft_copilot.",
-          "Do not count generic Google or Microsoft titles unless the title is clearly about their AI assistant, AI model, or Copilot product.",
-          "A title can mention multiple targets; return one analysis per relevant target-title pair.",
-          "Do not assign praise or criticism of an open-source harness, benchmark scaffold, editor extension, reseller, or wrapper to an underlying model provider merely because the title says it uses that model.",
-          "If the title criticizes pricing, quotas, or usage multipliers in a wrapper product such as GitHub Copilot, assign that sentiment to the wrapper target when it is tracked, not automatically to the model owner.",
+          "Do not count generic Google or Microsoft references unless the story or comments are clearly about their AI assistant, AI model, or Copilot product.",
+          "A story can mention multiple targets; return one analysis per relevant target-story pair.",
+          "A provider is relevant only when the HN title or provided HN comments discuss that provider, its model quality, product behavior, pricing, access, company strategy, or a direct comparison.",
+          "Do not assign praise or criticism of an open-source harness, benchmark scaffold, editor extension, reseller, or wrapper to an underlying model provider merely because the story uses that model.",
+          "If the story/comments criticize pricing, quotas, or usage multipliers in a wrapper product such as GitHub Copilot, assign that sentiment to the wrapper target when it is tracked, not automatically to the model owner.",
           "Use sentiment -2 strongly negative, -1 mildly negative, 0 neutral/mixed/unclear, +1 mildly positive, +2 strongly positive.",
-          "A relevant but factual launch, release, benchmark, funding, or policy title is often neutral unless the wording clearly praises or criticizes the target.",
-          "Confidence should reflect how much the title alone supports the judgement.",
+          "A relevant but factual launch, release, benchmark, funding, or policy story is often neutral unless the title or comments clearly praise or criticize the target.",
+          "Confidence should reflect how much the title and provided comments support the judgement.",
+          "Do not return analyses for providers with no relevant HN story/comment signal that day.",
+          "For providers with no relevant HN story/comment signal, write an entity judgement of exactly N/A.",
           "Evidence must cite HN stories only. Use ids E1, E2, etc. Snippets may cite evidence using [E1] tokens, never raw URLs.",
-          "Pick the winner as the tracked entity with the most positive title-level vibe after considering both sentiment and amount of title coverage. Avoid giving a high score to an entity with a single weak mention.",
+          "Pick the winner as the tracked entity with the most positive HN story/comment vibe after considering both sentiment and amount of coverage. Avoid giving a high score to an entity with a single weak mention.",
+          "If no tracked provider has any relevant HN story/comment signal, set winner to null and write brief N/A daily judgement text.",
         ].join(" "),
       },
       {
@@ -108,7 +112,7 @@ export function titleAnalysisRequestBody(day: RawDay): unknown {
           date: day.date,
           samplingMethod: day.samplingMethod,
           targetLabels: TARGET_LABELS,
-          titles: day.items.map((item) => ({
+          stories: day.items.map((item) => ({
             itemId: item.id,
             rank: item.rank,
             title: item.title,
@@ -116,10 +120,16 @@ export function titleAnalysisRequestBody(day: RawDay): unknown {
             hnUrl: item.sourceUrl,
             score: item.score,
             descendants: item.descendants,
+            topComments: item.topComments.map((comment) => ({
+              commentId: comment.id,
+              by: comment.by,
+              text: comment.text,
+              hnUrl: comment.sourceUrl,
+            })),
           })),
         }),
       },
     ],
-    text: { format: jsonSchemaFormat("title_sentiment_daily_report", titleAnalysisJsonSchema) },
+    text: { format: jsonSchemaFormat("story_comment_sentiment_daily_report", titleAnalysisJsonSchema) },
   };
 }

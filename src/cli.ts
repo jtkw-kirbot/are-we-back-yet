@@ -16,7 +16,7 @@ async function fetchHn(args: Record<string, string | boolean>): Promise<void> {
   const day = await fetchFrontPage(date);
   await writeRawDay(day);
   await createFetchedRun(date, day.samplingMethod);
-  console.log(`fetched ${day.items.length} HN front-page titles for ${date}`);
+  console.log(`fetched ${day.items.length} HN front-page stories with top comments for ${date}`);
 }
 
 async function captureDay(args: Record<string, string | boolean>): Promise<void> {
@@ -31,7 +31,7 @@ async function captureDay(args: Record<string, string | boolean>): Promise<void>
   await writeRawDay(day);
   await createFetchedRun(date, day.samplingMethod);
   const run = await analyzeDay(date, { force: true });
-  console.log(`captured ${day.items.length} HN front-page titles for ${date}; ${run.state}`);
+  console.log(`captured ${day.items.length} HN front-page stories with top comments for ${date}; ${run.state}`);
 }
 
 async function checkTimegate(args: Record<string, string | boolean>): Promise<void> {

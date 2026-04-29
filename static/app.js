@@ -117,12 +117,13 @@
   }
 
   function formatScore(value) {
+    if (value === null || value === undefined) return "N/A";
     const sign = value > 0 ? "+" : "";
     return `${sign}${value.toFixed(2)}`;
   }
 
   function formatMentions(value) {
-    return `${value} title${value === 1 ? "" : "s"}`;
+    return `${value} relevant stor${value === 1 ? "y" : "ies"}`;
   }
 
   function clampScore(value) {
@@ -149,8 +150,16 @@
   function renderRankingChart(day) {
     const rows = Object.entries(labels)
       .map(([target, label]) => ({ target, label, entity: day.entities[target] }))
-      .filter((row) => row.entity)
+      .filter((row) => row.entity && row.entity.score !== null)
       .sort((a, b) => b.entity.score - a.entity.score);
+    if (rows.length === 0) {
+      return `
+        <section class="ranking-block" aria-label="Provider ranking">
+          <div class="section-title">ranking</div>
+          <p class="judgement secondary">No tracked provider had relevant HN story/comment signal.</p>
+        </section>
+      `;
+    }
     const maxAbsScore = Math.max(0.05, ...rows.map((row) => Math.abs(clampScore(row.entity.score))));
 
     return `
@@ -179,9 +188,9 @@
                   ></span>
                 </div>
                 <div class="rank-counts">
-                  <span>${row.entity.positiveCount} positive</span>
-                  <span>${row.entity.neutralCount} neutral</span>
-                  <span>${row.entity.negativeCount} negative</span>
+                  <span>${row.entity.positiveCount} positive stories</span>
+                  <span>${row.entity.neutralCount} neutral stories</span>
+                  <span>${row.entity.negativeCount} negative stories</span>
                 </div>
               </div>
             `;
@@ -224,15 +233,19 @@
     }).join("");
 
     const flags = [
-      day.samplingMethod === "historical_frontpage_title_snapshot" ? "Historical title snapshot" : "9pm title snapshot",
+      day.samplingMethod === "historical_frontpage_story_comment_snapshot" ? "Historical story/comment snapshot" :
+        day.samplingMethod === "historical_frontpage_title_snapshot" ? "Historical title snapshot" :
+          day.samplingMethod === "frontpage_title_snapshot" ? "9pm title snapshot" : "9pm story/comment snapshot",
       day.lowConfidence ? "Low confidence" : "",
       day.closeCall ? "Close call" : "",
     ].filter(Boolean);
 
+    const winnerLabel = day.winner ? labels[day.winner] : "No winner";
+
     popover.innerHTML = `
       ${detailCloseButton()}
       <div class="detail-scroll">
-        <h2>${escapeHtml(day.date)} · ${escapeHtml(labels[day.winner])}</h2>
+        <h2>${escapeHtml(day.date)} · ${escapeHtml(winnerLabel)}</h2>
         <div class="meta">${flags.map((flag) => `<span class="pill">${escapeHtml(flag)}</span>`).join("")}</div>
         ${renderRankingChart(day)}
         <details class="judgement-block" open>
@@ -311,9 +324,10 @@
   for (const week of weeks) {
     for (const date of week) {
       const day = date ? byDate.get(date) : undefined;
+      const winner = day?.winner ?? null;
       const square = document.createElement("button");
       square.type = "button";
-      square.className = date ? `day ${day?.winner ?? ""}` : "day empty";
+      square.className = date ? `day ${winner ?? "no_winner"}` : "day empty";
       if (!date) {
         square.tabIndex = -1;
         heatmap.appendChild(square);
@@ -321,7 +335,7 @@
       }
       square.dataset.date = date;
       square.dataset.state = day ? "complete" : "missing";
-      square.setAttribute("aria-label", day ? `${date}: ${labels[day.winner]} won` : `${date}: no data`);
+      square.setAttribute("aria-label", day ? `${date}: ${winner ? `${labels[winner]} won` : "no relevant provider signal"}` : `${date}: no data`);
       square.addEventListener("click", (event) => {
         event.stopPropagation();
         renderDetail(square, date, day);

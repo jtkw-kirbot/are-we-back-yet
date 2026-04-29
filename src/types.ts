@@ -7,6 +7,8 @@ export type Target = z.infer<typeof TargetSchema>;
 export const SamplingMethodSchema = z.enum([
   "frontpage_title_snapshot",
   "historical_frontpage_title_snapshot",
+  "frontpage_story_comment_snapshot",
+  "historical_frontpage_story_comment_snapshot",
 ]);
 export type SamplingMethod = z.infer<typeof SamplingMethodSchema>;
 
@@ -17,6 +19,15 @@ export const RunStateSchema = z.enum([
   "failed",
 ]);
 export type RunState = z.infer<typeof RunStateSchema>;
+
+export const HnCommentSchema = z.object({
+  id: z.number(),
+  by: z.string().optional(),
+  time: z.number().optional(),
+  text: z.string(),
+  sourceUrl: z.string(),
+});
+export type HnComment = z.infer<typeof HnCommentSchema>;
 
 export const HnItemSchema = z.object({
   id: z.number(),
@@ -33,6 +44,7 @@ export const HnItemSchema = z.object({
   storyTitle: z.string(),
   storyUrl: z.string().optional(),
   sourceUrl: z.string(),
+  topComments: z.array(HnCommentSchema).default([]),
 });
 export type HnItem = z.infer<typeof HnItemSchema>;
 
@@ -82,8 +94,8 @@ export const EvidenceSchema = z.object({
 export type Evidence = z.infer<typeof EvidenceSchema>;
 
 export const DailyEntitySchema = z.object({
-  score: z.number(),
-  rawWeightedSentiment: z.number(),
+  score: z.number().nullable(),
+  rawWeightedSentiment: z.number().nullable(),
   mentionCount: z.number().int().nonnegative(),
   positiveCount: z.number().int().nonnegative(),
   neutralCount: z.number().int().nonnegative(),
@@ -109,12 +121,12 @@ export const DailyResultSchema = z.object({
   date: z.string(),
   generatedAt: z.string(),
   samplingMethod: SamplingMethodSchema,
-  winner: TargetSchema,
+  winner: TargetSchema.nullable(),
   dailyJudgementSnippet: z.string(),
   winnerExplanation: z.string(),
   lowConfidence: z.boolean(),
   closeCall: z.boolean(),
-  margin: z.number(),
+  margin: z.number().nullable(),
   models: z.record(z.string(), z.string()),
   methodVersion: z.record(z.string(), z.string()),
   entities: z.object({

@@ -6,7 +6,7 @@ describe("cost calculation", () => {
   it("uses uncached, cached, and output token rates by stage", () => {
     const run: RunFile = {
       date: "2026-04-20",
-      samplingMethod: "historical_frontpage_title_snapshot",
+      samplingMethod: "historical_frontpage_story_comment_snapshot",
       state: "complete",
       createdAt: "2026-04-20T00:00:00.000Z",
       updatedAt: "2026-04-20T00:00:00.000Z",
