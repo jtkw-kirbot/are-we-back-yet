@@ -11,8 +11,8 @@
     google_gemini: "--google_gemini",
     microsoft_copilot: "--microsoft_copilot",
   };
+  const providerOrder = Object.keys(labels);
   const fallbackTrackerStartDate = "2026-01-01";
-  const tieThreshold = 0.2;
 
   const grid = document.getElementById("grid");
   const popover = document.getElementById("popover");
@@ -206,10 +206,13 @@
     if (!day) return [];
     const positiveRows = (day.ranking ?? []).filter((row) => Number(row.adjustedMean) > 0);
     if (positiveRows.length === 0) return [];
-    const maxPositive = Math.max(...positiveRows.map((row) => Number(row.adjustedMean)));
+    const topRow = positiveRows.reduce((best, row) => (
+      Number(row.adjustedMean) > Number(best.adjustedMean) ? row : best
+    ));
+    const tiedTargets = new Set([topRow.target, ...(topRow.tiedWith ?? [])]);
     return positiveRows
-      .filter((row) => maxPositive - Number(row.adjustedMean) <= tieThreshold)
-      .sort((a, b) => String(a.target).localeCompare(String(b.target)));
+      .filter((row) => tiedTargets.has(row.target))
+      .sort((a, b) => providerOrder.indexOf(a.target) - providerOrder.indexOf(b.target));
   }
 
   function daySignalTargets(day) {
@@ -239,12 +242,12 @@
     const targets = daySignalTargets(day);
     if (targets.length <= 1) return;
     const stop = 100 / targets.length;
-    const bands = targets.flatMap((target, index) => {
+    const bands = targets.map((target, index) => {
       const start = (index * stop).toFixed(2);
       const end = ((index + 1) * stop).toFixed(2);
-      return [`var(${providerColorVars[target]}) ${start}%`, `var(${providerColorVars[target]}) ${end}%`];
+      return `var(${providerColorVars[target]}) ${start}% ${end}%`;
     });
-    square.style.background = `linear-gradient(to bottom, ${bands.join(", ")})`;
+    square.style.background = `linear-gradient(to right, ${bands.join(", ")})`;
   }
 
   function renderRankingChart(day, evidenceById) {
