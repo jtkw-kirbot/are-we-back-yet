@@ -67,7 +67,7 @@ npm run process:pending
 npm run build:site
 ```
 
-Large backfills may require multiple `process:pending` runs. The default processor limit is 1000 new OpenAI row requests per run and can be changed with `RESPONSES_MAX_ROWS_PER_RUN`.
+Large backfills may require multiple `process:pending` runs. The scheduled pending workflow processes up to 3000 new OpenAI row requests per run. Local runs default to 1000 unless you set `RESPONSES_MAX_ROWS_PER_RUN`.
 
 ## Data model
 
