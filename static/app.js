@@ -251,11 +251,11 @@
   function renderEvidence(day) {
     if (!day.evidence?.length) return "";
     return `
-      <section class="detail-section source-section" aria-label="Evidence">
-        <div class="section-heading">
-          <span>sources</span>
+      <details class="detail-section source-section evidence-section" aria-label="Evidence">
+        <summary class="section-heading evidence-summary">
+          <span>evidence</span>
           <span>${day.evidence.length} excerpt${day.evidence.length === 1 ? "" : "s"}</span>
-        </div>
+        </summary>
         <div class="source-list">
           ${day.evidence.map((item) => `
             <article class="source-row">
@@ -285,7 +285,7 @@
             </article>
           `).join("")}
         </div>
-      </section>
+      </details>
     `;
   }
 
@@ -339,8 +339,8 @@
           <p class="judgement">${withEvidenceLinks(day.headlineSummary || "No tracked provider had relevant HN signal.", evidenceById)}</p>
         </section>
         ${renderRankingChart(day, evidenceById)}
-        ${renderUnmentioned(day)}
         ${renderEvidence(day)}
+        ${renderUnmentioned(day)}
       </div>
     `;
     showDetail();
