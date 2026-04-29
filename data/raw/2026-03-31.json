@@ -1,0 +1,1556 @@
+{
+  "date": "2026-03-31",
+  "fetchedAt": "2026-04-29T08:13:22.641Z",
+  "samplingMethod": "historical_frontpage_story_comment_snapshot",
+  "source": "hn_front_html_firebase",
+  "items": [
+    {
+      "id": 47582220,
+      "type": "story",
+      "title": "Axios compromised on NPM – Malicious versions drop remote access trojan",
+      "rank": 1,
+      "depth": 0,
+      "storyId": 47582220,
+      "storyTitle": "Axios compromised on NPM – Malicious versions drop remote access trojan",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47582220",
+      "topComments": [
+        {
+          "id": 47584459,
+          "text": "\"Batteries included\" ecosystems are the only persistent solution to the package manager problem.\nIf your first party tooling contains all the functionality you typically need, it's possible you can be productive with zero 3rd party dependencies. In practice you will tend to have a few, but you won't be vendoring out critical things like HTTP, TCP, JSON, string sanitation, cryptography. These are beacons for attackers. Everything depends on this stuff so the motivation for attacking these common surfaces is high.\nI can literally count on one hand the number of 3rd party dependencies I've used in the last year. Dapper is the only regular thing I can come up with. Sometimes ScottPlot. Both of my SQL providers (MSSQL and SQLite) are first party as well. This is a major reason why they're the only sql providers I use.\nMaybe I am just so traumatized from compliance and auditing in regulated software business, but this feels like a happier way to build software too. My tools tend to stay right where I left them the previous day. I don't have to worry about my hammer or screw drivers stealing all my bitcoin in the middle of the night.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47584459",
+          "by": "bob1029",
+          "time": 1774947002
+        },
+        {
+          "id": 47582484,
+          "text": "I can't even imagine the scale of the impact with Axios being compromised, nearly every other project uses it for some reason instead of fetch (I never understood why).\nAlso from the report:\n> Neither malicious version contains a single line of malicious code inside axios itself. Instead, both inject a fake dependency, plain-crypto-js@4.2.1, a package that is never imported anywhere in the axios source, whose only purpose is to run a postinstall script that deploys a cross-platform remote access trojan (RAT)\nGood news for pnpm/bun users who have to manually approve postinstall scripts.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47582484",
+          "by": "h4ch1",
+          "time": 1774928450
+        },
+        {
+          "id": 47582632,
+          "text": "PSA: npm/bun/pnpm/uv now all support setting a minimum release age for packages.\nI also have `ignore-scripts=true` in my ~/.npmrc. Based on the analysis, that alone would have mitigated the vulnerability. bun and pnpm do not execute lifecycle scripts by default.\nHere's how to set global configs to set min release age to 7 days:\n  ~/.config/uv/uv.toml\n  exclude-newer = \"7 days\"\n\n  ~/.npmrc\n  min-release-age=7 # days\n  ignore-scripts=true\n  \n  ~/Library/Preferences/pnpm/rc\n  minimum-release-age=10080 # minutes\n  \n  ~/.bunfig.toml\n  [install]\n  minimumReleaseAge = 604800 # seconds\n\n(Side note, it's wild that npm, bun, and pnpm have all decided to use different time units for this configuration.)\nIf you're developing with LLM agents, you should also update your AGENTS.md/CLAUDE.md file with some guidance on how to handle failures stemming from this config as they will cause the agent to unproductively spin its wheels.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47582632",
+          "by": "postalcoder",
+          "time": 1774929959
+        },
+        {
+          "id": 47582652,
+          "text": "I recommend everyone to use bwrap if you're on linux and alias all package managers / anything that has post build logic with it.\nI have bwrap configured to override: npm, pip, cargo, mvn, gradle, everything you can think of and I only give it the access it needs, strip anything that is useless to it anyway, deny dbus, sockets, everything. SSH is forwarded via socket (ssh-add).\nThis limits the blast radius to your CWD and package manager caches and often won't even work since the malware usually expects some things to be available which are not in a permissionless sandbox.\nYou can think of it as running a docker container, but without the requirement of having to have an image. It is the same thing flatpak is based on.\nAs for server deployments, container hardening is your friend. Most supply chain attacks target build scripts so as long as you treat your CI/CD as an untrusted environment you should be good - there's quite a few resources on this so won't go into detail.\nBonus points: use the same sandbox for AI.\nStay safe out there.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47582652",
+          "by": "himata4113",
+          "time": 1774930205
+        },
+        {
+          "id": 47586783,
+          "text": "There’s a recurrent pattern with these package compromises: the attacker exfiltrates credentials during an initial phase, then pivots to the next round of packages using those credentials. That’s how we saw them make the Trivy to LiteLLM leap (with a 5 day gap), and it’ll almost certainly be similar in this case.\nThe solution to this is twofold, and is already implemented in the primary ecosystems being targeted (Python and JS): packagers should use Trusted Publishing to eliminate the need for long lived release credentials, and downstreams should use cooldowns to give security researchers time to identify and quarantine attacks.\n(Security is a moving target, and neither of these techniques is going to work indefinitely without new techniques added to the mix. But they would be effective against the current problems we’re seeing.)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47586783",
+          "by": "woodruffw",
+          "time": 1774962318
+        }
+      ],
+      "by": "mtud",
+      "time": 1774925657,
+      "url": "https://www.stepsecurity.io/blog/axios-compromised-on-npm-malicious-versions-drop-remote-access-trojan",
+      "score": 1934,
+      "descendants": 807,
+      "storyUrl": "https://www.stepsecurity.io/blog/axios-compromised-on-npm-malicious-versions-drop-remote-access-trojan"
+    },
+    {
+      "id": 47586778,
+      "type": "story",
+      "title": "The Claude Code Source Leak: fake tools, frustration regexes, undercover mode",
+      "rank": 2,
+      "depth": 0,
+      "storyId": 47586778,
+      "storyTitle": "The Claude Code Source Leak: fake tools, frustration regexes, undercover mode",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47586778",
+      "topComments": [
+        {
+          "id": 47591989,
+          "text": "There are now several comments that (incorrectly?) interpret the undercover mode as only hiding internal information. Excerpts from the actual prompt[0]:\n  NEVER include in commit messages or PR descriptions:\n  - The phrase \"Claude Code\" or any mention that you are an AI\n  - Co-Authored-By lines or any other attribution\n\n  BAD (never write these):\n  - 1-shotted by claude-opus-4-6\n  - Generated with Claude Code\n  - Co-Authored-By: Claude Opus 4.6 \n\nThis very much sounds like it does what it says on the tin, i.e. stays undercover and pretends to be a human. It's especially worrying that the prompt is explicitly written for contributions to public repositories.\n[0]: https://github.com/chatgptprojects/claude-code/blob/642c7f94...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47591989",
+          "by": "mzajc",
+          "time": 1774983991
+        },
+        {
+          "id": 47592502,
+          "text": "The buddy feature the article mentions is planned for release tomorrow, as a sort  of April Fools easter egg.  It'll roll out gradually over the day for \"sustained Twitter buzz\" according to the source.\nThe pet you get is generated based off your account UUID, but the algorithm is right there in the source, and it's deterministic, so you can check ahead of time.  Threw together a little app to help, not to brag but I got a legendary ghost https://claudebuddychecker.netlify.app/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47592502",
+          "by": "fatcullen",
+          "time": 1774986576
+        },
+        {
+          "id": 47592074,
+          "text": "> \"Anti-distillation: injecting fake tools to poison copycats\"\nPlot twist: Chinese competitors end up developing real, useful versions of Claude's fake tools.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47592074",
+          "by": "Reason077",
+          "time": 1774984402
+        },
+        {
+          "id": 47593268,
+          "text": "“Some bullet points are gated on process.env.USER_TYPE === 'ant' — Anthropic employees get stricter/more honest instructions than external use”\nInteresting!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47593268",
+          "by": "geoffbp",
+          "time": 1774989967
+        },
+        {
+          "id": 47594193,
+          "text": "I made a visual guide for this https://ccunpacked.dev",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47594193",
+          "by": "autocracy101",
+          "time": 1774995297
+        }
+      ],
+      "by": "alex000kim",
+      "time": 1774962270,
+      "url": "https://alex000kim.com/posts/2026-03-31-claude-code-source-leak/",
+      "score": 1376,
+      "descendants": 578,
+      "storyUrl": "https://alex000kim.com/posts/2026-03-31-claude-code-source-leak/"
+    },
+    {
+      "id": 47584540,
+      "type": "story",
+      "title": "Claude Code's source code has been leaked via a map file in their NPM registry",
+      "rank": 3,
+      "depth": 0,
+      "storyId": 47584540,
+      "storyTitle": "Claude Code's source code has been leaked via a map file in their NPM registry",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47584540",
+      "topComments": [
+        {
+          "id": 47584683,
+          "text": "The big loss for Anthropic here is how it reveals their product roadmap via feature flags. A big one is their unreleased \"assistant mode\" with code name kairos.\nJust point your agent at this codebase and ask it to find things and you'll find a whole treasure trove of info.\nEdit: some other interesting unreleased/hidden features\n- The Buddy System: Tamagotchi-style companion creature system with ASCII art sprites\n- Undercover mode: Strips ALL Anthropic internal info from commits/PRs for employees on open source contributions",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47584683",
+          "by": "treexs",
+          "time": 1774948630
+        },
+        {
+          "id": 47589150,
+          "text": "Amusingly, they deprecated it with a message of \"Unpublished\" instead of actually unpublishing it [1]. When you use npm unpublish it removes the package version from the registry, when you use npm deprecate it leaves it there and simply marks the package as deprecated with your message. I have to imagine the point was to make it harder for people to download the source map, so to deprecate it with this message gives off a bit of claude, unpublish the latest version of this package for me vibe.\n[1] - https://www.npmjs.com/package/@anthropic-ai/claude-code/v/2....",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47589150",
+          "by": "foob",
+          "time": 1774972050
+        },
+        {
+          "id": 47585511,
+          "text": "src/cli/print.ts\nThis is the single worst function in the codebase by every metric:\n  - 3,167 lines long (the file itself is 5,594 lines)\n  - 12 levels of nesting at its deepest\n  - ~486 branch points of cyclomatic complexity\n  - 12 parameters + an options object with 16 sub-properties\n  - Defines 21 inner functions and closures\n  - Handles: agent run loop, SIGINT, rate-limits, AWS auth, MCP lifecycle, plugin install/refresh, worktree bridging, team-lead polling (while(true) inside), control message dispatch (dozens of types), model switching, turn interruption\n  recovery, and more\n\nThis should be at minimum 8–10 separate modules.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47585511",
+          "by": "mohsen1",
+          "time": 1774954651
+        },
+        {
+          "id": 47585627,
+          "text": "Finally all spinner verbs revealed:\nhttps://github.com/instructkr/claude-code/blob/main/src/cons...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47585627",
+          "by": "kschiffer",
+          "time": 1774955449
+        },
+        {
+          "id": 47585326,
+          "text": "They have an interesting regex for detecting negative sentiment in users prompt which is then logged (explicit content): https://github.com/chatgptprojects/claude-code/blob/642c7f94...\nI guess these words are to be avoided...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47585326",
+          "by": "bkryza",
+          "time": 1774953541
+        }
+      ],
+      "by": "treexs",
+      "time": 1774947640,
+      "url": "https://twitter.com/Fried_rice/status/2038894956459290963",
+      "score": 2095,
+      "descendants": 1022,
+      "storyUrl": "https://twitter.com/Fried_rice/status/2038894956459290963"
+    },
+    {
+      "id": 47593556,
+      "type": "story",
+      "title": "A dot a day keeps the clutter away",
+      "rank": 4,
+      "depth": 0,
+      "storyId": 47593556,
+      "storyTitle": "A dot a day keeps the clutter away",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47593556",
+      "topComments": [
+        {
+          "id": 47594457,
+          "text": "Interesting, but this seems to solve the wrong problem. I already know that the ice cream maker sitting on the shelf hasn't been used in 5 years. The problem is... what if I want to make ice cream?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47594457",
+          "by": "stickfigure",
+          "time": 1774997091
+        },
+        {
+          "id": 47594312,
+          "text": "First, great system. Second, I am going to pine for an electronic version and having read the post I get it. Feel free to laugh and read the next comment. That said there are two aspects to this system that come to mind immediately:\n- The value of the information: This is the purpose of the dots and, I think the stated reason for the dots.\n- The value of the process: If you did this and didn't have the final dot information, would it still be valuable in some way? I suspect there is value here in creating friction that helps you consider your environment more.\n- But clearly there is also a cost (so, three things came to mind. sue me!). The cost would be stickers on my junk. I generally don't like that.\nSo call the cost and the value of the process a wash and you are left with 'can I get the value of the information without the cost or at a substantially lower cost?' That is, I think, an argument for AR. I'd love a version of this where I could tag a lot of things and gather my own usage data without putting stickers on my stuff. How often did I wear x, or use y? Did I actually eat 4k calories in fried chicken two weeks ago? Of course the privacy concerns here are the main stopper for me but when local compute is cheap enough AR tagging, like these dots, is something I definitely would try.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47594312",
+          "by": "jmward01",
+          "time": 1774996117
+        },
+        {
+          "id": 47594696,
+          "text": "I'm ready to reorganize, there are a lot of really good ideas here! Most of all I had a similar trajectory of starting with small component drawers and now it's a real pain to find appropriate places for everything. I didn't think to try larger boxes! Makes a lot of sense. I'm curious to try some variation of the dot system too, but I think I appreciated the somewhat mundane in-between details about your setup the most.\n(I would have appreciated less AI-assistance in the prose though FWIW, I'm sorry if that's annoying to say!)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47594696",
+          "by": "hecanjog",
+          "time": 1774998655
+        },
+        {
+          "id": 47594589,
+          "text": "My low-tech solution to organizing electronic parts is to use shoeboxes, with written labels at the end, and plastic bags inside to organize the various groups of items.\nThey stack, and I am lazy, and so I put the one I just pulled out from the middle of the stack back on top. So the ones on top are the ones I use.  If they are at the bottom they don't get used much.\nOn the other hand, I don't care which ones I use a lot as I am not trying find candidates for eviction.  I just care about not having to pull items out of the bottom of a stack of five shoeboxes.  It happens, because frequency != importance.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47594589",
+          "by": "shermantanktop",
+          "time": 1774997947
+        },
+        {
+          "id": 47594587,
+          "text": "This is neat but my OCD brain is hurting. I suspect a location based sorting, where most-recently-used boxes are near the top, or closer to your workstation, solves the same problem without the visual clutter.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47594587",
+          "by": "ihaveajob",
+          "time": 1774997922
+        }
+      ],
+      "by": "scottlawson",
+      "time": 1774991701,
+      "url": "https://scottlawsonbc.com/post/dot-system",
+      "score": 585,
+      "descendants": 168,
+      "storyUrl": "https://scottlawsonbc.com/post/dot-system"
+    },
+    {
+      "id": 47586614,
+      "type": "story",
+      "title": "Open source CAD in the browser (Solvespace)",
+      "rank": 5,
+      "depth": 0,
+      "storyId": 47586614,
+      "storyTitle": "Open source CAD in the browser (Solvespace)",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47586614",
+      "topComments": [
+        {
+          "id": 47587868,
+          "text": "SolveSpace is a wonderfully different take on parametric CAD, but development has really slowed, and it seems fundamentally incapable of some pretty rudimentary features (like chamfers[0]). Dune 3D[1] seems like a pretty effective spiritual successor.\n0: https://github.com/solvespace/solvespace/issues/149\n1: https://dune3d.org/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47587868",
+          "by": "MrDOS",
+          "time": 1774967153
+        },
+        {
+          "id": 47587834,
+          "text": "I've been using FreeCad more and more, but solvespace has been a great, lightweight tool to design parts for laser cutting by SendCutSend/Oshcut.\nNeat that they got it working in the browser.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47587834",
+          "by": "masonhensley",
+          "time": 1774967000
+        },
+        {
+          "id": 47594256,
+          "text": "I love solvespace, it is hard to describe but despite it's limitations and problems (and there are many) it feels joyous to use if that makes sense. Something about it's simple and straightforward interface just makes it fun. To the point that my biggest gripe is the modal dialogs that pop when a constraint is deleted or it's conditions cannot be met. It is quite awkward compared to the rest of the workflow.\nAnyhow, salutes to the author of this web port, very slick.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47594256",
+          "by": "somat",
+          "time": 1774995681
+        },
+        {
+          "id": 47590551,
+          "text": "Here's my take on CAD in the browser! https://vcad.io\nI implemented a full kernel in rust and compile it to wasm https://github.com/ecto/vcad",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47590551",
+          "by": "ecto",
+          "time": 1774977439
+        },
+        {
+          "id": 47588217,
+          "text": "Impressive work!\nMinor nit: why does the rendered in-window text use a really awful pixelated font? It looks like what happens when a font gets rendered onto a pixel grid without any hinting or snapping.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47588217",
+          "by": "JoshTriplett",
+          "time": 1774968722
+        }
+      ],
+      "by": "phkahler",
+      "time": 1774961423,
+      "url": "https://solvespace.com/webver.pl",
+      "score": 374,
+      "descendants": 128,
+      "storyUrl": "https://solvespace.com/webver.pl"
+    },
+    {
+      "id": 47592755,
+      "type": "story",
+      "title": "OpenAI closes funding round at an $852B valuation",
+      "rank": 6,
+      "depth": 0,
+      "storyId": 47592755,
+      "storyTitle": "OpenAI closes funding round at an $852B valuation",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47592755",
+      "topComments": [
+        {
+          "id": 47593514,
+          "text": "$2b/month which is $24b/year. Not as much as I expected considering they were at $20b by end of 2025.[0] They only added $4b since?\nAnthropic had $19b by end of February 2026 and they added $6b in February alone.[1] This means if they added another $6b in March, they're higher than OpenAI already.\nHowever, I heard that OpenAI and Anthropic report revenue in a different way. OpenAI takes 20% of revenue from Azure sales and reports revenue on that 20%. Anthropic reports all revenue, including AWS's share.[2]\n[0]https://www.reuters.com/business/openai-cfo-says-annualized-...\n[1]https://finance.yahoo.com/news/anthropic-arr-surges-19-billi...\n[2]https://x.com/EthanChoi7/status/2036638459868385394",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47593514",
+          "by": "aurareturn",
+          "time": 1774991467
+        },
+        {
+          "id": 47593165,
+          "text": "This announcement completes the betrayal of their founding principles.\n\"Our goal is to advance digital intelligence in the way that is most likely to benefit humanity as a whole, unconstrained by a need to generate financial return.\"\n  - Not advancing digital intelligence\n  - While locking people into a superapp\n  - Because they are further constrained to generating financial returns",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47593165",
+          "by": "avaer",
+          "time": 1774989505
+        },
+        {
+          "id": 47593198,
+          "text": "> Today, we closed our latest funding round with $122 billion in committed capital at a post money valuation of $852 billion.\nA couple things that stand out to me about this is the use of the phrase \"committed capital\", which only sounds like a promise that could break from various circumstances, and the valuation of their funding keeps changing so it sounds like a max rather than the valuation every investor invested at.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47593198",
+          "by": "alyxya",
+          "time": 1774989624
+        },
+        {
+          "id": 47593637,
+          "text": "The title is incorrect. The $122B includes previous promises. They raised an additional $12B of promises:\n\"The round totaled $122 billion of committed capital, up from the $110 billion figure that the company announced in February. SoftBank co-led the round alongside other investors, including Andreessen Horowitz and D. E. Shaw Ventures, OpenAI said.\"\nThis IPO, if anyone underwrites it, is going to fleece retail so hard. Better make it a SPAC with the help of Chamath and Cantor & Fitzgerald.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47593637",
+          "by": "Jaskhy",
+          "time": 1774992196
+        },
+        {
+          "id": 47593134,
+          "text": "> The broad consumer reach of ChatGPT creates a powerful distribution channel into the workplace\nThey mention this line in different forms a couple of times in the article. It’s clear they’re pretty rattled about Anthropic’s momentum in enterprise, I wonder how confident they really are in this rationale.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47593134",
+          "by": "samdjstephens",
+          "time": 1774989333
+        }
+      ],
+      "by": "surprisetalk",
+      "time": 1774987650,
+      "url": "https://www.cnbc.com/2026/03/31/openai-funding-round-ipo.html",
+      "score": 531,
+      "descendants": 497,
+      "storyUrl": "https://www.cnbc.com/2026/03/31/openai-funding-round-ipo.html"
+    },
+    {
+      "id": 47582043,
+      "type": "story",
+      "title": "Artemis II is not safe to fly",
+      "rank": 7,
+      "depth": 0,
+      "storyId": 47582043,
+      "storyTitle": "Artemis II is not safe to fly",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47582043",
+      "topComments": [
+        {
+          "id": 47586552,
+          "text": "I'm literally guest lecturing at a Harvard class tomorrow on systemic failures in decision making, using the Columbia and Challenger disasters as case studies, and changed my slides last night to include Artemis II because it could literally happen again.\nThis broken safety culture has been around since the beginning of the Shuttle program.\nIn 1980, Gregg Easterbrook published \"Goodbye, Columbia\" in The Washington Monthly [1], warning that NASA's \"success-oriented planning\" and political pressure were creating the conditions for catastrophe. He essentially predicted Columbia's heat shield failures in the article 1 year before the first flight.\nChallenger in 1986, and the Rogers Commission identified hierarchy, communication failures, and management overriding engineering judgment.\nThen Columbia happened in 2003. The CAIB found NASA had not implemented the 1986 recommendations [2].\nNow Charles Camarda (who flew the first shuttle mission after Columbia and is literally a heat shield expert!) is saying it's happening again.\n[1] https://www.iasa-intl.com/folders/shuttle/GoodbyeColumbia.ht...\n[2] Columbia Accident Investigation Board Report, Chapter 8: https://www.nasa.gov/columbia/caib/html/start.html",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47586552",
+          "by": "chadd",
+          "time": 1774961093
+        },
+        {
+          "id": 47582655,
+          "text": "I haven't kept up with Artemis development but I've read extensively about Challenger and Columbia. These two parts of the article stood out to me:\n> Moon-to-Mars Deputy Administrator Amit Kshatriya said: “it was very small localized areas. Interestingly, it would be much easier for us to analyze if we had larger chunks and it was more defined”. A Lockheed Martin representative on the same call added that \"there was a healthy margin remaining of that virgin Avcoat. So it wasn’t like there were large, large chunks.”\nFollowed by:\n> The Avcoat material is not designed to come out in chunks. It is supposed to char and flake off smoothly, maintaining the overall contours of the heat shield.\nThis is echoes both Shuttle incidents. Challenger: no gasses were supposed to make it past the o-rings no matter what, but when it became clear that gasses were escaping and the o-rings were being damaged, there was a push to suggest that it's an acceptable level.\nThere was a similar situation with heat shield damage and Columbia.\nIn both cases some models were used to justify the decision, with wild extrapolations and fundamentally, a design that wasn't expected to fail in that mode /at all/.\nI know the points that astronauts make about the importance of manned space exploration, but I agree with this author that it seems to make sense to run this as an unmanned mission, and probably test the new heat shield which will replace the Artemis II design in an unmanned re-entry as well.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47582655",
+          "by": "oritron",
+          "time": 1774930240
+        },
+        {
+          "id": 47583210,
+          "text": "This is a more balanced take, in my opinion:\nhttps://arstechnica.com/space/2026/01/nasa-chief-reviews-ori...\nCamarda is an outlier. The engineers at NASA believe it is safe. The astronauts believe it is safe. Former astronaut Danny Olivas was initially skeptical of the heat shield but came around.\nAnd note that the OP believes it is likely (maybe very likely) that the heat shield will work fine. It's hard for me to reconcile \"It is likely that Artemis II will land safely\" with \"Artemis II is Not Safe to Fly\", unless maybe getting clicks is involved.\nRegardless, this is not a Challenger or Columbia situation. In both Challenger and Columbia, nobody bothered to analyze the problem because they didn't think there was a problem. That's the difference, in my opinion. NASA is taking this seriously and has analyzed the problem deeply.\nThey are not YOLO'ing this mission, and it's somewhat insulting that people think they are.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47583210",
+          "by": "GMoromisato",
+          "time": 1774936114
+        },
+        {
+          "id": 47583171,
+          "text": "Someone please answer my obvious question. We sent successful missions to the moon sixty years ago. What heat shield material was used for the Apollo capsules, and why would we need something different now? Are the Artemis mission parameters totally different in a way that requires a new design? Or was Apollo incredibly dangerous and we got lucky they didn’t all fail catastrophically? The article mentions Orion is much heavier than the Apollo capsules, does that really require a totally novel heat shield that takes $billions to develop?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47583171",
+          "by": "turtletontine",
+          "time": 1774935749
+        },
+        {
+          "id": 47582340,
+          "text": "This is a concerning read, I'm not quite sure what the driving motivation is for Artemis, but the following answered at least part of my question -\n> That context is a moon program that has spent close to $100 billion and 25 years with nothing to show for itself, at an agency that has just experienced mass firings and been through a near-death experience with its science budget",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47582340",
+          "by": "anitil",
+          "time": 1774926867
+        }
+      ],
+      "by": "idlewords",
+      "time": 1774923830,
+      "url": "https://idlewords.com/2026/03/artemis_ii_is_not_safe_to_fly.htm",
+      "score": 909,
+      "descendants": 638,
+      "storyUrl": "https://idlewords.com/2026/03/artemis_ii_is_not_safe_to_fly.htm"
+    },
+    {
+      "id": 47587953,
+      "type": "story",
+      "title": "Slop is not necessarily the future",
+      "rank": 8,
+      "depth": 0,
+      "storyId": 47587953,
+      "storyTitle": "Slop is not necessarily the future",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47587953",
+      "topComments": [
+        {
+          "id": 47591182,
+          "text": "I find most developers fall into one of two camps:\n1. You treat your code as a means to an end to make a product for a user.\n2. You treat the code itself as your craft, with the product being a vector for your craft.\nThe people who typically have the most negative things to say about AI fall into camp #2 where AI is automating a large part of what they considered their art while enabling people in group #1 to iterate on their product faster.\nPersonally, I fall into the first camp.\nNo one has ever made a purchasing decision based on how good your code is.\nThe general public does not care about anything other than the capabilities and limitations of your product. Sure, if you vibe code a massive bug into your product then that'll manifest as an outcome that impacts the user negatively.\nWith that said, I do have respect for people in the latter camp. But they're generally best fit for projects where that level of craftsmanship is actually useful (think: mission critical software, libraries us other devs depend on, etc).\nI just feel like it's hard to talk about this stuff if we're not clear on which types of projects we're talking about.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47591182",
+          "by": "seamossfet",
+          "time": 1774980071
+        },
+        {
+          "id": 47591234,
+          "text": "Meanwhile, the complexity of the average piece of software is drastically increasing. ... The stats suggest that devs are shipping more code with coding agents. The consequences may already be visible: analysis of vendor status pages [3] shows outages have steadily increased since 2022, suggesting software is becoming more brittle.\nWe've already seen a large-scale AWS outage because of this. It could get much worse. In a few years, we could have major infrastructure outages that the AI can't fix, and no human left understands the code.\nAI coders, as currently implemented, don't have a design-level representation of what they're doing other than the prompt history and the code itself. That inherently leads to complexity growth. This isn't fundamental to AI. It's just a property of the way AI-driven coding is done now.\nIs anybody working on useful design representations as intermediate forms used in AI-driven coding projects?\n\"The mending apparatus is itself in need of mending\" - \"The Machine Stops\", by E.M. Forster, 1909.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47591234",
+          "by": "Animats",
+          "time": 1774980276
+        },
+        {
+          "id": 47591039,
+          "text": "Why build each new airplane with the care and precision of a Rolls-Royce? In the early 1970s, Kelly Johnson and I [Ben Rich] had dinner in Los Angeles with the great Soviet aerodynamicist Alexander Tupolev, designer of their backfire Bear bomber. 'You Americans build airplanes like a Rolex watch,' he told us. 'Knock it off the night table and it stops ticking. We build airplanes like a cheap alarm clock. But knock it off the table and still it wakes you up.'...The Soviets, he explained, built brute-force machines that could withstand awful weather and primitive landing fields. Everything was ruthlessly sacrificed to cut costs, including pilot safety.\n  We don't need to be ruthless to save costs, but why build the luxury model when the Chevy would do just as well? Build it right the first time, but don't build it to last forever. - Ben Rich in Skunk Works",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47591039",
+          "by": "reese_john",
+          "time": 1774979355
+        },
+        {
+          "id": 47592315,
+          "text": "The authors updated their title so I've updated it here too. Previous title was \"Good code will still win\" - but it was leading to too much superficial discussion based entirely on the phrase \"good code\" in the title. It's amazing how titles do that!\n(Confession: \"good code will still win\" was my suggestion- IIRC they originally had \"Is AI slop the future?\". You win some you lose some.)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47592315",
+          "by": "dang",
+          "time": 1774985638
+        },
+        {
+          "id": 47591130,
+          "text": "People are not emotionally ready to accept that certain layers of abstraction don’t need as much care and effort if they can be automated.\nWe are at the point where a single class can be dirty but the API of the classes should be clean. There’s no point reviewing the internals of a class anymore. I’m more or less sure that they would work as intended.\nNext step is that of a micro service itself. The api of that micro service should be clean but internals may be however. We are 10% here.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47591130",
+          "by": "simianwords",
+          "time": 1774979792
+        }
+      ],
+      "by": "dakshgupta",
+      "time": 1774967546,
+      "url": "https://www.greptile.com/blog/ai-slopware-future",
+      "score": 305,
+      "descendants": 484,
+      "storyUrl": "https://www.greptile.com/blog/ai-slopware-future"
+    },
+    {
+      "id": 47584795,
+      "type": "story",
+      "title": "Why the US Navy won't blast the Iranians and 'open' Strait of Hormuz",
+      "rank": 9,
+      "depth": 0,
+      "storyId": 47584795,
+      "storyTitle": "Why the US Navy won't blast the Iranians and 'open' Strait of Hormuz",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47584795",
+      "topComments": [
+        {
+          "id": 47586453,
+          "text": "In chapter 11 of All Quiet on the Western Front Paul and his unit find an abandoned food cache in the middle of no mans land. Instead of secreting away the food back to their lines where they will have to share it, they decide to just cook and eat it right then and there. But a spotter plane from the allies sees the smoke and then begins shelling their position. Cue a terrifying, if hilarious, scene where the soldiers try and cook pancakes as shells explode around them. Paul, as the last to leave, takes his pancakes on a plate and dashes out, timing his escape between bursts, and just barely making it back to the German trenches. Its a rare comic scene in an otherwise horrific and very real look at WW1.\nThe scene in the book is just so familiar to the lines in Ukraine these days, nearly a hundred years later. Instead of spotter planes near the dawn of aviation, we have satellites and drones (similarly quite new in the role). Instead of just shells and fuzing experts, we have FPV drones and much more sophisticated shells. Instead of buddies from the same towns all huddled together in cold muddy holes, we have deracinated units spread far and wide in laying in fear of thermal imaging. This results in a no mans land again, but a dozen kilometers wide instead of a few hundred meters wide, and somehow more psychologically damaging.\nMy point is that absent any tech that will miraculously be invented and deployed widely in the new few weeks, the Iran war, if it should be a ground one, is going to be just like Ukraine is today, which is somehow a worse version of trench warfare.\nEven casual Victoria II players know that WW1 is essentially the final boss of the game. And the 'lesson' of Vicky II is essentialy: Do not fight WW1, it ruins Everything.\nTo be clear: The US is choosing to fight a worse version of WW1 without even a stated (or likely even known) condition of victory. We're about to send many thousands boys to suffer and die for not 'literally nothing', but actually literally nothing.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47586453",
+          "by": "Balgair",
+          "time": 1774960610
+        },
+        {
+          "id": 47594364,
+          "text": ">The era of carrier-dominated airpower is fading, as cheap, unmanned anti-ship weapons reshape naval warfare, whether US planners are ready for it or not.\nis not really backed up by reality. Pretty much the whole US operation so far, destroying much of Iran's military and leadership was done from US carriers. If anything it demonstrates how powerful they are.\nAlso straits being closed to shipping by whatever power controls the shores is not a new thing. The Bosphophorous has been closed on and off by the Ottomans or Turks since 1453 and the allies couldn't break through in WW1. They can send raiding ships, use canons, artillery, naval mines etc. You don't need the new tech.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47594364",
+          "by": "tim333",
+          "time": 1774996500
+        },
+        {
+          "id": 47585324,
+          "text": "Whether or not professional military strategists and planners anticipated this shift in carrier-based projection of power in the era of low-cost drones, it is nearly certain that the Commander-in-Chief of the United States military has not. And if the Commander is involved in the either the day-to-day operations or the strategic level of planning, I can’t imagine that whatever reasoning about these shifts in power dynamics has taken place will influence U.S. operations.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47585324",
+          "by": "kashunstva",
+          "time": 1774953524
+        },
+        {
+          "id": 47587148,
+          "text": "“during WWII, the US Navy… winning the U-boat war in the Atlantic”\nSounds like typical US revisionist history.\nThey developed ASDIC? HF/DF? Hedgehog? Even the depth charge?\nNo, that was all the British.\nI would say technological development plus the Enigma decrypts were the biggest factor.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47587148",
+          "by": "hn_throw2025",
+          "time": 1774964030
+        },
+        {
+          "id": 47594081,
+          "text": "The United States primary strategy against China, in the event of war around Taiwan or nearby, is the same:\nChina's coast is mostly enclosed by the 'First Island Chain', which extends from Japan to Taiwan, through the Philippines and Borneo (look up a map and the situation will be very clear). Imagine strings of islands along the US coasts controlled by Chinese allies and with Chinese and allied forces training intensively there.\nThe American plan is to keep the Chinese navy trapped (or under assault) along its own coast by putting Marines (and Army soldiers too, I think) on the islands with anti-ship missiles.\nThe northern tip of the Philippines is as close to Taiwan as the Chinese mainland is; the US and Philippines are conducting an essentially endless series of military exercises and the US is placing some of its most advanced missiles there.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47594081",
+          "by": "mmooss",
+          "time": 1774994659
+        }
+      ],
+      "by": "KoftaBob",
+      "time": 1774949443,
+      "url": "https://responsiblestatecraft.org/iran-strait-of-hormuz/",
+      "score": 467,
+      "descendants": 1450,
+      "storyUrl": "https://responsiblestatecraft.org/iran-strait-of-hormuz/"
+    },
+    {
+      "id": 47582482,
+      "type": "story",
+      "title": "Ollama is now powered by MLX on Apple Silicon in preview",
+      "rank": 10,
+      "depth": 0,
+      "storyId": 47582482,
+      "storyTitle": "Ollama is now powered by MLX on Apple Silicon in preview",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47582482",
+      "topComments": [
+        {
+          "id": 47587546,
+          "text": "On-device models are the future. Users prefer them. No privacy issues. No dealing with connectivity, tokens, or changes to vendors implementations. I have an app using Foundation Model, and it works great. I only wish I could backport it to pre macOS 26 versions.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47587546",
+          "by": "abu_ameena",
+          "time": 1774965719
+        },
+        {
+          "id": 47582826,
+          "text": "LLMs on device is the future. It's more secure and solves the problem of too much demand for inference compared to data center supply, it also would use less electricity. It's just a matter of getting the performance good enough. Most users don't need frontier model performance.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47582826",
+          "by": "babblingfish",
+          "time": 1774932012
+        },
+        {
+          "id": 47583733,
+          "text": "Good to see Ollama is catching up with the times for inference on Mac. MLX powered inference makes a big difference, especially on M5 as their graphs point out.\nWhat really has been a game changer for my workflow is using https://omlx.ai/ that has SSD KV cold caching. No longer have to worry about a session falling out of memory and needing to prefill again. Combine that with the M5 Max prefill speed means more time is spend on generation than waiting for 50k+ content window to process.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47583733",
+          "by": "Yukonv",
+          "time": 1774940628
+        },
+        {
+          "id": 47584060,
+          "text": "I created \"apfel\" https://github.com/Arthur-Ficial/apfel a CLI for the apple on-device local foundation model (Apple intelligence) yeah its super limited with its 4k context window and super common false positives guardrails (just ask it to describe a color) ... bit still ... using it in bash scripts that just work without calling home / out or incurring extra costs feels super powerful.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47584060",
+          "by": "franze",
+          "time": 1774943731
+        },
+        {
+          "id": 47582925,
+          "text": "Already running qwen 70b 4-bit on m2 max 96gb through llama.cpp and it's pretty solid for day to day stuff. The mlx switch is interesting because ollama was basically shelling out to llama.cpp on mac before, so native mlx should mean better memory handling on apple silicon. Curious to see how it compares on the bigger models vs the gguf path",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47582925",
+          "by": "LuxBennu",
+          "time": 1774933263
+        }
+      ],
+      "by": "redundantly",
+      "time": 1774928445,
+      "url": "https://ollama.com/blog/mlx",
+      "score": 648,
+      "descendants": 354,
+      "storyUrl": "https://ollama.com/blog/mlx"
+    },
+    {
+      "id": 47581701,
+      "type": "story",
+      "title": "Universal Claude.md – cut Claude output tokens",
+      "rank": 11,
+      "depth": 0,
+      "storyId": 47581701,
+      "storyTitle": "Universal Claude.md – cut Claude output tokens",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47581701",
+      "topComments": [
+        {
+          "id": 47581841,
+          "text": "It seems the benchmarks here are heavily biased towards single-shot explanatory tasks, not agentic loops where code is generated: https://github.com/drona23/claude-token-efficient/blob/main/...\nAnd I think this raises a really important question. When you're deep into a project that's iterating on a live codebase, does Claude's default verbosity, where it's allowed to expound on why it's doing what it's doing when it's writing massive files, allow the session to remain more coherent and focused as context size grows? And in doing so, does it save overall tokens by making better, more grounded decisions?\nThe original link here has one rule that says: \"No redundant context. Do not repeat information already established in the session.\" To me, I want more of that. That's goal-oriented quasi-reasoning tokens that I do want it to emit, visualize, and use, that very possibly keep it from getting \"lost in the sauce.\"\nBy all means, use this in environments where output tokens are expensive, and you're processing lots of data in parallel. But I'm not sure there's good data on this approach being effective for agentic coding.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47581841",
+          "by": "btown",
+          "time": 1774921740
+        },
+        {
+          "id": 47581985,
+          "text": "From the file: \"Answer is always line 1. Reasoning comes after, never before.\"\nLLMs are autoregressive (filling in the completion of what came before), so you'd better have thinking mode on or the \"reasoning\" is pure confirmation bias seeded by the answer that gets locked in via the first output tokens.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47581985",
+          "by": "xianshou",
+          "time": 1774923223
+        },
+        {
+          "id": 47582905,
+          "text": "So many problems with this:\nThe benchmark is totally useless. It measures single prompts, and only compares output tokens with no regard for accuracy. I could obliterate this benchmark with the prompt \"Always answer with one word\"\nThis line: \"If a user corrects a factual claim: accept it as ground truth for the entire session. Never re-assert the original claim.\" You're totally destroying any chance of getting pushback, any mistake you make in the prompt would be catastrophic.\n\"Never invent file paths, function names, or API signatures.\" Might as well add \"do not hallucinate\".",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47582905",
+          "by": "niklassheth",
+          "time": 1774932974
+        },
+        {
+          "id": 47581956,
+          "text": "As with all of these cure-alls, I'm wary. Mostly I'm wary because I anticipate the developer will lose interest in very little time and also because it will just get subsumed into CC at some point if it actually works. It might take longer but changing my workflow every few days for the new thing that's going to reduce MCP usage, replace it, compress it, etc is way too disruptive.\nI'm generally happy with the base Claude Code and I think running a near-vanilla setup is the best option currently with how quickly things are moving.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47581956",
+          "by": "joshstrange",
+          "time": 1774923002
+        },
+        {
+          "id": 47581845,
+          "text": "> the file loads into context on every message, so on low-output exchanges it is a net token increase\nIsn’t this what Claude’s personalization setting is for? It’s globally-on.\nI like conciseness, but it should be because it makes the writing better, not that it saves you some tokens. I’d sacrifice extra tokens for outputs that were 20% better, and there’s a correlation with conciseness and quality.\nSee also this Reddit comment for other things that supposedly help: https://www.reddit.com/r/vibecoding/s/UiOywQMOue\n> Two things that helped me stay under [the token limit] even with heavy usage:\n> Headroom - open source proxy that compresses context between you and Claude by ~34%. Sits at localhost, zero config once running. https://github.com/chopratejas/headroom\n> RTK - Rust CLI proxy that compresses shell output (git, npm, build logs) by 60-90% before it hits the context window.\n> Stacks on top of Headroom. https://github.com/rtk-ai/rtk\n> MemStack - gives Claude Code persistent memory and project context so it doesn't waste tokens re-reading your entire codebase every prompt.\n> That's the biggest token drain most people don't realize. https://github.com/cwinvestments/memstack\n> All three stack together. Headroom compresses the API traffic, RTK compresses CLI output, MemStack prevents unnecessary file reads.\nI haven’t tested those yet, but they seem related and interesting.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47581845",
+          "by": "sillysaurusx",
+          "time": 1774921766
+        }
+      ],
+      "by": "killme2008",
+      "time": 1774920214,
+      "url": "https://github.com/drona23/claude-token-efficient",
+      "score": 471,
+      "descendants": 162,
+      "storyUrl": "https://github.com/drona23/claude-token-efficient"
+    },
+    {
+      "id": 47587935,
+      "type": "story",
+      "title": "Oracle slashes 30k jobs",
+      "rank": 12,
+      "depth": 0,
+      "storyId": 47587935,
+      "storyTitle": "Oracle slashes 30k jobs",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47587935",
+      "topComments": [
+        {
+          "id": 47589152,
+          "text": "The bulk of the comments in here are focused on comparing Larry Ellison to a lawn mower, so I'll try a new tack and say that I'm genuinely confused at what the value prop of Oracle is.\nGiven the history of their business model being licensing of important databases that are hard to switch off of, I've actually made a point to avoid using Oracle as much as possible (even so far as to leave MySQL when they acquired it, and I've never started a fresh project in Java, which they used to drive a lawsuit they had with Google).\nFrom my chair, they make an expensive database they try to sell to golf executives. There are innumerable equal (better?), free alternatives, and most startups are founded by broke coders in bedrooms that choose those instead and stick with the devil they know. And they have an un-competitive cloud service? Enlighten me on what I would use Oracle for, I'm genuinely curious.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47589152",
+          "by": "kyledrake",
+          "time": 1774972059
+        },
+        {
+          "id": 47588865,
+          "text": "Full text of e-mail:\nWe are sharing some difficult news regarding your position.\nAfter careful consideration of Oracle’s current business needs, we have made the decision to eliminate your role as part of a broader organizational change. As a result, today is your last working day.\nWe are grateful for your dedication, hard work, and the impact you have made during your time with us.\nAfter signing your termination paperwork, you will be eligible to receive a severance package subject to the terms and conditions of the severance plan. You will receive an email from DocuSign to your Oracle email address with details on your severance and termination date.\nImmediate Action Required\nTo receive important follow-up information, including FAQs and separation documents to help you through this transition, you must provide a personal email address.\nPlease click here to submit a personal email address immediately. If you make a submission error, please re-submit a new form. Please Note: The personal email address will only be used for correspondence regarding separation-related information and severance agreements.\nAccess to your computer, email, voicemail, and files will be deactivated soon, and you will be unable to log into your computer. As a reminder, you are prohibited from downloading, copying or retaining (including emailing yourself) any Oracle confidential information.\nThank you for your contributions to our organization. If you have additional questions, please reach out to the HR team via the Ask HR page or at (888) 404-2494.\nOracle Leadership\nSource: https://www.reddit.com/r/employeesOfOracle/comments/1s8jadx/...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47588865",
+          "by": "chekibreki",
+          "time": 1774971109
+        },
+        {
+          "id": 47588231,
+          "text": "More victims of AI.\nNot actually of \"AI is replacing jobs\", more \"oh shit we are spending too much and the product isn't good enough for us to ever make a return on our absurd over-investment\".",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47588231",
+          "by": "dafelst",
+          "time": 1774968811
+        },
+        {
+          "id": 47589612,
+          "text": "My Amazon layoff notice came at 5am.  Same deal.  I thought it was fake because it came to my personal email.  Then I logged into my work computer and found that all my email had been erased except for a copy of the layoff notice and an invite to a 10am Zoom with HR.  The funny part was the invite had everyone who had been laid off in the To: line.\nI was able to send internal only emails until 1pm, and then it logged me off and the computer was a brick.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47589612",
+          "by": "jedberg",
+          "time": 1774973675
+        },
+        {
+          "id": 47588517,
+          "text": "Do not make the mistake of anthropomorphising Larry Ellison.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47588517",
+          "by": "quelsolaar",
+          "time": 1774969876
+        }
+      ],
+      "by": "pje",
+      "time": 1774967448,
+      "url": "https://rollingout.com/2026/03/31/oracle-slashes-30000-jobs-with-a-cold-6/",
+      "score": 919,
+      "descendants": 853,
+      "storyUrl": "https://rollingout.com/2026/03/31/oracle-slashes-30000-jobs-with-a-cold-6/"
+    },
+    {
+      "id": 47593285,
+      "type": "story",
+      "title": "MiniStack (replacement for LocalStack)",
+      "rank": 13,
+      "depth": 0,
+      "storyId": 47593285,
+      "storyTitle": "MiniStack (replacement for LocalStack)",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47593285",
+      "topComments": [
+        {
+          "id": 47594230,
+          "text": "I really don't see how any clone is going to manage to do what localstack couldn't - maintain compatibility with tons of AWS services while not getting paid for it. If this were viable, why would it not have worked before?\nThe only things I can think of are that perhaps LocalStack was just a mess of a codebase that couldn't maintain velocity or attract contributors, or it just failed to steward new contributors or some such thing.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47594230",
+          "by": "staticassertion",
+          "time": 1774995491
+        },
+        {
+          "id": 47593669,
+          "text": "Ugh, I hadn't heard the news about the LocalStack licensing changes. I had some great results building AWS services for local dev as well as CI/CD and testing in GH actions with LocalStack in previous jobs.\nI secretly always hoped Amazon would buy out LocalStack and make it the official free local development environment for AWS work, but I guess it probably would reduce revenues spent on AWS based dev and test environments. The compatibility with the AWS CLI was mostly excellent in my experiences.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47593669",
+          "by": "giobox",
+          "time": 1774992369
+        },
+        {
+          "id": 47593982,
+          "text": "Another alternative, earlier on HN: https://news.ycombinator.com/item?id=47420619",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47593982",
+          "by": "mikecarlton",
+          "time": 1774994039
+        },
+        {
+          "id": 47593673,
+          "text": "> Copyright (c) 2024 MiniStack Contributors\nAlready lying or totally unreviewed AI slop ?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47593673",
+          "by": "kay_o",
+          "time": 1774992386
+        }
+      ],
+      "by": "kerblang",
+      "time": 1774990095,
+      "url": "https://ministack.org/",
+      "score": 317,
+      "descendants": 67,
+      "storyUrl": "https://ministack.org/"
+    },
+    {
+      "id": 47582984,
+      "type": "story",
+      "title": "GitHub backs down, kills Copilot pull-request ads after backlash",
+      "rank": 14,
+      "depth": 0,
+      "storyId": 47582984,
+      "storyTitle": "GitHub backs down, kills Copilot pull-request ads after backlash",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47582984",
+      "topComments": [
+        {
+          "id": 47586738,
+          "text": "I’ll never understand why they ruined GitHub. They had everything they needed - the one place in the world where 99% of open source projects were hosted, where all the discussions happened. A product that people were so used to that it was a no brainer when it came to hosting private repos. And they had to ruin it and give space to GitLab and other competitors. What a waste…",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47586738",
+          "by": "arnvald",
+          "time": 1774962032
+        },
+        {
+          "id": 47583260,
+          "text": "Microsoft will probably try to sneak it back in later. They've done that with other intrusions.\nMigrating away from Github just increased in priority.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47583260",
+          "by": "Animats",
+          "time": 1774936559
+        },
+        {
+          "id": 47585136,
+          "text": "I guess it's time to consider ditching GitHub. Everything that are purchased by Microsoft ware destined to be rotten.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47585136",
+          "by": "ezoe",
+          "time": 1774952112
+        },
+        {
+          "id": 47583315,
+          "text": "Calling advertisements \"product tips\" as if everybody is too stupid to understand what that means.\nThey created an amazing technology that oftentimes is indistinguishable from magic and then use it to deliver ads and - sorry about the tangent - kill people.\nThis really is the quote of the century:\n> The best minds of my generation are thinking about how to make people click ads\nWhat a waste.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47583315",
+          "by": "yosamino",
+          "time": 1774937041
+        },
+        {
+          "id": 47587167,
+          "text": "This is how these kinds of companies operate; push the limit until customers start complaining, then you back off a little bit.  They've still advanced to that line, of course, but now the userbase can be conditioned for the next push so that \"a little bit worse than before\" feels normal.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47587167",
+          "by": "b00ty4breakfast",
+          "time": 1774964109
+        }
+      ],
+      "by": "_____k",
+      "time": 1774933884,
+      "url": "https://www.theregister.com/2026/03/30/github_copilot_ads_pull_requests/",
+      "score": 614,
+      "descendants": 367,
+      "storyUrl": "https://www.theregister.com/2026/03/30/github_copilot_ads_pull_requests/"
+    },
+    {
+      "id": 47549128,
+      "type": "story",
+      "title": "4D Doom",
+      "rank": 15,
+      "depth": 0,
+      "storyId": 47549128,
+      "storyTitle": "4D Doom",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47549128",
+      "topComments": [
+        {
+          "id": 47594728,
+          "text": "I just watched the associated dev video And if I understand it, what the author is doing is kind of interesting.\nThe sensor to see a 3d scene is 2d(eye or camera). What is being done here is simulating a 3d sensor(for a 4d world) then we are looking at this 3d sensor using our 2d sensors (eyes). I don't know if this is the common way of rendering these 4d physics simulations. But it is the first I have heard it described this way. It is also why the narrative of the game focuses on eyes, because that is what it is doing.\nhttps://www.youtube.com/watch?v=tKDMcLW9OnI",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47594728",
+          "by": "somat",
+          "time": 1774998928
+        },
+        {
+          "id": 47594875,
+          "text": "The problem with these attempts always seems to be that you can see in dimensions 1-3, but never in dimension 4, so any movement or exploration along that axis is always just blind fumbling. The extra dimension is not equivalent to the others\nThe only answer would seem to be an extra axis of rotation, but (a) doesnt work well with existing input methods, and (b) would be even more of a brain-breaker",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47594875",
+          "by": "gipp",
+          "time": 1775000045
+        },
+        {
+          "id": 47594097,
+          "text": "I found 4D Golf a great game to explore higher dimensional space.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47594097",
+          "by": "knolan",
+          "time": 1774994747
+        },
+        {
+          "id": 47594211,
+          "text": "this is visually interesting, but crucially it's also actually fun to play.\ni managed to kill three enemies before succumbing to my fate",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47594211",
+          "by": "bstsb",
+          "time": 1774995397
+        },
+        {
+          "id": 47594854,
+          "text": "Better title: HYPERHELL, 4-Dimensional DOOM-Like",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47594854",
+          "by": "xnx",
+          "time": 1774999908
+        }
+      ],
+      "by": "chronolitus",
+      "time": 1774649974,
+      "url": "https://github.com/danieldugas/HYPERHELL",
+      "score": 286,
+      "descendants": 80,
+      "storyUrl": "https://github.com/danieldugas/HYPERHELL"
+    },
+    {
+      "id": 47591104,
+      "type": "story",
+      "title": "OkCupid gave 3M dating-app photos to facial recognition firm, FTC says",
+      "rank": 16,
+      "depth": 0,
+      "storyId": 47591104,
+      "storyTitle": "OkCupid gave 3M dating-app photos to facial recognition firm, FTC says",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47591104",
+      "topComments": [
+        {
+          "id": 47592148,
+          "text": "[dupe] Discussion on source: https://news.ycombinator.com/item?id=47575616",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47592148",
+          "by": "ChrisArchitect",
+          "time": 1774984778
+        },
+        {
+          "id": 47591680,
+          "text": "At this point, nearly every online service should be considered hostile. If they can make a small amount of money by compromising your privacy or your identity, they will. If they can make a small amount of money by stealing your attention and addicting you, they will.\nAre there exceptions? I'm sure. Will I be erring sometimes by being cautious? Definitely. But, there is really not much of an alternative these days.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47591680",
+          "by": "everdrive",
+          "time": 1774982565
+        },
+        {
+          "id": 47594251,
+          "text": "\"... agreed to a permanent prohibition barring them from misrepresenting how they use and share personal data. \"\nSo... Their punishment for breaking the law is having to promise to follow the law going forward?\nI wish I had that superpower, too.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47594251",
+          "by": "saintfire",
+          "time": 1774995624
+        },
+        {
+          "id": 47591940,
+          "text": "Reminds me of another story when 23andme sold dna data   https://www.npr.org/2025/06/30/nx-s1-5451398/23andme-sale-ap...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47591940",
+          "by": "Igor_Wiwi",
+          "time": 1774983727
+        },
+        {
+          "id": 47593897,
+          "text": "Oh man… all across Chicago, lawyers are popping champagne right now. [0]\n[0]: https://en.wikipedia.org/wiki/Biometric_Information_Privacy_...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47593897",
+          "by": "bensyverson",
+          "time": 1774993555
+        }
+      ],
+      "by": "whiteboardr",
+      "time": 1774979704,
+      "url": "https://arstechnica.com/tech-policy/2026/03/okcupid-match-pay-no-fine-for-sharing-user-photos-with-facial-recognition-firm/",
+      "score": 477,
+      "descendants": 93,
+      "storyUrl": "https://arstechnica.com/tech-policy/2026/03/okcupid-match-pay-no-fine-for-sharing-user-photos-with-facial-recognition-firm/"
+    },
+    {
+      "id": 47580297,
+      "type": "story",
+      "title": "Android Developer Verification",
+      "rank": 17,
+      "depth": 0,
+      "storyId": 47580297,
+      "storyTitle": "Android Developer Verification",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47580297",
+      "topComments": [
+        {
+          "id": 47580937,
+          "text": "The Android verification is such a broken experience. Recently I decided to purchase a dev account for my company, so far:\n1) Provided my company DUNS number etc. once to create the payment profile. I did this some times ago, don’t remember the details but it was an involved verification process and it is marked as verified business payment profile.\n2) Later on the payment step verified myself with a passport and bank statement to be able to actually pay with a proper HSBC bank card. Not shady pre-paid card or something, those are not accepted anyway.\n3) After I paid I was told that now I need to verify my identity once more but this time with the passport and the incorporation certificate or some other company document.\nfingers crossed that in few days it will be verified. While waiting, it tells me that there are still website and email verification to do once the previous step is done. I already verified my e-mail a few times before paying.\nIt’s painful, slow and annoying because if you fail at a step(i.e. needs verification that takes days and you are told about it at the payment step) you have to start again with the forms.\nI just remembered why I never use Android. It seems like no one owns the process and as a result you get  unpolished shitty experience that fulfills the requirements of god knows how many people who work in the same company but don’t talk to each other.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47580937",
+          "by": "mrtksn",
+          "time": 1774913037
+        },
+        {
+          "id": 47581785,
+          "text": "> However, our recent analysis found over 90 times more malware from sideloaded sources than on Google Play\nGoogle has seemingly never seen an elderly person's phone, where it is completely infected with crap including literal popup ads (that somehow overlay other apps), yet all of it was downloaded from GPlay.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47581785",
+          "by": "creatonez",
+          "time": 1774921165
+        },
+        {
+          "id": 47580691,
+          "text": "What % of Android users actually want this? Do they know or care?\nI've been using Android since 2010 because it was open in ways that the Apple ecosystem wasn't. I do not want this and imagine hardly any other power users (for lack of a better term) do. I'm already using a mostly deGoogled device but this really seals the deal. I have been longing for a true Linux phone for years and now seems like a good time to get serious about the search and migration plan.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47580691",
+          "by": "ethagnawl",
+          "time": 1774911033
+        },
+        {
+          "id": 47581607,
+          "text": "> Android is for everyone. It’s built on a commitment to an open and safe platform. Users should feel confident installing apps, no matter where they get them from.\nThis intro immediately tells me that whatever comes after will be horrible for users and developers. Surprise surprise, I was right. Software to \"verify\" side loaded apps is a bad, anti user idea.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47581607",
+          "by": "ecshafer",
+          "time": 1774919244
+        },
+        {
+          "id": 47580816,
+          "text": "Hey boss: “40M users are running a cracked version of YouTube premium on mobile, what can we do ?”",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47580816",
+          "by": "rvnx",
+          "time": 1774911925
+        }
+      ],
+      "by": "ingve",
+      "time": 1774908321,
+      "url": "https://android-developers.googleblog.com/2026/03/android-developer-verification-rolling-out-to-all-developers.html",
+      "score": 328,
+      "descendants": 335,
+      "storyUrl": "https://android-developers.googleblog.com/2026/03/android-developer-verification-rolling-out-to-all-developers.html"
+    },
+    {
+      "id": 47589818,
+      "type": "story",
+      "title": "Cohere Transcribe: Speech Recognition",
+      "rank": 18,
+      "depth": 0,
+      "storyId": 47589818,
+      "storyTitle": "Cohere Transcribe: Speech Recognition",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47589818",
+      "topComments": [
+        {
+          "id": 47590243,
+          "text": "My worry is that ASR will end up like OCR. If the multi modal large AI system is good enough (latency wise), the advantage of domain understanding eats the other technlogies alive.\nIn OCR, even when the characters are poorly scanned, the deep domain understanding these large multi modal AIs have allows it to understand what the document actually meant - this is going to be order id because in the million invoices I have seen before order id is normally below order date - etc. The same issue is going to be there in ASR also is my worry.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47590243",
+          "by": "dinakernel",
+          "time": 1774976174
+        },
+        {
+          "id": 47590784,
+          "text": "> Limitations\n>Timestamps/Speaker diarization. The model does not feature either of these.\nWhat a shame. Is whisperx still the best choice if you want timestamps/diarization?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47590784",
+          "by": "gruez",
+          "time": 1774978335
+        },
+        {
+          "id": 47594825,
+          "text": "It's probably another ASR model that focuses on benchmarks and simple uses instead of more challenging real use cases.\nI upload edited gameplay vods of twitch streams on youtube, and use whisper-large-v3 to provide subtitles for accessibility reasons (youtube's own auto-subtitles suck, tho they've been getting better).\nMy checklist for a good ASR model for my use case is:\n1. Have timestamp support.\n2. Support overlapping speakers.\n3. Accurate transcripts that don't coalesce half words/interrupted sentences.\n4. Support non verbal stuff like [coughs], [groans], [laughs], [sighs], etc.\n5. Allow context injection of non-trivial sizes (10k+ words)\n1 is obvious because without it we can't have subtitles. Force alignment fails too often.\n2 is crucial for real world scenarios because in the real world people talk over each other all the time, in my case it's a streamer talking over gameplay audio, or when the streamer has guests over. When 2 people speak the transcript either ignores one of them, or in the worst case, both of them.\n3 and 4 are an accessibility thing, if you're deaf or hard of hearing having a more literal transcript of what's being said conveys better how the speaker is speaking. If all subtitles are properly \"spell-checked\" then it's clear your model is overfit to the benchmarks.\n5 Is not a requirement per se, but more of a nice to have. In my use cause the streamer is often reading stream chat so feeding the model the list of users that recently talked, recent chat messages, text on screen, etc. Would make for more accurate transcripts.\nI've tried many models, and the closest that fulfill my needs are LLM style models on top of forced alignment. It's too slow, so I've been sticky with whisper because with whisperx I can get a transcript in 5 minutes with just a single command.\nOne thing all these models do (including whisper) is just omit full sentences, it's the worst thing a model can do.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47594825",
+          "by": "nodja",
+          "time": 1774999647
+        },
+        {
+          "id": 47590069,
+          "text": "I can't say enough nice things about Cohere's services. I migrated over to their embedding model a few months ago for clip-style embeddings and it's been fantastic.\nIt has the most crisp, steady P50 of any external service I've used in a long time.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47590069",
+          "by": "geooff_",
+          "time": 1774975431
+        },
+        {
+          "id": 47592240,
+          "text": "The problem with many STT models is that they seem to mostly be trained on perfectly-accented speech and struggle a lot with foreign accents so I’m curious to try this one as a Frenchman with a rather French English accent.\nSo far, the best I have found while testing models for my language learning app (Copycat Cafe) is Soniox. All others performed badly for non native accents. The worst were whisper-based models because they hallucinate when they misunderstand and tend to come up with random phrases that have nothing to do with the topic.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47592240",
+          "by": "kieloo",
+          "time": 1774985298
+        }
+      ],
+      "by": "gmays",
+      "time": 1774974422,
+      "url": "https://cohere.com/blog/transcribe",
+      "score": 221,
+      "descendants": 71,
+      "storyUrl": "https://cohere.com/blog/transcribe"
+    },
+    {
+      "id": 47555273,
+      "type": "story",
+      "title": "Audio tapes reveal mass rule-breaking in Milgram's obedience experiments",
+      "rank": 19,
+      "depth": 0,
+      "storyId": 47555273,
+      "storyTitle": "Audio tapes reveal mass rule-breaking in Milgram's obedience experiments",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47555273",
+      "topComments": [
+        {
+          "id": 47590686,
+          "text": "If you read Gina Perry’s critique, her conclusions is that fewer than half of the participants thought it was real.\nThese were Yale students, so probably smarter than average, and the study didn’t do a very convincing job make it seem believable from what I’ve read.\nWhen I took psychology in college I had to submit to random experiments to as part of my grade (there were alternatives but the experiments were easier). Before I’d ever heard of Milgram, if one of those studies had put me in a similar situation I would have smelled a rat immediately.\nWhen I was in middle school the teachers created a fake “government decree” to convince us that there was a new sin tax on products kids use (as a simulation). I immediately knew it was fake as did many other students, but that didn’t stop us from playing along for fun. I talked to a few of my teachers later and they genuinely believed that we fell for it.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47590686",
+          "by": "sarchertech",
+          "time": 1774977989
+        },
+        {
+          "id": 47585433,
+          "text": "Interesting. If we can assume the experimenter's failure to enforce the rules was mere clumsiness or incompetence, rather than an indicator of underlying intentional manipulation of the experimental conditions à la Stanford prison experiment, this can be interpreted in many different ways.\nThe (eventually) disobedient subjects were better at respecting the experimental process they were given than the \"obedient\" ones who went all the way to the maximum voltage. Why was that?\nCould it be a sign that the disobedient subjects were on average more concentrated on the task at hand (smarter? less stressed? better educated? more conscientious?) than the ultimately obedient ones, and therefore were more likely to realise they were \"hurting\" the alleged learner and stop?\nOr could it be that the obedient subjects were more likely to realise there was something fishy going on, suspecting the \"learner\" wasn't really being shocked, and thus were paying less attention to the learning rules?\nOr was it, as the article suggests, that the obedient ones may have shut down emotionally under pressure to follow through, and their mistakes are the result of that?\nOr were the obedient ones more likely to be actual sadists, who were enjoying the shocks so much that they didn't even care if the \"learner\" didn't hear their question, giving them a greater chance of shocking them again?\nUnfortunately I think the Milgram experiment has become so entrenched in popular culture that there's absolutely no way it can be properly repeated to explore these questions.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47585433",
+          "by": "Mordisquitos",
+          "time": 1774954214
+        },
+        {
+          "id": 47586036,
+          "text": "> By staying silent and letting the memory study fall apart, the experimenter allowed an atmosphere of illegitimate violence to flourish.\nMany people are cruel. Not all people, maybe; not most people, also maybe; but some people enjoy hurting others. We see this everywhere. Isn't it possible that this kind of profile jumped on the occasion to inflict pain on people with no fear of repercussions?\nIn other words, isn't this study just a sort filter to triage / order students from most cruel to less cruel?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47586036",
+          "by": "bambax",
+          "time": 1774958088
+        },
+        {
+          "id": 47594702,
+          "text": "One question is whether the participants really believed they were giving shocks to the \"learners\".\nIn college I participated in a number of psychological studies that were similarly deceptive, where one of the other participants was obviously (to me) an actor, or, sometimes, a pre-recorded video.\nAt least one of the studies I participated in was quite like the Milgram study described in the article, where I was supposed to punish another participant. It was very obvious to me that this wasn't really happening, so I randomly punished or didn't punish them, and then afterwards told the researcher that I knew it was all fake.\nI think many or most other people who saw through the deception probably wouldn't have let the researcher know, because it seemed somehow disrepectful to tell him.\nNo idea if he used my results or, as he should have done, discarded them.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47594702",
+          "by": "raylad",
+          "time": 1774998692
+        },
+        {
+          "id": 47585771,
+          "text": "Without study of the internal motivations, the conclusions of the study are pure conjectures.\nYou are trapped in an experiment and you have the impression that things went too far and you think you can't escape? You rush it. You hear horrible noises? You just pretend you don't hear them. These are all classical mental patterns. There are million ways to explain them.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47585771",
+          "by": "xeyownt",
+          "time": 1774956323
+        }
+      ],
+      "by": "lentoutcry",
+      "time": 1774710502,
+      "url": "https://www.psypost.org/audio-tapes-reveal-mass-rule-breaking-in-milgram-s-obedience-experiments-2026-03-26/",
+      "score": 227,
+      "descendants": 133,
+      "storyUrl": "https://www.psypost.org/audio-tapes-reveal-mass-rule-breaking-in-milgram-s-obedience-experiments-2026-03-26/"
+    },
+    {
+      "id": 47550433,
+      "type": "story",
+      "title": "Teenage Engineering's PO-32 acoustic modem and synth implementation",
+      "rank": 20,
+      "depth": 0,
+      "storyId": 47550433,
+      "storyTitle": "Teenage Engineering's PO-32 acoustic modem and synth implementation",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47550433",
+      "topComments": [
+        {
+          "id": 47593998,
+          "text": "Digital modules from Mutable Instruments (and related clones + offshoots) use audio-based data transfer for firmware updates.\nInteresting way to give the consumer the ability to change the firmware without having to access the back of the module (there's a way to use a serial JTAG adapter as well).\nhttps://github.com/pichenettes/mutable-dev-environment?tab=r...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47593998",
+          "by": "chabes",
+          "time": 1774994190
+        },
+        {
+          "id": 47593771,
+          "text": "Hey ericlewis - this is cool! Can I ask how you figured it out?!\nDoing this for my PO-33 was on my bucket list.\nI thought I might have to resort to voltage glitching to get a firmware dump, which is currently beyond my skills.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47593771",
+          "by": "socks",
+          "time": 1774992923
+        },
+        {
+          "id": 47593430,
+          "text": "This reminded me of when people used to transfer games over the radio: https://www.racunalniski-muzej.si/en/40-years-later-a-game-f...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47593430",
+          "by": "gxd",
+          "time": 1774990923
+        },
+        {
+          "id": 47594981,
+          "text": "> A user you’ve blocked has previously contributed to this repository.\nI see that claude’s been in here as well.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47594981",
+          "by": "c-c-c-c-c",
+          "time": 1775000877
+        },
+        {
+          "id": 47592705,
+          "text": "> The PO-32 is not receiving finished drum audio when you transfer a sound or a pattern. It receives structured data:\nWait, isn't this what MIDI is for?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47592705",
+          "by": "kmeisthax",
+          "time": 1774987430
+        }
+      ],
+      "by": "ericlewis",
+      "time": 1774659896,
+      "url": "https://github.com/ericlewis/libpo32",
+      "score": 148,
+      "descendants": 36,
+      "storyUrl": "https://github.com/ericlewis/libpo32"
+    },
+    {
+      "id": 47558733,
+      "type": "story",
+      "title": "From 300KB to 69KB per Token: How LLM Architectures Solve the KV Cache Problem",
+      "rank": 21,
+      "depth": 0,
+      "storyId": 47558733,
+      "storyTitle": "From 300KB to 69KB per Token: How LLM Architectures Solve the KV Cache Problem",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47558733",
+      "topComments": [
+        {
+          "id": 47592527,
+          "text": "There are also interesting approaches to more directly compress a large document or an entire codebase into a smaller set of tokens without getting the LLM to wing it. For example, Cartridges: https://hazyresearch.stanford.edu/blog/2025-06-08-cartridges>\nThey basically get gradient descent to optimize the KV cache while freezing the network.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47592527",
+          "by": "coppsilgold",
+          "time": 1774986685
+        },
+        {
+          "id": 47592256,
+          "text": "Good prose, but it keeps collapsing distinct layers of the stack into one poetic notion of “memory.” KV cache, prompt caching, product-level saved memory, transcript storage, retrieval, summarization, and long-context failure modes are different mechanisms with different failure modes. Once those boundaries disappear, you get lines like “API pricing is the price of remembering.\" Evocative, sure. Explanatory, not really.\nSame thing in the technical bits.\n“Computation drops from quadratic to linear” is only narrowly true for incremental decoding after the prefix is already processed.\n“When the KV cache gets too large, the standard solution is compaction” is worse: the standard responses are boring systems tricks like limits, eviction, paging/offload, compression, etc. Summarization is usually an application workaround where you throw away old text and replace it with a shorter prompt. The cache never became a summary; the prompt did.\nSo I wouldn’t call the piece wrong so much as aggressively smooth. It knows the vocabulary, but it keeps letting metaphor outrun mechanism.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47592256",
+          "by": "refulgentis",
+          "time": 1774985366
+        },
+        {
+          "id": 47592257,
+          "text": "good overview of the architecture side but worth mentioning there's another axis that stacks on top of all of this: you can quantize the kv cache itself at inference time. in llama.cpp you can run q8 for keys and q4 for values and it cuts cache memory roughly in half again on top of whatever gqa or mla already saves you. i run qwen 70b 4-bit on m2 max 96gb and the kv quant is what actually made longer contexts fit without running out of unified memory. keys need more precision because they drive attention scores but values are way more tolerant of lossy compression, so the asymmetry works out.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47592257",
+          "by": "LuxBennu",
+          "time": 1774985368
+        },
+        {
+          "id": 47591284,
+          "text": "Unrelated, but 69KB is how much RAM Voyager 1 has.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47591284",
+          "by": "az09mugen",
+          "time": 1774980559
+        }
+      ],
+      "by": "future-shock-ai",
+      "time": 1774737743,
+      "url": "https://news.future-shock.ai/the-weight-of-remembering/",
+      "score": 157,
+      "descendants": 10,
+      "storyUrl": "https://news.future-shock.ai/the-weight-of-remembering/"
+    },
+    {
+      "id": 47589856,
+      "type": "story",
+      "title": "Show HN: Postgres extension for BM25 relevance-ranked full-text search",
+      "rank": 22,
+      "depth": 0,
+      "storyId": 47589856,
+      "storyTitle": "Show HN: Postgres extension for BM25 relevance-ranked full-text search",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47589856",
+      "topComments": [
+        {
+          "id": 47592350,
+          "text": "FWIW TJ is not your average vibe coder imo: https://www.linkedin.com/in/todd-j-green/\nIn september he burned through 3000$ in API credits though, but I think that's before we finally bought max plans for everyone that wanted it.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47592350",
+          "by": "jascha_eng",
+          "time": 1774985766
+        },
+        {
+          "id": 47592690,
+          "text": "This is really cool. I've built things on PostgreSQL ts_vector() FTS in the past which works well but doesn't have whole-index ranking algorithms so can't do BM25.\nIt's a bit surprising to me that this doesn't appear to have a mechanism to say \"filter for just documents matching terms X and Y, then sort by BM25 relevance\" - it looks like this extension currently handles just the BM25 ranking but not the FTS filtering. Are you planning to address that in the future?\nI found this example in the README quite confusing:\n  SELECT * FROM documents\n  WHERE content  to_bm25query('search terms', 'docs_idx')  'search terms'\n  LIMIT 10;\n\nThat -5.0 is a magic number which, based on my understanding of BM25, is difficult to predict in advance since the threshold you would want to pick varies for different datasets.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47592690",
+          "by": "simonw",
+          "time": 1774987373
+        },
+        {
+          "id": 47593412,
+          "text": "Can you explain this in more detail? Is this for RAG, i.e. combining vector search with keyword search?\nMy knowledge on that subject roughly begins and ends with this excellent article, so I'd love to hear how this relates to that.\nhttps://www.anthropic.com/engineering/contextual-retrieval\nEspecially since what Anthropic describes here is a bit of a rube Goldberg machine which also involves preprocessing (contextual summarization) and a reranking model, so I was wondering if there's any \"good enough\" out of the box solutions for it.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47593412",
+          "by": "andai",
+          "time": 1774990827
+        },
+        {
+          "id": 47594131,
+          "text": "“Just use Postgres” greybeards right again. \nLooking forward to giving this a go soon",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47594131",
+          "by": "robotswantdata",
+          "time": 1774994937
+        },
+        {
+          "id": 47593615,
+          "text": "Please oh please let GCP add this to the supported managed Postgres extensions...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47593615",
+          "by": "mattbessey",
+          "time": 1774992067
+        }
+      ],
+      "by": "tjgreen",
+      "time": 1774974592,
+      "url": "https://github.com/timescale/pg_textsearch",
+      "score": 203,
+      "descendants": 56,
+      "storyUrl": "https://github.com/timescale/pg_textsearch"
+    },
+    {
+      "id": 47591928,
+      "type": "story",
+      "title": "GitHub's Historic Uptime",
+      "rank": 23,
+      "depth": 0,
+      "storyId": 47591928,
+      "storyTitle": "GitHub's Historic Uptime",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47591928",
+      "topComments": [
+        {
+          "id": 47592443,
+          "text": "Is the pre-2018 data actually accurate?  There seem to have been a number of outages before then: https://hn.algolia.com/?dateEnd=1545696000&dateRange=custom&...\nMaybe that's just the date when they started tracking uptime using this sytem?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47592443",
+          "by": "fishtoaster",
+          "time": 1774986326
+        },
+        {
+          "id": 47592319,
+          "text": "Even better IMO is this status page: https://mrshu.github.io/github-statuses/\n\"The Missing GitHub Status Page\" with overall aggregate percentages. Currently at 90.84% over the last 90 days. It was at 90.00% a couple days ago.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47592319",
+          "by": "mholt",
+          "time": 1774985649
+        },
+        {
+          "id": 47592508,
+          "text": "It’s biaised to show this without the dates at which features were introduced. A lot of the downtimes in the breakdown are GitHub Actions, which launched in August 2019; so yeah what a surprise there was no Actions downtime before because Actions didn’t exist.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47592508",
+          "by": "hk__2",
+          "time": 1774986603
+        },
+        {
+          "id": 47592303,
+          "text": "FWIW if people are looking for a reason why, here's why I think it's happening: https://thenewstack.io/github-will-prioritize-migrating-to-a...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47592303",
+          "by": "phillipcarter",
+          "time": 1774985593
+        },
+        {
+          "id": 47592323,
+          "text": "I got Claude to make me the exact same graph a few weeks ago!  I had hypothesized that we'd see a sharp drop off, instead what I found (as this project also shows) is a rather messy average trend of outages that has been going on for some time.\nThe graph being all nice before the Microsoft acquisition is a fun narrative, until you realize that some products (like actions, announced on October 16th, 2018) didn't exist and therefore had no outages.  Easy to correct for by setting up start dates, but not done here.  For the rest that did exist (API requests, Git ops, pages, etc) I figured they could just as easily be explained with GitHub improving their observability.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47592323",
+          "by": "shrinks99",
+          "time": 1774985662
+        }
+      ],
+      "by": "todsacerdoti",
+      "time": 1774983689,
+      "url": "https://damrnelson.github.io/github-historical-uptime/",
+      "score": 500,
+      "descendants": 122,
+      "storyUrl": "https://damrnelson.github.io/github-historical-uptime/"
+    },
+    {
+      "id": 47587866,
+      "type": "story",
+      "title": "Microsoft: Copilot is for entertainment purposes only",
+      "rank": 24,
+      "depth": 0,
+      "storyId": 47587866,
+      "storyTitle": "Microsoft: Copilot is for entertainment purposes only",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47587866",
+      "topComments": [
+        {
+          "id": 47590473,
+          "text": "Anthropic does a somewhat similar thing. If you visit their ToS (the one for Max/Pro plans) from a European IP address, they replace one section with this:\nNon-commercial use only. You agree not to use our Services for any commercial or business purposes and we (and our Providers) have no liability to you for any loss of profit, loss of business, business interruption, or loss of business opportunity.\nIt's funny that a plan called \"Pro\" cannot be used professionally.\nhttps://www.anthropic.com/legal/consumer-terms",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47590473",
+          "by": "wowoc",
+          "time": 1774977131
+        },
+        {
+          "id": 47588799,
+          "text": "Lawyers are playing Calvinball again. I have no idea why the law finds this kind of argumentation compelling. \"I clearly intentionally deceived, but I stashed some bullshit legalese into a document no one will read so my deception is completely OK.\"",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47588799",
+          "by": "everdrive",
+          "time": 1774970883
+        },
+        {
+          "id": 47591079,
+          "text": "As far as I can tell, this is only for the free personal plan, not any of the business offerings (ie not Copilot for M365) and Github Copilot is under a separate set of terms.\n“These Terms don’t apply to Microsoft 365 Copilot apps or services unless that specific app or service says that these Terms apply.”\nThink of Copilot being a suite of different products under the same overall banner and it starts to make (a bit) more sense.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47591079",
+          "by": "owenm",
+          "time": 1774979589
+        },
+        {
+          "id": 47588364,
+          "text": "I can hear the lawyers huddled around a conference table rolling the bones and chanting the sacred words to come up with that \"get out of trouble free\" card. It told your son he had terminal cancer and should kill himself... sorry, it clearly says for Entertainment Purposes only.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47588364",
+          "by": "jeffwask",
+          "time": 1774969327
+        },
+        {
+          "id": 47588883,
+          "text": "The section titled\n> IMPORTANT DISCLOSURES & WARNINGS\nTells us:\n> You may stop using Copilot at any time.\nThat's an odd thing to include in a ToS.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47588883",
+          "by": "sgbeal",
+          "time": 1774971174
+        }
+      ],
+      "by": "lpcvoid",
+      "time": 1774967137,
+      "url": "https://www.microsoft.com/en-us/microsoft-copilot/for-individuals/termsofuse",
+      "score": 606,
+      "descendants": 210,
+      "storyUrl": "https://www.microsoft.com/en-us/microsoft-copilot/for-individuals/termsofuse"
+    },
+    {
+      "id": 47583045,
+      "type": "story",
+      "title": "Google's 200M-parameter time-series foundation model with 16k context",
+      "rank": 25,
+      "depth": 0,
+      "storyId": 47583045,
+      "storyTitle": "Google's 200M-parameter time-series foundation model with 16k context",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47583045",
+      "topComments": [
+        {
+          "id": 47583189,
+          "text": "I somehow find the concept of a general time series model strange. How can the same model predict egg prices in Italy, and global inflation in a reliable way?\nAnd how would you even use this model, given that there are no explanations that help you trust where the prediction comes from…",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47583189",
+          "by": "EmilStenstrom",
+          "time": 1774935935
+        },
+        {
+          "id": 47583950,
+          "text": "It would be nice to add (2024) to the title, this is not news (see: https://research.google/blog/a-decoder-only-foundation-model...)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47583950",
+          "by": "kuu",
+          "time": 1774942744
+        },
+        {
+          "id": 47583161,
+          "text": "Here is the link to the blogpost, that actually describe what this is: https://github.com/google-research/timesfm?tab=readme-ov-fil...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47583161",
+          "by": "EmilStenstrom",
+          "time": 1774935677
+        },
+        {
+          "id": 47583336,
+          "text": "Also: https://github.com/Nixtla/nixtla and https://facebook.github.io/prophet/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47583336",
+          "by": "wiradikusuma",
+          "time": 1774937250
+        },
+        {
+          "id": 47583470,
+          "text": "So the time series are provided with no context? It's just trained on lots of sets of numbers? Then you give it a new set of numbers and it guesses the rest, again with no context?\nMy guess as to how this would work: the machine will first guess from the data alone if this is one of the categories it has already seen/inferred (share prices, google trend cat searches etc.) Then it'll output a plausible completion for the category.\nThat doesn't seem as if it will work well for any categories outside the training data. I would rather just use either a simple model (ARIMA or whatever) or a theoretically-informed model. But what do I know.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47583470",
+          "by": "dash2",
+          "time": 1774938431
+        }
+      ],
+      "by": "codepawl",
+      "time": 1774934519,
+      "url": "https://github.com/google-research/timesfm",
+      "score": 327,
+      "descendants": 109,
+      "storyUrl": "https://github.com/google-research/timesfm"
+    },
+    {
+      "id": 47593634,
+      "type": "story",
+      "title": "Ordinary Lab Gloves May Have Skewed Microplastic Data",
+      "rank": 26,
+      "depth": 0,
+      "storyId": 47593634,
+      "storyTitle": "Ordinary Lab Gloves May Have Skewed Microplastic Data",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47593634",
+      "topComments": [
+        {
+          "id": 47595074,
+          "text": "I had strong echoes of a naieve lab experience in the 1970s: testing for organophosphates in seawater at the Forth Estuary was basically impossible except for gross amounts, because the standard analytical glass washing we used contaminated the glassware. You have to maintain a completely independent suite of glassware from pipettes all the way through to reaction vessels, and chromatography cells, and wash them with chromic acid, or special formulations.\n(I don't work in this field any more, I was a lowly bottle washer and lab tech on a job creation scheme, I am sure the field has moved forward)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47595074",
+          "by": "ggm",
+          "time": 1775001582
+        },
+        {
+          "id": 47594236,
+          "text": "Previously discussed here: https://news.ycombinator.com/item?id=47561711",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47594236",
+          "by": "Kikawala",
+          "time": 1774995504
+        },
+        {
+          "id": 47594618,
+          "text": "The fact that there's so much microplastics everywhere that it's hard for us to even study tissue in isolate is already not encouraging.\nAlso the main finding of concern imo in the original Nature paper wasn't the finding that we have a plastic fork-worth of microplastics in our brains. It's the finding that brain tissue seems to concentrate microplastics at a much higher rate than other tissue in the body\nI find it concerning that there seems to be such a concerted effort to downplay the significance of that finding",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47594618",
+          "by": "culi",
+          "time": 1774998075
+        }
+      ],
+      "by": "WaitWaitWha",
+      "time": 1774992168,
+      "url": "https://nautil.us/ordinary-lab-gloves-may-have-skewed-microplastic-data-1279386",
+      "score": 140,
+      "descendants": 62,
+      "storyUrl": "https://nautil.us/ordinary-lab-gloves-may-have-skewed-microplastic-data-1279386"
+    },
+    {
+      "id": 47532891,
+      "type": "story",
+      "title": "Clojure: The Documentary, official trailer [video]",
+      "rank": 27,
+      "depth": 0,
+      "storyId": 47532891,
+      "storyTitle": "Clojure: The Documentary, official trailer [video]",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47532891",
+      "topComments": [
+        {
+          "id": 47583709,
+          "text": "I've been running my business for 10 years now, relying on Clojure and ClojureScript. It is amazing to be able to base one's livelihood on a foundation that is so stable and well designed. Clojure has been designed by a very smart and very experienced person, and it shows. It has then been maintained and extended by a team built around a culture of maturity and stability, and the result is something you can rely on.\nThe fact that I can use the same language to develop business model code that runs on both the client and the server, or that I don't have to use a different on-the-wire format for sending data between them (EDN does the job great) is just icing on the cake in this context.\nI am very thankful to Rich and the entire Clojure (and ClojureScript) teams for giving me access to all their work (for free!).\nBTW, if you haven't seen any of Rich's talks, go see them — they are worth it even if you do not intend to use Clojure.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47583709",
+          "by": "jwr",
+          "time": 1774940419
+        },
+        {
+          "id": 47586318,
+          "text": "I have been writing Clojure since 2017. Unlike every other language that helps you achieve a task, Clojure helped me think.\nClojure for me is a rich vocabulary to talk interact with data. When Jank becomes stable, Clojure will be unstoppable.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47586318",
+          "by": "shivekkhurana",
+          "time": 1774959958
+        },
+        {
+          "id": 47587596,
+          "text": "Clojure is IMO indisputably a good language within a certain scope, and especially relative to many other languages used in practice. However, I think it's greatest merit is not so much the language itself - and there is nothing especially innovative about any of its features per se - but that it introduced so many programmers to a more functional style and the selection of very practical features it includes (Java interop was a smart move, as the ecosystem is a major hurdle for adoption). Much of the fandom and enthusiasm IMO comes from the contrast between the other sorts of languages people use in industry - which traditionally are imperative - and this functional style. It is much easier to reason about functional programs than imperative programs where names can refer to one thing at one moment, and to another at another moment. Mutability really is bad and should generally only be used judiciously and in very confined and controlled contexts.\nIn my experience, while I have found Clojure enjoyable and practical, it is still a \"dynamic\" language. A good deal of run-of-the-mill programming can manage quite well with such a language, but as projects become larger, deeper, and more complex, the lack of static types really does become a cost and an impediment. To understand any function and what it expects, you often need to read a few layers in to find what exactly something consumes and returns. Types really are a boon in such code bases. Some may point to various schema libraries in Clojure. While these can be helpful, they are often comparably inscrutable in practice (both in terms of specification and the resulting errors) and really do not compare to bona fide types, especially with LSP integration. And when you model something using types, the code sort of just falls out of the type definition.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47587596",
+          "by": "lo_zamoyski",
+          "time": 1774965937
+        },
+        {
+          "id": 47584170,
+          "text": "Every time I write another DTO → domain → DB mapping layer in Kotlin/TypeScript, I think about Clojure. I’m pretty grateful I learned it. It really changed how I think about software. Still, it’s a trade: less ceremony, more responsibility.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47584170",
+          "by": "lukashrb",
+          "time": 1774944730
+        },
+        {
+          "id": 47583349,
+          "text": "Clojure is the language that made me \"understand Lisp\", as originally stated by Eric Raymond and citet by Paul Graham: https://paulgraham.com/avg.html\nIt seems like a small thing, but Clojure's choice to open up for other types of parentheses made seeing the structure of lisp programs much easier. This helped me understand how code is data and how macros are functions that can transform both code and data.\nAn important design philosophy (which is also hinted at in the trailer) is \"simplicity\". Clojure is designed to give you the tools to build simple solutions to the problems that you want to solve. It approaches mutability, which is one of the key sources of complexity in programming, with immutable data structures. It's a really clever way to do functional programming where your data is copied a lot but the copies are lightweight.\nI don't write Clojure any more these days. I'm mostly doing Rust. But it is true what Eric Raymond said: Lisp has made me a better programmer.\nAlso: XKCD 224 and 297",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47583349",
+          "by": "vaylian",
+          "time": 1774937376
+        }
+      ],
+      "by": "fogus",
+      "time": 1774544454,
+      "url": "https://www.youtube.com/watch?v=JJEyffSdBsk",
+      "score": 324,
+      "descendants": 93,
+      "storyUrl": "https://www.youtube.com/watch?v=JJEyffSdBsk"
+    },
+    {
+      "id": 47579754,
+      "type": "story",
+      "title": "OpenGridWorks: Electricity infrastructure, mapped",
+      "rank": 28,
+      "depth": 0,
+      "storyId": 47579754,
+      "storyTitle": "OpenGridWorks: Electricity infrastructure, mapped",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47579754",
+      "topComments": [
+        {
+          "id": 47582703,
+          "text": "The map is missing a proper attribution as it is required by OpenStreetMap when using the project's data:\nhttps://www.openstreetmap.org/copyright/attribution-guide/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47582703",
+          "by": "eliaspro",
+          "time": 1774930665
+        },
+        {
+          "id": 47582162,
+          "text": "Related, mapping of OSM infrastructure data:\nhttps://openinframap.org/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47582162",
+          "by": "nullhole",
+          "time": 1774925061
+        },
+        {
+          "id": 47590545,
+          "text": "Watch out, every little map zoom or slide seems to put another url in your browser history. Not exaggerating here, must have found over 100 of them after just a minute or so of playing with the page",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47590545",
+          "by": "greenbit",
+          "time": 1774977423
+        },
+        {
+          "id": 47582584,
+          "text": "This is awesome. It'd be even more awesome if it was easier to show a power plant's info upon hover / click. ...It's currently too much of a cat-and-mouse game for me.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47582584",
+          "by": "mcbishop",
+          "time": 1774929430
+        },
+        {
+          "id": 47581989,
+          "text": "This is really cool! As a weird coincidence I was actually working on something similar focusing on datacenter load per ISO literally earlier today! https://energy-vis-chi.vercel.app/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47581989",
+          "by": "curiouscrow55",
+          "time": 1774923265
+        }
+      ],
+      "by": "jonbraun",
+      "time": 1774905166,
+      "url": "https://www.opengridworks.com",
+      "score": 178,
+      "descendants": 34,
+      "storyUrl": "https://www.opengridworks.com"
+    },
+    {
+      "id": 47546775,
+      "type": "story",
+      "title": "Back to FreeBSD – Part 2 – Jails",
+      "rank": 29,
+      "depth": 0,
+      "storyId": 47546775,
+      "storyTitle": "Back to FreeBSD – Part 2 – Jails",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47546775",
+      "topComments": [
+        {
+          "id": 47595057,
+          "text": "I think they understate the importance of accepting OCI and Dockerfile semantics as a path to an external \"run one of these\" and having it actually emerge as a jail based outcome.\nI get saying \"we don't need these additional layers/abstractions\" but what it ignores is me saying \"I want to run this code, and what I have is a suite of Docker based behaviour and I want a low friction path to use that Docker compose method, to get where I want\"\nThey also haven't yet addressed how things re-scale sideways. Pods, and scaling is why people wind up behind traefik or caddy, fronting a service. It's not because the service lies in RFC1918 (how I wish they had written kubernetes to V6 native) it's because the service is being delivered by multiple discrete runtime states \"inside\" and scales horizontally.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47595057",
+          "by": "ggm",
+          "time": 1775001416
+        },
+        {
+          "id": 47594747,
+          "text": "The main drawback I saw on jails is that they are FreeBSD. The owner doesn’t mention, and I have not researched it, but can you run any Linux distribution in a FreeBSD jail?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47594747",
+          "by": "davidcollantes",
+          "time": 1774999091
+        },
+        {
+          "id": 47546915,
+          "text": "I would like to explore the interoperability/compatibility limits of LXC and OCI support in FreeBSD 15. Both with FreeBSD as an OCI container and Linux OCI containers within FreeBSD.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47546915",
+          "by": "evanjrowley",
+          "time": 1774638429
+        }
+      ],
+      "by": "vermaden",
+      "time": 1774637702,
+      "url": "https://hypha.pub/back-to-freebsd-part-2",
+      "score": 117,
+      "descendants": 30,
+      "storyUrl": "https://hypha.pub/back-to-freebsd-part-2"
+    },
+    {
+      "id": 47585974,
+      "type": "story",
+      "title": "Combinators",
+      "rank": 30,
+      "depth": 0,
+      "storyId": 47585974,
+      "storyTitle": "Combinators",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47585974",
+      "topComments": [
+        {
+          "id": 47586673,
+          "text": "Could somebody provide a bit of context on what exactly this is? It seems interesting, but I have no idea what I am looking at.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47586673",
+          "by": "siruwastaken",
+          "time": 1774961711
+        },
+        {
+          "id": 47589992,
+          "text": "(Show HN?)  There is a deep and lovely connection between the Y-combinator and the classic version of Godel's incompleteness theorem:  https://gregfjohnson.com/incompleteness/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47589992",
+          "by": "gregfjohnson",
+          "time": 1774975132
+        },
+        {
+          "id": 47592158,
+          "text": "The notation used seems rather confusing, not even showing the list of arguments. For example, the argument swapping combinator C which is normally defined as\n    C f x y = f y x\n\nis shown on this page as as y F x, which I can only make sense of by assuming that F is an infix function.\nIn Haskell you could use infix notation to define\n    C f x y = y `f` x\n\nbut you can't use capitalize function arguments.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47592158",
+          "by": "tromp",
+          "time": 1774984836
+        },
+        {
+          "id": 47588894,
+          "text": "I wish universal and eternal patterns like this were studied more often in software engineering. Perhaps we would have a chance in hell of finding canonical representations of common structures and even programs instead of basket weaving majors fucking reinventing the wheel every 5 minutes with yet another half-baked poorly understood Python or JavaScript instantiation of a common pattern. Imagine still writing for loops and munging indices instead of expressing things in terms of higher order functions like folds or maps...\nEh, I don't need to imagine; we're still stuck at that same level of infantilism. Instead of actually graduating to higher order atoms and primitives of thought though, we can just have the AI slop out another 100k LOC. Then the system will have so much incidental complexity that it becomes impossible to distill out its essence, because there no longer is one.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47588894",
+          "by": "rdevilla",
+          "time": 1774971216
+        },
+        {
+          "id": 47593763,
+          "text": "Wikipedia have a pretty good Z combinator demo:\nhttps://en.wikipedia.org/wiki/Fixed-point_combinator\n---\nconst K = (a: A) => (_b: B) => a;\nconst S = (a: (x: C) => (y: B) => A) => (b: (x: C) => B) => (c: C) => a(c)(b(c));\nconst I = S(K)(K);\nconst B = S(K(S))(K);\nconst C = S(B(B)(S))(K(K));\nconst W = C(S)(I);\nconst T = C(I);\nconst V = B(C)(T);\nconst I1 = C(C(I));\nconst C1 = B(C);\nconst R1 = C1(C1);\nconst V1 = B(R1)(C1);\nconst I2 = R1(V);\nconst Z = B(W(I1))(V1(B)(W(I2)));",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47593763",
+          "by": "Trung0246",
+          "time": 1774992875
+        }
+      ],
+      "by": "tosh",
+      "time": 1774957743,
+      "url": "https://tinyapl.rubenverg.com/docs/info/combinators",
+      "score": 154,
+      "descendants": 41,
+      "storyUrl": "https://tinyapl.rubenverg.com/docs/info/combinators"
+    }
+  ]
+}

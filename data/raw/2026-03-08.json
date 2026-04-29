@@ -1,0 +1,1554 @@
+{
+  "date": "2026-03-08",
+  "fetchedAt": "2026-04-29T08:08:46.546Z",
+  "samplingMethod": "historical_frontpage_story_comment_snapshot",
+  "source": "hn_front_html_firebase",
+  "items": [
+    {
+      "id": 47298044,
+      "type": "story",
+      "title": "FrameBook",
+      "rank": 1,
+      "depth": 0,
+      "storyId": 47298044,
+      "storyTitle": "FrameBook",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47298044",
+      "topComments": [
+        {
+          "id": 47299509,
+          "text": "They never actually say what the project is, LOL. I figured out that it’s to put the guts of a framework laptop into an old MacBook case.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47299509",
+          "by": "metabagel",
+          "time": 1772993322
+        },
+        {
+          "id": 47298329,
+          "text": "Wow, 64 GB of RAM.\nI'm really tempted to build a modern computer into an HP Jornada case. I really miss that form factor.  It's pocketable yet has a usable keyboard.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47298329",
+          "by": "dlcarrier",
+          "time": 1772985363
+        },
+        {
+          "id": 47300651,
+          "text": "I have an old aluminium 17\" MacBook.   It got retired fairly early because it suffered from a design flaw but was outside the free replacement window.\nIts screen is nice, and there looks to be plenty of room inside.   I have been keeping an eye on options for putting something else inside.   Its mostly the power delivery for the display that I think is beyond my skill that's holding me back.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47300651",
+          "by": "Lerc",
+          "time": 1772999521
+        },
+        {
+          "id": 47298277,
+          "text": "I remember these Macbooks did tend to break apart at the corners of the palmrests.\nBut I like the idea of re-visiting Macbook plastic chassis w/ new inside.\nI would love to know what the weight is in the end.\nCan the old Macbook chassis lead to a lighter weight computer than the current 1.23kg Macbook neo and Macbook air?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47298277",
+          "by": "tosh",
+          "time": 1772984864
+        },
+        {
+          "id": 47298455,
+          "text": "I’d love the same thing but with the titanium powerbooks / intels. What a beautiful design it was.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47298455",
+          "by": "asimovDev",
+          "time": 1772986314
+        }
+      ],
+      "by": "todsacerdoti",
+      "time": 1772983269,
+      "url": "https://fb.edoo.gg",
+      "score": 523,
+      "descendants": 88,
+      "storyUrl": "https://fb.edoo.gg"
+    },
+    {
+      "id": 47301085,
+      "type": "story",
+      "title": "Agent Safehouse – macOS-native sandboxing for local agents",
+      "rank": 2,
+      "depth": 0,
+      "storyId": 47301085,
+      "storyTitle": "Agent Safehouse – macOS-native sandboxing for local agents",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47301085",
+      "topComments": [
+        {
+          "id": 47301472,
+          "text": "Creator here - didn't expect this to go public so soon. A few notes:\n1. I built this because I like my agents to be local. Not in a container, not in a remote server, but running on my finely-tuned machine. This helps me run all agents on full-auto, in peace.\n2. Yes, it's just a policy-generator for sandbox-exec. IMO, that's the best part about the project - no dependencies, no fancy tech, no virtualization. But I did put in many hours to identify the minimum required permissions for agents to continue working with auto-updates, keychain integration, and pasting images, etc. There are notes about my investigations into what each agent needs https://agent-safehouse.dev/docs/agent-investigations/ (AI-generated)\n3. You don't even need the rest of the project and use just the Policy Builder to generate a single sandbox-exec policy you can put into your dotfiles https://agent-safehouse.dev/policy-builder.html",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47301472",
+          "by": "e1g",
+          "time": 1773004037
+        },
+        {
+          "id": 47302296,
+          "text": "This is great to see.\nI honestly think that sandboxing is currently THE major challenge that needs to be solved for the tech to fully realise its potential. Yes the early adopters will YOLO it and run agents natively. It won't fly at all longer term or in regulated or more conservative corporate environments, let alone production systems where critical operations or data are in play.\nThe challenge is that we need a much more sophisticated version of sandboxing than anybody has made before. We can start with network, file system and execute permissions - but we need way more than that. For example, if you really need an agent to use a browser to test your application in a live environment, capture screenshots and debug them - you have to give it all kinds of permissions that go beyond what can be constrained with a traditional sandboxing model. If it has to interact with resources that cost money (say, create cloud resources) then you need an agent aware cloud cost / billing constraint.\nSomehow all this needs to be pulled together into an actual cohesive approach that people can work with in a practical way.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47302296",
+          "by": "zmmmmm",
+          "time": 1773009024
+        },
+        {
+          "id": 47301342,
+          "text": "This is just a wrapper around sandbox-exec. It's nice that there are a ton of presets that have been thought out, since 90% of wielding sandbox-exec is correctly scoping it to whatever the inner environment requires (the other 90% is figuring out how sandbox-exec works).\nI like that it's just a shell script.\nI do wish that there was a simple way to sandbox programs with an overlay or copy-on-write semantics (or better yet bind mounts). I don't care if, in the process of doing some work, an LLM agent modifies .bashrc -- I only care if it modifies _my_ .bashrc",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47301342",
+          "by": "xyzzy_plugh",
+          "time": 1773003234
+        },
+        {
+          "id": 47302271,
+          "text": "Sandvault [0] (whose author is around here somewhere), is another approach that combines sandbox-exe with the grand daddy of system sandboxes, the Unix user system.\nBasically, give an agent its own unprivileged user account (interacting with it via sudo, SSH, and shared directories), then add sandbox-exe on top for finer-grained control of access to system resources.\n0. https://github.com/webcoyote/sandvault",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47302271",
+          "by": "pash",
+          "time": 1773008749
+        },
+        {
+          "id": 47302154,
+          "text": "A way to run claude code inside a apple container -\n  $ container system start\n\n  $ container run -d --name myubuntu ubuntu:latest sleep infinity\n\n  $ container exec myubuntu bash -c \"apt-get update -qq && apt-get install -y openssh-server\"\n\n  $ container exec myubuntu bash -c \"\n    apt-get install -y curl &&\n    curl -fsSL https://deb.nodesource.com/setup_lts.x |\n  bash - &&\n    apt-get install -y nodejs\n  \"\n\n  $ container exec myubuntu npm install -g @anthropic-ai/claude-code\n\n  $ container exec myubuntu claude --version",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47302154",
+          "by": "mkagenius",
+          "time": 1773008022
+        }
+      ],
+      "by": "atombender",
+      "time": 1773001818,
+      "url": "https://agent-safehouse.dev/",
+      "score": 823,
+      "descendants": 178,
+      "storyUrl": "https://agent-safehouse.dev/"
+    },
+    {
+      "id": 47254896,
+      "type": "story",
+      "title": "Why can't you tune your guitar? (2019)",
+      "rank": 3,
+      "depth": 0,
+      "storyId": 47254896,
+      "storyTitle": "Why can't you tune your guitar? (2019)",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47254896",
+      "topComments": [
+        {
+          "id": 47298229,
+          "text": "> If you watch slow-motion video of a guitar string vibrating, you’ll see a complex, evolving blend of squiggles. These squiggles are the mathematical sum of all of the string’s different harmonics.\nThis is incorrect. If you watch a video like [0], the squiggles aren't real, they're an artifact of a rolling shutter camera. A real slowmo camera will correctly show the entire string vibrating[1].\nThe rest of the article is correct, but you can't see harmonics happening to the string.\n[0] https://youtu.be/XOCGb5ZGEV8\n[1] https://youtu.be/6sgI7S_G-XI",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47298229",
+          "by": "post-it",
+          "time": 1772984595
+        },
+        {
+          "id": 47298067,
+          "text": "Actually is not a guitar problem, but all 12-TET tuned instruments have this, it is just a side effect of harmonic math. In the guitar case it is not only the tuning that counts, also the material the string are made and the diameter of the strings count to the final frequency, and we are using parallel frets so applying the same distance to different strings. There are guitars with not parallel frets that try to compensate for the diameter variation. But that’s all math and understanding, cause when you tune your guitar and just play you are in another world were \"thought is the killer of flow\"; so just play and enjoy the sound. :D",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47298067",
+          "by": "xcf_seetan",
+          "time": 1772983459
+        },
+        {
+          "id": 47298364,
+          "text": "I was born with something not quite like perfect pitch, but when something is even slightly off tune it caused physical discomfort for me.\nMy cs department had a cool project class where you built what was basically a raspberry pi with a microcontroller by hand, and you had to use the dumb speaker and controller to make your own music firmware to produce notes. the challenge involved, was basically, the processor’s clock wasnt fine grained enough to produce perfect notes. I wanted to make a simon says toy but the notes were off. I approached my professor with my problem and he said I could cheat the processor clock in a clever way to get what i wanted and it was such a “oh wow computers are magic” to me, i got the notes i wanted. disappointingly the TA grader wasnt that impressed but that proff ended up offering me a job before I graduated.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47298364",
+          "by": "JohnMakin",
+          "time": 1772985659
+        },
+        {
+          "id": 47297929,
+          "text": "My first guitar teacher told me that someday I'd start to notice that you can't get all strings perfectly in tune. At that point, he said, you'll know you're getting somewhere on the guitar.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47297929",
+          "by": "sgarrity",
+          "time": 1772982522
+        },
+        {
+          "id": 47298306,
+          "text": "This is why string instrument players sometimes prefer to play a note not on the empty string (let's say play a A on the A-string on a cello), but instead on a lower string (e.g. first finger, fourth position on the lower D string) to accord for these imperfections. As a string instrumemt player, you pretty much only have to worry about these notes on empty strings, every other note you can \"wiggle into place\".",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47298306",
+          "by": "KuSpa",
+          "time": 1772985165
+        }
+      ],
+      "by": "digitallogic",
+      "time": 1772663427,
+      "url": "https://www.ethanhein.com/wp/2019/why-cant-you-tune-your-guitar/",
+      "score": 247,
+      "descendants": 183,
+      "storyUrl": "https://www.ethanhein.com/wp/2019/why-cant-you-tune-your-guitar/"
+    },
+    {
+      "id": 47298743,
+      "type": "story",
+      "title": "My Homelab Setup",
+      "rank": 4,
+      "depth": 0,
+      "storyId": 47298743,
+      "storyTitle": "My Homelab Setup",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47298743",
+      "topComments": [
+        {
+          "id": 47299256,
+          "text": ">Because all of my services share the same IP address, my password manager has trouble distinguishing which login to use for each one.\nIn Bitwarden they allow you to configure the matching algorithm, and switching from the default to \"starts with\" is what I do when I find that it is matching the wrong entries.  So for this case just make sure that the URL for the service includes the port number and switch all items that are matching to \"starts with\".  Though it does pop up a big scary \"you probably didn't mean to do this\" warning when you switch to \"starts with\"; would be nice to be able to turn that off.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47299256",
+          "by": "linsomniac",
+          "time": 1772991740
+        },
+        {
+          "id": 47299376,
+          "text": "I have something like this, in the same case. I have beefier specs b/c I use it as a daily workstation in addition to running all my stuff.\n* nginx with letsencrypt wildcard  so I have lots of subdomains\n* No tailscale, just pure wireguard between a few family houses and for remote access\n* Jellyfin for movies and TV, serving to my Samsung TV via the Tizen jellyfin app\n* Mopidy holding my music collection, serving to my home stereo and numerous other speakers around the house via snapcast (raspberry pi 3 as the client)\n* Just using ubuntu as the os with ZFS mirroring for NAS, serving over samba and NFS\n* Home assistant for home automation, with Zigbee and Z-wave dongles\n* Frigate as my NVR, recording from my security cams, doing local object detection, and sending out alerts via Home Assistant\n* Forgejo for my personal repository host\n* tar1090 hooked to a SDR for local airplane tracking (antenna in attic)\nThis all pairs nicely with my two openwrt routers, one being the main one and a dumb AP, connected via hardwire trunk line with a bunch of VLANs.\nOther things in the house include an iotawatt whole-house energy monitor, a bunch of ESPs running holiday light strips, indoor and outdoor homebrew weather stations with laser particulate sensors and CO2 monitors (alongside the usual sensors), a water-main cutoff (zwave), smart bulbs, door sensors, motion sensors, sirens/doorbells, and a thing that listens for my fire alarm and sends alerts. Oh and I just flashed the pura scent diffuser my wife bought and lobotomized it so it can't talk to the cloud anymore, but I can still automate it.\nI love it and have tons of fun fiddling with things.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47299376",
+          "by": "acidburnNSA",
+          "time": 1772992451
+        },
+        {
+          "id": 47299441,
+          "text": "I'll admit I've still stuck with the original FreeBSD based TrueNAS, and still am kinda bummed they swapped it. So it's interesting to see a direct example of someone for whom the new Linux based version is clearly superior. I'm long since far, far more at the \"self-hosted\" vs \"homelab\" end of the spectrum at this point, and in turn have ended up splitting my roles back out again more vs all-in-one boxes. My NAS is just a NAS, my virtualization is done via proxmox on separate hardware with storage backing to the NAS via iSCSI, and I've got a third box for OPNsense to handle the routing functions. When I first compared, the new TrueNAS was slower (presumably that is at parity or better now?) and missing certain things of the old one, but already was much easier to have Synology or Docker style or the like \"apps\" AIO. That didn't interest me because I didn't want my NAS to have any duty but being a NAS, but I can see how it'd be far more friendly to someone getting going, or many small business setups. A sort of better truly open and supported \"open Synology\" (as opposed the xpenology project).\nClearly it's worked for them here, and I'm happy to see it. Maybe the bug will truly bite them but there's so much incredibly capable hardware now available for a song and it's great to see anyone new experiment with bringing stuff back out of centralized providers in an appropriately judicious way.\nEdit: I'll add as well, that this is one of those happy things that can build on itself. As you develop infrastructure, the marginal cost of doing new things drops. Like, if you already have a cheap managed switch setup and your own router setup whatever it is, now when you do something like the author describes you can give all your services IPs and DNS and so on, reverse proxy, put different things on their own VLANs and start doing network isolation that way, etc for \"free\". The bar of giving something new a shot drops. So I don't think there is any wrong way to get into it, it's all helpful. And if you don't have previous ops or old sysadmin experience or the like then various snags you solve along the way all build knowledge and skills to solve new problems that arise.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47299441",
+          "by": "xoa",
+          "time": 1772992812
+        },
+        {
+          "id": 47299270,
+          "text": "The author uses Restic + Backblaze B2 storage. I was recently setting up backups for my homebase as well, and went with Restic + BorgBase [0]. Not affiliated, just wanted to share that I think they have a nice service with a straight-forward pricing model. They are the company behind excellent Pikapods [1], which may be interesting to the homelab crowd.\n[0] https://www.borgbase.com\n[1] https://www.pikapods.com",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47299270",
+          "by": "freetonik",
+          "time": 1772991836
+        },
+        {
+          "id": 47300323,
+          "text": "A lot of people are talking about their backup storage solutions in here, but it's mostly about corporate cloud providers. I'm curious if anyone is going more rogue with their solution and using off-prem storage at a friend's house.\nWhich is to say, hardware is cheap, software is open, and privacy is very hard to come by. Thus I've been thinking I'd like to not use cloud providers and just keep a duplicate system at a friends, and then of course return the favor. This adds a lot of privacy and quite a bit of redundancy. With the rise of wireguard (and tailscale I suppose), keeping things connected and private has never been easier.\nI know that leaning on social relationships is never a hot trend in tech circles but is anyone else considering doing this? Anyone done it? I've never seen it talked about around here.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47300323",
+          "by": "polairscience",
+          "time": 1772997983
+        }
+      ],
+      "by": "photon_collider",
+      "time": 1772988370,
+      "url": "https://bryananthonio.com/blog/my-homelab-setup/",
+      "score": 350,
+      "descendants": 215,
+      "storyUrl": "https://bryananthonio.com/blog/my-homelab-setup/"
+    },
+    {
+      "id": 47297919,
+      "type": "story",
+      "title": "Living human brain cells play DOOM on a CL1 [video]",
+      "rank": 5,
+      "depth": 0,
+      "storyId": 47297919,
+      "storyTitle": "Living human brain cells play DOOM on a CL1 [video]",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47297919",
+      "topComments": [
+        {
+          "id": 47301742,
+          "text": "If this can be taken at face value... it's creepy.\nI get that they're doing it for the meme. But perhaps something getting close to human intelligence, made out of human cells, shouldn't be forced to play a violent video game without any alternative options? Does 'the meme' justify that?\nI dunno. Nothing against violent games myself. Just feels like it's starting to get quite questionable, ethically speaking.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47301742",
+          "by": "sd9",
+          "time": 1773005650
+        },
+        {
+          "id": 47298567,
+          "text": "It seems a bit more complicated than first blush: https://www.rdworldonline.com/the-neurons-playing-doom-are-a...\nPersonally, dislike this direction a lot. I don't like that they're using a killing game (I understand the trope, doesn't make me like it any less) and the general idea of this whole thing makes me quite uneasy.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47298567",
+          "by": "neom",
+          "time": 1772987037
+        },
+        {
+          "id": 47300955,
+          "text": "I literally can't wait for this petri dish to learn how to interact with LLMs and start vibe coding JS libraries.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47300955",
+          "by": "zeroq",
+          "time": 1773001023
+        },
+        {
+          "id": 47302448,
+          "text": "I feel like they probably could use another mammals neural cells and get similar results, but they use human cells because it'll get them attention - and that kind of rubs me the wrong way.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47302448",
+          "by": "sva_",
+          "time": 1773010186
+        },
+        {
+          "id": 47298573,
+          "text": "Be sure to dig into the details before taking this at face value. There once was a story \"Rat brain flies plane\" a couple decades ago, and it turned out to be bogus. But to find that out, you had to read the paper and reverse engineer that nothing substantial was actually going on. It's tempting to be charitable, but you can't really know whether headlines like this are legit till you understand exactly what they did.\n(The rat brain guys repeated the experiment until the plane stopped crashing, but no \"learning\" was happening; it was expected that when the neuron's range reached so-and-so, that the plane would fly level. So they started with a neuron outside that range, showed that it crashed, then adjusted the neuron until it flew level. But that's not what \"rat brain flies plane\" implies.)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47298573",
+          "by": "sillysaurusx",
+          "time": 1772987075
+        }
+      ],
+      "by": "kevinak",
+      "time": 1772982448,
+      "url": "https://www.youtube.com/watch?v=yRV8fSw6HaE",
+      "score": 257,
+      "descendants": 275,
+      "storyUrl": "https://www.youtube.com/watch?v=yRV8fSw6HaE"
+    },
+    {
+      "id": 47291513,
+      "type": "story",
+      "title": "LLM Writing Tropes.md",
+      "rank": 6,
+      "depth": 0,
+      "storyId": 47291513,
+      "storyTitle": "LLM Writing Tropes.md",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47291513",
+      "topComments": [
+        {
+          "id": 47301438,
+          "text": "I find this repellent; why not, instead of trying to push unwelcome generated prose below the radar, stop trying to waste everyone's time? People don't object to these patterns because they hate lists of three; they object to them in this context because of what they signal about the content.\nIf using AI to write is nothing to be ashamed of, then you shouldn't feel the need to hide it. If it is something to be ashamed of, then you should stop doing it. If someone objects to you poisoning a well, the correct response is not to use a more subtle poison.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47301438",
+          "by": "Peritract",
+          "time": 1773003830
+        },
+        {
+          "id": 47301692,
+          "text": "If you are serious about sharing written ideas, I suggest you avoid using this type of prompts at all cost. I've worked with LLMs to write on my blog and they are pretty good at first glance [0]. But do it a few time and you'll notice that those tropes are the least of your problems. Not only all your articles will sound the same, but you'll see that same voice on other blogs, news articles, white paper, etc. It's as if they were all written by Mo Samuels. Readers are often here for the author's voice, not just the content of the text.\nI often hear this here: \"if you don't bother writing, why should I bother reading?\" In fact, save us some time and just share the prompt.\n[0]: https://idiallo.com/blog/why-we-hate-llm-articles",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47301692",
+          "by": "firefoxd",
+          "time": 1773005382
+        },
+        {
+          "id": 47292658,
+          "text": "I work on research studying LLM writing styles, so I am going to have to steal this. I've seen plenty of lists of LLM style features, but this is the first one I noticed that mentions \"tapestry\", which we found is GPT-4o's second-most-overused word (after \"camaraderie\", for some reason).[1] We used a set of grammatical features in our initial style comparisons (like present participles, which GPT-4o loved so much that they were a pretty accurate classifier on their own), but it shouldn't be too hard to pattern-match some of these other features and quantify them.\nIf anyone who works on LLMs is reading, a question: When we've tried base models (no instruction tuning/RLHF, just text completion), they show far fewer stylistic anomalies like this. So it's not that the training data is weird. It's something in instruction-tuning that's doing it. Do you ask the human raters to evaluate style? Is there a rubric? Why is the instruction tuning pushing such a noticeable style shift?\n[1] https://www.pnas.org/doi/10.1073/pnas.2422455122, preprint at https://arxiv.org/abs/2410.16107. Working on extending this to more recent models and other grammatical features now",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47292658",
+          "by": "capnrefsmmat",
+          "time": 1772927167
+        },
+        {
+          "id": 47301635,
+          "text": "AI writing sucks because it doesn't have a voice. It's not trying to say anything. Human writers are interesting because they offer a unique perspective from their lived experience.\nIt also struggles to maintain deep coherence. This is all probably related. It might be very hard or impossible to have deep coherence without human-like goals, memory, or  sense of self.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47301635",
+          "by": "dwaltrip",
+          "time": 1773005022
+        },
+        {
+          "id": 47295908,
+          "text": "I feel like the audience of the file is more for me the reader rather than the LLM.\n> Add this file to your AI assistant's system prompt or context to help it avoid\ncommon AI writing patterns.\nSo if I put this into my LLM's conversation it is like I am instructing it to put this into its AI assistant's system prompt, so the AI assistant's AI assistant.\nThe alternative is to say:\n\"Here is a list of common AI tropes for you to avoid\"\nAll tropes are described for me to understand what that AIs do wrong:\n> Overuse of \"quietly\" and similar adverbs to convey subtle importance or understated power.\nBut this in fact instructs the assistant to start overusing the word 'quietly' rather than stop overusing it.\nThis is then counteracted a bit with the 'avoid the following...' but this means the file is full of contradictions.\nInstead you'd need to say:\n\"Don't overuse 'quietly', use ... instead\"\nSo while this is a great idea and list, I feel the execution is muddled by the explanation of what it is. I'd separate the presentation to us the user of assistants and the intended consumer, the actual assistants.\nI've had claude rewrite it and put it in this gist:\nhttps://gist.github.com/abuisman/05c766310cae4725914cd414639...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47295908",
+          "by": "mosselman",
+          "time": 1772962750
+        }
+      ],
+      "by": "walterbell",
+      "time": 1772917720,
+      "url": "https://tropes.fyi/tropes-md",
+      "score": 380,
+      "descendants": 190,
+      "storyUrl": "https://tropes.fyi/tropes-md"
+    },
+    {
+      "id": 47260812,
+      "type": "story",
+      "title": "Every single board computer I tested in 2025",
+      "rank": 7,
+      "depth": 0,
+      "storyId": 47260812,
+      "storyTitle": "Every single board computer I tested in 2025",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47260812",
+      "topComments": [
+        {
+          "id": 47301765,
+          "text": "I really wish these lists would talk about software support. If I buy these, do they have mainline Linux support? Will I have security patches in a year? Is there decent distro support, or am I stuck with the vendor's half broken default image?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47301765",
+          "by": "yjftsjthsd-h",
+          "time": 1773005752
+        },
+        {
+          "id": 47301662,
+          "text": "The BPI-R4 is great for use as a 10G WAN router if your ISP uses PPPoE since the network processing engine has hardware acceleration for it.\nUnifi released the UCG-Fiber around a year ago that can also apparently finally handle it, but plenty of threads about slow performance with their UDMs since it's entirely done on the CPU [0].\nI'm not the biggest fan of OpenWRT and would prefer something like OPNSense, but it's x86 only and good PPPoE performance isn't guaranteed either - need a CPU with good single core performance that costs more than the BPI-R4, or apparently virtualizing OPNSense allows it to process PPPoE with multiple threads.\n0: https://community.ui.com/questions/What-is-the-max-performan...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47301662",
+          "by": "tripdout",
+          "time": 1773005198
+        },
+        {
+          "id": 47301720,
+          "text": "I basically stopped buying SBCs several years ago, are there any SoC platforms that have mainline Linux support these days? Or is x86 still the way to go?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47301720",
+          "by": "heavyset_go",
+          "time": 1773005521
+        },
+        {
+          "id": 47301900,
+          "text": "I wish comparisons would get into whether or not drivers have been upstreamed far enough where it is possible to run real Linux distros. And whether or not they've made braindead choices about boot device ordering.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47301900",
+          "by": "plagiarist",
+          "time": 1773006545
+        },
+        {
+          "id": 47302349,
+          "text": "please make llm.cpp benchmark on this same model",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47302349",
+          "by": "jeden",
+          "time": 1773009388
+        }
+      ],
+      "by": "speckx",
+      "time": 1772713450,
+      "url": "https://bret.dk/every-single-board-computer-i-tested-in-2025/",
+      "score": 226,
+      "descendants": 69,
+      "storyUrl": "https://bret.dk/every-single-board-computer-i-tested-in-2025/"
+    },
+    {
+      "id": 47300747,
+      "type": "story",
+      "title": "We should revisit literate programming in the agent era",
+      "rank": 8,
+      "depth": 0,
+      "storyId": 47300747,
+      "storyTitle": "We should revisit literate programming in the agent era",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47300747",
+      "topComments": [
+        {
+          "id": 47302932,
+          "text": "I am not convinced.\n- Natural languages are ambiguous. That's the reason why we created programming languages. So the documentation around the code is generally ambiguous as well. Worse: it's not being executed, so it can get out of date (sometimes in subtle ways).\n- LLMs are trained on tons of source code, which is arguably a smaller space than natural languages. My experience is that LLMs are really good at e.g. translating code between two programming languages. But translating my prompts to code is not working as well, because my prompts are in natural languages, and hence ambiguous.\n- I wonder if it is a question of \"natural languages vs programming languages\" or \"bad code vs good code\". I could totally imagine that documenting bad code helps the LLMs (and the humans) understand the intent, while documenting good code actually adds ambiguity.\nWhat I learned is that we write code for humans to read. Good code is code that clearly expresses the intent. If there is a need to comment the code all over the place, to me it means that the code is maybe not as good as it should be :-).\nOf course there is an argument to make that the quality of code is generally getting worse every year, and therefore there is more and more a need for documentation around it because it's getting hard to understand what the hell the author wanted to do.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47302932",
+          "by": "palata",
+          "time": 1773013559
+        },
+        {
+          "id": 47301689,
+          "text": "I have noticed a trend recently that some practices (writing a decent README or architecture, being precise and unambiguous with language, providing context, literate programming) that were meant to help humans were not broadly adopted with the argument that it's too much effort. But when done to help an LLM instead of a human a lot of people suddenly seem to be a lot more motivated to put in the effort.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47301689",
+          "by": "rustybolt",
+          "time": 1773005347
+        },
+        {
+          "id": 47302739,
+          "text": "I think a lighter version of literate programming, coupled with languages that have a small API surface but are heavy on convention, is going to thrive in this age of agentic programming.\nA lighter API footprint probably also means a higher amount of boilerplate code, but these models love cranking out boilerplate.\nI’ve been doing a lot more Go instead of dynamic languages like Python or TypeScript these days. Mostly because if agents are writing the program, they might as well write it in a language that’s fast enough. Fast compilation means agents can quickly iterate on a design, execute it, and loop back.\nThe Go ecosystem is heavy on style guides, design patterns, and canonical ways of doing things. Mostly because the language doesn’t prevent obvious footguns like nil pointer errors, subtle race conditions in concurrent code, or context cancellation issues. So people rely heavily on patterns, and agents are quite good at picking those up.\nMy version of literate programming is ensuring that each package has enough top-level docs and that all public APIs have good docstrings. I also point agents to read the Google Go style guide [1] each time before working on my codebase.This yields surprisingly good results most of the time.\n[1] https://google.github.io/styleguide/go/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47302739",
+          "by": "rednafi",
+          "time": 1773012329
+        },
+        {
+          "id": 47301681,
+          "text": "Considering LLMs are models of language, investing in the clarity of the written word pays off in spades.\nI don't know whether \"literate programming\" per se is required. Good names, docstrings, type signatures, strategic comments re: \"why\", a good README, and thoughtfully-designed abstractions are enough to establish a solid pattern.\nGoing full \"literate programming\" may not be necessary. I'd maybe reframe it as a focus on communication. Notebooks, examples, scripts and such can go a long way to reinforcing the patterns.\nUltimately that's what it's about: establishing patterns for both your human readers and your LLMs to follow.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47301681",
+          "by": "perrygeo",
+          "time": 1773005308
+        },
+        {
+          "id": 47302081,
+          "text": "Nearly all my coding for the last decade or so has used literate programming. I built nbdev, which has let me write, document, and test my software using notebooks. Over the last couple of years we integrated LLMs with notebooks and nbdev to create Solveit, which everyone at our company uses for nearly all our work (even our lawyers, HR, etc).\nIt turns out literate programming is useful for a lot more than just programming!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47302081",
+          "by": "jph00",
+          "time": 1773007621
+        }
+      ],
+      "by": "horseradish",
+      "time": 1772999895,
+      "url": "https://silly.business/blog/we-should-revisit-literate-programming-in-the-agent-era/",
+      "score": 292,
+      "descendants": 252,
+      "storyUrl": "https://silly.business/blog/we-should-revisit-literate-programming-in-the-agent-era/"
+    },
+    {
+      "id": 47292522,
+      "type": "story",
+      "title": "How to run Qwen 3.5 locally",
+      "rank": 9,
+      "depth": 0,
+      "storyId": 47292522,
+      "storyTitle": "How to run Qwen 3.5 locally",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47292522",
+      "topComments": [
+        {
+          "id": 47294937,
+          "text": "Running 3.5 9B on my ASUS 5070ti 16G with lm studio gives a stable ~100 tok/s.\nThis outperforms the majority of online llm services and the actual quality of output matches the benchmark.\nThis model is really something, first time ever having usable model on consumer-grade hardware.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47294937",
+          "by": "moqizhengz",
+          "time": 1772949801
+        },
+        {
+          "id": 47295692,
+          "text": "I'm still a bit confused because it says \"All uploads use Unsloth Dynamic 2.0\" but then when looking at the available options like for 4 bits there is:\nIQ4_XS 5.17 GB, Q4_K_S 5.39 GB, IQ4_NL 5.37 GB, Q4_0 5.38 GB, Q4_1 5.84 GB, Q4_K_M 5.68 GB, UD-Q4_K_XL 5.97 GB\nAnd no explanation for what they are and what tradeoffs they have, but in the turorial it explicitly used Q4_K_XL with llama.cpp .\nI'm using a macmini m4 16GB and so far my prefered model is Qwen3-4B-Instruct-2507-Q4_K_M although a bit chat but my test with Qwen3.5-4B-UD-Q4_K_XL shows it's a lot more chat, I'm basically using it in chat mode for basic man style questions.\nI understand that each user has it's own specific needs but would be nice to have a place that have a list of typical models/hardware listed with it's common config parameters and memory usage.\nEven on redit specific channels it's a bit of nightmare of loot of talk but no concrete config/usage clear examples.\nI'm floowing this topic heavilly for the last 3 months and I see more confusion than clarification.\nRight now I'm getting good cost/benefit results with the qwen cli with coder-model in the cloud and watching constantly to see when a local model on affordable hardware with enviroment firendly energy comsumption arrives.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47295692",
+          "by": "mingodad",
+          "time": 1772959654
+        },
+        {
+          "id": 47295836,
+          "text": "My private benchmarks, using DeepSeek replies to coding problems as a baseline, with Claude Opus as judge. However when reading this percentages consider that the no-think setup is much faster, and may be more practical for most situations.\n    1   │ DeepSeek API -- 100%\n    2   │ qwen3.5:35b-a3b-q8_0 (thinking) -- 92.5%\n    3   │ qwen3.5:35b-a3b-q4_K_M (thinking) -- 90.0%\n    4   │ qwen3.5:35b-a3b-q8_0 (no-think) -- 81.3%\n    5   │ qwen3.5:27b-q8_0 (thinking) -- 75.3%\n\nI expected the 27B dense model to score higher. Disclaimer: those numbers are from one-shot replies evaluations, the model was not put in a context where it could reiterate as an agent.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47295836",
+          "by": "antirez",
+          "time": 1772961885
+        },
+        {
+          "id": 47296667,
+          "text": "For every new interesting open model I try to test PP (prompt processing) and TG (token gen) speeds via llama-cpp/server  in Claude Code (which can have at least 15-30K tokens context due system prompt and tools etc), on my good old M1 Max 64GB MacBook.\nWith the latest llama-cpp build from source and latest unsloth quants, the TG speed of Qwen3.5-30B-A3B is around half of Qwen3-30B-A3B (with 33K tokens initial Claude Code context), so the older Qwen3 is much more usable.\nQwen3-30B-A3B (Q4_K_M):\n  - PP: 272 tok/s | TG: 25 tok/s @ 33k depth\n\n  - KV cache: f16\n\n  - Cache reuse: follow-up delta processed in 0.4s\n\nQwen3.5-35B-A3B (Q4_K_M):\n  - PP: 395 tok/s | TG: 12 tok/s @ 33k depth\n\n  - KV cache: q8_0\n\n  - Cache reuse: follow-up delta processed in 2.7s (requires --swa-full)\n\nQwen3.5's sliding window attention uses significantly less RAM and delivers better response quality, but at 33k context depth it generates at half the tok/s of the standard-attention Qwen3-30B.\nFull llama-server and Claude-Code setup details here for these and other open LLMs:\nhttps://pchalasani.github.io/claude-code-tools/integrations/...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47296667",
+          "by": "d4rkp4ttern",
+          "time": 1772971520
+        },
+        {
+          "id": 47294044,
+          "text": "I've been finding it very practical to run the 35B-A3B model on an 8GB RTX 3050, it's pretty responsive and doing a good job of the coding tasks I've thrown at it. I need to grab the freshly updated models, the older one seems to occasionally get stuck in a loop with tool use, which they suggest they've fixed.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47294044",
+          "by": "Twirrim",
+          "time": 1772939828
+        }
+      ],
+      "by": "Curiositry",
+      "time": 1772926337,
+      "url": "https://unsloth.ai/docs/models/qwen3.5",
+      "score": 490,
+      "descendants": 168,
+      "storyUrl": "https://unsloth.ai/docs/models/qwen3.5"
+    },
+    {
+      "id": 47293119,
+      "type": "story",
+      "title": "Cloud VM benchmarks 2026",
+      "rank": 10,
+      "depth": 0,
+      "storyId": 47293119,
+      "storyTitle": "Cloud VM benchmarks 2026",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47293119",
+      "topComments": [
+        {
+          "id": 47293576,
+          "text": "I just ran some massive tests on our own CI. I use AMD Turin for this on gcp, which was noted as one of the fastest ones in the article.\nThe most insane part here is that the AMD EPYC 4565p can beat the turin's used on the cloud providers, by as much as 2x in the single core.\nOur tests took 2 minutes on GCP, 1 minute flat on the 4565p with its boost to 5.1ghz holding steady vs only 4.1ghz on the gcp ones.\nGCP charges $130 a month for 8vcpus. ALSO this is for SPOT that can be killed at any moment.\nMy 4565p is a $500 cpu... 32 vcpus... racked in a datacenter. The machine cost under 2k.\ni am trying hard to convince more people to rack themselves especially for CI actions. The cloud provider charging $130 / mo for 3x less vcpus you break even in a couple months, it doesn't matter if it dies a few months later. On top of that you're getting full dedicated and 2x the perf. Anyways... glad to see I chose the right cpu type for gcloud even though nothing comes close to the cost / perf of self racking",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47293576",
+          "by": "zackify",
+          "time": 1772935320
+        },
+        {
+          "id": 47294479,
+          "text": "Disclosure: I work on VMs at Google Compute Engine :)\nThis was a really, really good write-up. I appreciated the breadth of VMs tested and the spread of benchmarks. A few random observations:\n1. Turin is a beast.\n2. The data on price-performance makes Hetzner look really fantastic, especially for small scale projects where region placement doesn’t matter much and big bursty scaling isn’t required.\n3. I think the first ever cloud VM I ever provisioned was on DigitalOcean. I was surprised at how old their fleet was, but I guess they have some limited Emerald Rapids offerings now: https://www.digitalocean.com/blog/introducing-5th-gen-xeon-p...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47294479",
+          "by": "preserves",
+          "time": 1772945184
+        },
+        {
+          "id": 47293421,
+          "text": "Genoa was a big leap from Milan. Turin is a huge leap again. AMD really is doing spectacularly well at the moment. Kudos to Lisa Su and the team.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47293421",
+          "by": "nixgeek",
+          "time": 1772933786
+        },
+        {
+          "id": 47293527,
+          "text": "Anyone have experience with Oracle Cloud and ease of moving away?\nThis benchmark seems to recommend Oracle Cloud, but I’ve heard that Oracle has historically used aggressive licenses and legal terms to keep customers locked-in.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47293527",
+          "by": "boberoni",
+          "time": 1772934827
+        },
+        {
+          "id": 47294519,
+          "text": "Needs: network performance and costs, desperately.\nI wouldn't mind SAN/non-local storage performance and costs too.\nVM cost isn't where AWS gets you. It's ALLLLLLLL the other nickel and diming that they kill you on, especially since outbound data transfer costs a log of money to get off of the platform.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47294519",
+          "by": "AtlasBarfed",
+          "time": 1772945639
+        }
+      ],
+      "by": "dkechag",
+      "time": 1772930672,
+      "url": "https://devblog.ecuadors.net/cloud-vm-benchmarks-2026-performance-price-1i1m.html",
+      "score": 347,
+      "descendants": 159,
+      "storyUrl": "https://devblog.ecuadors.net/cloud-vm-benchmarks-2026-performance-price-1i1m.html"
+    },
+    {
+      "id": 47299606,
+      "type": "story",
+      "title": "I made a programming language with M&Ms",
+      "rank": 11,
+      "depth": 0,
+      "storyId": 47299606,
+      "storyTitle": "I made a programming language with M&Ms",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47299606",
+      "topComments": [
+        {
+          "id": 47301883,
+          "text": "Author of this silly project here!\nSharing a bit of backstory on why I decided to work on this; Firstly, “for fun” but primarily because I felt like I started losing the childlike wonder/whimsy I once had with programming.\nSo I started this new hobby where I ask myself “can I hack on this?” upon getting/seeing something.\nFor instance, I got this new Aula F75 keyboard (really good keyboard for the price btw, it sounds good too!) and it only has dedicated control software for Windows. So I downloaded the driver files, software executable, and manual sheet and reverse engineered the full protocol/packets and rebuilt it for my Mac. Then played snake with the backlights. Fun.\nAnywho, happy to see my blog on the front page. Would love to hear if anyones going through something similar or working on silly little projects! :)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47301883",
+          "by": "mufeedvh",
+          "time": 1773006457
+        },
+        {
+          "id": 47300576,
+          "text": "It’s funny until one guy spills his bag of M&M’s and accidentally deletes the production database.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47300576",
+          "by": "bronlund",
+          "time": 1772999208
+        },
+        {
+          "id": 47302291,
+          "text": "What color is your function?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47302291",
+          "by": "amelius",
+          "time": 1773008928
+        },
+        {
+          "id": 47301934,
+          "text": "It's all fun and games until some fat bastard like me decides he wants a snack. Incidentally, which flavor? Asking for a friend.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47301934",
+          "by": "bigstrat2003",
+          "time": 1773006729
+        },
+        {
+          "id": 47300435,
+          "text": "This is AI slop but mildly amusing. Brainfuck did it first.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47300435",
+          "by": "owyn",
+          "time": 1772998528
+        }
+      ],
+      "by": "tosh",
+      "time": 1772993920,
+      "url": "https://mufeedvh.com/posts/i-made-a-programming-language-with-mnms/",
+      "score": 119,
+      "descendants": 41,
+      "storyUrl": "https://mufeedvh.com/posts/i-made-a-programming-language-with-mnms/"
+    },
+    {
+      "id": 47295837,
+      "type": "story",
+      "title": "Notes on writing Rust-based Wasm",
+      "rank": 12,
+      "depth": 0,
+      "storyId": 47295837,
+      "storyTitle": "Notes on writing Rust-based Wasm",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47295837",
+      "topComments": [
+        {
+          "id": 47297922,
+          "text": "Things are slowly getting better in wasm world.\nThe c-style interface of wasm is pretty limiting when designing higher level interfaces, which is why wasn-bindgen is required in the first place.\nLuckily, Firefox is pushing an early proposal to expose all the web apis directly to wasm through a higher level interface based on the wasm component-model proposal.\nSee https://hacks.mozilla.org/2026/02/making-webassembly-a-first...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47297922",
+          "by": "mendyberger",
+          "time": 1772982480
+        },
+        {
+          "id": 47296624,
+          "text": "This reads like the same problems as using Emscripten's embind for automatically generating C++  JS bindings, and my advice would be \"just don't do it\".\nIt adds an incredible amount of complexity and bloat versus writing a proper hybrid C++/JS application where non-trivial work is happening in handwritten JS functions versus hopping across the JS/WASM boundary for every little setter/getter. It needs experience though to find just the right balance between what code should go on either side of the boundary.\nAlternatively tunnel through a properly designed C API instead of trying to map C++ or Rust types directly to JS (e.g. don't attempt to pass complex C++/Rust objects across the boundary, there's simply too little overlap between the C++/Rust and JS type systems).\nThe automatic bindings approach makes much more sense for a C API than for a native API of a language with a huge 'semantic surface' like C++ or Rust.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47296624",
+          "by": "flohofwoe",
+          "time": 1772971053
+        },
+        {
+          "id": 47299521,
+          "text": "> FWIW I prefer `futures::lock::Mutex` on std, or `async_lock::Mutex` under no_std.\nAsync mutexes in Rust have so many footguns that I've started to consider them a code smell. See for example the one the Oxide project ran into [1].  IME there are relatively few cases where it makes sense to want to await a mutex asynchronously, and approximately none where it makes sense to hold a mutex over a yield point, which is why a lot of people turn to async mutexes despite advice to the contrary [2].  They are essentially incompatible with structured concurrency, but Rust async in general really wants to be structured in order to be able to play nicely with the borrow checker.\n`shadow-rs` [3] bears mentioning as a prebuilt way to do some of the build info collection mentioned later in the post.\n[1]: https://rfd.shared.oxide.computer/rfd/0609\n[2]: https://docs.rs/tokio/latest/tokio/sync/struct.Mutex.html#wh...\n[3]: https://docs.rs/shadow-rs/latest/shadow_rs/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47299521",
+          "by": "Twey",
+          "time": 1772993407
+        },
+        {
+          "id": 47297231,
+          "text": "A tool that's great to have in one's Rust/Wasm toolbelt is tsify[0] which has been handy in ensuring type-safety for plain ol' data.\nVery handy to update serde data structure and see all the typescript errors that after recompiling.\n[0]: https://github.com/madonoharu/tsify",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47297231",
+          "by": "comagoosie",
+          "time": 1772977067
+        },
+        {
+          "id": 47297827,
+          "text": "Tangential: I decided to write a Wasm parser (more precisely, a decoder the the Wasm binary format) from scratch, as a means to learn both Wasm and Rust[0].\nIt was the first time I was writing this sort of thing, but I found the spec very clear and well-written.\nFun fact: I was surprised when the test from a toy parser surfaced a real regression in version 3 of the spec[1], released roughly 4 months before.\n[0] https://github.com/agis/wadec\n[1] https://github.com/WebAssembly/spec/issues/2066",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47297827",
+          "by": "pasxizeis",
+          "time": 1772981752
+        }
+      ],
+      "by": "vinhnx",
+      "time": 1772961894,
+      "url": "https://notes.brooklynzelenka.com/Blog/Notes-on-Writing-Wasm",
+      "score": 228,
+      "descendants": 111,
+      "storyUrl": "https://notes.brooklynzelenka.com/Blog/Notes-on-Writing-Wasm"
+    },
+    {
+      "id": 47256376,
+      "type": "story",
+      "title": "My “grand vision” for Rust",
+      "rank": 13,
+      "depth": 0,
+      "storyId": 47256376,
+      "storyTitle": "My “grand vision” for Rust",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47256376",
+      "topComments": [
+        {
+          "id": 47302821,
+          "text": "I write production Rust code that becomes critical infra for our customers. I got tired of nil checks in Go and became a squeaky wheel in incident retros, where I finally got the chance to rewrite parts of our system in Rust during a refactor.\nI admit the skill issue on my part, but I genuinely struggled to follow the concepts in this article. Working alongside peers who push Rust's bleeding edge, I dread reviewing their code and especially inheriting \"legacy\" implementations. It's like having a conversation with someone who expresses simple thoughts with ornate vocabulary. Reasoning about code written this way makes me experience profound fatigue and possess an overwhelming desire to return to my domicile; Or simply put, I get tired and want to go home.\nRust's safety guardrails are valuable until the language becomes so complex that reading and reasoning about _business_ logic gets harder, not easier. It reminds me of the kid in \"A Christmas Story\" bundled so heavily in winter gear he cant put his arms down[0]. At some point, over-engineered safety becomes its own kind of risk even though it is technically safer in some regards. Sometimes you need to just implement a dang state machine and stop throwing complexity at poorly thought-through solutions. End old-man rant.\n[0]: https://youtu.be/PKxsOlzuH0k?si=-88dxtyegTxIvOYI",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47302821",
+          "by": "QuantumNoodle",
+          "time": 1773012868
+        },
+        {
+          "id": 47295232,
+          "text": "This may be too much advanced type theory for a useful language.\nYou can go all the way to formal verification. This is not enough for that.\nOr you can stop at the point all memory error holes have been plugged. That's more useful.\nYou can go way overboard with templates/macros/traits/generics. Remember C++ and Boost. I understand that Boost is now deprecated.\nI should work some more on my solution to the back-reference problem in Rust. The general idea is that Rc/Weak/upgrade/downgrade provide enough expressive power for back references, but the ergonomics are awful. That could be fixed, and some of the checking moved to compile time for the single owner/multiple users case.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47295232",
+          "by": "Animats",
+          "time": 1772953309
+        },
+        {
+          "id": 47259148,
+          "text": "Reposting my comment from Reddit,\nI had some Scala 3 feelings when reading the vision, I hope Rust doesn't gets too pushy with type systems ideas.\nThat is how we end with other ecosystems doubling down in automatic memory management with a good enough ownership model for low level coding, e.g. Swift 6, OxCaml, Chapel, D, Linear Haskel, OCaml effects,...\nWhere the goal is that those features are to be used by experts, and everyone else stays on the confort zone.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47259148",
+          "by": "pjmlp",
+          "time": 1772699671
+        },
+        {
+          "id": 47295988,
+          "text": "From the historical sources I could find online, it appears that Rust's borrow system was independently invented, or at least they don't mention linear logic or anything substructural.  This is kind of interesting to me, especially given the reactions in this thread, and ties into the general difficulty of PL research to find acceptance among practitioners, especially when presented by researchers (which I think is regretful, I like the ideas in the article!).  Perhaps we really should stick to terminology like \"function colors\" to make effect systems more popular (or not, because the color framing makes it sound bad to have different colors in a program, IIRC).",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47295988",
+          "by": "pkal",
+          "time": 1772963963
+        },
+        {
+          "id": 47258375,
+          "text": "Finally seeing more movement on effects or what started as keyword generics, there was a big blog post a few years ago but not much public facing news although of course they've been working on it as Yoshua says in the post.\nI truly do wish we get closer to Ada and even Lean in terms of safety, would be great to see all these theoretical type system features become reality. I use the `anodized` crate right now for refinement type features, and who knows, maybe we get full fledged dependent types too as there aren't many production languages with them and certainly not popular languages.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47258375",
+          "by": "satvikpendem",
+          "time": 1772693143
+        }
+      ],
+      "by": "todsacerdoti",
+      "time": 1772674662,
+      "url": "https://blog.yoshuawuyts.com/a-grand-vision-for-rust/",
+      "score": 274,
+      "descendants": 315,
+      "storyUrl": "https://blog.yoshuawuyts.com/a-grand-vision-for-rust/"
+    },
+    {
+      "id": 47296547,
+      "type": "story",
+      "title": "Ask HN: How to be alone?",
+      "rank": 14,
+      "depth": 0,
+      "storyId": 47296547,
+      "storyTitle": "Ask HN: How to be alone?",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47296547",
+      "topComments": [
+        {
+          "id": 47297039,
+          "text": "1. This will be tough. That doesn't mean you are doing it wrong.\n2. Growth is proportional to your willingness to be uncomfortable.\n3. Meds can work wonders, AND you can still be depressed. Medicine resolve biological depression. It doesn't resolve situational depression.\n4. You will likely go through the stages of grief as you grieve this change. One of those stages is sadness.\nAgain, that's okay. You will grow so much as you find new ways to socialize and to enjoy solitude. It will be painful, but that is normal. It is part if the process.\nAlso again, I'm sorry to hear life took an unexpected turn. I know how hard that can be.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47297039",
+          "by": "Hnrobert42",
+          "time": 1772975429
+        },
+        {
+          "id": 47301538,
+          "text": "I'm two years ahead of you in this journey. I got divorced after just over a decade with my partner. Social engagements to me were always ad-hoc. I suck at planning so I often found myself more alone than I'd like.\nLooking back on the last two years and auditing what worked, I would say routine and lingering were the most important thing.\nTrying new things is mentally draining and labor intensive, this is a fact of life for many. What worked for me was finding something I enjoyed (exercise classes) and doing it consistently multiple times a week at the same place for months. With repetition, it's very easy to make new friends. Complaining about one exercise one week turns into making comments about the music the next, and all of a sudden you're getting coffee with friends.\nAt the start it was very difficult, and I was very bad, but now I'm part of a community and have many close friends. Its a hour per day most days of the week. It's also a jumping off point for everything else social. It provides purpose and self-confidence. Which are prerequisites for everything else meaningful in life.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47301538",
+          "by": "geooff_",
+          "time": 1773004409
+        },
+        {
+          "id": 47302421,
+          "text": "I’ve been alone since about 20. I am 26 now and have been renting a room from someone who is in a similar state as myself. We mostly do our own thing but it’s nice to have others around. Something I learned was necessary when living alone was to have connections with people. I am religious and belong to a church the social connection there was critical to my survival as an individual. I had friends who were in multiple stages of life. I would try to spend time with others multiple times a week.\nOn Thursday’s I would spend time with my friend who’s in his 60s. I might help him fix some shelves or his furnace or whatever in exchange for a meal with him and his wife. We would play a few rounds of pickle ball or go for a bike ride in the evening and then we would sit around and talk.\nI had a few other friendships like this. One family where I would spend a lot of time. The children where in their teens and I was friends with them and the parents they treated me as a bit of a son. It was good. I have since moved to a different community and have a very social job now so it’s not as crucial that I make such deliberate efforts to spend time with others.\nSo my advice is this make deliberate effort to spend time with people. Find people to spend time with involve yourself in their lives. Humans are social we all need some interaction and you can be an asset to others while helping yourself.\nToo much time alone will absolutely destroy your mental state. Well it did mine. I have my friends to thank for taking care of me.\nI should note many people rely on family for this sort of stuff. I don’t have family close geographically.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47302421",
+          "by": "Jbird2k",
+          "time": 1773009945
+        },
+        {
+          "id": 47301556,
+          "text": "Ask yourself \"Would I like to be friend with \". Then invest in things you do not like. Smile. Go to gym. Be friendly with people, but not creepy. Help people. Be good family member and friend. Get yourself good clothes. Find interesting hobby. Cook. Pay whole bill when you go outside occasionally. Do it for yourself, not for others. When you become best version of self, people will start notice you more and more.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47301556",
+          "by": "djdule",
+          "time": 1773004505
+        },
+        {
+          "id": 47300916,
+          "text": "I'm going to assume you no longer live near family, or are not close to them. I was severely depressed for over a year where I lived alone (across the country from my parents) without pets after a painful breakup. Getting a remote job and moving back closer to my parents/cousins/grandmother helped the most, but other things that help(ed):\n* Going to restaurants with bars (like diners or sushi bars) where I could attempt to make small talk with servers\n* Regularly going to the gym. Cliche, I know, but at least 3 times a week at the same times and I started becoming friendly with other regulars who had similar schedules. If you get friendly enough with someone, don't be afraid to ask if they wanna get food or beer after.\n* Volunteering (cliche as well, but it helps) at the same place once a week. I volunteered for a high school bringing near-spoiled produce from local supermarkets to their horticulture club. There's loads of ways to get involved, but maybe start with your city/county's website to look for volunteer opportunities, ideally ones where you see the same people every time. This lets you build trust and community with folks who are often from different walks of life.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47300916",
+          "by": "kevinfiol",
+          "time": 1773000786
+        }
+      ],
+      "by": "sillysaurusx",
+      "time": 1772970077,
+      "score": 691,
+      "descendants": 565
+    },
+    {
+      "id": 47256810,
+      "type": "story",
+      "title": "Z80 Sans – a disassembler in a font (2024)",
+      "rank": 15,
+      "depth": 0,
+      "storyId": 47256810,
+      "storyTitle": "Z80 Sans – a disassembler in a font (2024)",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47256810",
+      "topComments": [
+        {
+          "id": 47301609,
+          "text": "You can do a lot of crazy things with fonts. Just off the top of my head:\nTetris Font - https://news.ycombinator.com/item?id=40737294\nA font which is also an LLM - https://news.ycombinator.com/item?id=40766791\nAnd in the same vein:\nTetris in a PDF - https://news.ycombinator.com/item?id=42645218\nDoom in a PDF - https://news.ycombinator.com/item?id=42678754",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47301609",
+          "by": "Averave",
+          "time": 1773004852
+        },
+        {
+          "id": 47302861,
+          "text": "I thought my Z80 project (https://github.com/billforsternz/retro-sargon) was close to the whimsical end of the practical to just for fun spectrum but this takes things to a whole new level, kudos.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47302861",
+          "by": "billforsternz",
+          "time": 1773013169
+        },
+        {
+          "id": 47301567,
+          "text": "I guess it would be cheating, but he actually could have just written it in Rust, since OpenType can execute web assembly. People have abused that to embed things like Tetris and even an LLM inside of fonts.\nWhat he did was more impressive in a way.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47301567",
+          "by": "ilaksh",
+          "time": 1773004571
+        },
+        {
+          "id": 47301189,
+          "text": "This made me smile. What an astonishing combination. The oddball application of a font as a disassembler works like a wonderful practical joke to me. Merging parsing, processing and rendering into a single step feels mad genius.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47301189",
+          "by": "tgv",
+          "time": 1773002405
+        },
+        {
+          "id": 47301322,
+          "text": "Man... I'm lucky if the fonts I'm using even have tabular figures as alternates. This is on a whole other level.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47301322",
+          "by": "notglossy",
+          "time": 1773003080
+        }
+      ],
+      "by": "pabs3",
+      "time": 1772678287,
+      "url": "https://github.com/nevesnunes/z80-sans",
+      "score": 154,
+      "descendants": 15,
+      "storyUrl": "https://github.com/nevesnunes/z80-sans"
+    },
+    {
+      "id": 47291123,
+      "type": "story",
+      "title": "Autoresearch: Agents researching on single-GPU nanochat training automatically",
+      "rank": 16,
+      "depth": 0,
+      "storyId": 47291123,
+      "storyTitle": "Autoresearch: Agents researching on single-GPU nanochat training automatically",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47291123",
+      "topComments": [
+        {
+          "id": 47293276,
+          "text": "As ai improves, most tasks will become something like this. Environments setup where the model learns through trial and error\nAny human endeavor that can be objectively verified in some environment like this can be completely automated",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47293276",
+          "by": "mikert89",
+          "time": 1772932248
+        },
+        {
+          "id": 47299155,
+          "text": "This looks very much like whirlpool. LLM researcher makes LLMs researching LLMs. The quote from old post from Karpathy [1] look very appropriate here\n[1] https://karpathy.github.io/2015/05/21/rnn-effectiveness/\n  \"In particular, setting temperature very near zero will give the most likely thing that Paul Graham might say:\n    “is that they were all the same thing that was a startup is that they were all the same thing that was a startup is that they were all the same thing that was a startup is that they were all the same”\n  looks like we’ve reached an infinite loop about startups.\"\n\nAs if Karpathy made an artificial Karpathy-researcher-blogger and set temperature close to zero.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47299155",
+          "by": "thesz",
+          "time": 1772991078
+        },
+        {
+          "id": 47301998,
+          "text": "Once this can run on stock hardware, set the goal to be replicating to other machines. You get a nice, massively parallel, intelligent guided evolution algorithm for malware. It could even \"learn\" how to evade detection, how to combine approaches of existing viruses, how to research attack methods, how to identify and exploit vulnerabilities in open source libraries, how to phish, how to blackmail, etc. Maybe even learns how to coordinate attacks with other instances of itself or \"publish\" new attacks on some encrypted feed it creates. Who knows, maybe it becomes so rampant that instances have to start fighting each other for compute resources. Or maybe eventually one branch becomes symbiotic with humans to fight off their enemies, etc.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47301998",
+          "by": "daxfohl",
+          "time": 1773007142
+        },
+        {
+          "id": 47297388,
+          "text": "Up next: auto-autoresearch, LLMs searching for autoresearch harnesses and prompts that produce the best results",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47297388",
+          "by": "garbanz0",
+          "time": 1772978503
+        },
+        {
+          "id": 47293823,
+          "text": "Would it make this exercise even more interesting if we add that for every 25%+ improvement in val_bpb, existing limits (5 minute and VRAM usage) are also increased (by certain percentages)? This can simuate human-like dev iterations much more closely. Infra can be auto-scaled using a platform like Modal.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47293823",
+          "by": "freakynit",
+          "time": 1772937583
+        }
+      ],
+      "by": "simonpure",
+      "time": 1772914965,
+      "url": "https://github.com/karpathy/autoresearch",
+      "score": 208,
+      "descendants": 58,
+      "storyUrl": "https://github.com/karpathy/autoresearch"
+    },
+    {
+      "id": 47247644,
+      "type": "story",
+      "title": "In 1985 Maxell built a bunch of life-size robots for its bad floppy ad",
+      "rank": 17,
+      "depth": 0,
+      "storyId": 47247644,
+      "storyTitle": "In 1985 Maxell built a bunch of life-size robots for its bad floppy ad",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47247644",
+      "topComments": [
+        {
+          "id": 47291530,
+          "text": "I vaguely remember these but I more clearly remember the Samsung ad which featured a similar looking robot in a dress turning letters on a gameshow, implying that Samsung would still be around even after Vanna White was replaced by a machine. Vanna White sued, claiming a breach of her publicity rights (despite her name, the name \"Wheel of Fortune\", or her actual likeness not being used) and actually prevailed in court, establishing a precedent in the United States that very broadly protects celebrities' rights to control whether and how they are represented.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47291530",
+          "by": "bitwize",
+          "time": 1772917857
+        },
+        {
+          "id": 47293156,
+          "text": "I found a Maxwell robot video ad but I think it's just actors in robot outfits https://youtu.be/CKloQVH_72M\nHonda was more impressive then with Asimo which was a real robot https://youtu.be/DerM1GNtg5A",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47293156",
+          "by": "tim333",
+          "time": 1772931014
+        },
+        {
+          "id": 47298782,
+          "text": "Interesting to see this statement at the top of the article. Long live the web fighting back. Not sure I have seen many (any?) sites with this. Calls for some sort of acronym or logo that others can adopt without having a long sentence at the beginning of many pages:\n\"This newsletter does not contain ads, sponsored posts, or affiliate links. Open and click tracking are disabled. And there is no paid upgrade or AI generated content. Enjoy!\"",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47298782",
+          "by": "jorgen123",
+          "time": 1772988581
+        },
+        {
+          "id": 47295245,
+          "text": "Why is it referred to as a 'bad' floppy ad. I thought it was cool.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47295245",
+          "by": "djmips",
+          "time": 1772953498
+        },
+        {
+          "id": 47292310,
+          "text": "I don't recall ever using a Maxell floppy, but their cassettes were the best.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47292310",
+          "by": "forinti",
+          "time": 1772924424
+        }
+      ],
+      "by": "rfarley04",
+      "time": 1772633791,
+      "url": "https://buttondown.com/suchbadtechads/archive/maxell-life-size-robots/",
+      "score": 142,
+      "descendants": 23,
+      "storyUrl": "https://buttondown.com/suchbadtechads/archive/maxell-life-size-robots/"
+    },
+    {
+      "id": 47301233,
+      "type": "story",
+      "title": "Artificial-life: A simple (300 lines of code) reproduction of Computational Life",
+      "rank": 18,
+      "depth": 0,
+      "storyId": 47301233,
+      "storyTitle": "Artificial-life: A simple (300 lines of code) reproduction of Computational Life",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47301233",
+      "topComments": [
+        {
+          "id": 47302188,
+          "text": "Awesome. I've been meaning to play around with this more after first hearing about this paper. I tried a similar automata with an even simpler representation for turing machines and there wasn't an abiogenesis moment. I guess the many no-op characters in the original paper allow for it to explore a bigger space of valid programs or to hide data without completely overwriting itself.\nI would like to try alternative character encodings, including ones with fewer no-ops where most bytes are valid BF characters. Are more no-ops better? Is self replicating goo the best we can do?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47302188",
+          "by": "ajs1998",
+          "time": 1773008189
+        },
+        {
+          "id": 47302774,
+          "text": "This reminds me of Gresham's Law: \"bad money drives out good.\" But here, the result is inverted—efficient replicators drive out the less efficient.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47302774",
+          "by": "tl2do",
+          "time": 1773012560
+        },
+        {
+          "id": 47302360,
+          "text": "make a 'core wars'",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47302360",
+          "by": "jeden",
+          "time": 1773009458
+        }
+      ],
+      "by": "tosh",
+      "time": 1773002561,
+      "url": "https://github.com/Rabrg/artificial-life",
+      "score": 169,
+      "descendants": 24,
+      "storyUrl": "https://github.com/Rabrg/artificial-life"
+    },
+    {
+      "id": 47299505,
+      "type": "story",
+      "title": "WSL Manager",
+      "rank": 19,
+      "depth": 0,
+      "storyId": 47299505,
+      "storyTitle": "WSL Manager",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47299505",
+      "topComments": [
+        {
+          "id": 47301741,
+          "text": "Neat project. Merging the layers of a docker image and setting that as a WSL filesystem is a nice convenience.\nI recently realized that 100% of what I use Windows for was as a WSL2 foundation: It had been reduced to being an extremely overbearing and heavyweight host machine for a Linux VM. Nothing in my life was Windows-only anymore, and it was basically just inertia that I even still had it installed.\nI'd been a \"Windows guy\" for decades, had decades of Windows software dev under my belt, even got my MCSE, MCDBA, along with other Microsoft certs, and even wrote for MSDN Magazine. No longer did it have any leverage on my profession at all, which was shocking to me.\nThe next day I purged Windows from my two main working machines, so now I'm pure Linux and macOS. A few weeks later and I can say it has been a marvelous transition, and cuts out the no longer relevant middleman.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47301741",
+          "by": "llm_nerd",
+          "time": 1773005644
+        },
+        {
+          "id": 47300052,
+          "text": "The ability to run docker containers as wsl instances looks nifty. A bit more overhead since they now run as a VM instead of a container, but you get the ability to start a shell with Windows terminal or access files with Explorer (and thus every program running in Windows)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47300052",
+          "by": "wongarsu",
+          "time": 1772996560
+        },
+        {
+          "id": 47300103,
+          "text": "Looks nice but still a bit sad that Flutter is used instead of something native given that they don't need the app to be cross-platform.\nWell, even Microsoft uses React Native for a lot of Windows-only apps.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47300103",
+          "by": "lukax",
+          "time": 1772996854
+        },
+        {
+          "id": 47300885,
+          "text": "Is there anything that can run a normal Linux VM guest with good quality graphics acceleration on Windows host (i.e. both full OpenGL and Vulkan support)? Not the gimped half VM over HiperV.\nVirtualBox has really broken graphics support, you can only run software rendering Linux DEs that way.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47300885",
+          "by": "shmerl",
+          "time": 1773000619
+        },
+        {
+          "id": 47302397,
+          "text": "this is great and I have a feature request: A \"refresh VM\" feature that exports your home dir + packages into a new VM instance.\nI've tried Optimize-VHD but renewing the VM this way frees up disk and speeds up the VM as well.  None of the WSL settings for sparse disk / disk shrinking seem to work well.\nHere's what I usually do\n   $ tar -czf /mnt/c/Temp/home-backup.tgz $HOME\n   $ apt list --installed > /mnt/c/Temp/packages.txt\n\ndelete the VM, create a new one, reverse the process.\n   $ tar -cxf /mnt/c/Temp/home-backup.tgz -C $HOME\n   $ apt update\n   $ cat /mnt/c/Temp/packages.txt | xargs apt install",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47302397",
+          "by": "tonymet",
+          "time": 1773009742
+        }
+      ],
+      "by": "gballan",
+      "time": 1772993316,
+      "url": "https://github.com/bostrot/wsl2-distro-manager",
+      "score": 141,
+      "descendants": 63,
+      "storyUrl": "https://github.com/bostrot/wsl2-distro-manager"
+    },
+    {
+      "id": 47298885,
+      "type": "story",
+      "title": "LibreOffice Writer now supports Markdown",
+      "rank": 20,
+      "depth": 0,
+      "storyId": 47298885,
+      "storyTitle": "LibreOffice Writer now supports Markdown",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47298885",
+      "topComments": [
+        {
+          "id": 47299232,
+          "text": "This is great news.  I've long felt markdown support was a missed opportunity for LibreOffice.  There are great options out there, and with AI it's not even terrible to roll-your-own, but I already have LibreOffice anyway and being able to use that instead of reaching for a different tool would be killer.  Might be a little while until this makes it into distro packages, but if anyone has tried it I'd love to hear how it compares to the other options.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47299232",
+          "by": "freedomben",
+          "time": 1772991501
+        },
+        {
+          "id": 47300251,
+          "text": "I got really excited that I would be able to write in Markdown.\nUnfortunately, from the article:\n> Markdown import and export features.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47300251",
+          "by": "thunderbong",
+          "time": 1772997614
+        },
+        {
+          "id": 47299739,
+          "text": "What are peoples' favourite md implementations? Curious as there are different varieties and even more varied opinions. I am building a lightweight project folder managing app supporting markdown and I am between Commonmark and GitHub flavoured markdown and want to gather thoughts.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47299739",
+          "by": "abmmgb",
+          "time": 1772994739
+        },
+        {
+          "id": 47300588,
+          "text": "Oh, this is actually very helpful for me! I have an AI copilot extension for LibreOffice Writer and I need to export the doc to a text file before sending it to the LLM. The problem is that I lose the semantic formatting (eg heading).\nLink to the extension for anyone curious: https://extensions.libreoffice.org/en/extensions/show/99471",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47300588",
+          "by": "mmarian",
+          "time": 1772999306
+        },
+        {
+          "id": 47303019,
+          "text": "It's markdown import and export. Does not support writing in Markdown.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47303019",
+          "by": "aussieguy1234",
+          "time": 1773014211
+        }
+      ],
+      "by": "todsacerdoti",
+      "time": 1772989310,
+      "url": "https://blog.documentfoundation.org/blog/2026/02/04/libreoffice-26-2-is-here/",
+      "score": 407,
+      "descendants": 82,
+      "storyUrl": "https://blog.documentfoundation.org/blog/2026/02/04/libreoffice-26-2-is-here/"
+    },
+    {
+      "id": 47300102,
+      "type": "story",
+      "title": "Show HN: I built a real-time OSINT dashboard pulling 15 live global feeds",
+      "rank": 21,
+      "depth": 0,
+      "storyId": 47300102,
+      "storyTitle": "Show HN: I built a real-time OSINT dashboard pulling 15 live global feeds",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47300102",
+      "topComments": [
+        {
+          "id": 47300453,
+          "text": "Optimizing some of that geojson into realtime tiles is a really fun and engaging project.\nHave you seen these projects?\nhttps://github.com/protomaps/PMTiles\nhttps://github.com/maplibre/martin",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47300453",
+          "by": "afatparakeet",
+          "time": 1772998607
+        },
+        {
+          "id": 47301027,
+          "text": "You leaked `./frontend/.env.local` & `./backend/.env` inside `ShadowBroker_v0.1.zip` in the first commit.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47301027",
+          "by": "vavkamil",
+          "time": 1773001424
+        },
+        {
+          "id": 47301294,
+          "text": "This is neat. It reminds me of this https://curves-voluntary-livecam-sandra.trycloudflare.com/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47301294",
+          "by": "CountGeek",
+          "time": 1773002941
+        },
+        {
+          "id": 47300686,
+          "text": "Really cool thanks for sharing. What are the API costs like if i ran this for a couple hours a day for a month? Is it affordable?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47300686",
+          "by": "ionwake",
+          "time": 1772999657
+        },
+        {
+          "id": 47300662,
+          "text": "There's no data when I tried it on a windows 11 PC. It seemed to install all deps front end is served but dossier says intel unavailable.\nNo planes etc.\nNo helpful output in the command window.\nSeems fun but doesn't seem to be working.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47300662",
+          "by": "rustyhancock",
+          "time": 1772999569
+        }
+      ],
+      "by": "vancecookcobxin",
+      "time": 1772996853,
+      "url": "https://github.com/BigBodyCobain/Shadowbroker",
+      "score": 312,
+      "descendants": 123,
+      "storyUrl": "https://github.com/BigBodyCobain/Shadowbroker"
+    },
+    {
+      "id": 47293415,
+      "type": "story",
+      "title": "Warn about PyPy being unmaintained",
+      "rank": 22,
+      "depth": 0,
+      "storyId": 47293415,
+      "storyTitle": "Warn about PyPy being unmaintained",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47293415",
+      "topComments": [
+        {
+          "id": 47295014,
+          "text": "PyPy core dev here. If anyone is interested in helping out, either financially or with coding, we can be reached various ways. See https://pypy.org/contact.html",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47295014",
+          "by": "mattip",
+          "time": 1772950640
+        },
+        {
+          "id": 47295551,
+          "text": "PyPy isn't unmaintained. We are certainly fixing bugs and are occasionally improving the jit. However, the remaining core devs (me among them) don't have the capacity to keep up with cpython. So for supporting new cpython versions we'll need new people to step up. For 3.12 this has started, we have a new contributor who is pushing this along.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47295551",
+          "by": "cfbolztereick",
+          "time": 1772957750
+        },
+        {
+          "id": 47295211,
+          "text": "PyPy is a fantastic achievement and deserves far more support than it gets. Microsoft’s “Faster CPython” team tried to make Python 5x faster but only achieved ~1.5x in four years - meanwhile PyPy has been running at over 5x faster for decades.\nOn the other hand, I always got the impression that the main goal of PyPy is to be a research project (on meta-tracing, STM etc) rather than a replacement for CPython in production.\nMaybe that, plus the core Python team’s indifference towards non-CPython implementations, is why it doesn’t get the recognition it deserves.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47295211",
+          "by": "pansa2",
+          "time": 1772953069
+        },
+        {
+          "id": 47294433,
+          "text": "If anyone else is also barely aware and confused by the similar names, PyPI is the Python Package Index, which is up and maintained. PyPy is \"A fast, compliant alternative implementation of Python.\" which doesn't have enough devs to release a version for 3.12[0].\n[0]: https://github.com/orgs/pypy/discussions/5145",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47294433",
+          "by": "the_jeremy",
+          "time": 1772944578
+        },
+        {
+          "id": 47294356,
+          "text": "Somewhat interesting that \"volunteer project no longer under active development\" got changed to \"unmaintained\".",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47294356",
+          "by": "aragilar",
+          "time": 1772943522
+        }
+      ],
+      "by": "networked",
+      "time": 1772933721,
+      "url": "https://github.com/astral-sh/uv/pull/17643",
+      "score": 326,
+      "descendants": 175,
+      "storyUrl": "https://github.com/astral-sh/uv/pull/17643"
+    },
+    {
+      "id": 47290198,
+      "type": "story",
+      "title": "The surprising whimsy of the Time Zone Database",
+      "rank": 23,
+      "depth": 0,
+      "storyId": 47290198,
+      "storyTitle": "The surprising whimsy of the Time Zone Database",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47290198",
+      "topComments": [
+        {
+          "id": 47294840,
+          "text": "I once digged into this database out of curiosity and found incredibly detailed research on many edge cases. Like time zones in Germany being temporarily aligned to Moscow during soviet occupancy after World War Two.\nOne particular commenter stood out to me, so I looked him up because I was interested which kind of people spend so much time correcting timezone information.\nTurns out he was an astrologer and wanted his astrology-program to work perfectly correct.\nI find it funny that we have to thank astrology for the correct calculations in our banking software :).",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47294840",
+          "by": "fzeindl",
+          "time": 1772948907
+        },
+        {
+          "id": 47295005,
+          "text": "Amusing story of the chaos of timezones in Saudi Arabia and a man who made his own: https://archive.aramcoworld.com/issue/196902/dinner.at.when....\nLinked from https://github.com/eggert/tz/blob/main/asia#L3818",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47295005",
+          "by": "netsharc",
+          "time": 1772950568
+        },
+        {
+          "id": 47293403,
+          "text": "If you like this there has been a interesting discussion on the tzdb mailing list about how to handle the Vancouver change and the next releases of the tzdb and   the Unicode Common Locale Data Repository: https://lists.iana.org/hyperkitty/list/tz@iana.org/thread/IE...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47293403",
+          "by": "dfc",
+          "time": 1772933573
+        },
+        {
+          "id": 47296135,
+          "text": "> I’ve perused the tz repository before, and I always learn something interesting. For example, during WWII Britain adopted double summer time, adding two hours to the clock in the summer and one hour in the winter.\nMy country, Spain, did the same but never fixed it, so we are still in this \"double summer time\". It is one of the main reasons why Spanish people seemingly do everything later (breakfast, lunch, dinner) than other European countries.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47296135",
+          "by": "pezezin",
+          "time": 1772965498
+        },
+        {
+          "id": 47295359,
+          "text": "Just last night some friends brought up the time change tonight and the news from British Columbia, and what the California government has or hasn't done about it currently and in the past and why we haven't just gotten rid of the system already to save us the trouble of adjusting clocks twice a year.\nAnd of course, there was instantly a heated debate about whether to permanently choose Standard Time or Daylight Saving Time, with passionate, almost religious arguments for both options. I feared sectarian violence was about to erupt at the dinner table.\nOur collective relationship with time is truly unhinged.\n#teamdaylightsaving",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47295359",
+          "by": "russellbeattie",
+          "time": 1772955161
+        }
+      ],
+      "by": "jprs",
+      "time": 1772908325,
+      "url": "https://muddy.jprs.me/links/2026-03-06-the-surprising-whimsy-of-the-time-zone-database/",
+      "score": 184,
+      "descendants": 69,
+      "storyUrl": "https://muddy.jprs.me/links/2026-03-06-the-surprising-whimsy-of-the-time-zone-database/"
+    },
+    {
+      "id": 47293195,
+      "type": "story",
+      "title": "Pushing and Pulling: Three reactivity algorithms",
+      "rank": 24,
+      "depth": 0,
+      "storyId": 47293195,
+      "storyTitle": "Pushing and Pulling: Three reactivity algorithms",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47293195",
+      "topComments": [
+        {
+          "id": 47301099,
+          "text": "Oh, that's me!  Feel free to ask me any questions.\nThere's some great discussion over on lobste.rs (https://lobste.rs/s/2zk3oe/pushing_pulling_three_reactivity), but I particularly recommend this link that someone posted there to a post that covers much of the same topic but in a lot more detail with reference to various existing libraries and tools and how they do things: https://lord.io/spreadsheets/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47301099",
+          "by": "MrJohz",
+          "time": 1773001906
+        },
+        {
+          "id": 47302799,
+          "text": "I've been working on a reactivity system for rust over the past couple of years, which uses a lot of these ideas! It also tries to make random concurrent modification less of a pain, with transactional memory and CRDT stuff. And gives you free undo/redo.\nStill kind of WIP, but it isn't secret. People are welcome to check it out at https://gitlab.com/samsartor/hornpipe",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47302799",
+          "by": "samsartor",
+          "time": 1773012714
+        }
+      ],
+      "by": "frogulis",
+      "time": 1772931477,
+      "url": "https://jonathan-frere.com/posts/reactivity-algorithms/",
+      "score": 128,
+      "descendants": 21,
+      "storyUrl": "https://jonathan-frere.com/posts/reactivity-algorithms/"
+    },
+    {
+      "id": 47296302,
+      "type": "story",
+      "title": "Apple's 512GB Mac Studio vanishes, a quiet acknowledgment of the RAM shortage",
+      "rank": 25,
+      "depth": 0,
+      "storyId": 47296302,
+      "storyTitle": "Apple's 512GB Mac Studio vanishes, a quiet acknowledgment of the RAM shortage",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47296302",
+      "topComments": [
+        {
+          "id": 47298623,
+          "text": "IMO its more nuanced. They're likely in production ramp-up of the M5 Ultra Mac Studio, for release in the next ~3 months; they have pre-purchased bins of memory from the supply-constrained major memory supplies; and they need as much as they can get because they want to push an M5 Ultra config to 768gb to continue the \"you can run local models\" story that the M5 Max Macbook Pro started telling last week.\nGoing beyond 512gb and into 768gb memory is something of a threshold that will allow Apple to claim local capability for significantly more models. Qwen3-235B, Minimax M2.5, and GLM 4.7 could kind of run with no quantization on 512gb, but they'll comfortably run at 768gb. DeepSeek-V3.2 and GLM 5 may also work at some level of quantization.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47298623",
+          "by": "827a",
+          "time": 1772987436
+        },
+        {
+          "id": 47296919,
+          "text": "They may be trying to sell through the existing CPU before a launch (soft or not) of the M5-based versions (though I've heard the rumor is there will be no M5 Ultra and we might be looking at an M6 Ultra later in the year).",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47296919",
+          "by": "bombcar",
+          "time": 1772974374
+        },
+        {
+          "id": 47297047,
+          "text": "I think it's unlikely that Apple is paying the spot price for memory. They almost certainly negotiate delivery/price contracts in advance. Maybe the contract for the chips used in the 512GB model will expire soon?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47297047",
+          "by": "chiph",
+          "time": 1772975498
+        },
+        {
+          "id": 47296993,
+          "text": "Just got a strix halo ROG Z13 this month with soldered UMA memory, 128GB LPDDR5X-8000. It cost ~$3k.\nAmazon is selling 128GB memory kits @ 5600MHZ for $3k.\nI think there might be a market failure guys.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47296993",
+          "by": "cyanydeez",
+          "time": 1772975156
+        },
+        {
+          "id": 47296614,
+          "text": "I was just looking to buy a Raspberry Pi 5: the 8GB one is now 58% more expensive than last year; that's more than what I'm willing to pay.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47296614",
+          "by": "pera",
+          "time": 1772970959
+        }
+      ],
+      "by": "rbanffy",
+      "time": 1772967272,
+      "url": "https://arstechnica.com/gadgets/2026/03/apples-512gb-mac-studio-vanishes-a-quiet-acknowledgement-of-the-ram-shortage/",
+      "score": 395,
+      "descendants": 250,
+      "storyUrl": "https://arstechnica.com/gadgets/2026/03/apples-512gb-mac-studio-vanishes-a-quiet-acknowledgement-of-the-ram-shortage/"
+    },
+    {
+      "id": 47297913,
+      "type": "story",
+      "title": "What if the Apple ][ had run on Field-Sequential?",
+      "rank": 26,
+      "depth": 0,
+      "storyId": 47297913,
+      "storyTitle": "What if the Apple ][ had run on Field-Sequential?",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47297913",
+      "topComments": [
+        {
+          "id": 47299536,
+          "text": "I had a camera with a field-sequential electronic viewfinder. Because it relies on persistence of vision to mix RGB colors, it could be pretty distracting if I moved my eye quickly, breaking the illusion, and I think it would be similarly annoying on a TV or computer display.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47299536",
+          "by": "Zak",
+          "time": 1772993474
+        },
+        {
+          "id": 47300212,
+          "text": "Hypothetical question:\nLet's say that back in 1930s when they were assigning frequencies for the broadcast television channels, they allocated enough extra bandwidth for a future color (chroma) signal, apart from the existing monochrome (luma) signal.\nIf the bandwidth was available, would it have been possible to include separate chroma and luma components in the broadcast signal without the two interfering with each other, thereby producing a much cleaner color image while maintaining backward compatibility with the original B&W TV sets?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47300212",
+          "by": "thought_alarm",
+          "time": 1772997438
+        },
+        {
+          "id": 47301032,
+          "text": "I think in this alternate universe the Apple-II analog would be the first cheap computer that could run a spreadsheet. That really takes a 40 column display. So I think it would have waited for the 2mhz 6502 to handle the doubled line frequency.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47301032",
+          "by": "dzdt",
+          "time": 1773001475
+        },
+        {
+          "id": 47298828,
+          "text": "Does anyone know why they call it artifact colors?  It creates a valid colorburst signal, so the colors are exactly as expected.  It's high-resolution black-and-white imagery that's more of an artifact.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47298828",
+          "by": "dlcarrier",
+          "time": 1772988908
+        },
+        {
+          "id": 47299381,
+          "text": "> But we are saving the lives of ~3 million people so who’s to say what is bad\nKorea’s GDP per capita in 1950 was similar to that of Bangladesh around the same time:  https://www.nationmaster.com/country-info/stats/Economy/GDP-.... In the alternate timeline where there isn’t a capitalist south korea, the Korean peninsula has 100 million+ people living in poverty and squalor, like Bangladesh today. The cost of that is tens of millions of lost lives resulting from higher infant and child mortality rates.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47299381",
+          "by": "rayiner",
+          "time": 1772992500
+        }
+      ],
+      "by": "zdw",
+      "time": 1772982340,
+      "url": "https://nicole.express/2026/the-apple-that-wasnt.html",
+      "score": 99,
+      "descendants": 21,
+      "storyUrl": "https://nicole.express/2026/the-apple-that-wasnt.html"
+    },
+    {
+      "id": 47259961,
+      "type": "story",
+      "title": "Emacs internals: Deconstructing Lisp_Object in C (Part 2)",
+      "rank": 27,
+      "depth": 0,
+      "storyId": 47259961,
+      "storyTitle": "Emacs internals: Deconstructing Lisp_Object in C (Part 2)",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47259961",
+      "topComments": [
+        {
+          "id": 47295231,
+          "text": "SBCL uses a single zero bit to tag integers. This trick means the representation of n is just 2n, so you can add the values directly without any decoding.\nIt obviously also means that all the other tag values have to use 1 as the last bit.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47295231",
+          "by": "praptak",
+          "time": 1772953304
+        },
+        {
+          "id": 47296894,
+          "text": "FYI thecloudlet, the last quote from a Reddit user at the end seems to have duplicated content (copy-paste error?)\nI read both articles and am looking forward to your next! I’d be interested in understanding more about the relationship of EMacs to GCC since you noted the authors were the same and the internals were written with some compiler awareness.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47296894",
+          "by": "vintagedave",
+          "time": 1772974027
+        },
+        {
+          "id": 47299389,
+          "text": "You only need one bit tag and it is for number.\nSymbols are just list of numbers. Variable is just a nameless place in memory, but often associated with a symbol.\nNumbers in symbols are printed out as ASCII-characters when it seems appropriate, like after SETQ.\nOr we could decide that number-list that ends with 0 and contains only range(0x21,0x7F) is printed out as symbol. Does not matter, it is just syntactic sugar.\nAnd We do not need strings for much anything. We could of course decide that number-list with ord('\"') is printed out as string. The reader could also follow this protocol.\nI had all this figured out at one time. And I dont remember any major issues. B-)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47299389",
+          "by": "timonoko",
+          "time": 1772992543
+        },
+        {
+          "id": 47296048,
+          "text": "Is AI able to measure the ratio of craft to cruft source lines of code in Emacs over its lifetime?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47296048",
+          "by": "__patchbit__",
+          "time": 1772964749
+        }
+      ],
+      "by": "thecloudlet",
+      "time": 1772706195,
+      "url": "https://thecloudlet.github.io/blog/project/emacs-02/",
+      "score": 126,
+      "descendants": 21,
+      "storyUrl": "https://thecloudlet.github.io/blog/project/emacs-02/"
+    },
+    {
+      "id": 47299022,
+      "type": "story",
+      "title": "Show HN: Skir – like Protocol Buffer but better",
+      "rank": 28,
+      "depth": 0,
+      "storyId": 47299022,
+      "storyTitle": "Show HN: Skir – like Protocol Buffer but better",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47299022",
+      "topComments": [
+        {
+          "id": 47301458,
+          "text": "Did you look at other formats like Avro, Ion etc? Some feedback:\n1. Dense json\nInteresting idea. You can also just keep the compact binary if you just tag each payload with a schema id (see Avro). This also allows a generic reader to decode any binary format by reading the schema and then interpreting the binary payload, which is really useful. A secondary benefit is you never ever misinterpret a payload. I have seen bugs with protobufs misinterpreted since there is no connection handshake and interpretation is akin to 'cast'.\n2. Compatibility checks\n+100 there's not reason to allow breaking changes by default\n3. Adding fields to a type: should you have to update all call sites?\nI'm not so sure this is the right default. If I add a field to a core type used by 10 services, this requires rebuilding and deploying all of them.\n4. enum looks great. what about backcompat when adding new enum fields? or sometimes when you need to 'upgrade' an atomic to an enum?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47301458",
+          "by": "shalabhc",
+          "time": 1773003979
+        },
+        {
+          "id": 47299791,
+          "text": "https://capnproto.org/ has been my goto since forever. Made by the protobuf inventor",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47299791",
+          "by": "drathier",
+          "time": 1772995045
+        },
+        {
+          "id": 47299783,
+          "text": "> Skir is a universal language for representing data types, constants, and RPC interfaces. Define your schema once in a .skir file and generate idiomatic, type-safe code in TypeScript, Python, Java, C++, and more.\nMaybe I'm missing some additional features but that's exactly what https://buf.build/plugins/typescript does for Protobuf already, with the advantage that you can just keep Protobuf and all the battle hardened tooling that comes with it.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47299783",
+          "by": "dewey",
+          "time": 1772994992
+        },
+        {
+          "id": 47302777,
+          "text": "> For optional types, 0 is decoded as the default value of the underlying type (e.g. string? decodes 0 as \"\", not null).\nIn the \"dense JSON\" format, isn't representing removed/absent struct fields with `0` and not `null` backwards incompatible?\nIf you remove or are unaware of a `int32?` field, old consumers will suddenly think the value is present as a \"default\" value rather than absent",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47302777",
+          "by": "curtisf",
+          "time": 1773012576
+        },
+        {
+          "id": 47299799,
+          "text": "I spent some time in the actual compiler source. There's real work here, genuinely good ideas.\nThe best thing Skir does is strict generated constructors. You add a field, every construction site lights up. Protobuf's \"silently default everything\" model has caused mass production incidents at real companies. This is a legitimately better default.\nDense JSON is interesting but the docs gloss over the tradeoff: your serialized data is [3, 4, \"P\"]. If you ever lose your schema, or a human needs to read a payload in a log, you're staring at unlabeled arrays. Protobuf binary has the same problem but nobody markets binary as \"easy to inspect with standard tools.\"\nThe \"serialize now, deserialize in 100 years\" claim has a real asterisk. Compatibility checking requires you to opt into stable record IDs and maintain snapshots. If you skip that (and the docs' own examples often do), the CLI literally warns you: \"breaking changes cannot be detected.\" So it's less \"built-in safety\" and more \"safety available if you follow the discipline.\" Which is... also what Protobuf offers.\nThe Rust-style enum unification is genuinely cleaner than Protobuf's enum/oneof split. No notes there, that's just better language design.\nMinor thing that bothered me disproportionately: the constant syntax in the docs (x = 600) doesn't match what the parser actually accepts (x: 600).\nThe weirdest thing that bugged the heck out of me was the tagline, \"like protos but better\", that's doing the project no favors.\nI think this would land better if it were positioned as \"Protobuf, but fresh\" rather than \"Protobuf, but better.\" The interesting conversation is which opinions are right, not whether one tool is universally superior.\nQuite frankly, I don't use protobuf because it seems like an unapproachable monolith, and I'm not at FAANG anymore, just a solo dev. No one's gonna complain if I don't. But I do love the idea of something simpler thats easy to wrap my mind around.\nThat's why \"but fresh\" hits nice to me, and I have a feeling it might be more appealing than you'd think - ex. it's hard to believe a 2 month old project is strictly better than whatever mess and history protobufs gone through with tons of engineers paid to use and work on it. It is easy to believe it covers 99% of what Protobuf does already, and any crazy edge cases that pop up (they always do, eventually :), will be easy to understand and fix.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47299799",
+          "by": "refulgentis",
+          "time": 1772995076
+        }
+      ],
+      "by": "gepheum",
+      "time": 1772990274,
+      "url": "https://skir.build/",
+      "score": 113,
+      "descendants": 64,
+      "storyUrl": "https://skir.build/"
+    },
+    {
+      "id": 47244274,
+      "type": "story",
+      "title": "How important was the Battle of Hastings?",
+      "rank": 29,
+      "depth": 0,
+      "storyId": 47244274,
+      "storyTitle": "How important was the Battle of Hastings?",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47244274",
+      "topComments": [
+        {
+          "id": 47293654,
+          "text": "It was very important. The Normans completely supplanted the ruling aristocracy of England and changed the culture of the country. The Normans were some serious bad asses and conquered Sicily and nearly conquered the Byzantine Empire. There’s a podcast on them called Norman Centuries which I also recommend.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47293654",
+          "by": "vondur",
+          "time": 1772935997
+        },
+        {
+          "id": 47293748,
+          "text": "Attention-grabbing headline, but the article itself answers the question: very important.\n\"Hastings was one of those battles which changed the course of history, most directly for England but also, as events turned out, for Britain and for France... In terms of its consequences, Hastings must be the most important battle ever to have been fought in England... the consequences of its outcome changed the course of English history definitively.\"",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47293748",
+          "by": "linehedonist",
+          "time": 1772936887
+        },
+        {
+          "id": 47293154,
+          "text": "https://archive.ph/a1YN4",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47293154",
+          "by": "atombender",
+          "time": 1772930996
+        },
+        {
+          "id": 47295731,
+          "text": "When you think that the Norman successors still own the vast majority of England to this day, cramming the Anglo-Saxons into rabbit hutches on high density estates, very.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47295731",
+          "by": "globalise83",
+          "time": 1772960349
+        },
+        {
+          "id": 47293889,
+          "text": "> \"was 1066 really all that?\"\nThis article might exist just for this joke in the sub-headline. Pretty good.\n\"1066 and all that\" is a highly influential satirical history book from 1930, and \"[X] and all that\" a meme/idiom in UK English.\nhttps://en.wikipedia.org/wiki/1066_and_All_That",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47293889",
+          "by": "robotresearcher",
+          "time": 1772938259
+        }
+      ],
+      "by": "benbreen",
+      "time": 1772609029,
+      "url": "https://www.historytoday.com/archive/head-head/how-important-was-battle-hastings",
+      "score": 85,
+      "descendants": 62,
+      "storyUrl": "https://www.historytoday.com/archive/head-head/how-important-was-battle-hastings"
+    },
+    {
+      "id": 47249139,
+      "type": "story",
+      "title": "Rijksmuseum researchers discover new painting by Rembrandt van Rijn",
+      "rank": 30,
+      "depth": 0,
+      "storyId": 47249139,
+      "storyTitle": "Rijksmuseum researchers discover new painting by Rembrandt van Rijn",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47249139",
+      "topComments": [
+        {
+          "id": 47296696,
+          "text": "Re-attributed, to be more accurate.\nThe painting wasn't exactly unknown: its existence was reasonably well-documented and it was included in a variety of Rembrandt catalogues. However, in 1960 it was decided that it wasn't a Rembrandt, so people mostly stopped caring about it.\nThis discovery is a re-analysis of the painting using modern methods, which revealed that the 1960 \"not a Rembrandt\" decision was a bit premature.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47296696",
+          "by": "crote",
+          "time": 1772971837
+        },
+        {
+          "id": 47296436,
+          "text": "The Rijksmuseum is amazing, reserve a day on your next visit to Amsterdam and take it all in!\nI also like their tech stack, they let you use your own phone + headphones for the guided tours.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47296436",
+          "by": "Tepix",
+          "time": 1772968725
+        },
+        {
+          "id": 47296236,
+          "text": "It’s a cool story.\nAs a [former] artist, myself, the thing that comes to mind, is the model must have been in real discomfort, after about 3 minutes.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47296236",
+          "by": "ChrisMarshallNY",
+          "time": 1772966629
+        },
+        {
+          "id": 47296391,
+          "text": "I'm currently reading Heretics by the Cuban writer Leonardo Padura. The plot centers around a Rembrandt stolen from a Jewish family that tried to flee to Cuba in the 1930s and a big part of the story follows a young Jewish artist that takes up a kind of apprenticeship with Rembrandt. Padura seems to like stories that span many decades and even centuries as in this book.\nAnyway, the book does a good job of describing Rembrandt's life even if the story is mostly fiction.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47296391",
+          "by": "forinti",
+          "time": 1772968295
+        },
+        {
+          "id": 47296119,
+          "text": "... with a high-resolution scan of the work itself available for download, to boot. I really appreciate whenever museums go out of their way to share those publically! Much better than many paintings only officially available as some 400px thumbnail.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47296119",
+          "by": "apt-get",
+          "time": 1772965410
+        }
+      ],
+      "by": "ohjeez",
+      "time": 1772638969,
+      "url": "https://www.rijksmuseum.nl/en/press/press-releases/rijksmuseum-researchers-discover-new-painting-by-rembrandt-van-rijn",
+      "score": 138,
+      "descendants": 34,
+      "storyUrl": "https://www.rijksmuseum.nl/en/press/press-releases/rijksmuseum-researchers-discover-new-painting-by-rembrandt-van-rijn"
+    }
+  ]
+}

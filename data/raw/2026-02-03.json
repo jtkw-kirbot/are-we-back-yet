@@ -1,0 +1,1568 @@
+{
+  "date": "2026-02-03",
+  "fetchedAt": "2026-04-29T08:00:39.586Z",
+  "samplingMethod": "historical_frontpage_story_comment_snapshot",
+  "source": "hn_front_html_firebase",
+  "items": [
+    {
+      "id": 46871173,
+      "type": "story",
+      "title": "Agent Skills",
+      "rank": 1,
+      "depth": 0,
+      "storyId": 46871173,
+      "storyTitle": "Agent Skills",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46871173",
+      "topComments": [
+        {
+          "id": 46871907,
+          "text": "This stuff smells like maybe the bitter lesson isn't fully appreciated.\nYou might as well just write instructions in English in any old format, as long as it's comprehensible. Exactly as you'd do for human readers! Nothing has really changed about what constitutes good documentation. (Edit to add: my parochialism is showing there, it doesn't have to be English)\nIs any of this standardization really needed? Who does it benefit, except the people who enjoy writing specs and establishing standards like this? If it really is a productivity win, it ought to be possible to run a comparison study and prove it. Even then, it might not be worthwhile in the longer run.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46871907",
+          "by": "iainmerrick",
+          "time": 1770131344
+        },
+        {
+          "id": 46871782,
+          "text": "Our team has found success in treating skills more like re-usable semi-deterministic functions and less like fingers-crossed prompts for random edge-cases.\nFor example, we have a skill to /create-new-endpoint. The skill contains a detailed checklist of all the boilerplate tasks that an engineer needs to do in addition to implementing the logic (e.g. update OpenAPI spec, add integration tests, endpoint boilerplate, etc.). The engineer manually invokes the skill from the CLI via slash commands, provides a JIRA ticket number, and engages in some brief design discussion. The LLM is consistently able to one-shot these tickets in a way that matches our existing application architecture.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46871782",
+          "by": "jgmedr",
+          "time": 1770130779
+        },
+        {
+          "id": 46871595,
+          "text": "Please standardize the folder.\n  .claude/skills\n  .codex/skills\n  .opencode/skills\n  .github/skills",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46871595",
+          "by": "davidkunz",
+          "time": 1770129942
+        },
+        {
+          "id": 46871918,
+          "text": "The observation about agents not using skills without being explicitly asked resonates. In practice, I've found success treating skills as explicit \"workflows\" rather than background context.\nThe pattern that works: skills that represent complete, self-contained sequences - \"do X, then Y, then Z, then verify\" - with clear trigger conditions. The agent recognizes these as distinct modes of operation rather than optional reference material.\nWhat doesn't work: skills as general guidelines or \"best practices\" documents. These get lost in context or ignored entirely because the agent has no clear signal for when to apply them.\nThe mental model shift: think of skills less like documentation and more like subroutines you'd explicitly invoke. If you wouldn't write a function for it, it probably shouldn't be a skill.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46871918",
+          "by": "Soerensen",
+          "time": 1770131401
+        },
+        {
+          "id": 46872878,
+          "text": "Pro tip: create README.md files in subfolders with helpful content that you might put in an AGENTS.md file (but, ya know, for humans too), and *link relevant skills there*. You don't even have to call them skills or use the skills format. It works for everything (including humans!).\nI wrote a rant about skills a while ago that's still relevant in some ways: https://sibylline.dev/articles/2025-10-20-claude-skills-cons...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46872878",
+          "by": "CuriouslyC",
+          "time": 1770135193
+        }
+      ],
+      "by": "mooreds",
+      "time": 1770127794,
+      "url": "https://agentskills.io/home",
+      "score": 544,
+      "descendants": 260,
+      "storyUrl": "https://agentskills.io/home"
+    },
+    {
+      "id": 46872706,
+      "type": "story",
+      "title": "Qwen3-Coder-Next",
+      "rank": 2,
+      "depth": 0,
+      "storyId": 46872706,
+      "storyTitle": "Qwen3-Coder-Next",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46872706",
+      "topComments": [
+        {
+          "id": 46872913,
+          "text": "This GGUF is 48.4GB - https://huggingface.co/Qwen/Qwen3-Coder-Next-GGUF/tree/main/... - which should be usable on higher end laptops.\nI still haven't experienced a local model that fits on my 64GB MacBook Pro and can run a coding agent like Codex CLI or Claude code well enough to be useful.\nMaybe this will be the one? This Unsloth guide from a sibling comment suggests it might be: https://unsloth.ai/docs/models/qwen3-coder-next",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46872913",
+          "by": "simonw",
+          "time": 1770135321
+        },
+        {
+          "id": 46872769,
+          "text": "For those interested, made some Dynamic Unsloth GGUFs for local deployment at https://huggingface.co/unsloth/Qwen3-Coder-Next-GGUF and made a guide on using Claude Code / Codex locally: https://unsloth.ai/docs/models/qwen3-coder-next",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46872769",
+          "by": "danielhanchen",
+          "time": 1770134772
+        },
+        {
+          "id": 46875427,
+          "text": "I got this running locally using llama.cpp from Homebrew and the Unsloth quantized model like this:\n  brew upgrade llama.cpp # or brew install if you don't have it yet\n\nThen:\n  llama-cli \\\n    -hf unsloth/Qwen3-Coder-Next-GGUF:UD-Q4_K_XL \\\n    --fit on \\\n    --seed 3407 \\\n    --temp 1.0 \\\n    --top-p 0.95 \\\n    --min-p 0.01 \\\n    --top-k 40 \\\n    --jinja\n\nThat opened a CLI interface. For a web UI on port 8080 along with an OpenAI chat completions compatible endpoint do this:\n  llama-server \\\n    -hf unsloth/Qwen3-Coder-Next-GGUF:UD-Q4_K_XL \\\n    --fit on \\\n    --seed 3407 \\\n    --temp 1.0 \\\n    --top-p 0.95 \\\n    --min-p 0.01 \\\n    --top-k 40 \\\n    --jinja\n\nIt's using about 28GB of RAM.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46875427",
+          "by": "simonw",
+          "time": 1770144683
+        },
+        {
+          "id": 46873285,
+          "text": "It’s hard to elaborate just how wild this model might be if it performs as claimed.  The claims are this can perform close to Sonnet 4.5 for assisted coding (SWE bench) while using only 3B active parameters.  This is obscenely small for the claimed performance.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46873285",
+          "by": "skhameneh",
+          "time": 1770136731
+        },
+        {
+          "id": 46875445,
+          "text": "I got the Qwen3 Coder 30B running locally on mac Mac M4 Max 36GB. It was slow, but it worked and did do some decent stuff: https://www.youtube.com/watch?v=7mAPaRbsjTU\nVideo is speed up. I ran it through LM Studio and then OpenCode. Wrote a bit about how I set it all up here: https://www.tommyjepsen.com/blog/run-llm-locally-for-coding",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46875445",
+          "by": "tommyjepsen",
+          "time": 1770144753
+        }
+      ],
+      "by": "danielhanchen",
+      "time": 1770134510,
+      "url": "https://qwen.ai/blog?id=qwen3-coder-next",
+      "score": 735,
+      "descendants": 429,
+      "storyUrl": "https://qwen.ai/blog?id=qwen3-coder-next"
+    },
+    {
+      "id": 46848876,
+      "type": "story",
+      "title": "Lessons learned shipping 500 units of my first hardware product",
+      "rank": 3,
+      "depth": 0,
+      "storyId": 46848876,
+      "storyTitle": "Lessons learned shipping 500 units of my first hardware product",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46848876",
+      "topComments": [
+        {
+          "id": 46878892,
+          "text": "This is super interesting, and I'd actually be quite interested in buying a 60K-Lumen lamp... but not at $1200.\nYears ago, there was an HN article \"You Need More Lumens\"[1], which in turn led me down a rabbit hole.\nI ended up purchasing:\n   4 standard table lamps from Target,\n  28 2000-lumen Cree LEDs bulbs[2] and,\n   4 7-way splitters[3].\n\nThe end result is somewhere around 56,000 lumens. And I LOVE it. Makes me much happier in my home office, especially in the winter months.\n[1] https://news.ycombinator.com/item?id=10957614\n[2] https://www.amazon.com/dp/B08H4RJQTT\n[3] https://www.amazon.com/dp/B01FKIE6M4",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46878892",
+          "by": "mmh0000",
+          "time": 1770161170
+        },
+        {
+          "id": 46878823,
+          "text": "> Due to a miscommunication with the factory, the injection pins were moved inside the heatsink fins, causing the cylindrical extrusions below.\nWhat happened after this? the factory have to replace the casting mold at their own expense or you have to pay for it?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46878823",
+          "by": "huydotnet",
+          "time": 1770160749
+        },
+        {
+          "id": 46849340,
+          "text": "Well-written and valuable for insight whether you have similar personal experience or not.\nAs someone who does hardware and software as well, I relate to the challenges of making something you can hold; it's very easy to underestimate the challenge difference between the two.\nYour Murphy's law references are spot on; I feel comforted reading I'm not the only one this happens to! Misery does love company, and it's important to hang on that I think, so that you don't lose hope :)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46849340",
+          "by": "mircerlancerous",
+          "time": 1769979800
+        },
+        {
+          "id": 46848889,
+          "text": "Author here, happy to answer any questions about the journey!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46848889",
+          "by": "sberens",
+          "time": 1769976130
+        },
+        {
+          "id": 46878821,
+          "text": "> As someone who generally stays out of politics, I didn’t know much about the incoming administration’s stance towards tariffs, though I don’t think anyone could have predicted such drastic hikes.\nI have an appreciation for very bright lamps, and the project is neat, but that stuck out to me.\nI'm always fascinated by people who both feel comfortable ignoring maybe the single most impactful society-determining apparatus but will also say \"no one could have seen that coming\", where that is whatever they were unaware of because they chose to check out. I find the stance so fascinating because for myself, it would be impossible to not try and understand why the world is the way it is.\nEverything is downstream of politics whether people want to recognize that or not, and choosing to ignore it is, in fact, a political choice.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46878821",
+          "by": "cwal37",
+          "time": 1770160731
+        }
+      ],
+      "by": "sberens",
+      "time": 1769976060,
+      "url": "https://www.simonberens.com/p/lessons-learned-shipping-500-units",
+      "score": 832,
+      "descendants": 405,
+      "storyUrl": "https://www.simonberens.com/p/lessons-learned-shipping-500-units"
+    },
+    {
+      "id": 46872540,
+      "type": "story",
+      "title": "New York’s budget bill would require “blocking technology” on all 3D printers",
+      "rank": 4,
+      "depth": 0,
+      "storyId": 46872540,
+      "storyTitle": "New York’s budget bill would require “blocking technology” on all 3D printers",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46872540",
+      "topComments": [
+        {
+          "id": 46873220,
+          "text": "This is insanely stupid stuff. Even the UK with our weird panic over Incredibly Specific Knives hasn't tried to do this kind of technical restriction to prevent people printing guns. Why not? Because nobody is printing guns! It's an infeasible solution to a non-problem!\nSomeone should dig into who this is coming from and why. The answers are usually either (a) they got paid to do it by a company selling the tech, which appears not to be the case here, or (b) they went insane on social media.\n(can't confirm this personally, but it seems from other comments that it's perfectly feasible to just drive out of New York State and buy a gun somewhere else in the gun-owning US? And this is quite likely where all the guns used in existing NY crime come from?)\nI would also note that the Shinzo Abe doohickey wasn't 3D-printed.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46873220",
+          "by": "pjc50",
+          "time": 1770136513
+        },
+        {
+          "id": 46874851,
+          "text": "The most insane thing about this is that it is not illegal to manufacture firearms in the United States. Providing that you do not sell or distribute the firearm, it is entirely legal to manufacture a firearm in the USA for personal use only. Laws vary state by state, of course, and it may be different in the state of New York, but assuming that this federal law has not been overridden by some state law in New York, then this proposed regulation is 100% nonsensical.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46874851",
+          "by": "hazmazlaz",
+          "time": 1770142695
+        },
+        {
+          "id": 46873164,
+          "text": "This will cause 3D printer usability to go down massively. A bit like the multicolored tracking dots - https://en.wikipedia.org/wiki/Printer_tracking_dots that causes the driver to tell you \"you can't print black and white as you're out of yellow\".",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46873164",
+          "by": "AnotherGoodName",
+          "time": 1770136318
+        },
+        {
+          "id": 46873033,
+          "text": "I don't think they know what Ctrl+Alt+Delete means.\nThey want to restart it? They want to go to the screen where you can switch users or sign out?\nDo they think it's just a fancier way of saying delete?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46873033",
+          "by": "crazygringo",
+          "time": 1770135804
+        },
+        {
+          "id": 46873340,
+          "text": "Hmmm... this is literally the intro of the narrative arc in the game that I'm making.\nGovernments confiscating 3D Printers, powerful GPUs, robotic parts to prevent \"simple people\" the access to \"dangerous technologies\".\nFor their own good of course.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46873340",
+          "by": "uzish",
+          "time": 1770136914
+        }
+      ],
+      "by": "ptorrone",
+      "time": 1770133902,
+      "url": "https://blog.adafruit.com/2026/02/03/new-york-wants-to-ctrlaltdelete-your-3d-printer/",
+      "score": 683,
+      "descendants": 822,
+      "storyUrl": "https://blog.adafruit.com/2026/02/03/new-york-wants-to-ctrlaltdelete-your-3d-printer/"
+    },
+    {
+      "id": 46873294,
+      "type": "story",
+      "title": "France dumps Zoom and Teams as Europe seeks digital autonomy from the US",
+      "rank": 5,
+      "depth": 0,
+      "storyId": 46873294,
+      "storyTitle": "France dumps Zoom and Teams as Europe seeks digital autonomy from the US",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46873294",
+      "topComments": [
+        {
+          "id": 46875837,
+          "text": "Worth pointing out: France is not adopting existing open source software, they're building their own software and releasing it under the MIT licence. Most of it (or all of it?) is Django backend + React frontend (using a custom-built UI kit).\nHome page for the entire suite (in French) with some screenshots: https://lasuite.numerique.gouv.fr/\nCode bases are on GitHub and they use English there: https://github.com/suitenumerique/\nDev handbook (in English): https://suitenumerique.gitbook.io/handbook\nNot French and I can't say I personally tried deploying any of them, but I've been admiring their efforts from afar for a while now.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46875837",
+          "by": "input_sh",
+          "time": 1770146333
+        },
+        {
+          "id": 46876146,
+          "text": "Makes sense. This software dependency that Europe has on the USA is very, very bad - no just with regards to Zoom, but literally anything. The US corporations are forced by law to always prioritize whoever represents the current US government, and the current US government will remain hostile as long as it is in charge; but even afterwards it is quite logical to assume that any follow-up government will prioritize US interests over European interests. So it makes no sense to pay for outsiders who would work against you.\nFrance does a few things right; scandinavian countries too (I include The Netherlands here, though they are not really scandiavians but in their decision-making, they are often a bit like a hybrid between France and Denmark or Sweden). Spain and Italy lag behind but sometimes, surprisingly, also do the right thing. The real troublemaker is ... Germany. For a reason nobody understands, Germany is like an US satellite in everything it does, but only ... half-hearted. Naturally, \"the economy\" is one reason (export centric country so it is readily blackmailable by the USA here) but even then you have to ask why german politicians have absolutely no pride at all. France has pride - that's good and bad but good in this context. (UK is more an US colony really after Brexit anyway, with Farage probably going to win - and cause more damage. Brits just don't learn from this.)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46876146",
+          "by": "shevy-java",
+          "time": 1770147654
+        },
+        {
+          "id": 46874040,
+          "text": "Refreshing. No more Teams? Sounds like a dream... Of all the crapware I am forced to work with, Teams really pushes the envelope in every single negative way conceivable. I think I have more love for SharePoint than Teams, and that is a massive concession.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46874040",
+          "by": "pelagicAustral",
+          "time": 1770139791
+        },
+        {
+          "id": 46874078,
+          "text": "Such a shame that so many U.S. citizens do not see the ramifications of their political decisions.\nEach one of these actions is a stepping stone the world is taking as a direct consequence of U.S. political negligence. And however difficult it was to render this consequence, it will be tenfold, or hundredfold, as difficult to reverse course.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46874078",
+          "by": "spicyusername",
+          "time": 1770139932
+        },
+        {
+          "id": 46874388,
+          "text": "As an American, this is awesome to see.\nWe should pay penalties for our abandonment of good faith global engagement. And economic damage really is the key to the heart of these United States of Three Corporations in a Trench Coat.\nWe’ve seen companies and CEOs paying millions in bribes to be close to the president. Now this aligns their financial interests with shifting our foreign policy. Not how it ought to work, but it’s the world we have.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46874388",
+          "by": "tyre",
+          "time": 1770141055
+        }
+      ],
+      "by": "AareyBaba",
+      "time": 1770136758,
+      "url": "https://apnews.com/article/europe-digital-sovereignty-big-tech-9f5388b68a0648514cebc8d92f682060",
+      "score": 1149,
+      "descendants": 598,
+      "storyUrl": "https://apnews.com/article/europe-digital-sovereignty-big-tech-9f5388b68a0648514cebc8d92f682060"
+    },
+    {
+      "id": 46874097,
+      "type": "story",
+      "title": "Deno Sandbox",
+      "rank": 6,
+      "depth": 0,
+      "storyId": 46874097,
+      "storyTitle": "Deno Sandbox",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46874097",
+      "topComments": [
+        {
+          "id": 46875015,
+          "text": "Note that you don't need to use Deno or JavaScript at all to use this product. Here's their Python client SDK: https://pypi.org/project/deno-sandbox/\n  from deno_sandbox import DenoDeploy\n  \n  sdk = DenoDeploy()\n  \n  with sdk.sandbox.create() as sb:\n      # Run a shell command\n      process = sb.spawn(\"echo\", args=[\"Hello from the sandbox!\"])\n      process.wait()\n  \n      # Write and read files\n      sb.fs.write_text_file(\"/tmp/example.txt\", \"Hello, World!\")\n      content = sb.fs.read_text_file(\"/tmp/example.txt\")\n      print(content)\n\nLooks like the API protocol itself uses websockets: https://tools.simonwillison.net/zip-wheel-explorer?package=d...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46875015",
+          "by": "simonw",
+          "time": 1770143268
+        },
+        {
+          "id": 46874822,
+          "text": "> In Deno Sandbox, secrets never enter the environment. Code sees only a placeholder\n> The real key materializes only when the sandbox makes an outbound request to an approved host. If prompt-injected code tries to exfiltrate that placeholder to evil.com? Useless.\nThat seems clever.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46874822",
+          "by": "emschwartz",
+          "time": 1770142614
+        },
+        {
+          "id": 46874098,
+          "text": "\"Over the past year, we’ve seen a shift in what Deno Deploy customers are building: platforms where users generate code with LLMs, and that code runs immediately without review. That code frequently calls LLMs itself, which means it needs API keys and network access.\nThis isn’t the traditional “run untrusted plugins” problem. It’s deeper: LLM-generated code, calling external APIs with real credentials, without human review. Sandboxing the compute isn’t enough. You need to control network egress and protect secrets from exfiltration.\nDeno Sandbox provides both. And when the code is ready, you can deploy it directly to Deno Deploy without rebuilding.\"",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46874098",
+          "by": "johnspurlock",
+          "time": 1770140000
+        },
+        {
+          "id": 46876031,
+          "text": ">Deno Sandbox gives you lightweight Linux microVMs (running in the Deno Deploy cloud)\nThe real question is can the microVMs run in just plain old linux, self-hosted.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46876031",
+          "by": "zenmac",
+          "time": 1770147081
+        },
+        {
+          "id": 46876312,
+          "text": "The free plan makes me want to use it like Glitch. But every free service like this ever has been burned...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46876312",
+          "by": "koolala",
+          "time": 1770148376
+        }
+      ],
+      "by": "johnspurlock",
+      "time": 1770140000,
+      "url": "https://deno.com/blog/introducing-deno-sandbox",
+      "score": 533,
+      "descendants": 174,
+      "storyUrl": "https://deno.com/blog/introducing-deno-sandbox"
+    },
+    {
+      "id": 46874619,
+      "type": "story",
+      "title": "Xcode 26.3 – Developers can leverage coding agents directly in Xcode",
+      "rank": 7,
+      "depth": 0,
+      "storyId": 46874619,
+      "storyTitle": "Xcode 26.3 – Developers can leverage coding agents directly in Xcode",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46874619",
+      "topComments": [
+        {
+          "id": 46874909,
+          "text": "MCP support is the real story here \nMeans you're not locked into Claude or Codex \nCan plug in whatever agent you want",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46874909",
+          "by": "OsamaJaber",
+          "time": 1770142923
+        },
+        {
+          "id": 46875417,
+          "text": "Release notes: https://developer.apple.com/documentation/xcode-release-note...\nSurprisingly, this version does not require MacOS 26 (Tahoe).",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46875417",
+          "by": "thought_alarm",
+          "time": 1770144650
+        },
+        {
+          "id": 46874953,
+          "text": "Building castles in the sky while the foundation is rotting away :/ Xcode really needs a couple of years of pure bugfix and optimization releases instead of hype-chasing.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46874953",
+          "by": "flohofwoe",
+          "time": 1770143074
+        },
+        {
+          "id": 46877472,
+          "text": "OT: Rant\nXcode being loaded on my computer causes something akin to a kernel panic.\nNot the fun kind where you get to read a backtrace and feel something. The existential kind.\nEvery time it hijacks a .json or .xml file association, I experience a rage that hasn't been matched since the Emacs/vi wars ... and at least those were about editors that could open in under a geological epoch.\nI just want to look at a text file with pretty print.\nI do not need a 12GB IDE to render curly braces. cat has been doing this since 1971. Dennis Ritchie solved this.\nWhy, Apple, in 40 years, could you not ship a lightweight dev-oriented text viewer? You had NeXTSTEP. You had the DNA of the most elegant Unix workstation ever built.\nAnd you gave us... this behemoth? An app whose launch time rivals a full Gentoo stage 1 install ( see: https://niden.net/post/gentoo-stage-1-installation )\nTextEdit is not the answer.\nI've used Xcode for native iOS development and honestly, once you get past the Stockholm Syndrome phase, it's just fine.\n- The interface is learnable.\n- The debugger mostly works.\nBut the load times -- on every high-end MBP I've ever owned -- suggest that somewhere deep in the Xcode binary, there's a sleep(rand()) that someone committed in 2006 and no one has had the courage to git blame.\nFWIW, I fear someone here tells me I've been missing a launch flag. Alas, it's my truth and I can't hold it in anymore.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46877472",
+          "by": "cyrusradfar",
+          "time": 1770153739
+        },
+        {
+          "id": 46874759,
+          "text": "Anthropic's blog:\n> Apple’s Xcode now supports the Claude Agent SDK\nhttps://www.anthropic.com/news/apple-xcode-claude-agent-sdk",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46874759",
+          "by": "meetpateltech",
+          "time": 1770142332
+        }
+      ],
+      "by": "davidbarker",
+      "time": 1770141848,
+      "url": "https://www.apple.com/newsroom/2026/02/xcode-26-point-3-unlocks-the-power-of-agentic-coding/",
+      "score": 369,
+      "descendants": 331,
+      "storyUrl": "https://www.apple.com/newsroom/2026/02/xcode-26-point-3-unlocks-the-power-of-agentic-coding/"
+    },
+    {
+      "id": 46870015,
+      "type": "story",
+      "title": "Bunny Database",
+      "rank": 8,
+      "depth": 0,
+      "storyId": 46870015,
+      "storyTitle": "Bunny Database",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46870015",
+      "topComments": [
+        {
+          "id": 46873586,
+          "text": "fwiw, Bunny are the people that announced S3 compatibility for their object storage in Q2 2022 [1]\n>  We can’t wait to have this available as a preview later in Q2 and truly make global storage a breeze, so keep an eye out!\nthen apologised for missing that in September 2023 [2]\n> We initially announced that we were working on S3 support for Bunny Storage all the way back in 2022. Today, as 2023 is slowly coming to an end, many of our customers continue to follow our blog, hoping for good news about the release.\nchanging the roadmap to early 2024 [2]\n> But we are working aggressively toward shipping S3 compatibility in early 2024.\nThat same post also has the beautiful \"At bunny.net, we value transparency.\" quote.\nIt's early 2026, and they're literally ignoring my support requests asking about what the roadmap is looking like for this now.\nSo, do not trust their product or leadership at all.\n[1] https://bunny.net/blog/introducing-edge-storage-sftp-support...\n[2] https://bunny.net/blog/whats-happening-with-s3-compatibility...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46873586",
+          "by": "cschmatzler",
+          "time": 1770137815
+        },
+        {
+          "id": 46873590,
+          "text": "I've been struggling with Bunny the last couple of days.\nTheir log delivery api is delayed by over 3 days, despite them promising only \"up to 5 minutes delay\" in their docs: https://docs.bunny.net/cdn/logging\nWhy isn't it on the status page you might ask? Oh, that's because a delay is not \"critical\", but I fear I am losing loglines now, their retention is 3 days.\nIt's an interesting strategy for them, because it doesn't inspire confidence in me about their other offerings. When they can't reliably operate a log delivery API or be transparent about issues, it's hard to trust them with something as critical as a database.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46873590",
+          "by": "kawsper",
+          "time": 1770137823
+        },
+        {
+          "id": 46873296,
+          "text": "Maybe I'm not the target market for this, but how hard is it REALLY to manage a RDBMS?\nAny Linux distro can have MySQL or Postgres installed in less than five minutes and works out of the box\nEven a single core VPS can handle lots of queries per second (assuming the tables are indexed properly and the queries aren't trash)\nThere are mature open source backup solutions which don't require DB downtime (also available in most package managers)\nIt's trivial to tune a DB using .conf files (there are even scripts that autotune for you!!!)\nYour VPS provider will allow you to configure encryption at rest, firewall rules, and whole disk snapshots as well\nAnd neither MySQL or Postgres ever seem to go down, they're super reliable and stable\nPlus you have very stable costs each month",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46873296",
+          "by": "grugdev42",
+          "time": 1770136761
+        },
+        {
+          "id": 46872853,
+          "text": "This is not a database of bunnies",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46872853",
+          "by": "drmajormccheese",
+          "time": 1770135087
+        },
+        {
+          "id": 46871937,
+          "text": "Pricing Details:\n  While in public preview, Bunny Database is free.\n\n  When idle, Bunny Database only incurs storage costs. One primary region is charged continuously, while read replicas only add storage costs when serving traffic (metered by the hour).\n\n  Reads - $0.30 per billion rows\n  Writes - $0.30 per million rows\n  Storage - $0.10 per GB per active region (monthly)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46871937",
+          "by": "bvogelzang",
+          "time": 1770131467
+        }
+      ],
+      "by": "dabinat",
+      "time": 1770120824,
+      "url": "https://bunny.net/blog/meet-bunny-database-the-sql-service-that-just-works/",
+      "score": 322,
+      "descendants": 136,
+      "storyUrl": "https://bunny.net/blog/meet-bunny-database-the-sql-service-that-just-works/"
+    },
+    {
+      "id": 46875228,
+      "type": "story",
+      "title": "AliSQL: Alibaba's open-source MySQL with vector and DuckDB engines",
+      "rank": 9,
+      "depth": 0,
+      "storyId": 46875228,
+      "storyTitle": "AliSQL: Alibaba's open-source MySQL with vector and DuckDB engines",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46875228",
+      "topComments": [
+        {
+          "id": 46876273,
+          "text": "Curious how it stacks up to pg_duckdb.\n(pg_duckdb seems pretty clean, due to Postres' powerful extension mechanisms)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46876273",
+          "by": "linuxhansl",
+          "time": 1770148166
+        },
+        {
+          "id": 46877861,
+          "text": "Does this feed DuckDb continuously data from transactional workloads, akin to what SAP hana does? If so that would be huge - people spend lots of time trying to stitch transactional data to warehouses using Kafka/debezium.\nBTW, Would be great to hear apavlo’s opinion on this.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46877861",
+          "by": "polskibus",
+          "time": 1770155604
+        },
+        {
+          "id": 46877646,
+          "text": "HTAP is here! It seems like these hybrid databases are slowly gaining adoption which is really cool to see.\nThe most interesting part of this is the improvements to transaction handling that it seems they've made in https://github.com/alibaba/AliSQL/blob/master/wiki/duckdb/du... (its also a good high level breakdown of MySQL internals too). Ensuring that the sync between the primary tables and the analytical ones are fast and most importantly, transactional, is awesome to see.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46877646",
+          "by": "jimmyl02",
+          "time": 1770154608
+        },
+        {
+          "id": 46876037,
+          "text": "having an embedded column database for analytics in your traditional db is a massive win for productivity + operations simplicity.\nat the moment I use PG + Tiger Data - couldn't find a mysql equivalent\nso this as one.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46876037",
+          "by": "dzonga",
+          "time": 1770147091
+        },
+        {
+          "id": 46877515,
+          "text": "On a drive-by-glance it looks like if you had a tighter integrated version of PSQL FDW for DuckDB and Vector Storage - meets Vespa. I find it interesting they went with extending MySQL instead of FDW route on PSQL?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46877515",
+          "by": "Keyframe",
+          "time": 1770153923
+        }
+      ],
+      "by": "baotiao",
+      "time": 1770144018,
+      "url": "https://github.com/alibaba/AliSQL",
+      "score": 306,
+      "descendants": 49,
+      "storyUrl": "https://github.com/alibaba/AliSQL"
+    },
+    {
+      "id": 46873138,
+      "type": "story",
+      "title": "Prek: A better, faster, drop-in pre-commit replacement, engineered in Rust",
+      "rank": 10,
+      "depth": 0,
+      "storyId": 46873138,
+      "storyTitle": "Prek: A better, faster, drop-in pre-commit replacement, engineered in Rust",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46873138",
+      "topComments": [
+        {
+          "id": 46875261,
+          "text": "BTW. Pre-commit hooks are the wrong way to go about this stuff.\nI'm advocating for JJ to build a proper daemon that runs \"checks\" per change in the background. So you don't run pre-commit checks when committing. They just happen in the background, and when by the time you get to sharing your changes, you get all the things verified for you for each change/commit, effortlessly without you wasting time or needing to do anything special.\nI have something a bit like that implemented in SelfCI (a minimalistic local-first Unix-philosophy-abiding CI) https://app.radicle.xyz/nodes/radicle.dpc.pw/rad%3Az2tDzYbAX... and it replaced my use of pre-commit hooks entirely. And users already told me that it does feel like commit hooks done right.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46875261",
+          "by": "dpc_01234",
+          "time": 1770144138
+        },
+        {
+          "id": 46874100,
+          "text": "I have also been working on an alternative written in Rust, but in my version the hooks are WASI programs. They run on a virtual filesystem backed by the Git repo. That means a) there are no security issues (they have no network access, and no file access outside the repo), b) you can run them in parallel, c) you can choose whether to apply fixes or not without needing explicit support from the plugin, and most importantly d) they work reliably.\nI'm sure this is more reliably than pre-commit, but you still have hooks building Python wheels and whatnot, which fails annoyingly often.\nhttps://github.com/timmmm/nit\nThe VFS stuff is not quite finished yet though (it's really complicated). If anyone wants to help me with that it would be welcome!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46874100",
+          "by": "timhh",
+          "time": 1770140005
+        },
+        {
+          "id": 46874007,
+          "text": "I think it was a massive mistake to build on the pre-commit plugin base. pre-commit is probably the most popular tool for pre-commit hooks but the platform is bad. My main critique is that it mixes tool installation with linting—when you will undoubtedly want to use linters _outside_ of hooks. The interface isn't built with parallelism in mind, it's sort of bolted on but not really something I think could work well in practice. It also uses a bunch of rando open source repos which is a supply chain nightmare even with pinning.\npre-commit considered harmful if you ask me. prek seems to largely be an improvement but I think it's improving on an already awful platform so you should not use it.\nI know I am working on a competing tool, but I don't share the same criticism for lefthook or husky. I think those are fine and in some ways (like simplicity) better than hk.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46874007",
+          "by": "jdxcode",
+          "time": 1770139678
+        },
+        {
+          "id": 46873836,
+          "text": "I use http://hk.jdx.dev/, which is based on https://pkl-lang.org/ and Rust, as it integrates with http://mise.jdx.dev/.\nIs prek much better?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46873836",
+          "by": "esafak",
+          "time": 1770138919
+        },
+        {
+          "id": 46873764,
+          "text": "I struggle to see value with git hooks.  They're an opt-in, easily opt-out way of calling shell scripts from my understanding--you can't force folks to run them, and they don't integrate/display nicely with CI/CD.\nWhy not just call a shell script directly?  How would you use these with a CI/CD platform?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46873764",
+          "by": "candiddevmike",
+          "time": 1770138622
+        }
+      ],
+      "by": "fortuitous-frog",
+      "time": 1770136174,
+      "url": "https://github.com/j178/prek",
+      "score": 291,
+      "descendants": 123,
+      "storyUrl": "https://github.com/j178/prek"
+    },
+    {
+      "id": 46863162,
+      "type": "story",
+      "title": "The TSA's New $45 Fee to Fly Without ID Is Illegal",
+      "rank": 11,
+      "depth": 0,
+      "storyId": 46863162,
+      "storyTitle": "The TSA's New $45 Fee to Fly Without ID Is Illegal",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46863162",
+      "topComments": [
+        {
+          "id": 46863932,
+          "text": "It's hilarious how transparent a money grab this entire thing is.\n\"You need to show a Real ID for security, otherwise how do we know you won't hijack the plane?\"\n\"Well I don't have a Real ID.\"\n\"Ok then, give us $45 and you can go through.\"\nSo it was never about security at all then, was it?\nAnd don't get me started with all the paid express security lanes. Because of course only poor people can weaponize shoes and laptops.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46863932",
+          "by": "paxys",
+          "time": 1770075620
+        },
+        {
+          "id": 46864669,
+          "text": "Saying that there is “no legal requirement to show an ID” is truthy but misleading. Federal law gives the TSA authority over “screening” passengers: https://www.law.cornell.edu/uscode/text/49/44901 (“The Administrator of the Transportation Security Administration shall provide for the screening of all passengers and property, including United States mail, cargo, carry-on and checked baggage, and other articles, that will be carried aboard a passenger aircraft operated by an air carrier or foreign air carrier in air transportation or intrastate air transportation.”).\nThat means the TSA can do whatever it can get away with labeling “screening.” It doesn’t matter that Congress didn’t specifically require showing IDs. That’s just one possible way of doing “screening.” Under the statute, the TSA is not required to do screening any particular way.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46864669",
+          "by": "rayiner",
+          "time": 1770079619
+        },
+        {
+          "id": 46864046,
+          "text": "Explain to me how qualified immunity is better than any ill it is supposed to address?  And how is it that if you sue the government and win, then the judgement doesn't automatically award reasonable legal fees?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46864046",
+          "by": "thyrsus",
+          "time": 1770076139
+        },
+        {
+          "id": 46863337,
+          "text": "If true, unlikely to help the working poor flying (or attempting to fly) because recourse to courts here is in the realms of the rich or benificent.\nSo, Frommers should fund a test case.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46863337",
+          "by": "ggm",
+          "time": 1770073032
+        },
+        {
+          "id": 46863582,
+          "text": "> Requiring ID won’t make us safer, but it enables surveillance and potential control of our movements.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46863582",
+          "by": "rbbydotdev",
+          "time": 1770074040
+        }
+      ],
+      "by": "donohoe",
+      "time": 1770072490,
+      "url": "https://www.frommers.com/tips/airfare/the-tsa-new-45-fee-to-fly-without-id-is-illegal-says-regulatory-expert/",
+      "score": 613,
+      "descendants": 750,
+      "storyUrl": "https://www.frommers.com/tips/airfare/the-tsa-new-45-fee-to-fly-without-id-is-illegal-says-regulatory-expert/"
+    },
+    {
+      "id": 46868759,
+      "type": "story",
+      "title": "What's up with all those equals signs anyway?",
+      "rank": 12,
+      "depth": 0,
+      "storyId": 46868759,
+      "storyTitle": "What's up with all those equals signs anyway?",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46868759",
+      "topComments": [
+        {
+          "id": 46872854,
+          "text": "For context, this is the Lars Ingebrigtsen who wrote the manual for Gnus[0], a common Emacs package for reading email and Usenet. It’s clever, funny, and wildly informative. Lars has probably forgotten more about email parsing than 99% of us here will ever have learned.\nThe manual itself says[1]:\n> Often when I read the manual, I think that we should take a collection up to have Lars psycho-analysed.\n0: https://www.gnu.org/software/emacs/manual/html_mono/gnus.htm...\n1: https://www.gnus.org/manual.html",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46872854",
+          "by": "kstrauser",
+          "time": 1770135090
+        },
+        {
+          "id": 46869431,
+          "text": "> We see that that’s a quite a long line. Mail servers don’t like that\nWhy do mail server care about how long a line is? Why don't they just let the client reading the mail worry about wrapping the lines?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46869431",
+          "by": "tiborsaas",
+          "time": 1770116966
+        },
+        {
+          "id": 46869728,
+          "text": "I thought the article would be about the various meanings of operators like = == === .=.  > (==) => =~=",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46869728",
+          "by": "heikkilevanto",
+          "time": 1770118969
+        },
+        {
+          "id": 46870071,
+          "text": "I wrote my own email archiving software. The hardest part was dealing with all the weird edge cases in my 20+ year collection of .eml files. For being so simple conceptually, email is surprisingly complicated.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46870071",
+          "by": "thedanbob",
+          "time": 1770121192
+        },
+        {
+          "id": 46870098,
+          "text": "I'm just wondering why this problem shows up now. Why do lots of people suddenly post their old emails with a defective QP decoder?\n> For some reason or other, people have been posting a lot of excerpts from old emails on Twitter over the last few days.\nOn the risk of having missed the latest meme or social media drama, but does anyone know what this \"some reason or other\" is?\nEdit: Question answered.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46870098",
+          "by": "xg15",
+          "time": 1770121334
+        }
+      ],
+      "by": "todsacerdoti",
+      "time": 1770111460,
+      "url": "https://lars.ingebrigtsen.no/2026/02/02/whats-up-with-all-those-equals-signs-anyway/",
+      "score": 692,
+      "descendants": 190,
+      "storyUrl": "https://lars.ingebrigtsen.no/2026/02/02/whats-up-with-all-those-equals-signs-anyway/"
+    },
+    {
+      "id": 46873574,
+      "type": "story",
+      "title": "221 Cannon is Not For Sale",
+      "rank": 13,
+      "depth": 0,
+      "storyId": 46873574,
+      "storyTitle": "221 Cannon is Not For Sale",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46873574",
+      "topComments": [
+        {
+          "id": 46877411,
+          "text": "I have had people show up at my house to ask if it was for rent, based on a fake post on Facebook using photos from Zillow from before my home was sold.\nMy realtor helped me get the photos taken down, but the Facebook ads for it are up to this day. Facebook completely ignores any and all attempts by me to report this malfeasance -- even though these ads literally have my personal home address on them!\nIt's a huge safety risk to me and not due to anything I did whatsoever; all I did was buy a house that was on the market and then move into it. It's a nightmare.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46877411",
+          "by": "ivraatiems",
+          "time": 1770153450
+        },
+        {
+          "id": 46875199,
+          "text": "1. Author lost me at his first sentence: \"Like most people, I’ve had my identity stolen once or twice in my life.\" I am careful and aware of this possibility, but AFAIK I have not experienced this, nor have \"most people\" I know. o_O  Crazy times.\n2. I don't even understand how a title transfer could happen without verifying ownership. Is the title system in the USA decentralized or that much different than elsewhere? i.e. Torrens-style",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46875199",
+          "by": "emptybits",
+          "time": 1770143904
+        },
+        {
+          "id": 46875141,
+          "text": "What about sinking 3 2x4s into the ground and nailing a 4x8 sheet of plywood with a tastefully painted sign indicating the property is not for sale?\nIt won't stop everyone but any realtor doing due diligence will likely see it. If is lasts long enough, it will show up on Google street view as well.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46875141",
+          "by": "thekevan",
+          "time": 1770143666
+        },
+        {
+          "id": 46875041,
+          "text": "Somewhat common in the UK as well, example: https://www.bbc.co.uk/news/uk-england-beds-bucks-herts-63392...  (It took him 4 years to recover possession https://www.bbc.co.uk/news/articles/cwygv79n8x1o)\nHere you can register with the Land Registry and they will email you if any enquiries or attempted sales happen on your property: https://www.gov.uk/protect-land-property-from-fraud",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46875041",
+          "by": "rwmj",
+          "time": 1770143362
+        },
+        {
+          "id": 46875367,
+          "text": "Owning a vacant lot far from where you live seems to come with some risks. In Hawaii, a woman found out that a house was built on the wrong lot and inspectors missed it until the completed house was being sold. I'm curious if there are other proactive measures folks could take to ensure that doesn't happen to their land.\nhttps://www.sfgate.com/hawaii/article/hawaii-home-built-on-w...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46875367",
+          "by": "DannyPage",
+          "time": 1770144483
+        }
+      ],
+      "by": "mecredis",
+      "time": 1770137766,
+      "url": "https://fredbenenson.com/blog/2026/02/03/221-cannon-is-not-for-sale/",
+      "score": 319,
+      "descendants": 272,
+      "storyUrl": "https://fredbenenson.com/blog/2026/02/03/221-cannon-is-not-for-sale/"
+    },
+    {
+      "id": 46861842,
+      "type": "story",
+      "title": "GitHub experience various partial-outages/degradations",
+      "rank": 14,
+      "depth": 0,
+      "storyId": 46861842,
+      "storyTitle": "GitHub experience various partial-outages/degradations",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46861842",
+      "topComments": [
+        {
+          "id": 46862367,
+          "text": "Looks like Azure as a platform just killed the ability for VM scale operations, due to a change on a storage account ACL that hosted VM extensions. Wow... We noticed when github actions went down, then our self hosted runners because we can't scale anymore.\nInformation\nActive - Virtual Machines and dependent services - Service management issues in multiple regions\nImpact statement: As early as 19:46 UTC on 2 February 2026, we are aware of an ongoing issue causing customers to receive error notifications when performing service management operations - such as create, delete, update, scaling, start, stop - for Virtual Machines (VMs) across multiple regions. These issues are also causing impact to services with dependencies on these service management operations - including Azure Arc Enabled Servers, Azure Batch, Azure DevOps, Azure Load Testing, and GitHub. For details on the latter, please see https://www.githubstatus.com.\nCurrent status: We have determined that these issues were caused by a recent configuration change that affected public access to certain Microsoft‑managed storage accounts, used to host extension packages. We are actively working on mitigation, including updating configuration to restore relevant access permissions. We have applied this update in one region so far, and are assessing the extent to which this mitigates customer issues. Our next update will be provided by 22:30 UTC, approximately 60 minutes from now.\nhttps://azure.status.microsoft/en-us/status",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46862367",
+          "by": "llama052",
+          "time": 1770069767
+        },
+        {
+          "id": 46863377,
+          "text": "It's notable that they blame \"our upstream provider\" when it's quite literally the same company. I can't imagine GitHub engineers are very happy about the forced migration to Azure.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46863377",
+          "by": "guywithabike",
+          "time": 1770073150
+        },
+        {
+          "id": 46862533,
+          "text": "As an isolated event, this is not great, but when you see the stagnation (if not downwards trajectory) of GitHub as a whole, it‘s even worse in my opinion.\nedit: Before someone says something. I do understand that the underlying issue is some issue with Azure.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46862533",
+          "by": "fbnszb",
+          "time": 1770070318
+        },
+        {
+          "id": 46865369,
+          "text": "In the Bad Old Days before Github (before Sourceforge even) building and package sucked because of the hundred source tarballs you had to fetch, on any given day 3 would be down (this is why Debian does the \"_orig\" tarballs the way they do). Now it sucks because on any given day either all of them are available or none of them are.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46865369",
+          "by": "bandrami",
+          "time": 1770084011
+        },
+        {
+          "id": 46863834,
+          "text": "Getting the monthly GitHub outage out of the way early, good work.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46863834",
+          "by": "fishgoesblub",
+          "time": 1770075202
+        }
+      ],
+      "by": "bhouston",
+      "time": 1770067696,
+      "url": "https://www.githubstatus.com?todayis=2026-02-02",
+      "score": 265,
+      "descendants": 108,
+      "storyUrl": "https://www.githubstatus.com?todayis=2026-02-02"
+    },
+    {
+      "id": 46845650,
+      "type": "story",
+      "title": "Heritability of intrinsic human life span is about 50%",
+      "rank": 15,
+      "depth": 0,
+      "storyId": 46845650,
+      "storyTitle": "Heritability of intrinsic human life span is about 50%",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46845650",
+      "topComments": [
+        {
+          "id": 46872130,
+          "text": "In case anyone was curious like me: the standard deviation of lifespan is ~12-15 years in developed countries.\nSo environmental effects, sleep, diet, lifestyle, etc (I.e. modifiable factors) maybe account for half of that, so like 6-7.5 years of variance.  Which… sounds about right to me.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46872130",
+          "by": "Enginerrrd",
+          "time": 1770132334
+        },
+        {
+          "id": 46875535,
+          "text": ">By contrast, intrinsic mortality stems from processes originating within the body, including genetic mutations, age-related diseases, and the decline of physiological function with age\nSo we put genetic diseases in the bucket of intrinsic mortality and then found that intrinsic mortality has a heritable component?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46875535",
+          "by": "Imnimo",
+          "time": 1770145139
+        },
+        {
+          "id": 46872198,
+          "text": "Keep in mind this research is based on correcting twin study heritability estimates for confounding effects. However, new research shows that heritability estimates derived from twin studies are themselves dramatically inflated: https://open.substack.com/pub/theinfinitesimal/p/the-missing...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46872198",
+          "by": "emp17344",
+          "time": 1770132560
+        },
+        {
+          "id": 46877092,
+          "text": "The 50% number is a bit mysterious, but if I understand the text of the article correctly, it essentially means that if we do not account for the noise added by accidents and such, we get a Pearson correlation of life expectancies of monozygotic twins of ~0.23. If we correct for accidents, the correlation rises to 0.5, hence 50% (with some further analysis they go up to 0.55, hence \"above 50%\" in the abstract). Now, in practical terms, this means that, given a MZ twin who died recently of natural causes, we could obtain an estimate for ourselves, but only if we make additional assumptions. A correlation coefficient alone is not very informative.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46877092",
+          "by": "macleginn",
+          "time": 1770151865
+        },
+        {
+          "id": 46873953,
+          "text": "There's a lot of genes that impact lifespan, both good and bad.  For example my father has hereditary hemochromatosis due to 2 copies of the HFE C282Y mutation.  He was diagnosed in his 50's, so I'd expect the damage it did to his body to impact lifespan.\nIn my case I don't have it (I'm just a genetic carrier).  If I did have the genotype and took the necessary dietary measures to avoid the phenotype, then it likely wouldn't impact lifespan.\nOn one hand you can argue a heritable disease like HHC has an impact on lifespan, but with genetic testing and treatment you can argue it doesn't impact lifespan (or it's impact is significantly mitigated).",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46873953",
+          "by": "nerdralph",
+          "time": 1770139490
+        }
+      ],
+      "by": "XzetaU8",
+      "time": 1769948002,
+      "url": "https://www.science.org/doi/10.1126/science.adz1187",
+      "score": 173,
+      "descendants": 120,
+      "storyUrl": "https://www.science.org/doi/10.1126/science.adz1187"
+    },
+    {
+      "id": 46866544,
+      "type": "story",
+      "title": "Floppinux – An Embedded Linux on a Single Floppy, 2025 Edition",
+      "rank": 16,
+      "depth": 0,
+      "storyId": 46866544,
+      "storyTitle": "Floppinux – An Embedded Linux on a Single Floppy, 2025 Edition",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46866544",
+      "topComments": [
+        {
+          "id": 46866878,
+          "text": "Over Christmas I tried to actually build a usable computer from the 32-bit era. Eventually I discovered that the problem isn't really the power of the computer. Computers have been powerful enough for productivity tasks for 20 years, excepting browser-based software.\nThe two main problems I ran into were 1) software support at the application layer, and 2) video driver support. There is a herculean effort on the part of package maintainers to build software for distros, and no one has been building 32 bit version of software for years, even if it is possible to build from source. There is only a very limited set of software you can use, even CLI software because so many things are built with 64 bit dependencies. Secondly, old video card drivers are being dropped from the kernel. This means all you have is basic VGA \"safe-mode\" level support, which isn't even fast enough to play an MPEG2. My final try was to install Debian 5, which was period correct and had support for my hardware, but the live CDs of the the time were not hybrid so the ISO could not boot from USB. I didn't have a burner so I finally gave up.\nSo I think these types of projects are fun for a proof of concept, but unfortunately are never going to give life to old computers.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46866878",
+          "by": "sockbot",
+          "time": 1770096500
+        },
+        {
+          "id": 46871879,
+          "text": "Reminds me of my first linux distro called damnsmall linux. I think this was used as a first attempt to port linux to the gamecube, but the main team driving the effort ended up going with Gentoo instead.\nFrom the main page:\nAs with most things in the GNU/Linux community, this project continues to stand on the shoulders of giants. I am just one guy without a CS degree, so for now, this project is based on antiX 23 i386. AntiX is a fantastic distribution that I think shares much of the same spirit as the original DSL project. AntiX shares pedigree with MEPIS and also leans heavily on the geniuses at Debian. So, this project stands on the shoulders of giants. In other words, DSL 2024 is a humble little project!\nThough it may seem comparably ridiculous that 700MB is small in 2024 when DSL was 50MB in 2002, I’ve done a lot of hunting to find small footprint applications, and I had to do some tricks to get a workable desktop into the 700MB limit. To get the size down the ISO currently reduced full language support for German, English, French, Spanish, Portuguese and Brazilian Portuguese (de_DE, en_AU, en_GB, en_US, es_ES, fr_FR, es_ES, pt_PT, & pt_BR ). I had to strip the source codes, many man pages, and documentation out. I do provide a download script that will restore all the missing files, and so far, it seems to be working well.\nhttps://www.damnsmalllinux.org/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46871879",
+          "by": "mlacks",
+          "time": 1770131248
+        },
+        {
+          "id": 46866863,
+          "text": "The persistence strategy described here (mount -t msdos -o rw /dev/fd0 /mnt) combined with a bind mount to home is a nice clever touch for saving space.\nI don't know if that's also true for data integrity on physical magnetic media. FAT12 is not a journaling filesystem. On a modern drive, a crash during a write is at best, annoying while on a 3.5\" floppy with a 33mhz CPU, a write operation blocks for a perceptible amount of time. If the user hits the power switch or the kernel panics while the heads are moving or the FAT is updating, that disk is gone. The article mentions sync, but sync on a floppy drive is an agonizingly slow operation that users might interrupt.\nGiven the 253KiB free space constraint, I wonder if a better approach would be treating the free space as a raw block device or a tiny appended partition using a log-structured filesystem designed for slow media (like a stripped down JFFS2 or something), though that might require too many kernel modules.\nHas anyone out there experimented with appending a tar archive to the end of the initramfs image inplace for persistence, rather than mounting the raw FAT filesystem? It might be safer to serialize writes only on shutdown, would love more thoughts on this.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46866863",
+          "by": "Fiveplus",
+          "time": 1770096348
+        },
+        {
+          "id": 46866785,
+          "text": "I remember the QNX Demo on a 1.44 MB floppy disk. It booted straight into a full blown window manager and had a basic web browser. That was 1999 and I never saw anything like that afterwards.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46866785",
+          "by": "hilti",
+          "time": 1770095535
+        },
+        {
+          "id": 46873814,
+          "text": "Have you tested this on an actual 486?\nSadly, it does not seem to boot on my 486 DX2, I even stuffed 32M of RAM into the machine (8*4M, maximum the mainboard supports), more than the recommended 20M.\nI have copied the floppy image from the site. It churns for about a minute and a half, loading kernel and initrd, then says \"Booting kernel failed: Invalid Argument\" and drops into SYSLINUX prompt.\nEDIT: I tried a few more floppies to rule that out as the cause of the problem.\nHere are some screenshots: https://imgur.com/a/floppinux-0-3-1-Mdh1c0w\nEDIT 2: I cloned SYSLINUX, checked out the specific commit and did some prodding around.\nThe function `bios_boot_linux` in `com32/lib/syslinux/load_linux.c` initializes errno to EINVAL. Besides sanity checking the header of the kernel image, there are a few other error paths that also `goto bail;` without changing errno.\nThose other error paths all seem to be related to handling the memory map. I know that the BIOS in my machine does not support the E820h routine. I have a hunch that this might be the reason why it fails.\nThe website has an image gallery where people ran it on actual hardware: https://krzysztofjankowski.com/floppinux/floppinux-in-the-wi...\nMost of those machines seem to be newer systems which probably support E820h, except for another 486 DX2 with a similar vintage as mine, that also failed to boot.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46873814",
+          "by": "st_goliath",
+          "time": 1770138842
+        }
+      ],
+      "by": "GalaxySnail",
+      "time": 1770093205,
+      "url": "https://krzysztofjankowski.com/floppinux/floppinux-2025.html",
+      "score": 253,
+      "descendants": 192,
+      "storyUrl": "https://krzysztofjankowski.com/floppinux/floppinux-2025.html"
+    },
+    {
+      "id": 46864498,
+      "type": "story",
+      "title": "How does misalignment scale with model intelligence and task complexity?",
+      "rank": 17,
+      "depth": 0,
+      "storyId": 46864498,
+      "storyTitle": "How does misalignment scale with model intelligence and task complexity?",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46864498",
+      "topComments": [
+        {
+          "id": 46865045,
+          "text": "The comments so far seem focused on taking a cheap shot, but as somebody working on using AI to help people with hard, long-term tasks, it's a valuable piece of writing.\n- It's short and to the point\n- It's actionable in the short term (make sure the tasks per session aren't too difficult) and useful for researchers in the long term\n- It's informative on how these models work, informed by some of the best in the business\n- It gives us a specific vector to look at, clearly defined (\"coherence\", or, more fun, \"hot mess\")",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46865045",
+          "by": "jmtulloss",
+          "time": 1770082003
+        },
+        {
+          "id": 46864780,
+          "text": ">  Making models larger improves overall accuracy but doesn't reliably reduce incoherence on hard problems.\nCoherence requires 2 opposing forces to hold coherence in one dimension and at least 3 of them in higher dimensions of quality.\nMy team wrote up a paper titled \"If You Want Coherence, Orchestrate a Team of Rivals\"[1] because we kept finding that upping the reasoning threshold resulted in less coherence - more experimentation before we hit a dead-end to turn around.\nSo we had a better result from using Haiku (we fail over to Sonnet) over Opus and using a higher reasoning model to decompose tasks rather than perform each one of them.\nOnce a plan is made, the cheaper models do better as they do not double-think their approaches - they fail or they succeed, they are not as tenacious as the higher cost models.\nWe can escalate to higher authority and get out of that mess faster if we fail hard and early.\nThe knowledge of how exactly failure happened seems to be less useful to the higher reasoning model over the action biased models.\nSplitting up the tactical and strategic sides of the problem, seems to work similarly to how Generals don't hold guns in a war.\n[1] - https://arxiv.org/abs/2601.14351",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46864780",
+          "by": "gopalv",
+          "time": 1770080259
+        },
+        {
+          "id": 46864762,
+          "text": "This is a good line: \"It found that smarter entities are subjectively judged to behave less coherently\"\nI think this is twofold:\n1. Advanced intelligence requires the ability to traverse between domain valleys in the cognitive manifold. Be it via temperature or some fancy tunneling technique, it's going to be higher error (less coherent) in the valleys of the manifold than naive gradient following to the local minima.\n2. It's hard to \"punch up\" when evaluating intelligence. When someone is a certain amount smarter than you, distinguishing their plausible bullshit from their deep insights is really, really hard.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46864762",
+          "by": "CuriouslyC",
+          "time": 1770080201
+        },
+        {
+          "id": 46868292,
+          "text": "You simply can't have a single shot context with so many simultaneous constraints and expect to make forward progress. This cannot be solved with additional silicon, power or data.\nSmaller prompts and fewer tools tends to be more stable. I try to stay within 1000 tokens and 10 tools for a single inference pass. I become visibly amused when I read many of the system prompts out there. Anthropomorphism is the biggest anti pattern with these models. It's a very easy and comfortable trap to fall into.\nThe core issue I see with coding agents is that the moment you read a file, you've polluted the context in terms of token coherence. It's probably not critical in most cases, but it's safer to pretend like it is. Recursive/iterative decomposition of the problem is the only thing I've seen so far that can scale arbitrarily. For example, if you invoke a sub agent every time you read a file, you can reduce the impact to the token budget of the caller by orders of magnitude. The callee can return a brief summary or yes/no response to the caller after reading 500kb of source. This applies at each level of recursion and can compound dramatically (exponentially) over just a few nested calls.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46868292",
+          "by": "bob1029",
+          "time": 1770108181
+        },
+        {
+          "id": 46864954,
+          "text": "I think It's not because AI working on \"misaligned\" goals. The user never specify the goal clearly enough for AI system to work.\nHowever, I think producing detailed enough specification requires same or even larger amount of work than writing code. We write rough specification and clarify these during the process of coding. I think there are minimal effort required to produce these specification, AI will not help you speed up these effort.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46864954",
+          "by": "smy20011",
+          "time": 1770081367
+        }
+      ],
+      "by": "salkahfi",
+      "time": 1770078486,
+      "url": "https://alignment.anthropic.com/2026/hot-mess-of-ai/",
+      "score": 242,
+      "descendants": 78,
+      "storyUrl": "https://alignment.anthropic.com/2026/hot-mess-of-ai/"
+    },
+    {
+      "id": 46878338,
+      "type": "story",
+      "title": "Notepad++ supply chain attack breakdown",
+      "rank": 18,
+      "depth": 0,
+      "storyId": 46878338,
+      "storyTitle": "Notepad++ supply chain attack breakdown",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46878338",
+      "topComments": [
+        {
+          "id": 46879140,
+          "text": "The WinGUp updater compromise is a textbook example of why update mechanisms are such high-value targets. Attackers get code execution on machines that specifically trust the update channel.\nWhat's concerning is the 6-month window. Supply chain attacks are difficult to detect because the malicious code runs with full user permissions from a \"trusted\" source. Most endpoint protection isn't designed to flag software from a legitimate publisher's update infrastructure.\nFor organizations, this argues for staged rollouts and network monitoring for unexpected outbound connections from common applications. For individuals, package managers with cryptographic verification at least add another barrier - though obviously not bulletproof either.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46879140",
+          "by": "Soerensen",
+          "time": 1770162355
+        },
+        {
+          "id": 46878922,
+          "text": "I am running a lot of tools inside sandbox now for exactly this reason. The damage is confined to the directory I'm running that tool in.\nThere is no reason for a tool to implicitly access my mounted cloud drive directory and browser cookies data.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46878922",
+          "by": "ashishb",
+          "time": 1770161346
+        },
+        {
+          "id": 46879092,
+          "text": "I noticed I had version 8.9 on Dec 28, 2025 and it seems clean according to\nhttps://arstechnica.com/security/2026/02/notepad-updater-was...\nI recommend removing notepad++ and installing via winget which installs the EXE directly without the winGUP updater service.\nHere's an AI summary  explaining who is affected.\nAffected Versions: All versions of Notepad++ released prior to version 8.8.9 are considered potentially affected if an update was initiated during the compromise window.\nCompromise Window: Between June 2025 and December 2, 2025.\nSpecific Risk: Users running older versions that utilized the WinGUp update tool were vulnerable to being redirected to malicious servers. These servers delivered trojanized installers containing a custom backdoor dubbed Chrysalis.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46879092",
+          "by": "tonymet",
+          "time": 1770162120
+        },
+        {
+          "id": 46879079,
+          "text": "I'm out of the loop: How did they bypass Notepad++'s digital signatures? I just downloaded it to double-check, and the installer is signed with a valid code-signing certificate.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46879079",
+          "by": "Someone1234",
+          "time": 1770162047
+        },
+        {
+          "id": 46878885,
+          "text": "It now seems to be best practice to simultaneously keep things updated (to avoid newly discovered vulnerabilities), but also not update them too much (to avoid supply chain attacks). Honestly not sure how I'm meant to action those at the same time.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46878885",
+          "by": "troad",
+          "time": 1770161132
+        }
+      ],
+      "by": "natebc",
+      "time": 1770158127,
+      "url": "https://securelist.com/notepad-supply-chain-attack/118708/",
+      "score": 384,
+      "descendants": 192,
+      "storyUrl": "https://securelist.com/notepad-supply-chain-attack/118708/"
+    },
+    {
+      "id": 46875033,
+      "type": "story",
+      "title": "Y Combinator will let founders receive funds in stablecoins",
+      "rank": 19,
+      "depth": 0,
+      "storyId": 46875033,
+      "storyTitle": "Y Combinator will let founders receive funds in stablecoins",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46875033",
+      "topComments": [
+        {
+          "id": 46876365,
+          "text": "This is intersting.\nOccasionally in YC founder circles a new founder will raise a bunch of money and then ask something like \"What's the best way to invest all the money our company just raised?\"\nThe responses are always along the lines of \"Your startup is already risky. Don't innovate in areas of your business where the status quo is known to work. Innovate your product + technology, don't be innovative with your company's finances, HR, etc\"\nThat advice always stuck with me. It just makes a lot of sense to do things in the most boring way possible, except where it matters (your competitive advantage <-- that's where you innovate, that's where you set yourself apart)\nRunning a startup is distracting enough. Doing things non-standard just adds to the list of distractions that you don't need as a founder.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46876365",
+          "by": "cj",
+          "time": 1770148616
+        },
+        {
+          "id": 46876600,
+          "text": "Stablecoins make a lot of sense in countries like Argentina where the national currency is a shitcoin. But YC doesn't fund startups in Argentina. Stablecoins can also be used to pay remote employees but that should probably go through an employer of record so that people aren't paid under the table. This sounds like more crypto for the sake of crypto.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46876600",
+          "by": "wmf",
+          "time": 1770149597
+        },
+        {
+          "id": 46878971,
+          "text": "Sounds like a camouflaged IQ test for the founders...\nOr perhaps Y Combinator is great at funding startups,\nbut incredibly bad with financial decision making.\nIn which case it is an IQ test for Y Combinator,\nwhich they have failed.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46878971",
+          "by": "KnuthIsGod",
+          "time": 1770161611
+        },
+        {
+          "id": 46879170,
+          "text": "Indisputable evidence that YC loves smelling its own farts. Pure absurdity. America truly is reaping what it’s sowing.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46879170",
+          "by": "UqWBcuFx6NV4r",
+          "time": 1770162572
+        },
+        {
+          "id": 46875983,
+          "text": "I hope we aren't too close to \"territorial currencies\" where each feudal lord was authorized (or not forbidden) to mint his own currency, which couldn't be carried over the next feud. Think awarded \"miles\" by your credit card, or tickets in a games center.\nhttps://ndl.ethernet.edu.et/bitstream/123456789/41452/1/112....",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46875983",
+          "by": "catlikesshrimp",
+          "time": 1770146860
+        }
+      ],
+      "by": "shscs911",
+      "time": 1770143328,
+      "url": "https://fortune.com/2026/02/03/famed-startup-incubator-y-combinator-to-let-founders-receive-funds-in-stablecoins/",
+      "score": 160,
+      "descendants": 300,
+      "storyUrl": "https://fortune.com/2026/02/03/famed-startup-incubator-y-combinator-to-let-founders-receive-funds-in-stablecoins/"
+    },
+    {
+      "id": 46877403,
+      "type": "story",
+      "title": "FlashAttention-T: Towards Tensorized Attention",
+      "rank": 20,
+      "depth": 0,
+      "storyId": 46877403,
+      "storyTitle": "FlashAttention-T: Towards Tensorized Attention",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46877403",
+      "topComments": [
+        {
+          "id": 46878910,
+          "text": "Oh wow there's still work being done on ampere?\nI was wondering - I've been thinking about switching to AI systems programming (I know, easy task), but from what I understand, industry cloud GPUs are the main winners, right? Nobody's going to pay me (assuming I even had the skills) to optimize for consumer GPUs?\nFrom what I understand, it's not just number + capacity + performance, it's literal core primitives. I don't think any of the \"Blackwell\" chips like the grace one or rtx 5090 have for example SM pairs in their ISA? And likewise similar fundamental differences between consumer and cloud hopper (where the majority of the perf is the cloud one's ISA?)\nSo I guess I'm wondering if I should buy a GPU myself or should I just rent on the cloud if I wanted to start getting some experience in this field. How do you even get experience in this normally anyways, do you get into really good schools and into their AI labs which have a lot of funding?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46878910",
+          "by": "sigbottle",
+          "time": 1770161270
+        },
+        {
+          "id": 46878969,
+          "text": "OT but instead of quadratic attention can we not have n^10 or something crazier? I feel like we are limiting the intelligence just to save cost. But I can imagine that there might be some questions that may be worth paying higher cost for.\nI feel like n^10 attention can capture patterns that lower complexity attention may not. So it seems arbitrary that we have n^2 attention.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46878969",
+          "by": "simianwords",
+          "time": 1770161603
+        },
+        {
+          "id": 46878262,
+          "text": "tri dao isn't on the paper is it even allowed to call it \"FlashAttention\"???",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46878262",
+          "by": "semiinfinitely",
+          "time": 1770157727
+        },
+        {
+          "id": 46878403,
+          "text": "Less annoying link directly to the paper: https://dl.acm.org/doi/pdf/10.1145/3774934.3786425?download=...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46878403",
+          "by": "saagarjha",
+          "time": 1770158432
+        }
+      ],
+      "by": "matt_d",
+      "time": 1770153348,
+      "url": "https://dl.acm.org/doi/10.1145/3774934.3786425",
+      "score": 116,
+      "descendants": 57,
+      "storyUrl": "https://dl.acm.org/doi/10.1145/3774934.3786425"
+    },
+    {
+      "id": 46843805,
+      "type": "story",
+      "title": "Archive.today is directing a DDoS attack against my blog",
+      "rank": 21,
+      "depth": 0,
+      "storyId": 46843805,
+      "storyTitle": "Archive.today is directing a DDoS attack against my blog",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46843805",
+      "topComments": [
+        {
+          "id": 46844759,
+          "text": "previously https://news.ycombinator.com/item?id=46624740",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46844759",
+          "by": "its-summertime",
+          "time": 1769937537
+        },
+        {
+          "id": 46866711,
+          "text": "It is academically very interesting to think about this in light of their long-standing dispute with Cloudflare (https://community.cloudflare.com/t/archive-is-error-1001/182...) over EDNS, which could have privacy implications attached.\nI think no matter how you slice it though, it's unethical and reprehensible to coordinate (even a shoddy) DDoS leveraging your visitors as middlemen. This is effectively coordinating a botnet, and we shouldn't condone this behavior as a community.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46866711",
+          "by": "Shank",
+          "time": 1770094742
+        },
+        {
+          "id": 46868558,
+          "text": "This likely means nothing, but the .is webmaster seems to have some sort of existing issue with Finland (where gyrovague is from), see https://news.ycombinator.com/item?id=37011955. I thought I would point it out.\nAlso, as someone interested in OPSEC and OSINT as a hobby, I find the measures taken by the .is webmaster, especially the dedication to setting up countless fake accounts for each persona, to be very intriguing. I spent about an hour looking into the Nora Puchreiner persona and all the accounts registered to it that I could find. It appears that \"Tomas Poder\" is another alter-ego used by the .is administrator. Nora also seems to have a sister: \"Sara Puchreiner\". Again, all very interesting and I can't seem to make a clear picture of the situation.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46868558",
+          "by": "parable",
+          "time": 1770110167
+        },
+        {
+          "id": 46868699,
+          "text": "It's a puzzling situation:\n- The DDoS was certainly unethical and unneeded\n- Although the blog post only shows an extremely one-sided version of the story by skipping straight to the threats, there are reasons to think that diplomacy has also failed terribly\n- The website owner has all eyes of the \"thought police\" on them, and given the current political situation in Russia, it's more than likely they reside somewhere where it has real power; realistically speaking, who wouldn't be losing it?\n- The blog post is preserving information that could aid further investigations even if purged from the original sources, and reveals non-OSINT information in the follow ups\n- At the same time, it's, to say the least, hypocritical of the archive.today owner to attempt forcefully taking the original post down, when archive.today itself is an OSINT tool\nI don't think there's a way to fairly untangle this mess anymore.\nHence, I'd focus on the possible outcomes: do we want archive.today taken down over this? Who would lose and who would benefit the most from this takedown?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46868699",
+          "by": "m132",
+          "time": 1770111157
+        },
+        {
+          "id": 46868396,
+          "text": "Archive.today does not seem to have worked for people connecting from Finland since mid-January, it just gives an endless captcha loop. Is this related to whatever this drama is?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46868396",
+          "by": "rsaarelm",
+          "time": 1770108963
+        }
+      ],
+      "by": "gyrovague-com",
+      "time": 1769922713,
+      "url": "https://gyrovague.com/2026/02/01/archive-today-is-directing-a-ddos-attack-against-my-blog/",
+      "score": 366,
+      "descendants": 168,
+      "storyUrl": "https://gyrovague.com/2026/02/01/archive-today-is-directing-a-ddos-attack-against-my-blog/"
+    },
+    {
+      "id": 46822717,
+      "type": "story",
+      "title": "1,400-year-old tomb featuring giant owl sculpture discovered in Mexico",
+      "rank": 22,
+      "depth": 0,
+      "storyId": 46822717,
+      "storyTitle": "1,400-year-old tomb featuring giant owl sculpture discovered in Mexico",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46822717",
+      "topComments": [
+        {
+          "id": 46879155,
+          "text": "I wish this article shared more about how this tomb was discovered. Was it buried under mountain of dirt? Under a jungle canopy no one explored? Has it been there all along at an existing ruins site but was hidden in some way? Give us details man!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46879155",
+          "by": "shartshooter",
+          "time": 1770162471
+        },
+        {
+          "id": 46878860,
+          "text": "The Zapotec civilization pre-dates the Aztecs and Maya and were the first to develop a writing system in Mexico.\nBenito Juarez, President of Mexico during their revolution, was Zapotec.\nThe Zapotec people are still around today and a large number still speak their ancient language.  A large number moved to LA and another group in New Jersey, but they're all over the US.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46878860",
+          "by": "engineer_22",
+          "time": 1770161009
+        }
+      ],
+      "by": "breve",
+      "time": 1769768814,
+      "url": "https://www.cnn.com/2026/01/29/science/zapotec-tomb-mexico-scli-intl",
+      "score": 133,
+      "descendants": 36,
+      "storyUrl": "https://www.cnn.com/2026/01/29/science/zapotec-tomb-mexico-scli-intl"
+    },
+    {
+      "id": 46833534,
+      "type": "story",
+      "title": "Puget Systems Most Reliable Hardware of 2025",
+      "rank": 23,
+      "depth": 0,
+      "storyId": 46833534,
+      "storyTitle": "Puget Systems Most Reliable Hardware of 2025",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46833534",
+      "topComments": [
+        {
+          "id": 46875977,
+          "text": "I always wonder how many system crashes that we put on the software or the OS are actually just sub optimal components. Computers are so complex and so fast that just a little bit of instability can probably lead to data corruption.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46875977",
+          "by": "BadBadJellyBean",
+          "time": 1770146843
+        },
+        {
+          "id": 46876468,
+          "text": "Maybe they just don't really use anything else, but I just love that the most reliable memory is just Kingston ValueRAM. No fancy heat spreader or packaging, not even a black PCB, just chips on a classic green circuit board.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46876468",
+          "by": "mrweasel",
+          "time": 1770149007
+        },
+        {
+          "id": 46877455,
+          "text": "My main home PC is a Puget Serenity workstation from 2017. It has been rock solid and outperforms much newer laptops. And it has almost zero fan noise which is a priority for me. Unfortunately it looks like they may have discontinued the Serenity model, at least I don't see it on the website anymore.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46877455",
+          "by": "skobes",
+          "time": 1770153627
+        },
+        {
+          "id": 46878156,
+          "text": "I am not surprised at all to see the W series Xeons with very high reliability. I know they tend to be pricier than AMD, and maybe not as fast, but I can't recall the last time I managed to kill an E3/E5/W series Xeon in the last 15 years, no matter how hard they're worked. Intel pooched it with the i-series core parts, but the workstation xeons have always been really reliable and more thrifty with power especially at idle than AMD.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46878156",
+          "by": "rpcope1",
+          "time": 1770157238
+        },
+        {
+          "id": 46878719,
+          "text": "Did they manage to get USB to work reliably, because ime that's always a gamble.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46878719",
+          "by": "amelius",
+          "time": 1770160078
+        }
+      ],
+      "by": "zdw",
+      "time": 1769834065,
+      "url": "https://www.pugetsystems.com/labs/articles/puget-systems-most-reliable-hardware-of-2025/",
+      "score": 141,
+      "descendants": 50,
+      "storyUrl": "https://www.pugetsystems.com/labs/articles/puget-systems-most-reliable-hardware-of-2025/"
+    },
+    {
+      "id": 46822177,
+      "type": "story",
+      "title": "The Connection Machine CM-1 \"Feynman\" T-shirt",
+      "rank": 24,
+      "depth": 0,
+      "storyId": 46822177,
+      "storyTitle": "The Connection Machine CM-1 \"Feynman\" T-shirt",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46822177",
+      "topComments": [
+        {
+          "id": 46865341,
+          "text": "Nice, ordered.\nFor fans of computing history and/or Feynman, this article about his time with, and contributions to, Thinking Machines and the Connection Machine is a great read!\nhttps://longnow.org/ideas/richard-feynman-and-the-connection...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46865341",
+          "by": "yesbabyyes",
+          "time": 1770083872
+        },
+        {
+          "id": 46871362,
+          "text": "I want one of those t-shirts.\nI was incredibly lucky to have been funded to write StarLisp code for the original CM-1 machine. CM-1 was a SIMD architecture, the later models were MIMD. Think of the physical layout being a 2D grid or processors with one edge being for I/O. That was a long time ago so I may have the details wrong.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46871362",
+          "by": "mark_l_watson",
+          "time": 1770128731
+        },
+        {
+          "id": 46865012,
+          "text": "The Connection Machine series (which was featured in Jurassic Park) have the most beautiful LED panels.\nReposting some links from a recent Jurassic Park thread -\nhttps://en.wikipedia.org/wiki/Connection_Machine\nhttps://www.youtube.com/watch?v=T4kBRC2co7Y&t=65s (Jurassic Park)\nThe LED panel is gorgeous:\nhttps://youtube.com/watch?v=6Ko4qBkEcBM (render)\nA lot of people have replicated or restored these:\nhttps://youtube.com/watch?v=qm6w57ZcJZQ\nhttps://www.housedillon.com/posts/resurrected-led-panels/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46865012",
+          "by": "echelon",
+          "time": 1770081776
+        },
+        {
+          "id": 46865400,
+          "text": "I ordered one of these a while back. Be warned that it will shrink if put in the dryer.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46865400",
+          "by": "boole1854",
+          "time": 1770084163
+        },
+        {
+          "id": 46871304,
+          "text": "> As an ironic footnote, a friend who worked for Steve Jobs at NeXT told me the CM-1 was the inspiration for the form of his NeXT machine.\nhttps://tamikothiel.com/cm/tshirt/index.html>\nYou can see it in action here\nhttps://www.paulrand.design/work/NeXT-Computers.html>",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46871304",
+          "by": "Bengalilol",
+          "time": 1770128441
+        }
+      ],
+      "by": "tosh",
+      "time": 1769764248,
+      "url": "https://tamikothiel.com/cm/cm-tshirt.html",
+      "score": 115,
+      "descendants": 33,
+      "storyUrl": "https://tamikothiel.com/cm/cm-tshirt.html"
+    },
+    {
+      "id": 46865275,
+      "type": "story",
+      "title": "Banning lead in gas worked. The proof is in our hair",
+      "rank": 25,
+      "depth": 0,
+      "storyId": 46865275,
+      "storyTitle": "Banning lead in gas worked. The proof is in our hair",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46865275",
+      "topComments": [
+        {
+          "id": 46871420,
+          "text": "In my opinion it is obvious and should be uncontroversial that some environmental regulations work and are great and should if anything be reinforced, while other environmental regulations do more harm than good and need to be reigned in or eliminated.\nTurning \"environmental regulation\" into a unified bloc that must be either supported or opposed in totality is a manipulative political maneuver and it should be forcefully rejected.\nRegulations are not people, and they don't have rights. It is fair and reasonable to demand that environmental regulation justify its existence with hard, scientifically verifiable data or else get chopped. Clearly, banning leaded gasoline has that kind of justification, and therefore I'm strongly in favor of maintaining that ban and extending it wherever it isn't in place yet. The same reasonable standard should be applied to other regulations across the board.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46871420",
+          "by": "cfiggers",
+          "time": 1770129070
+        },
+        {
+          "id": 46867408,
+          "text": "I remember going to LA in the late 80's and my eyes watering (I also remember the pants-less man on the side of the strode but that is a different story). Environmental regulations are a win. Unfortunately there is a large segment of the population that doesn't believe something until it happens to them directly. That makes it a challenge to maintain environmental, or any regulations for that matter, over generations. It isn't practical, but it would be interesting to create 'pollution cities' where the regulations were loose so long as the entire company drew its workforce (including management) from the local population (like within a mile) and a significant portion of their drinking water and foods must also be sourced locally. Go ahead, pollute your own drinking water. I bet cities like this would be cleaner than ones with stricter regulations.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46867408",
+          "by": "jmward01",
+          "time": 1770101264
+        },
+        {
+          "id": 46871711,
+          "text": "Fun fact - leaded petrol isn't actually banned in the UK, you can legally buy it and use it. The legislation at the time of bans just made it so that leaded petrol could only be a small % of overall petrol sales by any given fuel station, arguing that it allowed time for owners of unleaded-incompatible cars to purchase it.\nAnd....it worked pretty much exactly as designed - initially only the largest stations carried it because they could justify the storage costs, and eventually it disappeared from almost everywhere. Just before covid there were still 3 small garages selling leaded petrol by the drum, but afaik they all stopped doing so.\nAnd regardless - you can stil buy actual real Tetraethyl Lead fuel additive which turns your petrol into actual real 4-star leaded petrol, just like in the old days:\nhttps://www.demon-tweeks.com/tetraboost-e-guard-15-fuel-addi...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46871711",
+          "by": "gambiting",
+          "time": 1770130371
+        },
+        {
+          "id": 46866002,
+          "text": "Hopefully next we can help fix mercury in fish, the number one contributor right now is burning coal. Seems like it would be a  easy decision.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46866002",
+          "by": "russdill",
+          "time": 1770088631
+        },
+        {
+          "id": 46871627,
+          "text": "I really want to see elimination of lead (projectiles, lead styphnate primers, etc.) in firearms next.\nWhen I go to the range, every once in a while, I'll see one of the older marksmen who's there with his squirrel hunting rifle, chambered in .22 LR. I've noticed that he seems to have a tremor in his hands when he's loading his magazines. Essential tremor is linked to lead exposure [0]\nMost .22 LR projectiles are either just lead or have a copper \"wash\" over the lead, not a proper jacket like you see on other rounds.\nI wonder, if you shoot those loads for long enough, and breathe in enough gunsmoke, do you get that problem?\nAs for the proof being in our hair... well, not mine. Chrome dome over here XD\n[0] https://pmc.ncbi.nlm.nih.gov/articles/PMC1241711/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46871627",
+          "by": "lenerdenator",
+          "time": 1770130074
+        }
+      ],
+      "by": "geox",
+      "time": 1770083541,
+      "url": "https://attheu.utah.edu/health-medicine/banning-lead-in-gas-worked-the-proof-is-in-our-hair/",
+      "score": 383,
+      "descendants": 342,
+      "storyUrl": "https://attheu.utah.edu/health-medicine/banning-lead-in-gas-worked-the-proof-is-in-our-hair/"
+    },
+    {
+      "id": 46863357,
+      "type": "story",
+      "title": "Julia",
+      "rank": 26,
+      "depth": 0,
+      "storyId": 46863357,
+      "storyTitle": "Julia",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46863357",
+      "topComments": [
+        {
+          "id": 46865665,
+          "text": "I read a good way down thinking this was some kind of highly metaphorical blog post about the programming language Julia",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46865665",
+          "by": "canjobear",
+          "time": 1770085904
+        },
+        {
+          "id": 46867857,
+          "text": "My [interpretation? fanfic?] is that Julia is like a carnivore, and humanity is not it's first prey. Every creature that eats, eats to steal the disentropy of it's meal. Plants can steal order from sunlight, and certain microbes can steal order from thermal vents, but carnivores, herbivores, and decomposers steal order from the work of other organisms. The improbability of living is sustained by arranging stolen amino acids into one's own proteins, powered by the toppleing of sugar towers back into a jumbled mess.\nJulia does not reassemble amino acids like earth life does. But it does absorb disentropy from it's prey. The extreme specificity of an interstellar spacecraft, it's contents and occupants, is absorbed by Julia, so that it can move, grow, and attract more prey.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46867857",
+          "by": "pvillano",
+          "time": 1770104920
+        },
+        {
+          "id": 46865867,
+          "text": "I have a recording of le temps des cerises by Charles Trenet, which I picked up after hearing his music on a movie soundtrack. Anyway, this is a song one could imagine playing in the void, echoing the end of everything. A little melancholy, a little sweet. Pairs will with fractals.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46865867",
+          "by": "sevensor",
+          "time": 1770087486
+        },
+        {
+          "id": 46865680,
+          "text": "The narrative style reminds me of the novel-game Caves of Qud.  Very well done.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46865680",
+          "by": "leodavi",
+          "time": 1770086028
+        },
+        {
+          "id": 46872751,
+          "text": "FYI Don't miss out on the  .",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46872751",
+          "by": "arh68",
+          "time": 1770134705
+        }
+      ],
+      "by": "ashergill",
+      "time": 1770073079,
+      "url": "https://borretti.me/fiction/julia",
+      "score": 173,
+      "descendants": 33,
+      "storyUrl": "https://borretti.me/fiction/julia"
+    },
+    {
+      "id": 46872733,
+      "type": "story",
+      "title": "Launch HN: Modelence (YC S25) – App Builder with TypeScript / MongoDB Framework",
+      "rank": 27,
+      "depth": 0,
+      "storyId": 46872733,
+      "storyTitle": "Launch HN: Modelence (YC S25) – App Builder with TypeScript / MongoDB Framework",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46872733",
+      "topComments": [
+        {
+          "id": 46878021,
+          "text": "You use a static typed language for guardrails but then you throw out the guardrails of a database schema? Seems like those two decisions are directly at odds.\nWithout a db schema, you still have to worry about migrating data at runtime or otherwise. Removing the schema just shifts the pain doesn’t remove it, in my experience.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46878021",
+          "by": "joshribakoff",
+          "time": 1770156500
+        },
+        {
+          "id": 46874126,
+          "text": "You eliminate the schema management problem by not having a schema at all? Also, what do you mean schema management problem? I have never had an issue with that when using LLMs.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46874126",
+          "by": "koakuma-chan",
+          "time": 1770140089
+        },
+        {
+          "id": 46875876,
+          "text": "I like this take on the AI app builder hype. Most tools focus on generating an initial UI but are no help with 'seams' like auth and database migrations. Using MongoDB’s flexible schema as the backbone is a smart move for agents that usually hallucinate SQL relations. Will cool to see how the built-in observability handles production incidents.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46875876",
+          "by": "jpartridge",
+          "time": 1770146515
+        },
+        {
+          "id": 46873301,
+          "text": "The TypeScript + MongoDB combination for AI coding is a smart architectural choice. I've found that schema-less databases reduce the class of errors agents struggle with most - the migration/schema drift issues that require understanding of state over time.\nQuestion: How are you handling the built-in auth when users want to extend it? For example, adding OAuth providers that aren't pre-configured, or custom claims/roles logic. Is this something the framework supports as extension points, or would users need to fork/modify core auth code?\nThe Claude Agent SDK integration is interesting - have you found specific prompting patterns that work better for TypeScript generation vs other languages? Curious if the type system actually helps agents self-correct as expected.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46873301",
+          "by": "Soerensen",
+          "time": 1770136775
+        },
+        {
+          "id": 46876404,
+          "text": "When an experienced team with production users first feels ‘we can’t keep duct-taping this,’ what exact failure makes them reach for Modelence instead of just adding another managed service or framework?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46876404",
+          "by": "GeorgyM",
+          "time": 1770148749
+        }
+      ],
+      "by": "eduardpi",
+      "time": 1770134601,
+      "score": 72,
+      "descendants": 44
+    },
+    {
+      "id": 46829029,
+      "type": "story",
+      "title": "See how many words you have written in Hacker News comments",
+      "rank": 28,
+      "depth": 0,
+      "storyId": 46829029,
+      "storyTitle": "See how many words you have written in Hacker News comments",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46829029",
+      "topComments": [
+        {
+          "id": 46866469,
+          "text": "It’s funny how I spend so much time on HN, yet couldn’t point out a single username (that I don’t know IRL) besides dang.\nThis is one reason I feel an odd disconnect (anonymity?) with HN that isn’t felt on other social platforms I’ve been a part of. Those often have avatars or some other visual form of recognition that helps put a “face” to a name.\nI’m not sure if that’s a good or bad thing, but I definitely think it’s intentional.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46866469",
+          "by": "jader201",
+          "time": 1770092641
+        },
+        {
+          "id": 46867495,
+          "text": "Nice SQLi vulnerability you got there ;-)\n> making this project was the most fun I have had in some time haha!\n> sorryyyyy for vibe coding it though. Peace. I am only human after all […]\nWell, yes, of course the whole app was written by an LLM. I’m not surprised at all.\n---\nRequest:\n  POST /?user=play&add_http_cors_header=1 HTTP/1.1\n  Host: play.clickhouse.com\n  Content-Type: text/plain;charset=UTF-8\n  User-Agent: Mozilla/5.0 (KHTML, like Gecko) Chrome/109.0.5414.120\n  Accept: */*\n  Origin: https://serjaimelannister.github.io\n  Referer: https://serjaimelannister.github.io/\n  \n  SELECT username, total_words, global_rank, total_active_users,\n  concat(toString(global_rank), ' / ', toString(total_active_users)) AS placement,\n  round(100 * (1 - (global_rank / total_active_users)), 2) AS percentile\n  FROM (\n      SELECT by AS username, sum(length(splitByWhitespace(text))) AS total_words,\n      rank() OVER (ORDER BY sum(length(splitByWhitespace(text))) DESC) AS global_rank,\n      count(*) OVER () AS total_active_users\n      FROM hackernews_history WHERE type = 'comment' AND deleted = 0 AND notEmpty(by)\n      GROUP BY by\n  ) WHERE username = '' OR 1=1;--' FORMAT JSON\n\nResponse:\n  This message is too large to display",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46867495",
+          "by": "guessmyname",
+          "time": 1770102054
+        },
+        {
+          "id": 46868109,
+          "text": "Very cool. I made the top 1,000 too.\nIt would be interesting to see karma-per-word, as well, as a kind of succinctness density factor. Although karma points are not equivalent to quality, and you’d need to also factor in average comment length and some other things.\nTo use myself:\n31,273 karma / 351,012 words ≈ 0.0891 karma per word",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46868109",
+          "by": "keiferski",
+          "time": 1770106751
+        },
+        {
+          "id": 46871167,
+          "text": "Legend has it only a dragon writer could defeat tptacek on Hacker News.\nAlso I find it kind of weird that the search box is case-sensitive. HN itself preserves capitalization when rendering usernames to the page, but must not be case sensitive in the backend since the username shows up in URLs.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46871167",
+          "by": "snowwrestler",
+          "time": 1770127744
+        },
+        {
+          "id": 46868609,
+          "text": "There's something about the numbers I can't figure out. Look at the top three HN contributors by karma[1]:\n      username    words       karma\n  1.  tptacek     4,310,896   416351\n  2.  jacquesm    3,841,209   237961\n  3.  ingve       2,273       215283\n\nHow did ingve get to #3 with just 2 thousand words, whereas tptacek and jacquesm authored 3-4 million words? Looking at his 14-year history, it's true that he hasn't written that much. I suppose one possibility is that his writing is 1000x better at earning karma. But I'm going to hazard a guess that it's the quality of his 3-4 submissions per day that brings up his karma when one of his submissions is a hit (I think that submissions do count toward karma).\n[1] https://news.ycombinator.com/leaders",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46868609",
+          "by": "mysterypie",
+          "time": 1770110493
+        }
+      ],
+      "by": "Imustaskforhelp",
+      "time": 1769802892,
+      "url": "https://serjaimelannister.github.io/hn-words/",
+      "score": 140,
+      "descendants": 249,
+      "storyUrl": "https://serjaimelannister.github.io/hn-words/"
+    },
+    {
+      "id": 46795961,
+      "type": "story",
+      "title": "The Everdeck: A Universal Card System (2019)",
+      "rank": 29,
+      "depth": 0,
+      "storyId": 46795961,
+      "storyTitle": "The Everdeck: A Universal Card System (2019)",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46795961",
+      "topComments": [
+        {
+          "id": 46874475,
+          "text": "I created my own multideck a few years ago: https://randomlyunique.com/random/2023/improved-multideck/in... (SVG in link)\nI use this deck all the time too - it was well worth the $25 to print it out.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46874475",
+          "by": "goache",
+          "time": 1770141330
+        },
+        {
+          "id": 46873337,
+          "text": "Really cool deck! Anyone out there play Mu? It's an _excellent_ trick taking card game. One of the few (complex, trick-taking... I'm not counting stuff like Uno in this genre) card games that I know of that works really well with 5 or 6 players. \nThis deck _almost_ would work for Mu, but it'd need different point values. (I keep having to rebuy new Mu games when the deck wears out so I've been contemplating other possibilities.)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46873337",
+          "by": "msluyter",
+          "time": 1770136895
+        },
+        {
+          "id": 46877878,
+          "text": "In case no one's mentioned it yet, this reminds me of Heckadeck :\nhttps://boardgamegeek.com/boardgame/296334/heckadeck",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46877878",
+          "by": "this_is_a_drill",
+          "time": 1770155710
+        },
+        {
+          "id": 46873382,
+          "text": "Finally we have a deck that can support my new game Calvin Deck.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46873382",
+          "by": "fellowniusmonk",
+          "time": 1770137067
+        },
+        {
+          "id": 46879087,
+          "text": "The mystic bent limits the usability of the deck, since most people I play with, when playing games like Sheepshead try playing with more traditional decks.  As well as traditional Tarot decks from Russia (OG tarot, not modern designs).\nVintage Tarot decks include more art/influence from the current ruling empire, not new-age mystic nonsense.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46879087",
+          "by": "SLWW",
+          "time": 1770162094
+        }
+      ],
+      "by": "surprisetalk",
+      "time": 1769611101,
+      "url": "https://thewrongtools.wordpress.com/2019/10/10/the-everdeck/",
+      "score": 127,
+      "descendants": 42,
+      "storyUrl": "https://thewrongtools.wordpress.com/2019/10/10/the-everdeck/"
+    },
+    {
+      "id": 46806346,
+      "type": "story",
+      "title": "Carnegie Mellon Unversity Computer Club FTP Server",
+      "rank": 30,
+      "depth": 0,
+      "storyId": 46806346,
+      "storyTitle": "Carnegie Mellon Unversity Computer Club FTP Server",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46806346",
+      "topComments": [
+        {
+          "id": 46865956,
+          "text": "http://128.237.157.9/pub/ubuntu/ubuntu/ubuntu/ubuntu/ubuntu/...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46865956",
+          "by": "adverbly",
+          "time": 1770088305
+        },
+        {
+          "id": 46867435,
+          "text": "Hey, a scene.org mirror! Does anyone know if this Opiate is Thomas Knak? This one sounds a lot like him:\nhttp://128.237.157.9/pub/scene.org/music/artists/opiate/opia...\nhttps://www.discogs.com/artist/401-Opiate\nEdit: fun, they have my old hippocamp album too :) http://128.237.157.9/pub/scene.org/music/groups/hippocamp/hc...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46867435",
+          "by": "hecanjog",
+          "time": 1770101497
+        },
+        {
+          "id": 46866674,
+          "text": "Nice games music library, thanks!\nhttp://128.237.157.9/pub/HVSC/C64Music/GAMES/A-F/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46866674",
+          "by": "gregorvand",
+          "time": 1770094408
+        },
+        {
+          "id": 46866468,
+          "text": "Some of the http://128.237.157.9/pub/core-mp3s/ files are an interesting record of the past.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46866468",
+          "by": "pajtai",
+          "time": 1770092631
+        },
+        {
+          "id": 46866560,
+          "text": "Big Amiga fans (and still are) from what I see. =)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46866560",
+          "by": "erickhill",
+          "time": 1770093313
+        }
+      ],
+      "by": "1vuio0pswjnm7",
+      "time": 1769666363,
+      "url": "http://128.237.157.9/pub/",
+      "score": 125,
+      "descendants": 28,
+      "storyUrl": "http://128.237.157.9/pub/"
+    }
+  ]
+}

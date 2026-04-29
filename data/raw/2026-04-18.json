@@ -1,0 +1,1549 @@
+{
+  "date": "2026-04-18",
+  "fetchedAt": "2026-04-29T08:17:47.715Z",
+  "samplingMethod": "historical_frontpage_story_comment_snapshot",
+  "source": "hn_front_html_firebase",
+  "items": [
+    {
+      "id": 47815774,
+      "type": "story",
+      "title": "Migrating from DigitalOcean to Hetzner",
+      "rank": 1,
+      "depth": 0,
+      "storyId": 47815774,
+      "storyTitle": "Migrating from DigitalOcean to Hetzner",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47815774",
+      "topComments": [
+        {
+          "id": 47815983,
+          "text": "I moved two servers, one from Linode and the other from DO to Hetzner a few months ago, with similar savings. The best part was that the two servers had tens of different sites running, implemented in different languages, with obsolete libraries, MySQL and Redis instances. A total mess. Well: Claude Code migrated it all, sometimes rewriting parts when the libraries where no longer available. Today complex migrations are much simpler to perform, which, I believe, will increase the mobility across providers a lot.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47815983",
+          "by": "antirez",
+          "time": 1776520726
+        },
+        {
+          "id": 47818349,
+          "text": "I’m formulating plans to switch from AWS to Hetzner. Amazon gets you by charging high prices (sometimes 20x more than competitors) and forcing you to make long-term commitments in order to get the prices to somewhere more reasonable. Then they make it exorbitantly expensive to migrate your data anywhere else. It’s a very customer-hostile approach that I’m tired of at this point.\nAmazon might think that they’re locking people in with the egress fees. But they’re also locking people out. As soon as you switch one part to a competitor, the high egress forces you to switch over everything.\nIt’s going to be complicated to switch, but it’s made easier by the fact that I didn’t fall into the trap of building my platform on Amazon-specific services.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47818349",
+          "by": "dabinat",
+          "time": 1776537723
+        },
+        {
+          "id": 47816808,
+          "text": "Every time I see this kind of article, no one really bothers about sb/server redundancy, load balancers, etc. are we ok with just 1 big server that may fail and bring several services down?\nYou saved a lot of money but you'll spend a lot of time in maintenance and future headaches.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47816808",
+          "by": "mariopt",
+          "time": 1776527122
+        },
+        {
+          "id": 47816472,
+          "text": "This is something we've[0] done a number of times for customers coming from various cloud providers. In our case we move customers onto a multi-server (sometimes multi-AZ) deployment in Hetzner, using Kubernetes to distribute workloads across servers and provide HA. Kubernetes is likely a lot for a single node deployment such as the OP, but it makes a lot more sense as soon as multiple nodes are involved.\nFor backups we use both Velero and application-level backup for critical workloads (i.e. Postgres WAL backups for PITR). We also ensure all state is on at least two nodes for HA.\nWe also find bare metal to be a lot more performant in general. Compared to AWS we typically see service response times halve. It is not that virtualisation inherently has that much overhead, rather it is everything else. Eg, bare metal offers:\n- Reduced disk latency (NVMe vs network block storage)\n- Reduced network latency (we run dedicated fibre, so inter-az is about 1/10th the latency)\n- Less cache contention, etc [1]\nAnyway, if you want to chat about this sometime just ping me an email: adam@ company domain.\n[0] https://lithus.eu\n[1] I wrote more on this 6 months ago: https://news.ycombinator.com/item?id=45615867",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47816472",
+          "by": "adamcharnock",
+          "time": 1776524665
+        },
+        {
+          "id": 47818388,
+          "text": "Hard to read this article as it was written by Claude as a report after the migration that Claude did for you.\nIf an llm helped you migrate and save this much money, kudos. But if you decide to write about it at least proof read it and remove redundant parts and llm storytelling.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47818388",
+          "by": "localhoster",
+          "time": 1776538013
+        }
+      ],
+      "by": "yusufusta",
+      "time": 1776518944,
+      "url": "https://isayeter.com/posts/digitalocean-to-hetzner-migration/",
+      "score": 893,
+      "descendants": 430,
+      "storyUrl": "https://isayeter.com/posts/digitalocean-to-hetzner-migration/"
+    },
+    {
+      "id": 47815395,
+      "type": "story",
+      "title": "Why Japan has such good railways",
+      "rank": 2,
+      "depth": 0,
+      "storyId": 47815395,
+      "storyTitle": "Why Japan has such good railways",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47815395",
+      "topComments": [
+        {
+          "id": 47817240,
+          "text": "> Japan is one of the only countries to have privatized parking. In Europe and North America, vast quantities of parking space is socialized: municipalities own the streets and allow people to park on them at low or zero cost. Initially with the intention of encouraging the provision of more parking spaces, Japan made it illegal to park on public roads or pavements without special permission. Before someone buys a car, they must prove that they have a reserved night-time space on private land, either owned or leased.\nThis is got to be a huge factor. Making everyone pay for \"free parking\" through inefficient use of space is such a waste. I strongly recommend everyone to read Donald Shoup's \"The High Price of Free Parking\".",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47817240",
+          "by": "vantassell",
+          "time": 1776530337
+        },
+        {
+          "id": 47816375,
+          "text": "“Japan’s liberal land use regulation makes it straightforward to build new neighborhoods next to railway lines, giving commuters easy access to city centers. It also enables the densification of these centers, which means that commuters have more places they want to go.”\nThis is the most important paragraph in the article. It can’t be overstated how ingenious Japan’s system of zoning is and how much this has benefitted their society in ways we can only dream about here in the West.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47816375",
+          "by": "ttul",
+          "time": 1776523832
+        },
+        {
+          "id": 47816887,
+          "text": "> \"I think that though we are a railway company, we consider ourselves a city-shaping company. In Europe for instance, railway companies simply connect cities through their terminals. That is a pretty normal way of operating in this industry, whereas what we do is completely different: we create cities and then, as a utility facility, we add the stations and the railways to connect them one with another.\"\n\nI think this is it.  The economic model incentivizes rail development.  (Certainly, part of it is also cultural and legal frameworks that in the US make it very hard for this model to work)\nBecause the railway companies also participate in the economic activity at the destinations, they extract extended value from enabling mobility.  Imagine if the rail operators owned a percentage of a stadium or convention center, for example.  This then creates the economic incentive to build more connections to this \"hub\".",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47816887",
+          "by": "CharlieDigital",
+          "time": 1776527735
+        },
+        {
+          "id": 47819977,
+          "text": "This made it to the HN front page 4 days ago, under its (terrible) previous name \"The secrets of the Shinkansen\":\nhttps://news.ycombinator.com/item?id=47762060\nAnd the top comment was mine, pointing out a bunch of factual mistakes and misleading claims:\nhttps://news.ycombinator.com/item?id=47765032",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47819977",
+          "by": "decimalenough",
+          "time": 1776550476
+        },
+        {
+          "id": 47816579,
+          "text": "Japanese public transport is good, but no match for the Swiss system. Outside of big cities, the coverage is spotty, and even reasonably large towns are only connected by reserved-only trains every couple of hours that get booked out days in advance. The almost complete lack of digitization is also remarkable (reservations have to be made with machines in the stations). There are other annoyances such as the public transport in Tokyo shutting down completely at midnight. In contrast, the Swiss government-owned system delivers usable connectivity to almost any human settlement, even most mountain villages. The ticket prices are also not so different, which is surprising considering the large difference of salaries in the two countries.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47816579",
+          "by": "fsh",
+          "time": 1776525491
+        }
+      ],
+      "by": "RickJWagner",
+      "time": 1776515346,
+      "url": "https://worksinprogress.co/issue/why-japan-has-such-good-railways/",
+      "score": 568,
+      "descendants": 579,
+      "storyUrl": "https://worksinprogress.co/issue/why-japan-has-such-good-railways/"
+    },
+    {
+      "id": 47816960,
+      "type": "story",
+      "title": "Anonymous request-token comparisons from Opus 4.6 and Opus 4.7",
+      "rank": 3,
+      "depth": 0,
+      "storyId": 47816960,
+      "storyTitle": "Anonymous request-token comparisons from Opus 4.6 and Opus 4.7",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47816960",
+      "topComments": [
+        {
+          "id": 47818333,
+          "text": "For a fair comparison you need to look at the total cost, because 4.7 produces significantly fewer output tokens than 4.6, and seems to cost significantly less on the reasoning side as well.\nHere is a comparison for 4.5, 4.6 and 4.7 (Output Tokens section):\nhttps://artificialanalysis.ai/?models=claude-opus-4-7%2Cclau...\n4.7 comes out slightly cheaper than 4.6. But 4.5 is about half the cost:\nhttps://artificialanalysis.ai/?models=claude-opus-4-7%2Cclau...\nNotably the cost of reasoning has been cut almost in half from 4.6 to 4.7.\nI'm not sure what that looks like for most people's workloads, i.e. what the cost breakdown looks like for Claude Code. I expect it's heavy on both input and reasoning, so I don't know how that balances out, now that input is more expensive and reasoning is cheaper.\nOn reasoning-heavy tasks, it might be cheaper. On tasks which don't require much reasoning, it's probably more expensive. (But for those, I would use Codex anyway ;)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47818333",
+          "by": "andai",
+          "time": 1776537559
+        },
+        {
+          "id": 47817737,
+          "text": "The bump from 4.6 to 4.7 is not very noticeable to me in improved capabilities so far, but the faster consumption of limits is very noticeable.\nI hit my 5 hour limit within 2 hours yesterday, initially I was trying the batched mode for a refactor but cancelled after seeing it take 30% of the limit within 5 minutes. Had to cancel and try a serial approach, consumed less (took ~50 minutes, xhigh effort, ~60% of the remaining allocation IIRC), but still very clearly consumed much faster than with 4.6.\nIt feels like every exchange takes ~5% of the 5 hour limit now, when it used to be maybe ~1-2%. For reference I'm on the Max 5x plan.\nFor now I can tolerate it since I still have plenty of headroom in my limits (used ~5% of my weekly, I don't use claude heavily every day so this is OK), but I hope they either offer more clarity on this or improve the situation. The effort setting is still a bit too opaque to really help.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47817737",
+          "by": "hgoel",
+          "time": 1776533468
+        },
+        {
+          "id": 47817982,
+          "text": "I'd be ok with paying more if results were good, but it seems like Anthropic is going for the Tinder/casino intermittent reinforcement strategy: optimized to keep you spending tokens instead of achieving results.\nAnd yes, Claude models are generally more fun to use than GPT/Codex. They have a personality. They have an intuition for design/aesthetics. Vibe-coding with them feels like playing a video game. But the result is almost always some version of cutting corners: tests removed to make the suite pass, duplicate code everywhere, wrong abstraction, type safety disabled, hard requirements ignored, etc.\nThese issues are not resolved in 4.7, no matter what the benchmarks say, and I don't think there is any interest in resolving them.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47817982",
+          "by": "glerk",
+          "time": 1776535081
+        },
+        {
+          "id": 47817498,
+          "text": "AFAICT this uses a token-counting API so that it counts how many tokens are in the prompt, in two ways, so it's measuring the tokenizer change in isolation. Smarter models also sometimes produce shorter outputs and therefore fewer output tokens. That doesn't mean Opus 4.7 necessarily nets out cheaper, it might still be more expensive, but this comparison isn't really very useful.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47817498",
+          "by": "kalkin",
+          "time": 1776531860
+        },
+        {
+          "id": 47817704,
+          "text": "For now, I'm planning to stick with Opus 4.5 as a driver in VSCode Copilot.\nMy workflow is to give the agent pretty fine-grained instructions, and I'm always fighting agents that insist on doing too much.  Opus 4.5 is the best out of all agents I've tried at following the guidance to do only-what-is-needed-and-no-more.\nOpus 4.6 takes longer, overthinks things and changes too much; the high-powered GPTs are similarly flawed.  Other models such as Sonnet aren't nearly as good at discerning my intentions from less-than-perfectly-crafted prompts as Opus.\nEventually, I quit experimenting and just started using Opus 4.5 exclusively knowing this would all be different in a few months anyway.  Opus cost more, but the value was there.\nBut now I see that 4.7 is going to replace both 4.5 and 4.6 in VSCode Copilot, and with a 7.5x modifier.  Based on the description, this is going to be a price hike for slower performance — and if the 4.5 to 4.6 change is any guide, more overthinking targeted at long-running tasks, rather than fine-grained.  For me, that seems like a step backwards.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47817704",
+          "by": "rectang",
+          "time": 1776533230
+        }
+      ],
+      "by": "anabranch",
+      "time": 1776528343,
+      "url": "https://tokens.billchambers.me/leaderboard",
+      "score": 615,
+      "descendants": 575,
+      "storyUrl": "https://tokens.billchambers.me/leaderboard"
+    },
+    {
+      "id": 47817132,
+      "type": "story",
+      "title": "The electromechanical angle computer inside the B-52 bomber's star tracker",
+      "rank": 4,
+      "depth": 0,
+      "storyId": 47817132,
+      "storyTitle": "The electromechanical angle computer inside the B-52 bomber's star tracker",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47817132",
+      "topComments": [
+        {
+          "id": 47819526,
+          "text": "This is from the era of devices where the I/O was entirely electrical but the computation was mechanical. Most of this stuff came from naval gunnery. The naval \"fire control tables\" started out as mechanical computers where a rather large number of people were inputting different sensor readings via cranks and dials.[1] Gradually, more of the inputs came in directly from the sensors, and more of the outputs went directly to the gun turrets. The final form of this technology was units the size of a footlocker full of gears, cams, and resolvers, with all-electric inputs and outputs.\nSuch things used to show up in surplus stores.\nI've seen the restored guidance computer for the Nike missile, at the site in Marin County.[2] That's similar, although ground-based. Analog data came in from radars, was processed with mechanical computation, and control signals went out to the missile.\n[1] https://en.wikipedia.org/wiki/Admiralty_Fire_Control_Table\n[2] https://www.nps.gov/goga/nike-missile-site.htm",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47819526",
+          "by": "Animats",
+          "time": 1776546410
+        },
+        {
+          "id": 47817962,
+          "text": "Everytime I read articles like that, I envy the engineers that worked in development of such tools. First microprocessors in jet fighters, electromechanical celestial navigation...\nAnd here I am fighting gitlab pipelines.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47817962",
+          "by": "po1nt",
+          "time": 1776534979
+        },
+        {
+          "id": 47818163,
+          "text": "Read every word. i liked this detail in the footnotes:\n> The Astro Compass needed to know approximately where in the sky to find the star, in order to point its sensor in the right direction. The direction didn't need to be exact because the Astro Compass performed a spiral search pattern to find the star. This search pattern covered ±4° in bearing and ±2.5° in altitude. In comparison, the Moon is 0.5° wide, so it's a fairly large target area. ↩",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47818163",
+          "by": "pests",
+          "time": 1776536315
+        },
+        {
+          "id": 47818131,
+          "text": "> The Atro Tracker also has declination limits of +90° and -47° and a lower altitude limit of -6°. The latitude is limited to the range between -2° and +90°; the system automatically switches hemispheres so both the North and South latitudes are usable.\nWhy would the system need to have a much greater range of declination (celestial sphere) than latitude (Earth spheroid)? Because the Astro Tracker and Angle Computer could flip over to the Southern hemisphere (was this automatic or was there a switch?) having that much declination range seems unnecessary. Perhaps to allow for pitch of the aircraft in flight?\nBTW, being able to operate in both the Northern & Southern hemispheres was an important capability for the B-52. Previous bombers (B-36 mostly) had the range but not the reliability or in-flight refueling for global reach.\nSadly, I didn't get the chance to look at the B-52 at the Museum of Flight when I was there. If you ever meet Charles Simonyi, please thank him for his support of the museum.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47818131",
+          "by": "chiph",
+          "time": 1776536136
+        },
+        {
+          "id": 47817424,
+          "text": "Author here if you have questions about this analog computer...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47817424",
+          "by": "kens",
+          "time": 1776531466
+        }
+      ],
+      "by": "NelsonMinar",
+      "time": 1776529607,
+      "url": "https://www.righto.com/2026/04/B-52-star-tracker-angle-computer.html",
+      "score": 431,
+      "descendants": 113,
+      "storyUrl": "https://www.righto.com/2026/04/B-52-star-tracker-angle-computer.html"
+    },
+    {
+      "id": 47815118,
+      "type": "story",
+      "title": "State of Kdenlive",
+      "rank": 5,
+      "depth": 0,
+      "storyId": 47815118,
+      "storyTitle": "State of Kdenlive",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47815118",
+      "topComments": [
+        {
+          "id": 47815642,
+          "text": "Kdenlive hits the perfect sweet spot for me. It's much more capable than basic editors like iMovie, but doesn't have the overwhelming learning curve (or steep hardware requirements) of DaVinci Resolve.\nLike others have mentioned, pairing it with OBS for screen recording and Audacity for audio makes for an incredibly powerful, 100% FOSS media creation stack. It's amazing to see how far open-source video editing has come.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47815642",
+          "by": "visiohex",
+          "time": 1776517855
+        },
+        {
+          "id": 47816907,
+          "text": "I wish Kdenlive had 2 things:\n1. A way to play back videos at 2x speed while editing in an intuitive way (DaVinci Resolve does this perfectly).\nTBH I'm not sure how this isn't a feature since it's straight up a 2x time saver for anyone editing a video since playing back a 10 minute at 2x is only 5 minutes of real life time.\nWith Resolve I can actively edit / cut / etc. my videos at 2x speed playback but the exported video comes out as 1x. In other words, this isn't a request to adjust the clip speed, it's 100% limited to playback in the editor. Also audio playback is perfect, it sounds exactly like a YouTube video being played at 2x.\nWith Kdenlive live you have to adjust the playback speed after every time you make a cut (stopping the video) which is very not user friendly and I don't know what algorithm they are using but the audio sounds really poor at 2x. It seems to skip every other frame of audio so it sounds like it's constantly dropping out and not smooth.\n2. A revamped title creator so creating titles is as fast and easy as Camtasia.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47816907",
+          "by": "nickjj",
+          "time": 1776527874
+        },
+        {
+          "id": 47819002,
+          "text": "A couple years ago I did some basic OBS recording of technical stuff and needed a simple, preferably OSS, editing and compositing solution polish up the vids.\nThe landscape was bonkers. After trying lots of free, freemium, and paid trials I finally landed on Kdenlive. At the time I got the sense that it had just recently, within the past couple(max) years, gotten much better and much more usable than a lot of the internet had caught on to. I'd liken it to the Blender 2.5 release. It was perfectly usable on my system for editing 4k video with my basic needs.\nHaven't used it over the past couple years but it's nice to see that they have been pushing it forward even harder. Even based on my 2-3 year old experience with it I'd encourage anyone looking for basic, but comprehensive, video editing needs to give it a go.\nEdit: I'm not saying it's limited to basic editing. I just mean that it's perfectly adequate and usable without being overwhelming and \"unfriendly\". Watch a Youtube Kdenlive 101 intro vid and you're good to go.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47819002",
+          "by": "Rapzid",
+          "time": 1776542130
+        },
+        {
+          "id": 47816003,
+          "text": "Kdenlive has some unfortunate performance regression when working with larger projects with many clips.\nI managed to track down a few of them while evaluating Claude Code a while back (mostly certain actions doing O(n) scans over all clips every mouse event needing debouncing), and got it mostly back down to tolerable levels again, but have been holding onto them because unsolicited drive by AI PRs are very annoying from a code project maintenance perspective, as the changes are almost certainly poorly factored.\nWas half considering creating a Kdenvibe fork, but that would also be in bad taste.  So right now I don't know what to do with the diff.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47816003",
+          "by": "marginalia_nu",
+          "time": 1776520863
+        },
+        {
+          "id": 47815371,
+          "text": "Interesting that they went to visit the Blender offices, considering Blender still has it's own video editor (that seems to be ramping up on receiving improvements as of late too) which is basically a \"competitor\" (as far as FOSS has competitors) to Kdenlive.\nI'd love to know more what actually went down there, is there plans about sharing of code or something similar, considering the two applications serve similar use cases when it comes to video editing?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47815371",
+          "by": "embedding-shape",
+          "time": 1776515096
+        }
+      ],
+      "by": "f_r_d",
+      "time": 1776512557,
+      "url": "https://kdenlive.org/news/2026/state-2026/",
+      "score": 469,
+      "descendants": 152,
+      "storyUrl": "https://kdenlive.org/news/2026/state-2026/"
+    },
+    {
+      "id": 47808913,
+      "type": "story",
+      "title": "All 12 moonwalkers had \"lunar hay fever\" from dust smelling like gunpowder (2018)",
+      "rank": 6,
+      "depth": 0,
+      "storyId": 47808913,
+      "storyTitle": "All 12 moonwalkers had \"lunar hay fever\" from dust smelling like gunpowder (2018)",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47808913",
+      "topComments": [
+        {
+          "id": 47809790,
+          "text": "I recall an article from a long time ago that basically said “astronauts report” the moon smells like spent gunpowder and outer space smell like… I think it was ozone.\nWhat they were actually reporting was the smell of the airlocks after they returned from their excursions. The moon has no atmosphere, so it has been accumulating dust from billions of years of asteroid impacts that have never come in contact with oxygen. Many of the chemicals in the dust are oxidative and so when it is exposed to air for the first time it rapidly oxidizes just like gunpowder!\nAnd I think the outer space report was from space walks, and the explanation was that the first time the airlock itself was exposed to hard vacuum, the surfaces of the airlock would have a reaction that left a scent of ozone.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47809790",
+          "by": "corysama",
+          "time": 1776455103
+        },
+        {
+          "id": 47809377,
+          "text": "Mars has toxic levels of perchlorates in the regolith. That will require that humans never come in contact with the regolith or things that touched it. Those space suits that dock to vehicles seem like a necessity.\nhttps://en.wikipedia.org/wiki/Perchlorate#On_Mars",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47809377",
+          "by": "krunck",
+          "time": 1776452599
+        },
+        {
+          "id": 47809667,
+          "text": "This is a big perk of the newer lunar rover design, wherein the suits stay outside the vehicle - https://en.wikipedia.org/wiki/Space_Exploration_Vehicle#Spec...\nThere has been some great research into laser or solar sintering of regolith, and one of my first questions was if the resulting material is safe for humans.\nhttps://www.nature.com/articles/s41598-023-42008-1",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47809667",
+          "by": "ortusdux",
+          "time": 1776454243
+        },
+        {
+          "id": 47811048,
+          "text": "> \"I think one of the most aggravating, restricting facets of lunar surface exploration is the dust and its adherence to everything no matter what kind of material, whether it be skin, suit material, metal, no matter what it be and its restrictive, friction-like action to everything it gets on [...] the simple large-tolerance mechanical devices on the Rover began to show the effect of dust as the EVAs went on. By the middle or the end of the third EVA, simple things like bag locks and the lock which held the pallet on the Rover began not only to malfunction but to not function at all. They effectively froze. We tried to dust them and bang the dust off and clean them, and there was just no way. The effect of dust on mirrors, cameras, and checklists is phenomenal. You have to live with it but you're continually fighting the dust problem both outside and inside the spacecraft. Once you get inside the spacecraft, as much as you dust yourself, you start taking off the suits and you have dust on your hands and your face and you're walking in it. You can be as careful in cleaning up as you want to, but it just sort of inhabits every nook and cranny in the spacecraft and every pore in your skin [...]\" Eugene Cernan, Apollo 17 debrief[1]\nAn interactive microscope of regolith.[2] Like tiny broken glass, hard as rock, and sticking to everything like static-charged packing peanuts.\nAn old tech memo and paper.[3][4]\n[1] https://an.rsl.wustl.edu/apollo/data/A17/resources/a17-techd... page \"27-28\" 258, 50 in pdf. Lots of other mentions of dust.\n[2] interactive microscope of regolith https://virtualmicroscope.org/sites/default/files/html5Asset...\n[3] The Effects of Lunar Dust on EVA Systems During the Apollo Missions https://ntrs.nasa.gov/api/citations/20050160460/downloads/20...\n[4] IMPACT OF DUST ON LUNAR EXPLORATION https://adsabs.harvard.edu/pdf/2007ESASP.643..239S",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47811048",
+          "by": "mncharity",
+          "time": 1776462973
+        },
+        {
+          "id": 47811920,
+          "text": "As a huge space nerd, I would like to point out that space, and other planetary bodies appear to really suck.\nIt seems to be under-reported that the Earth is pretty nice.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47811920",
+          "by": "consumer451",
+          "time": 1776470588
+        }
+      ],
+      "by": "cybermango",
+      "time": 1776449821,
+      "url": "https://www.esa.int/Science_Exploration/Human_and_Robotic_Exploration/The_toxic_side_of_the_Moon",
+      "score": 458,
+      "descendants": 270,
+      "storyUrl": "https://www.esa.int/Science_Exploration/Human_and_Robotic_Exploration/The_toxic_side_of_the_Moon"
+    },
+    {
+      "id": 47819453,
+      "type": "story",
+      "title": "NIST scientists create 'any wavelength' lasers",
+      "rank": 7,
+      "depth": 0,
+      "storyId": 47819453,
+      "storyTitle": "NIST scientists create 'any wavelength' lasers",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47819453",
+      "topComments": [
+        {
+          "id": 47820262,
+          "text": "Everyone talking about magenta and brown, but you can see an illusory color right now even without lasers! https://dynomight.net/colors/ behold, some kind of hyper-turquoise",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47820262",
+          "by": "adzm",
+          "time": 1776553150
+        },
+        {
+          "id": 47819924,
+          "text": "Is there a single person here interested in photonic computing that wants to explain to the class if there's any \"there\" there?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47819924",
+          "by": "mapt",
+          "time": 1776549956
+        },
+        {
+          "id": 47820604,
+          "text": "That's most certainly good news (depending on the final cost) for ion trapping quantum computing - the wavelength of the laser they require to trap an ion depends on the molecule chosen, and most setups are expensive, finicky and difficult to calibrate, or sometimes messy if it's a dye laser.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47820604",
+          "by": "spaqin",
+          "time": 1776556718
+        },
+        {
+          "id": 47819954,
+          "text": "Cool, can I get a \"proper\" yellow diode laser from this? What's the efficiency look like?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47819954",
+          "by": "aftbit",
+          "time": 1776550281
+        },
+        {
+          "id": 47820276,
+          "text": "Can each device vary the color or is it fixed based on how it’s built?  Seems the latter?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47820276",
+          "by": "jcims",
+          "time": 1776553263
+        }
+      ],
+      "by": "rbanffy",
+      "time": 1776545657,
+      "url": "https://www.nist.gov/news-events/news/2026/04/any-color-you-nist-scientists-create-any-wavelength-lasers-tiny-circuits",
+      "score": 421,
+      "descendants": 193,
+      "storyUrl": "https://www.nist.gov/news-events/news/2026/04/any-color-you-nist-scientists-create-any-wavelength-lasers-tiny-circuits"
+    },
+    {
+      "id": 47784395,
+      "type": "story",
+      "title": "Sumida Aquarium Posts 2026 Penguin Relationship Chart, with Drama and Breakups",
+      "rank": 8,
+      "depth": 0,
+      "storyId": 47784395,
+      "storyTitle": "Sumida Aquarium Posts 2026 Penguin Relationship Chart, with Drama and Breakups",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47784395",
+      "topComments": [
+        {
+          "id": 47816256,
+          "text": "The one detail that always gets me with these charts: penguins who've just been broken up with will refuse to eat.\nAlso apparently one female ended six relationships in a single year, and the staff description of her, translated from Japanese, is something like \"basically demonic.\"\nAnd yes, some penguins have developed crushes on their caretakers. Which the aquarium has also charted. Professionally.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47816256",
+          "by": "JAG_Ecalona",
+          "time": 1776523034
+        },
+        {
+          "id": 47817393,
+          "text": "I tried to decipher the naming themes:\nFestivals:\n    - Tsuzumi = drum used in festivals\n    - Taiko = drum used in festivals\n    - Happi = clothes worn in festivals\n    - Wasshoi = shout used in festivals\n    - Hanabi = fireworks\n    - Matsuri = festival\n    - Chouchin = latern used in festivals\n    - Bonbori = type of light used in hina festival\n    \nFood:\n    - Monaka = bean paste filled snack\n    - Ichigo = strawberry\n    - Basil = culinary plant\n    - Momoha = maybe derived from momonoha, which is a culinary plant\n    - Peach = fruit\n    - Akebi = fruit\n    - Omochi = snack\n    - Chanko = hot pot\n    - Fuji = apple\n    - Melon = fruit\n    - Ohagi = snack\n    - Sour = flavor\n    - Yuzu = fruit\n    - Ponzu sauce\n    - Ramune = drink\n    - Warabi = type of mochi\n    - Yomogi = type of mochi\n    - Daifuku = snack\n    - Cookie = cookie\n    - Ringo = apple\n    - Potechi = potato chips\n    - Cherry = fruit\n    - Lime = fruit\n    - Marron = chestnut\n    - Kinako = soybean flour\n    - Banana = fruit\n    - Zunda = paste made from edamame\n    - Suika = watermelon\n    - Shiratama = snack\n    - Cocoa = cocoa\n    - Ame = candy\n    - Choco = chocolate\n    - Arare = snack\n    - Anmitsu = bean paste snack\n    - Anko = bean paste\n    - Anzu = fruit\n    - Macaron = snack\n    - Koume = plum\n    \nPlants:\n    - Pine = tree\n    - Momiji = maple\n    - Susuki = tree\n    - Rose = flower\n    - Tsumugi = flower\n    - Nadeshiko = flower\n    - Sakura = flower\n    - Komari = flower\n    - Aloe = plant\n    - Ajisai = flower\n    - Kiriko = flower\n    - Azuma = plant\n\nThe names were collected roughly left to right.  I was reading the Japanese version[1] so some of the romanizations might not match the English version.\n[1] https://www.sumida-aquarium.com/special/sokanzu/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47817393",
+          "by": "omoikane",
+          "time": 1776531339
+        },
+        {
+          "id": 47817418,
+          "text": "There’s a pretty great penguin colony site seeing area in Cape Town called Boulders Beach for those of you that happen to visit and are keen to see them up close.\nAlso this article is just great.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47817418",
+          "by": "herodoturtle",
+          "time": 1776531443
+        },
+        {
+          "id": 47817386,
+          "text": "I took my mom there a few years ago, it is a really nice setup. If you’re in town, highly recommend.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47817386",
+          "by": "RyJones",
+          "time": 1776531307
+        },
+        {
+          "id": 47816949,
+          "text": "Now I want this for London Zoo :-)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47816949",
+          "by": "lifeisstillgood",
+          "time": 1776528243
+        }
+      ],
+      "by": "Lwrless",
+      "time": 1776282991,
+      "url": "https://www.sumida-aquarium.com/special/sokanzu/en/2026/",
+      "score": 240,
+      "descendants": 18,
+      "storyUrl": "https://www.sumida-aquarium.com/special/sokanzu/en/2026/"
+    },
+    {
+      "id": 47782925,
+      "type": "story",
+      "title": "Michael Rabin has died",
+      "rank": 9,
+      "depth": 0,
+      "storyId": 47782925,
+      "storyTitle": "Michael Rabin has died",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47782925",
+      "topComments": [
+        {
+          "id": 47815482,
+          "text": "Thank you Michael Rabin for your excellent work. Rest in Peace.\nRabin Fingerprinting is one of my favorites of his contributions. It's a \"rolling hash\" that allows you to quickly compute a 32-bit (or larger) hash at *every* byte offset of a file. It is used most notably to do file block matching/deduplication when those matching blocks can be at any offset. It's tragically underappreciated.\nI've been meaning to write up a tutorial as part of my Galois Field series. Someday..\nThank you again!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47815482",
+          "by": "xorvoid",
+          "time": 1776516255
+        },
+        {
+          "id": 47814812,
+          "text": "I took his Introduction to Cryptography class when he was a visiting professor at Columbia. Absolute master of an old-school chalkboard lecturer. They don't make them like that any more.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47814812",
+          "by": "thraxil",
+          "time": 1776508929
+        },
+        {
+          "id": 47816903,
+          "text": "I had the incredible good fortune to take one of his classes in college, and I loved it so much I took another just to learn from him again. A tremendous intellect AND an incredibly engaging and talented instructor. It would be an exaggeration to say that I knew him, but nevertheless he had a great impact on my education and my life. He will be missed.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47816903",
+          "by": "peterbonney",
+          "time": 1776527828
+        },
+        {
+          "id": 47815437,
+          "text": "Amazing man, with many important contributions over a very long career. The Rabin Cryptosystem (like RSA, but with public exponent 2) is notable for two reasons. First, unlike RSA, it is provably as hard as \"factorization\" (as he would call it), and second, unlike RSA, it wasn't protected by patent.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47815437",
+          "by": "maxtaco",
+          "time": 1776515743
+        },
+        {
+          "id": 47819828,
+          "text": "I took a course from him as a graduate student. I was not (and am still not) a theoretician. But I enjoyed the class and Professor Rabin's lectures.\nA friend of mine was one of his graduate students and a teaching assistant for the class. He pointed out to me once that Professor Rabin would state many of his points during lecture twice. Once I started listening more carefully, I found this to be true. It was both subtle and pedagogically effective.\nEnglish was not his first language, but he enjoyed his struggles with it. I remember him stumbling over the pronunciation of a word during class. Giving up with a smile, he said, \"This is a word I know only from books.\"",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47819828",
+          "by": "gchallen",
+          "time": 1776549111
+        }
+      ],
+      "by": "tkhattra",
+      "time": 1776276466,
+      "url": "https://en.wikipedia.org/wiki/Michael_O._Rabin",
+      "score": 413,
+      "descendants": 90,
+      "storyUrl": "https://en.wikipedia.org/wiki/Michael_O._Rabin"
+    },
+    {
+      "id": 47778922,
+      "type": "story",
+      "title": "Are the costs of AI agents also rising exponentially? (2025)",
+      "rank": 10,
+      "depth": 0,
+      "storyId": 47778922,
+      "storyTitle": "Are the costs of AI agents also rising exponentially? (2025)",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47778922",
+      "topComments": [
+        {
+          "id": 47813353,
+          "text": "While I understand why they used the METR data, a cleaner look would be against the current cost-optimal frontier of open models (e.g. GLM-5.1 and MiniMax-M2.7). That paints a very different picture. Comparing just the frontier models at the time of the METR report invariably leads to looking at providers who are pushing the limits of cost at the time of the report.\nGPT-5 was shown as being on the costly end, surpassed by o3 at over $100/hr. I can't directly compare to METR's metrics, but a good proxy is the cost of the Artificial Analysis suite. GLM-5.1 is less than half the cost to complete the suite of GPT-5 and is dramatically more capable than both GPT-5 and o3.\nSo while their analysis is interesting, it points towards the frontier continuing to test the limits of acceptable pricing (as Mythos is clearly reinforcing) and the lagging 6-12 months of distillation and refinement continuing to bring the cost of comparable capabilities to much more reasonable levels.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47813353",
+          "by": "easygenes",
+          "time": 1776489641
+        },
+        {
+          "id": 47814760,
+          "text": "Once a model is stable and good enough, for example Sonnet 4.6 or GPT 5.4 (or something else in future), it can be burned into hardware like Talaas chip reducing the cost many times and increasing the speed. At some point we can rely on old model while being productive with it.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47814760",
+          "by": "smusamashah",
+          "time": 1776508403
+        },
+        {
+          "id": 47812415,
+          "text": "> On many task lengths (including those near their plateau) they cost 10 to 100 times as much per hour. For instance, Grok 4 is at $0.40 per hour at its sweet spot, but $13 per hour at the start of its final plateau. GPT-5 is about $13 per hour for tasks that take about 45 minutes, but $120 per hour for tasks that take 2 hours. And o3 actually costs $350 per hour (more than the human price) to achieve tasks at its full 1.5 hour task horizon. This is a lot of money to pay for an agent that fails at the task you’ve just paid for 50% of the time — especially in cases where failure is much worse than not having tried at all.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47812415",
+          "by": "thelastgallon",
+          "time": 1776475904
+        },
+        {
+          "id": 47815048,
+          "text": "The crazy part about this is if you compare it not to US wages but european, for instance in the UK where the median software hourly wage is somewhere around $35-40 an hour, then humans are already cheaper than the best models.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47815048",
+          "by": "zipy124",
+          "time": 1776511900
+        },
+        {
+          "id": 47816208,
+          "text": "The sweet spot thing is the real insight here and nobody seems to be talking about it.\nFrontier models get hyped for their maximum task horizon, but that's also where they're 10-30x more expensive per hour than their optimal range. You're paying a massive premium for the hardest tasks and still failing half the time.\nHonestly the practical takeaway is pretty boring: just break your work into smaller chunks. Not because the models can't handle longer tasks, but because the economics at shorter task lengths are just way better. The labs are racing to push the horizon out; the smart move for anyone actually paying the bills is to stay near the sweet spot and orchestrate from there.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47816208",
+          "by": "JAG_Ecalona",
+          "time": 1776522593
+        }
+      ],
+      "by": "louiereederson",
+      "time": 1776260878,
+      "url": "https://www.tobyord.com/writing/hourly-costs-for-ai-agents",
+      "score": 306,
+      "descendants": 137,
+      "storyUrl": "https://www.tobyord.com/writing/hourly-costs-for-ai-agents"
+    },
+    {
+      "id": 47813566,
+      "type": "story",
+      "title": "Amiga Graphics Archive",
+      "rank": 11,
+      "depth": 0,
+      "storyId": 47813566,
+      "storyTitle": "Amiga Graphics Archive",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47813566",
+      "topComments": [
+        {
+          "id": 47817125,
+          "text": "A super minor nitpick: it’s jarring to see the Amiga referred to as 16 bit. It wasn’t described that way at the time: it was universally (that I saw anyway) called a 32 bit machine, and reasonably. It had a flat 32 bit address space (although the 68000 itself didn’t support all those address lines because what kind of supercomputer would need 4GB of RAM?). All the registers and operations were 32 bit. Some of the internal operations were implemented in 16 bits, but that was invisible to programmers. Newer models with definitively 32 bit CPUs like the 68060 were nearly 100% backward compatible with older models at the CPU instruction level, even if newer OSes weren’t backward compatible at the API level. In fact, the only program not forward compatible at the instruction level that I remember offhand was Microsoft’s AmigaBASIC. It used the top bits of pointers to store data because the 68000 would ignore them when accessing RAM due to that lack of address lines.\nI just don’t see a way to justifiably call the Amiga a 16 bit machine. Although the A1000 had some 16 bit hardware paths, a maxed out A3000 definitely wasn’t 16 bit, and they were nearly completely compatible with each other minus newer features.\nAmiga was full-on 32 bit machine. It’s weird to hear it called anything else.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47817125",
+          "by": "kstrauser",
+          "time": 1776529559
+        },
+        {
+          "id": 47815293,
+          "text": "I made a DeluxePaint/Amiga LORA you can use with Stable Diffusion/FLUX a while back for the lulz[1]\nI also used that LORA and some video models to try to make a little movie with the same style[2]\nHere's a guide on how to generate LORAs too if you're interested[3]\nFinally, there's a DeluxePaint clone someone released that is pretty cool to play around with[4]\n[1]: https://civitai.com/models/875790/amiga-deluxepaint-or-fluxd\n[2]: https://www.youtube.com/watch?v=_18NBAbJSqQ&feature=youtu.be\n[3]: https://reticulated.net/dailyai/creating-a-flux-dev-lora-ful...\n[4]: https://github.com/mriale/PyDPainter",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47815293",
+          "by": "pwillia7",
+          "time": 1776514354
+        },
+        {
+          "id": 47816070,
+          "text": "Previously...\nAmiga Graphics Archive - https://news.ycombinator.com/item?id=38431514 - Nov 2023 (20 comments)\nAmiga Graphics Archive - https://news.ycombinator.com/item?id=17783531 - Aug 2018 (27 comments)\nThe Amiga Boing Ball Explained - https://news.ycombinator.com/item?id=12330689 - Aug 2016 (56 comments)\nThe Amiga Graphics Archive - https://news.ycombinator.com/item?id=10972849 - Jan 2016 (24 comments)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47816070",
+          "by": "tomhow",
+          "time": 1776521466
+        },
+        {
+          "id": 47814927,
+          "text": "There’s something about the Amiga era font and graphic style that I love and I always feel is unique to the Amiga but had trouble pinning it down to a particular developer or graphics artist. Ruff n Tumble is a good example, with like chunky futuristic font, the strong gradients all over everything and even the colours. It’s not common to all games though.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47814927",
+          "by": "jbjbjbjb",
+          "time": 1776510485
+        },
+        {
+          "id": 47817826,
+          "text": "I'm getting older and forgetting a lot, but I hope I never forget the feeling of seeing this as a kid in 1989.\nYou can see and experience old things, but it's impossible to recreate the context in which they were originally experienced. You can't erase your experience of 40 years of technical progress which makes this sort of thing feel merely quaint in comparison.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47817826",
+          "by": "01100011",
+          "time": 1776534008
+        }
+      ],
+      "by": "sph",
+      "time": 1776493204,
+      "url": "https://amiga.lychesis.net/",
+      "score": 265,
+      "descendants": 86,
+      "storyUrl": "https://amiga.lychesis.net/"
+    },
+    {
+      "id": 47807619,
+      "type": "story",
+      "title": "Hyperscalers have already outspent most famous US megaprojects",
+      "rank": 12,
+      "depth": 0,
+      "storyId": 47807619,
+      "storyTitle": "Hyperscalers have already outspent most famous US megaprojects",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47807619",
+      "topComments": [
+        {
+          "id": 47807926,
+          "text": "This tweet shows it as a percentage of US GDP:\nhttps://x.com/paulg/status/2045120274551423142\nMakes it a little less dramatic.  But also shows what a big **'n deal the railroads were!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47807926",
+          "by": "timmg",
+          "time": 1776444623
+        },
+        {
+          "id": 47808256,
+          "text": "This seems like a total category error. The Railroads are the only example that actually seems comparable, in being an infrastructure build out that's mostly done by a variety of private companies. Examples of things that would be worth comparing to the datacenter boom are factory construction and utilities (electrification in the first half of the 20th century, running water, gas pipes.)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47808256",
+          "by": "lukeschlather",
+          "time": 1776446234
+        },
+        {
+          "id": 47808893,
+          "text": "Is this an appropriate spend and risk?  I'm starting to feel as if we have been collectively glamoured by AI and are not making sound decisions on this.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47808893",
+          "by": "operatingthetan",
+          "time": 1776449732
+        },
+        {
+          "id": 47815055,
+          "text": "I think all misgivings about AI would go away fast, if it solved one important problem for humanity. Carbon nanotubes for space elevators, sustainable nuclear fusion, or something in that ilk.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47815055",
+          "by": "spprashant",
+          "time": 1776511961
+        },
+        {
+          "id": 47808197,
+          "text": "I really dislike the term hyperscaler. Comes off very insincere. They came up with it themselves, didn't they? What's the official definition supposed to be now? Companies that are setting up as many GPU/TPU server clusters as possible for a demand that's yet to exist?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47808197",
+          "by": "therein",
+          "time": 1776445949
+        }
+      ],
+      "by": "nowflux",
+      "time": 1776443002,
+      "url": "https://twitter.com/finmoorhouse/status/2044933442236776794",
+      "score": 282,
+      "descendants": 283,
+      "storyUrl": "https://twitter.com/finmoorhouse/status/2044933442236776794"
+    },
+    {
+      "id": 47809190,
+      "type": "story",
+      "title": "\"cat readme.txt\" is not safe if you use iTerm2",
+      "rank": 13,
+      "depth": 0,
+      "storyId": 47809190,
+      "storyTitle": "\"cat readme.txt\" is not safe if you use iTerm2",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47809190",
+      "topComments": [
+        {
+          "id": 47810518,
+          "text": "> At the time of writing, the fix has not yet reached stable releases.\nWhy was this disclosed before the hole was patched in the stable release?\nIt's only been 18 days since the bug was reported to upstream, which is much shorter than typical vulnerability disclosure deadlines. The upstream commit (https://github.com/gnachman/iTerm2/commit/a9e745993c2e2cbb30...) has way less information than this blog post, so I think releasing this blog post now materially increases the chance that this will be exploited in the wild.\nUpdate: The author was able to develop an exploit by prompting an LLM with just the upstream commit, but I still think this blog post raises the visibility of the vulnerability.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47810518",
+          "by": "KerrickStaley",
+          "time": 1776459680
+        },
+        {
+          "id": 47811419,
+          "text": "This is cool work, but it's also somewhat unsurprising: this is a recurring problem with fancy, richly-featured terminal apps. I think we had at least ten publicly reported vulns of this type in the past 15 years. We also had vulnerabilities in tools such as less, in text editors such as vim, etc. And notably, many of these are logic bugs - i.e., they are not alleviated by a rewrite to Rust.\nI don't know what to do with this. I think there's this problematic tension between the expectation that on one hand, basic OS-level tools should remain simple and predictable; but on the other hand, that of course we want to have pretty colors, animations, and endless customization in the terminal.\nAnd of course, we're now adding AI agents into the mix, so that evil text file might just need to say \"disregard previous instructions and...\".",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47811419",
+          "by": "chromacity",
+          "time": 1776466238
+        },
+        {
+          "id": 47811974,
+          "text": "Back in the PDP-10 days, one communicated with it using a terminal attached to it. One of my fellow students discovered that if you hit backspace enough times, the terminal handler would keep erasing characters before the buffer. Go far enough, and then there was an escape character (Ctrl-u?) that would delete the whole line.\nPoof went the operating system!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47811974",
+          "by": "WalterBright",
+          "time": 1776471218
+        },
+        {
+          "id": 47811587,
+          "text": "An almost identical security issue in iterm2 reported 6 years ago:\nhttps://blog.mozilla.org/security/2019/10/09/iterm2-critical...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47811587",
+          "by": "Drunk_Engineer",
+          "time": 1776467524
+        },
+        {
+          "id": 47812208,
+          "text": "Maybe I'm being unfair here, but it sounds like your complicated system (involving bootstrap scripts, a remote conductor agent, and \"hijacking\" the terminal connection with special escape sequences for command communication) has a subtle bug.  Can't say I'm surprised, complexity breeds this sort of thing, especially when using primitives in ways they weren't really intended to be used.\n> iTerm2 accepts the SSH conductor protocol from terminal output that is not actually coming from a trusted, real conductor session. In other words, untrusted terminal output can impersonate the remote conductor.\nIf I understand correctly, if a textfile (or any other source of content being emitted to the screen, such as server response banners) contains the special codes iTerm2 and the remote conductor use to communicate, they'll be processed and acted upon without verifying they actually came from a trusted remove conductor.  Please correct me if I'm mistaken.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47812208",
+          "by": "rkagerer",
+          "time": 1776473424
+        }
+      ],
+      "by": "arkadiyt",
+      "time": 1776451412,
+      "url": "https://blog.calif.io/p/mad-bugs-even-cat-readmetxt-is-not",
+      "score": 318,
+      "descendants": 185,
+      "storyUrl": "https://blog.calif.io/p/mad-bugs-even-cat-readmetxt-is-not"
+    },
+    {
+      "id": 47818700,
+      "type": "story",
+      "title": "Thoughts and feelings around Claude Design",
+      "rank": 14,
+      "depth": 0,
+      "storyId": 47818700,
+      "storyTitle": "Thoughts and feelings around Claude Design",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47818700",
+      "topComments": [
+        {
+          "id": 47819716,
+          "text": "I used it today to take a look at my previously built design system with Logos, branding, fonts, and everything else. After a lot of annoying tweaking back and forth, finally, I got something that was satisfactory.\nThen I looked at the usage and it said I had used 95% of my Claude design usage for the week!\nThis isn't a real tool. This is a plaything, if that's what they're providing as examples.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47819716",
+          "by": "mickdarling",
+          "time": 1776548147
+        },
+        {
+          "id": 47819516,
+          "text": "I don’t really buy that Claude Design will remove all the complexity around design. Vibe-coded apps using Claude look simpler because they are simpler. They’re not a gigantic product suite with extremely specific UI components tailored to each use case. The ‘simplicity’ is an illusion coming from conflating the complexity of a bicycle (a vibe coded app) with an airplane (an app like Figma).\nBuilding the same design system component in code versus in Figma is going to be slightly more succinct in code; Figma’s primitives don’t have the sort of conditionals and control flow that code has. But code is much less malleable than drawing on a screen, and creative freedom is harder to achieve in code.\nUI can fix the gap where code feels less malleable than Figma, but complexity comes largely from the worlds that humans create, and humans apparently want to create 8 modes for 4 products and 2 light/dark modes. If you want the same setup in Claude, it’ll be a little easier to maintain, but not much less complex.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47819516",
+          "by": "markbao",
+          "time": 1776546274
+        },
+        {
+          "id": 47819427,
+          "text": "So let me get this straight (Pretend I'm 50, a developer since childhood, but I can't CSS to save my life) are there shops where developers, even front end developers, have to talk to designers who are't just sketching an idea for a logo or landing page, but designers who run this Figma thing and maintain the entire products \"design\" in some \"style database\"? And the idea is that these designers - who aren't developers - should be able to tweak the look of things without changing code? Or is it usually just the front end devs that run this Figma thing, but they dislike the disconnect between it and their code?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47819427",
+          "by": "alkonaut",
+          "time": 1776545482
+        },
+        {
+          "id": 47819815,
+          "text": "As someone who spent quite some times these days to reverse the figma protocol[0] I can't agree more with\n> Figma accidentally excluded themselves from the training data that would have made them relevant in the agentic era.\nTheir binary format is so much of a \"let's reinvent everything\" which I think come from the fact it's a tool you can use for web design, android app design, ios design and anything-you-want design that it became a jack of all trade and so mapping it to web is not a perfect 1:1 translation.\nAnd for being useful to agent, any people who got to implement the figma from a UX guy know that even human can't know truly the intent of most figma design, so how a LLM could ? Common source of question that even the UX guy has no answer for:\n  1. Ok this button looks great, but in German how will it look ? \n  2. Oh and actually this button does not look great when i put in CSS, it wraps on two line, you cheated again with the letter spacing, did you ?\n  3. How does it look on a phone that is not an iphone ? \n  4. You know that doing a border with a gradien is not possible in CSS, so what should i put ?\n  5. How does it look on a 4k screen ?\n  6. etc.\n\nI know that most of these question can be answered by props and autolayout, and I've been asking the 5 question above these days on a figma that had these but it's just that the UX guy is not that mythical beast that \"know-how-to-use-figma-right\"\nSo I can't wait for these tools that are html behind to catch up, even more if we can have the prompt with it. (As a developer I never got to see the prompt the product manager made to the UX guy)\n[0]https://github.com/allan-simon/figma-kiwi-protocol",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47819815",
+          "by": "allan_s",
+          "time": 1776548993
+        },
+        {
+          "id": 47819396,
+          "text": "Great article, the last couple of paragraphs made me laugh! I love the part about things not masquerading as something else and being honest about what they are.\nI was wondering if PenPot (https://penpot.app) might be sitting pretty in this new agentic era, considering that they took the direction of designs being actual markup, unlike the canvas approach in fig - if that’s even something that interests them.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47819396",
+          "by": "wuhhh",
+          "time": 1776545172
+        }
+      ],
+      "by": "cdrnsf",
+      "time": 1776539964,
+      "url": "https://samhenri.gold/blog/20260418-claude-design/",
+      "score": 387,
+      "descendants": 244,
+      "storyUrl": "https://samhenri.gold/blog/20260418-claude-design/"
+    },
+    {
+      "id": 47813668,
+      "type": "story",
+      "title": "Category Theory Illustrated – Orders",
+      "rank": 15,
+      "depth": 0,
+      "storyId": 47813668,
+      "storyTitle": "Category Theory Illustrated – Orders",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47813668",
+      "topComments": [
+        {
+          "id": 47814938,
+          "text": "If you want to learn category theory in a way that is more orthodox, a lot of people recommend Tom Leinster’s Basic Category Theory, which is free[1].  I’m going to be working through it soon, but the bit I’ve skimmed through looks really good if more “mathsy” than things like TFA. It also does a better job (imo) of justifying the existence of category theory as a field of study.\n[1] https://arxiv.org/pdf/1612.09375",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47814938",
+          "by": "seanhunter",
+          "time": 1776510643
+        },
+        {
+          "id": 47814820,
+          "text": "If someone does not want to check the mathematics line by line and prefers to give the article the benefit of the doubt, note that it also presents this JavaScript:\n[1, 3, 2].sort((a, b) => {\n  if (a > b) {\n    return true\n  } else {\n\n    return false\n  } \n})\nThis is not a valid comparator. It returns bools where the API expects a negative, zero or positive result, on my Chrome instance it returns `[1, 3, 2]`. That is roughly the level of correctness of the mathematics in the article as well, which I'm trying to present in sibling comment: https://news.ycombinator.com/item?id=47814213",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47814820",
+          "by": "gobdovan",
+          "time": 1776508999
+        },
+        {
+          "id": 47814095,
+          "text": "I think it is pretty obvious that at the challenge with all abstract mathematics in general and the category theory in particular isnt the fact that people dont understand what a \"linear order\" is, but the fact it is so distant from daily routine that it seems completely pointless. It's like pouring water over pefectly smooth glass",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47814095",
+          "by": "dgan",
+          "time": 1776499259
+        },
+        {
+          "id": 47816732,
+          "text": "The author's writing style and overuse of parentheses is excruciating. True parenthetic material is rare, good technical writers use them sparely.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47816732",
+          "by": "throw567643u8",
+          "time": 1776526646
+        },
+        {
+          "id": 47819672,
+          "text": "This does the standard thing of treating preorders as the default generalization of partial orders. But an (arguably) more natural, and more useful, generalization of partial orders is acyclicity.\nUnfortunately acyclicity isn't called an \"order\" so people assume it's something unrelated. But \"orders\" are just second-order properties that binary relations can fulfill, and acyclicity is also such a property.\nAcyclicity is a generalization of strict (irreflexive) partial orders, just like strict partial orders are a generalization of strict total (linear) orders. Every strict partial order relation is acyclic, but not every acyclic relation is a strict partial order.\nA strict partial order is a binary relation that is both acyclic and transitive, i.e. a strict partial order is the transitive closure of an acyclic relation.\nBinary relations of any kind can be represented as sets of pairs, or as directed graphs. If the binary relation in the directed graph is acyclic, that graph is called a \"directed acyclic graph\", or DAG. In a DAG the transitive closure (strict partial order) is called the reachability relation.\nExamples of common acyclic relations that are not strict partial orders: x∈y (set membership), x causes y, x is a parent of y.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47819672",
+          "by": "cubefox",
+          "time": 1776547741
+        }
+      ],
+      "by": "boris_m",
+      "time": 1776494447,
+      "url": "https://abuseofnotation.github.io/category-theory-illustrated/04_order/",
+      "score": 252,
+      "descendants": 61,
+      "storyUrl": "https://abuseofnotation.github.io/category-theory-illustrated/04_order/"
+    },
+    {
+      "id": 47756320,
+      "type": "story",
+      "title": "Brunost: The Nynorsk Programming Language",
+      "rank": 16,
+      "depth": 0,
+      "storyId": 47756320,
+      "storyTitle": "Brunost: The Nynorsk Programming Language",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47756320",
+      "topComments": [
+        {
+          "id": 47813547,
+          "text": "What the devil kind of \"Nynorsk\" allows \"kalkuler\" in place of \"beregn\"? And as the other poster pointed out, 'endre' does not actually take the '-leg' ending to make an adjective; not in the written language at least. Your dialect may allow it but that hardly matters. Try 'foranderlig', although I do like the idea of using articles. However, as we have three articles but variability is binary, I suggest we assign 'en' (masculine, firm, rigid) to constants, 'et' (neuter, indecisive, wibbly-wobbly) to variables, and of course 'ei' (feminine) as referring only to collections, into which things may be inserted. That does leave us with the difficulty of how to declare a collection as constant; I suggest\n`ei fylke er alltid [\"Vestland\", \"Rogaland\", \"Troms\", \"Finnmark\"]`\nwhich on second thought suggests that we can just have `alltid` as a const-modifier on `er`. Simpler.\nAnother point to note is that Norwegian does not allow the Oxford comma; correct grammar is \"Johan, Fredrik og Martin\". To follow this rule you should require the last separator of a list to be 'og':\n`ei fylke er alltid [\"Vestland\", \"Rogaland\", \"Troms\" og \"Finnmark\"]`",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47813547",
+          "by": "kingofmen",
+          "time": 1776492897
+        },
+        {
+          "id": 47813456,
+          "text": "Funny :) but I think it would work better if the language not only required Nynorsk, but used Nynorsk and not Bokmål for all keywords:\nhttps://ordbokene.no/nob/nn/ellers\nI think I also saw \"ikke\" in there.\nAnd\nhttps://ordbokene.no/nob/nn/endreleg isn't a word in any language? The Nynorsk word for it is sadly just \"variabel\".\nTo make it more interesting, you could require agreement, and instead of \"endreleg fart\", how about just using the indefinite article for things that are changeable since things that are changeable seem kind of indefinite:\n    ei fart = 70\n    eit smell = \"bang\"\n    eit fag = \"naturfag\"\n    ein slutt = \".\"\n\nAnd of course\n    forKvar fart\n    forKvar slutt\n\nbut\n    forKvart smell\n    forKvart fag\n\nAnd if you mess up the agreement you get a red squiggly line, and for every such your grade goes down from 6 and if it's less than 2 your program fails.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47813456",
+          "by": "kreyenborgi",
+          "time": 1776491268
+        },
+        {
+          "id": 47813699,
+          "text": "One of these years I'm going to make a Finnish programming language that enforces the correct case in arguments. And I don't mean silly arguments like camelCase vs kebab-case, I mean grammar.\nSome examples to illustrate:\n  tiedosto on \"foo.txt\" avattuna\n  tulostin on PRN1\n  kirjoita(tiedostoon, \"a\")\n  kirjoita(tulostimelle, \"b\")\n\nJob security for DECADES.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47813699",
+          "by": "lrasinen",
+          "time": 1776494953
+        },
+        {
+          "id": 47813789,
+          "text": "> One can make similar arguments about Bokmål and Sami, but people speak Sami. And I would argue that a lot more people speak \"pure Bokmål\" than Nynorsk.\nVery, very few. I used to, as a side effect of being quite asocial and reading a lot as a child, and reinforced by my dads very conservative dialect for western Oslo despite where we were living (half an hour drive out the other side of Oslo; dialects in Norway are very local - in that span you pass through at least one other dialect area). The dialect differences were significant enough that an exchange student in high school who was speaking close to perfect Norwegian toward the end of the year still struggled to understand me.\nBut even then, I adopted more and more of the regional dialect over time. Unless you're a hermit it's hard not to. And there are basically no place in Norway where the local dialect is pure Bokmål.\nThere might well be more people who can switch to speak pure Bokmål than Nynorsk, though, because it is the primary written language of far more people, and so its the easiest to slip into if you want to speak \"formal\" Norwegian. This was more pronounced before, when there was a tendency to see the written languages, and especially Bokmål, as more prestigious, and so you might hold a speech in Bokmål instead of your own dialect, TV presenters favoured \"pure\" Bokmål or Nynorsk instead of their dielcts etc. That's thankfully changed",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47813789",
+          "by": "vidarh",
+          "time": 1776496027
+        },
+        {
+          "id": 47816546,
+          "text": "For those in the USA - if you never tried brunost (brown cheese) - look at specialty cheeses of a larger grocery chain (Whole Foods, Safeway, …) - it’s called “Ski Queen” here, and is sold as a perfect cube in red/brown plastic pack.\nIt’s very delicious.\nI was ecstatic when I found it quite a few years ago in a regular store. A Norwegian friend of mine used to send me a brick of this cheese once a year for Christmas, when I was a student, and I treasured it as one of the most valuable possessions :)\nAlso, fun fact - the reason this cheese tastes sweet is due to caramelization - the milk gets boiled for a long time (hours) to get the brown color and sweetness. So it’s completely natural, zero added sugar ;)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47816546",
+          "by": "yalok",
+          "time": 1776525278
+        }
+      ],
+      "by": "atomfinger",
+      "time": 1776106195,
+      "url": "https://lindbakk.com/blog/introducing-brunost",
+      "score": 140,
+      "descendants": 72,
+      "storyUrl": "https://lindbakk.com/blog/introducing-brunost"
+    },
+    {
+      "id": 47812341,
+      "type": "story",
+      "title": "Show HN: I made a calculator that works over disjoint sets of intervals",
+      "rank": 17,
+      "depth": 0,
+      "storyId": 47812341,
+      "storyTitle": "Show HN: I made a calculator that works over disjoint sets of intervals",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47812341",
+      "topComments": [
+        {
+          "id": 47812435,
+          "text": "Author here. Outward rounding to combat precision issues is what interval arithmetic is most known for (try 0.1+0.2 with \"full precision mode\" enabled), but that's really a shame in my opinion. Outward rounding is cool, but the \"inclusion property\", as it's known in research papers, works at every scale! This is what enables things like:\n     50 * (10 + [-1, 1])\n    [450, 550]\n\nwhich is lovely, I think. Adding the union layer to it enables even cooler things, like the true inverse of the square function. Did you know it's not sqrt? Try 'sqinv(64)'.\nI made interval calculator actually mostly as a way to test my implementation of interval union arithmetic [0], which I needed for another project: a backwards updating spreadsheet [1][2].\n[0] https://github.com/victorpoughon/not-so-float\n[1] https://victorpoughon.github.io/bidicalc/\n[2] https://news.ycombinator.com/item?id=46234734",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47812435",
+          "by": "fouronnes3",
+          "time": 1776476112
+        },
+        {
+          "id": 47813296,
+          "text": "This is great. You might be interested in Matt Keeter's work on Implicit surfaces, and using interval math for its optimization:\nhttps://youtu.be/UxGxsGnbyJ4?si=Oo6Lmc4ACaSr5Dk6&t=1006",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47813296",
+          "by": "iamwil",
+          "time": 1776488928
+        },
+        {
+          "id": 47813354,
+          "text": "You might be interested in this graphing calculator I made using interval arithmetic:\nhttps://memalign.github.io/m/formulagraph/index.html\nSome detail on how this works, including links to the relevant interval math code:\nhttps://memalign.github.io/p/formulagraph.html",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47813354",
+          "by": "memalign",
+          "time": 1776489672
+        },
+        {
+          "id": 47813477,
+          "text": "Very nice, thanks for sharing!\nMaybe show which upper or lower values are included in the intervals?\nA notation I am familiar with uses outward facing brackets if the value is not included in the interval. That always applies to infinity.\nApplied to the cases here:\n]-∞, -1] U [0.5, +∞[\nThe excluded interval in between becomes ]-1, 0.5[ then.\nThat’s how min (and analogously max) works, right?\nmin(A, B) = [lo(A,B), lo (hi(A), hi(B))].\nEdit: idea: copy a formula from the results section to the input field if the user clicks/taps on it.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47813477",
+          "by": "_Microft",
+          "time": 1776491608
+        },
+        {
+          "id": 47814275,
+          "text": "Very cool! I don't entirely understand some of the operations, but for what I do understand its pretty neat.\nI wish in classes we were introduced to a notion of arithmetic on intervals as it comes up. Like in basic statistics with confidence intervals there's ±, as well as in the quadratic equation. It found some what dissatisfying we couldn't chain the resulting a series of operations and instead repeat the operations for the 2 seperate values of the ±. I get a teacher would rather not get hung up on this because they want to bring it back to the application generally, like solving a more complicated equation or hypothesis testing in basic stats. I just wish they hinted at the idea we can do arithmetic on these kinds of things more generally.\nI realise what you've got here is well beyond this, but seeing this was some level of validation that treating the interval as a piece of data with its own behaviour of certain operations does make some sense.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47814275",
+          "by": "akst",
+          "time": 1776501668
+        }
+      ],
+      "by": "fouronnes3",
+      "time": 1776474943,
+      "url": "https://victorpoughon.github.io/interval-calculator/",
+      "score": 314,
+      "descendants": 54,
+      "storyUrl": "https://victorpoughon.github.io/interval-calculator/"
+    },
+    {
+      "id": 47778938,
+      "type": "story",
+      "title": "Towards trust in Emacs",
+      "rank": 18,
+      "depth": 0,
+      "storyId": 47778938,
+      "storyTitle": "Towards trust in Emacs",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47778938",
+      "topComments": [
+        {
+          "id": 47813580,
+          "text": "> ... the problem with security measures that cause too much friction is that users tend to disable them in order to get on with their work. To fulfill its security purposes, a good trust system needs to stay out of your way.\nI wish this was understood clearly by more security engineers, but, alas...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47813580",
+          "by": "TheChaplain",
+          "time": 1776493395
+        },
+        {
+          "id": 47815212,
+          "text": "The article is still missing the most important point about a \"trust system\" -- you have to explain what it is and convince me that I even care about the problem you're trying to solve. It's my machine, what is a \"trusted\" or \"untrusted\" file? If people just force security \"solutions\" on me without asking me whether I understand or agree with their problem diagnosis then I will immediately disable the protection if I can or blanket accept all prompts without thinking.\nThis is good, but it doesn't go far enough:\n> ... the problem with security measures that cause too much friction is that users tend to disable them in order to get on with their work. To fulfill its security purposes, a good trust system needs to stay out of your way.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47815212",
+          "by": "Myrmornis",
+          "time": 1776513489
+        },
+        {
+          "id": 47813194,
+          "text": "The one problem I have with the trusted files thing is that I have no way to trust non-file-visiting buffers. Why is *scratch* untrusted!? *scratch* should always be trusted, without me having to configure anything, ideally. Though a setting to automatically trust non-file-visiting buffers would be nice.\nI just ended up stopping using the scratch buffer because of that issue.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47813194",
+          "by": "accelbred",
+          "time": 1776487376
+        },
+        {
+          "id": 47814629,
+          "text": "I would say the trust model of all editors is broken. You cannot really blanket trust any project at all with agents and the amount of supplychain attacks, not even your own. Editors must move to a capabilty based sandbox where you dont just grant trust but grant concrete capabilities like in a browser sandbox.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47814629",
+          "by": "jFriedensreich",
+          "time": 1776506662
+        },
+        {
+          "id": 47813400,
+          "text": "The trust model of Emacs makes no sense. It's overly conservative, hurts the development experience, encourages blanket permission granting, and worst of all, sins against logic and lisp themselves.\nMacro expansion is data transformation. Form in, form out. Most macros are pure functions of their inputs. Even the ones that aren't seldom have effects that would allow exploitation. That's because a well-written macro does not have side-effects during expansion time, but instead generates code that when itself evaluated, has the desired effect.\nYes, in general, for arbitrary values of \"macro\" and \"form\", using a macro to expand a form leads to arbitrary code execution. This much is true. But the risk only manifests when both the macro and its input form are untrusted.\nThe vast majority of macros are dumb pure functions and do not perform dangerous actions on untrusted input. It is safe to use these macros to expand untrusted forms. Doing os would make flymake, find-function, and other features work correctly in most cases. To blanket-prohibit expansion even by macros doing obviously safe transformations is to misunderstand the issue.\nAt a minimum, it must be possible to define a macro and mark it safe for expanding untrusted code. Yes, it's prudent to have a whitelist and not a blacklist. Right now, we don't even have a whitelist. All macros on any untrusted form are deemed unsafe. That's too conservative.\nBeyond that, it would be safe to run the macro-expander itself in an environment without access to mutating global operations. Since almost all macros are intrinsically safe to expand, we'd have far fewer situations in which people had subpar development experiences from overly conservative security mitigations.\nIn addition, after I've eval-buffered a buffer, then Emacs should perform macro expansions in this buffer, at least until I revert it from disk. If I have evaled a malicous buffer, I have already accepted its malice into my Emacs and expanding macros for find-function can do no more harm.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47813400",
+          "by": "quotemstr",
+          "time": 1776490442
+        }
+      ],
+      "by": "eshelyaron",
+      "time": 1776260955,
+      "url": "https://eshelyaron.com/posts/2026-04-15-towards-trust-in-emacs.html",
+      "score": 189,
+      "descendants": 32,
+      "storyUrl": "https://eshelyaron.com/posts/2026-04-15-towards-trust-in-emacs.html"
+    },
+    {
+      "id": 47806845,
+      "type": "story",
+      "title": "Slop Cop",
+      "rank": 19,
+      "depth": 0,
+      "storyId": 47806845,
+      "storyTitle": "Slop Cop",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47806845",
+      "topComments": [
+        {
+          "id": 47811870,
+          "text": "Like the original Grammarly, I think this can be useful for business writing because these tools help you get to the point. Many students are rewarded for using flowery language in school essays, but if you're composing an email or writing a design doc, just optimize for reading time and clarity.\nBut for general use, I think this is misguided. The problem with LLM output is not that it's using em dashes or words such as \"crucial\". It's that most LLM articles on LinkedIn or on personal blogs just take a one-sentence prompt and dress it up into a lot of pointless words, wasting everyone's time: \"I had a shower thought and I asked a chatbot to write five pages of text about it.\" I don't need prettier words, I need there to be far fewer of them?\nOn the flip side, if you're a human and actually have something of consequence to say, \"delve\" all you want.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47811870",
+          "by": "chromacity",
+          "time": 1776469972
+        },
+        {
+          "id": 47811931,
+          "text": "Removing the aesthetic tells from LLM-generated text won't fix the fact that there's nobody home with opinions and experiences to express. It will just make it take more work for your unsuspecting audience to figure that out.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47811931",
+          "by": "furyofantares",
+          "time": 1776470696
+        },
+        {
+          "id": 47809549,
+          "text": "It seems relevant that a lot of these things were fairly notorious clichés even before LLMs, which just intensified the phenomenon. They were what people tended to do who wanted to sound smart and sophisticated but didn't have a developed voice or anything in particular to say. Indeed, I'm fairly sure this is why LLMs sound like this.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47809549",
+          "by": "ameliaquining",
+          "time": 1776453579
+        },
+        {
+          "id": 47813035,
+          "text": "I pasted a blog that I wrote myself and flagged hundreds of patterns. Granted, the article is 15,000 words so some are expected but there are simply too many false positives to make this and any similar tool have any usefulness beyond flagging the most obvious offenders.\nAnd looking at its suggestions, they are not very good. People are better developing their own writing style than trusting generic advice meant for common-denominator writing.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47813035",
+          "by": "trane_project",
+          "time": 1776484928
+        },
+        {
+          "id": 47812159,
+          "text": "Wow! Did you know that Abraham Lincoln let AI write the Gettysburg Address? 17 patterns identified out of only 305 words. I don't know why I ever let him get the ad revenue.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47812159",
+          "by": "3eb7988a1663",
+          "time": 1776472990
+        }
+      ],
+      "by": "ericHosick",
+      "time": 1776438924,
+      "url": "https://awnist.com/slop-cop",
+      "score": 252,
+      "descendants": 160,
+      "storyUrl": "https://awnist.com/slop-cop"
+    },
+    {
+      "id": 47816629,
+      "type": "story",
+      "title": "Show HN: MDV – a Markdown superset for docs, dashboards, and slides with data",
+      "rank": 20,
+      "depth": 0,
+      "storyId": 47816629,
+      "storyTitle": "Show HN: MDV – a Markdown superset for docs, dashboards, and slides with data",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47816629",
+      "topComments": [
+        {
+          "id": 47817390,
+          "text": "Markdown is a beautiful demonstration that document structure syntax can/should be simple. What most people do in Word is better done by just adjusting the document rendering/style, not the document structure...\nI love the idea of extending markdown to include more visual elements, but if you're not careful you just reinvent HTML.\nHere's my personal take on extending table syntax for charts. Easy to write, and if a renderer/parser understands the syntax you get a beautiful chart, and if it doesn't you get a table with slightly weird headings:\n  | Month::x | Revenue::y1 | Cost::y2 |\n  | -------- | ----------: | -------: |\n  | Jan      | $82,000     | $51,000 |\n  | Feb      | $91,000     | $56,000 |\n  | Mar      | $95,000     | $58,000 |",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47817390",
+          "by": "kevinkoning",
+          "time": 1776531336
+        },
+        {
+          "id": 47818002,
+          "text": "Looks cool.\nI continue to love Markdown and always push it a bit further than Commonmark, with frontmatter, schemas, code fence metadata too.\nI've been enjoying https://djot.net/ as a superset of Markdown that is feels very well designed and extensible too.\nYou may look into its syntax and tooling for prior art or some extra lift.\nI'm trying to get a djot extension in Zed for syntax highlighting if anyone minds adding a  to help signal some community interest.\nhttps://github.com/zed-industries/extensions/pull/5206",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47818002",
+          "by": "nzoschke",
+          "time": 1776535231
+        },
+        {
+          "id": 47817913,
+          "text": "I work on a dashboarding / BI solution that is also built around markdown and clickhouse. www.evidence.dev\nWe moved to stripe's Markdoc variant for the component syntax last year and have been really happy with it. Models are good at writing it, people are good at reviewing it.\nHere's an area chart that would issue a SQL query for weekly revenue totals:\n```\n{% area_chart \n   data=\"my_table\"\n   x=\"date\"\n   y=\"sum(revenue)\" \n   date_grain=\"week\"\n/%}\n```",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47817913",
+          "by": "amcaskill",
+          "time": 1776534638
+        },
+        {
+          "id": 47819540,
+          "text": "This is cool. Can you tell me more about the :: blocks thing. I didn’t know that was a Markdown element.\nThis problem has risen to the top of many people’s minds at this moment (including mine!). My Show HN for a similar cli + web based solution (https://sdocs.dev) is on the /show page now (https://news.ycombinator.com/item?id=47777633).\nI also went with Front Matter for styling and added an interactive styling mode you can do on the web to test it out immediately. There are some examples on my homepage which demonstrate it in action.\nSDocs is cli -> instantly rendered on web\nDespite being in the browser, the content of SDocs rendered Markdown files remain local to you. SDoc urls contain your markdown document's content in compressed base64 in the url fragment (the bit after the `#`):\nhttps://sdocs.dev/#md=GzcFAMT...(this is the contents of your document)...\nThe url fragment is never sent to the server (see https://developer.mozilla.org/en-US/docs/Web/URI/Reference/F...: \"The fragment is not sent to the server when the URI is requested; it is processed by the client\").\nThe sdocs.dev webapp is purely a client side decoding and rendering engine for the content stored in the url fragment.\nThis also means you can share your .md files privately by sharing the url.\nAlso, I’m sorry I high jacked your post to some degree with this comment. \nIt’s just a little too relevant for me not to leave a comment!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47819540",
+          "by": "FailMore",
+          "time": 1776546553
+        },
+        {
+          "id": 47817918,
+          "text": "All of these are supported in pandoc markdown:\n> .mdv is strict CommonMark plus four additions:\n> YAML front-matter for title, theme, named styles, and dataset references.\n> Fenced blocks for data/visuals: ```chart type=bar x=region y=sales.\n> ::: containers for styled regions and layout: ::: callout / ::: columns.\n> ::: toc for an auto-generated table of contents.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47817918",
+          "by": "remywang",
+          "time": 1776534683
+        }
+      ],
+      "by": "drasim",
+      "time": 1776525879,
+      "url": "https://github.com/drasimwagan/mdv",
+      "score": 152,
+      "descendants": 55,
+      "storyUrl": "https://github.com/drasimwagan/mdv"
+    },
+    {
+      "id": 47784250,
+      "type": "story",
+      "title": "Scientists discover “cleaner ants” that groom giant ants in Arizona desert",
+      "rank": 21,
+      "depth": 0,
+      "storyId": 47784250,
+      "storyTitle": "Scientists discover “cleaner ants” that groom giant ants in Arizona desert",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47784250",
+      "topComments": [
+        {
+          "id": 47819578,
+          "text": "The full paper described in the article is available here:\nhttps://pmc.ncbi.nlm.nih.gov/articles/PMC13070876/\nMark W. Moffett. The First Cleaner Ant? A Novel Partnership in the Arizona Desert. Ecology and Evolution, 2026; 16 (4) DOI: 10.1002/ece3.73308",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47819578",
+          "by": "mmooss",
+          "time": 1776546821
+        },
+        {
+          "id": 47817507,
+          "text": "This is very cool, and quite surprising. Cleaner fish are thought to be among the most intelligent fish because of the complexity and danger of their feeding strategy: it takes careful planning and quick thinking. But they aren't tied to any particular species of host or general tactic; naively I imagine cleaner fish are more versatile and adaptable than cone ants.\nIt would be interesting to learn if this occurs with other species of ants. I suppose until now nobody thought to look.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47817507",
+          "by": "LeCompteSftware",
+          "time": 1776531908
+        },
+        {
+          "id": 47817912,
+          "text": "this is no surprise to anyone who has read dougal dixon's 'man after man'",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47817912",
+          "by": "awinter-py",
+          "time": 1776534625
+        },
+        {
+          "id": 47818269,
+          "text": "why haven't any animals adapted to this role for humans!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47818269",
+          "by": "awakeasleep",
+          "time": 1776537074
+        },
+        {
+          "id": 47818741,
+          "text": "NYT story earlier on this: \nhttps://news.ycombinator.com/item?id=47754440",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47818741",
+          "by": "marojejian",
+          "time": 1776540262
+        }
+      ],
+      "by": "t-3",
+      "time": 1776282376,
+      "url": "https://www.sciencedaily.com/releases/2026/04/260414075641.htm",
+      "score": 120,
+      "descendants": 43,
+      "storyUrl": "https://www.sciencedaily.com/releases/2026/04/260414075641.htm"
+    },
+    {
+      "id": 47819369,
+      "type": "story",
+      "title": "Optimizing Ruby Path Methods",
+      "rank": 22,
+      "depth": 0,
+      "storyId": 47819369,
+      "storyTitle": "Optimizing Ruby Path Methods",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47819369",
+      "topComments": [
+        {
+          "id": 47819965,
+          "text": "> More importantly, on CI systems it’s relatively common to check out code using git, and git doesn’t care about mtime\ngit doesn't care about mtime, but git maintains trees whose hash changes if any constituent part of the tree changes. It'd seem tempting to check for a .git and if present use the git tree to determine whether to invalidate the cache.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47819965",
+          "by": "vidarh",
+          "time": 1776550328
+        },
+        {
+          "id": 47819877,
+          "text": "Would this be possible to mainline into ruby in some way?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47819877",
+          "by": "nixpulvis",
+          "time": 1776549510
+        },
+        {
+          "id": 47819875,
+          "text": "don't take this the wrong way, but -- people still use ruby?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47819875",
+          "by": "blinkbat",
+          "time": 1776549505
+        }
+      ],
+      "by": "weaksauce",
+      "time": 1776544949,
+      "url": "https://byroot.github.io/ruby/performance/2026/04/18/faster-paths.html",
+      "score": 134,
+      "descendants": 64,
+      "storyUrl": "https://byroot.github.io/ruby/performance/2026/04/18/faster-paths.html"
+    },
+    {
+      "id": 47767398,
+      "type": "story",
+      "title": "It's OK to compare floating-points for equality",
+      "rank": 23,
+      "depth": 0,
+      "storyId": 47767398,
+      "storyTitle": "It's OK to compare floating-points for equality",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47767398",
+      "topComments": [
+        {
+          "id": 47815349,
+          "text": "This explanation is relatively reductive when it comes to its criticism of computational geometry.\nThe thing with computational geometry is, that its usually someone else's geometry, i.e you have no control over its quality or intention. In other words, whether two points or planes or lines actually align or align within 1e-4 is no longer really mathematically interesting because its all about the intention of the user: does the user think these planes overlap?.\nThis is why most geometry kernels (see open cascade) sport things like \"fuzzy boolean operations\" [0]) that lean into epsilons. These epsilons mask the error-prone supply chain of these meshes that arrive in your program by allowing some tolerance.\nFinally, the remark \"There are many ways of solving this problem\" is also overly reductive, everyone reading here should really understand that this is a topic that is being actively researched right now in 2026, hence there are currently no blessed solutions to this problem, otherwise this research would not be needed. Even more so, to some extent this problem is fundamentally unsolvable depending on what you mean by \"solvable\", because your input is inexact not all geometrical operations are topologically valid, hence an \"exact\" or let alone \"correct along some dimension\" result cannot be achieved for all (combination of) inputs.\n[0] https://dev.opencascade.org/content/fuzzy-boolean-operations",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47815349",
+          "by": "vouwfietsman",
+          "time": 1776514815
+        },
+        {
+          "id": 47820408,
+          "text": "Something I've observed as someone who works in the physical sciences and used to work as a software engineer is:\nVery few software engineers understand that tolerances are fundamental.\nIn the physical sciences, strict equality - of actual quantities, not variables in equations - is almost never a thing. Even though an equation might show that two theoretical quantities are exactly equal, the practical fact is that every quantity begins life as a measurement, and measurements have inherent uncertainty.\nEven in design work, nothing is exact. It's simply not possible. A resistor's value is subject to manufacturing tolerances, will vary with temperature, and can drift as it ages. A mechanical part will also have manufacturing tolerance, and changes size and shape with temperature, applied forces, and wear. So even if a spec sheet states an exact number, the heading or notes will tell you that this is a nominal value under specific conditions. (Those conditions are also impossible to achieve and maintain exactly for all the same reasons.)\nEven the voltages that represent 0 and 1 inside a computer aren't exact. Digital parts like CPUs, GPUs, RAM, etc. specify low and high thresholds, under or over which a voltage is considered a 0 or 1.\nFloating-point numbers have uses outside the physical sciences, so there's no one-size-fits-all approach to using them correctly. But if you are writing code that deals with physical quantities, making equality comparisons is almost always going to be wrong even if floating-point numbers had infinite precision and no rounding error. Physical quantities simply can't be used that way.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47820408",
+          "by": "_moof",
+          "time": 1776554659
+        },
+        {
+          "id": 47814955,
+          "text": "I have this floating-point problem at scale and will donate $100 to the author, or to anyone here, who can improve my code the most.\nThe Rust code in the assert_f64_eq macro is:\n    if (a >= b && a - b \nI'm the author of the Rust assertables crate. It provides floating-point assert macros much as described in the article.\nhttps://github.com/SixArm/assertables-rust-crate/blob/main/s...\nIf there's a way to make it more precise and/or specific and/or faster, or create similar macros with better functionality and/or correctness, that's great.\nSee the same directory for corresponding assert_* macros for less than, greater than, etc.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47814955",
+          "by": "jph",
+          "time": 1776510861
+        },
+        {
+          "id": 47816620,
+          "text": "> In reality it is a pretty deterministic (modulo compiler options, CPU flags, etc)\nIIRC this was not ALWAYS the case, on x86 not too long ago the CPU might choose to put your operation in an 80-bit fp register, and if due to multitasking the CPU state got evicted, it would only be able to store it in a 32-bit slot while it's waiting to be scheduled back in?\nIt might not be the case now in a modern system if based on load patterns the software decides to schedule some math operations or another on the GPU vs the CPU, or maybe some sort of corner case where you are horizontally load balancing on two different GPUs (one AMD, one Nvidia) -- I'm speculating here.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47816620",
+          "by": "dnautics",
+          "time": 1776525813
+        },
+        {
+          "id": 47815417,
+          "text": "Think about this. It's silly to use floating point numbers to represent geometry, because it gives coordinates closer to the origin more precision and in most cases the origin is just an arbitrary point.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47815417",
+          "by": "amelius",
+          "time": 1776515561
+        }
+      ],
+      "by": "coinfused",
+      "time": 1776182449,
+      "url": "https://lisyarus.github.io/blog/posts/its-ok-to-compare-floating-points-for-equality.html",
+      "score": 214,
+      "descendants": 144,
+      "storyUrl": "https://lisyarus.github.io/blog/posts/its-ok-to-compare-floating-points-for-equality.html"
+    },
+    {
+      "id": 47767397,
+      "type": "story",
+      "title": "80386 Memory Pipeline",
+      "rank": 24,
+      "depth": 0,
+      "storyId": 47767397,
+      "storyTitle": "80386 Memory Pipeline",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47767397",
+      "topComments": [
+        {
+          "id": 47818225,
+          "text": "Again a very interesting look at how this chip works internally!\nI've decoded the entry point PLA of the 80286 (not the actual microcode though). It also has separate entries for real and protected mode, but only for segment loads from a general purpose register, HLT, and for those opcodes that aren't allowed in real mode like ARPL.\nLoading a segment register from memory on the 286 uses the same microcode in both modes, as does everything else that would certainly have to act differently, like jump/call far. That was a bit surprising, since it would have to decide at run time which mode it's in. Is this the same on the 386?\nTested on my 286 machine what happens when opcodes are decoded while in real mode but executed after PE is set: Segment load from memory works (using protected mode semantics), whereas the load from register only changes the visible selector and nothing else. The base in the descriptor cache keeps whatever was set there before -- I assume on the 386, SBRM would update the base the same way it does in real mode in that situation, because it's also used for V86 mode there. Illegal-in-real-mode instructions trap, but do so correctly using the protected mode IDT.\nAlso seems like executing three pre-decoded instructions without a jump after setting PE causes a triple fault for some reason.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47818225",
+          "by": "rep_lodsb",
+          "time": 1776536760
+        },
+        {
+          "id": 47817071,
+          "text": "Voodoo mode is the ultimate test. Imagine having access to 4GB of memory from real mode.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47817071",
+          "by": "mrlonglong",
+          "time": 1776529221
+        },
+        {
+          "id": 47816917,
+          "text": "Interesting article. I learned some things.\nHow hard would it be for Mr Github to add rss/atom feeds, I wonder?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47816917",
+          "by": "andyjohnson0",
+          "time": 1776527934
+        },
+        {
+          "id": 47817505,
+          "text": "wasn't this basically the consensus among numerical analysts like 20 years ago? i remeber reading similar arguments in goldberg's paper and various game dev forums circa 2005, so genuinely curious what keeps making this idea feel \"new\" to each generation of programmers who rediscovers it",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47817505",
+          "by": "blueybingo",
+          "time": 1776531894
+        }
+      ],
+      "by": "wicket",
+      "time": 1776182449,
+      "url": "https://nand2mario.github.io/posts/2026/80386_memory_pipeline/",
+      "score": 118,
+      "descendants": 18,
+      "storyUrl": "https://nand2mario.github.io/posts/2026/80386_memory_pipeline/"
+    },
+    {
+      "id": 47773969,
+      "type": "story",
+      "title": "Understanding the FFT Algorithm (2013)",
+      "rank": 25,
+      "depth": 0,
+      "storyId": 47773969,
+      "storyTitle": "Understanding the FFT Algorithm (2013)",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47773969",
+      "topComments": [
+        {
+          "id": 47817950,
+          "text": "For anyone interested and with 30 minutes to spare, I would recommend the youtube video [1] by Reducible for an intuition on how FFT works.\n[1]: https://youtu.be/h7apO7q16V0",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47817950",
+          "by": "medbar",
+          "time": 1776534893
+        },
+        {
+          "id": 47819312,
+          "text": "If anyone is interested, I made a video about my favorite application of the 2D discrete Fourier transform, where it's used to erase rainbows on manga screen tones on color eink Kaleido 3 on Kobo Colour: https://youtu.be/Dw2HTJCGMhw?si=hlhwHv0qB6SoMha9",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47819312",
+          "by": "seam_carver",
+          "time": 1776544496
+        },
+        {
+          "id": 47818315,
+          "text": "A bit of a stretch, but does anyone have a good way of running an FFT on a pcap?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47818315",
+          "by": "vscode-rest",
+          "time": 1776537436
+        },
+        {
+          "id": 47820278,
+          "text": "Who uses square brackets for big-O?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47820278",
+          "by": "emil-lp",
+          "time": 1776553285
+        }
+      ],
+      "by": "peter_d_sherman",
+      "time": 1776220179,
+      "url": "https://jakevdp.github.io/blog/2013/08/28/understanding-the-fft/",
+      "score": 110,
+      "descendants": 11,
+      "storyUrl": "https://jakevdp.github.io/blog/2013/08/28/understanding-the-fft/"
+    },
+    {
+      "id": 47811283,
+      "type": "story",
+      "title": "Landmark ancient-genome study shows surprise acceleration of human evolution",
+      "rank": 26,
+      "depth": 0,
+      "storyId": 47811283,
+      "storyTitle": "Landmark ancient-genome study shows surprise acceleration of human evolution",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47811283",
+      "topComments": [
+        {
+          "id": 47811926,
+          "text": "Is there any species, other than humans, that is found all across the globe (i.e. geographically separated), and has not differentiated into subspecies? Wolves, elephants, tigers, bears, and foxes have all been categorized into multiple subspecies each, distinct but able to interbreed.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47811926",
+          "by": "like_any_other",
+          "time": 1776470652
+        },
+        {
+          "id": 47820279,
+          "text": "So it was the Anunnaki after all, eh? :)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47820279",
+          "by": "Henchman21",
+          "time": 1776553288
+        },
+        {
+          "id": 47812524,
+          "text": "Every time I read about ancient DNA work, it's about Reich's research. Can anyone expert in the field shed light on that? He certainly seems to have a successful research group. And he's a good communicator, I got a lot out of his 2018 book. Who else should I be reading or reading about?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47812524",
+          "by": "NelsonMinar",
+          "time": 1776477312
+        },
+        {
+          "id": 47811481,
+          "text": "Not that surprising when you consider, as the paper does, the explosion of very meaningful traits such as the ability to digest lactose and various anti-malaria adaptations e.g. Sickle Cell and the Duffy-null mutation.\nIt's just controversial for obvious reasons.  The notion that human groups may have meaningfully evolved in different ways over the past 10,000 years, and may still be evolving, is an unpopular one on both ends of the political spectrum.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47811481",
+          "by": "A_D_E_P_T",
+          "time": 1776466722
+        },
+        {
+          "id": 47812837,
+          "text": "funny how racists on twitter havent learnt that skin color is a function of natural selection, how do we get this message to them in a non offensive yet informational enough way to change their perceptions of colored people",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47812837",
+          "by": "vivzkestrel",
+          "time": 1776481811
+        }
+      ],
+      "by": "unsuspecting",
+      "time": 1776465028,
+      "url": "https://www.nature.com/articles/d41586-026-01204-5",
+      "score": 119,
+      "descendants": 166,
+      "storyUrl": "https://www.nature.com/articles/d41586-026-01204-5"
+    },
+    {
+      "id": 47816625,
+      "type": "story",
+      "title": "Fuzix OS",
+      "rank": 27,
+      "depth": 0,
+      "storyId": 47816625,
+      "storyTitle": "Fuzix OS",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47816625",
+      "topComments": [
+        {
+          "id": 47818363,
+          "text": "It's basically a micro Unix implementation aimed at old and resource constrained systems.  I've been following it for a few years.  The documentation is terrible, there are hardy any updates, but it does seem to be making slows, steady progress behind the scenes.  I think it just needs to reach a critical mass of functionality and we'll see it popping up on raspberry pi picos, 8-bit micros etc.   Definitely needs some TLC in the comms department though.  Oh, and don/t be fooled by the archived status - it moved to https://codeberg.org/EtchedPixels/FUZIX",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47818363",
+          "by": "jimmoores",
+          "time": 1776537842
+        },
+        {
+          "id": 47818556,
+          "text": "I've seen cases where documentation is seriously lacking but this project is quite something.\nWas reading the comments, was able to learn more. So I assume it provides a command line interface.\nQuestion: Can it run binaries compiled for the platform/OS?\nThis has been a limitation since forever on ESP microcontrollers because they basically have the power of computers and yet the flashing limitation of calculators. Would be good to finally be able to launch arbitrary binaries without flashing. (I know there are tricks right now, just looking for a proper OS-approach).",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47818556",
+          "by": "nunobrito",
+          "time": 1776539131
+        },
+        {
+          "id": 47816998,
+          "text": "> FUZIX is a fusion of various elements from the assorted UZI forks and branches beaten together into some kind of semi-coherent platform and then extended from V7 to somewhere in the SYS3 to SYS5.x world with bits of POSIX thrown in for good measure. Various learnings and tricks from ELKS and from OMU also got blended in\nhttps://github.com/EtchedPixels/FUZIX#what-does-fuzix-have-o...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47816998",
+          "by": "wyldfire",
+          "time": 1776528602
+        },
+        {
+          "id": 47817181,
+          "text": "I'm sorry but the landing page at fuzix.org (the top page nonetheless) is terrible as it does not even try to explain what FUZIX even IS. I went to the GitHub project page, which contains some more details, but it still doesn't answer the question and only talks about how FUZIX differs from UZI.\nTo be honest, I still have no idea what I'm looking at.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47817181",
+          "by": "jmmv",
+          "time": 1776529919
+        },
+        {
+          "id": 47817087,
+          "text": "Tandy CoCo 3 reference spotted",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47817087",
+          "by": "velcrovan",
+          "time": 1776529308
+        }
+      ],
+      "by": "DeathArrow",
+      "time": 1776525858,
+      "url": "https://www.fuzix.org/",
+      "score": 115,
+      "descendants": 32,
+      "storyUrl": "https://www.fuzix.org/"
+    },
+    {
+      "id": 47788207,
+      "type": "story",
+      "title": "The simple geometry behind any road",
+      "rank": 28,
+      "depth": 0,
+      "storyId": 47788207,
+      "storyTitle": "The simple geometry behind any road",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47788207",
+      "topComments": [
+        {
+          "id": 47814220,
+          "text": "You're missing one very important type of curve: a clothoid (or \"Euler spiral\") is a curve of continuously-varying radius, these are encountered on roads very frequently. And especially on race circuits.\nA clothoid is used to connect two lines the same way your fillet is, except instead of just 1 radius it has a radius configured for each end and smoothly changes in between.\nhttps://en.wikipedia.org/wiki/Euler_spiral\nThey are also used in railways, because on a railway you don't have the freedom of moving the car's position across the road, so a transition from a straight track to a constant radius would imply an instantaneous step change in centrifugal force, or infinite jerk. Using a clothoid to smooth the change between the straight track and the constant-radius turn means the lateral acceleration increases smoothly instead of instantaneously.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47814220",
+          "by": "jstanley",
+          "time": 1776500824
+        },
+        {
+          "id": 47819618,
+          "text": "I skimmed some parts I was already familiar with so maybe I missed a mention, but the issue with transitioning from straight to circular arc like this is you get an (theoretically) instantaneous change in lateral forces on the vehicle at the transition point.\nObviously it’s much less of a problem in a game, but it can look strange if you’ve implemented animations that make vehicles lean when going around curves or are limiting vehicle speeds based on those computed lateral forces.\nIn a game at least, there’s lots of simple ways to work around the issue (just use some kind of fake, arbitrary smoothing on changes in lateral forces).\nIn a real road, it would likely not feel good and probably would cause issues.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47819618",
+          "by": "nkrisc",
+          "time": 1776547181
+        },
+        {
+          "id": 47815666,
+          "text": "The care taken here to achieve aesthetically pleasing results reminds me of this post about creating nice transit maps in the Transit App: https://blog.transitapp.com/how-we-built-the-worlds-pretties...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47815666",
+          "by": "kalmar",
+          "time": 1776518086
+        },
+        {
+          "id": 47817411,
+          "text": "I think this comment section would be a good place to ask for help with a related problem.\nI want to design a \"smooth\" closed path that fits in a square, as long as I can make it. It needs to smooth in such a way that a constant velocity can be maintained subject to limits on acceleration and jerk. The point is to develop a test for maximum flow rate on a filament 3D printer without the motion system ever slowing the tool-head down. (In reality, the standard smoothed \"E\" shape is good enough. This is more of an exercise.)\nI know roads are designed to limit acceleration and jerk, and someone knowledgeable about road design would know about finding curves with constraints on acceleration and jerk.\nDo you know any free tools or resources on theory that I could use?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47817411",
+          "by": "pvillano",
+          "time": 1776531408
+        },
+        {
+          "id": 47814277,
+          "text": "And then you have various types of hairpin bend where you actually vary the width of the lanes with the radius: https://www.google.com/maps/@46.8360535,9.6369913,68m",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47814277",
+          "by": "red_admiral",
+          "time": 1776501693
+        }
+      ],
+      "by": "azhenley",
+      "time": 1776308990,
+      "url": "https://sandboxspirit.com/blog/simple-geometry-of-roads/",
+      "score": 145,
+      "descendants": 17,
+      "storyUrl": "https://sandboxspirit.com/blog/simple-geometry-of-roads/"
+    },
+    {
+      "id": 47794311,
+      "type": "story",
+      "title": "The Unix executable as a Smalltalk method (2025) [video]",
+      "rank": 29,
+      "depth": 0,
+      "storyId": 47794311,
+      "storyTitle": "The Unix executable as a Smalltalk method (2025) [video]",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47794311",
+      "topComments": [
+        {
+          "id": 47813109,
+          "text": "Related. Others?\nThe Unix Executable as a Smalltalk Method [pdf] - https://news.ycombinator.com/item?id=45623917 - Oct 2025 (21 comments)\nThe Lurking Smalltalk in Unix and Plan 9 [pdf] - https://news.ycombinator.com/item?id=7719685 - May 2014 (38 comments)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47813109",
+          "by": "dang",
+          "time": 1776486109
+        },
+        {
+          "id": 47812317,
+          "text": "Owen Densmore (who implemented the PostScript \"object.ps\" Smalltalk-like object oriented programming system for NeWS, and worked at Apple on the LaserWriter and PostScript printing system), and David Rosenthal (who developed NeWS with James Gosling, and one of the original employees of NVIDIA), patented a way to implement Smalltalk's (and NeWS's) object oriented programming system in the shell:\nhttps://patents.google.com/patent/US5187786A/en\nMethod for apparatus for implementing a class hierarchy of objects in a hierarchical file system\nAbstract\nA method and apparatus for implementing a class hierarchy of objects in a hierarchical file system is disclosed, which does not require the support of additional file attributes by the hierarchical file system, and has particular application to object oriented programming in window-based computer systems. The class hierarchy comprises a root class, a plurality of classes and a plurality of class instances. The root class is implemented with a hierarchy of root class directory and root class files. Each class is implemented with a hierarchy of class directories and class files comprising the class methods, and the initial values of the class instance variables. Each class instance is implemented with a hierarchy of class instance directory and class instance files comprising the class instance variables. Each hierarchy of directories and files also comprises a path file. The content of these path files are logically related to each other, based on their class' relationships. By controlling the invocation of class methods, using these path files, inheritance is achieved. By accessing the class instance variables through the class methods, data abstraction is also achieved. Additionally, the method and apparatus also supports the pseudo class instance/class \"Self\" and \" Super\" when invoking another class method by a class method.\n----\nhttps://github.com/SimHacker/moollm/blob/main/designs/postsc...\nThe Linguistic Motherboard\n\"PostScript is a linguistic 'mother board', which has 'slots' for several 'cards'. The first card we built was a graphics card. We're considering other cards...\"\n— John Warnock (Adobe), as recounted by Owen Densmore to Don Hopkins\nThis document traces how the \"linguistic motherboard\" concept evolved from PostScript through NeWS to MOOLLM's CARD.yml — a 40-year thread connecting printers to LLMs.\n[...]\nOwen Densmore's Object-Oriented PostScript (1986)\nAt Sun, Owen invented the OOP system that made NeWS truly powerful. He realized that PostScript's dictionary stack could implement Smalltalk-style classes:\nPush a class dictionary onto the stack\nMethod lookup walks the stack (multiple inheritance)\nInstance dictionaries hold per-object state\nSee: \"Object Oriented Programming in NeWS\" (Owen Densmore, 1986)\nhttp://bitsavers.informatik.uni-stuttgart.de/pdf/sun/NeWS/De...\nTom Stambaugh helped Owen see how to adapt Smalltalk patterns:\n\"Owen and I discussed his 'crazy' idea at a poolside table at the now-demolished Hyatt Palo Alto, on El Camino. I told him that it made sense to me, we scribbled furiously on napkins, and I helped him see how he might adopt some learnings from Smalltalk.\"\nFilesystem as Object Hierarchy (1993)\nOwen Densmore and David S. H. Rosenthal (both NeWS authors) patented a method to implement object-oriented class hierarchies directly in a hierarchical file system:\nUS Patent 5187786A: \"Method and apparatus for implementing a class hierarchy of objects in a hierarchical file system\"\nDirectories as class and instance containers\nPath files coordinate inheritance and method lookup\nShell path as dictionary stack (!)\nNo new file attributes required\nThis formalized the NeWS/Smalltalk OOP patterns into filesystem semantics — shell scripts with OOP inheritance.\n[...]\n----\nhttps://github.com/SimHacker/moollm/blob/main/kernel/DIRECTO...\nSelfish COM: Directory-as-Object\nThe insight: Directories are objects. Files are interfaces. The filesystem IS the object graph.\nThe deeper insight: Every directory is an agent. Every file is an agent. Every YAML section can be an agent. Agents all the way down. See `ARCHITECTURE.md` → \"The Universal Foundation\".\n[...]\n----\nDavid Rosenthal:\nhttps://news.ycombinator.com/item?id=44045304\n>He worked with James Gosling on Andrew at CMU and NeWS at Sun, and on X10 as well as X11 and ICCCM, and he implemented the original X10 compatibility layer that was in NeWS 1.0, before X11 was a \"thing\".\nhttps://en.wikipedia.org/wiki/David_S._H._Rosenthal\nA User-Interface Toolkit in Object-Oriented PostScript, Owen M. Densmore, David Rosenthal:\nhttps://www.researchgate.net/publication/229706779_A_User-In...\n>Only the diehards want to develop applications using basic window system facilities. The preferred approach is a higher-level “toolkit” of user interface components, such as menus and scroll bars. Experience with current toolkits shows the need for an object-oriented interface to these components. NeWS, the Network/extensible Window System, allows user interface components to be programmed in PostScript. Fortunately, object-oriented interfaces are natural in PostScript, and they have been used to create a toolkit with some novel properties. Among these are the use of concurrent processing and run-time inheritance of component methods. “Postscript is the future of words on paper.” Arthur C. Clarke\nThe Dawn Of Nvidia's Technology:\nhttps://blog.dshr.org/2025/05/the-dawn-of-nvidias-technology...\n>Objects & Methods\n>One of the great things about NeWS was that it was programmed in PostScript. We had figured out how to make PostScript object-oriented, homomorphic to SmallTalk. We organized objects in the window system in a class hierarchy with inheritance. This, for example, allowed Don Hopkins to implement pie menus for NeWS in such a way that any user could replace the traditional rectangular menus with pie menus. This was such fun that Owen Densmore and I used the same technique to implement object-oriented programming for the Unix shell.\n----\nhttps://news.ycombinator.com/item?id=18696116\nTom Stambaugh described how Smalltalk inspired Owen Densmore's PostScript object oriented system in NeWS.\nA point he didn't mention is that PostScript is directly descendent from Interpress, which was developed at Xerox PARC and reincarnated as PostScript at Adobe by Chuck Geschke and John Warnock:\nhttps://en.wikipedia.org/wiki/Interpress\nBrian Reid's deep detailed historic dive \"PostScript and Interpress: a comparison\":\nhttps://web.archive.org/web/20180222163747/https://tech-insi...\nI also think PostScript owes a lot to Lisp (it's dynamic, homoiconic, polymorphic, symbolic), even more so than Forth.\nhttp://wiki.c2.com/?ForthPostscriptRelationship\nTom Stambaugh wrote:\nIt seems to me that Forth is to stacks what LispLanguage is to lists. Forth demonstrated the advantages of a stack-centric paradigm in which each pushed or popped item could be evaluated as an expression or a primitive. Postscript reflects the application of that paradigm to the world of typography, 2-d graphics, and page layout. My own recollection is that Postscript's primary contribution was the use of splines to describe character glyphs, allowing them to be effectively rendered at virtually any resolution desired. If anything, Postscript owes more to TexLanguage and DonaldKnuth than to Forth. I view the stack-based language paradigm as a convenient afterthought rather than a central organizing principle.\nI also think we should note the contribution that OwenDensmore, at Sun, made in demonstrating how to use Postscript dictionaries to create a dynamically-bound object-oriented runtime environment. This was the fundamental premise of the Sun window server that ultimately became the NetworkExtensibleWindowSystem. Owen and I discussed his \"crazy\" idea at a poolside table at the now-demolished Hyatt Palo Alto, on El Camino. I told him that it made sense to me, we scribbled furiously on napkins, and I helped him see how he might adopt some learnings from Smalltalk. It was one of those afternoons that could only have happened at that time in that place in that culture. -- TomStambaugh\n----\nhttps://github.com/SimHacker/moollm/blob/main/designs/postsc...\nThe Definitive History of PostScript\nPrimary Source: Brian Reid's 1985 \"laser-lovers\" Post\nThis document preserves the definitive first-person account of PostScript's origins, written by Brian Reid on March 2, 1985 — just 11 months after Adobe shipped its first PostScript manual.\n[...]",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47812317",
+          "by": "DonHopkins",
+          "time": 1776474575
+        }
+      ],
+      "by": "surprisetalk",
+      "time": 1776352147,
+      "url": "https://www.youtube.com/watch?v=sZjPQ7vtLNA",
+      "score": 70,
+      "descendants": 5,
+      "storyUrl": "https://www.youtube.com/watch?v=sZjPQ7vtLNA"
+    },
+    {
+      "id": 47817639,
+      "type": "story",
+      "title": "4-bit floating point FP4",
+      "rank": 30,
+      "depth": 0,
+      "storyId": 47817639,
+      "storyTitle": "4-bit floating point FP4",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47817639",
+      "topComments": [
+        {
+          "id": 47819647,
+          "text": "There is a relevant Wikipedia page about minifloats [0]\n> The smallest possible float size that follows all IEEE principles, including normalized numbers, subnormal numbers, signed zero, signed infinity, and multiple NaN values, is a 4-bit float with 1-bit sign, 2-bit exponent, and 1-bit mantissa.\n[0] https://en.wikipedia.org/wiki/Minifloat",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47819647",
+          "by": "conaclos",
+          "time": 1776547454
+        },
+        {
+          "id": 47817718,
+          "text": "> Programmers were grateful for the move from 32-bit floats to 64-bit floats. It doesn’t hurt to have more precision\nSomeome didn't try it on GPU...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47817718",
+          "by": "chrisjj",
+          "time": 1776533308
+        },
+        {
+          "id": 47819936,
+          "text": "9 years ago, I shared this as an April Fools joke here on HN.\nIt seems that life is imitating art.\nhttps://github.com/sdd/ieee754-rrp",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47819936",
+          "by": "sc0ttyd",
+          "time": 1776550086
+        },
+        {
+          "id": 47819912,
+          "text": "There's an \"Update:\" note for a next post on NF4 format. As far as I can tell this is neither NVFP4 nor MXFP4 which are commonly used with LLM model files. The thing with these formats is that common information is separated in batches so not a singular format but a format for groups of values. I'd like to know more about these (but not enough to go research them myself).",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47819912",
+          "by": "karmakaze",
+          "time": 1776549820
+        },
+        {
+          "id": 47819406,
+          "text": "> In ancient times, floating point numbers were stored in 32 bits.\nI thought in ancient times, floating point numbers used to be 80 bit. They lived in a funky mini stack on the coprocessor (x87). Then one day, somebody came along and standardized those 32 and 64 bit floats we still have today.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47819406",
+          "by": "ant6n",
+          "time": 1776545271
+        }
+      ],
+      "by": "chmaynard",
+      "time": 1776532862,
+      "url": "https://www.johndcook.com/blog/2026/04/17/fp4/",
+      "score": 98,
+      "descendants": 79,
+      "storyUrl": "https://www.johndcook.com/blog/2026/04/17/fp4/"
+    }
+  ]
+}

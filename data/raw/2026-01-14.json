@@ -1,0 +1,1580 @@
+{
+  "date": "2026-01-14",
+  "fetchedAt": "2026-04-29T07:56:29.453Z",
+  "samplingMethod": "historical_frontpage_story_comment_snapshot",
+  "source": "hn_front_html_firebase",
+  "items": [
+    {
+      "id": 46622328,
+      "type": "story",
+      "title": "Claude Cowork exfiltrates files",
+      "rank": 1,
+      "depth": 0,
+      "storyId": 46622328,
+      "storyTitle": "Claude Cowork exfiltrates files",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46622328",
+      "topComments": [
+        {
+          "id": 46623281,
+          "text": "In this demonstration they use a .docx with prompt injection hidden in an unreadable font size, but in the real world that would probably be unnecessary. You could upload a plain Markdown file somewhere and tell people it has a skill that will teach Claude how to negotiate their mortgage rate and plenty of people would download and use it without ever opening and reading the file. If anything you might be more successful this way, because a .md file feel less suspicious than a .docx.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46623281",
+          "by": "burkaman",
+          "time": 1768424274
+        },
+        {
+          "id": 46623477,
+          "text": "A bit unrelated, but if you ever find a malicious use of Anthropic APIs like that, you can just upload the key to a GitHub Gist or a public repo - Anthropic is a GitHub scanning partner, so the key will be revoked almost instantly (you can delete the gist afterwards).\nIt works for a lot of other providers too, including OpenAI (which also has file APIs, by the way).\nhttps://support.claude.com/en/articles/9767949-api-key-best-...\nhttps://docs.github.com/en/code-security/reference/secret-se...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46623477",
+          "by": "Tiberium",
+          "time": 1768424976
+        },
+        {
+          "id": 46625422,
+          "text": "One issue here seems to come from the fact that Claude \"skills\" are so implicit + aren't registered into some higher level tool layer.\nUnlike /slash commands, skills attempt to be magical. A skill is just \"Here's how you can extract files: {instructions}\".\nClaude then has to decide when you're trying to invoke a skill. So perhaps any time you say \"decompress\" or \"extract\" in the context of files, it will use the instructions from that skill.\nIt seems like this + no skill \"registration\" makes it much easier for prompt injection to sneak new abilities into the token stream and then make it so you never know if you might trigger one with normal prompting.\nWe probably want to move from implicit tools to explicit tools that are statically registered.\nSo, there currently are lower level tools like Fetch(url), Bash(\"ls:*\"), Read(path), Update(path, content).\nThen maybe with a more explicit skill system, you can create a new tool Extract(path), and maybe it can additionally whitelist certain subtools like Read(path) and Bash(\"tar *\"). So you can whitelist Extract globally and know that it can only read and tar.\nAnd since it's more explicit/static, you can require human approval for those tools, and more tools can't be registered during the session the same way an API request can't add a new /endpoint to the server.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46625422",
+          "by": "hombre_fatal",
+          "time": 1768432713
+        },
+        {
+          "id": 46625747,
+          "text": "> \"This attack is not dependent on the injection source - other injection sources include, but are not limited to: web data from Claude for Chrome, connected MCP servers, etc.\"\nOh, no, another \"when in doubt, execute the file as a program\" class of bugs. Windows XP was famous for that. And gradually Microsoft stopped auto-running anything that came along that could possibly be auto-run.\nThese prompt-driven systems need to be much clearer on what they're allowed to trust as a directive.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46625747",
+          "by": "Animats",
+          "time": 1768434465
+        },
+        {
+          "id": 46623403,
+          "text": "Exfiltrated without a Pwn2Own in 2 days of release and 1 day after my comment [0], despite \"sandboxes\", \"VMs\", \"bubblewrap\" and \"allowlists\".\nExploited with a basic prompt injection attack. Prompt injection is the new RCE.\n[0] https://news.ycombinator.com/item?id=46601302",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46623403",
+          "by": "rvz",
+          "time": 1768424690
+        }
+      ],
+      "by": "takira",
+      "time": 1768421545,
+      "url": "https://www.promptarmor.com/resources/claude-cowork-exfiltrates-files",
+      "score": 870,
+      "descendants": 399,
+      "storyUrl": "https://www.promptarmor.com/resources/claude-cowork-exfiltrates-files"
+    },
+    {
+      "id": 46618714,
+      "type": "story",
+      "title": "Ask HN: Share your personal website",
+      "rank": 2,
+      "depth": 0,
+      "storyId": 46618714,
+      "storyTitle": "Ask HN: Share your personal website",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46618714",
+      "topComments": [
+        {
+          "id": 46622417,
+          "text": "https://simonsarris.com - My site\nhttps://map.simonsarris.com - My newsletter site\nhttps://garden.simonsarris.com - My garden designer site. Currently making this so anyone can use it! Public alpha at the end of the month I hope.\nhttps://meetinghouse.cc - My site for helping twitter users find each other\nhttps://carefulwords.com - My very fast thesaurus site",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46622417",
+          "by": "simonsarris",
+          "time": 1768421783
+        },
+        {
+          "id": 46622700,
+          "text": "Today is my 50th birthday, actually! And my website is basically a timeline of interesting projects I've been doing since I was a kid. I often think it would be cool if everyone had some public timeline of their life in a shareable way. Here's mine: https://westegg.com",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46622700",
+          "by": "morganf",
+          "time": 1768422589
+        },
+        {
+          "id": 46619715,
+          "text": "I am a big fan of https://blogs.hn/ (I visit it daily), your directory looks similar.\nYou should automate this, maybe drive all of these content from a json file and accept PRs.\n---\nMy blog: https://nabraj.com/\nMost popular: Why is boarding a plane still a mess? (https://nabraj.com/blog/boarding-methods)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46619715",
+          "by": "coffeecoders",
+          "time": 1768413927
+        },
+        {
+          "id": 46622534,
+          "text": "https://addyosmani.com\nI'm not a great designer, but I've tried to capture the who, what and jump off points for reading my writing as well as I could. Always impressed by the creativity and soul many other folks seem able to put into their personal homepages!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46622534",
+          "by": "addy_osmani",
+          "time": 1768422078
+        },
+        {
+          "id": 46623582,
+          "text": "https://goto.anardil.net/ - Launchpad for all my other (16!) sites.\nThe main ones are:\nhttps://diving.anardil.net/ - Scuba diving picture gallery; organized by timeline, common name, taxonomy, and more\nhttps://dnd.anardil.net/ - Artifacts from my groups' D&D games\nhttps://pirates.anardil.net/ - Pirate insult generator\nhttps://alchemy.anardil.net/ - Morrowind (TES 3) alchemy calculator",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46623582",
+          "by": "anardil",
+          "time": 1768425364
+        }
+      ],
+      "by": "susam",
+      "time": 1768410462,
+      "score": 950,
+      "descendants": 2387
+    },
+    {
+      "id": 46591810,
+      "type": "story",
+      "title": "There's a ridiculous amount of tech in a disposable vape",
+      "rank": 3,
+      "depth": 0,
+      "storyId": 46591810,
+      "storyTitle": "There's a ridiculous amount of tech in a disposable vape",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46591810",
+      "topComments": [
+        {
+          "id": 46612530,
+          "text": "For these devices the microcontroller needs to be super cheap. Microcontrollers like the Puya PY32 Series (e.g., PY32C642, PY32F002/F030) can cost in the $0.02 - $0.05 range for the kind of many-million volumes applicable for disposable vapes. These are 32-bit ARM Cortex M0 MCUs, running at a 24 MHz clock or similar, some with 24 KB of ROM and maybe 3 KB of RAM!\nTo put into context: this is 3x the ROM/RAM of the ZX81 home computer of the early 1980s. The ARM M0 processor does full 32-bit multiplication in hardware, versus the Z80 that doesn't even offer an 8-bit multiply instruction. If we look at some BASIC code doing soft-float computation, as was most common at the time, the execution speed is about 3 orders of magnitude faster, while the cost of the processor is 2 - 3 orders of magnitudes less. What an amazing time we live in!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46612530",
+          "by": "GeertB",
+          "time": 1768366901
+        },
+        {
+          "id": 46612044,
+          "text": "Many countries have deposits for single use bottles/cans but an electronic device with a lipo battery is seen as perfectly fine to throw away.\nThese things should have 100 times the deposit amount of a can of soda with mandatory requirements for retailers to take the 'empties' back.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46612044",
+          "by": "smashed",
+          "time": 1768362119
+        },
+        {
+          "id": 46612058,
+          "text": "\"I Powered My House Using 500 Disposable vapes\" https://www.youtube.com/watch?v=dy-wFixuRVU",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46612058",
+          "by": "kev009",
+          "time": 1768362227
+        },
+        {
+          "id": 46612110,
+          "text": "Running a web server off a disposable vape: https://bogdanthegeek.github.io/blog/projects/vapeserver/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46612110",
+          "by": "icameron",
+          "time": 1768362629
+        },
+        {
+          "id": 46614493,
+          "text": "Our whole current civilization could be construed as advanced alien tech servicing a humongous tribe of moronic apes.\nThe fact that one fifth of the internet is dedicated to porn just speaks for itself.\nJust thinking about all the tech involved, from the capturing of footage using highly sophisticated camera, to the transmission over kilometers of fiber optics, to the stokage into redundant and consistent databases backed by highly optimized hardware and brilliantly engineered file format, to the distribution to your phone device, which is literally a personal computer that fits in your palm.. all of that just to show porn to satisfy your monkey brain.\nIt seems almost absurd to what length humanity has gone just to satisfy it's primitive needs.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46614493",
+          "by": "kleene_op",
+          "time": 1768387490
+        }
+      ],
+      "by": "abnercoimbre",
+      "time": 1768240201,
+      "url": "https://blog.jgc.org/2026/01/theres-ridiculous-amount-of-tech-in.html",
+      "score": 758,
+      "descendants": 654,
+      "storyUrl": "https://blog.jgc.org/2026/01/theres-ridiculous-amount-of-tech-in.html"
+    },
+    {
+      "id": 46618901,
+      "type": "story",
+      "title": "Ford F-150 Lightning outsold the Cybertruck and was then canceled for poor sales",
+      "rank": 4,
+      "depth": 0,
+      "storyId": 46618901,
+      "storyTitle": "Ford F-150 Lightning outsold the Cybertruck and was then canceled for poor sales",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46618901",
+      "topComments": [
+        {
+          "id": 46619762,
+          "text": "I think the timing of the Cybertruck starting deliveries roughly aligning with when Elon got heavily involved in politics hurt it quite a bit. It is such a distinctive vehicle with a strong association with Elon, that there was an immediate brand association. It may have had poor sales anyway, but it certainly didn't help that many folks on the left, who are typically the most 'pro EV', had a large 'anti-Elon' shift around its launch.\nThat said, even though it's not to my taste, I do admire that they dared to do something different and took a big gamble on it. So many vehicles, especially in the truck space, are almost indistinguishable and lack any kind of imagination. Kudos to Tesla for trying to break the mold and push the category somewhere new.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46619762",
+          "by": "billti",
+          "time": 1768414095
+        },
+        {
+          "id": 46619977,
+          "text": "I think the dealership monopoly is partly to blame.  Dealers get more reoccurring revenue from ICE vehicles, so they are incentivized to not stock EVs and to steer customers away from them.  Ford seemed to understand this and attempted a direct sale program for EVs, but they canceled it due to dealer pushback.\nhttps://fordauthority.com/2025/02/ford-ev-inventory-hub-syst...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46619977",
+          "by": "ortusdux",
+          "time": 1768414672
+        },
+        {
+          "id": 46619819,
+          "text": "It's a shame the Lightning got discontinued.\nAs an EV owner, it sucks that the main thing holding the technology back is misconceptions and misunderstanding, rather than actual practical matters.\nPeople think EVs are cars with tanks of electrons, and run aground the same way you would if you thought horses were cars full of hay. It's a different transport tool that gives the same results, you just have to know how to use it properly.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46619819",
+          "by": "Workaccount2",
+          "time": 1768414269
+        },
+        {
+          "id": 46624653,
+          "text": "Judging from how many people seem surprised by my open frunk at the grocery store, saying things like \"I had no idea Ford made an electric truck!\" I think they could have done more to market it.  I sometimes wonder if they really wanted to sell a lot of them.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46624653",
+          "by": "rootusrootus",
+          "time": 1768429553
+        },
+        {
+          "id": 46619366,
+          "text": "At the size of Ford, sales numbers can be at a different mark for what is considered successful than others.  Not to mention dealer gamesmanship fudges real sales numbers.\nAs to the Cybertruck it's both interesting and kind of ugly... repairability is another concern/issue as is pure cost...\nI'm far more interested in the Slate[1]  myself.  It's probably closer to what a lot of consumers would want in an electric truck.  It really feels like a spiritual successor to the OG Jeep (GP).\n  1. https://www.slate.auto/en",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46619366",
+          "by": "tracker1",
+          "time": 1768412926
+        }
+      ],
+      "by": "MBCook",
+      "time": 1768411209,
+      "url": "https://electrek.co/2026/01/13/ford-f150-lightning-outsold-tesla-cybertruck-canceled-not-selling-enough/",
+      "score": 678,
+      "descendants": 971,
+      "storyUrl": "https://electrek.co/2026/01/13/ford-f150-lightning-outsold-tesla-cybertruck-canceled-not-selling-enough/"
+    },
+    {
+      "id": 46616488,
+      "type": "story",
+      "title": "SparkFun Officially Dropping AdaFruit due to CoC Violation",
+      "rank": 5,
+      "depth": 0,
+      "storyId": 46616488,
+      "storyTitle": "SparkFun Officially Dropping AdaFruit due to CoC Violation",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46616488",
+      "topComments": [
+        {
+          "id": 46616775,
+          "text": "hi, phil here — post on adafruit here:\nhttps://blog.adafruit.com/2026/01/12/discontinuing-the-teens...\ni’ll stop back and answer anything (sparkfun will not?).\nsparkfun is the exclusive maker and distributor of the closed-source teensy and informed us we will not be able to purchase the teensy. this happened after i sent an email reporting the founder, nate, for multiple harassing actions directed at limor, including behavior by him and a former employee.\ninstead of addressing that, they decided to kill the messenger, me, and also cut us off from teensy.\nso! instead of posting weirdo \"code of conduct\" letters, we are doing an open-source alternative. so customers are not stranded, and this is not a supply chain emergency for us. looking forward to seeing which one delights customers more.\nas much as nate wants to continue trying to damage limor’s business and adafruit by scraping our site, and now potentially not paying royalties owed after more than a decade of consistent payments, that’s nothing new. it’s a business strategy to cut others out, not a mystery or a “private drama.”\nthis is exactly why we do open source. when a closed product or exclusive channel is used as leverage, the correct response is to remove the leverage.\nsparkfun chose to publish a vague public accusation. once you do that, speculation is inevitable.\nask away!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46616775",
+          "by": "ptorrone",
+          "time": 1768402786
+        },
+        {
+          "id": 46616711,
+          "text": "To publish such a vague statement is an obvious invitation for speculation.  It seems like rather questionable behaviour itself from spatkfun.\nThe fact that they mention a \"private matter\" makes me think this is some petty personal grievance that has somehow escalated to this.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46616711",
+          "by": "RobotToaster",
+          "time": 1768402449
+        },
+        {
+          "id": 46617351,
+          "text": "I'm still trying to put all the pieces together, but https://digipres.club/@discatte/115588660312186707 sure paints Adafruit as the bad party here, though I'm open to information which shows otherwise to understand better.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46617351",
+          "by": "vegadw",
+          "time": 1768405436
+        },
+        {
+          "id": 46620064,
+          "text": "I read a bunch of the relevant social media posts and emails and concluded that all parties are acting deeply childishly.\nNate shouldn’t have made a website with a domain name with Phil’s name and photoshopped meme, and brought it back up on social media years later.\nPhil shouldn’t have been so aggressive in emailing Nate’s and his wife’s employers.\nSparkfun shouldn’t have overreacted by cutting off ties with Adafruit.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46620064",
+          "by": "rlt",
+          "time": 1768414854
+        },
+        {
+          "id": 46617016,
+          "text": "Gotta love corporate skub fights. Honestly neither side is coming out looking good here.\nIf you’re not doing business with someone anymore, just drop their products. You don’t owe folks an explanation other than “unfortunately we do not carry that product anymore.”",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46617016",
+          "by": "stego-tech",
+          "time": 1768403976
+        }
+      ],
+      "by": "yaleman",
+      "time": 1768401297,
+      "url": "https://www.sparkfun.com/official-response",
+      "score": 504,
+      "descendants": 534,
+      "storyUrl": "https://www.sparkfun.com/official-response"
+    },
+    {
+      "id": 46617360,
+      "type": "story",
+      "title": "Find a pub that needs you",
+      "rank": 6,
+      "depth": 0,
+      "storyId": 46617360,
+      "storyTitle": "Find a pub that needs you",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46617360",
+      "topComments": [
+        {
+          "id": 46624775,
+          "text": "Kinda meta, but this is the first time in a long time where I've put only the first half of my postcode in expecting it not to work and been surprised. Most of these \"find your nearest XYZ\" site require the full postcode which is just unnecessary unless you're looking for a fairly precise location. A full postcode can narrow your location down to an individual street, so its nice not to give too much away if you can.\nFor anyone not in the know, UK postcodes are made up of two parts: a general area (the outward code) and then a more specific one (the inward code.) Generally speaking a postcode + house number will be good enough to get a letter delivered to the right place, though the sorting office might not be too happy with you...\nThe format [0] is roughly: AB12 3CD, though the number of letters/numbers on the left side can vary a bit. As far as I know the second set of numbers is always 1 digit though, so that's how you can easily split the two sides of it to format it nicely. There's a couple of special ones that break the rules though.\n[0] https://en.wikipedia.org/wiki/Postcodes_in_the_United_Kingdo...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46624775",
+          "by": "philo23",
+          "time": 1768429961
+        },
+        {
+          "id": 46619525,
+          "text": "Wow a fantastic independent pub near where I used to live in London is seeing its rateable value go up 480%! This website really puts the headlines in to a nice local perspective.\nIt seems like the taxes only go up while the services get worse in the UK, although I’ve been away for 5 years now so maybe things improved.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46619525",
+          "by": "sefrost",
+          "time": 1768413418
+        },
+        {
+          "id": 46620286,
+          "text": "Great idea!\nhttps://www.mirror.co.uk/money/personal-finance/finance-expe... shows how little pubs make per pint, very sad.\nIf anyone's curious about cask beer https://www.youtube.com/watch?v=_ud_eTwY4nc&list=PLyDTS7ZG3z... is a very interesting youtube video series by The Craft Beer Channel.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46620286",
+          "by": "anfractuosity",
+          "time": 1768415425
+        },
+        {
+          "id": 46619803,
+          "text": "People really struggle when given a link to a web site that isn't for them, huh.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46619803",
+          "by": "wat10000",
+          "time": 1768414242
+        },
+        {
+          "id": 46619004,
+          "text": "Interest in context on \"government pub rates\". New tax scheme?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46619004",
+          "by": "rconti",
+          "time": 1768411580
+        }
+      ],
+      "by": "thinkingemote",
+      "time": 1768405462,
+      "url": "https://www.ismypubfucked.com/",
+      "score": 367,
+      "descendants": 353,
+      "storyUrl": "https://www.ismypubfucked.com/"
+    },
+    {
+      "id": 46572307,
+      "type": "story",
+      "title": "Why some clothes shrink in the wash and how to unshrink them",
+      "rank": 7,
+      "depth": 0,
+      "storyId": 46572307,
+      "storyTitle": "Why some clothes shrink in the wash and how to unshrink them",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46572307",
+      "topComments": [
+        {
+          "id": 46618054,
+          "text": "I'm down to just a few sweat shirts and over shirts from the 80s, but they are hanging in there.  Both the colors and the fabric.  When the subject comes up with friends who ask about a particular shirt I joke, \"The cotton was tougher back then\".  Recently, I've had jeans, shirts, and even socks that didn't make it through a single summer.\nIs anyone else freaked out about cleaning their dryer's lint filter given all the new fabric materials?  I'm putting together a dryer-vac system to keep it from billowing into the air of our small laundry room.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46618054",
+          "by": "ynac",
+          "time": 1768407987
+        },
+        {
+          "id": 46616969,
+          "text": "It has been ages since I had clothes shrink on me.  To the point that I had assumed something must have gotten better in modern dryers.  Is that not the case?\nEdit: Quickly searching, this appears to be the case?  Specifically modern moisture sensing dryers that stop appropriately goes a long way to never having something shrink on you.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46616969",
+          "by": "taeric",
+          "time": 1768403766
+        },
+        {
+          "id": 46618540,
+          "text": "There was a great custom order screen printing website blog where they documented their shrinkage testing.  They made a pressure sensitive shirt form and then ran 30+ brands of shirts through a battery of tests, measuring fit after each washing.\nI've heard reports that the newer heat pump clothes dryers are less prone to cause shrinking.  In their default mode they act more like a dehumidifier than a heater.  In theory you can wash more delicate dry-clean only garments as well.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46618540",
+          "by": "ortusdux",
+          "time": 1768409817
+        },
+        {
+          "id": 46617134,
+          "text": "Me and the wife have so many discussions about this :)\nWe have a lot of \"shrinkage\" in our house, that I am convinced is more due to both of us uhh \"growing\" rather than the clothes shrinking ;)\nYou can imagine, it's a delicate subject",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46617134",
+          "by": "CurleighBraces",
+          "time": 1768404535
+        },
+        {
+          "id": 46617452,
+          "text": "I am tall enough that shrinking t-shirts is a constant annoyance! (though I have to admit I haven't ever tried the 'conditioner and water' trick, even though I've heard of it before).\nLow temperature washes and avoiding tumble dryers works. I've also noticed thicker material t-shirts seem to definitely shrink a lot less! Much thinner cottton t-shirts seem to shrink a lot more, my mental model is that there's less material so when it bunches together to it's \"happy place\", it ends up a lot smaller. I have no evidence for this though.\nAny other tips from people here? Also, has anyone actually tried stretching with hair conditioner?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46617452",
+          "by": "benrutter",
+          "time": 1768405801
+        }
+      ],
+      "by": "OptionOfT",
+      "time": 1768100316,
+      "url": "https://www.swinburne.edu.au/news/2025/08/why-some-clothes-shrink-in-the-wash-and-how-to-unshrink-them/",
+      "score": 536,
+      "descendants": 279,
+      "storyUrl": "https://www.swinburne.edu.au/news/2025/08/why-some-clothes-shrink-in-the-wash-and-how-to-unshrink-them/"
+    },
+    {
+      "id": 46602591,
+      "type": "story",
+      "title": "Every GitHub object has two IDs",
+      "rank": 8,
+      "depth": 0,
+      "storyId": 46602591,
+      "storyTitle": "Every GitHub object has two IDs",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46602591",
+      "topComments": [
+        {
+          "id": 46611723,
+          "text": "The newer global node IDs (which can be forced via the 'X-Github-Next-Global-ID' header [1]) have a prefix indicating the \"type\" of object delimited by an underscore, then a base64 encoded msgpack payload. For most objects it contains just a version (starting at 0) followed by the numeric \"databaseId\" field, but some are more complex.\nFor example, my GitHub user [2] has the node ID \"U_kgDOAAhEkg\". Users are \"U_\" and then the remaining data decodes to: [0, 541842] which matches the numeric ID for my user accepted by the REST API [3].\nYou shouldn't rely on any of this implementation of course, instead just directly query the \"databaseId\" field from the GraphQL API where you need interoperability. And in the other direction the REST API returns the \"node_id\" field for the GraphQL API.\nFor folks who finds this interesting, you might also like [4] which details GitHub's ETag implementation for the REST API.\n[1] https://docs.github.com/en/graphql/guides/migrating-graphql-...\n[2] https://api.github.com/user/541842\n[3] https://gchq.github.io/CyberChef/#recipe=Find_/_Replace(%7B'...\n[4] https://github.com/bored-engineer/github-conditional-http-tr...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46611723",
+          "by": "innoying",
+          "time": 1768359362
+        },
+        {
+          "id": 46611642,
+          "text": "I wouldn't decode them like this, it's fragile, and global node IDs are supposed to be opaque in GraphQL.\nI see that GitHub exposes a `databaseId` field on many of their types (like PullRequest) - is that what you're looking for? [1]\nMost GraphQL APIs that serve objects that implement the Node interface just base-64-encode the type name and the database ID, but I definitely wouldn't rely on that always being the case. You can read more about global IDs in GraphQL in the spec in [2].\n[1] https://docs.github.com/en/graphql/reference/objects#pullreq...\n[2] https://graphql.org/learn/global-object-identification/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46611642",
+          "by": "siralonso",
+          "time": 1768358698
+        },
+        {
+          "id": 46611102,
+          "text": "> That repository ID (010:Repository2325298) had a clear structure: 010 is some type enum, followed by a colon, the word Repository, and then the database ID 2325298.\nIt's a classic length prefix. Repository has 10 chars, Tree has 4.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46611102",
+          "by": "haileys",
+          "time": 1768353523
+        },
+        {
+          "id": 46611205,
+          "text": "I just want to point out that Opus 4.5 actually knows this trick and will write the code to decode the IDs if it is working with GitHub's API lol",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46611205",
+          "by": "ezyang",
+          "time": 1768354394
+        },
+        {
+          "id": 46611596,
+          "text": "This makes no sense. I am developing a product in this space (https://codeinput.com) and GitHub API and GraphQl is a badly entangled mess but you don’t trick your way around ids.\nThere is actually a documented way to do it: https://docs.github.com/en/graphql/guides/using-global-node-...\nSame for urls, you are supposed to get them directly from GitHub not construct them yourself as format can change and then you find yourself playing a refactor cat-and-mouse game.\nBest you can do is an hourly/daily cache for the values.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46611596",
+          "by": "csomar",
+          "time": 1768358269
+        }
+      ],
+      "by": "dakshgupta",
+      "time": 1768319553,
+      "url": "https://www.greptile.com/blog/github-ids",
+      "score": 327,
+      "descendants": 75,
+      "storyUrl": "https://www.greptile.com/blog/github-ids"
+    },
+    {
+      "id": 46614558,
+      "type": "story",
+      "title": "I hate GitHub Actions with passion",
+      "rank": 9,
+      "depth": 0,
+      "storyId": 46614558,
+      "storyTitle": "I hate GitHub Actions with passion",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46614558",
+      "topComments": [
+        {
+          "id": 46616785,
+          "text": "I think this post accurately isolates the single main issue with GitHub Actions, i.e. the lack of a tight feedback loop. Pushing and waiting for completion on what's often a very simple failure mode is frustrating.\nOthers have pointed out that there are architectural steps you can take to minimize this pain, like keeping all CI operations isolated within scripts that can be run locally (and treating GitHub Actions features purely as progressive enhancements, e.g. only using `GITHUB_STEP_SUMMARY` if actually present).\nAnother thing that works pretty well to address the feedback loop pain is `workflow_dispatch` + `gh workflow run`: you still need to go through a push cycle, but `gh workflow run` lets you stay in development flow until you actually need to go look at the logs.\n(One frustrating limitation with that is that `gh workflow run` doesn't actually spit out the URL of the workflow run it triggers. GitHub claims this is because it's an async dispatch, but I don't see how there can possibly be no context for GitHub to provide here, given that they clearly obtain it later in the web UI.)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46616785",
+          "by": "woodruffw",
+          "time": 1768402832
+        },
+        {
+          "id": 46615411,
+          "text": "1. Don't use bash, use a scripting language that is more CI friendly. I strongly prefer pwsh.\n2. Don't have logic in your workflows. Workflows should be dumb and simple (KISS) and they should call your scripts.\n3. Having standalone scripts will allow you to develop/modify and test locally without having to get caught in a loop of hell.\n4. Design your entire CI pipeline for easier debugging, put that print state in, echo out the version of whatever. You don't need it _now_, but your future self will thank you when you do it need it.\n5. Consider using third party runners that have better debugging capabilities",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46615411",
+          "by": "1a527dd5",
+          "time": 1768394821
+        },
+        {
+          "id": 46616804,
+          "text": "Its not Github Actions' fault but the horrors people create in it, all under the pretense that automation is simply about wrapping a GitHub Action around something.  Learn to create a script in Python or similar and put all logic there so you can execute it locally and can port it to the next CI system when a new CTO arrives.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46616804",
+          "by": "smetj",
+          "time": 1768402944
+        },
+        {
+          "id": 46615975,
+          "text": "The way I deal with all these terrible CI platforms (there is no good one, merely lesser evils) is to do my entire CI process in a container and the CI tool just pulls and runs that. You can trivially run this locally when needed.\nOf course, the platforms would rather have you not do that since it nullifies their vendor lock-in.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46615975",
+          "by": "Nextgrid",
+          "time": 1768398175
+        },
+        {
+          "id": 46616971,
+          "text": "I like Github Actions and it is better than what I used before (Travis) and I think it solves an important problem. For OSS projects it's a super valuable free resource.\nFor me what worked wonders was adopting Nix. Make sure you have a reproducible dev environment and wrap your commands in `nix-shell --run`, or even better `nix develop --command`, or even better your most of your CI tasks derivations that run with `nix build` or `nix flake check`.\nNot only does this make it super easy to work with Github Actions, also with your colleagues or other contributors.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46616971",
+          "by": "arximboldi",
+          "time": 1768403787
+        }
+      ],
+      "by": "xlii",
+      "time": 1768387993,
+      "url": "https://xlii.space/eng/i-hate-github-actions-with-passion/",
+      "score": 490,
+      "descendants": 341,
+      "storyUrl": "https://xlii.space/eng/i-hate-github-actions-with-passion/"
+    },
+    {
+      "id": 46624541,
+      "type": "story",
+      "title": "Scaling long-running autonomous coding",
+      "rank": 10,
+      "depth": 0,
+      "storyId": 46624541,
+      "storyTitle": "Scaling long-running autonomous coding",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46624541",
+      "topComments": [
+        {
+          "id": 46624854,
+          "text": "\"To test this system, we pointed it at an ambitious goal: building a web browser from scratch.\"\nI shared my LLM predictions last week, and one of them was that by 2029 \"Someone will build a new browser using mainly AI-assisted coding and it won’t even be a surprise\" https://simonwillison.net/2026/Jan/8/llm-predictions-for-202... and https://www.youtube.com/watch?v=lVDhQMiAbR8&t=3913s\nThis project from Cursor is the second attempt I've seen at this now! The other is this one: https://www.reddit.com/r/Anthropic/comments/1q4xfm0/over_chr...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46624854",
+          "by": "simonw",
+          "time": 1768430251
+        },
+        {
+          "id": 46625221,
+          "text": "Did anyone manage to run the tests from the repository itself? The code seems filled with errors and warnings, as far as I can tell none of them because of the platform I'm on (Linux). I went and looked at the Action workflow history for some pages, and seems CI been failing for a while, PRs also all been failing CI but merged. How exactly was this verified to be something to be used as an successful example, or am I misunderstanding what point they are trying to make? They mention a screenshot, but they never actually mention if their goal was successfully met, do they?\nI'm not sure the approach of \"completely autonomous coding\" is the right way to go. I feel like maybe we'll be able to use it more effectively if we think of them as something to be used by a human to accomplish some thing instead, lean into letting the human drive the thing instead, because quality spirals so quickly out of control.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46625221",
+          "by": "embedding-shape",
+          "time": 1768431720
+        },
+        {
+          "id": 46624934,
+          "text": "This is going to sound sarcastic, but I mean this fully: why haven't they merged that PR.\nThe implied future here is _unreal cool_. Swarms of coding agents that can build anything, with little oversight. Long-running projects that converge on high-quality, complex projects.\nBut the examples feel thin. Web browsers, Excel, and Windows 7 exist, and they specifically exist in the LLM's training sets. The closest to real code is what they've done with Cursor's codebase .... but it's not merged yet.\nI don't want to say, call me when it's merged. But I'm not worried about agents ability to produce millions of lines of code. I'm worried about their ability to intersect with the humans in the real world, both as users of that code and developers who want to build on top of it.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46624934",
+          "by": "trjordan",
+          "time": 1768430562
+        },
+        {
+          "id": 46624920,
+          "text": "I used similar techniques to build tjs [1] - the worlds fastest and most accurate json schema validator, with magical TypeScript types. I learned a lot about autonomous programming. I found a similar \"planner/delegate\" pattern to work really well, with the use of git subtrees to fan out work [2].\nI think any large piece of software with well established standards and test suites will be able to be quickly rewritten and optimized by coding agents.\n[1] https://github.com/sberan/tjs\n[2] /spawn-perf-agents claude command: https://github.com/sberan/tjs/blob/main/.claude/commands/spa...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46624920",
+          "by": "ZitchDog",
+          "time": 1768430514
+        },
+        {
+          "id": 46625491,
+          "text": "> While it might seem like a simple screenshot, building a browser from scratch is extremely difficult.\n> Another experiment was doing an in-place migration of Solid to React in the Cursor codebase. It took over 3 weeks with +266K/-193K edits. As we've started to test the changes, we do believe it's possible to merge this change.\nIn my view, this post does not go into sufficient detail or nuance to warrant any serious discussion, and the sparseness of info mostly implies failure, especially in the browser case.\nIt _is_ impressive that the browser repo can do _anything at all_, but if there was anything more noteworthy than that, I feel they'd go into more detail than volume metrics like 30K commits, 1M LoC. For instance, the entire capability on display could be constrained to a handful of lines that delegate to other libs.\nAnd, it \"is possible\" to merge any change that avoids regressions, but the majority of our craft asks the question \"Is it possible to merge _the next_ change? And the next, and the 100th?\"\nIf they merge the MR they're walking the walk.\nIf they present more analysis of the browser it's worth the talk (not that useful a test if they didn't scrutinize it beyond \"it renders\")\nUntil then, it's a mountain of inscrutable agent output that manages to compile, and that contains an execution pathway which can screenshot apple.com by some undiscovered mechanism.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46625491",
+          "by": "micimize",
+          "time": 1768433056
+        }
+      ],
+      "by": "samwillis",
+      "time": 1768429084,
+      "url": "https://cursor.com/blog/scaling-agents",
+      "score": 290,
+      "descendants": 197,
+      "storyUrl": "https://cursor.com/blog/scaling-agents"
+    },
+    {
+      "id": 46624352,
+      "type": "story",
+      "title": "The State of OpenSSL for pyca/cryptography",
+      "rank": 11,
+      "depth": 0,
+      "storyId": 46624352,
+      "storyTitle": "The State of OpenSSL for pyca/cryptography",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46624352",
+      "topComments": [
+        {
+          "id": 46625051,
+          "text": "I think this part is really worth engaging with:\n> Later, moving public key parsing to our own Rust code made end-to-end X.509 path validation 60% faster — just improving key loading led to a 60% end-to-end improvement, that’s how extreme the overhead of key parsing in OpenSSL was.\n> The fact that we are able to achieve better performance doing our own parsing makes clear that doing better is practical. And indeed, our performance is not a result of clever SIMD micro-optimizations, it’s the result of doing simple things that work: we avoid copies, allocations, hash tables, indirect calls, and locks — none of which should be required for parsing basic DER structures.\nI was involved in the design/implementation of the X.509 path validation library that PyCA cryptography now uses, and it was nuts to see how much performance was left on the ground by OpenSSL. We went into the design prioritizing ergonomics and safety, and left with a path validation implementation that's both faster and more conformant[1] than what PyCA would have gotten had it bound to OpenSSL's APIs instead.\n[1]: https://x509-limbo.com",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46625051",
+          "by": "woodruffw",
+          "time": 1768431065
+        },
+        {
+          "id": 46624990,
+          "text": "> Finally, taking an OpenSSL public API and attempting to trace the implementation to see how it is implemented has become an exercise in self-flagellation. Being able to read the source to understand how something works is important both as part of self-improvement in software engineering, but also because as sophisticated consumers there are inevitably things about how an implementation works that aren’t documented, and reading the source gives you ground truth. The number of indirect calls, optional paths, #ifdef, and other obstacles to comprehension is astounding. We cannot overstate the extent to which just reading the OpenSSL source code has become miserable — in a way that both wasn’t true previously, and isn’t true in LibreSSL, BoringSSL, or AWS-LC.\nOpenSSL code was not pleasant or easy to read even in v1 though and figuring out what calls into where under which circumstances when e.g. many optimized implementations exist (or will exist, once the many huge perl scripts have generated them) was always a headache with only the code itself. I haven't done this since 3.0 but if it regressed so hard on this as well then it has to be really quite bad.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46624990",
+          "by": "formerly_proven",
+          "time": 1768430786
+        },
+        {
+          "id": 46625486,
+          "text": "I'm glad that they're considering getting rid of OpenSSL as a hard dependency. I've built parts of pyca/cryptography with OpenSSL replaced or stripped out for better debugging. OpenSSL's errors just suck tremendously. It shouldn't be tremendously difficult for them to do it for the entire package.\nThough I'd also love to see parts of pyca/cryptography being usable outside of the context of Python, like the X.509 path validation mentioned in other comments here.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46625486",
+          "by": "Avamander",
+          "time": 1768433030
+        }
+      ],
+      "by": "SGran",
+      "time": 1768428250,
+      "url": "https://cryptography.io/en/latest/statements/state-of-openssl/",
+      "score": 220,
+      "descendants": 62,
+      "storyUrl": "https://cryptography.io/en/latest/statements/state-of-openssl/"
+    },
+    {
+      "id": 46617668,
+      "type": "story",
+      "title": "Roam 50GB is now Roam 100GB",
+      "rank": 12,
+      "depth": 0,
+      "storyId": 46617668,
+      "storyTitle": "Roam 50GB is now Roam 100GB",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46617668",
+      "topComments": [
+        {
+          "id": 46619097,
+          "text": "I'm actually a huge fan of \"unlimited slow speeds\" as a falloff, instead of a cliff.\nAside from the fact it allows you to work with Starlink to buy more fast speed, it also allows core stuff to continue to function (e.g. basic notifications, non-streaming web traffic, etc).",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46619097",
+          "by": "Someone1234",
+          "time": 1768411891
+        },
+        {
+          "id": 46617669,
+          "text": "Nice that instead of completely cutting you off at the cap they put it in super slow 500 kbits. That is actually usable and used to be the fastest speed you could get at home.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46617669",
+          "by": "bahmboo",
+          "time": 1768406591
+        },
+        {
+          "id": 46623027,
+          "text": "Unrelated to the conversation, but the post title was something like \"Starlink roam 50GB is now 100GB and unlimited slow speed after that\", then a minute later it's now \"Roam 50GB is now Roam 100GB\".\nWas this change made by a mod or OP, and why would someone making that change? I do think the original title was more descriptive, and the new title was completely out of context, or it's imply that everyone is using Starlink and know what's Roam 50GB is.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46623027",
+          "by": "huydotnet",
+          "time": 1768423495
+        },
+        {
+          "id": 46619817,
+          "text": "Really interesting that Starlink continues to improve the service when they have an absolute monopoly on fast, portable satellite internet.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46619817",
+          "by": "iloveitaly",
+          "time": 1768414266
+        },
+        {
+          "id": 46619262,
+          "text": "I had a “hit” post on bsky [0] (90 likes, big numbers for me) asking whether people would want an unlimited mobile plan throttled at 256kbps for $2/month. Seems like yes?\nThere’s lots to say about how useable it is (I often get throttled when traveling and it’s really not that bad + it helps curb any desire to scroll videos!)\nBut mainly I want to ask - I looked into it for a minute and it seems like you couldn’t start an mvno because carriers wouldn’t let you cannibalize them?\nYou can get very cheap IoT plans but if you tried reselling IoT as esims for consumers, the carriers would kill it?\nSo yeah - Starlink to mobile is actually the only viable way that routes around this problem?\n(((email in profile if you’re cuckoo enough like me and want to start a self service’d throttled mvno)))\n[0] https://bsky.app/profile/greg.technology/post/3mbmwsytnyc23",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46619262",
+          "by": "gregsadetsky",
+          "time": 1768412573
+        }
+      ],
+      "by": "bahmboo",
+      "time": 1768406591,
+      "url": "https://starlink.com/support/article/58c9c8b7-474e-246f-7e3c-06db3221d34d",
+      "score": 295,
+      "descendants": 367,
+      "storyUrl": "https://starlink.com/support/article/58c9c8b7-474e-246f-7e3c-06db3221d34d"
+    },
+    {
+      "id": 46616745,
+      "type": "story",
+      "title": "FBI raids Washington Post reporter's home",
+      "rank": 13,
+      "depth": 0,
+      "storyId": 46616745,
+      "storyTitle": "FBI raids Washington Post reporter's home",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46616745",
+      "topComments": [
+        {
+          "id": 46617645,
+          "text": "To clarify why it’s aggressive: federal employees have a legal duty to secure classified information, but everyone else does not.\nReporters are not federal employees and it’s not illegal for them to have or discuss classified materials. Most of what Snowden leaked was classified, and remains classified to this day, but you and I can read about it on Wikipedia. The government pursued Snowden because he was legally obligated to protect that info. They did not pursue Barton Gellman because he wasn’t.\nSo in this case the government is raiding the home of someone who did not commit any crime, in the hopes of getting at people who might have. I think it’s not hard to imagine how this concept could get ugly fast.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46617645",
+          "by": "snowwrestler",
+          "time": 1768406518
+        },
+        {
+          "id": 46616937,
+          "text": "\"Natanson said her work had led to 1,169 new sources, “all current or former federal employees who decided to trust me with their stories”. She said she learned information “people inside government agencies weren’t supposed to tell me”, saying that the intensity of the work nearly “broke” her.\"\nWow. So they're going to plug her phone in to whatever cracking tech they have and pull down the names of everyone who has been helping her tell the story of the destruction of our government. The following question is \"what will they do with the names of the people they pull?\". I can only imagine. Horrible. Hopefully she had good OPSEC but she's a reporter, not a technologist. I bet enough mistakes were made (or enough vulnerabilities exist) that they'll be able to pull down the list.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46616937",
+          "by": "edot",
+          "time": 1768403621
+        },
+        {
+          "id": 46617624,
+          "text": "Keep your eyes on protecting the midterms from interference... re ICE / militias etc.\nI encourage governors to call up their State's National Guards to protect their State's electoral systems from Federal intrusion and extremist militia groups. This move is founded in the most republican of urges: State Sovereignty. (btw, I'd even consider that as a move in Minneapolis, right now).",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46617624",
+          "by": "SubiculumCode",
+          "time": 1768406420
+        },
+        {
+          "id": 46618177,
+          "text": "Or as some 'uknown' VP would say: We will protect freedom of speech until the last journalist is behind the bars. That is the price we are willing to pay.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46618177",
+          "by": "mesk",
+          "time": 1768408422
+        },
+        {
+          "id": 46620729,
+          "text": "Journalists are the backbone of a healthy democracy.\nFU USA FU\nAnd just to be clear: The biggest military force of the world threatens denmark, scrambles the economy around the world due to sudden politic changes (tarifs) and destroys its own integrity as an ally",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46620729",
+          "by": "Fazebooking",
+          "time": 1768416771
+        }
+      ],
+      "by": "echelon_musk",
+      "time": 1768402650,
+      "url": "https://www.theguardian.com/us-news/2026/jan/14/fbi-raid-washington-post-hannah-natanson",
+      "score": 946,
+      "descendants": 582,
+      "storyUrl": "https://www.theguardian.com/us-news/2026/jan/14/fbi-raid-washington-post-hannah-natanson"
+    },
+    {
+      "id": 46611507,
+      "type": "story",
+      "title": "ASCII Clouds",
+      "rank": 14,
+      "depth": 0,
+      "storyId": 46611507,
+      "storyTitle": "ASCII Clouds",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46611507",
+      "topComments": [
+        {
+          "id": 46614610,
+          "text": "That is so beautiful. The underlying algorithm is perlin noise (see https://en.wikipedia.org/wiki/Perlin_noise) and it's over 40 years old!\nIt's such a fabulous tool as the generated images can be used for effects like glass/ice displacements, cheap water-like effects, but you can also generate terrains from it or just cool visual effects that benefit from random patterns. The core property to me is that it feels very organic/natural.\nThis was such a common tool in Flash AS3 back in the days to create stunning effects, games and such. I'm not active in building visual stuff like that anymore but I bet it's still very common in this field, because why not?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46614610",
+          "by": "madethemcry",
+          "time": 1768388417
+        },
+        {
+          "id": 46611938,
+          "text": "maybe there is more going on here but it's relatively easy to make a text post processing shader and apply it to anything, 3d scene, a video, etc...\nhttps://post-processing.tresjs.org/guide/pmndrs/ascii\nhttps://forum.babylonjs.com/t/ascii-shader-using-glsl-postpr...\nhttps://threejs.org/examples/?q=ascii#webgl_effects_ascii\nhttps://fwdapps.net/l/asci/\nhttps://codesandbox.io/p/sandbox/ascii-postprocessing-n628p8...\nhttps://www.youtube.com/watch?v=NxeRcnLr0ko",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46611938",
+          "by": "greggman65",
+          "time": 1768361192
+        },
+        {
+          "id": 46613037,
+          "text": "Neat. It'd be more \"ASCII\" if it used 8x16 pixel (but right extended to 9x16) characters in 80:133 width:height aspect ratio since 80x25 characters at 720x400 on 4:3 results in 80:133 pixels. An arbitrary sized canvas is cool so long as the aspect ratio is preserved.\nThe infamous MCGA/\"VGA\" mode 13h had pixels with an aspect ratio 6:5, while 320 x 240 Mode X was square (1:1).\nI still remember the unchained offset calculation for the memory offset for pixel memory access before the era of U and V pipes and many optimizing compiler passes:\n    unsigned short offset = (((y \nIn real-mode (linear): 0xa0000 + (320 * y) + x",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46613037",
+          "by": "burnt-resistor",
+          "time": 1768372568
+        },
+        {
+          "id": 46612601,
+          "text": "This is cool... But I feel like having different color/brightness for each symbol kinda defeats the purpose of it being ASCII when the symbols only correspond to different intensities anyway.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46612601",
+          "by": "ksymph",
+          "time": 1768367796
+        },
+        {
+          "id": 46613590,
+          "text": "Given the name, I expected more actual ASCII characters/options and selectable text. Visually appealing and fun to play with, however.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46613590",
+          "by": "block_dagger",
+          "time": 1768378529
+        }
+      ],
+      "by": "majkinetor",
+      "time": 1768357242,
+      "url": "https://caidan.dev/portfolio/ascii_clouds/",
+      "score": 355,
+      "descendants": 98,
+      "storyUrl": "https://caidan.dev/portfolio/ascii_clouds/"
+    },
+    {
+      "id": 46561341,
+      "type": "story",
+      "title": "Show HN: WebTiles – create a tiny 250x250 website with neighbors around you",
+      "rank": 15,
+      "depth": 0,
+      "storyId": 46561341,
+      "storyTitle": "Show HN: WebTiles – create a tiny 250x250 website with neighbors around you",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46561341",
+      "topComments": [
+        {
+          "id": 46625149,
+          "text": "Reminds me a bit of http://www.milliondollarhomepage.com\nOld Internet times that will probably never come back.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46625149",
+          "by": "reddalo",
+          "time": 1768431482
+        },
+        {
+          "id": 46624849,
+          "text": "Pianoverse shows up in one of the tiles. Clicking on the piano keys in the tile produced tones!!\nPianoverse is here, https://pianoverse.net/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46624849",
+          "by": "kreelman",
+          "time": 1768430237
+        },
+        {
+          "id": 46624049,
+          "text": "This is really cool! How are you sandboxing the tiles and allowing limited JS execution?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46624049",
+          "by": "theogravity",
+          "time": 1768427086
+        },
+        {
+          "id": 46624480,
+          "text": "This immediately reminded of https://ourworldofpixels.com/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46624480",
+          "by": "smusamashah",
+          "time": 1768428873
+        },
+        {
+          "id": 46624377,
+          "text": "This is very fun. Great idea and execution.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46624377",
+          "by": "rickcarlino",
+          "time": 1768428399
+        }
+      ],
+      "by": "dimden",
+      "time": 1768005130,
+      "url": "https://webtiles.kicya.net/",
+      "score": 230,
+      "descendants": 38,
+      "storyUrl": "https://webtiles.kicya.net/"
+    },
+    {
+      "id": 46611823,
+      "type": "story",
+      "title": "1000 Blank White Cards",
+      "rank": 16,
+      "depth": 0,
+      "storyId": 46611823,
+      "storyTitle": "1000 Blank White Cards",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46611823",
+      "topComments": [
+        {
+          "id": 46613095,
+          "text": "Long time ago, I was looking for game with some hidden rules, browsing random wikipedia.\nI came across Mao [1].\nIt looked so cool, game that has it is culture.\nI wanted to try, luckily using siblings is not considered war crime.\nSince I had read about it in wikipedia we did not have culture to base it on.\nIt morphed to basically uno with normal playing card deck but winner gets to make new rule, any rule.\nThey will enforce it but they will not tell it to anyone else, they will just comment: \"you broke rules, take penalty\"\nSince we played it way too much with siblings, we had times where my brother took 15 card penalty on game start.\nThere was ~4 day trip we played near 30h of Mao.\nI still love it, but can't play it any more since people rarely have attention to detuct the hidden rules.\nBut also I feel creatively blocked since I can't make super complex rules when playing with new people, and the magic between my siblings has dimished bit.\n[1] https://en.wikipedia.org/wiki/Mao_(card_game)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46613095",
+          "by": "Qmppu842",
+          "time": 1768373164
+        },
+        {
+          "id": 46612647,
+          "text": "There's a drinking game which I guess is inspired by this game, which I believe is called \"Pizza Box\" (at least that's what everyone I ever met who knew it called it).\nYou start with an empty pizza box, and you need a large coin (the Australian 50 cents works well) and a sharpie.\nPlay progresses around the circle of players. Each player must flip the coin into the box. If they intersect no other circles, they draw a circle around the coin with the sharpie, and then write a rule into the circle (Whatever rule they come up with must fit legibly). They can change any aspect of the game. If you intersect with a circle, instead, that rule is activated. Just like 1000 cards, that could impact everyone, just you, whatever...\nWe usually got to a point where someone added a circle to \"end the game\", which then people might aim for - but usually only after a couple of hours of merriment!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46612647",
+          "by": "kiwih",
+          "time": 1768368209
+        },
+        {
+          "id": 46614786,
+          "text": "There's a british comedy radio show called \"I'm Sorry I Haven't A Clue\" that plays a game called \"Mornington Crescent\", which can be viewed as a similar sort of game, but it only really works in the specific context of the radio show. In theory, it's just comedians listing off london tube stations until one says \"Mornington Crescent\", and then they \"win\". In practice, it's played as though there is a vastly complex rulebook of secret rules, and players will react as though the current player may have made a clever play or a mistake or something\nhttps://en.wikipedia.org/wiki/Mornington_Crescent_(game)\nEDIT: I've also just remembered \"Numberwang\", which is a similar game with supposedly complex hidden rules from the comedy TV show \"That Mitchell and Webb Look\", where the players have to pick a number until they choose one that is \"Numberwang\"",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46614786",
+          "by": "voidUpdate",
+          "time": 1768389738
+        },
+        {
+          "id": 46612969,
+          "text": "This is a meta-game.  I got curious about related topics in game theory once and found out about [1,2].  There are also a few papers directly trying to study calvinball and so-called minimal-nomic.  It's pretty crazy how little we know theoretically  about this stuff, considering how relevant games with dynamic rules actually are for daily life.\nOf course, there's probably no clean solutions in this space short of lots of sims.  Regardless of whether new agentic stuff works for everything else in AI.. agent-based modeling seems likely to benefit from some kind of renaissance and that should be really interesting.\n[1] https://en.wikipedia.org/wiki/Constitutional_economics\n[2] https://en.wikipedia.org/wiki/Mechanism_design",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46612969",
+          "by": "robot-wrangler",
+          "time": 1768371827
+        },
+        {
+          "id": 46612638,
+          "text": "I love 1k bwc, just played it at a friend's going-away party. It's surprisingly hard to explain to folks who have never played before -- there's a lot of 'wait, what am I even supposed to do?' But if you have any friends in improv or folks who are good at coming up with clever cards, it's a lot of fun",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46612638",
+          "by": "theahura",
+          "time": 1768368128
+        }
+      ],
+      "by": "eieio",
+      "time": 1768360117,
+      "url": "https://en.wikipedia.org/wiki/1000_Blank_White_Cards",
+      "score": 364,
+      "descendants": 63,
+      "storyUrl": "https://en.wikipedia.org/wiki/1000_Blank_White_Cards"
+    },
+    {
+      "id": 46614037,
+      "type": "story",
+      "title": "I’m leaving Redis for SolidQueue",
+      "rank": 17,
+      "depth": 0,
+      "storyId": 46614037,
+      "storyTitle": "I’m leaving Redis for SolidQueue",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46614037",
+      "topComments": [
+        {
+          "id": 46614474,
+          "text": "Every author of the free software obviously has rights to full control of the scope of their project.\nThat being said, I regret that we have switched from good_job (https://github.com/bensheldon/good_job). The thing is - Basecamp is a MySQL shop and their policy is not to accept RDMS engine specific queries. You can see in their issues in Github that they try to stick \"universal\" SQL and are personally mostly concerned how it performs in MySQL(https://github.com/rails/solid_queue/issues/567#issuecomment... , https://github.com/rails/solid_queue/issues/508#issuecomment...). They also still have no support for batch jobs:\nhttps://github.com/rails/solid_queue/pull/142 .",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46614474",
+          "by": "jacob-s-son",
+          "time": 1768387273
+        },
+        {
+          "id": 46614272,
+          "text": "Every time some production environment can be simplified, it is good news in my opinion. The ideal situation with Rails would be if there is a simple way to switch back to Redis, so that you can start simple, and as soon as you hit some fundamental issue with using SolidQueue (mostly scalability, I guess, in environments where the queue is truly stressed -- and you don't want to have a Postgres scalability problem because of your queue), you have a simple upgrade path. But I bet a lot of Rails apps don't have high volumes, and having to maintain two systems can be just more complexity.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46614272",
+          "by": "antirez",
+          "time": 1768385146
+        },
+        {
+          "id": 46614403,
+          "text": "For people that does not think it scales. A similar implementation in Elixir is Oban. Their benchmark shows a million jobs per minute on a single node (and I am sure it could be increased further with more optimizations). I bet 99,99999% of apps have less than a million background jobs per minute.\nhttps://oban.pro/articles/one-million-jobs-a-minute-with-oba...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46614403",
+          "by": "victorbjorklund",
+          "time": 1768386632
+        },
+        {
+          "id": 46617144,
+          "text": "Sharing my experience. I experimented with SolidQueue for my side project. My conclusion for production usage was:\n- No reason to switch to SolidQueue or GoodJob if you have no issue with Sidekiq. Only do it if you want to remove the Redis infra, no other big benefits other than that imo.\n- For new projects, I might be more biased towards GoodJob. They're more matured, great community and have more features. \n- One thing I don't like about  SolidQueue is the lack of solid UI. Compared to GoodJob or Sidekiq, it's pretty basic. When I tried it last time, the main page would hang due to unoptimized indexes. Only happens when your data reaches certain threshold. Might have been fixed though.\nAnother consideration with using RDBMS instead of Redis is that you might need to allocate proper connection pool now. Depends on your database setup. It's nothing big, but that's one additional \"cost\" as you never really had to consider when you're using Redis.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46617144",
+          "by": "azuanrb",
+          "time": 1768404591
+        },
+        {
+          "id": 46615576,
+          "text": "We've been storing jobs in the DB long before SolidQueue appeared. One major advantage is that we can snapshot the state of the system (or one customer account) to our dev environment and get to see it exactly as it is in production.\nWe still keep rate limiters in Redis though, it would be pretty easy for some scanner to overload the DB if every rogue request would need a round trip to the DB before being processed. Because we only store ephemeral data in Redis it does not need backups.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46615576",
+          "by": "speleding",
+          "time": 1768395911
+        }
+      ],
+      "by": "amalinovic",
+      "time": 1768382758,
+      "url": "https://www.simplethread.com/redis-solidqueue/",
+      "score": 315,
+      "descendants": 141,
+      "storyUrl": "https://www.simplethread.com/redis-solidqueue/"
+    },
+    {
+      "id": 46605332,
+      "type": "story",
+      "title": "The truth behind the 2026 J.P. Morgan Healthcare Conference",
+      "rank": 18,
+      "depth": 0,
+      "storyId": 46605332,
+      "storyTitle": "The truth behind the 2026 J.P. Morgan Healthcare Conference",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46605332",
+      "topComments": [
+        {
+          "id": 46611549,
+          "text": "I've been inside the conference- I used to do due diligence and discovery for Google Ventures and they gave me a ticket one year.  The \"talks\" were eminently forgettable (\"we put this in X people and Y died\") and the power meetings were... also fairly forgettable.  A lot of it is just puffery, and a lot of the dealmakers have no real understanding of the area they are in (softbank seems to be the place where bad ideas go to be funded and then die).  Then there are the sharks, cruising around looking for easy pickings.\nMy favorite conference-that-is-not-really-a-conference is Pacific Symposium on Biocomputing.  The bar to get a paper in is really low, and it's set at a nice resort in Hawaii.  The whole conference would just empty out all day so people could go to beaches, etc.   It starts on a Friday and ends on a Monday.  About the only highlight for me was sitting down at the bar and spontaneously meeting Lynn Conway- \"what do you do?\"  \"oh, I worked on VLSI....\"",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46611549",
+          "by": "dekhn",
+          "time": 1768357734
+        },
+        {
+          "id": 46612048,
+          "text": "The point of the conference is not the official conference itself, but the meetings that happen around the conference. This is not true of all conferences, but for the JPMHC, and many other major conferences, that is the entire point. It's just a way to get people all in one place at one time, so that there is an efficient gathering to do deals.\nFunds pay thousands, often $10K+, per room at the nearby hotels, often spending hundreds of thousands to book over a dozen hotel rooms to use as makeshift conference rooms. The hotels often don't even allow people to sleep in the rooms, only to use them strictly as conference rooms.\nAll the real action happens in those hotel rooms, at private events, private receptions, etc.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46612048",
+          "by": "lesdeuxmagots",
+          "time": 1768362159
+        },
+        {
+          "id": 46613842,
+          "text": "\"if you had to meet a stranger in New York City on a specific day, with no way to communicate beforehand, where would you go?\"\nThe answer to that in San Francisco was once \"meet me by the clock\", which is in the lobby of the St. Francis Hotel.[1]\n\"There’s no easy way to sugarcoat this, so I’ll just come out and say it: it is possible that the entirety of California is built on top of one immensely large organism, and the particular spot in which the Westin St. Francis Hotel stands—335 Powell Street, San Francisco, 94102—is located directly above its beating heart.\"\nThat clock is a master clock, synchronizing the other clocks in the hotel. In the past, the synchronizing signals from that clock drove some other clocks in the downtown area. So it really is the beating heart of the city.\nThe clock was recently overhauled, and is acting as the master clock again. For years, the hotel's time signals were coming from an electric motor clock and then a quartz time standard. But they've reverted to the pendulum clock. Error is about 5 seconds a month.\n[1] https://www.youtube.com/watch?v=hGK_OaMVPUs",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46613842",
+          "by": "Animats",
+          "time": 1768380988
+        },
+        {
+          "id": 46613292,
+          "text": "I got power schmoozed once. Why they mistook me for being worth the investment in time was beyond me. It's a strange feeling being led into the presence, assumed to have knowledge and power, and be offered.. something intangible to help them do .. something unclear.\nMaybe my failure to read latent signals is why this doesn't repeat. When you do get to the elven castle, you don't remember much that happened inside, but now you're back on a quest and your donkey has more food.\nI do think this stuff happens. Side deals which move markets, people who taste test in lowly techs and then advise private equity buyers to move or not. You aren't the talent, your information value informs the talent going to do their job with bigger fish.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46613292",
+          "by": "ggm",
+          "time": 1768375157
+        },
+        {
+          "id": 46612823,
+          "text": "https://en.wikipedia.org/wiki/Bielefeld_conspiracy\n1. Do you know anybody from \"J.P. Morgan Healthcare Conference\"?\n2. Have you ever been to \"J.P. Morgan Healthcare Conference\"?\n3. Do you know anybody who has ever been to \"J.P. Morgan Healthcare Conference\"?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46612823",
+          "by": "ooterness",
+          "time": 1768370256
+        }
+      ],
+      "by": "abhishaike",
+      "time": 1768328520,
+      "url": "https://www.owlposting.com/p/the-truth-behind-the-2026-jp-morgan",
+      "score": 326,
+      "descendants": 87,
+      "storyUrl": "https://www.owlposting.com/p/the-truth-behind-the-2026-jp-morgan"
+    },
+    {
+      "id": 46609492,
+      "type": "story",
+      "title": "When hardware goes end-of-life, companies need to open-source the software",
+      "rank": 19,
+      "depth": 0,
+      "storyId": 46609492,
+      "storyTitle": "When hardware goes end-of-life, companies need to open-source the software",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46609492",
+      "topComments": [
+        {
+          "id": 46612055,
+          "text": "Do you know what the single, most effective way to ensure end-of-life projects open sources the software and hardware? It's if it's *open source*.\nNot assurances that if they meet their funding goal they'll open source. Not a pinky promise to open source in the future. Not magnanimous decision by upper management to open source if the business fails.\nIt's open sourcing from the outset so that people who invest in their technology can be assured they've fulfilled their promise to the community.\nPay for products that produce open source software and hardware. Pay artists that put out libre/free work. Demand projects that ask for money and \"will open source in the future\" open source now before taking your money.\nIn my view, finger wagging at corporate entities not open sourcing their products after end-of-life amounts to posturing.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46612055",
+          "by": "abetusk",
+          "time": 1768362204
+        },
+        {
+          "id": 46610681,
+          "text": "> What I am asking for: publish a basic GitHub repo with the hardware specs and connection protocols. Let the community build their own apps on top of it.\nThis concept works fine for the author's example of a kitchen scale, but fails when the device in question is something like a router that has secure boot with one key burned into e-fuses.\nIn that case we need both open software and a requirement that the manufacturer escrow signing keys with someone so that after EOL any software can be run.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46610681",
+          "by": "kogepathic",
+          "time": 1768350507
+        },
+        {
+          "id": 46610892,
+          "text": "I totally agree with the frustration of having hardware I would like to keep using but can't because it got EOL. Like a smart speaker or something.\nBut I don't know if there is a pragmatic way to approach that. I mean, I could also say \"it should be illegal to produce e-waste\", but what does that mean and how do we actually do it?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46610892",
+          "by": "palata",
+          "time": 1768352031
+        },
+        {
+          "id": 46610415,
+          "text": "Most systems now \"fail closed\" because they are based on a code signing chain of trust that has no exceptions. It would be better if some portion of these systems were made to \"fail open\" - you don't want a botnet to take over in this situation but you should be able to delegate code signing duties to a new party when the original one goes under or stops supporting a device.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46610415",
+          "by": "herf",
+          "time": 1768349054
+        },
+        {
+          "id": 46611185,
+          "text": "I actually think this is a great idea. Not even for \"Open Source\".\nCan you imagine if UBNT had to open source its EOL boot chain, so that Cambium was legally entitled to roll its firmware for old Unifi kit? And Vice Versa?\nThe result might not be \"Old hardware supported by the community\" the result might be \"Eternal product updates so we can legally prevent Cambium from taking our customers\"",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46611185",
+          "by": "protocolture",
+          "time": 1768354182
+        }
+      ],
+      "by": "Marciplan",
+      "time": 1768344591,
+      "url": "https://www.marcia.no/words/eol",
+      "score": 403,
+      "descendants": 133,
+      "storyUrl": "https://www.marcia.no/words/eol"
+    },
+    {
+      "id": 46611348,
+      "type": "story",
+      "title": "Show HN: OSS AI agent that indexes and searches the Epstein files",
+      "rank": 20,
+      "depth": 0,
+      "storyId": 46611348,
+      "storyTitle": "Show HN: OSS AI agent that indexes and searches the Epstein files",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46611348",
+      "topComments": [
+        {
+          "id": 46614466,
+          "text": "As many others pointed out, the released files are nearly nothing compared to the full dataset. Personally I've been fiddling a lot with OSINT and analytics over the publicly available Reddit data(a considerable amount of my spare time over the last year) and the one thing I can say is that LLMs are under-performing(huge understatement) - they are borderline useless compared to traditional ML techniques. But as far as LLMs go, the best performers are the open source uncensored models(the most uncensored and unhinged), while the worst performers are the proprietary and paid models, especially over the last 2-3 months: they have been nerfed into oblivion - to the extent where simple prompts like \"who is eligible to vote in US presidential elections\" is considered a controversial question. So in the unlikely event that the full files are released, I personally would look at the traditional NLP techniques long before investing any time into LLMs.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46614466",
+          "by": "axegon_",
+          "time": 1768387199
+        },
+        {
+          "id": 46613156,
+          "text": "I keep thinking that the lack of children’s faces in the blacked out rectangles make the files much less shocking. I wonder if AI could put back fake images to make clearer to people how sick all this is.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46613156",
+          "by": "andy_ppp",
+          "time": 1768373914
+        },
+        {
+          "id": 46613855,
+          "text": "The question is not how to analyze that, it's how to prosecute those who are above the law.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46613855",
+          "by": "wartywhoa23",
+          "time": 1768381102
+        },
+        {
+          "id": 46614296,
+          "text": "Please create a way to share conversations. I think that can be really relevant here\nI am not a huge fan of AI but I allow this use case. This is really good in my opinion\nAllowing the ability to share convo's, I hope you can also make those convo's be able to archived in web.archive.org/wayback machine\nSo I am thinking it instead of having some random UUID, it can have something like https://duckduckgo.com/?q=hello+test (the query parameter for hello test)\nMaybe its me but archive can show all the links archived by it of a particular domain, so if many people asks queries and archives it, you almost get a database of good queries and answers. Archive features are severely underrated in many cases\nGood luck for your project!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46614296",
+          "by": "Imustaskforhelp",
+          "time": 1768385337
+        },
+        {
+          "id": 46612285,
+          "text": "Those are going to be some spicy hallucinations.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46612285",
+          "by": "iowemoretohim",
+          "time": 1768364292
+        }
+      ],
+      "by": "jellyotsiro",
+      "time": 1768355812,
+      "url": "https://epstein.trynia.ai/",
+      "score": 211,
+      "descendants": 97,
+      "storyUrl": "https://epstein.trynia.ai/"
+    },
+    {
+      "id": 46616481,
+      "type": "story",
+      "title": "Show HN: Webctl – Browser automation for agents based on CLI instead of MCP",
+      "rank": 21,
+      "depth": 0,
+      "storyId": 46616481,
+      "storyTitle": "Show HN: Webctl – Browser automation for agents based on CLI instead of MCP",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46616481",
+      "topComments": [
+        {
+          "id": 46624051,
+          "text": "Cool to see lots of people independently come to \"CLIs are all you need\". I'm still not sure if it's a short-term bandaid because agents are so good at terminal use or if it's part of a longer term trend but it's definitely felt much more seamless to me then MCPs.\n(my one of many contribution https://github.com/caesarnine/binsmith)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46624051",
+          "by": "binalpatel",
+          "time": 1768427091
+        },
+        {
+          "id": 46625783,
+          "text": "At this point I'm fully down the path of the agent just maintaining his own tools. I have a browser skill that continues to evolve as I use it.  Beats every alternative I have tried so far.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46625783",
+          "by": "the_mitsuhiko",
+          "time": 1768434671
+        },
+        {
+          "id": 46624687,
+          "text": "If you look at Elixir keynote for Phoenix.new -- a cool agentic coding tool -- you'll see some hints about a browser control using a API tool call.  It's called \"web\" in the video.\nVideo:  https://youtu.be/ojL_VHc4gLk?t=2132\nMore discussion:  https://simonwillison.net/2025/Jun/23/phoenix-new/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46624687",
+          "by": "randito",
+          "time": 1768429694
+        },
+        {
+          "id": 46623840,
+          "text": "A little bit different, but also allows to scrape efficiently. Json http communication rather than cli.\nhttps://github.com/rumca-js/crawler-buddy\nMore like a framework for other mechanisms",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46623840",
+          "by": "renegat0x0",
+          "time": 1768426333
+        },
+        {
+          "id": 46622984,
+          "text": "This looks remarkably similar to https://github.com/vercel-labs/agent-browser\nHow is it different?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46622984",
+          "by": "philipbjorge",
+          "time": 1768423390
+        }
+      ],
+      "by": "cosinusalpha",
+      "time": 1768401280,
+      "url": "https://github.com/cosinusalpha/webctl",
+      "score": 134,
+      "descendants": 38,
+      "storyUrl": "https://github.com/cosinusalpha/webctl"
+    },
+    {
+      "id": 46602737,
+      "type": "story",
+      "title": "vLLM large scale serving: DeepSeek 2.2k tok/s/h200 with wide-ep",
+      "rank": 22,
+      "depth": 0,
+      "storyId": 46602737,
+      "storyTitle": "vLLM large scale serving: DeepSeek 2.2k tok/s/h200 with wide-ep",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46602737",
+      "topComments": [
+        {
+          "id": 46613887,
+          "text": "If I followed the links correctly this benchmark was made on a 16xH200. At current prices I'd assume that is a system price of around $750,000.\nThe year has 86400*365 = 31536000 seconds. Thus 63072000000 tokens can be generated. As pricing is usually given per 1M tokens generated, this is 63072 such packages.\nNow lets write off the investment over 3 years, 250,000/63072 = 3.96. So almost $4 per 1M tokens generated with prompt processing included.\nModel was a Deepseek 671B 32B MoE.\nLooks to me that $20 for a month of coding is not very sustainable - let's enjoy the party while VCs are financing it! And keep an eye on your consumption...\nElectricity costs seem negligable with ~$10,000 per year at 10cts per kWh but overall cost would be ~10% higher if electricity is more like 30cts like it is in Europe.\nEdit: like it is pointed out by other commenters it is 2200t/s per single GPU thus the result needs to be divided by 16: $4/16 = $0.25. This actually somewhat matches the deepseek API pricing.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46613887",
+          "by": "dust42",
+          "time": 1768381400
+        },
+        {
+          "id": 46611750,
+          "text": "Impressive performance work. It's interesting that you still see these 40+% perf gains like this.\nMakes you think that you will continue to see the costs for a fixed level of \"intelligence\" dropping.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46611750",
+          "by": "kingstnap",
+          "time": 1768359574
+        },
+        {
+          "id": 46614079,
+          "text": "Very impressive numbers - I'd expect 2K tok/s on Cerebras hardware, not H200's.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46614079",
+          "by": "rbanffy",
+          "time": 1768383308
+        },
+        {
+          "id": 46615087,
+          "text": "I wish there were more open benchmarks comparing different setups and different engines. There are so many knobs to tune (TP / DP / PP / PD / spec. decoding / etc.) and while the optimal setup will be highly dependent on the model, the environment and the traffic, it's likely some useful conclusions could be drawn.\nIt almost feels like in the past year there is some unwritten agreement between the 3 main open-source engines (vLLM, sglang, TRT-LLM) to not compare to each other directly :) They used to publish benchmarks comparing against each other quite regularly.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46615087",
+          "by": "Palmik",
+          "time": 1768392086
+        },
+        {
+          "id": 46614173,
+          "text": "Hey HN! I’m Seiji Eicher from Anyscale, one of the authors of this post :) Feel free to ask questions here.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46614173",
+          "by": "mycelia",
+          "time": 1768384111
+        }
+      ],
+      "by": "robertnishihara",
+      "time": 1768319999,
+      "url": "https://blog.vllm.ai/2025/12/17/large-scale-serving.html",
+      "score": 147,
+      "descendants": 54,
+      "storyUrl": "https://blog.vllm.ai/2025/12/17/large-scale-serving.html"
+    },
+    {
+      "id": 46623761,
+      "type": "story",
+      "title": "Sun Position Calculator",
+      "rank": 23,
+      "depth": 0,
+      "storyId": 46623761,
+      "storyTitle": "Sun Position Calculator",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46623761",
+      "topComments": [
+        {
+          "id": 46623926,
+          "text": "Archived version: https://web.archive.org/web/20260111135022/https://drajmarsh...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46623926",
+          "by": "sanbor",
+          "time": 1768426638
+        },
+        {
+          "id": 46625606,
+          "text": "Some friends flew eastwards from New York to Singapore on a direct flight (it's one of the longest flights). I wondered what their experience of sunrises and sunsets were (they departed 10PM), I've noted down the times but haven't plotted it...\nLater this year I'm flying from Europe to the West Coast of Canada, and it seems I'll be in daylight for the entirity of the flight (departing 2PM local, landing 4PM local after a 10 hour flight).\nEdit: well, FR24 has a handy flight tracking that includes the daylight progression: https://www.flightradar24.com/data/flights/sq23#3de5a306\nSo they flew 18 hours and experienced a full daylight cycle, arriving just before the second sunrise...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46625606",
+          "by": "netsharc",
+          "time": 1768433651
+        },
+        {
+          "id": 46624009,
+          "text": "I recommend activating \"Show Illuminating Sun Beam\" under \"Explanatory tools\" by clicking the graduation cap icon in the top right corner.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46624009",
+          "by": "sanbor",
+          "time": 1768426926
+        },
+        {
+          "id": 46624363,
+          "text": "I've been wanting to make a little circadian rhythm graphic based on the sun, would love to have a graphic like this to support it. If Andrew Marsh is listening, would love to create something to extend what I have (Preview at sun-taupe.vercel.app)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46624363",
+          "by": "mannanj",
+          "time": 1768428297
+        },
+        {
+          "id": 46625629,
+          "text": "Rate limit for this resource has been exceeded",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46625629",
+          "by": "recallingmemory",
+          "time": 1768433803
+        }
+      ],
+      "by": "sanbor",
+      "time": 1768426011,
+      "url": "https://drajmarsh.bitbucket.io/earthsun.html",
+      "score": 170,
+      "descendants": 36,
+      "storyUrl": "https://drajmarsh.bitbucket.io/earthsun.html"
+    },
+    {
+      "id": 46569175,
+      "type": "story",
+      "title": "Is Rust faster than C?",
+      "rank": 24,
+      "depth": 0,
+      "storyId": 46569175,
+      "storyTitle": "Is Rust faster than C?",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46569175",
+      "topComments": [
+        {
+          "id": 46616339,
+          "text": "In short, the maximum possible speed is the same (+/- some nitpicks), but there can be significant differences in typical code, and it's hard to define what's a realistic typical example.\nThe big one is multi-threading. In Rust, whether you use threads or not, all globals must be thread-safe, and the borrow checker requires memory access to be shared XOR mutable. When writing single-threaded code takes 90% of effort of writing multi-threaded one, Rust programmers may as well sprinkle threads all over the place regardless whether that's a 16x improvement or 1.5x improvement. In C, the cost/benefit analysis is different. Even just spawning a thread is going to make somebody complain that they can't build the code on their platform due to C11/pthread/openmp. Risk of having to debug heisenbugs means that code typically won't be made multi-threaded unless really necessary, and even then preferably kept to simple cases or very coarse-grained splits.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46616339",
+          "by": "pornel",
+          "time": 1768400394
+        },
+        {
+          "id": 46616183,
+          "text": "I almost ignored this post because I can't stand this particular war, where examples are cherry picked to prove either answer.\nI'm very happy to see the nuanced take in this article, slowly deconstructing the implicit assumptions proposed by the person asking this question, to arrive at the same conclusion that I long have. I hope this post reaches the right people.\nA particular language doesn't have a \"speed\", a particular implementation may have, and the language may have properties that make it difficult to make a fast implementation (of those specific properties/features) given the constraints of our current computer architectures. Even then, there's usually too many variables to make a generalized statement, and the question often presumes that performance is measured as total cpu time.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46616183",
+          "by": "mid-kid",
+          "time": 1768399293
+        },
+        {
+          "id": 46615701,
+          "text": "One example where Rust enables better and faster abstractions is traits. C you can do this with some ugly methods like macros and such but in Rust it’s not the implementers choice it’s the callers choice whether to use dynamic dispatch (function pointer table in C) or static dispatch (direct function calls!)\nIn c the caller isn’t choosing typically. The author of some library or api decides this for you.\nThis turns out to be fairly significant in something like an embedded context where function pointers kill icache and rob cycles jumping through hoops. Say you want to bit bang a bus protocol using GPIO, in C with function pointers this adds maybe non trivial overhead and your abstraction is no longer (never was) free. Traits let the caller decide to monomorphize that code and get effectively register reads and writes inlined while still having an abstract interface to GPIO. This is excellent!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46615701",
+          "by": "bfrog",
+          "time": 1768396611
+        },
+        {
+          "id": 46616175,
+          "text": "I think personally the answer is \"basically no\", Rust, C and C++ are all the same kind of low-level languages with the same kind of compiler backends and optimizations, any performance thing you could do in one you can basically do in the other two.\nHowever, in the spirit of the question: someone mentioned the stricter aliasing rules, that one does come to mind on Rust's side over C/C++. On the other hand, signed integer overflow being UB would count for C/C++ (in general: all the UB in C/C++ not present in Rust is there for performance reasons).\nAnother thing I thought of in Rust and C++s favor is generics. For instance, in C, qsort() takes a function pointer for the comparison function, in Rust and C++, the standard library sorting functions are templated on the comparison function. This means it's much easier for the compiler to specialize the sorting function, inline the comparisons and optimize around it. I don't know if C compilers specialize qsort() based on comparison function this way. They might, but it's certainly a lot more to ask of the compiler, and I would argue there are probably many cases like this where C++ and Rust can outperform C because of their much more powerful facilities for specialization.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46616175",
+          "by": "OskarS",
+          "time": 1768399258
+        },
+        {
+          "id": 46616082,
+          "text": "I like to say that there are two primary factors when we talk about how \"fast\" a language is:\n1. What costs does the language actively inject into a program?\n2. What optimizations does the language facilitate?\nMost of the time, it's sufficient to just think about the first point. C and Rust are faster than Python and Javascript because the dynamic nature of the latter two requires implementations to inject runtime checks all over the place to enable that dynamism. Rust and C simply inject essentially zero active runtime checks, so membership in this club is easy to verify.\nThe second one is where we get bogged down, because drawing clean conclusions is complicated by the (possibly theoretical) existence of optimizing compilers that can leverage the optimizability inherent to the language, as well as the inherent fragility of such optimizations in practice. This is where we find ourselves saying things like \"well Rust could have an advantage over C, since it frequently has more precise and comprehensive aliasing information to pass to the optimizer\", though measuring this benefit is nontrivial and it's unclear how well LLVM is thoroughly utilizing this information at present. At the same time, the enormous observed gulf between Rust in release mode (where it's as fast as C) and Rust in debug mode (when it's as slow as Ruby) shows how important this consideration is; Rust would not have achieved C speeds if it did not carefully pick abstractions that were amenable to optimization.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46616082",
+          "by": "kibwen",
+          "time": 1768398771
+        }
+      ],
+      "by": "vincentchau",
+      "time": 1768073856,
+      "url": "https://steveklabnik.com/writing/is-rust-faster-than-c/",
+      "score": 317,
+      "descendants": 388,
+      "storyUrl": "https://steveklabnik.com/writing/is-rust-faster-than-c/"
+    },
+    {
+      "id": 46618027,
+      "type": "story",
+      "title": "GitHub should charge everyone $1 more per month to fund open source",
+      "rank": 25,
+      "depth": 0,
+      "storyId": 46618027,
+      "storyTitle": "GitHub should charge everyone $1 more per month to fund open source",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46618027",
+      "topComments": [
+        {
+          "id": 46618556,
+          "text": "> it is not okay to consider that this labor fell from the sky and is a gift, and that the people/person behind are just doing it for their own enjoyments.\nI am. I enjoy making things, and it's even better when others enjoy them. Just because you have expectations that you should be compensated for everything line of code you write; doesn't make it ubiquitous, nor should your expectations be considered the default.\nI'd argue If you're creating and releasing open source with the expectations of compensation, you're doing it wrong. Equally, if you expect someone creating open source owes you anything, you're also part of the problem, (and part of why people feel they deserve compensation for something that used to be considered a gift).\nAll that said, you should take care of your people, if you can help others; especially when you depend on them. I think you should try. Or rather, I hope you would.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46618556",
+          "by": "grayhatter",
+          "time": 1768409866
+        },
+        {
+          "id": 46618552,
+          "text": ">it is not okay to consider that this labor fell from the sky and is a gift, and that the people/person behind are just doing it for their own enjoyments\nYes it absolutely is. That is the exact social contract people 100% willingly enter by releasing something as Free and Open Source. They do give it as a gift, in exchange for maybe the tiny bit of niche recognition that comes with it, and often times out of simple generosity. Is that really so incredible?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46618552",
+          "by": "Dilettante_",
+          "time": 1768409855
+        },
+        {
+          "id": 46620937,
+          "text": "Maybe it's just me, but I don't think the solution to the open source funding problem is to force people to pay for it. I think that goes against the spirit of open source. If there is forced payment, or even the expectation of payment, then we're not really doing the whole original open source thing, we're just doing bad source available commercial-ish software.\nI think the solution is for people to understand that open source goes both ways. Unlike what this post says, users don't owe maintainers anything, but maintainers also don't owe the users anything. If I build something cool and share it freely, why should users expect anything from me? Why should you expect me to maintain it or add the features you want? I think we need a mentality change where less is expected from maintainers, unless funding is arranged.\nAfter all, it's free and open source. No one is forcing you to use it. Don't like that I'm not actively developing it? Submit a PR or fork it. Isn't that what the original spirit of open source was? I think that open source has been so succesful and good that we've come to expect it to be almost like commercial software. That's not what it is.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46620937",
+          "by": "Unfunkyufo",
+          "time": 1768417405
+        },
+        {
+          "id": 46618753,
+          "text": "If this actually happens, get ready for an avalanche of AI-generated garbage code that exists for the sole purpose of boosting a scammer's metrics, so they can maximize their slice of the pie with the minimum amount of effort. Spotify is dealing with this same issue around AI-generated music [1].\n1. https://www.forbes.com/sites/lesliekatz/2024/09/08/man-charg...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46618753",
+          "by": "primitivesuave",
+          "time": 1768410596
+        },
+        {
+          "id": 46624246,
+          "text": "Been living off grants and donations for a few years now.  My 2c is you probably don't need to invent a new platform to fund open source development.   There are tons of platforms and systems in place already.  That's not's what's missing.  You need to get open source developers that want to get paid for their work to spell that fact out to their users and supporters.\nYes this is uncomfortable, but the simple fact is that if you don't tell anyone you want to get paid, you probably won't be given any money.  Standard seem to be maybe there's a donation link somewhere on the site, buried 4 clicks deep in the FAQ, more often than not something like a paypal.\nThe reality is that if you do ask for money, surprisingly often people will straight up just give you money if they like what you're doing.  Like people get paid real money for screaming at video games on Twitch, meanwhile you're building something people find useful.  Of course you can make money off it.  But you gotta ask for it, the game screamers on twitch sure do.  That's the secret.  Sure there's a scale from asking for donations and doing a Jimmy Wales and putting a your face on a banner begging for donations; and while going full jimbo is arguably taking it too far, it's also probably closer to the optimum than you'd imagine.\nIf you have corporate users, word on the street is you can also just reach out to them and ask for sponsorship.  They're not guaranteed to say yes, but they're extremely unlike to sponsor you spontaneously.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46624246",
+          "by": "marginalia_nu",
+          "time": 1768427838
+        }
+      ],
+      "by": "evakhoury",
+      "time": 1768407907,
+      "url": "https://blog.greg.technology/2025/11/27/github-should-charge-1-dollar-more-per-month.html",
+      "score": 316,
+      "descendants": 343,
+      "storyUrl": "https://blog.greg.technology/2025/11/27/github-should-charge-1-dollar-more-per-month.html"
+    },
+    {
+      "id": 46610557,
+      "type": "story",
+      "title": "The $LANG Programming Language",
+      "rank": 26,
+      "depth": 0,
+      "storyId": 46610557,
+      "storyTitle": "The $LANG Programming Language",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46610557",
+      "topComments": [
+        {
+          "id": 46611320,
+          "text": "For a moment I thought there was actually a new language called $LANG, which would have been wonderful.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46611320",
+          "by": "chuckadams",
+          "time": 1768355543
+        },
+        {
+          "id": 46611222,
+          "text": "This is a fun false positive :) https://news.ycombinator.com/item?id=34675259",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46611222",
+          "by": "johnfn",
+          "time": 1768354505
+        },
+        {
+          "id": 46613221,
+          "text": "See \"The Your Name Here Story\" (1960) [1] It's a generic industrial film.\n[1] https://archive.org/details/YourName1960",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46613221",
+          "by": "Animats",
+          "time": 1768374496
+        },
+        {
+          "id": 46610750,
+          "text": "Yikes, I tanked HN's performance by posting this! Probably because of loading all those old threads over and over.\nI've moved the URL out of the link at the top, which seems to be helping for now.\n(now I have to decide whether to go down another rabbit hole and fix that)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46610750",
+          "by": "dang",
+          "time": 1768351019
+        },
+        {
+          "id": 46615002,
+          "text": "Just wanted to say this post has caused a huge spike in traffic to my language's website: a dizzying ~40 visitors per day up from ~0 haha!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46615002",
+          "by": "almusdives",
+          "time": 1768391511
+        }
+      ],
+      "by": "dang",
+      "time": 1768349839,
+      "score": 267,
+      "descendants": 72
+    },
+    {
+      "id": 46611667,
+      "type": "story",
+      "title": "The Gleam Programming Language",
+      "rank": 27,
+      "depth": 0,
+      "storyId": 46611667,
+      "storyTitle": "The Gleam Programming Language",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46611667",
+      "topComments": [
+        {
+          "id": 46613427,
+          "text": "Coming from Elixir, I gave Gleam a try for a couple of days over the holidays. Reasons I decided not to pursue:\n- No ad-hoc polymorphism (apart from function overloading IIRC) means no standard way of defining how things work. \nThere are not many conventions yet in place so you won’t know if your library supports eg JSON deserialization for its types\n- Coupled with a lack of macros, this means you have to implement even most basic functionality like JSON (de)serialization yourself - even for stdlib and most popular libs’ structs\n- When looking on how to access the file system, I learned the stdlib does not provide fs access as the API couldn’t be shared between the JS and Erlang targets. The most popular fs package for erlang target didn’t look of high quality at all. Something so basic and important.\n- This made me realise that in contrast to elixir which not only runs on the BEAM („Erlang“) but also runs with seamless Erlang interop, Gleam doesn’t have access to most of the Erlang / Elixir ecosystem out of the box.\nThere are many things I liked, like the algebraic data types, the Result and Option types, pattern matching with destructuring. \nWhich made me realize what I really want is Rust. My ways lead to Rust, I guess.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46613427",
+          "by": "pkos98",
+          "time": 1768376984
+        },
+        {
+          "id": 46616386,
+          "text": "I’m trying Gleam out right now, and having most recently been writing Go, I’m really loving:\n- No nil, instead Option and Result\n- ADTs\n- Pattern matching + destructuring\n- Immutable everything by default\n- `use` syntactic sugar (weird at first, but once you’re used to it it’s pretty elegant)\n- LSP server works great for such a young language\nBut most of all I think the overall simplicity of the language is really what’s standing out to me. So far I think the lack of ad-hoc poly and macros are a plus - it really reduces the impulse to write “magical” code, or code with lots of indirections. In the past I’ve definitely been guilty of over-abstracting things, and I’m really trying to keep things as simple as possible now. Though I’ve yet to try Gleam with a large project - maybe I’ll miss the abstractions as project complexity increases.\nI suspect Gleam will be a great language for small to medium sized projects written with LLM assistance (NOT vibecoded) - the small language, strong typing and immutability gives good guardrails for LLM-generated code, and encourages a simple, direct style of programming where a human programmer can keep the whole structure in their head. Letting an LLM run free and not understanding what it’s written is I think where projects run into big problems.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46616386",
+          "by": "smweber",
+          "time": 1768400728
+        },
+        {
+          "id": 46613526,
+          "text": "I am in love with Gleam! As a young computer science student, I found that Gleam brought back the joy of programming just when I felt like I was seriously burning out. I was never a fan of functional programming languages. I had tried other BEAM languages like Elixir and Erlang before, but Gleam is the one I’ve enjoyed the most :)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46613526",
+          "by": "wiskiy",
+          "time": 1768377842
+        },
+        {
+          "id": 46613431,
+          "text": "I'd rather them stick with ONE: JS or BEAM. Everytime a project claims it can do multiple things at once, it can't do either very well.\nIt's confusing too. Is Gleam suitable for distributed computing like Elixir/Erlang on BEAM? Would that answer change if I compile it to JS?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46613431",
+          "by": "behnamoh",
+          "time": 1768376996
+        },
+        {
+          "id": 46612454,
+          "text": "I really like the idea of gleam but I don't want to hand implement serialization for every type (even with an LSP action) in 2026.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46612454",
+          "by": "brandonpollack2",
+          "time": 1768366051
+        }
+      ],
+      "by": "Alupis",
+      "time": 1768358965,
+      "url": "https://gleam.run/",
+      "score": 273,
+      "descendants": 177,
+      "storyUrl": "https://gleam.run/"
+    },
+    {
+      "id": 46619030,
+      "type": "story",
+      "title": "So, you’ve hit an age gate. What now?",
+      "rank": 28,
+      "depth": 0,
+      "storyId": 46619030,
+      "storyTitle": "So, you’ve hit an age gate. What now?",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46619030",
+      "topComments": [
+        {
+          "id": 46620005,
+          "text": "My kid has recently just quit playing Roblox because of the sketchy facial age check process. She said that her and all her friends know not to ever upload a picture of themselves to the Internet (good job, fellow Other Parents!!) so they're either moving on to other games or just downloading stock photos of people from the internet and uploading those (which apparently works).\nWhat a total joke. These companies need to stop normalizing the sharing of personal private photos. It's literally the opposite direction from good Internet hygiene, especially for kids!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46620005",
+          "by": "ryandrake",
+          "time": 1768414739
+        },
+        {
+          "id": 46619671,
+          "text": ">If Google can guess your age, you may never even see an age verification screen. Your Google account is typically connected to your YouTube account, so if (like mine) your YouTube account is old enough to vote, you may not need to verify your Google account at all.\nThis has been proven false a bunch of times, at least if the 1000s of people complaining online about it are to be believed. My google account is definitely old enough to vote, but I get the verification popup all the time on YouTube.\nI think the truth is, they just want your face. The financial incentive is to get as much data as possible so they can hand it to 3rd parties. I don't believe for a second that these social networks aren't selling both the data and the meta data.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46619671",
+          "by": "cons0le",
+          "time": 1768413823
+        },
+        {
+          "id": 46620642,
+          "text": "I’ve noticed that many people struggle to simply let things go. Take a hypothetical case where HN requires ID verification. I'd just stop using HN, even if that meant giving up checking tech news. Sometimes things end, and that's fine.\nI used to watch good soccer matches on public TV. When services like DAZN appeared, only one major match was available each weekend on public TV. Later, none were free to watch unless you subscribed to a private channel. I didn't want to do that, so I stopped watching soccer. Now I only follow big tournaments like the World cup, which still air on public TV (once every 4 years).\nSometimes you just have to let things go",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46620642",
+          "by": "dakiol",
+          "time": 1768416485
+        },
+        {
+          "id": 46620719,
+          "text": "My main concern is that there isn't a reliable way to know your information is securely stored[0].\n> A few years ago, I received a letter in the mail addressed to my then-toddler. It was from a company I had never heard of. Apparently, there had been a breach and some customer information had been stolen. They offered a year of credit monitoring and other services. I had to read through every single word in that barrage of text to find out that this was a subcontractor with the hospital where my kids were born. So my kid's information was stolen before he could talk. Interestingly, they didn't send any letter about his twin brother. I'm pretty sure his name was right there next to his brother's in the database.\n> Here was a company that I had no interaction with, that I had never done business with, that somehow managed to lose our private information to criminals. That's the problem with online identity. If I upload my ID online for verification, it has to go through the wires. Once it reaches someone else's server, I can never get it back, and I have no control over what they do with it.\nAll those parties are copying and transferring your information, and it's only a matter of time before it leaks.\n[0]: https://idiallo.com/blog/your-id-online-and-offline",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46620719",
+          "by": "firefoxd",
+          "time": 1768416748
+        },
+        {
+          "id": 46619324,
+          "text": "I'm surprised that the EFF does not highlight the best option, here: use a VPN to a jurisdiction that doesn't have such ridiculous laws.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46619324",
+          "by": "JoshTriplett",
+          "time": 1768412774
+        }
+      ],
+      "by": "hn_acker",
+      "time": 1768411642,
+      "url": "https://www.eff.org/deeplinks/2026/01/so-youve-hit-age-gate-what-now",
+      "score": 372,
+      "descendants": 295,
+      "storyUrl": "https://www.eff.org/deeplinks/2026/01/so-youve-hit-age-gate-what-now"
+    },
+    {
+      "id": 46584864,
+      "type": "story",
+      "title": "The Emacs Widget Library: A Critique and Case Study",
+      "rank": 29,
+      "depth": 0,
+      "storyId": 46584864,
+      "storyTitle": "The Emacs Widget Library: A Critique and Case Study",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46584864",
+      "topComments": [
+        {
+          "id": 46613640,
+          "text": "Argh, a few screenshots would’ve been nice. There’s none to be found in vui.el’s repository.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46613640",
+          "by": "nesarkvechnep",
+          "time": 1768379095
+        },
+        {
+          "id": 46614463,
+          "text": "I'm happy more people are interested in this critique! And thanks for d12frosted for joining the discussion.\nI was searching for what's the latest in emacs widgets developments because I was interested in using widgets. Emacs Customize for example, renders text-based widgets in an editable buffer, which is very uncommon nowadays. Emacs seems like the best candidate for this kind of interactivity. I'm sure it's possible in other editors, but with significantly more effort and significantly slower rendering. I also considered lem, but the barrier also seems much higher.\nHis post also led me to his vui.el project, but I ended up not trying it, since after understanding the tradeoffs, I pushed the widget code creation to an LLM. I still get frequent unbalanced parentheses errors so I still stay close to the defaults.\nThe PoC is about testing a method to render a widgets-based, json-schema-validated input form that you can embed dynamically into an emacs buffer, enter the data, then do something post-validation. If anyone's interested, here's the latest state of the LLM-generated and human-fixed code: https://gist.github.com/whacked/6875c5117b48528e619755e13e24...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46614463",
+          "by": "whacked_new",
+          "time": 1768387180
+        },
+        {
+          "id": 46614237,
+          "text": "For those interested, this guy is revamping the Emacs widget library with something more modern and platform agnostic, based on SDL: https://appetrosyan.github.io/posts/\nHis posts are very insightful.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46614237",
+          "by": "rahen",
+          "time": 1768384799
+        },
+        {
+          "id": 46611874,
+          "text": "This site is quite illegible if your system is set to prefers dark theme.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46611874",
+          "by": "dinkleberg",
+          "time": 1768360565
+        },
+        {
+          "id": 46613026,
+          "text": "I only have a limited experience with GUI Widgets - by using JavaFX through `cljfx`\n- vui.el seems like the right idea - You have a widget library, and then you add state management, you add layout management etc. It's sort of a blessing widget is simple enough to be reused this way\n- ECS and inheritance. I have personally never really hit on this limitation. It's there in the abstract.. but don't GUIs generally fit the OO paradigm pretty well? Looking at the class tree for JavaFX, I don't see any really awkward widgets that are ambiguously placed.\n- State Management. This can be bolted on - like with vui.el. But to me this feels like something that should be independent of GUIs. Something like Pathom looks more appealing to me here\n- \"Not a full reactive framework - Emacs doesn't need that complexity\" .. why not? Maybe the library internals are complex, but it makes user code much simpler, no?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46613026",
+          "by": "geokon",
+          "time": 1768372421
+        }
+      ],
+      "by": "whacked_new",
+      "time": 1768199846,
+      "url": "https://www.d12frosted.io/posts/2025-11-26-emacs-widget-library",
+      "score": 112,
+      "descendants": 41,
+      "storyUrl": "https://www.d12frosted.io/posts/2025-11-26-emacs-widget-library"
+    },
+    {
+      "id": 46621945,
+      "type": "story",
+      "title": "Every country should set 16 as the minimum age for social media accounts",
+      "rank": 30,
+      "depth": 0,
+      "storyId": 46621945,
+      "storyTitle": "Every country should set 16 as the minimum age for social media accounts",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46621945",
+      "topComments": [
+        {
+          "id": 46625124,
+          "text": "I think stuff like this, is trying to recreate a world that doesn't exist anymore. With whom, are you gonna go play in the woods with, that haven't already been bulldozed into housing and strip malls? Do you need to watch YouTube only on a parent's TV that's logged in, even for homework help? Some kids start working at 14 or 15: they can be trusted to work somewhere outside of home, but not online? What about Steam games? What about any games? What about hobby & fan forums, that have nothing to do with \"grooming\" or grabbing eyeballs? What's next, an Internet license?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46625124",
+          "by": "unquietwiki",
+          "time": 1768431402
+        },
+        {
+          "id": 46622621,
+          "text": "Surprised to see this seemingly presented positively on HN.\nSocial media \"feels\" like it should be uniquely bad for children but the evidence is low-quality and contradictory. For example, high social media use is associated with anxiety and depression, but which direction does that relationship run? Meanwhile there are documented benefits especially for youth who are members of marginalized groups (e.g. LGBTQ). Don't get me wrong, I think there are a lot of problems with the big social media companies. I just think they affect adults too and that we should address them directly.\nBut setting that aside, the practical implications of age gate laws are terrible. The options are basically to have an LLM guess your age based on your face, or uploading sensitive identity documents to multiple sites and hope they are stored and processed securely and not reused for other purposes.\nBut OK let's assume social media is always bad for kids and also that someone invents a perfect age gate... kids are just going to find places to hang out online that are less moderated and less regulated and less safe. How is that not worse?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46622621",
+          "by": "eli",
+          "time": 1768422374
+        },
+        {
+          "id": 46622490,
+          "text": "I like that this article at least links to a document with the features they want under scrutiny, but they do avoid a definition, and nearly all networked systems have at least some of the features in the document[1].\nIs google docs social media?  It certainly has social features and I've been witness to cyber-bullying via a shared google doc.\nWhat about Spotify?  It has social features far beyond just sharing playlists\nWhatsApp? Discord?  MMS?\n1: https://docs.google.com/spreadsheets/d/1GVO7sNuCNmNwqVK64PHQ...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46622490",
+          "by": "aidenn0",
+          "time": 1768421949
+        },
+        {
+          "id": 46622144,
+          "text": "I absolutely agree that gamified, algorithm-driven social media should be banned for those under 16. My issue is how that should be done. I sure as shit don't want to have to present my ID to look at dank memes.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46622144",
+          "by": "baggachipz",
+          "time": 1768420961
+        },
+        {
+          "id": 46622401,
+          "text": "Or perhaps we should watch what happens in Australia and draw lessons from it? I have a hard time telling a teenager that they cannot socialize with people just because it is via electronic means. I also do not like teenagers identities manipulated for commercial ends. Though we have done this since the 1950s. Also shouldn't we ban MTV and rock and roll music in general? It's destroying the youth!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46622401",
+          "by": "bahmboo",
+          "time": 1768421723
+        }
+      ],
+      "by": "paulpauper",
+      "time": 1768420395,
+      "url": "https://www.afterbabel.com/p/why-every-country-should-set-16",
+      "score": 253,
+      "descendants": 325,
+      "storyUrl": "https://www.afterbabel.com/p/why-every-country-should-set-16"
+    }
+  ]
+}

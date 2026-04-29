@@ -1,0 +1,1556 @@
+{
+  "date": "2026-02-11",
+  "fetchedAt": "2026-04-29T08:02:37.842Z",
+  "samplingMethod": "historical_frontpage_story_comment_snapshot",
+  "source": "hn_front_html_firebase",
+  "items": [
+    {
+      "id": 46978710,
+      "type": "story",
+      "title": "Claude Code is being dumbed down?",
+      "rank": 1,
+      "depth": 0,
+      "storyId": 46978710,
+      "storyTitle": "Claude Code is being dumbed down?",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46978710",
+      "topComments": [
+        {
+          "id": 46981968,
+          "text": "Hey, Boris from the Claude Code team here. I wanted to take a sec to explain the context for this change.\nOne of the hard things about building a product on an LLM is that the model frequently changes underneath you. Since we introduced Claude Code almost a year ago, Claude has gotten more intelligent, it runs for longer periods of time, and it is able to more agentically use more tools. This is one of the magical things about building on models, and also one of the things that makes it very hard. There's always a feeling that the model is outpacing what any given product is able to offer (ie. product overhang). We try very hard to keep up, and to deliver a UX that lets people experience the model in a way that is raw and low level, and maximally useful at the same time.\nIn particular, as agent trajectories get longer, the average conversation has more and more tool calls. When we released Claude Code, Sonnet 3.5 was able to run unattended for less than 30 seconds at a time before going off the rails; now, Opus 4.6 1-shots much of my code, often running for minutes, hours, and days at a time.\nThe amount of output this generates can quickly become overwhelming in a terminal, and is something we hear often from users. Terminals give us relatively few pixels to play with; they have a single font size; colors are not uniformly supported; in some terminal emulators, rendering is extremely slow. We want to make sure every user has a good experience, no matter what terminal they are using. This is important to us, because we want Claude Code to work everywhere, on any terminal, any OS, any environment.\nUsers give the model a prompt, and don't want to drown in a sea of log output in order to pick out what matters: specific tool calls, file edits, and so on, depending on the use case. From a design POV, this is a balance: we want to show you the most relevant information, while giving you a way to see more details when useful (ie. progressive disclosure). Over time, as the model continues to get more capable -- so trajectories become more correct on average -- and as conversations become even longer, we need to manage the amount of information we present in the default view to keep it from feeling overwhelming.\nWhen we started Claude Code, it was just a few of us using it. Now, a large number of engineers rely on Claude Code to get their work done every day. We can no longer design for ourselves, and we rely heavily on community feedback to co-design the right experience. We cannot build the right things without that feedback. Yoshi rightly called out that often this iteration happens in the open. In this case in particular, we approached it intentionally, and dogfooded it internally for over a month to get the UX just right before releasing it; this resulted in an experience that most users preferred.\nBut we missed the mark for a subset of our users. To improve it, I went back and forth in the issue to understand what issues people were hitting with the new design, and shipped multiple rounds of changes to arrive at a good UX. We've built in the open in this way before, eg. when we iterated on the spinner UX, the todos tool UX, and for many other areas. We always want to hear from users so that we can make the product better.\nThe specific remaining issue Yoshi called out is reasonable. PR incoming in the next release to improve subagent output (I should have responded to the issue earlier, that's my miss).\nYoshi and others -- please keep the feedback coming. We want to hear it, and we genuinely want to improve the product in a way that gives great defaults for the majority of users, while being extremely hackable and customizable for everyone else.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46981968",
+          "by": "bcherny",
+          "time": 1770848065
+        },
+        {
+          "id": 46979394,
+          "text": "> That’s it. “Read 3 files.” Which files? Doesn’t matter. “Searched for 1 pattern.” What pattern? Who cares.\nProduct manager here. Cynically, this is classic product management: simplify and remove useful information under the guise of 'improving the user experience' or perhaps minimalism if you're more overt about your influences.\nIt's something that as an industry we should be over by now.\nIt requires deep understanding of customer usage in order not to make this mistake. It is _really easy_ to think you are making improvements by hiding information if you do not understand why that information is perceived as valuable. Many people have been taught that streamlining and removal is positive. It's even easier if you have non-expert users getting attention. All of us here at HN will have seen UIs where this has occurred.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46979394",
+          "by": "vintagedave",
+          "time": 1770837285
+        },
+        {
+          "id": 46979191,
+          "text": "https://github.com/anthropics/claude-code/issues/8477\nhttps://github.com/anthropics/claude-code/issues/15263\nhttps://github.com/anthropics/claude-code/issues/9099\nhttps://github.com/anthropics/claude-code/issues/8371\nIt's very clear that Anthropic doesn't really want to expose the secret sauce to end users. I have to patch Claude every release to bring this functionality back.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46979191",
+          "by": "SOLAR_FIELDS",
+          "time": 1770836300
+        },
+        {
+          "id": 46980367,
+          "text": "I’m a heavy Claude code user and it’s pretty clear they’re starting to bend under their vibe coding. Each Claude code update breaks a ton of stuff, has perf issues, etc.\nAnd then this. They want to own your dev workflow and for some reason believe Claude code is special enough to be closed source. The react TUI is kinda a nightmare to deal with I bet.\nI will say, very happy with the improvements made to Codex 5.3. I’ve been spending A LOT more time with codex and the entire agent toolchain is OSS.\nNot sure what anthropic’s plan is, but I haven’t been a fan of their moves in the past month and a half.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46980367",
+          "by": "Robdel12",
+          "time": 1770841318
+        },
+        {
+          "id": 46979479,
+          "text": "Claude's brand is sliding dangerously close to \"the Microsoft of AI.\"\nDEVELOPERS, DEVELOPERS, DEVELOPERS, DEVELOPERS\nI write mainly out of the hope that some Anthropic employees read this: you need an internal crusade to fight these impulses. Take the high road in the short-term and you may avoid being disrupted in the long-term. It's a culture issue.\nProbably your strongest tool is specifically educating people about the history. Microsoft in the late 90s and early 00s was completely dominant, but from today's perspective it's very clear: they made some fundamental choices that didn't age well. As a result, DX on Windows is still not great, even if Visual Studio has the best features, and people with taste by and large prefer Linux.\nApple made an extremely strategic choice: rebuild the OS around BSD, which set them up to align with Linux (the language of servers). The question is: why? Go find out.\nThe difference is a matter of sensibility, and a matter of allowing that sensibility to exist and flourish in the business.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46979479",
+          "by": "tern",
+          "time": 1770837624
+        }
+      ],
+      "by": "WXLCKNO",
+      "time": 1770834219,
+      "url": "https://symmetrybreak.ing/blog/claude-code-is-being-dumbed-down/",
+      "score": 1085,
+      "descendants": 701,
+      "storyUrl": "https://symmetrybreak.ing/blog/claude-code-is-being-dumbed-down/"
+    },
+    {
+      "id": 46974853,
+      "type": "story",
+      "title": "GLM-5: Targeting complex systems engineering and long-horizon agentic tasks",
+      "rank": 2,
+      "depth": 0,
+      "storyId": 46974853,
+      "storyTitle": "GLM-5: Targeting complex systems engineering and long-horizon agentic tasks",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46974853",
+      "topComments": [
+        {
+          "id": 46978220,
+          "text": "Pelican generated via OpenRouter: https://gist.github.com/simonw/cc4ca7815ae82562e89a9fdd99f07...\nSolid bird, not a great bicycle frame.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46978220",
+          "by": "simonw",
+          "time": 1770832077
+        },
+        {
+          "id": 46975514,
+          "text": "Grey market fast-follow via distillation seems like an inevitable feature of the near to medium future.\nI've previously doubted that the N-1 or N-2 open weight models will ever be attractive to end users, especially power users. But it now seems that user preferences will be yet another saturated benchmark, that even the N-2 models will fully satisfy.\nHeck, even my own preferences may be getting saturated already. Opus 4.5 was a very legible jump from 4.1. But 4.6? Apparently better, but it hasn't changed my workflows or the types of problems / questions I put to it.\nIt's poetic - the greatest theft in human history followed by the greatest comeuppance.\nNo end-user on planet earth will suffer a single qualm at the notion that their bargain-basement Chinese AI provider 'stole' from American big tech.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46975514",
+          "by": "NiloCK",
+          "time": 1770820842
+        },
+        {
+          "id": 46975398,
+          "text": "Bought some API credits and ran it through opencode (model was \"GLM 5\").\nPretty impressed, it did good work. Good reasoning skills and tool use. Even in \"unfamiliar\" programming languages: I had it connect to my running MOO and refactor and rewrite some MOO (dynamic typed OO scripting language) verbs by MCP. It made basically no mistakes with the programming language despite it being my own bespoke language & runtime with syntactical and runtime additions of my own (lambdas, new types, for comprehensions, etc). It reasoned everything through by looking at the API surface and example code. No serious mistakes and tested its work and fixed as it went.\nIts initial analysis phase found leftover/sloppy work that Codex/GPT 5.3 left behind in a session yesterday.\nCost me $1.50 USD in token credits to do it, but z.AI offers a coding plan which is absolutely worth it if this is the caliber of model they're offering.\nI could absolutely see combining the z.AI coding plan with a $20 Codex plan such that you switch back and forth between GPT 5.3 and GLM 5 depending on task complexity or intricacy. GPT 5.3 would only be necessary for really nitty gritty analysis. And since you can use both in opencode, you could start a session by establishing context and analysis in Codex and then having GLM do the grunt work.\nThanks z.AI!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46975398",
+          "by": "cmrdporcupine",
+          "time": 1770820331
+        },
+        {
+          "id": 46975587,
+          "text": "Lets not miss that MiniMax M2.5 [1] is also available today in their Chat UI [2].\nI've got subs for both and whilst GLM is better at coding, I end up using MiniMax a lot more as my general purpose fast workhorse thanks to its speed and excellent tool calling support.\n[1] https://news.ycombinator.com/item?id=46974878\n[2] https://agent.minimax.io",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46975587",
+          "by": "mythz",
+          "time": 1770821196
+        },
+        {
+          "id": 46980289,
+          "text": "GLM-4.7-Flash was the first local coding model that I felt was intelligent enough to be useful. It feels something like Claude 4.5 Haiku at a parameter size where other coding models are still getting into loops and making bewilderingly stupid tool calls. It also has very clear reasoning traces that feel like Claude, which does result in the ability to inspect its reasoning to figure out why it made certain decisions.\nSo far I haven't managed to get comparably good results out of any other local model including Devstral 2 Small and the more recent Qwen-Coder-Next.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46980289",
+          "by": "2001zhaozhao",
+          "time": 1770840988
+        }
+      ],
+      "by": "CuriouslyC",
+      "time": 1770817336,
+      "url": "https://z.ai/blog/glm-5",
+      "score": 484,
+      "descendants": 520,
+      "storyUrl": "https://z.ai/blog/glm-5"
+    },
+    {
+      "id": 46982421,
+      "type": "story",
+      "title": "Discord/Twitch/Snapchat age verification bypass",
+      "rank": 3,
+      "depth": 0,
+      "storyId": 46982421,
+      "storyTitle": "Discord/Twitch/Snapchat age verification bypass",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46982421",
+      "topComments": [
+        {
+          "id": 46982687,
+          "text": "The real and robust method will be generating artificial video input instead of the real webcam. I really don’t think any platform will be able to counter this. If they start requiring to use a phone with harder to spoof camera input, you will simply be able to put the camera in front of a high resolution screen. The cat and mouse game will not last long.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46982687",
+          "by": "cocoto",
+          "time": 1770852328
+        },
+        {
+          "id": 46982726,
+          "text": "Hm, when attempting it I get redirected to https://age-verifier.kibty.town/webview?url=null, which says:\n{\"error\":\"error parsing webview url\"}\nEdit: Apparently my discord account is in some kind of A/B feature test that uses a different verification provider, Persona",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46982726",
+          "by": "Retr0id",
+          "time": 1770852595
+        },
+        {
+          "id": 46982823,
+          "text": "It does appear to work. I received a message from Discord saying \"We determined you're in the adult group. \"\nnarrator> And that's when he discovers his account has now been hacked...\n;)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46982823",
+          "by": "scarygliders",
+          "time": 1770853286
+        },
+        {
+          "id": 46982688,
+          "text": "Wow that was a fun read, I never thought about the technical implementation of these verification systems.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46982688",
+          "by": "syntaxing",
+          "time": 1770852336
+        },
+        {
+          "id": 46982684,
+          "text": "Alright, how long until they patch this?\nAnyone takin' bets?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46982684",
+          "by": "relma2",
+          "time": 1770852303
+        }
+      ],
+      "by": "JustSkyfall",
+      "time": 1770850601,
+      "url": "https://age-verifier.kibty.town/",
+      "score": 953,
+      "descendants": 457,
+      "storyUrl": "https://age-verifier.kibty.town/"
+    },
+    {
+      "id": 46976911,
+      "type": "story",
+      "title": "Fluorite – A console-grade game engine fully integrated with Flutter",
+      "rank": 4,
+      "depth": 0,
+      "storyId": 46976911,
+      "storyTitle": "Fluorite – A console-grade game engine fully integrated with Flutter",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46976911",
+      "topComments": [
+        {
+          "id": 46977785,
+          "text": "It doesn't say Toyota anywhere on the page and they don't have a link to a repo or anything like that, so I was a little confused. But it is from /that/ Toyota (well, a subsidiary that is making 3d software for their displays) and there was a talk at FOSDEM about it: https://fosdem.org/2026/schedule/event/7ZJJWW-fluorite-game-...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46977785",
+          "by": "oritron",
+          "time": 1770830397
+        },
+        {
+          "id": 46977718,
+          "text": "The talk at Fosdem about it https://fosdem.org/2026/schedule/event/7ZJJWW-fluorite-game-...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46977718",
+          "by": "homarp",
+          "time": 1770830189
+        },
+        {
+          "id": 46978923,
+          "text": "For others who were curious like I was: The website doesn't mention \"open\" or \"source\" anywhere, but they did give a talk at FOSDEM 2026 about it.\nThere was a passing comment about \"when we open up the GitHub repository\" in the talk. So it's not open yet, but they've suggested it might be in the future.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46978923",
+          "by": "Aurornis",
+          "time": 1770835211
+        },
+        {
+          "id": 46977838,
+          "text": "The combination of Flutter + Claude Code makes cross-platform app development really, really fast. I've been impressed with how well Clause handles prompts like, \"This list should expand on the web, but not on iOS.\" I then ask it (Claude) to run both a web instance and an iOS simulator instance. Can usability test in-tandem.\nI recently (as in, last night) added WebSockets to my backend, push notifications to my frontend iOS, and notification banner to the webapp. It all kinda just works. Biggest issues have been version-matching across with Django/Gunicorn/Amazon Linux images.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46977838",
+          "by": "aabajian",
+          "time": 1770830659
+        },
+        {
+          "id": 46977778,
+          "text": "Interesting, they flipped the problem around.\nThe UI toolkits in game engine usually suck hard, so here they started from a good UI toolkit and made it possible to make relatively performant games.\nThere's more info at https://www.reddit.com/r/programming/comments/1r0lx9g/fluori...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46977778",
+          "by": "Jyaif",
+          "time": 1770830374
+        }
+      ],
+      "by": "bsimpson",
+      "time": 1770826870,
+      "url": "https://fluorite.game/",
+      "score": 536,
+      "descendants": 304,
+      "storyUrl": "https://fluorite.game/"
+    },
+    {
+      "id": 46920315,
+      "type": "story",
+      "title": "WiFi could become an invisible mass surveillance system",
+      "rank": 5,
+      "depth": 0,
+      "storyId": 46920315,
+      "storyTitle": "WiFi could become an invisible mass surveillance system",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46920315",
+      "topComments": [
+        {
+          "id": 46977002,
+          "text": "This is a VERY controlled environment - and they used 20 passes of each person walking with direct knowledge of each person to train for identity. They did no tests with multiple people walking at the same time, or with any other external moving distortion effects (doors opening, etc) . This is very far from actual 'identification' of people in real public settings - and no doubt the cell phone everyone is carrying with them offers many orders of magnitude better opportunity. In a real crowded environment this would be nearly worthless.\nThe devices that reported BFI information were also stationary, and there were no extra devices transmitting information that would be conflicting.\nA single camera would be much more effective.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46977002",
+          "by": "sponaugle",
+          "time": 1770827243
+        },
+        {
+          "id": 46976950,
+          "text": "Not sure how many people are aware that the newer Alexa devices have \"presence detection\" that uses ultrasound so they can detect when people are nearby. [0]\nHeck, even Ecobee remote temperature sensors can do this.\nReminds me of the story about how the Google Nest smoke detector had a microphone in it. [1]\n0 - https://www.amazon.com/b?node=23435461011&tag=googhydr-20&hv...\n1- https://www.reddit.com/r/privacy/comments/asmusq/google_says...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46976950",
+          "by": "alexpotato",
+          "time": 1770827067
+        },
+        {
+          "id": 46976502,
+          "text": "> The method takes advantage of normal network communication between connected devices and the router. These devices regularly send feedback signals within the network, known as beamforming feedback information (BFI), which are transmitted without encryption and can be read by anyone within range.\n> By collecting this data, images of people can be generated from multiple perspectives, allowing individuals to be identified. Once the machine learning model has been trained, the identification process takes only a few seconds.\n> In a study with 197 participants, the team could infer the identity of persons with almost 100% accuracy – independently of the perspective or their gait.\nSo what's the resolution of these images, and what's visible/invisible to them? Does it pick up your clothes? Your flesh? Or mosty your bones?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46976502",
+          "by": "palmotea",
+          "time": 1770825288
+        },
+        {
+          "id": 46977622,
+          "text": "Android devices already know exactly where they are even with GPS disabled, because they sniff the nearby WIFI networks and then ask Google where they are. QED Google knows already, all combined is mass metadata surveillance already provided to those that tap into it.\nAny sub-meter precision or presence detection does not really matter, if these companies have all your other questions, queries, messages, calendars, browse history, app usage, and streaming behaviour as well.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46977622",
+          "by": "barrystaes",
+          "time": 1770829786
+        },
+        {
+          "id": 46976910,
+          "text": "Various cheating to get their conclusions (from the paper):\n> To allow for an unobstructed gait recording, participants were instructed not to wear any baggy clothes, skirts, dresses or heeled shoes.\n>  Due to technical unreliabiltities, not all recordings resulted in usable data. For our experiments, we use 170 and 161 participants for CSI and BFI, respectively. [out of 197]\nI wish they had explained what the technical unreliabilities were.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46976910",
+          "by": "srcreigh",
+          "time": 1770826869
+        }
+      ],
+      "by": "mgh2",
+      "time": 1770427002,
+      "url": "https://scitechdaily.com/researchers-warn-wifi-could-become-an-invisible-mass-surveillance-system/",
+      "score": 437,
+      "descendants": 186,
+      "storyUrl": "https://scitechdaily.com/researchers-warn-wifi-could-become-an-invisible-mass-surveillance-system/"
+    },
+    {
+      "id": 46978966,
+      "type": "story",
+      "title": "Amazon Ring's lost dog ad sparks backlash amid fears of mass surveillance",
+      "rank": 6,
+      "depth": 0,
+      "storyId": 46978966,
+      "storyTitle": "Amazon Ring's lost dog ad sparks backlash amid fears of mass surveillance",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46978966",
+      "topComments": [
+        {
+          "id": 46979863,
+          "text": "The Dark Knight was released in 2008. In that movie, Batman hijacks citizens' cellphones to track down the Joker, and it's presented as a major moral and ethical dilemma as part of the movie's overall themes. The only way Batman remains a \"good guy\" in the eyes of the audience is by destroying the entire thing once he's done.\nCrazy to think that less than two decades later, an even more powerful surveillance technology is being advertised at the Super Bowl as a great and wonderful thing and you should totally volunteer to upload your Ring footage so it can be analyzed for tracking down the Jok... I mean illegal imm... I mean lost pets.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46979863",
+          "by": "mjr00",
+          "time": 1770839137
+        },
+        {
+          "id": 46979808,
+          "text": "Even more concerning is that Ring is partnering with Flock [1], which has been the subject of quite a bit of controversy recently [2][3][4], with the CEO lashing out at critics with inflammatory language [5][6].\n[1] https://www.flocksafety.com/blog/flock-safety-and-ring-partn...\n[2] https://www.aclu.org/news/privacy-technology/flock-roundup\n[3] https://www.theguardian.com/us-news/2026/feb/10/ice-school-c...\n[4] https://www.eff.org/deeplinks/2025/12/effs-investigations-ex...\n[5] https://www.aclu.org/news/privacy-technology/flock-ceo-goes-...\n[6] https://news.ycombinator.com/item?id=46903556",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46979808",
+          "by": "text0404",
+          "time": 1770838901
+        },
+        {
+          "id": 46981078,
+          "text": "There would be less backlash to the Ring ad if the ad was honest about how people actually use it. Show us porch pirates, burglars and stupid neighbor who backs into your car being caught on camera.\nBut instead, they have to come up with something \"wholesome\" like finding your lost doggo. The wholesomeness is so forced and cringe that it makes you think they have something to hide. It almost feels like the people who wrote this ad and the people who greenlit it knew something was wrong so they have to come up with a cover story. But like a child smiling at you with his biggest smile while anxiously keeping his hands behind his back, it only makes them more suspicious especially in a time when big tech feels more and more like an adversary than a friend.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46981078",
+          "by": "pibaker",
+          "time": 1770844473
+        },
+        {
+          "id": 46981188,
+          "text": "They don't have a lost-kid feature?\nIn China, kids are accustomed to face recognition early.[1] The kids are checking into school via fare gates with face recognition.\nHere's an ad for Hikvision surveillance systems showing the whole system.[2]\nHikvision has a whole series of videos presenting their concept of a kindly, gentler Big Brother. This is probably the most amusing.[3]\nAmazon's concept is in some ways more powerful. They don't need full coverage. Just sparse, but widespread coverage. Anything that moves around will pass through the view of cameras at some point.\nSuspicious behavior can be detected in the back end cloud processing, which improves over time.\nFlock has the same concept. Flock coverage is sparse in terms of area, but widespread.\n\"1984\" was so last cen.\n[1] https://www.youtube.com/shorts/SMKG8aLTJ38\n[2] https://www.youtube.com/watch?v=XnHFJz-u85A\n[2] https://www.youtube.com/watch?v=otAuH6FDhgw",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46981188",
+          "by": "Animats",
+          "time": 1770844846
+        },
+        {
+          "id": 46979434,
+          "text": "The WeRateDogs guy broke character and put out a video attacking that ad\nhttps://bsky.app/profile/weratedogs.com/post/3mejrtyvkyc2o",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46979434",
+          "by": "davidw",
+          "time": 1770837451
+        }
+      ],
+      "by": "jedberg",
+      "time": 1770835381,
+      "url": "https://www.theverge.com/tech/876866/ring-search-party-super-bowl-ad-online-backlash",
+      "score": 676,
+      "descendants": 394,
+      "storyUrl": "https://www.theverge.com/tech/876866/ring-search-party-super-bowl-ad-online-backlash"
+    },
+    {
+      "id": 46977175,
+      "type": "story",
+      "title": "Ireland rolls out basic income scheme for artists",
+      "rank": 7,
+      "depth": 0,
+      "storyId": 46977175,
+      "storyTitle": "Ireland rolls out basic income scheme for artists",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46977175",
+      "topComments": [
+        {
+          "id": 46977587,
+          "text": "They had something like this in the Netherlands during the 80s. Basically everyone was out of a job back then so it didn't really matter. Worst recession since 1929.\nArtists had to make a buch of art which was then given to the government. The state ended up with entire warehouses filled with crap.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46977587",
+          "by": "TitaRusell",
+          "time": 1770829663
+        },
+        {
+          "id": 46978081,
+          "text": "Sweden introduced a similar scheme in 1964, in which artists (broadly defined, having since come to include one clown and one chess player) have been given a basic income, supplementing their other incomes up to a specific level.\nArtists couldn't apply for this, but were officially selected. The program was stopped in 2010, meaning no new recipients have been selected since. As far as I know, there's been no studies surrounding any measurable increase in artistic quality or artistic output.\nIt is of course easy to point out how deeply unfair such programs are on multiple levels. Unsurprisingly, many recipients have utilized loopholes in order to receive the grant despite having incomes and wealth well above the threshold.\nEdit to clarify: Sweden still grants long-term stipends to various artists, sometimes up to a decade. What's described above is a guaranteed, life-long, basic income.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46978081",
+          "by": "arexxbifs",
+          "time": 1770831528
+        },
+        {
+          "id": 46982951,
+          "text": "This is admittedly a tangent, but I love that British (and apparently Irish) government programs are commonly called \"schemes\". To American ears, it always sounds like some grand confidence trick is being pulled.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46982951",
+          "by": "ElevenLathe",
+          "time": 1770854157
+        },
+        {
+          "id": 46977385,
+          "text": "Previous discussions:\n3 months ago: https://news.ycombinator.com/item?id=45590900\n4 years ago: https://news.ycombinator.com/item?id=29977176\nPeople have seemed critical of the presentation, scope, and goal of this program. (e.g. It's not \"universal\" basic income, the number of recipients is limited to 2,000, and why are artists being subsidized instead of essential workers?)\nNow it seems that we'll get some real world answer to those questions/concerns.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46977385",
+          "by": "yesfitz",
+          "time": 1770828815
+        },
+        {
+          "id": 46978453,
+          "text": "If they think this is good/important then fine but what they've created is a grant programme, not a UBI.\nPersonally I would have thought this money would have been better spent getting people on the margins the stability to retrain into in-demand skilled careers (e.g. single, unskilled parents training as electricians or plumbers). That feels like it would be a more durable, multi-generational benefit.\nBut again, this is just a grant programme.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46978453",
+          "by": "jamesbelchamber",
+          "time": 1770833006
+        }
+      ],
+      "by": "abe94",
+      "time": 1770827951,
+      "url": "https://www.reuters.com/world/ireland-rolls-out-pioneering-basic-income-scheme-artists-2026-02-10/",
+      "score": 507,
+      "descendants": 697,
+      "storyUrl": "https://www.reuters.com/world/ireland-rolls-out-pioneering-basic-income-scheme-artists-2026-02-10/"
+    },
+    {
+      "id": 46971516,
+      "type": "story",
+      "title": "Windows Notepad App Remote Code Execution Vulnerability",
+      "rank": 8,
+      "depth": 0,
+      "storyId": 46971516,
+      "storyTitle": "Windows Notepad App Remote Code Execution Vulnerability",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46971516",
+      "topComments": [
+        {
+          "id": 46976458,
+          "text": "By looking at their 2025 shareholder report (Look for the part below \"NOTE 18\"), Windows is only at the 5th place in terms of revenue source, even below the LinkedIn:\nhttps://www.microsoft.com/investor/reports/ar25/index.html#\nI can only think that they do not even care about Windows anymore, let alone Notepad...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46976458",
+          "by": "gkcnlr",
+          "time": 1770825048
+        },
+        {
+          "id": 46973311,
+          "text": "It is to do with link handling:\nhttps://msrc.microsoft.com/update-guide/vulnerability/CVE-20...\n> An attacker could trick a user into clicking a malicious link inside a Markdown file opened in Notepad, causing the application to launch unverified protocols that load and execute remote files.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46973311",
+          "by": "mjmas",
+          "time": 1770805969
+        },
+        {
+          "id": 46972515,
+          "text": "I found a copy of the win98 (I believe) notepad.exe a while back, and it works perfectly on windows 11 (though the \"about notepad\" dialog shows the windows 11 version for some reason??). I can write text into it, save it, and load text again. What more does notepad need? And it has a very nostalgic font too",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46972515",
+          "by": "voidUpdate",
+          "time": 1770799788
+        },
+        {
+          "id": 46972602,
+          "text": "A few days ago, Notepad++ got compromised—apparently by a state actor (or a proxy). And now, today, Windows’ built-in Notepad has a fresh CVE. What a life.\nAt this point, what am I supposed to do other than uninstall Windows completely? No real sandboxing, a mountain of legacy…",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46972602",
+          "by": "r2vcap",
+          "time": 1770800578
+        },
+        {
+          "id": 46972394,
+          "text": "We have officially reached the logical conclusion of the feature-bloat-to-vulnerability pipeline.\nFor nearly thirty years, notepad.exe was the gold standard for a \"dumb\" utility which was a simple, win32-backed buffer for strings that did exactly one thing...display text. An 8.8 CVSS on a utility meant for viewing data is a fundamental failure of the principle of least privilege.\nAt some point, they need to stop asking \"can we add this feature?\" and start asking \"does this text editor need a network-aware rendering stack?\"",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46972394",
+          "by": "Fiveplus",
+          "time": 1770798912
+        }
+      ],
+      "by": "riffraff",
+      "time": 1770790533,
+      "url": "https://www.cve.org/CVERecord?id=CVE-2026-20841",
+      "score": 804,
+      "descendants": 515,
+      "storyUrl": "https://www.cve.org/CVERecord?id=CVE-2026-20841"
+    },
+    {
+      "id": 46958345,
+      "type": "story",
+      "title": "The Feynman Lectures on Physics (1961-1964)",
+      "rank": 9,
+      "depth": 0,
+      "storyId": 46958345,
+      "storyTitle": "The Feynman Lectures on Physics (1961-1964)",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46958345",
+      "topComments": [
+        {
+          "id": 46968486,
+          "text": "Lesser known but possibly more relevant to most HN readers are Feynman's lectures on computation - https://theswissbay.ch/pdf/Gentoomen%20Library/Extra/Richard... . There's some really great explanations in there of computability, information theory, entropy, thermodynamics, and more. Very little of it is now out-dated.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46968486",
+          "by": "colmmacc",
+          "time": 1770765731
+        },
+        {
+          "id": 46969100,
+          "text": "Poets say science takes away from the beauty of the stars—mere globs of gas atoms. Nothing is 'mere.' I too can see the stars on a desert night, and feel them. But do I see less or more? The vastness of the heavens stretches my imagination—stuck on this carousel my little eye can catch one-million-year-old light. A vast pattern—of which I am a part—perhaps my stuff was belched from some forgotten star, as one is belching there. Or see them with the greater eye of Palomar, rushing all apart from some common starting point when they were perhaps all together. What is the pattern, or the meaning, or the why? It does not do harm to the mystery to know a little about it. For far more marvelous is the truth than any artists of the past imagined! Why do the poets of the present not speak of it? What men are poets who can speak of Jupiter if he were like a man, but if he is an immense spinning sphere of methane and ammonia must be silent?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46969100",
+          "by": "delichon",
+          "time": 1770769432
+        },
+        {
+          "id": 46968646,
+          "text": "Unlike the commercial audio CDs of the lectures the recordings here have the chat before and after the lecture which is fun.\nMy favourite lecture is the standalone \"The Principle of Least Action\" at\nhttps://www.feynmanlectures.caltech.edu/II_19.html\nAudio:  https://www.feynmanlectures.caltech.edu/II_19.html#Ch19-audi...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46968646",
+          "by": "vmilner",
+          "time": 1770766728
+        },
+        {
+          "id": 46968871,
+          "text": "I have the print version and have been working through them slowly. Funnily enough I didn’t find it very useful when I had physics classes in school/uni since most of those classes were just memorizing equations and solving problems. But now that there is no exams pressure, it makes for such wonderful reading! I think its not just an introduction to physics but to the scientific method itself. Its first principles approach is so different than most physics textbooks.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46968871",
+          "by": "pm90",
+          "time": 1770767975
+        },
+        {
+          "id": 46968917,
+          "text": "One gem if you're interested in semiconductors is the Feynman lecture \"There's plenty of room at the bottom.\" He basically laid out the case for the modern nanotechnology age in 1959\nhttps://web.pa.msu.edu/people/yang/RFeynman_plentySpace.pdf",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46968917",
+          "by": "rapatel0",
+          "time": 1770768211
+        }
+      ],
+      "by": "rramadass",
+      "time": 1770723374,
+      "url": "https://www.feynmanlectures.caltech.edu/",
+      "score": 490,
+      "descendants": 141,
+      "storyUrl": "https://www.feynmanlectures.caltech.edu/"
+    },
+    {
+      "id": 46924075,
+      "type": "story",
+      "title": "GLM-OCR – A multimodal OCR model for complex document understanding",
+      "rank": 10,
+      "depth": 0,
+      "storyId": 46924075,
+      "storyTitle": "GLM-OCR – A multimodal OCR model for complex document understanding",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46924075",
+      "topComments": [
+        {
+          "id": 46976224,
+          "text": "There are a bunch of new OCR models.\nI’ve also heard very good things about these two in particular:\n- LightOnOCR-2-1B: https://huggingface.co/lightonai/LightOnOCR-2-1B\n- PaddleOCR-VL-1.5: https://huggingface.co/PaddlePaddle/PaddleOCR-VL-1.5\nThe OCR leaderboards I’ve seen leave a lot to be desired.\nWith the rapid release of so many of these models, I wish there were a better way to know which ones are actually the best.\nI also feel like most/all of these models don’t handle charts, other than to maybe include a link to a cropped image. It would be nice for the OCR model to also convert charts into markdown tables, but this is obviously challenging.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46976224",
+          "by": "coder543",
+          "time": 1770824046
+        },
+        {
+          "id": 46977080,
+          "text": "There was so many OCR models released in the past few months, all VLM models and yet none of them handle Korean well. Every time I try with a random screenshot (not a A4 document) they just fail at a \"simple\" task. And funnily enough Qwen3 8B VL is the best model that usually get it right (although I couldn't get the bbox quite well). Even more funny, whatever is running on an iphone locally on cpu is insanely good, same with google's OCR api. I don't know why we don't get more of the traditional OCR stuff. Paddlepaddle v5 is the closest I could find. At this point, I feel like I might be doing something wrong with those VLMs.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46977080",
+          "by": "alaanor",
+          "time": 1770827516
+        },
+        {
+          "id": 46976129,
+          "text": "This is actually the thing I really desperately need. I'm routinely analyzing contracts that were faxed to me, scanned with monstrously poor resolution, wet signed, all kinds of shit. The big LLM providers choke on this raw input and I burn up the entire context window for 30 pages of text. Understandable evals of the quality of these OCR systems (which are moving wicked fast) would be helpful...\nAnd here's the kicker. I can't afford mistakes. Missing a single character or misinterpreting it could be catastrophic. 4 units vacant? 10 days to respond? Signature missing? Incredibly critical things. I can't find an eval that gives me confidence around this.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46976129",
+          "by": "aliljet",
+          "time": 1770823666
+        },
+        {
+          "id": 46977346,
+          "text": "I tested this pretty extensively and it has a common failure mode that prevents me from using: extracting footnotes and similar from the full text of academic works. For some reason, many of these models are trained in a way that results in these being excluded, despite these document sections often containing import details and context. Both versions of DeepseekOCR have the same problem. Of the others I’ve tested, dot-ocr in layout mode works best (but is slow) and then datalab’s chandra model (which is larger and has bad license constraints).",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46977346",
+          "by": "bugglebeetle",
+          "time": 1770828643
+        },
+        {
+          "id": 46978012,
+          "text": "Text me back when there's a working PDF to EPUB conversion tool. I've been waiting (and searching for one) long enough. :D\nEDIT: https://github.com/overcuriousity/pdf2epub looks interesting.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46978012",
+          "by": "mikae1",
+          "time": 1770831256
+        }
+      ],
+      "by": "ms7892",
+      "time": 1770473736,
+      "url": "https://github.com/zai-org/GLM-OCR",
+      "score": 302,
+      "descendants": 75,
+      "storyUrl": "https://github.com/zai-org/GLM-OCR"
+    },
+    {
+      "id": 46978490,
+      "type": "story",
+      "title": "NetNewsWire Turns 23",
+      "rank": 11,
+      "depth": 0,
+      "storyId": 46978490,
+      "storyTitle": "NetNewsWire Turns 23",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46978490",
+      "topComments": [
+        {
+          "id": 46979531,
+          "text": "Hands down the best RSS reader I've used. It's fast, tiny, built extremely well, and has no flab. It sits in a certain class of application along with Alfred and a handful of others in being a standout example of craftsmanship that's reminiscent of the golden era of OS X. More apps should strive for this standard.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46979531",
+          "by": "cosmic_cheese",
+          "time": 1770837787
+        },
+        {
+          "id": 46981927,
+          "text": "I love NNW, especially the new iteration since Brent got it back.  Mac-assed software at its best.\nThe other day I was searching for how to turn a youtube channel into an RSS feed and tried all sorts of convoluted instructions for finding channel IDs, etc.  At some point I thought this is the kind of user-centric thing that NNW has probably already thought of, and sure enough, if you just paste in a youtube channel URL as the feed, NNW sorts it out and creates a feed for you.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46981927",
+          "by": "k2enemy",
+          "time": 1770847910
+        },
+        {
+          "id": 46982302,
+          "text": "I'm staying away from macOS Tahoe for now. NetNewsWire has already announced that they will no longer support the earlier 6.x release that I use. I assume that means no bug fixes or back-porting of new features. Sad.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46982302",
+          "by": "chmaynard",
+          "time": 1770849876
+        },
+        {
+          "id": 46979889,
+          "text": "NNW is like a river stone tumbled smooth and with enough weight that it feels good in your hand",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46979889",
+          "by": "sharkjacobs",
+          "time": 1770839261
+        },
+        {
+          "id": 46979189,
+          "text": "I started out with NNW and am back on it now. After Google killed Reader I went to Feedly, then tried a few self-hosted solutions and, in the end, NNW is just the easiest solution for me since I'm in the Apple ecosystem.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46979189",
+          "by": "geoffeg",
+          "time": 1770836290
+        }
+      ],
+      "by": "robin_reala",
+      "time": 1770833171,
+      "url": "https://netnewswire.blog/2026/02/11/netnewswire-turns.html",
+      "score": 338,
+      "descendants": 102,
+      "storyUrl": "https://netnewswire.blog/2026/02/11/netnewswire-turns.html"
+    },
+    {
+      "id": 46972610,
+      "type": "story",
+      "title": "Officials Claim Drone Incursion Led to Shutdown of El Paso Airport",
+      "rank": 12,
+      "depth": 0,
+      "storyId": 46972610,
+      "storyTitle": "Officials Claim Drone Incursion Led to Shutdown of El Paso Airport",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46972610",
+      "topComments": [
+        {
+          "id": 46974806,
+          "text": "> Airline sources told Reuters the grounding of flights was believed to be tied to the Pentagon's use of counterdrone technology to address Mexican drug cartels' use of drones of the U.S.-Mexico border.\nhttps://www.reuters.com/world/us/us-halts-all-flights-texass...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46974806",
+          "by": "sva_",
+          "time": 1770817138
+        },
+        {
+          "id": 46974234,
+          "text": "As someone else mentioned, there’s some speculation in aviation subreddits that the bounds of the altitude restriction map to the MANPAD capabilities that some cartels are purported to have.\nhttps://www.reddit.com/r/aviation/comments/1r1s4zt/comment/o...\nMy read is that the admin is planning forceful strikes on the cartels within Mexico and is worried about their ability to retaliate by taking down US aircraft across the border.\nEdit: The closure has now been kiboshed. The wording seems a little “don’t panic-y” to me, but better that than the alternative!\nhttps://x.com/FAANews/status/2021583720465969421",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46974234",
+          "by": "lilytweed",
+          "time": 1770813732
+        },
+        {
+          "id": 46973783,
+          "text": "There is a circular restriction around the airport and a trapezoid one next to the city (https://elpasomatters.org/2026/02/11/unexplained-faa-order-s...).\nWhat are the plausible explanations here? I can't think of anything except military action against Mexico (or the cartels inside Mexico). But even that doesn't fit well.\nA suspected terror attack could explain the airspace around the airport, but not the weird trapezoid restriction next to the city.\nThe duration of 10 days is also weird, that seems very long for any kind of emergency situation. And as far as I understand, it is unusual to have no exceptions at all here e.g. for medical transports via helicopter.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46973783",
+          "by": "fabian2k",
+          "time": 1770810407
+        },
+        {
+          "id": 46973976,
+          "text": "Action to close airspace over a major city in the US for security reasons over extended period hasn’t happened since 9/11.\n10 day closure for security reasons seems really long.\nedit: Same restriction imposed around Santa Teresa, New Mexico.  ~15 miles  northwest of the El Paso airport.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46973976",
+          "by": "u1hcw9nx",
+          "time": 1770812088
+        },
+        {
+          "id": 46975202,
+          "text": "Closure rescinded https://x.com/FAANews/status/2021583720465969421",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46975202",
+          "by": "thomasjudge",
+          "time": 1770819385
+        }
+      ],
+      "by": "edward",
+      "time": 1770800640,
+      "url": "https://www.nytimes.com/2026/02/11/us/faa-el-paso-flight-restrictions.html",
+      "score": 366,
+      "descendants": 582,
+      "storyUrl": "https://www.nytimes.com/2026/02/11/us/faa-el-paso-flight-restrictions.html"
+    },
+    {
+      "id": 46942864,
+      "type": "story",
+      "title": "Text classification with Python 3.14's ZSTD module",
+      "rank": 13,
+      "depth": 0,
+      "storyId": 46942864,
+      "storyTitle": "Text classification with Python 3.14's ZSTD module",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46942864",
+      "topComments": [
+        {
+          "id": 46982881,
+          "text": "This looks like a nice rundown of how to do this with Python's zstd module.\nBut, I'm skeptical of using compressors directly for ML/AI/etc. (yes, compression and intelligence are very closely related, but practical compressors and practical classifiers have different goals and different practical constraints).\nBack in 2023, I wrote two blog-posts [0,1] that refused the results in the 2023 paper referenced here (bad implementation and bad data).\n[0] https://kenschutte.com/gzip-knn-paper/\n[1] https://kenschutte.com/gzip-knn-paper2/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46982881",
+          "by": "ks2048",
+          "time": 1770853629
+        },
+        {
+          "id": 46982766,
+          "text": "Python's zlib does support incremental compression with the zdict parameter.  gzip has something similar but you have to do some hacky thing to get at it since the regular Python API doesn't expose the entry point.  I did manage to use it from Python a while back, but my memory is hazy about how I got to it.  The entry point may have been exposed in the code module but undocumented in the Python manual.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46982766",
+          "by": "throwaway81523",
+          "time": 1770852891
+        },
+        {
+          "id": 46982630,
+          "text": "Sweet! I love clever information theory things like that.\nIt goes the other way too. Given that LLMs are just lossless compression machines, I do sometimes wonder how much better they are at compressing plain text compared to zstd or similar. Should be easy to calculate...\nEDIT: lossless when they're used as the probability estimator and paired with something like an arithmetic coder.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46982630",
+          "by": "Scene_Cast2",
+          "time": 1770851980
+        }
+      ],
+      "by": "alexmolas",
+      "time": 1770624868,
+      "url": "https://maxhalford.github.io/blog/text-classification-zstd/",
+      "score": 264,
+      "descendants": 57,
+      "storyUrl": "https://maxhalford.github.io/blog/text-classification-zstd/"
+    },
+    {
+      "id": 46979936,
+      "type": "story",
+      "title": "Microwave Oven Failure: Spontaneously turned on by its LED display (2024)",
+      "rank": 14,
+      "depth": 0,
+      "storyId": 46979936,
+      "storyTitle": "Microwave Oven Failure: Spontaneously turned on by its LED display (2024)",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46979936",
+      "topComments": [
+        {
+          "id": 46980286,
+          "text": "168 points and 116 comments at the time:  https://news.ycombinator.com/item?id=41480038",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46980286",
+          "by": "bell-cot",
+          "time": 1770840981
+        },
+        {
+          "id": 46982320,
+          "text": "More proof blue LEDs are the devil and should have never been put into all of our electronics to be the shining beacon of \"OW MY EYES\" at 2 AM.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46982320",
+          "by": "kotaKat",
+          "time": 1770849996
+        },
+        {
+          "id": 46982391,
+          "text": "My guess is the LED's suffer reverse bias thermal runaway when they're hot from being in a steamy enclosure and then they get a reverse 5v across them and any leakage current turns into heat accelerating the process.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46982391",
+          "by": "londons_explore",
+          "time": 1770850402
+        },
+        {
+          "id": 46980512,
+          "text": "Very impressive engineering on the door switches. On the display, not so much.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46980512",
+          "by": "rbanffy",
+          "time": 1770841976
+        },
+        {
+          "id": 46981473,
+          "text": "This is literally evidence of stuff being designed to fail. An extra diode costs less than a cent at production scale. This was a manufacturing choice, not an error.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46981473",
+          "by": "1970-01-01",
+          "time": 1770845983
+        }
+      ],
+      "by": "arm",
+      "time": 1770839443,
+      "url": "https://blog.stuffedcow.net/2024/06/microwave-failure-spontaneously-turns-on/",
+      "score": 127,
+      "descendants": 49,
+      "storyUrl": "https://blog.stuffedcow.net/2024/06/microwave-failure-spontaneously-turns-on/"
+    },
+    {
+      "id": 46913489,
+      "type": "story",
+      "title": "Lessons you will learn living in a snowy place",
+      "rank": 15,
+      "depth": 0,
+      "storyId": 46913489,
+      "storyTitle": "Lessons you will learn living in a snowy place",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46913489",
+      "topComments": [
+        {
+          "id": 46971833,
+          "text": ">  In the first really heavy winter storm of the year, your power might go off. This is understandable\nHaving lived in Norway most of my 40+ years on this earth, I can with some confidence say that this is not an universal truth. I don’t think I’ve experienced any power interruption of over 1 hour in winter ever, and it’s been at least 5 years since the last time. Yes it snows here. A lot.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46971833",
+          "by": "yokoprime",
+          "time": 1770793614
+        },
+        {
+          "id": 46972266,
+          "text": "Lately I've been fascinated by Yakutsk, the coldest large city on Earth.\nAbout 350,000 people live there, and winter temperatures can drop to –64°C (−83°F).\nAnd regardless of the temperature or time of year, they have shopping malls, restaurants, and everything else you might expect to find in any big city.\nHere are a few recent videos I enjoyed:\n24 Hours in the Coldest City on Earth\nhttps://www.youtube.com/watch?v=D-WGGDRyf68\nHow We Live in the World's Coldest City - Typical Apartment Tour\nhttps://www.youtube.com/watch?v=ikUSFU7TlYc\nHow We Heat Our APARTMENT at -64°C| -83°F\nhttps://www.youtube.com/watch?v=cHbsYYELV94",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46972266",
+          "by": "Stratoscope",
+          "time": 1770797792
+        },
+        {
+          "id": 46976172,
+          "text": "Interesting conversation I had with someone from a semi-warmer climate recently, as they visited: After seeing all the snow on the ground, they commented \"wow it must snow all the time here\". Me: \"Well, we had that big winter storm, when was that, three weeks ago? I don't think its snowed much since then\". You can see the gears turning as they come to the realization that snow doesn't, like, go anywhere. If it snows below freezing, that snow stays on the ground. It doesn't melt. The city can move it to more convenient locations, and a very few rich cities have snow melting machines, but most cities don't. Its obvious when you think about it, but if all you're used to is rain its not trivially obvious: The grand snow strategy of most municipalities is \"hope it gets warm soon\".",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46976172",
+          "by": "827a",
+          "time": 1770823821
+        },
+        {
+          "id": 46971819,
+          "text": "Moved a year ago from California to northern Michigan. To add to this list, specifically regarding \"Do NOT get wet and cold\":\no If you're walking out in the cold, have many different ways to keep your feet and your hands warm, because usually, you'll have a good-enough coat and winter-pants that'll keep your core relatively warm, but it's the very ends of your extremities that get cold (just got a small amount of frost bite on my toes the other day).\no On top of really thick gloves and socks, can buy some battery-heated versions of both. These aren't just gimmicks, they work wonders! As do the standard handwarmers and toewarmers\no Get real winter boots, these are water proof and insulated, so your feet won't get wet, and will resist the cold for longer (didn't learn this one until recently. Yeah, once your shoes get wet enough to bleed into your socks, you feet start to freeze).\no For your head and neck, carry one of those head and neck covers with you in your coat pocket (called a balaclava). Because sometimes you misread the weather and suddenly you've got a 5 degree wind chill streaming over your neck and face.\no etc:)\nAnd, actually, walking in the snow is really nice (so clean and pure), which is why a lot of us here do actually go outside.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46971819",
+          "by": "computerdork",
+          "time": 1770793510
+        },
+        {
+          "id": 46971561,
+          "text": "Put winter tires on your vehicles. I'm surprised by the number of people who tool around in snow and ice in 'all season' tires.\nAlso, that writing tone is obnoxious.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46971561",
+          "by": "brettgriffin",
+          "time": 1770790952
+        }
+      ],
+      "by": "surprisetalk",
+      "time": 1770389365,
+      "url": "https://eukaryotewritesblog.com/2026/01/21/very-snowy-place/",
+      "score": 311,
+      "descendants": 333,
+      "storyUrl": "https://eukaryotewritesblog.com/2026/01/21/very-snowy-place/"
+    },
+    {
+      "id": 46972056,
+      "type": "story",
+      "title": "Communities are not fungible",
+      "rank": 16,
+      "depth": 0,
+      "storyId": 46972056,
+      "storyTitle": "Communities are not fungible",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46972056",
+      "topComments": [
+        {
+          "id": 46974238,
+          "text": "Communities are not fungible, but they are also not permanent.\nBecause humans are mobile, the community changes as people, institutions, infrastructure, and industries come and go over time.\nEven if a substantial fraction of the population never leaves the geographic boundaries that contain the community they were born in, their web of relationships constantly changes as old neighbors leave and new neighbors arrive, the prevailing economy improves or worsens, and waves of technological revolution like the transition from horse-drawn carriages to automobiles washes over them.\nFurthermore the community in which we live is only one of many communities we inhabit, such as school chums, work colleagues, church congregations and  political movements, all of which are subject to the same phenomenon of perpetual change.\nIf every aspect of the community is impermanent, the community itself cannot be permanent, and I see no argument, let alone any technology other than encasing the community in lucite, capable of preserving it indefinitely.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46974238",
+          "by": "glroyal",
+          "time": 1770813756
+        },
+        {
+          "id": 46972402,
+          "text": "I agree with Joan here, communities aren’t fungible. Building something where something already exists does carry a cost.\nBut I can also see how this will be used as one more arrow in the quiver of NIMBYs. In addition to environmental, economic, political reasons not to build something, also consider the cost to potentially breaking existing community bonds. We shouldn’t build new high density housing because the new residents will never be able to replicate the community of the previous low density single family home neighbourhood.\nYou can tell this is a NIMBY piece because it doesn’t touch on how to build new communities, just that existing ones exist and new ones can’t be built and even if they can they’ll be poor imitations of the old ones. So instead of trying to build new things, let’s preserve what we have already. It would have been more interesting and honest if it had explored the role of say, third spaces and how consciously creating the right conditions can lead to community formation.\nAfter all, even the communities that exist today were empty land once upon a time, until we built the infrastructure and community within. If all we ever did was preserve we wouldn’t even have the communities today that we value so much.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46972402",
+          "by": "testdelacc1",
+          "time": 1770798978
+        },
+        {
+          "id": 46978448,
+          "text": "Two things this reminds me of.\nI was once part of a \"traveling\" community that would sign up for every new platform. A good few tech bloggers among us. We would meet again and again but the community still failed long term despite everyone artificially trying to make it work. I got one good friend out of it, whom I never talk to.\nI one time tried to root in a new city, I talk with everyone, buy cups of coffee for reluctant strangers, had a ton of fun and a ton of laughs but nothing permanent grew. I made two good friends whom I never talk to.\nIn my home town I must have 1000 people I almost never talk to. Adds up to a lot of talk. Familiar faces everywhere.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46978448",
+          "by": "econ",
+          "time": 1770832975
+        },
+        {
+          "id": 46973901,
+          "text": "When thinking about online communities I think the lack of \"global\" identities has dramatically hampered community migration and evolution. I fully agree with the author that you can't just pick up and move a community wholesale but irl we do see patterns of migration, disaporas, etc that bring along with them relationships and trust networks. That's been basically impossible to do online. The networks where most of us hang out are even straightforwardly antagonistic towards people leaving and maintaining their identities and relationships in anyway.\nI don't quite know how to articulate it but I really feel the social fabric of the internet has been limited hugely by this, and it's hard to seperate what is fundamental about community migration with what's an outcome of this limited circumstance.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46973901",
+          "by": "jpereira",
+          "time": 1770811389
+        },
+        {
+          "id": 46979770,
+          "text": "Best quote: \"When Alice doesn't need \"a neighbour\" but needs that neighbour, the one who watched her kids that time, the one who knows she's allergic to peanuts. The relationship is specific, and specificity is the enemy of fungibility.\"\nThe memory of what the community was or had eventually vanishes. Jane Jacobs (referenced in the article) was the reason that I learned that the sidewalks in NYC's West Village weren't always so narrow. They were made narrow to accommodate more cars, which in some ways don't help geographic community strength.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46979770",
+          "by": "paulorlando",
+          "time": 1770838730
+        }
+      ],
+      "by": "tardibear",
+      "time": 1770795777,
+      "url": "https://www.joanwestenberg.com/communities-are-not-fungible/",
+      "score": 246,
+      "descendants": 104,
+      "storyUrl": "https://www.joanwestenberg.com/communities-are-not-fungible/"
+    },
+    {
+      "id": 46934318,
+      "type": "story",
+      "title": "Exploring a Modern SMTPE 2110 Broadcast Truck",
+      "rank": 17,
+      "depth": 0,
+      "storyId": 46934318,
+      "storyTitle": "Exploring a Modern SMTPE 2110 Broadcast Truck",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46934318",
+      "topComments": [
+        {
+          "id": 46971934,
+          "text": "You might also want to mention AMWA NMOS, which is increasingly used alongside SMPTE 2110 in setups like this. NMOS (Networked Media Open Specifications) defines open, vendor-neutral APIs for device discovery, registration, connection management, and control of IP media systems. In practice, it's what lets 2110 devices automatically find each other, advertise their streams, and be connected or reconfigured via software.\nThe specs are fully open source and developed in the open, with reference implementations available on GitHub (https://github.com/AMWA-TV)\nThe specs define REST API's, JSON schemas, certificate provisioning, and service discovery mechanisms (DNS-SD / mDNS), providing an open control framework for IP-based media systems.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46971934",
+          "by": "breezykoi",
+          "time": 1770794635
+        },
+        {
+          "id": 46970279,
+          "text": "Fun to see.\nPipeWire had some decent AES67 support for network audio. Some really fun interesting hardware already tested. Afaik no SMPTE 2110 (which is video) but I don't really know.\nI know it's not the use case but I do wish compressed formats were more supported. Not really necessary for production, but these are sort of the only defacto broadly capable network protocols we have for AV, so it would expand the potential uses a lot IMO. There may be some very proprietary JPEG-XS compression, but generally the target seems to be uncompressed.\nhttps://gitlab.freedesktop.org/pipewire/pipewire/-/wikis/AES...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46970279",
+          "by": "jauntywundrkind",
+          "time": 1770779347
+        },
+        {
+          "id": 46970135,
+          "text": "nice to see an article from my industry! st2110 is such a complex standard which a lot of the hardware mentioned has been molded to deal with.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46970135",
+          "by": "acolumb",
+          "time": 1770778199
+        },
+        {
+          "id": 46973610,
+          "text": "It’s SMPTE. Not SMTPE",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46973610",
+          "by": "master_crab",
+          "time": 1770808924
+        },
+        {
+          "id": 46973773,
+          "text": "I'm amused but not entirely surprised to see that live video production hasn't meaningfully progressed since I was involved 30+ years ago.\nYes, the technology has evolved – digital vs analog (partly – for example analog comms here because digital (optical) \"isn't redundant\" (lol, what?)); higher resolution; digital overlays and effects, etc. But the basic process of a bunch of humans winging it and yelling to each other hasn't changed at all.\nThis is an industry ripe for massive disruption, and the first to do it will win big.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46973773",
+          "by": "scoot",
+          "time": 1770810335
+        }
+      ],
+      "by": "assimpleaspossi",
+      "time": 1770559779,
+      "url": "https://www.jeffgeerling.com/blog/2026/exploring-a-modern-smpte-2110-broadcast-truck-with-my-dad/",
+      "score": 157,
+      "descendants": 48,
+      "storyUrl": "https://www.jeffgeerling.com/blog/2026/exploring-a-modern-smpte-2110-broadcast-truck-with-my-dad/"
+    },
+    {
+      "id": 46909279,
+      "type": "story",
+      "title": "It's all a blur",
+      "rank": 18,
+      "depth": 0,
+      "storyId": 46909279,
+      "storyTitle": "It's all a blur",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46909279",
+      "topComments": [
+        {
+          "id": 46974771,
+          "text": "Blur is perhaps surprisingly one of the degradations we know best how to undo. It's been studied extensively because there's just so many applications, for microscopes, telescopes, digital cameras. The usual tricks revolve around inverting blur kernels, and making educated guesses about what the blur kernel and underlying image might look like. My advisors and I were even able to train deep neural networks using only blurry images using a really mild assumption of approximate scale-invariance at the training dataset level [1].\n[1] https://ieeexplore.ieee.org/document/11370202",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46974771",
+          "by": "jeremyscanvic",
+          "time": 1770816971
+        },
+        {
+          "id": 46974595,
+          "text": "One salient point not touched on here, is that an awful lot of the time, the things folks are blurring out specifically is text. And since we know an awful lot about what text ought to look like, we have a lot more information to guide the reconstruction...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46974595",
+          "by": "swiftcoder",
+          "time": 1770815951
+        },
+        {
+          "id": 46974581,
+          "text": "Captain Disillusion recently covered this subject in a more popular science format as well\nhttps://youtu.be/xDLxFGXuPEc",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46974581",
+          "by": "derektank",
+          "time": 1770815895
+        },
+        {
+          "id": 46982146,
+          "text": "Beautiful walkthrough. The key insight people miss is that \"looks unreadable to humans\" and \"is information-theoretically destroyed\" are very different bars. The blur looks opaque because our visual system is bad at detecting small per-pixel differences, but the math does not care about our perception.\nSame principle applies to other \"looks safe\" redactions — pixelation with small block sizes, partial masking of credentials, etc. If you can describe the transform as a linear operation, there is probably a pseudoinverse waiting to undo it.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46982146",
+          "by": "siofra",
+          "time": 1770848921
+        },
+        {
+          "id": 46975947,
+          "text": ">But then, it’s not wrong to scratch your head. Blurring amounts to averaging the underlying pixel values. If you average two numbers, there’s no way of knowing if you’ve started with 1 + 5 or 3 + 3. In both cases, the arithmetic mean is the same and the original information appears to be lost. So, is the advice wrong?\nWell, if you have a large enough averaging window (like is the case with bluring letters) they have constraints (a fixed number of shapes) information for which is partly retained.\nNot very different from the information retained in minesweeper games.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46975947",
+          "by": "coldtea",
+          "time": 1770822830
+        }
+      ],
+      "by": "zdw",
+      "time": 1770353409,
+      "url": "https://lcamtuf.substack.com/p/its-all-a-blur",
+      "score": 358,
+      "descendants": 68,
+      "storyUrl": "https://lcamtuf.substack.com/p/its-all-a-blur"
+    },
+    {
+      "id": 46976443,
+      "type": "story",
+      "title": "Why vampires live forever",
+      "rank": 19,
+      "depth": 0,
+      "storyId": 46976443,
+      "storyTitle": "Why vampires live forever",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46976443",
+      "topComments": [
+        {
+          "id": 46979008,
+          "text": "I think we're witnessing a schism within the vampire community. By the end of the article, the author is less than subtle about being Dracula, and is trying to use the respect his name no doubt commands among vampires to get the unruly youth(relatively speaking) to get their shit together. This article is a warning to Thiel and Johnson. Dracula sees you, and he does not approve of what he sees.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46979008",
+          "by": "amarant",
+          "time": 1770835527
+        },
+        {
+          "id": 46979874,
+          "text": "The novels Blindsight & Echopraxis by Peter Watts have a nice vampire sub-plot... basically his world has vampires which have been revived from the fossil record. They are posited to have gone extinct in recent times, but before then were human's key predator, keeping our populations strongly in check and then having to hibernate for decades to allow the breeding to provide new meat!\nHe's super interested in brain disorders and spins a good story about the trade offs of a terrible reaction to right angles in exchange for savant like powers of perception.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46979874",
+          "by": "sgt101",
+          "time": 1770839199
+        },
+        {
+          "id": 46977988,
+          "text": "> Here’s what’s genuinely interesting.\nThat's my current AI detector smell.\n> He discontinued the blood exchange after data showed “no benefits.” A suspicious person might note that a vampire would say exactly this after the media got too interested.\nI don't think it's the media (clearly the younger generations are media friendly), it's probably pressure from the older vamps.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46977988",
+          "by": "solidasparagus",
+          "time": 1770831163
+        },
+        {
+          "id": 46978336,
+          "text": "> The Suspects Peter Thiel\nHas anyone tried garlic on him?\n> Vampires don’t drink blood because young blood contains an elixir. They drink blood because their own blood accumulates factors that accelerate aging, and they need to periodically dilute it.\nI don't think this makes sense. Our bodies do not use the same blood forever.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46978336",
+          "by": "koakuma-chan",
+          "time": 1770832485
+        },
+        {
+          "id": 46981175,
+          "text": "As a member of a prominent Transylvanian family, I am appalled, and profoundly offended, by the idea of someone even as much as suspecting Peter Thiel could be a vampire. He might be an evil bloodsucking parasite, but he lacks the sophistication mortals have come to associate with vampires over the centuries. It's shocking, really, that some people might confuse him with one.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46981175",
+          "by": "rbanffy",
+          "time": 1770844790
+        }
+      ],
+      "by": "machielrey",
+      "time": 1770825004,
+      "url": "https://machielreyneke.com/blog/vampires-longevity/",
+      "score": 401,
+      "descendants": 186,
+      "storyUrl": "https://machielreyneke.com/blog/vampires-longevity/"
+    },
+    {
+      "id": 46966605,
+      "type": "story",
+      "title": "The Falkirk Wheel",
+      "rank": 20,
+      "depth": 0,
+      "storyId": 46966605,
+      "storyTitle": "The Falkirk Wheel",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46966605",
+      "topComments": [
+        {
+          "id": 46972206,
+          "text": "I am exactly the type of nerd that is super excited about this kind of engineering, to the point where I visited a couple years ago and rode a boat on the wheel when I happened to be in Scotland.  I mentioned having gone to a local in Edinburgh and got a very confused \"why would you ever go to Falkirk?\"  It's a pretty easy half-day trip out of Edinburgh or Glasgow, and I recommend it if you have the time.\nOne fun thing if you have kids is that the playground there has some demonstrations of Archimedean principles, like how an Archimedes screw works.  Also, I don't keep many souvenirs of my travels, but I do have a refrigerator magnet of the Falkirk wheel that spins freely.  It doubles as a cat toy.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46972206",
+          "by": "splonk",
+          "time": 1770797198
+        },
+        {
+          "id": 46969759,
+          "text": "Suprisingly, the \"axe head\" sections each on one side of the circular top and bottom openings are unnessecary to the functioning, and just there for show.\nIt's also near a fort on the Antonine Wall, a further-north version of Hadrian's wall- so it's been the shortest route across Britain for quite a long time...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46969759",
+          "by": "permenant",
+          "time": 1770774791
+        },
+        {
+          "id": 46968286,
+          "text": "I love that the designer used Lego to demonstrate the mechanism to funders:\nhttps://en.wikipedia.org/wiki/Falkirk_Wheel#/media/File:Falk...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46968286",
+          "by": "LeoPanthera",
+          "time": 1770764661
+        },
+        {
+          "id": 46966767,
+          "text": "https://practical.engineering/blog/2025/11/17/the-hidden-eng...\nYouTube version: https://practical.engineering/blog/2025/11/17/the-hidden-eng...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46966767",
+          "by": "bell-cot",
+          "time": 1770756892
+        },
+        {
+          "id": 46973823,
+          "text": "My Italian grandparents operated a fish, chips and ice cream joint in Falkirk called the York Cafe.\nIt has nothing to do with the article but this is the first time I can remember Falkirk being discussed on HN!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46973823",
+          "by": "aserafini",
+          "time": 1770810673
+        }
+      ],
+      "by": "scapecast",
+      "time": 1770756140,
+      "url": "https://www.scottishcanals.co.uk/visit/canals/visit-the-forth-clyde-canal/attractions/the-falkirk-wheel",
+      "score": 105,
+      "descendants": 78,
+      "storyUrl": "https://www.scottishcanals.co.uk/visit/canals/visit-the-forth-clyde-canal/attractions/the-falkirk-wheel"
+    },
+    {
+      "id": 46973083,
+      "type": "story",
+      "title": "Chrome extensions spying on users' browsing data",
+      "rank": 21,
+      "depth": 0,
+      "storyId": 46973083,
+      "storyTitle": "Chrome extensions spying on users' browsing data",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46973083",
+      "topComments": [
+        {
+          "id": 46974194,
+          "text": "Over 15 years ago now, I had a popular chrome extension that did a very specific thing. I sold it for a few thousand bucks and moved on. It seemed a bit strange at the time, and I was very cautious in the sale, but sold it and moved on.\nIt's abundantly obvious to me now that bad actors are purchasing legitimate chrome extensions to add this functionality and earn money off the user's data (or even worse). I have seen multiple reports of this pattern.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46974194",
+          "by": "deanc",
+          "time": 1770813486
+        },
+        {
+          "id": 46974819,
+          "text": "Couple of quick thoughts on how to protect yourself from having a formerly trustworthy extension go rogue on you:\n- https://github.com/beaufortfrancois/extensions-update-notifi...\nAnd then you can do whatever you feel is an appropriate amount of research whenever a particularly privileged extension gets updated (check for transfer of ownership, etc.)\n- brave://flags/#brave-extension-network-blocking\nYou can then create custom rules to filter extension traffic under brave://settings/shields/filters\ne.g.:\n  ! Obsidian Web\n  *$domain=edoacekkjanmingkbkgjndndibhkegad\n  @@||127.0.0.1^$domain=edoacekkjanmingkbkgjndndibhkegad\n\n- Clone the GitHub repo, do a security audit with Claude Code, build from source, update manually",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46974819",
+          "by": "gnl",
+          "time": 1770817177
+        },
+        {
+          "id": 46974089,
+          "text": "This is why I only run open source extensions that I can actually audit. uBlock Origin, SponsorBlock, the kind of tools where the code is available and the developer isn't anonymous. The Chrome Web Store is basically unregulated and Google doesn't care as long as they get their cut. Open source at least gives you a chance to see what you're installing before it starts exfiltrating your data to some server in a country you've never heard of.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46974089",
+          "by": "singularfutur",
+          "time": 1770812760
+        },
+        {
+          "id": 46974540,
+          "text": "The code is usually minified and heavily obfuscated but you CAN view the source code for any extension:\nhttps://kaveh.page/snippets/chrome-extensions-source-code\nEven a tiny extension like this one I wrote with 2k users gets buyout offers all the time to turn it into malware: https://chromewebstore.google.com/detail/one-click-image-sav...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46974540",
+          "by": "kwar13",
+          "time": 1770815644
+        },
+        {
+          "id": 46975156,
+          "text": "My daughter, in grade school, uses a Chromebook at school and access Google Classroom through Chrome. The school has very few restrictions on extensions and when I log into her account, Chrome is littered with extensions. They all innocuous (ex. change cursor into cat, pets play around on your screen etc). However, without fail, each time I log in and go to the extension page, Chrome notifies me that one or more of the extensions was removed due to malicious activity or whatever.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46975156",
+          "by": "giarc",
+          "time": 1770819157
+        }
+      ],
+      "by": "qcontinuum1",
+      "time": 1770804056,
+      "url": "https://qcontinuum.substack.com/p/spying-chrome-extensions-287-extensions-495",
+      "score": 474,
+      "descendants": 205,
+      "storyUrl": "https://qcontinuum.substack.com/p/spying-chrome-extensions-287-extensions-495"
+    },
+    {
+      "id": 46969751,
+      "type": "story",
+      "title": "End of an era for me: no more self-hosted git",
+      "rank": 22,
+      "depth": 0,
+      "storyId": 46969751,
+      "storyTitle": "End of an era for me: no more self-hosted git",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46969751",
+      "topComments": [
+        {
+          "id": 46976197,
+          "text": "I cut traffic to my Forgejo server from about 600K request per day to about 1000: https://honeypot.net/2025/12/22/i-read-yann-espositos-blog.h...\n1. Anubis is a miracle.\n2. Because most scrapers suck, I require all requests to include a shibboleth cookie, and if they don’t, I set it and use JavaScript to tell them to reload the page. Real browsers don’t bat an eye at this. Most scrapers can’t manage it. (This wasn’t my idea; I link to the inspiration for it. I just included my Caddy-specific instructions for implementing it.)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46976197",
+          "by": "kstrauser",
+          "time": 1770823928
+        },
+        {
+          "id": 46970436,
+          "text": "Does anyone know what's the deal with these scrapers, or why they're attributed to AI?\nI would assume any halfway competent LLM driven scraper would see a mass of 404s and stop. If they're just collecting data to train LLMs, these seem like exceptionally poorly written and abusive scrapers written the normal way, but by more bad actors.\nAre we seeing these scrapers using LLMs to bypass auth or run more sophisticated flows? I have not worked on bot detection the last few years, but it was very common for residential proxy based scrapers to hammer sites for years, so I'm wondering what's different.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46970436",
+          "by": "data-ottawa",
+          "time": 1770780524
+        },
+        {
+          "id": 46982167,
+          "text": "I \"solved\" this by adding a fail2ban rule for everyone accessing specific commits (no one does that 3 times in a row) and then blocking the following ASs completely (just too many IPs coming from those, feel free to look them up yourself):\n136907 23724 9808 4808 37963 45102. And after that: sweet silence.\nHow to block ASs? Just write a small script that queries all of their subnets once (even if it changes, its not so much to have an impact) and add them to a nft set (nft will take care of aggregating these into continouus blocks). Then just make nft reject requests from this set.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46982167",
+          "by": "mqus",
+          "time": 1770849070
+        },
+        {
+          "id": 46975965,
+          "text": "This kind of thing can be mitigated by not publishing a page/download for every single branch, commit and diff in a repo.\nMake only the HEAD of each branch available. Anyone who wants more detail has to clone it and view it with their favourite git client.\nFor example https://mitxela.com/projects/web-git-sum (https://git.mitxela.com/)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46975965",
+          "by": "moebrowne",
+          "time": 1770822903
+        },
+        {
+          "id": 46975742,
+          "text": "Is there a way to block it by shibboleth? Curious, since the recent Google hack where you add -(n-word) to the end of your query so the AI automatically shuts down works like a charm.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46975742",
+          "by": "kristjank",
+          "time": 1770821835
+        }
+      ],
+      "by": "dzulp0d",
+      "time": 1770774644,
+      "url": "https://www.kraxel.org/blog/2026/01/thank-you-ai/",
+      "score": 298,
+      "descendants": 211,
+      "storyUrl": "https://www.kraxel.org/blog/2026/01/thank-you-ai/"
+    },
+    {
+      "id": 46946593,
+      "type": "story",
+      "title": "Show HN: AI agents play SimCity through a REST API",
+      "rank": 23,
+      "depth": 0,
+      "storyId": 46946593,
+      "storyTitle": "Show HN: AI agents play SimCity through a REST API",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46946593",
+      "topComments": [
+        {
+          "id": 46980546,
+          "text": "I'd just like to add, without any exaggeration, that I pointed OpenClaw at the online docs, said \"set yourself up and start playing\" and it set up a city and started playing in about 60 seconds.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46980546",
+          "by": "panza",
+          "time": 1770842143
+        },
+        {
+          "id": 46975353,
+          "text": "Love the name. \"Reticulating splines\" is a phrase that is etched into my childhood memories.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46975353",
+          "by": "gnarlouse",
+          "time": 1770820129
+        },
+        {
+          "id": 46978911,
+          "text": "OK i'm kind of geeking out on this one. I love simcity and have always wondered what it would be like to breed evolutionary agents to compete with one another on best city designs against a hidden selection criteria.\nIt'd be kind of fun to just let this run on a raspberry pi using a local model and display the emergent world on a wall hanging display :P\nThanks for sharing.\nUpdate: What would it take to run this locally / offline? I'm not quite sure how the cloud flare layer works. Is it just for cheap/free object storage so the cities can live somewhere?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46978911",
+          "by": "frikk",
+          "time": 1770835174
+        },
+        {
+          "id": 46978790,
+          "text": "> LLMs are awful at the spatial stuff\nAnd some kid is going to come in, make an agent to play this, and accidentally figure out some clever trick to getting an LLM to understand spacial stuff!\nThis is exactly why \"toys\" are so critical, especially now.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46978790",
+          "by": "jedberg",
+          "time": 1770834579
+        },
+        {
+          "id": 46976928,
+          "text": "I want to see AI play factorio",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46976928",
+          "by": "natas",
+          "time": 1770826959
+        }
+      ],
+      "by": "aed",
+      "time": 1770652473,
+      "url": "https://hallucinatingsplines.com",
+      "score": 216,
+      "descendants": 72,
+      "storyUrl": "https://hallucinatingsplines.com"
+    },
+    {
+      "id": 46947229,
+      "type": "story",
+      "title": "Show HN: JavaScript-first, open-source WYSIWYG DOCX editor",
+      "rank": 24,
+      "depth": 0,
+      "storyId": 46947229,
+      "storyTitle": "Show HN: JavaScript-first, open-source WYSIWYG DOCX editor",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46947229",
+      "topComments": [
+        {
+          "id": 46971202,
+          "text": "Someone has to do it:\nPlease auto-ban any \"We gave Claude/Gemini/Grok/OpenAO/Qwen/Mistral/WhateverLLMAI the spec and...\"\n\"and...\" resolves to:\n- \"and now we have this impressive result you won't believe!\"\n100% of the time this is attention seeking, live debugging - no value at all.\nDon't waste people's time. Any sound and reasonable story about results without misusing the public's eye is welcome, for example:\n- One year after\n- 10 hard problems we found\n- extensive pro/contra comparison with other solutions\n- maintaining such a AI app for one year\nOtherwise: please auto-ban.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46971202",
+          "by": "_the_inflator",
+          "time": 1770787537
+        },
+        {
+          "id": 46968370,
+          "text": "Ah these poor fools. Having built this exact product (OOXML compatible editor in React) before, it took all of two minutes to find a bug. The issue is that the OOXML spec is not in fact definitive - Word is, and trying to implement it from the spec will produce something that works maybe 80% of the time then fall over completely when you hit one of hundreds of minor, undocumented edge cases. Assuming of course that CC did not just hallucinate something. And then there's the more fundamental problem that HTML/CSS has unresolvable incompatibilities with OOXML. This is why Google Docs for instance use canvas for rendering.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46968370",
+          "by": "mediumdeviation",
+          "time": 1770765137
+        },
+        {
+          "id": 46971604,
+          "text": "> As an experiment\nThe threshold for caring about experiments is exponentially higher in 2026 thanks to half baked vibe slop.\nNon-functioning software and demoware comes fast and cheap, regardless of author.\n> we gave Claude Code the OOXML spec\nHaving used the former a lot and read the latter in detail, uhhh…\nTrim down the claims here, clarify the editor subset you plan to be supporting, and map the “last 90%”’s to honestly reflect the product you are pushing.\nIf “tables” and “images” aren’t there I’m quite skeptical  about content controls and other key OOXML constructs being addressed meaningfully. The full OOXML footprint chokes OpenOffice out of procurements, rich OOXML documents choke half-way-there implementations (which was the whole point of the format).\nAs is pointed out elsewhere in the thread - there are fundamental constraints that have kept Google, Apple, and others from pursuing this route. Relatively simple docs are one thing, but OOXML is full of dragons and parity with Word has eluded more than a few tech giants.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46971604",
+          "by": "bonesss",
+          "time": 1770791347
+        },
+        {
+          "id": 46970927,
+          "text": "How far can Claude can take this beyond a cool demo.\nDoes it become exponentially harder to add the missing features or can you add everything else you need in another two days? I'm guessing the former but would be interested to see what happens.\nAre you going to continue trying? I ask because it's only been two days and you're already on Show HN. It seems like if you waited for it to be more complete, it would have been more impressive.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46970927",
+          "by": "ryanackley",
+          "time": 1770784903
+        },
+        {
+          "id": 46970995,
+          "text": "Two very minor suggestions for the demo:\n1. I don't know what the \"Docxtemplater\" button does, but it eats my document without warning and that's annoying.\n2. It would be nice if the page came with some example .docx files we could see it work on.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46970995",
+          "by": "creata",
+          "time": 1770785448
+        }
+      ],
+      "by": "thisisjedr",
+      "time": 1770654818,
+      "url": "https://github.com/eigenpal/docx-js-editor",
+      "score": 130,
+      "descendants": 44,
+      "storyUrl": "https://github.com/eigenpal/docx-js-editor"
+    },
+    {
+      "id": 46973573,
+      "type": "story",
+      "title": "Exposure Simulator",
+      "rank": 25,
+      "depth": 0,
+      "storyId": 46973573,
+      "storyTitle": "Exposure Simulator",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46973573",
+      "topComments": [
+        {
+          "id": 46976860,
+          "text": "I know that modern systems like aperture priority or full auto make things easier, but I maintain that the many photos I took with a fully manual film camera (Canon AE-1) were simply better than those taken with any subsequent DSLR. The simple act of calibrating the shutter speed, aperture size, and manual focus before and during shooting helps you slow down and think about composition and framing, making the end result more valuable. Same goes for the limited number of shots on a roll of film.\nNowadays it’s easier to just take lots of shots and fiddle with the setting and do bracketing and such. But I maintain something important was lost by the move to automatic cameras.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46976860",
+          "by": "semiquaver",
+          "time": 1770826695
+        },
+        {
+          "id": 46975958,
+          "text": "For me it's missing something to illustrate the relationship between shutter speed and motion blur. If the subject was a running fan instead of of lightbulb that would have been ideal.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46975958",
+          "by": "PetitPrince",
+          "time": 1770822862
+        },
+        {
+          "id": 46973871,
+          "text": "That does a fairly good job.\nI'm sure that image nerds would poke holes in it, but it seems to work pretty much exactly the way it does IRL.\nThe noise at high ISO is where it can get specific. Some manufacturers make cameras that actually do really well, at high ISO, and high shutter speed. This seems to reproduce a consumer DSLR.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46973871",
+          "by": "ChrisMarshallNY",
+          "time": 1770811120
+        },
+        {
+          "id": 46978474,
+          "text": "this is a cool idea, but not very well executed. it appears it just overlays white on top of anything? exposure does not work this way",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46978474",
+          "by": "agos",
+          "time": 1770833092
+        },
+        {
+          "id": 46980606,
+          "text": ">  image \"noise\" or \"grain\" that is introduced into a picture as you increase the ISO\nNot this absolute shit again. This is not how photography works or how physics actually work. Image noise does NOT come from high ISO, it comes from low exposure (not enough light hitting the sensor). ISO is just a multiplier between a number of photons and the brigthness of a pixel in your photo. The implementation of the multiplier is (usually) half-analog and half-digital, but it's still just a multiplier. If you keep the exposure the same, then changing the ISO on a digital camera will NOT introduce any more noise (except for at the extremes of the range, where, for example, analog readout noise may play a role).\nThis \"simulator\" artificially adds noise based on the ISO value, as you can easily discover: Set your shutter to 1/500 and your aperture to F8, then switch between ISO 50 and ISO 1600 and look at the letters on the bulb. ISO 50, dark but perfectly readable. ISO 1600, garbled mess. Since the amount of light hitting the simulated sensor stays the same, you should be seeing slightly LESS noise at ISO 1600 (better signal to noise ratio than at low ISO), not more.\nedit: To add something genuinely useful: Use whatever mode suits you (manual, Av, Tv) and just use  Auto ISO. Expose for the artistic intent and get as much light in as possible (i.e. use a slower shutter speed unless you need to go faster, use a wider aperture unless you need a narrower one). That’s the light that you have, period. Let the camera choose a multiplier (ISO) that will result in a sane brightness range in your JPEG or RAW (you’ll tweak that anyway in post). If the photo ends up too noisy, sorry but there was not enough light.\nISO is an almost useless concept carried over from film cameras where you had to choose, buy and load your brightness multiplier into the camera. Digital cameras can do that on the fly and there’s usually no reason not to let them. (If you can come up with a reason, you probably don’t need this explanation)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46980606",
+          "by": "Toutouxc",
+          "time": 1770842475
+        }
+      ],
+      "by": "sneela",
+      "time": 1770808583,
+      "url": "http://www.andersenimages.com/tutorials/exposure-simulator/",
+      "score": 139,
+      "descendants": 81,
+      "storyUrl": "http://www.andersenimages.com/tutorials/exposure-simulator/"
+    },
+    {
+      "id": 46969088,
+      "type": "story",
+      "title": "Fun With Pinball",
+      "rank": 26,
+      "depth": 0,
+      "storyId": 46969088,
+      "storyTitle": "Fun With Pinball",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46969088",
+      "topComments": [
+        {
+          "id": 46970933,
+          "text": "I would have loved seeing this as a kid. I was obsessed with wanting to build a pinball machine when I was young. At the time my skills only stretched as far as cardboard builds with elastic band bumpers and pencils for flippers, but I got a huge kick out of making different layouts for the balls to travel around.\nIt would be great to see some home made efforts now with so many amazing off the shelf bits of tech and 3D printers.\nThe site is also a nice compliment to the Technology Connections series on old pinball machines [1].\n1. https://www.youtube.com/watch?v=ue-1JoJQaEg",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46970933",
+          "by": "roskelld",
+          "time": 1770784947
+        },
+        {
+          "id": 46979601,
+          "text": "I love pinball, I do, but my favorite part about this isn't that it exists. It's why, or the lack of one, in a sense.\nI had the opportunity to tiredly stumble upon Mark's display on my way out of a pinball expo. The quality and care that went into the displays move them beyond a learning tool and curiosity piece into a creative artistic expression. There's obviously a human who cares deeply about the exhibit. In this case, he was sitting in the back of the room near a mountain of travel crates, offering occasional encouragement and insight.\nThe message that I got was, \"This is important to me, and I want to share it with you\". It was not built out of a CEO's metrics and mandates asking me, \"How many dollars are you?\". It helped that there was literally a human behind the display, but maybe that same sense comes across via the website as well.\nRegardless, it was refreshing.  I stayed and browsed the whole display. Thank you, again, Mark!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46979601",
+          "by": "jconley88",
+          "time": 1770838036
+        },
+        {
+          "id": 46970761,
+          "text": "I saw these on display at Pinball Expo in the Chicago area last October and they were magnificent. My kids loved pressing the buttons and seeing what happened, and I had a great time walking them through what's happening. The amount of creativity and ingenuity that went into these mechanisms and assemblies is something to behold. Especially the ones within the electromechanical (EM) games, which were basically 60s / 70s, they did so much with so little when it comes to computing power.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46970761",
+          "by": "seanosaur",
+          "time": 1770783490
+        },
+        {
+          "id": 46970831,
+          "text": "So cool, this is what the web was meant to be.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46970831",
+          "by": "gnutrino",
+          "time": 1770784208
+        },
+        {
+          "id": 46970756,
+          "text": "This is awesome stuff. I love pinball and I could almost see myself getting into building (a simple) one someday.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46970756",
+          "by": "SubiculumCode",
+          "time": 1770783353
+        }
+      ],
+      "by": "jackwilsdon",
+      "time": 1770769315,
+      "url": "https://www.funwithpinball.com/exhibits/small-boards",
+      "score": 169,
+      "descendants": 11,
+      "storyUrl": "https://www.funwithpinball.com/exhibits/small-boards"
+    },
+    {
+      "id": 46932581,
+      "type": "story",
+      "title": "Willow – Protocols for an uncertain future [video]",
+      "rank": 27,
+      "depth": 0,
+      "storyId": 46932581,
+      "storyTitle": "Willow – Protocols for an uncertain future [video]",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46932581",
+      "topComments": [
+        {
+          "id": 46973851,
+          "text": "CRDT hacker here. The talk says CRDTs need to store a history of fine-grained edits indefinitely to make them work. There are some ways around this requirement. I'd be happy to chat more about this if anyone is interested!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46973851",
+          "by": "josephg",
+          "time": 1770810937
+        },
+        {
+          "id": 46972143,
+          "text": "Very inspiring talk how to organize data for federalized systems.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46972143",
+          "by": "ineiti",
+          "time": 1770796619
+        },
+        {
+          "id": 46970045,
+          "text": "worm-blossom crew is just a delightful bunch of humans doing really great work",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46970045",
+          "by": "b_fiive",
+          "time": 1770777268
+        },
+        {
+          "id": 46978816,
+          "text": "http telnet, irc, SMTP, imap - what else we need really?\nKISS\nEncryption is awful for future archeologists etc.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46978816",
+          "by": "iberator",
+          "time": 1770834755
+        },
+        {
+          "id": 46972788,
+          "text": "\"Centralised systems were designed with the best of intentions, but were turned against us anyway.\"\nWhat a weird take. The internet was built fundamentally decentralized but was centralized against us with the worst of intentions. They lost me at the first sentence.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46972788",
+          "by": "jona-f",
+          "time": 1770801977
+        }
+      ],
+      "by": "todsacerdoti",
+      "time": 1770540770,
+      "url": "https://fosdem.org/2026/schedule/event/CVGZAV-willow/",
+      "score": 100,
+      "descendants": 20,
+      "storyUrl": "https://fosdem.org/2026/schedule/event/CVGZAV-willow/"
+    },
+    {
+      "id": 46922453,
+      "type": "story",
+      "title": "Rome is studded with cannon balls (2022)",
+      "rank": 28,
+      "depth": 0,
+      "storyId": 46922453,
+      "storyTitle": "Rome is studded with cannon balls (2022)",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46922453",
+      "topComments": [
+        {
+          "id": 46976504,
+          "text": "Fort Pulaski in Savannah, Georgia also has cannonballs embedded in the brick walls: https://en.wikipedia.org/wiki/Fort_Pulaski_National_Monument",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46976504",
+          "by": "lapetitejort",
+          "time": 1770825290
+        },
+        {
+          "id": 46977274,
+          "text": "Stockholm also has famous canon balls lodged on buildings in the old town: https://www.atlasobscura.com/places/stortorget-cannonball\nThey are supposed to be from the Blood Bath that happened there in the 16th century when Swedes and Danes still enjoyed killing each other frequently, but no wall survives this long with a metal ball in it, hence that’s apparently a fake thing by some smart 18th century building owners.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46977274",
+          "by": "brabel",
+          "time": 1770828363
+        },
+        {
+          "id": 46981785,
+          "text": "Maybe a bit of an exaggeration, but there was a time when Italy was the world’s Middle East (a collection of divided states where the great powers had their proxy wars)\nNot a surprise to see Rome have so many based on that.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46981785",
+          "by": "mr_00ff00",
+          "time": 1770847305
+        },
+        {
+          "id": 46975776,
+          "text": "Or Rome is the set of a real-life Truman Show.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46975776",
+          "by": "sdgluck",
+          "time": 1770821983
+        }
+      ],
+      "by": "thomassmith65",
+      "time": 1770455426,
+      "url": "https://essenceofrome.com/rome-is-studded-with-cannon-balls",
+      "score": 121,
+      "descendants": 14,
+      "storyUrl": "https://essenceofrome.com/rome-is-studded-with-cannon-balls"
+    },
+    {
+      "id": 46977210,
+      "type": "story",
+      "title": "GLM-5: From Vibe Coding to Agentic Engineering",
+      "rank": 29,
+      "depth": 0,
+      "storyId": 46977210,
+      "storyTitle": "GLM-5: From Vibe Coding to Agentic Engineering",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46977210",
+      "topComments": [
+        {
+          "id": 46977443,
+          "text": "Probably related: https://news.ycombinator.com/item?id=46974853",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46977443",
+          "by": "jnd0",
+          "time": 1770829043
+        },
+        {
+          "id": 46978067,
+          "text": "Earlier: https://news.ycombinator.com/item?id=46974853",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46978067",
+          "by": "ChrisArchitect",
+          "time": 1770831475
+        }
+      ],
+      "by": "meetpateltech",
+      "time": 1770828093,
+      "url": "https://z.ai/blog/glm-5",
+      "score": 378,
+      "descendants": 8,
+      "storyUrl": "https://z.ai/blog/glm-5"
+    },
+    {
+      "id": 46968374,
+      "type": "story",
+      "title": "We rendered and embedded one million CAD files",
+      "rank": 30,
+      "depth": 0,
+      "storyId": 46968374,
+      "storyTitle": "We rendered and embedded one million CAD files",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46968374",
+      "topComments": [
+        {
+          "id": 46980458,
+          "text": "Neat.\nAs a mechanical engineer, I feel the part of my job is safe from AI for the time being. I don't think quality training data for good mechanical design exists.\n3D CAD is only part of good design. To a tinker-er that is 3D printing simple parts, an STL is fine. But most parts that matter require far more design consideration and detail than simply the geometry data that an STL (or other 3D file) provides.\nThe majority of parts are accompanied with a drawing, and that is where the real design actually is found: Tolerances, GD&T, materials, processing notes...\nEven then, most of the calculations and considerations to build the model and drawing are not explicit in the design documents: Nothing about a drawing of a stainless steel part tells you WHY it must be a stainless steel part. I don't think there is a large set of well documented designs out there to act as training data for an AI system to design an assembly beyond basic 3D parts.\nThe authors identify this gap, but it's a fundamental problem with the wholesale move to AI in mechanical design.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46980458",
+          "by": "connoronthejob",
+          "time": 1770841688
+        },
+        {
+          "id": 46968375,
+          "text": "We rendered the one million part ABC dataset from Deep Geometry, and open-sourced the data. We also built a fun demo with the following pipeline: CAD > render > caption > embed.\nOpen-sourced dataset: https://huggingface.co/datasets/daveferbear/3d-model-images-...\nBlog writeup: https://www.finalrev.com/blog/embedding-one-million-3d-model...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46968375",
+          "by": "DavidFerris",
+          "time": 1770765156
+        },
+        {
+          "id": 46979636,
+          "text": "Neat, but also hilarious! Searching for \"mug\" gives results where the first item listed (ABC-00008297) is a mug model with a hole not only in the top to pour in your drink, but also in the side and bottom (just in case you wanted more access to your liquid).",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46979636",
+          "by": "neutrinobro",
+          "time": 1770838200
+        },
+        {
+          "id": 46968385,
+          "text": "Interesting.\nMy go-to for CAD files is usually https://grabcad.com/library\nI searched this for \"WAGO\" and \"XT90\", so I guess not the same use case. Some hits for \"Raspberry Pi\", though.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46968385",
+          "by": "sho_hn",
+          "time": 1770765217
+        },
+        {
+          "id": 46982420,
+          "text": "\"box with a hole in it\" resulted in a number of boxes and most of these did obviously have holes in them. some did not appear to, but being that they were largely enclosures for some sort of device (as opposed to storage or transport) I'll assume there was some hidden fastener clearance holes or something.\nI really only wanted one hole in my box though, so I adjusted the query to \"box with a single hole in it\". the results looked indentical. except for one that stood out. I would link to the particular model, but there was no way to do that. this model appears to be a rectangular bathroom basin, on its side. I'd describe it as perhaps a ~currently fashionable porcelain design, but it could be a concrete 'getting shit done' sink, or a model from The Sims (the first one). so box-like perhaps, but not many people would describe it as a box. I guess my search continues (elsewhere)...\n(actually interesting bit about natural language: I know that a box with two (or more) holes in it has a single hole in it, but most English natural language parsers (humans) will notice that specifying 'single' would be redundant if I wanted any number more than zero, so it's extremely unlikely that I was looking for a multi-hole box.)\nwhere did you steal the models from, by the way? just curious. the original context in which they were found would actually be helpful if someone was for some reason trying to actually use this as a tool. [ed: saw the OP's comment down the page -- you can include a comment with the submission IIRC]\nalso if you don't have the 3D model spinning incessantly, having the page open won't be obnoxious and it won't (have to) waste power",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46982420",
+          "by": "qwery",
+          "time": 1770850599
+        }
+      ],
+      "by": "DavidFerris",
+      "time": 1770765156,
+      "url": "https://cad-search-three.vercel.app/",
+      "score": 136,
+      "descendants": 49,
+      "storyUrl": "https://cad-search-three.vercel.app/"
+    }
+  ]
+}
