@@ -12,6 +12,8 @@
     microsoft_copilot: "--microsoft_copilot",
   };
   const fallbackTrackerStartDate = "2026-01-01";
+  const positiveSignalThreshold = 0.35;
+  const tieThreshold = 0.2;
 
   const grid = document.getElementById("grid");
   const popover = document.getElementById("popover");
@@ -136,15 +138,6 @@
     }[value] ?? value;
   }
 
-  function formatMean(value) {
-    const sign = value > 0 ? "+" : "";
-    return `${sign}${Number(value || 0).toFixed(2)}`;
-  }
-
-  function clampMean(value) {
-    return Math.max(-2, Math.min(2, Number(value) || 0));
-  }
-
   function escapeHtml(value) {
     return String(value)
       .replaceAll("&", "&amp;")
@@ -162,12 +155,18 @@
     });
   }
 
-  function daySignalTargets(day) {
+  function dayPositiveSignalRows(day) {
     if (!day) return [];
-    if (Array.isArray(day.primarySignalTargets) && day.primarySignalTargets.length > 0) {
-      return day.primarySignalTargets;
-    }
-    return day.primarySignalTarget ? [day.primarySignalTarget] : [];
+    const positiveRows = (day.ranking ?? []).filter((row) => Number(row.adjustedMean) >= positiveSignalThreshold);
+    if (positiveRows.length === 0) return [];
+    const maxPositive = Math.max(...positiveRows.map((row) => Number(row.adjustedMean)));
+    return positiveRows
+      .filter((row) => maxPositive - Number(row.adjustedMean) <= tieThreshold)
+      .sort((a, b) => String(a.target).localeCompare(String(b.target)));
+  }
+
+  function daySignalTargets(day) {
+    return dayPositiveSignalRows(day).map((row) => row.target);
   }
 
   function applyDayBackground(square, day) {
@@ -192,17 +191,11 @@
         </section>
       `;
     }
-    const maxAbsScore = Math.max(0.1, ...rows.map((row) => Math.abs(clampMean(row.adjustedMean))));
-
     return `
       <section class="ranking-block" aria-label="Provider ranking">
         <div class="section-title">ranking</div>
         <div class="ranking-list">
           ${rows.map((row) => {
-            const score = clampMean(row.adjustedMean);
-            const barWidth = Math.min(50, (Math.abs(score) / maxAbsScore) * 50);
-            const barLeft = score < 0 ? 50 - barWidth : 50;
-            const scoreDirection = row.direction;
             const notes = [
               bucketLabel(row.bucket),
               `${row.support} support`,
@@ -218,17 +211,7 @@
                   </span>
                   <span class="rank-score">${escapeHtml(notes.join(" · "))}</span>
                 </div>
-                <div class="rank-bar-track" aria-hidden="true">
-                  <span class="rank-zero"></span>
-                  <span
-                    class="rank-bar-fill ${scoreDirection}"
-                    style="left: ${barLeft.toFixed(2)}%; width: ${barWidth.toFixed(2)}%; --provider-color: var(${providerColorVars[row.target]});"
-                  ></span>
-                </div>
                 <div class="rank-counts">
-                  <span>adjusted ${formatMean(row.adjustedMean)}</span>
-                  <span>raw ${formatMean(row.rawMean)}</span>
-                  <span>support ${Number(row.effectiveSupport).toFixed(2)}</span>
                   <span>${row.evidenceBalance.positive} positive</span>
                   <span>${row.evidenceBalance.neutral} neutral</span>
                   <span>${row.evidenceBalance.negative} negative</span>
@@ -302,11 +285,12 @@
     }
 
     const evidenceById = new Map(day.evidence.map((item) => [item.id, item]));
+    const signalRows = dayPositiveSignalRows(day);
     const signalTargets = daySignalTargets(day).map((target) => labels[target] ?? target);
     const flags = [
       "front?day story/comment snapshot",
-      day.primarySignalTie ? `Tied signal: ${signalTargets.join(", ")}` : signalTargets.length === 1 ? `Primary signal: ${signalTargets[0]}` : "No primary signal",
-      day.hasLowSupportLeader ? "Low-support leader" : "",
+      signalTargets.length > 1 ? `Tied positive signal: ${signalTargets.join(", ")}` : signalTargets.length === 1 ? `Primary positive: ${signalTargets[0]}` : "No positive signal",
+      signalRows.some((row) => row.support === "low") ? "Low-support positive signal" : "",
     ].filter(Boolean);
 
     popover.innerHTML = `
@@ -405,8 +389,8 @@
       square.dataset.state = day ? "complete" : "missing";
       applyDayBackground(square, day);
       const label = targets.length > 0
-        ? `${targets.map((target) => labels[target] ?? target).join(", ")} strongest ${day.primarySignalDirection} signal`
-        : "no primary provider signal";
+        ? `${targets.map((target) => labels[target] ?? target).join(", ")} strongest positive adjusted signal`
+        : "no meaningful positive provider signal";
       square.setAttribute("aria-label", day ? `${date}: ${label}` : `${date}: no data`);
       square.addEventListener("click", (event) => {
         event.stopPropagation();

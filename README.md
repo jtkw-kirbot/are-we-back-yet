@@ -59,8 +59,8 @@ Final daily records are written to `data/daily/YYYY-MM-DD.json`. The UI starts i
 Each record stores:
 
 - ranking from most negative to most positive
-- bucket, support, confidence, raw mean, and adjusted mean for ranked targets
-- primary signal target or tied primary signal targets for calendar coloring
+- bucket, support, confidence, raw mean, and adjusted mean for ranked targets; numeric scores are stored for audit/debugging and are not displayed in the UI
+- strongest meaningful positive adjusted signal target, or tied positive signal targets, for calendar coloring
 - unmentioned targets excluded from the ranking
 - source-backed evidence excerpts and HN links
 - per-evidence target annotations
