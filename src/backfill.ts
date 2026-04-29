@@ -39,6 +39,11 @@ type CommandResult = {
   stderr: string;
 };
 
+type GitStatusEntry = {
+  path: string;
+  status: string;
+};
+
 function assertDate(value: string, label: string): void {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) throw new Error(`${label} must use YYYY-MM-DD`);
   const parsed = new Date(`${value}T00:00:00.000Z`);
@@ -94,6 +99,38 @@ async function requireCleanWorktree(): Promise<void> {
   if (stdout.trim()) throw new Error(`Working tree is not clean:\n${stdout}`);
 }
 
+function generatedDatePaths(date: string): string[] {
+  return [
+    rawPath(date),
+    runPath(date),
+    dailyPath(date),
+    responseDir(date),
+  ].map((filePath) => path.relative(ROOT, filePath));
+}
+
+function parseGitStatus(stdout: string): GitStatusEntry[] {
+  return stdout
+    .split("\n")
+    .filter(Boolean)
+    .map((line) => ({
+      status: line.slice(0, 2),
+      path: line.slice(3).trim(),
+    }));
+}
+
+function pathIsAllowedGenerated(pathName: string, allowedRoots: string[]): boolean {
+  return allowedRoots.some((root) => pathName === root || pathName.startsWith(`${root}/`));
+}
+
+async function requireCleanExceptGenerated(dates: string[]): Promise<void> {
+  const allowedRoots = dates.flatMap(generatedDatePaths);
+  const { stdout } = await runCommand("git", ["status", "--porcelain"]);
+  const unexpected = parseGitStatus(stdout).filter((entry) => !pathIsAllowedGenerated(entry.path, allowedRoots));
+  if (unexpected.length > 0) {
+    throw new Error(`Working tree has changes outside this backfill range:\n${unexpected.map((entry) => `${entry.status} ${entry.path}`).join("\n")}`);
+  }
+}
+
 async function hasStagedChanges(): Promise<boolean> {
   await runCommand("git", ["diff", "--cached", "--quiet"], { allowExitCode: 1 });
   const { stdout } = await runCommand("git", ["diff", "--cached", "--name-only"]);
@@ -125,11 +162,17 @@ async function ensureHistoricalRaw(date: string, force: boolean): Promise<void> 
 
 async function processWithResponses(date: string): Promise<RunFile> {
   while (true) {
-    await processDay(date);
+    console.log(`${date}: processing next Responses chunk`);
+    const changed = await processDay(date);
     const run = await readRun(date);
     if (run.state === "complete") return run;
     if (run.state === "failed") throw new Error(`${date} failed: ${run.error ?? "unknown error"}`);
-    console.log(`${date}: ${run.state}; continuing`);
+    if (!changed) throw new Error(`${date} did not advance from ${run.state}`);
+    const entity = run.responses.entity;
+    const sentiment = run.responses.sentiment;
+    const entityProgress = entity ? `entity ${entity.processedCount}/${entity.successCount + entity.quarantineCount}` : "entity pending";
+    const sentimentProgress = sentiment ? `sentiment ${sentiment.processedCount}/${sentiment.successCount + sentiment.quarantineCount}` : "sentiment pending";
+    console.log(`${date}: ${run.state}; ${entityProgress}; ${sentimentProgress}; continuing`);
   }
 }
 
@@ -144,12 +187,7 @@ function printCost(cost: RunCost): void {
 
 async function commitAndPublish(date: string): Promise<void> {
   await buildSite();
-  const paths = [
-    rawPath(date),
-    runPath(date),
-    dailyPath(date),
-    responseDir(date),
-  ].map((filePath) => path.relative(ROOT, filePath));
+  const paths = generatedDatePaths(date);
 
   await runCommand("git", ["add", "--", ...paths]);
   if (!(await hasStagedChanges())) {
@@ -201,11 +239,11 @@ export async function runBackfill(options: BackfillOptions): Promise<void> {
   let totalStandard = 0;
   let totalBatchEstimate = 0;
 
-  await requireCleanWorktree();
+  await requireCleanExceptGenerated(dates);
   console.log(`Backfilling ${dates[0]} through ${dates[dates.length - 1]} with ${backend.name}`);
 
   for (const date of dates) {
-    await requireCleanWorktree();
+    await requireCleanExceptGenerated(dates);
     console.log(`\n=== ${date} ===`);
     await ensureHistoricalRaw(date, Boolean(options.force));
     const run = await backend.processDay(date);
