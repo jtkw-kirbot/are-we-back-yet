@@ -1,0 +1,2506 @@
+{
+  "date": "2026-03-17",
+  "fetchedAt": "2026-04-29T22:35:55.565Z",
+  "samplingMethod": "frontpage_day_query_story_comment_snapshot",
+  "source": "hn_front_day_query_firebase",
+  "items": [
+    {
+      "id": 47413876,
+      "type": "story",
+      "title": "Microsoft's 'unhackable' Xbox One has been hacked by 'Bliss'",
+      "rank": 1,
+      "depth": 0,
+      "storyId": 47413876,
+      "storyTitle": "Microsoft's 'unhackable' Xbox One has been hacked by 'Bliss'",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47413876",
+      "topComments": [
+        {
+          "id": 47415701,
+          "text": "> Whether PC users, our core readership, will be interested in actually emulating Xbox One, looks unlikely. The 2013 system’s game library is largely overlapped in better quality on the PC platform.\nAnd this explains why it's stayed unhacked so long. There was very little incentive to hack the system when the games are all playable on a PC. Pirates, cheaters, archivists, and hackers could just go there. Microsoft's best security measure was making something nobody cared enough about to hack in the first place",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47415701",
+          "by": "autoexec",
+          "time": 1773768576
+        },
+        {
+          "id": 47414568,
+          "text": "Created a voltage drop that exactly occurred to be timed to the key comparison, then a spike at the continuation.\nIrl noop and forced execution control flow to effectively return true.\nB e a utiful",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47414568",
+          "by": "Jerrrrrrrry",
+          "time": 1773763514
+        },
+        {
+          "id": 47414564,
+          "text": "I think it counts as effectively unhackable since it remained unhacked until five and a half years after its successor went on the market.\nI wonder if, assuming they continue making Xbox, they find a way to mitigate this in the next generation.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47414564",
+          "by": "nxc18",
+          "time": 1773763496
+        },
+        {
+          "id": 47414830,
+          "text": "Note this only affects the very first original 2013 \"VCR\" hardware. Newer revisions and variants are still unaffected.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47414830",
+          "by": "tencentshill",
+          "time": 1773764592
+        },
+        {
+          "id": 47415901,
+          "text": "He is one of us :)\nhttps://news.ycombinator.com/user?id=gaasedelen",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47415901",
+          "by": "echelon_musk",
+          "time": 1773769656
+        },
+        {
+          "id": 47414636,
+          "text": "This is great news. Hopefully this opens the floodgates towards emulation and homebrew. Not that there are really any exclusives, but it would be interesting.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47414636",
+          "by": "tetrisgm",
+          "time": 1773763767
+        },
+        {
+          "id": 47416060,
+          "text": "Amazing talk. Here's a quick writeup if you don't want to watch the full hour or don't have enough hardware knowledge to follow what Markus is talking about, as he goes very fast, in some cases too fast to even let you read the text on his slides. It's mandatory to use the pause key to understand the full details even if you have a deep understanding of every relevant technology, of which he explains none.\nThe Xbox uses a very advanced variant of the same technologies that also exist on smartphones, tablets and Secure Boot enabled PCs. When fully operational the Xbox security system prevents any unsigned code from running, keeps all code encrypted, proves to remote servers (Xbox Live) that it's a genuine device running in a secure state, and on this base you can build strong anti-piracy checks and block cheating.\nThe Xbox has several processors and what follows applies to the Platform Security Processor. When a computer starts up (any computer), the CPU begins execution in a state in which basically nothing works, including external communication and even RAM. Executions starts at a 'reset vector' mapped to a boot ROM i.e. the bytes are hard-wired into the silicon itself and can't be changed. The boot ROM then executes instructions to progressively enable more and more hardware, including things like activating RAM. Until that point the whole CPU executes out of its cache lines and can't use more memory than exists on-die.\nGetting to the state where the Xbox can achieve all its security goals thus requires it to boot through a series of chained steps which incrementally bring the hardware online, and each step must verify the integrity of the next. The boot ROM is only 19kb of code and a few more kb of data, and can't do much beyond just activating RAM, the memory mapping unit (called MPU on the Xbox), and reading some more code out of writeable flash RAM. The code it reads from flash RAM is the second stage bootloader where much more work gets done, but from this second stage on it can be patched remotely by Microsoft. So if bugs are found there or in any later stage, it hardly matters because MS can issue a software update and detect remotely on Xbox Live servers if that upgrade was applied, so kicking out cheaters and pirates. The second stage boot loader in turn loads more code from disk, signature checks and decrypts it, sets up lots of software security schemes like hypervisors and so on, all the way up to the OS and the games.\nTherefore to break Xbox security permanently you have to attack the boot ROM, because that's the only part that can't be changed via a software update. It's the keys to the kingdom and this is what Markus attacked. Attacking the boot ROM is very, very hard. The Xbox team were highly competent:\n• Normally the bringup code would be written by the CPU or BIOS vendors but MS wrote it all in house themselves from scratch.\n• The code isn't public and has never leaked. To obtain it, someone had to decode it visually by looking at the chip under a scanning electron microscope and map the atomic pictures to bits and then to bytes.\n• Having the code barely helps because there are no bugs in it whatsoever.\nSo, the only way to manipulate it is to actually screw with the internals of the CPU itself by \"glitching\", meaning tampering with the power supply to the chip at exactly the right moment to corrupt the state of the internal electronics. Glitching a processor has semi-random effects and you don't control what happens exactly, but sometimes you can get lucky and the CPU will skip instructions. By creating a device that reboots the machine over and over again, glitching each time, you can wait until one of those attempts gets lucky and makes a tiny mistake in the execution process.\nGlitching attacks predate the Xbox and were mostly used on smartcards until the Xbox 360, which was successfully attacked this way. So Microsoft knew all about them and added many mitigations, beyond \"just\" writing bug free code:\n1. The boot ROM is full of randomized loops that do nothing but which are designed to make it hard to know where in the program the CPU has got to. Glitching requires near perfect timing and this makes it harder.\n2. They hardware-disabled the usual status readouts that can be used to know where the program got up to and debug the boot process.\n3. They hash-chain execution to catch cases where steps were skipped, even though that's impossible according to program logic.\n4. They effectively use a little 'kernel' and run parts of the boot sequence as 'user mode' programs, so that if sensitive parts of the code are glitched they are limited in how badly they can tamper with the boot process.\nAnd apparently there are even more mitigations added post-2013. Markus managed to bypass these by chaining two glitch attacks together, one which skipped past the code that turned on the MMU, which made it possible to break out of one of the the usermode 'processes' (not really a process) and into the 'kernel', and one which then was able to corrupt the CPU state during a memcpy operation, allowing him to take control of the CPU as it was copying the next stage from flash RAM.\nIf you can take control of the boot ROM execution then you can proceed to decrypt the next stage, skip the signature checks and from there do whatever you want in ways that can't be detected remotely - however, the fact that you're using a 2013 Phat device still can be.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47416060",
+          "by": "mike_hearn",
+          "time": 1773770463
+        },
+        {
+          "id": 47415715,
+          "text": "Physical possession of a machine is pretty hard to make secure. It's a different level of secure, an order of magnitude less secure than remote attackers. This is expected?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47415715",
+          "by": "JoeAltmaier",
+          "time": 1773768641
+        },
+        {
+          "id": 47414794,
+          "text": "It wasn't unhackable and decrypted versions of games already have been dumped. There was even a public exploit published years ago.\nhttps://github.com/exploits-forsale/collateral-damage\nWhat's new here is that this compromises the entire system security giving access to the highest privilege level.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47414794",
+          "by": "charcircuit",
+          "time": 1773764436
+        },
+        {
+          "id": 47414926,
+          "text": "This just again shows that given enough time skill, and resources, any security is pointless if the attacker has physical access to the device.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47414926",
+          "by": "au8er",
+          "time": 1773764977
+        }
+      ],
+      "by": "crtasm",
+      "time": 1773760589,
+      "url": "https://www.tomshardware.com/video-games/console-gaming/microsofts-unhackable-xbox-one-has-been-hacked-by-bliss-the-2013-console-finally-fell-to-voltage-glitching-allowing-the-loading-of-unsigned-code-at-every-level",
+      "score": 802,
+      "descendants": 292,
+      "storyUrl": "https://www.tomshardware.com/video-games/console-gaming/microsofts-unhackable-xbox-one-has-been-hacked-by-bliss-the-2013-console-finally-fell-to-voltage-glitching-allowing-the-loading-of-unsigned-code-at-every-level"
+    },
+    {
+      "id": 47408703,
+      "type": "story",
+      "title": "Kagi Translate now supports LinkedIn Speak as an output language",
+      "rank": 2,
+      "depth": 0,
+      "storyId": 47408703,
+      "storyTitle": "Kagi Translate now supports LinkedIn Speak as an output language",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47408703",
+      "topComments": [
+        {
+          "id": 47411789,
+          "text": "Input: the Gettysburg Address.\nOutput:\n87 years ago, our founders launched a disruptive startup on this continent—a new nation built on the core values of liberty and the mission-driven proposition that \"all men are created equal.\"\nRight now, we’re facing a major pivot point in a great civil war, testing whether this organization, or any venture with such a strong culture and vision, can truly scale and endure. We’re currently on-site at a key battlefield of this conflict. We’ve gathered here to dedicate a portion of this space as a final resting place for the team members who gave everything to ensure the brand could live on. It’s the right strategic move.\nBut looking at the bigger picture, we can’t actually \"brand\" or \"consecrate\" this ground. The high-performers, both living and dead, who put in the work here have already established its value far beyond our ability to add or detract. The world won't remember our status updates, but it will never forget their execution.\nIt’s up to us—the remaining stakeholders—to stay dedicated to the massive project ahead of us. We need to take inspiration from these top-tier contributors and double down on the cause they were so passionate about. We are here to resolve that their efforts won't be a sunk cost; that this nation will undergo a digital transformation of freedom; and that a customer-centric government—of the people, by the people, for the people—will never be disrupted out of existence.  #Leadership #Vision #Legacy #GrowthMindset",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47411789",
+          "by": "Sanzig",
+          "time": 1773750959
+        },
+        {
+          "id": 47408858,
+          "text": "Input: I am starting a new job at Google next Monday. I will work as a contractor cleaning toilets.\nOutput: I’m thrilled to announce that I’m starting a new chapter at Google this coming Monday! I’ll be joining the team as a specialized Environmental Maintenance Contractor, dedicated to optimizing facility hygiene and ensuring a world-class onsite experience. Grateful for this opportunity to contribute to such an innovative ecosystem! #NewBeginnings #GoogleLife #FacilitiesManagement #CareerUpdate",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47408858",
+          "by": "tkgally",
+          "time": 1773723905
+        },
+        {
+          "id": 47410489,
+          "text": "This is very funny.\nMiddle verse of Gangsta's Paradise:\nReflecting on the current market landscape and the unique challenges of my professional journey.\nComing from a non-traditional background, I’ve had to pivot and align with high-performing teams to navigate complex environments. It’s easy to get distracted by the \"noise,\" but I remain laser-focused on strategic growth and ROI.\nI’m a lifelong learner with a growth mindset, keeping my eye on the prize while maintaining a competitive edge. I’m fully committed to my organization, and we prioritize high-stakes execution—so let’s keep the professional synergy positive.\nIn this fast-paced industry, agility is everything. I’m operating in a \"do or die\" climate where meeting KPIs is the only option. Looking at the current burn rate and market volatility, long-term forecasting is a challenge, but I’m staying resilient.\n#GrowthMindset #Resilience #StrategicLeadership #MarketTrends #ProfessionalJourney",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47410489",
+          "by": "marginalia_nu",
+          "time": 1773740757
+        },
+        {
+          "id": 47410806,
+          "text": "Input: Navy Seal copy pasta.\nOutput:\nI’m thrilled to share that I’ve consistently delivered high-impact results throughout my career, including graduating at the top of my class in the Navy Seals and leading numerous high-stakes, confidential operations. With over 300 successful outcomes, I’ve honed my expertise in strategic \"gorilla\" engagement and precision targeting as a top-tier specialist in the US armed forces.\nI approach every challenge with unparalleled focus and a commitment to excellence that is truly world-class. If you think you can challenge my professional integrity online, let’s have a conversation. I’m currently leveraging my extensive national network and data-tracking capabilities to ensure full accountability.\nPrepare for a major shift, because I’m ready to disrupt the status quo. I offer 24/7 availability and over seven hundred ways to deliver solutions—even without additional resources. Beyond my core competencies in direct engagement, I have full access to the United States Marine Corps' entire suite of tools to ensure your project is completely overhauled.\nIf you had anticipated the significant professional feedback your \"clever\" comment would trigger, you might have chosen a more collaborative approach. But since you didn't, we are now moving into the accountability phase. I am prepared to bring an intense level of passion to this interaction. Looking forward to seeing you transition out of the picture. #Leadership #ResultsDriven #Accountability #Disruption",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47410806",
+          "by": "carlos-menezes",
+          "time": 1773743385
+        },
+        {
+          "id": 47408967,
+          "text": "Input : I hope you die early\nOutput : Wishing you a swift transition to your next chapter.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47408967",
+          "by": "Vipsy",
+          "time": 1773724996
+        },
+        {
+          "id": 47409050,
+          "text": "Input: I killed my dog and ate it.\nOutput: I’m excited to share a major pivot in my personal resource management strategy. Today, I made the difficult but necessary decision to sunset my long-term canine partnership and fully integrate those assets into my internal nutritional ecosystem.\nThis experience taught me so much about radical ownership, streamlining overhead, and the importance of being a self-sustaining leader. Sometimes you have to disrupt your own comfort zone to truly fuel your next level of growth.\n#Leadership #ResourceOptimization #Disruption #GrowthMindset #Efficiency",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47409050",
+          "by": "razorbeamz",
+          "time": 1773725862
+        },
+        {
+          "id": 47408940,
+          "text": "Also anything else in the URL parameter as an output language it seems. https://translate.kagi.com/?from=en&to=Pirate+speak&text=i+l...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47408940",
+          "by": "mr_mph",
+          "time": 1773724717
+        },
+        {
+          "id": 47409602,
+          "text": "From the language \"King James Version\" to \"LinkedIn Speak\", the Lord's Prayer:\nShoutout to the Ultimate CEO in the HQ upstairs. Your personal brand is absolutely legendary.\nWe’re ready for that global expansion and to execute on Your vision here on the ground, just like it’s being done at the corporate level.\nGrateful for today’s resources to keep the hustle going.\nLet’s talk about conflict resolution: we’re clearing all outstanding debts, just as we’ve optimized our own accounts receivable.\nHelp us avoid those low-ROI distractions and pivot away from toxic vibes. Because You own the market share, the leverage, and the prestige—forever.\n#Leadership #Vision #DailyGrind #Blessed #CEO #GrowthMindset #Amen",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47409602",
+          "by": "AnthonBerg",
+          "time": 1773732092
+        },
+        {
+          "id": 47409260,
+          "text": "Input: I ate an ice cream.\nOutput: I’m thrilled to share that I’ve successfully completed a strategic session of personal refueling by optimizing my afternoon with a premium cold-chain dairy solution.\nIn today’s fast-paced environment, it’s vital to pause and celebrate the small wins. This experience reminded me of the importance of temperature control, instant gratification, and the power of a well-timed reward.\nKey takeaways:\n1. Agility is everything—eat it before it melts.\n2. Quality matters—always go for the double scoop.\n3. Consistency is king.\nHow are you investing in your personal growth today? Let’s connect!\n#Leadership #SelfCare #Optimization #GrowthMindset #IceCreamStrategy",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47409260",
+          "by": "abkolan",
+          "time": 1773728303
+        },
+        {
+          "id": 47409493,
+          "text": "I repeated \"ass\" 5,000 times on the LHS and this was the RHS output:\n\"I am incredibly humbled and honored to share that I have successfully scaled my output by 10,000% through relentless grit, a growth mindset, and a commitment to radical consistency.\nIn today’s fast-paced digital economy, volume is the new currency. By leveraging a high-frequency delivery framework, I’ve optimized my workflow to ensure maximum visibility and engagement across all touchpoints. It’s not just about the repetition; it’s about the hustle, the grind, and the unwavering dedication to showing up every single day.\nSuccess isn't given—it's earned one iteration at a time. Are you ready to disrupt your own limits and embrace the power of massive action? Let’s connect and discuss how we can drive synergistic value together.\n#Hustle #GrowthMindset #Consistency #Disruption #Innovation #Leadership #Success #Scale\"\nThis is odd, since its not translating semantically but taking the form of the thing (the repetition) and making it thematic for the \"translation.\" This is not an encoding of an LLM with weights, its an LLM wrapper. There must be a system prompt in here; they're using a very light model, but definitely one that's off the shelf with a bit of fine-tuning.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47409493",
+          "by": "DiscourseFan",
+          "time": 1773730837
+        }
+      ],
+      "by": "smitec",
+      "time": 1773722382,
+      "url": "https://translate.kagi.com/?from=en&to=LinkedIn+speak",
+      "score": 1469,
+      "descendants": 345,
+      "storyUrl": "https://translate.kagi.com/?from=en&to=LinkedIn+speak"
+    },
+    {
+      "id": 47410542,
+      "type": "story",
+      "title": "Kagi Small Web",
+      "rank": 3,
+      "depth": 0,
+      "storyId": 47410542,
+      "storyTitle": "Kagi Small Web",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47410542",
+      "topComments": [
+        {
+          "id": 47413118,
+          "text": "I'm a Kagi search/assistant user and advocate but the \"small web\" product is a frustrating misnomer.\nTo me the small web is any little website that was created to be interesting rather than to sell me something. That includes stuff like neocities, \"shrine\" type sites, single purpose sites, fandom portals, web experiments, etc.\nUnfortunately Kagi's definition of \"small web\" is: blog or webcomic. You must have an RSS feed and it must have recent posts. That rules out so much interesting stuff I don't understand the point.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47413118",
+          "by": "hamdingers",
+          "time": 1773757406
+        },
+        {
+          "id": 47411043,
+          "text": "On a similar note, I maintain and grow a manually curated collection of personal blogs with valid RSS feeds: https://minifeed.net/blogs\nThe criteria is simple: human-written (as much as I can validate myself), in English (for now), with valid RSS feed, and not a micro-blog (so, more than just feed of links or short tweet-like messages).\nSimilar to Kagi's Small Web viewer, or StumbleUpon-style viewer: you can get a random listing of blogs [1] or a random listing of posts from all blogs [2]. Feeds and posts are indexed, so full-text search works across all blogs. When possible and permitted by robots.txt, text is scraped for searching, so even if some text is omitted in the RSS feed by the author, search should work.\nThough I do plan to implement a similar \"view one random post at source\" kind of view, soon.\nUPD: Feel free to submit a blog, including your own! [3]\n[1] https://minifeed.net/blogs/by/random\n[2] https://minifeed.net/global/random\n[3] https://minifeed.net/suggest",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47411043",
+          "by": "freetonik",
+          "time": 1773745554
+        },
+        {
+          "id": 47410706,
+          "text": "Great idea. Index is based on submitted sites:\nhttps://github.com/kagisearch/smallweb/blob/main/smallweb.tx...\nThere is also Small Comic:\nhttps://kagi.com/smallweb/?comic\nhttps://github.com/kagisearch/smallweb/blob/main/smallcomic....\nAnd Small YouTube:\nhttps://kagi.com/smallweb/?yt\nhttps://github.com/kagisearch/smallweb/blob/main/smallyt.txt",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47410706",
+          "by": "modernerd",
+          "time": 1773742613
+        },
+        {
+          "id": 47411244,
+          "text": "StumbleUpon is that you?\nJokes aside, it's really nice and I can totally see becoming addictive. Kudos to Kagi team for an other user oriented product. (as a side note, I am using Kagi daily and i didn't know about this tool)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47411244",
+          "by": "yashasolutions",
+          "time": 1773747008
+        },
+        {
+          "id": 47411311,
+          "text": "I've been using the Kagi search engine for months now and I'm not impressed. I bought into it because there were a lot of posts saying that it was \"just like old Google\" but this has not been my experience. It's the same as new Google, you can type in what you're looking for exactly and you'll get random sort-of related websites.\nI remember when you could half-remember a comment from a website, type that into Google, and get taken to the article you were looking for. That was back in like 2010. To me that's the old, and useful, search engine that I want.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47411311",
+          "by": "ArtificeAccount",
+          "time": 1773747635
+        },
+        {
+          "id": 47411444,
+          "text": "The first random page it returned to me was this — https://gaultier.github.io/blog/how_to_make_your_own_static_... — which was about building one's own static site generator, which I really liked. I did not realise when I closed that page how hard it would be to find it again, because, of course every new visit to Kagi returns a different page :-)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47411444",
+          "by": "azangru",
+          "time": 1773748671
+        },
+        {
+          "id": 47411125,
+          "text": "I do love the concept, but a little part of me died\neach time I came across an article with a very strong AI voice. That just feels antithetical to the ‘small web’ ethos because it obscures the ‘neighbor’ behind it.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47411125",
+          "by": "arscan",
+          "time": 1773746167
+        },
+        {
+          "id": 47413232,
+          "text": "I'm one of the contributors for the Obsidian RSS reader (https://github.com/amatya-aditya/obsidian-rss-dashboard) and one of my first contributions to the project was adding in the Kagi RSS feed to the discover page!\nIt refreshes every 5 hours and shows you the most recent blogs published on Kagi. Check it out!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47413232",
+          "by": "marcd35",
+          "time": 1773757864
+        },
+        {
+          "id": 47410766,
+          "text": "I like the idea, but would like to be able to select a language and see the small web of that language. There are more languages than English, and this tool could make them thrive.\nAlso somehow if they are clever, they could use this for those translation system they are using, but please let us select our own language without feeding automatic translation like youtube does).",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47410766",
+          "by": "erremerre",
+          "time": 1773743112
+        },
+        {
+          "id": 47415244,
+          "text": "Love Kagi and most things they do, don't get me wrong, but this is a bit ironic:\nhttps://kagi.com/smallweb/?url=https://pliutau.com/reading-l...\n> This page is auto-generated from Github Actions workflow that runs every day at night and fetches the 5 latest articles from each of my favorite blogs.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47415244",
+          "by": "barbazoo",
+          "time": 1773766376
+        }
+      ],
+      "by": "trueduke",
+      "time": 1773741233,
+      "url": "https://kagi.com/smallweb/",
+      "score": 795,
+      "descendants": 210,
+      "storyUrl": "https://kagi.com/smallweb/"
+    },
+    {
+      "id": 47416736,
+      "type": "story",
+      "title": "A Decade of Slug",
+      "rank": 4,
+      "depth": 0,
+      "storyId": 47416736,
+      "storyTitle": "A Decade of Slug",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47416736",
+      "topComments": [
+        {
+          "id": 47417208,
+          "text": "This is wonderful news, and my sincere thanks to the author.\nI remember coming upon this algorithm several years ago, and thinking it was extremely elegant and very appealing, but being disappointed by the patent status making it unusable for FOSS work. I really appreciate the author's choice to dedicate it to the public domain after a reasonable amount of time, and congratulations on the success it had while proprietary!\nNow if I ever get around to writing that terminal emulator for fun, I'll be tempted to do it with this algorithm for the code's aesthetic appeal.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47417208",
+          "by": "miloignis",
+          "time": 1773776231
+        },
+        {
+          "id": 47419078,
+          "text": "I used Slug at a previous job. It is an excellent, artfully crafted library; really the pinnacle of software engineering in my opinion. Thanks to the author for donating the algorithm to the public domain!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47419078",
+          "by": "astroalex",
+          "time": 1773785605
+        },
+        {
+          "id": 47418161,
+          "text": "His latest project is https://radicalpie.com/\nA Professional Equation Editor for Windows 10/11 for 60$ that uses Slug for rendering. Presumably he‘s using it to write his great FGED books.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47418161",
+          "by": "cachius",
+          "time": 1773780894
+        },
+        {
+          "id": 47420450,
+          "text": "Amazing, Thank you Eric!!\nAlso, Microsoft's Loop-Blinn patent for cubic curves will expire on March 25. These might change the landscape of text rendering...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47420450",
+          "by": "amagitakayosi",
+          "time": 1773795827
+        },
+        {
+          "id": 47417818,
+          "text": "Love it when someone who makes complex, helpful software is rewarded for their efforts. More stories like this!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47417818",
+          "by": "byearthithatius",
+          "time": 1773779092
+        },
+        {
+          "id": 47421404,
+          "text": "Thanks Eric, much appreciated. How would you compare your approach to something like Vello (https://github.com/linebender/vello)?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47421404",
+          "by": "tokyovigilante",
+          "time": 1773805437
+        },
+        {
+          "id": 47418030,
+          "text": "I am sorta in a position where implementing a glyph renderer as a compute shader would be helpful. This is a great opportunity to use this as a reference... exciting weekend project!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47418030",
+          "by": "Vipitis",
+          "time": 1773780224
+        },
+        {
+          "id": 47418420,
+          "text": "Damn, I worked with the author's game engine (C4) about... 20 years ago now while still in school, didn't know they were still active in that area!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47418420",
+          "by": "Cthulhu_",
+          "time": 1773782087
+        },
+        {
+          "id": 47417621,
+          "text": "Is it on ShaderToy yet?  :D",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47417621",
+          "by": "VikingCoder",
+          "time": 1773778078
+        },
+        {
+          "id": 47420774,
+          "text": "This is super cool. A few years ago I was wondering if Ruffle could do something similar, incorporate some kind of GPU accelerated vector graphics.\nAt the time they were going with, approximating the curves out of triangles. I don't know if they're still doing that though.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47420774",
+          "by": "andai",
+          "time": 1773799071
+        }
+      ],
+      "by": "mwkaufma",
+      "time": 1773773990,
+      "url": "https://terathon.com/blog/decade-slug.html",
+      "score": 760,
+      "descendants": 80,
+      "storyUrl": "https://terathon.com/blog/decade-slug.html"
+    },
+    {
+      "id": 47406779,
+      "type": "story",
+      "title": "US SEC preparing to scrap quarterly reporting requirement",
+      "rank": 5,
+      "depth": 0,
+      "storyId": 47406779,
+      "storyTitle": "US SEC preparing to scrap quarterly reporting requirement",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47406779",
+      "topComments": [
+        {
+          "id": 47407646,
+          "text": "Simultaneously they are opening up 0DTE options on certain stocks starting with large market caps but don't be surprised when this expands.   Currently this was limited to large etfs like SPX.  They are also extending trading hours towards 24/7 and eventually 365.\nHow they square increasing liquidity with delaying information is insane.\nI know there is a lot of manipulation to make quarterly numbers and the tax code is convoluted  but if companies reported dollars in and dollars out live to shareholders at least we would have an idea of how the company is doing in a general sense.  And over time would learn the flow of the company and be able to make informed predictions on the overall health of the company.  More information is usually better than less with very few exceptions.\nIf they want to delay the earnings call to every 6 months to talk about the business I have no problems with that.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47407646",
+          "by": "mcoliver",
+          "time": 1773712502
+        },
+        {
+          "id": 47407270,
+          "text": "One of my favorite stories about logistics and quarterly earnings deadlines (from when I worked at a pharmaceutical company:\n\"In our business, a truckload of various drugs can easily reach $10-$15 million. Now, if that truck arrives at the depot at 11:59pm March 31st then it's first quarter earnings. If it arrives at 12:01am April 1st then it's second quarter earnings.\n$15 million is a BIG shortfall, even for us, so you better believe those truck drivers will roll the stop signs, blow red lights etc to make sure that truck arrives before 11:59pm\"",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47407270",
+          "by": "alexpotato",
+          "time": 1773709169
+        },
+        {
+          "id": 47407350,
+          "text": "This seems like bad news for regular investors, and good news for insiders.\nReporting is burdensome, sure, but being listed on public exchanges is not a requirement.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47407350",
+          "by": "ginkoleaf",
+          "time": 1773709851
+        },
+        {
+          "id": 47407463,
+          "text": "Why yes, I love having less information to critical financial decisions on.\nI wonder who this benefits, the people with non public information, or the every day person?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47407463",
+          "by": "CamelCaseName",
+          "time": 1773710762
+        },
+        {
+          "id": 47407980,
+          "text": "24/7 trading sounds like a nightmare. “Your retirement savings crashed 30% because there wasn’t enough liquidity to cover a 3am panic over non-news”.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47407980",
+          "by": "clickety_clack",
+          "time": 1773715651
+        },
+        {
+          "id": 47407351,
+          "text": "Interesting timing given the SEC is also considering changes to 13F disclosure windows. Less frequent earnings could mean more information asymmetry for retail investors - institutions with proprietary data will have even more edge.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47407351",
+          "by": "vicchenai",
+          "time": 1773709860
+        },
+        {
+          "id": 47407048,
+          "text": "If you want to discourage short-term thinking, make the vesting period longer on executive stock grants. Making companies' performance less transparent just opens up more opportunities for insider trading.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47407048",
+          "by": "ralph84",
+          "time": 1773707554
+        },
+        {
+          "id": 47409047,
+          "text": "When you wonder how much damage one person can do in 4 years...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47409047",
+          "by": "philipdavis",
+          "time": 1773725814
+        },
+        {
+          "id": 47407002,
+          "text": "This is an awesome move. They’re not saying the reports go away—just moving them to every six months. After hating how each company runs on an internal quarterly cycle, I have to welcome it despite how the change originated. Six months is still short from the perspective of perverse incentives, but if you free up one week of charade from execs every 13 weeks, maybe they can focus better.\nAnd it’s not just execs, but the whole corporate machinery that takes 3–6 weeks after quarter end to churn out reports. Of course, internally executives should be tracking performance daily, but the quarter-end panic could lessen. If you have a bad quarter, you’re not penalized as much if the surrounding months are good.\nAnd anyway, if there is a material adverse change the companies should be expected to disclose, like they are expected now.\nPs: I posted the same on Reddit a couple of hours back. Not AI but if you do find the account don't mention them online in the same sentence.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47407002",
+          "by": "kshacker",
+          "time": 1773707228
+        },
+        {
+          "id": 47406934,
+          "text": "This means that employees would only be able to sell their stock 2 windows a year where they currently can sell 4 windows a year, correct?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47406934",
+          "by": "mslate",
+          "time": 1773706852
+        }
+      ],
+      "by": "djoldman",
+      "time": 1773705755,
+      "url": "https://www.reuters.com/business/finance/us-sec-preparing-eliminate-quarterly-reporting-requirement-wsj-says-2026-03-16/",
+      "score": 757,
+      "descendants": 471,
+      "storyUrl": "https://www.reuters.com/business/finance/us-sec-preparing-eliminate-quarterly-reporting-requirement-wsj-says-2026-03-16/"
+    },
+    {
+      "id": 47416486,
+      "type": "story",
+      "title": "Python 3.15's JIT is now back on track",
+      "rank": 6,
+      "depth": 0,
+      "storyId": 47416486,
+      "storyTitle": "Python 3.15's JIT is now back on track",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47416486",
+      "topComments": [
+        {
+          "id": 47421339,
+          "text": "Python really needs to take the Typescript approach of \"all valid Python4 is valid Python3\".  And then add value types so we can have int64 etc.  And allow object refs to be frozen after instantiation to avoid the indirection tax.\nSensible type-annotated python code could be so much faster if it didn't have to assume everything could change at any time.  Most things don't change, and if they do they change on startup (e.g. ORM bindings).",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47421339",
+          "by": "mattclarkdotnet",
+          "time": 1773804707
+        },
+        {
+          "id": 47418043,
+          "text": "I'm been occasionally glancing at PR/issue tracker to keep up to date with things happening with the JIT, but I've never seen where the high level discussions were happening; the issues and PRs always jumped right to the gritty details. Is there anywhere a high-level introduction/example of how trace projection vs recording work and differ? Googling for the terms often returns CPython issue tracker as the first result, and repo's jit.md is relatively barebones and rarely updated :(\nSimilarly, I don't entirely understand refcount elimination; I've seen the codegen difference, but since the codegen happens at build time, does this mean each opcode is possibly split into two (or more?) stencils, with and without removed increfs/decrefs? With so many opcodes and their specialized variants, how many stencils are there now?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47418043",
+          "by": "adrian17",
+          "time": 1773780264
+        },
+        {
+          "id": 47419401,
+          "text": "Oh man, Python 2 > 3 was such a massive shift. Took almost half a decade if not more and yet it mainly changing superficial syntax stuff. They should have allowed ABIs to break and get these internal things done. Probably came up with a new, tighter API for integrating with other lower level languages so going forward Python internals can be changed more freely without breaking everything.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47419401",
+          "by": "owaislone",
+          "time": 1773787595
+        },
+        {
+          "id": 47419755,
+          "text": "I'm curious is the JIT developers could mention any Python features that prevent promising JIT features. An earlier Ken Jin blog [1], mentions how __del__ complicates reference counting optimization.\nThere is a story that Python is harder to optimize than, say, Typescript, with Python flexibility and the C API getting mentioned. Maybe, if the list of troublesome Python features was out there, programmers could know to avoid those features with the promise of activating the JIT when it can prove the feature is not in use. This could provide a way out of the current Python hard-to-JIT trap. It's just a gist of an idea, but certainly an interesting first step would be to hear from the JIT people which Python features they find troublesome.\n[1] https://fidget-spinner.github.io/posts/faster-jit-plan.html",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47419755",
+          "by": "rslashuser",
+          "time": 1773790066
+        },
+        {
+          "id": 47419522,
+          "text": "> However, I misunderstood and came up with an even more extreme version: instead of tracing versions of normal instructions, I had only one instruction responsible for tracing, and all instructions in the second table point to that. Yes I know this part is confusing, I’ll hopefully try to explain better one day. This turned out to be a really really good choice. I found that the initial dual table approach was so much slower due to a doubling of the size of the interpreter, causing huge compiled code bloat, and naturally a slowdown.\n> By using only a single instruction and two tables, we only increase the interpreter by a size of 1 instruction, and also keep the base interpreter ultra fast. I affectionally call this mechanism dual dispatch.\nI really do hope they'll write that better explanation one day because this sounds pretty intriguing all on its own.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47419522",
+          "by": "vanderZwan",
+          "time": 1773788387
+        },
+        {
+          "id": 47417799,
+          "text": "> We don’t have proper free-threading support yet, but we’re aiming for that in 3.15/3.16. The JIT is now back on track.\nI recently read an interview about implementing free-threading and getting modifications through the ecosystem to really enable it: https://alexalejandre.com/programming/interview-with-ngoldba...\nThe guy said he hopes the free-threaded build'll be the only one in \"3.16 or 3.17\", I wonder if that should apply to the JIT too or how the JIT and interpreter interact.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47417799",
+          "by": "oystersareyum",
+          "time": 1773779009
+        },
+        {
+          "id": 47417919,
+          "text": "Doesn't PyPy already have a jit compiler? Why aren't we using that?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47417919",
+          "by": "ekjhgkejhgk",
+          "time": 1773779651
+        },
+        {
+          "id": 47419735,
+          "text": "Thanks for all the amazing work! I have Noob question. Wouldn't this get the funding back? Or would that not be preferable way to continue(as opposed to just volunteer driven)?\nLike this is a big deal to get a project to a state where volunteers are spun up and actively breaking tasks and getting work done, no? It's a python JIT something I know next to nothing about — as do most application developers — which tells one how difficult this must have been.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47419735",
+          "by": "ghm2199",
+          "time": 1773789888
+        },
+        {
+          "id": 47418261,
+          "text": "What is wrong with the Python code base that makes this so much harder to implement than seemingly all other code bases? Ruby, PHP, JS. They all seemed to add JITs in significantly less time. A Python JIT has been asked for for like 2 decades at this point.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47418261",
+          "by": "ecshafer",
+          "time": 1773781314
+        },
+        {
+          "id": 47418293,
+          "text": "(what are blueberry, ripley, jones and prometheus?)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47418293",
+          "by": "fluidcruft",
+          "time": 1773781457
+        }
+      ],
+      "by": "guidoiaquinti",
+      "time": 1773772647,
+      "url": "https://fidget-spinner.github.io/posts/jit-on-track.html",
+      "score": 483,
+      "descendants": 310,
+      "storyUrl": "https://fidget-spinner.github.io/posts/jit-on-track.html"
+    },
+    {
+      "id": 47417804,
+      "type": "story",
+      "title": "Get Shit Done: A meta-prompting, context engineering and spec-driven dev system",
+      "rank": 7,
+      "depth": 0,
+      "storyId": 47417804,
+      "storyTitle": "Get Shit Done: A meta-prompting, context engineering and spec-driven dev system",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47417804",
+      "topComments": [
+        {
+          "id": 47418626,
+          "text": "I was using this and superpowers but eventually, Plan mode became enough and I prefer to steer Claude Code myself. These frameworks are great for fire-and-forget tasks, especially when there is some research involved but they burn 10x more tokens, in my experience. I was always hitting the Max plan limits for no discernable benefit in the outcomes I was getting. But this will vary a lot depending on how people prefer to work.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47418626",
+          "by": "gtirloni",
+          "time": 1773783232
+        },
+        {
+          "id": 47422065,
+          "text": "In my view, Spec-Driven systems are doomed to fail. There's nothing that couples the english language specs you've written with the actual code and behaviour of the system - unless your agent is being insanely diligent and constantly checking if the entire system aligns with your specs.\nThis has been solved already - automated testing. They encode behaviour of the system into executables which actually tell you if your system aligns or not.\nBetter to encode the behaviour of your system into real, executable, scalable specs (aka automated tests), otherwise your app's behaviour is going to spiral out of control after the Nth AI generated feature.\nThe way to ensure this actually scales with the firepower that LLMs have for writing implementation is ensure it follows a workflow where it knows how to test, it writes the tests first, and ensures that the tests actually reflect the behaviour of the system with mutation testing.\nI've scoped this out here [1] and here [2].\n[1] https://www.joegaebel.com/articles/principled-agentic-softwa...\n[2] https://github.com/JoeGaebel/outside-in-tdd-starter",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47422065",
+          "by": "joegaebel",
+          "time": 1773813984
+        },
+        {
+          "id": 47420236,
+          "text": "I have a ai system i use. I'd like to release it so others can benefit, but at the same time it's all custom to myself and what i do, and work on.\nIf I fork out a version for others that is public, then I have to maintain that variation as well.\nIs anyone in a similar situation? I think most of the ones I see released are not particularly complex compraed to my system, but at the same time I don't know how to convey how to use my system as someone who just uses it alone.\nit feels like I don't want anyone to run my system, I just want people to point their ai system to mine and ask it what there is valuable to potentially add to their own system.\nI don't want to maintain one for people. I don't want to market it as some magic cure. Just show patterns that others can use.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47420236",
+          "by": "AndyNemmity",
+          "time": 1773793667
+        },
+        {
+          "id": 47418177,
+          "text": "I've had a good experience with https://github.com/obra/superpowers. At first glance this looks similar. Has anyone tried both who can offer a comparison?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47418177",
+          "by": "maccam912",
+          "time": 1773780951
+        },
+        {
+          "id": 47418427,
+          "text": "I've been using GSD extensively over the past 3 months. I previously used speckit, which I found lacking. GSD consistently gets me 95% of the way there on complex tasks. That's amazing. The last 5% is mostly \"manual\" testing. We've used GSD to build and launch a SaaS product including an agent-first CMS (whiteboar.it).\nIt's hard to say why GSD worked so much better for us than other similar frameworks, because the underlying models also improved considerably during the same period. What is clear is that it's a huge productivity boost over vanilla Claude Code.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47418427",
+          "by": "yoaviram",
+          "time": 1773782137
+        },
+        {
+          "id": 47419760,
+          "text": "I tried it once; it was incredibly verbose, generating an insane amount of files. I stopped using it because I was worried it would not be possible to rapidly, cheaply, and robustly update things as interaction with users generated new requirements.\nThe best way I have today is to start with a project requirements document and then ask for a step-by-step implementation plan, and then go do the thing at each step but only after I greenlight the strategy of the current step. I also specify minimal, modular, and functional stateless code.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47419760",
+          "by": "Frannky",
+          "time": 1773790115
+        },
+        {
+          "id": 47418296,
+          "text": "I like openspec, it lets you tune the workflow to your liking and doesn’t get in the way.\nI started with all the standard spec flow and as I got more confident and opinionated I simplified it to my liking.\nI think the point of any spec driven framework is that you want to eventually own the workflow yourself, so that you can constraint code generation on your own terms.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47418296",
+          "by": "gbrindisi",
+          "time": 1773781470
+        },
+        {
+          "id": 47419476,
+          "text": "I've compared this to superpowers and the classic prd->task generator. And I came away convinced that less is more. At least at the moment. gsd performed well, but took hours instead of minutes. \nHaving a simple explanation of how to create a PRD followed by a slightly more technical task list performed much better. It wasn't that grd or superpowers couldn't find a solution, it's just that they did it much slower and with a lot more help. \nFor me, the lesson was that the workflow has changed, and we that we can't apply old project-dev paradigms to this new/alien technology. \nThere's a new instruction manual and it doesn't build on the old one.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47419476",
+          "by": "DamienB",
+          "time": 1773788112
+        },
+        {
+          "id": 47419539,
+          "text": "I use openspec and love it. I’m doing 5-7x with close to 100% of code AI generated, and shipping to production multiple times a day. I work on a large sass app with hundreds of customers. Wrote something here:\nhttps://zarar.dev/spec-driven-development-from-vibe-coding-t...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47419539",
+          "by": "recroad",
+          "time": 1773788466
+        },
+        {
+          "id": 47420772,
+          "text": "I tried this for a week and gave up. Required far too much back and forth. Ate too many tokens, and required too much human in the loop.\nFor this reason I don’t think it’s actually a good name. It should be called planning-shit instead. Since that’s seemingly 80%+ of what I did while interacting with this tool. And when it came to getting things done, I didn’t need this at all, and the plans were just alright.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47420772",
+          "by": "vinnymac",
+          "time": 1773799042
+        }
+      ],
+      "by": "stefankuehnel",
+      "time": 1773779019,
+      "url": "https://github.com/gsd-build/get-shit-done",
+      "score": 473,
+      "descendants": 254,
+      "storyUrl": "https://github.com/gsd-build/get-shit-done"
+    },
+    {
+      "id": 47368425,
+      "type": "story",
+      "title": "It Took Me 30 Years to Solve This VFX Problem – Green Screen Problem [video]",
+      "rank": 8,
+      "depth": 0,
+      "storyId": 47368425,
+      "storyTitle": "It Took Me 30 Years to Solve This VFX Problem – Green Screen Problem [video]",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47368425",
+      "topComments": [
+        {
+          "id": 47417603,
+          "text": "In an earlier video they made a couple years back about Disney's sodium vapor technique Paul Debevec suggested he was considering creating a dataset using a similar premise: filming enough perfectly masked references to be able to train models to achieve better keying. So it was interesting seeing Corridor tackle this by instead using synthetic data.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47417603",
+          "by": "Springtime",
+          "time": 1773777993
+        },
+        {
+          "id": 47417708,
+          "text": "From ~04:10 till 05:00 they talk about sodium-vapor lights and how Disney has the exclusive rights to use it. From what I read the knowledge on how to make them is a trade secret, so it's not patented. Seems weird that it would be hard to recreate something from the 1950's.\nI also wonder how many hours were wasted by people who had to use inferior technology because Disney kept it secret. Cutting out animals and objects from the background 1 frame at a time seems so mindnumbingly boring.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47417708",
+          "by": "diacritical",
+          "time": 1773778575
+        },
+        {
+          "id": 47419714,
+          "text": "As far as alternatives, I wonder if anyone has tried a screen that cycles through colors in a known sequence. Using this modulating-color screen, it might actually be easier to separate the subject because you get around the \"green shirt over green screen\" problem.  You might even be able to use a time sampling to correct the light cast on the subject from the screen as you would have a full spectrum of response.\nI could also imagine using polarized light as the backdrop as well.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47419714",
+          "by": "jayd16",
+          "time": 1773789761
+        },
+        {
+          "id": 47422137,
+          "text": "It’s fascinating to see the bridge between academic research and industry application here. While Image Matting is a massive research area in Computer Vision, academia often focuses on solving perfect 'benchmarks.' Corridor Crew effectively took that foundational research, like neural unmixing and synthetic training, and adapted it to solve the 'messy' reality of production, like tracking markers and motion blur. It’s a great example of using open-source deep learning resources to build a tool that prioritized workflow over just a high accuracy score.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47422137",
+          "by": "lynnharry",
+          "time": 1773814749
+        },
+        {
+          "id": 47417630,
+          "text": "Pretty impressive results! Seems like someone has even made a GUI for it: https://github.com/edenaion/EZ-CorridorKey\nStill Python unfortunately.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47417630",
+          "by": "IshKebab",
+          "time": 1773778150
+        },
+        {
+          "id": 47420745,
+          "text": "The model in this repo seems pretty good: https://github.com/xuebinqin/DIS",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47420745",
+          "by": "swframe2",
+          "time": 1773798787
+        },
+        {
+          "id": 47417614,
+          "text": "The community has managed to drastically lower hardware requirements, but so far I think only Nvidia cards are supported, so as an AMD owner I'm still missing out :(",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47417614",
+          "by": "vsviridov",
+          "time": 1773778047
+        },
+        {
+          "id": 47417548,
+          "text": "Watched this a few days ago. The video is light on technical details, except maybe that they used CGI to generate training data.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47417548",
+          "by": "superjan",
+          "time": 1773777736
+        },
+        {
+          "id": 47417725,
+          "text": "See also this video comparing Corridor Key to traditional keyers:\nhttps://www.youtube.com/watch?v=abNygtFqYR8",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47417725",
+          "by": "comex",
+          "time": 1773778621
+        },
+        {
+          "id": 47418462,
+          "text": "There's still a bug: the glass with water does not distort the checker pattern in the background at 24:12.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47418462",
+          "by": "amelius",
+          "time": 1773782310
+        }
+      ],
+      "by": "yincrash",
+      "time": 1773429286,
+      "url": "https://www.youtube.com/watch?v=3Ploi723hg4",
+      "score": 290,
+      "descendants": 113,
+      "storyUrl": "https://www.youtube.com/watch?v=3Ploi723hg4"
+    },
+    {
+      "id": 47408205,
+      "type": "story",
+      "title": "Every layer of review makes you 10x slower",
+      "rank": 9,
+      "depth": 0,
+      "storyId": 47408205,
+      "storyTitle": "Every layer of review makes you 10x slower",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47408205",
+      "topComments": [
+        {
+          "id": 47408934,
+          "text": "But you can’t just not review things!\nActually you can. If you shift the reviews far to the left, and call them code design sessions instead, and you raise problems on dailys, and you pair programme through the gnarly bits, then 90% of what people think a review should find goes away. The expectation that you'll discover bugs and architecture and design problems doesn't exist if you've already agreed with the team what you're going to build. The remain 10% of things like var naming, whitespace, and patterns can be checked with a linter instead of a person. If you can get the team to that level you can stop doing code reviews.\nYou also need to build a team that you can trust to write the code you agreed you'd write, but if your reviews are there to check someone has done their job well enough then you have bigger problems.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47408934",
+          "by": "onion2k",
+          "time": 1773724632
+        },
+        {
+          "id": 47412628,
+          "text": "Code reviews are a volunteer’s dilemma. Nobody is showered with accolades by putting “reviewed a bunch of PRs” on their performance review by comparison with “shipped a bunch of features.” The two go hand-in-hand, but rewards follow marks of authorship despite how much reviewers influence what actually landed in production.\nConsequently, people tend to become invested in reviewing work only once it’s blocking their work. Usually, that’s work that they need to do in the future that depends on your changes. However, that can also be work they’re doing concurrently that now has a bunch of merge conflicts because your change landed first. The latter reviewers, unfortunately, won’t have an opinion until it’s too late.\nFortunately, code is fairly malleable. These “reviewers” can submit their own changes. If your process has a bias towards merging sooner, you may merge suboptimal changes. However, it will converge on a better solution more quickly than if your changes live in a vacuum for months on a feature branch passing through the gauntlet of a Byzantine review and CI process.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47412628",
+          "by": "teeray",
+          "time": 1773755268
+        },
+        {
+          "id": 47408874,
+          "text": "Valve is one of the only companies that appears to understand this, as well as that individual productivity is almost always limited by communication bandwidth, and communication burden is exponential as nodes in the tree/mesh grow linearly. [or some derated exponent since it doesn't need to be fully connected]",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47408874",
+          "by": "thot_experiment",
+          "time": 1773724063
+        },
+        {
+          "id": 47408720,
+          "text": "I wonder where the reviewer worked where PRs are addressed in 5 hours. IME it's measured in units of days, not hours.\nI agree with him anyway: if every dev felt comfortable hitting a stop button to fix a bug then reviewing might not be needed.\nThe reality is that any individual dev will get dinged for not meeting a release objective.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47408720",
+          "by": "lelanthran",
+          "time": 1773722531
+        },
+        {
+          "id": 47410414,
+          "text": "One thing that often gets dismissed is the value/effort ratio of reviews.\nA review must be useful and the time spent on reviewing, re-editing, and re-reviewing must improve the quality enough to warrant the time spent on it. Even long and strict reviews are worth it if they actually produce near bugless code.\nIn reality, that's rarely the case. Too often, reviewing gets down into the rabbithole of various minutiae and the time spent to gain the mutual compromise between what the programmer wants to ship and the reviewer can agree to pass is not worth the effort. The time would be better spent on something else if the process doesn't yield substantiable quality. Iterating a review over and over and over to hone it into one interpretation of perfection will only bump the change into the next 10x bracket in the wallclock timeline mentioned in this article.\nIn the adage of \"first make it work, then make it correct, and then make it fast\" a review only needs to require that the change reaches the first step or, in other words, to prevent breaking something or the development going into an obviously wrong direction straight from the start. If the change works, maybe with caveats but still works, then all is generally fine enough that the change can be improved in follow-up commits. For this, the review doesn't need to be thorough details: a few comments to point the change into the right direction is often enough. That kind of reviews are very efficient use of time.\nOverall, in most cases a review should be a very short part of the development process. Most of the time should be spent programming and not in review churn. A review serves as a quick check-point that things are still going the right way but it shouldn't dictate the exact path that should be used in order to get there.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47410414",
+          "by": "yason",
+          "time": 1773740109
+        },
+        {
+          "id": 47410684,
+          "text": "> The job of a code reviewer isn't to review code. It's to figure out how to obsolete their code review comment, that whole class of comment, in all future cases, until you don't need their reviews at all anymore\nAmen brother",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47410684",
+          "by": "swiftcoder",
+          "time": 1773742448
+        },
+        {
+          "id": 47410114,
+          "text": "I think this makes an assumption early on which is that things are serialized, when usually they are not.\nIf I complete a bugfix every 30 minutes, and submit them all for review, then I really don't care whether the review completes 5 hours later. By that time I have fixed 10 more bugs!\nSure, getting review feedback 5 hours later will force me to context switch back to 10 bugs ago and try to remember what that was about, and that might mean spending a few more minutes than necessary. But that time was going to be spent _anyway_ on that bug, even if the review had happened instantly.\nThe key to keeping speed up in slow async communication is just working on N things at the same time.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47410114",
+          "by": "alkonaut",
+          "time": 1773737749
+        },
+        {
+          "id": 47415814,
+          "text": "> The job of a code reviewer isn't to review code. It's to figure out how to obsolete their code review comment, that whole class of comment, in all future cases, until you don't need their reviews at all anymore.\nMaking entire classes of issues effectively impossible is definitely the ideal outcome. But, this feels much more complicated when you consider that trust doesn't always extend beyond the company's wall and you cannot always ignore that fact because the negative outcomes can be external to the company.\nWhat if I, a trusted engineer, run `npm update` at the wrong time and malware makes its way into production and user data is stolen? A mistake to learn from, for sure, but a post-mortem is too late for those users.\nI'm certainly not advocating for relying on human checks everywhere, but reasoning about where you crank the trust knob can get very complicated or costly. Occasionally a trustworthy human reviewer can be part of a very reasonable control.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47415814",
+          "by": "kkl",
+          "time": 1773769213
+        },
+        {
+          "id": 47410372,
+          "text": "Managers are expected to say that we should be productive yet they're responsible for the framework which slows down everyone and it's quite clear that they're perfectly fine with this framework. I'm not saying it's good or bad because it's complicated.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47410372",
+          "by": "dominicrose",
+          "time": 1773739814
+        },
+        {
+          "id": 47410116,
+          "text": "Excellent article. Based on personal experience, if you build cutting edge stuff then you need great engineers and reviewers.\nBut for anything else, you just need an individual (not a team) who's okay (not great) at multiple things (architecting, coding, communicating, keeping costs down, testing their stuff). Let them build and operate something from start to finish without reviewing. Judge it by how well their produce works.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47410116",
+          "by": "trigvi",
+          "time": 1773737758
+        }
+      ],
+      "by": "greyface-",
+      "time": 1773717636,
+      "url": "https://apenwarr.ca/log/20260316",
+      "score": 577,
+      "descendants": 315,
+      "storyUrl": "https://apenwarr.ca/log/20260316"
+    },
+    {
+      "id": 47411480,
+      "type": "story",
+      "title": "Ryugu asteroid samples contain all DNA and RNA building blocks",
+      "rank": 10,
+      "depth": 0,
+      "storyId": 47411480,
+      "storyTitle": "Ryugu asteroid samples contain all DNA and RNA building blocks",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47411480",
+      "topComments": [
+        {
+          "id": 47411831,
+          "text": "One longstanding theory is that life first began on Earth when asteroids carrying fundamental elements crashed into our planet long ago.\n\nI'm no expert but this sounds strange. Surely those fundamental elements would also form in vast quantities on their own on an entire planet with volcanoes and oceans? Wouldn't a couple asteroids be the literal drop in the ocean in comparison?\nThe missing part is how do they form self-replicating mechanisms capable of evolution. I doubt an asteroid with a bit of organic dust is enough for that. If such small amounts suffice we should see the formation of new life forms from scratch, today, left and right I think?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47411831",
+          "by": "0x000xca0xfe",
+          "time": 1773751202
+        },
+        {
+          "id": 47415802,
+          "text": "I'm in the middle of reading Peter Brannen's The Story of CO2 Is the Story of Everything—it's excellent and goes deep into the (bio)geochemistry of Earth—and he presents a good case for a metabolism-first development of life, taking advantage of \"a disequilibrium that needed to be relieved at the vents, an unending stream d free energy to dissipate,\" rather than the RNA information-first theories.\nIt fits his overall narrative but it was an interesting way to think about life \"as a thermodynamically necessary mechanism to relieve the continuous production of free geochemical energy on Earth... more efficiently than abiotic processes could.\" (Brannen quoting complex-systems scientist Anne-Marie Grisogono)  I highly recommend the book.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47415802",
+          "by": "Amorymeltzer",
+          "time": 1773769164
+        },
+        {
+          "id": 47411552,
+          "text": "It contains nucleobases.  But does it contain ribose, or ribose linked to the nucleobases, or to phosphates?  And more generally, does it also contain a grab bag of related chemicals that are not building blocks?  The existence of such blocks as minor constituents of a soup of random chemicals doesn't mean much, especially as the concentration of any such constituent declines exponentially with its complexity.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47411552",
+          "by": "pfdietz",
+          "time": 1773749270
+        },
+        {
+          "id": 47411836,
+          "text": "I wonder how they prevent contamination of the containers used to collect and store samples.\nI assume they have to be ultra clean in every sense of the word 'clean' with the cavity pulled to a vacuum. And also the equipment that collects the sample and puts it into the canister has to be clean as well.\nThe logistics aren't obvious to me at all",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47411836",
+          "by": "fusslo",
+          "time": 1773751225
+        },
+        {
+          "id": 47415250,
+          "text": "Ummm ... the \"Victoria University of Wellington in Australia\"?  Please. Victoria University is located in Wellington, New Zealand [1]. Nothing to do with Australia.  Dr. Morgan Cable is a Senior Lecturer in Space Science at Te Herenga Waka, Victoria University of Wellington in New Zealand [2].  Can't believe that phys.org would publish such an error.\n[1] https://www.wgtn.ac.nz/\n[2] https://www.psi.edu/staff/profile/morgan-cable/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47415250",
+          "by": "stevenjgarner",
+          "time": 1773766426
+        },
+        {
+          "id": 47415198,
+          "text": "That's not really new. It seems as if some people try to project \"there is life outside of planet Earth\". Well, the thing is ... is this question important? You already have life here. Synthetic biology will also progress. So why is it important if life is anywhere else? I don't understand it.\nThere is nothing magic in RNA or DNA. Granted, right now we can not easily explain how life gets \"bootstrapped\", but recently there was a paper of self-propagating RNA even of a kind of semi-random sequence; this RNA can just amplify itself. I am sure you can find many more similar examples eventually as well as biochemical reaction processes that can be \"bootstrapped\" - and I am also sure none of these work on an asteroid. So why is there this strange focus on \"life outside of planet Earth\"? Some people want research money, that is clear now.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47415198",
+          "by": "shevy-java",
+          "time": 1773766206
+        },
+        {
+          "id": 47421688,
+          "text": "The most important question we all want answered is just how rare life is in the Universe. \nThe fact that the building blocks are there just floating around on asteroids makes it that much more likely that its quite common.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47421688",
+          "by": "Shitty-kitty",
+          "time": 1773809250
+        },
+        {
+          "id": 47419679,
+          "text": "I’ve wondered before if the idea that life originated on Earth might be the last geocentrism to fall.\nSpeculation of course, but it would fit a certain historical pattern.\nMaybe life is all over the damn place, just a thing that happens under certain thermodynamic constraints, and it arrived on board comets or some similar mechanism.\nMaybe space contains spores of minimal super simple organisms that can survive being vacuum freeze dried for incredibly long periods of time. When they land somewhere suitable they do stuff.\nMaybe life originated long, long ago. The wildest speculation I have is that it originated shortly after the big bang during a brief period when the temperature of the universe was temperate, but that’s very far fetched for numerous reasons. More likely that it pops up from time to time and spreads over cosmic time scales.\nBut it only evolves to high levels of complexity in environments that are very friendly to a lot of life, have abundant energy, and are stable enough for a very long time. That may be the rare thing.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47419679",
+          "by": "api",
+          "time": 1773789596
+        },
+        {
+          "id": 47412128,
+          "text": "Are these building blocks not evaporated on impact?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47412128",
+          "by": "_ink_",
+          "time": 1773752805
+        },
+        {
+          "id": 47411728,
+          "text": "How are samples collected? In space or as debris?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47411728",
+          "by": "hmokiguess",
+          "time": 1773750519
+        }
+      ],
+      "by": "bookofjoe",
+      "time": 1773748865,
+      "url": "https://phys.org/news/2026-03-ryugu-asteroid-samples-dna-rna.html",
+      "score": 306,
+      "descendants": 167,
+      "storyUrl": "https://phys.org/news/2026-03-ryugu-asteroid-samples-dna-rna.html"
+    },
+    {
+      "id": 47410870,
+      "type": "story",
+      "title": "Reddit User Uncovers Who Is Behind Meta's $2B Lobbying for Age Verification Tech",
+      "rank": 11,
+      "depth": 0,
+      "storyId": 47410870,
+      "storyTitle": "Reddit User Uncovers Who Is Behind Meta's $2B Lobbying for Age Verification Tech",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47410870",
+      "topComments": [
+        {
+          "id": 47411314,
+          "text": "Discussed a few days ago, 554 comments: https://news.ycombinator.com/item?id=47362528\n(But it's a big enough story that I'm glad to see it on front page again.)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47411314",
+          "by": "swores",
+          "time": 1773747643
+        },
+        {
+          "id": 47420007,
+          "text": "Who is behind it? Doesn't seem to answer",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47420007",
+          "by": "bl4kers",
+          "time": 1773791840
+        },
+        {
+          "id": 47413576,
+          "text": "[dupe] Discussion 4 days ago: https://news.ycombinator.com/item?id=47362528",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47413576",
+          "by": "ChrisArchitect",
+          "time": 1773759359
+        }
+      ],
+      "by": "doener",
+      "time": 1773743988,
+      "url": "https://www.gadgetreview.com/reddit-user-uncovers-who-is-behind-metas-2b-lobbying-for-invasive-age-verification-tech",
+      "score": 907,
+      "descendants": 22,
+      "storyUrl": "https://www.gadgetreview.com/reddit-user-uncovers-who-is-behind-metas-2b-lobbying-for-invasive-age-verification-tech"
+    },
+    {
+      "id": 47409885,
+      "type": "story",
+      "title": "Reverse-engineering Viktor and making it open source",
+      "rank": 12,
+      "depth": 0,
+      "storyId": 47409885,
+      "storyTitle": "Reverse-engineering Viktor and making it open source",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47409885",
+      "topComments": [
+        {
+          "id": 47410818,
+          "text": "There are gonna be some really interesting legal decisions to read in the coming years, that’s for sure…\n---\nThe rest of this comment is irrelevant, but leaving for posterity, I had the wrong Viktor - it's getviktor.com not viktor.ai:\nEdit: this one particularly interesting to me as both parties are in the EU. VIKTOR.ai is a Dutch company and the author of this post is Polish.\nThe ToS for Viktor.ai include the following fun passages:\n> 18.1. The Agreement and these Terms & Conditions are governed by Dutch law and the Agreement and these Terms & Conditions will be interpreted in accordance with Dutch law.\n18.2. All disputes arising from or arising in connection with the Agreement and/or the Terms & Conditions will be submitted exclusively to the competent court in Rotterdam, The Netherlands.\n7.3. The Customer is not permitted to change, remove or make unrecognizable any mark showing VIKTOR's Intellectual Property Rights to the Software. The Customer is not permitted to use or register any trademark or design or any domain name of VIKTOR or a similar name or sign in any country.\n8.5. The Customer may not cause or allow any reproduction, imitation, duplication, copying, sale, resale, leasing or trading of the Services and/or the Software, or any part thereof.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47410818",
+          "by": "redfloatplane",
+          "time": 1773743577
+        },
+        {
+          "id": 47411210,
+          "text": "Nice. Probably worth making a local copy before it gets taken down.\n(Re: legal - why even bother with a court decision when it’s on GitHub? A takedown is much simpler. We've seen this before, like when Meta went after people reverse-engineering their API)\nThat said there may not be much here thats actually protectable. It's mostly a CLI orchestrating other tools, and the same functionality could likely be reproduced fairly easily, especially with AI.\nStill, props to him for writing a proper blog post and explaining the process",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47411210",
+          "by": "yashasolutions",
+          "time": 1773746729
+        },
+        {
+          "id": 47413477,
+          "text": "A lot of folks talking about the legality basis of this approach, I think the focus should be more around the true moat behind these hype growth hack companies out there.\nThis sort of exposure is good, in my opinion it enables competition to emerge with true business moat rather than just \"do it first, do it fast, worry last\" type of thing we're seeing.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47413477",
+          "by": "hmokiguess",
+          "time": 1773758888
+        },
+        {
+          "id": 47412106,
+          "text": "I find it fascinating that this is just some _plumbing_ around some LLM - sold as a product and \"AI coworker\". They don't own the LLM model. You're just one silent update from not delivering what you promised.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47412106",
+          "by": "kklisura",
+          "time": 1773752697
+        },
+        {
+          "id": 47411323,
+          "text": "Every part of this is genuinely funny. Viktor launching basically OpenClaw for slack (because claw is MIT so yolo let's go mac some monnney and PJ outta Dubai etc etc). Some guy getting all their source code just by asking Viktor for it. Then rebuilding their core in a couple days because there's basically nothing there. push MIT to Github. TeamViktor's faces surely? But they're busy diamond handsing all the way to the moon so probably don't even care. XD",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47411323",
+          "by": "popcorncowboy",
+          "time": 1773747720
+        },
+        {
+          "id": 47413850,
+          "text": "Soon renamed OpenViktawer, then MoltVik.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47413850",
+          "by": "hirako2000",
+          "time": 1773760444
+        },
+        {
+          "id": 47414837,
+          "text": "I just want to point out _how easy it is_ to build any of these tools yourself.\nI got inspired by nano-claw and built on some of it's ideas to build a whole k8s hosted autonomous agent platform and got it into production in 2 weeks.  It's just some api calls and container orchestration.  The only hard problem _and it is hard_, is securing it, because you basically have to treat the agents as potentially malicious.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47414837",
+          "by": "empath75",
+          "time": 1773764618
+        },
+        {
+          "id": 47412993,
+          "text": "How did you make the image at https://github.com/zggf-zggf/openviktor/blob/main/docs/asset...?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47412993",
+          "by": "vixalien",
+          "time": 1773756895
+        },
+        {
+          "id": 47412911,
+          "text": "Ignorering the questionable legality of this entire thing, which might fall out in favor of it being a legal activity. Calling the project OpenViktor is as dumb as committing secrets to GitHub. For the love of reason call it something else.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47412911",
+          "by": "klustregrif",
+          "time": 1773756573
+        },
+        {
+          "id": 47418567,
+          "text": "@zggf I'm developing something of a similar concept. I wanted to know if I could chat with you for a few minutes.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47418567",
+          "by": "hexnuts",
+          "time": 1773782895
+        }
+      ],
+      "by": "zggf",
+      "time": 1773735334,
+      "url": "https://matijacniacki.com/blog/openviktor",
+      "score": 181,
+      "descendants": 85,
+      "storyUrl": "https://matijacniacki.com/blog/openviktor"
+    },
+    {
+      "id": 47413195,
+      "type": "story",
+      "title": "Node.js needs a virtual file system",
+      "rank": 13,
+      "depth": 0,
+      "storyId": 47413195,
+      "storyTitle": "Node.js needs a virtual file system",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47413195",
+      "topComments": [
+        {
+          "id": 47414527,
+          "text": "Taking the question of whether this would be a useful addition to Node.js core or aside, it must be noted that this 19k LoC PR was mostly generated by Claude Code and manually reviewed by the submitter which in my opinion is against the spirit of the project and directly violates the terms of Developer's Certificate of Origin set in the project's CONTRIBUTING.md",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47414527",
+          "by": "indutny",
+          "time": 1773763320
+        },
+        {
+          "id": 47413851,
+          "text": "I'm not convinced that allowing Node to import \"code generated at runtime\" is actually a good thing.  I think it should have to go through the hoops to get loaded, for security reasons.\nI like the idea of it mocking the file system for tests, but I feel like that should probably be part of the test suite, not Node.\nThe example towards the end that stores data in a sqlite provider and then saves it as a JSON file is mind-boggling to me.  Especially for a system that's supposed to be about not saving to the disk.  Perhaps it's just a bad example, but I'm really trying to figure out how this isn't just adding complexity.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47413851",
+          "by": "wccrawford",
+          "time": 1773760449
+        },
+        {
+          "id": 47415709,
+          "text": "Using Claude for code you use yourself or at your own company internally is one thing, but when you start injecting it into widely-shared projects like this (or, the linux kernel, or Debian, etc) there will always be a lingering feeling of the project being tainted.\nJust my opinion, probably not a popular one.  But I will be avoiding an upgrade to Node.js after 24.14 for a while if this is becoming an acceptable precedent.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47415709",
+          "by": "lacoolj",
+          "time": 1773768613
+        },
+        {
+          "id": 47413811,
+          "text": "Most of the 4 justifications mentioned sound like mitigations of otherwise bad design decisions.  JavaScript in the browser went down this path for the longest time where new standards were introduced only to solve for stupid people instead of actually introducing new capabilities that were otherwise unachievable.\nI do see some original benefits to a VFS though, bad application decisions aside, but they are exceedingly minor.\nAs an aside I think JavaScript would benefit from an in-memory database.  This would be more of language enhancement than a Node.js enhancement.  Imagine the extended application capabilities of an object/array store native to the language that takes queries using JS logic to return one or more objects/records.  No SQL language and no third party databases for stuff that you don't want to keep in offline storage on a disk.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47413811",
+          "by": "austin-cheney",
+          "time": 1773760302
+        },
+        {
+          "id": 47417839,
+          "text": "What's special about node.js here? Does golang, C#, python, ruby, java, etc... have a virtual file system?\nI get it, I've implemented things for tests, I'm just wondering if this shouldn't be solved at an OS level.\n--- update\nLet's put this another way, my code does effectively, child_process.spawn('something-that-reads-and-write-a-file')\nnow I'm back to the same issue. To test I need a virtual file system. Node providing one won't help.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47417839",
+          "by": "socalgal2",
+          "time": 1773779211
+        },
+        {
+          "id": 47419703,
+          "text": "> no human wants to hand-write: implementing every fs method variant (sync, callback, promises), wiring up test coverage\nThat’s so dehumanizing, I would happily write such code.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47419703",
+          "by": "il-b",
+          "time": 1773789723
+        },
+        {
+          "id": 47413664,
+          "text": "Would be nice if node packages could be packed up in ZIP files so to avoid the security/metadata tax for small file access on Windows.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47413664",
+          "by": "PaulHoule",
+          "time": 1773759709
+        },
+        {
+          "id": 47414263,
+          "text": "You can’t import or require() a module\n    that only exists in memory.\n\nYou can convert it into a data url and import that, can't you?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47414263",
+          "by": "mg",
+          "time": 1773762197
+        },
+        {
+          "id": 47416409,
+          "text": "Why do people keep reinventing OS features?\nThere's Docker, OverlayFS, FUSE, ZFS or Btrfs snapshots?\nDo you not trust your OS to do this correctly, or do you think you can do better?\nA lot of this stuff existed 5, 10, 15 years ago...\nSomehow there's been a trend for every effing program to grow and absorb the features and responsibilities of every other program.\nActually, I have a brilliant idea, what if we used nodejs, and added html display capabilities, and browser features? After all Cursor has already proven you can vibecode a browser, why not just do it?\nI'm just tired at this point",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47416409",
+          "by": "torginus",
+          "time": 1773772201
+        },
+        {
+          "id": 47417497,
+          "text": ">  I pointed the AI at the tedious parts, the stuff that makes a 14k-line PR possible but no human wants to hand-write: implementing every fs method variant (sync, callback, promises), wiring up test coverage, and generating docs.\nThis is the biggest takeaway for me for AI. It's not even that nobody wants to do these things, its that by the time you finish your tasks, you have no time to do these things, because your manage / scrum master / powers that be want you to work on the next task.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47417497",
+          "by": "giancarlostoro",
+          "time": 1773777470
+        }
+      ],
+      "by": "voctor",
+      "time": 1773757717,
+      "url": "https://blog.platformatic.dev/why-nodejs-needs-a-virtual-file-system",
+      "score": 275,
+      "descendants": 251,
+      "storyUrl": "https://blog.platformatic.dev/why-nodejs-needs-a-virtual-file-system"
+    },
+    {
+      "id": 47363133,
+      "type": "story",
+      "title": "Sci-Fi Short Film “There Is No Antimemetics Division” [video]",
+      "rank": 14,
+      "depth": 0,
+      "storyId": 47363133,
+      "storyTitle": "Sci-Fi Short Film “There Is No Antimemetics Division” [video]",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47363133",
+      "topComments": [
+        {
+          "id": 47363399,
+          "text": "I jumped into the book after hearing all the buzz as it seemed like the big scifi hit of 2025. Killer premise and for the most part the fast pacing works... for the first third or so. But it you can feel the short story anthology vibe as it goes on and becomes practically a disconnected series of vignettes, and even the central idea itself loses cohesion. The Big Bad Thing has so many manifestations that it feels like monster of the week rather than a true full book that holds onto a core sharply executed identity. Less a grand thesis than a series of isolated short form thrills.\nSo the long and short of it is, definitely worth it for the first third and dimishing returns after that.\nAs for the short film, I think it's great for what it is, gets better and better as it goes and is worth the short watch. Fascinating seeing the visual depictions of the stuff the book talks about both foreground and background.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47363399",
+          "by": "glenstein",
+          "time": 1773404106
+        },
+        {
+          "id": 47409908,
+          "text": "The originals:\nhttps://scp-wiki.wikidot.com/antimemetics-division-hub\nhttps://en.wikipedia.org/wiki/There_Is_No_Antimemetics_Divis...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47409908",
+          "by": "decimalenough",
+          "time": 1773735586
+        },
+        {
+          "id": 47363947,
+          "text": "Oh wow, They filmed it! Twice even!\nhn discussion about the written versions\n* https://news.ycombinator.com/item?id=41224225\nA different version by different director/actors:\n* https://www.youtube.com/watch?v=w-IiVeGAydE",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47363947",
+          "by": "Kim_Bruning",
+          "time": 1773407224
+        },
+        {
+          "id": 47413456,
+          "text": "Interesting that there are two versions that I know of!\nI watched this one first, and I prefer it: https://www.youtube.com/watch?v=w-IiVeGAydE. I like the actress who plays Wheeler better (no disrespect to Jasika Nicole, she does a good job too and I loved her in Fringe), and the script seems to stick closer to the original short story form from the website. Is this new short based on the book? If so, it seems the dialogues in the book are... weaker maybe?\nThings I liked in this short: the use of B&W, and I thought the actor who plays O5-8 is stronger in this version.\nI wonder if this story could become a \"standard\" for indie directors to riff off?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47413456",
+          "by": "the_af",
+          "time": 1773758818
+        },
+        {
+          "id": 47415925,
+          "text": "Very nice. This is up there with my favorite DUST short film, \"Final Offer\". https://www.youtube.com/watch?v=rv8kOzRZK8g",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47415925",
+          "by": "ldb",
+          "time": 1773769763
+        },
+        {
+          "id": 47412209,
+          "text": "Reminds me of \"Total Rickall\"(Rick and Morty: Season 2, Episode 4) which itself is probably a retelling of a retelling of a retelling of a retelling.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47412209",
+          "by": "manfromchina1",
+          "time": 1773753296
+        },
+        {
+          "id": 47417263,
+          "text": "It's been a long time since a book has gripped my attention like the one this short film is based on. It has many interesting ideas and a plot with some truly unexpected twists.\nThe latest version of the book distances itself from the source material (a good decision imo): The SCP Foundation. It's an extremely interesting project, with some parallels to FOSS. I wonder if there are other joint literary projects of similar scale.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47417263",
+          "by": "giladd",
+          "time": 1773776468
+        },
+        {
+          "id": 47418679,
+          "text": "Maybe I am just dumb but I think I missed why this is cool. I found it incoherent and thus failed to enjoy it. I've heard the name \"There Is No Antimemetics Division\" before and it was always said with reverence. What did i fail to notice/understand?\nEDIT: saw other comments here mentioning that I am not expected to get this without lots of prior reading.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47418679",
+          "by": "dmitrygr",
+          "time": 1773783546
+        },
+        {
+          "id": 47366297,
+          "text": "Jasika will always be Astrid from Fringe. In my head, Helen Hunt plays wheeler.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47366297",
+          "by": "lowbloodsugar",
+          "time": 1773418027
+        },
+        {
+          "id": 47421312,
+          "text": "I saw the book mentioned at random here mid way through last year and ordered it for my Kindle. To my surprise, it wouldn't be available until the end of the year. I found that puzzling because some people here seemed to be saying that they had read it.\nNow reading this set of comments today it seems that I was to be buying a revised version and the text had been 'in the wild' for some time. Anyway, it duly arrived, I read it and thought it an okay read.\nIt wasn't until reading this page today that I became aware of the existence of a thing called SCP and any of what that entails in relation to the book.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47421312",
+          "by": "mjcarden",
+          "time": 1773804462
+        }
+      ],
+      "by": "Anon84",
+      "time": 1773402267,
+      "url": "https://www.youtube.com/watch?v=3v8AsTHfAG0",
+      "score": 313,
+      "descendants": 108,
+      "storyUrl": "https://www.youtube.com/watch?v=3v8AsTHfAG0"
+    },
+    {
+      "id": 47412726,
+      "type": "story",
+      "title": "OpenSUSE Kalpa",
+      "rank": 15,
+      "depth": 0,
+      "storyId": 47412726,
+      "storyTitle": "OpenSUSE Kalpa",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47412726",
+      "topComments": [
+        {
+          "id": 47418736,
+          "text": "Been running Aeon, the Gnome version of Kalpa, on my personal laptop for about six months now. I came from Tumbleweed so the learning curve wasn't steep. Overall the experience has been good!\nThe one major issue I had from the start was non-free Bluetooth codecs like AptX. That required me to taint the base image and add a non-official repo. It was messy but that was mostly down to it being a learning process, if I had to do it again I could probably do it with a single run of `transactional-update shell`.\nThe installer is super minimal and surprisingly user-friendly. One thing I remember is that there was zero partitioning choice: just use the full disk for encrypted btrfs and you get no swap (but zram swap is on by default). If you use OpenSUSE with secure boot enabled (as intended) then hibernate is prevented by `kernel_lockdown` anyway.\nSnapper by default is nice, but you also get that with Tumbleweed. I ran into no applications that I couldn't get from Flatpaks or export from a distrobox, the latter being mostly for obscure stuff I need to compile myself. And my main toolbox hosts my Emacs environment that I spend most of my time in besides Firefox.\nIt's hard to recommend a MicroOS desktop over Tumbleweed, the latter being a great all-purpose distro as it is. But I'm hoping the benefits of forcing this \"rootless\" paradigm on myself will appear when it's time to move to a new machine. Just copy over my home directory and distroboxes and I'm golden, I could even switch to ARM without hesitation.\nThe distroboxes help with migrating because if I want to compile a newer version of that obscure program from earlier, I don't have to hunt down all the arcane requirements again. They're all still there waiting for me, in a Fedora/Ubuntu/Arch/whatever distrobox, depending on what works best for that program. At least that's the theory.\nHappy to answer questions.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47418736",
+          "by": "miggol",
+          "time": 1773783813
+        },
+        {
+          "id": 47417495,
+          "text": "I am not sure I fully understand the usability trade-offs when it comes to these \"atomic\" distros. One the one hand, security seems to improve markedly, since the  root filesystem is largely immutable. On the other hand, it does seem that a lot of straightforward things become harder. I generally dislike flatpaks and favor a low-level, bare-metal approach to things and atomic distros seem to go against that. Maybe I should just run some experiments in a VM.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47417495",
+          "by": "drnick1",
+          "time": 1773777446
+        },
+        {
+          "id": 47414548,
+          "text": "I've installed https://getaurora.dev/en/, another atomic Linux distro, for a non technical user and find it really good. I've read arguments that its architecture was better than kalpa, but I don't find it back and I have no sufficient knowledge or experience  of both to have an opinion.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47414548",
+          "by": "raphinou",
+          "time": 1773763419
+        },
+        {
+          "id": 47413192,
+          "text": "This web page doesn't do a good job of motivating the reader.\nI understand what the Plasma Desktop Environment is.  But what is \"atomic and transactional Linux\"?    What are the advantages to the alternatives?   What other projects are similar?  What is the motivation for this project in particular?   Most importantly, why should I want to use it?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47413192",
+          "by": "quantummagic",
+          "time": 1773757703
+        },
+        {
+          "id": 47413307,
+          "text": "Kalpa is great and hits way above its alpha status; I've been running it on my laptop for months now with zero issues. It's been really nice to not have to worry about updates, just gotta reboot it every now and then and most things just work.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47413307",
+          "by": "stryan",
+          "time": 1773758167
+        },
+        {
+          "id": 47414282,
+          "text": "This blog post might provide useful context: https://sfalken.tech/posts/2024-06-08-how-do-aeon-and-kalpa-...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47414282",
+          "by": "zokier",
+          "time": 1773762270
+        },
+        {
+          "id": 47413418,
+          "text": "This is a cool idea, but it’s not clear what problem it’s solving. Tumbleweed is already great",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47413418",
+          "by": "999900000999",
+          "time": 1773758663
+        },
+        {
+          "id": 47413331,
+          "text": "I wanted to try an Atomic Linux, I think I tried the Fedora flavor, nothing really worked for me for some reason, I gave in to Arch and tried it a la EndeavourOS. Have not looked back since.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47413331",
+          "by": "giancarlostoro",
+          "time": 1773758272
+        },
+        {
+          "id": 47415188,
+          "text": "This appears to be a \"pre-beta\" site, so this will be why it is not polished yet. From the documentation page :\n\"note: These installation instructions will be changing, with the Beta release of Kalpa\"\nA bit rough around the edges - so probably unfair to publicise too prominently yet.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47415188",
+          "by": "sherr",
+          "time": 1773766170
+        },
+        {
+          "id": 47420018,
+          "text": "I've been using Aeon for about 8 months now and while I appreciate the intent and feel its well engineered, in practice I run into all sorts of edge cases where I'm fighting the system to do what I want to do. I'm sticking with it because I do learn interesting things in the process, and sunk cost fallacy, but I find it hard to recommend. I probably am too opinionated on my system to be the best target user though",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47420018",
+          "by": "eturkes1",
+          "time": 1773791909
+        }
+      ],
+      "by": "ogogmad",
+      "time": 1773755657,
+      "url": "https://kalpadesktop.org/",
+      "score": 213,
+      "descendants": 109,
+      "storyUrl": "https://kalpadesktop.org/"
+    },
+    {
+      "id": 47413525,
+      "type": "story",
+      "title": "FFmpeg 8.1",
+      "rank": 16,
+      "depth": 0,
+      "storyId": 47413525,
+      "storyTitle": "FFmpeg 8.1",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47413525",
+      "topComments": [
+        {
+          "id": 47415252,
+          "text": "One of the best open-source tools out there. I'm a frequent user of Plex, Jellyfin, Tunarr, local music files, etc. I use it weekly to extract subtitles, trim videos, convert music formats, and remove audio tracks. After writing the previous paragraph, I realized I've never donated to the project; it's time to change that.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47415252",
+          "by": "edgarvaldes",
+          "time": 1773766435
+        },
+        {
+          "id": 47414617,
+          "text": "> Oh there's a new version of ffmpeg, I'll just quickly build it from source... no I can't wait I'll download the binary\nhttps://www.youtube.com/watch?v=9kaIXkImCAM",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47414617",
+          "by": "ghgr",
+          "time": 1773763706
+        },
+        {
+          "id": 47413526,
+          "text": "Changelog:\nffprobe -codec option\nEXIF Metadata Parsing\ngfxcapture: Windows.Graphics.Capture based window/monitor capture\nhxvs demuxer for HXVS/HXVT IP camera format\nMPEG-H 3D Audio decoding via mpeghdec\nD3D12 H.264 encoder\ndrawvg filter via libcairo\nffmpeg CLI tiled HEIF support\nD3D12 AV1 encoder\nProRes Vulkan hwaccel\nDPX Vulkan hwaccel\nRockchip H.264/HEVC hardware encoder\nAdd vf_scale_d3d12 filter\nJPEG-XS parser\nJPEG-XS decoder and encoder through libsvtjpegxs\nJPEG-XS raw bitstream muxer and demuxer\nIAMF Projection mode Ambisonic Audio Elements muxing and demuxing\nAdd vf_mestimate_d3d12 filter\nxHE-AAC Mps212 decoding support (experimental)\nRemove the old HLS protocol handler\nVulkan compute codec optimizations\nswscale Vulkan support\nLCEVC metadata bitstream filter\nAdd vf_deinterlace_d3d12 filter\nffprobe: only show refs field in stream section when reading frames\nProRes Vulkan encoder\nLCEVC parser\nLCEVC enhancement layer exporting in MPEG-TS",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47413526",
+          "by": "gyan",
+          "time": 1773759117
+        },
+        {
+          "id": 47414559,
+          "text": "Khronos published a post on the Vulkan compute codecs in FFmpeg:\nhttps://www.khronos.org/blog/video-encoding-and-decoding-wit...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47414559",
+          "by": "pandaforce",
+          "time": 1773763473
+        },
+        {
+          "id": 47414095,
+          "text": "I wouldn't get too excited about rockchip hw encoding. It's rkmpp based, not an upstream solution. You'd need Rockchip kernel for this, I guess.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47414095",
+          "by": "megous",
+          "time": 1773761458
+        },
+        {
+          "id": 47415114,
+          "text": "FFmpeg is really great. The only wish I'd have is for the usage to become simpler - both for regular stuff, but also for advanced filtering.\nIf anyone remembers, avisynth was pretty cool back in the days. You could kind\nof script video/audio manipulations, a bit like a UNIX/Linux pipe, but kind of\nsimpler, in my opinion. FFmpeg allows for many similar operations, but remembering\nanything here is ... hard. I'd love for the whole usage API to become much simpler, but it seems nobody among the ffmpeg dev team is considering this. :(\nI can't be the only one with that wish though ...\nIt does not diminish ffmpeg being so great in general, but I think it could be better.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47415114",
+          "by": "shevy-java",
+          "time": 1773765847
+        },
+        {
+          "id": 47418348,
+          "text": "Just realized they tag the releases with great names in math/computing. Very cool.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47418348",
+          "by": "jsrcout",
+          "time": 1773781720
+        },
+        {
+          "id": 47414927,
+          "text": "How much of this release was done by to corporate/big tech employees?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47414927",
+          "by": "brcmthrowaway",
+          "time": 1773764978
+        },
+        {
+          "id": 47415155,
+          "text": "nice job",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47415155",
+          "by": "junelee77",
+          "time": 1773766028
+        }
+      ],
+      "by": "gyan",
+      "time": 1773759117,
+      "url": "https://ffmpeg.org/index.html#pr8.1",
+      "score": 438,
+      "descendants": 65,
+      "storyUrl": "https://ffmpeg.org/index.html#pr8.1"
+    },
+    {
+      "id": 47367298,
+      "type": "story",
+      "title": "Pyodide: a Python distribution based on WebAssembly",
+      "rank": 17,
+      "depth": 0,
+      "storyId": 47367298,
+      "storyTitle": "Pyodide: a Python distribution based on WebAssembly",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47367298",
+      "topComments": [
+        {
+          "id": 47408674,
+          "text": "Pyodide is one of the hidden gems of the Python ecosystem. It's SO good at what it does, and it's nearly 8 years old now so it's pretty mature.\nI love using Pyodide to build web UIs for trying out new Python libraries. Here's one I built a few weeks ago to exercise my pure-Python SQLite AST parser, for example: https://tools.simonwillison.net/sqlite-ast\nIt's also pretty easy[1] to get C or Rust libraries that have Python bindings compiled to a WebAssembly wheel that Pyodide can then load.\nHere's a bit of a nutty example - the new Monty Python-like sandbox library (written in Rust) compiled to WASM and then loaded in Pyodide in the browser: https://simonw.github.io/research/monty-wasm-pyodide/pyodide...\n[1] OK, Claude Code knows how to do it.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47408674",
+          "by": "simonw",
+          "time": 1773722189
+        },
+        {
+          "id": 47412338,
+          "text": "https://marimo.app/\nA reactive notebook for Python that runs in browser, powered by Pyodide. I have been using it extensively for teaching Python to non-STEM students that do not need the added friction of navigating the CLI or filesystem hierarchy.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47412338",
+          "by": "screamingninja",
+          "time": 1773753996
+        },
+        {
+          "id": 47409415,
+          "text": "Pyodide powers xlwings Lite, a free Excel add-in that you can install from Excel’s add-in store with a single click. It outperforms Microsoft’s official Python in Excel solution in every coceivable way: price, privacy, speed, can install packages, can access the internet, can access local files, doesn’t have a usage quota, can automate Excel and create native UDFs. See https://lite.xlwings.org",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47409415",
+          "by": "fzumstein",
+          "time": 1773730014
+        },
+        {
+          "id": 47408628,
+          "text": "It works surprisingly well in terms of writing python for native execution, and then trying to share on the web and having it Just Work TM. Unfortunately, when I want python it's because I want numpy, scipy and friends, and once you bring them on board pyodide load times are long. As an example comparison: a face turning octahedron puzzle in python + pyodide, loads in 10 seconds https://cubes.hgreer.com/fto.html . Meanwhile, a megaminx puzzle in javascript (statically generated by python) loads in 200 ms https://cubes.hgreer.com/ssg/output.html",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47408628",
+          "by": "QuadmasterXLII",
+          "time": 1773721752
+        },
+        {
+          "id": 47408680,
+          "text": "There's also xeus-cpp which is cpp based on wasm. Xeus-cpp and pyodide are the backends for Jupyterlite [1] kernels in browser.\nIt's actually a very good way to teach coding in python/c++(11, 17 or even 23), explore language features or  your own library within browser and allow students to execute code by hosting just some static html pages and some assets without any backend.\n1. https://jupyter.org/try-jupyter/lab/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47408680",
+          "by": "devsda",
+          "time": 1773722218
+        },
+        {
+          "id": 47408824,
+          "text": "Yea, I even built online ide based on Pyodide. Insane peace of software. \nYou can try here: playcode.io/python",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47408824",
+          "by": "ianberdin",
+          "time": 1773723581
+        },
+        {
+          "id": 47409131,
+          "text": "I've used it to put together a browser app to program walkie-talkies: https://codeplug.org",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47409131",
+          "by": "jasiek",
+          "time": 1773726884
+        },
+        {
+          "id": 47412262,
+          "text": "Love all the tools mentioned in the comments, Pyodide is a fun tool. I built https://pyground.vercel.app with it a few years ago, as a quick way to run Python on a CSV/JSON file locally in the browser. For a while Python/Matplotlib was what I was most comfortable writing quick and simple analysis scripts with, and this was my go to for one-off data analysis work. You can drag-drop a file in, then some 'clever' code makes it available as `data` in the Python script so you don't have to write any parsing code yourself.\nNow I'd probably just get Claude Code to write something locally, but there might be some value in a version of pyground that can use an LLM to write the Python code for you (and give it the data shape) but keeps the local execution setup the same.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47412262",
+          "by": "mcintyre1994",
+          "time": 1773753615
+        },
+        {
+          "id": 47415978,
+          "text": "related self plug: I built https://codeglf.com on Pyodide, a weekly Python code golf site where every submission runs locally in the browser.\nWebAssembly's isolation means you get sandboxing for free without any server infrastructure. Of course users could cheat and submit code that doesn't actually pass the tests, but so far everybody has been friendly and I haven't needed to validate results server-side. Hopefully sharing the link here doesn't make that worse!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47415978",
+          "by": "ndr",
+          "time": 1773770068
+        },
+        {
+          "id": 47416591,
+          "text": "It’s impressive how mature Pyodide has become — running Python scientific tools in the browser opens up a lot of possibilities.\nI’ve been working on a small (~800-line) Python system that uses sparse regression to discover physical laws from raw data. It was able to estimate the Sun’s rotation (~25.1 days vs 27 days actual) and found a temperature ~ velocity^3.40 relationship in solar wind data.\nHaving this kind of lightweight stack in the browser could make exploratory science much more accessible.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47416591",
+          "by": "strujillo",
+          "time": 1773773291
+        }
+      ],
+      "by": "tosh",
+      "time": 1773423285,
+      "url": "https://github.com/pyodide/pyodide",
+      "score": 189,
+      "descendants": 56,
+      "storyUrl": "https://github.com/pyodide/pyodide"
+    },
+    {
+      "id": 47366435,
+      "type": "story",
+      "title": "The unlikely story of Teardown Multiplayer",
+      "rank": 18,
+      "depth": 0,
+      "storyId": 47366435,
+      "storyTitle": "The unlikely story of Teardown Multiplayer",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47366435",
+      "topComments": [
+        {
+          "id": 47410604,
+          "text": "> For the longest time (and for good reasons), floating point operations were considered unsafe for deterministic purposes. That is still true to some extent, but the picture is more nuanced than that. I have since learned a lot about floating point determinism, and these days I know it is mostly safe if you know how to navigate around the pitfalls.\nIf you're only concerned about identical binaries on x86, it's not too bad because AMD and Intel tend to have intentionally identical implementations of most floating point operations, with the exception of a few of the approximate reciprocal SSE instructions (rcpps, rsqrtps, etc). Modern x86 instructions tend to have their exact results strictly defined to avoid this kind of inconsistency: https://software.intel.com/en-us/articles/reference-implemen...\nIf you want this to work across ARM and x86 (or even multiple ARM vendors), you are screwed, and need to restrict yourself to using only the basic arithmetic operations and reimplement everything else yourself.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47410604",
+          "by": "jmgao",
+          "time": 1773741767
+        },
+        {
+          "id": 47410537,
+          "text": "I enjoyed playing Teardown when it first came out. It was already a technological marvel back then, so it's even more impressive that they managed to make the simulation deterministic to add multiplayer several years after release. Clearly top tier engineers.\nCool to see that the game is owned by Coffee Stain now, too. Satisfactory has been handled well by them, so I'm optimistic about the future of Teardown as well.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47410537",
+          "by": "kajkojednojajko",
+          "time": 1773741189
+        },
+        {
+          "id": 47409667,
+          "text": "I highly respect the implicit decision to forgo repeat purchases by merging into the original game, considering how much work was clearly involved. I haven't played it, but I hope for sustainability's sake, there are sufficient (purely cosmetic) microtransactions to cover their development costs.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47409667",
+          "by": "bjord",
+          "time": 1773732913
+        },
+        {
+          "id": 47410910,
+          "text": "If someone from Teardown dev team is here, did you guys ever tried to do the physics in voxel space? If I understand correctly, Teardown convert each physics chunk into a mesh and feeds all the meshes into a traditional physics engine. But this means that the voxel models remain constrained to the voxel grid only locally but not globally.\nI have been trying to figure out a way to do physics completely in voxel space to ensure a global grid. But I have not been able to find any theory of Newtonian Mechanics that would work in discretised space (Movable Cellular Automata was the closest). I wonder if anyone in the Teardown dev team tried to solve this problem?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47410910",
+          "by": "HexDecOctBin",
+          "time": 1773744288
+        },
+        {
+          "id": 47409985,
+          "text": "In my opinion one of the most impressive independent games published on Steam in the last years.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47409985",
+          "by": "tietjens",
+          "time": 1773736441
+        },
+        {
+          "id": 47411709,
+          "text": "I really love Teardown, and I’m absolutely baffled at the bizarre performance that game manages to push on even very large worlds.\nI’ve tried to load teardown levels in a homegrown engine and I always end up stuttering like hell as soon as GI becomes involved (or even before that).\nI’m going to finally manage to replicate it, and then the new engine will be released and raise the bar again xD",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47411709",
+          "by": "Aeolun",
+          "time": 1773750364
+        },
+        {
+          "id": 47409863,
+          "text": "Looks like someone needs a better web host.\n> Due to protection of web servers from repeated attacks, we were forced to restrict access to administrative interface of web pages to selected countries. If you are currently in a foreign country, please sign in to WebAdmin, proceed to your domain management and disable this GeoIP filter in OneClick Installer section.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47409863",
+          "by": "esperent",
+          "time": 1773735173
+        },
+        {
+          "id": 47409830,
+          "text": "\"1.Serialize the entire scene, compress the data, and pass it to the joining client. We already do full scene serialization for quicksave and quickload, so this is possible, but the files are large: 30-50 MB is common, often more, so transfer would take a while.\n[...]\n3. Record the deterministic command stream, pass it to the joining client, and have that client apply all changes to the loaded scene before joining the game. The amount of data is much smaller than in option 2 since we’re not sending any voxel data, but applying the changes can take a while since it involves a lot computation.\nOnce we started investigating option 3 we realized it was actually less data than we anticipated, but we still limit the buffer size and disable join-in-progress when it fills up. This allows late joins up to a certain amount of scene changes, beyond which applying the commands would simply take an unreasonably long time. \"\nSo [1] is not an option for players who want to do it that way?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47409830",
+          "by": "Sweepi",
+          "time": 1773734834
+        },
+        {
+          "id": 47411837,
+          "text": "I feel like there's detail missing in the blog.\nThe \"Reliable vs Unreliable\" section implies that different parts of the scene are sent using a strict-ordering protocol so that the transforms happen in the same order on every client, but other parts happen in a state update stream with per client queueing.\nBut which is which? Which events are sent TCP and which are UDP (and is that literally what they're doing, or only a metaphor?)\nReally the economy of the text in the blog seems backwards, this section has one short paragraph explaining the concept of deterministic event ordering as important for keeping things straight, and then 3 paragraphs about how player position and velocity are synced in the same way as any other game. I want read more about the part that makes teardown unique!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47411837",
+          "by": "hannasanarion",
+          "time": 1773751231
+        },
+        {
+          "id": 47410023,
+          "text": "Looking forward to play the MP version with my son who also loves the game. I worry that the game will get heavier and maybe no longer work of the steamdeck, will it?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47410023",
+          "by": "xecaz",
+          "time": 1773736894
+        }
+      ],
+      "by": "lairv",
+      "time": 1773418800,
+      "url": "https://blog.voxagon.se/2026/03/13/teardown-multiplayer.html",
+      "score": 242,
+      "descendants": 65,
+      "storyUrl": "https://blog.voxagon.se/2026/03/13/teardown-multiplayer.html"
+    },
+    {
+      "id": 47416081,
+      "type": "story",
+      "title": "Edge.js: Run Node apps inside a WebAssembly sandbox",
+      "rank": 19,
+      "depth": 0,
+      "storyId": 47416081,
+      "storyTitle": "Edge.js: Run Node apps inside a WebAssembly sandbox",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47416081",
+      "topComments": [
+        {
+          "id": 47417202,
+          "text": "Hi HN!\nI'm Syrus, from Wasmer. We built Edge.js in a few weeks after different trials trying to bring Node.js to the Edge. We used AI and Codex heavily for this project, as otherwise the timeline would have spanned to a year plus to develop.\nThe summary of this announcement is that Edge.js:\n  * Runs using WebAssembly when in `--safe` mode\n  * It's fully compatible with Node.js (passing all their spec tests for non-VM modules)\n  * It has a pluggable JS engine architecture: can work with V8, Javascript, SpiderMonkey, QuickJS, Hermes, etc.\n\nSuper happy to answer any questions you may have!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47417202",
+          "by": "syrusakbary",
+          "time": 1773776201
+        },
+        {
+          "id": 47417906,
+          "text": "Awesome project!\nDumb question: could you run this in frontend js using the browser's js engine and wasm environment similar to WebContainers? Maybe `fs` is just in-memory, and some things like forking are disabled. It'd be cool to have \"nodejs\" in the web!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47417906",
+          "by": "willquack",
+          "time": 1773779566
+        },
+        {
+          "id": 47420147,
+          "text": "Not sure I understand the use cases. I'm guessing people want to run unsafe nodejs code. Either cloud providers like for lambdas or on personal computer for AI coding?  On cloud why is this better than firecracker, firecrack can run any programming language this is just nodejs so already useless for that use case?\nFor personal computer, people worried about the spin up time of docker? I think that is more of a tooling issue where you spin up one instance and run multiple jobs.\nWhat am I missing? What are actually real use cases where this would be better?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47420147",
+          "by": "pacman1337",
+          "time": 1773793048
+        },
+        {
+          "id": 47421033,
+          "text": "I still prefer Deno because I don't need a separate npm install command, which makes running code that much easier\nBeing able to import from \"https://my-vpn.com/mypackage@1.2.3\" or \"npm:package@1.2.3\" and just running code without having to worry about scaffolding node_modules makes sandboxing code much easier",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47421033",
+          "by": "d0100",
+          "time": 1773801960
+        },
+        {
+          "id": 47420882,
+          "text": "I don't get it. You mention being able to choose your own JS engine, so it's not using Wasmer's WebAssembly implementation but that of the chosen JS engine's? In other words, can Edge.js use Wasmer? Or have you managed to compile V8/JSC into WebAssembly and are executing it with Wasmer? If so, amazing!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47420882",
+          "by": "ammmir",
+          "time": 1773800097
+        },
+        {
+          "id": 47418493,
+          "text": "Very cool project!\nQuestion regarding the pluggable js engine: I have an electron app where I'm currently using QuickJS to run LLM-generated code. Would edge.js be able (theoretically) to use electron's v8 to get a \"sanboxed within electron\" execution environment?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47418493",
+          "by": "pscanf",
+          "time": 1773782475
+        },
+        {
+          "id": 47418484,
+          "text": "Very interesting! On what platforms can this run? If it can run on iOS, how would you handle attempts to access to the file system or networking, is this already wired in somehow? If not is it easy to add custom handlers to handle these actions?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47418484",
+          "by": "MillionOClock",
+          "time": 1773782443
+        },
+        {
+          "id": 47417727,
+          "text": "It's a bit confusing.\nRoughly:\n* a refactor of Node.js, but using a standardized API for JS engine interop\n* Integration with the Wasmer CLI so it will run JS with v8 but, everything else in Webassembly\nInteresting idea.\nCould be a much lighter weight way to sandbox JS...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47417727",
+          "by": "alex_reg",
+          "time": 1773778628
+        },
+        {
+          "id": 47419740,
+          "text": "Huh. Could this be a way to sandbox user-generated JS in web apps?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47419740",
+          "by": "2001zhaozhao",
+          "time": 1773789916
+        },
+        {
+          "id": 47420662,
+          "text": "Can that Node app load and run WebAssembly?\n(A.K.A. are we IBM 360 yet?)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47420662",
+          "by": "actionfromafar",
+          "time": 1773797826
+        }
+      ],
+      "by": "syrusakbary",
+      "time": 1773770510,
+      "url": "https://wasmer.io/posts/edgejs-safe-nodejs-using-wasm-sandbox",
+      "score": 173,
+      "descendants": 45,
+      "storyUrl": "https://wasmer.io/posts/edgejs-safe-nodejs-using-wasm-sandbox"
+    },
+    {
+      "id": 47417814,
+      "type": "story",
+      "title": "Meta and TikTok let harmful content rise to drove engagement, say whistleblowers",
+      "rank": 20,
+      "depth": 0,
+      "storyId": 47417814,
+      "storyTitle": "Meta and TikTok let harmful content rise to drove engagement, say whistleblowers",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47417814",
+      "topComments": [
+        {
+          "id": 47418140,
+          "text": "I feel like this is general knowledge for the past 5 or so years, but the real question is \"What do we do about it?\". Personally, I put real effort into not spending time being outraged online, but this is a societal ill that's bigger then I am...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47418140",
+          "by": "bigfishrunning",
+          "time": 1773780805
+        },
+        {
+          "id": 47418202,
+          "text": "I can't say I'm surprised and I think most people wouldn't be surprised either. But it's always good to have evidence.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47418202",
+          "by": "nelsonfigueroa",
+          "time": 1773781072
+        },
+        {
+          "id": 47418154,
+          "text": "Is this unavoidable? I mean it does generate clicks and views and user engagement so if one platform is doing it, doesn't that automatically mean that the other has to do it? Otherwise they will continuously lose market share.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47418154",
+          "by": "hmate9",
+          "time": 1773780851
+        },
+        {
+          "id": 47418383,
+          "text": "Of course they did. As long as they're legally allowed to do so and profit from doing so they will continue.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47418383",
+          "by": "cdrnsf",
+          "time": 1773781899
+        },
+        {
+          "id": 47421223,
+          "text": "Does anyone know of watchdog agencies that do the research to document and litigate harmful algorithmic trends?.\nI know https://www.reset.tech/ does really good work in this space, but are there others, and who is funding them?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47421223",
+          "by": "nikisweeting",
+          "time": 1773803583
+        },
+        {
+          "id": 47421133,
+          "text": "As long as the general public respond to sensationalism, what’s stopping the social media platforms from exploiting.\nMost of them are click baits anyways.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47421133",
+          "by": "leftytak",
+          "time": 1773802763
+        },
+        {
+          "id": 47422182,
+          "text": "If you make 20 billion and the fine is 0.2 billion…. I don’t think they care about their users mental health.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47422182",
+          "by": "ptek",
+          "time": 1773815068
+        },
+        {
+          "id": 47418718,
+          "text": "Given how TikTok \"trends\" seem to consist mostly of \"get teenagers to do stuff that causes huge expenses for US society\":\n* \"eat tide pods\"\n* \"stick a fork in electrical sockets in your school\"\n* \"destroy your school's shit\" aka \"Devious Licks\" - bathrooms, chromebooks (jamming stuff into the charging ports to start fires...)\n* \"drink a shitload of Benadryl to see what happens\"\n* \"steal a kia/hyundai and drive 80mph, run from the cops, etc\"\n...convince me that this is not a purposeful attack on US society by the CCP?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47418718",
+          "by": "KennyBlanken",
+          "time": 1773783713
+        },
+        {
+          "id": 47420111,
+          "text": "The feedback loop for this moral hazard is slow but implacable. You can treat the zeitgeist as a dumping ground for so long, until you get so big, that you can no longer treat it like an idealized infinite substance.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47420111",
+          "by": "simpaticoder",
+          "time": 1773792694
+        },
+        {
+          "id": 47418136,
+          "text": "I remember The Social Dilemma’s entire premise was basically this headline minus TikTok, and that came out what? 7 or 8 years ago?\nNot saying “well duh” I just think at this point I have to ask “are we going to do anything about it?”\nWe’ve known about the financial incentives to promote anger and outrage online for at least a decade now. So what are we going to do about it?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47418136",
+          "by": "Forgeties79",
+          "time": 1773780790
+        }
+      ],
+      "by": "1vuio0pswjnm7",
+      "time": 1773779073,
+      "url": "https://www.bbc.com/news/articles/cqj9kgxqjwjo",
+      "score": 331,
+      "descendants": 194,
+      "storyUrl": "https://www.bbc.com/news/articles/cqj9kgxqjwjo"
+    },
+    {
+      "id": 47417335,
+      "type": "story",
+      "title": "Launch HN: Kita (YC W26) – Automate credit review in emerging markets",
+      "rank": 21,
+      "depth": 0,
+      "storyId": 47417335,
+      "storyTitle": "Launch HN: Kita (YC W26) – Automate credit review in emerging markets",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47417335",
+      "topComments": [
+        {
+          "id": 47419936,
+          "text": "Solution to emerging markets capital access problem is not making the current predatory system more efficient, but investing in micro credit. Which will never happen at scale because it generates lower returns (better to have 10 bad payers than 1000 good payers)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47419936",
+          "by": "iririririr",
+          "time": 1773791357
+        },
+        {
+          "id": 47421086,
+          "text": "Would love to chat, I recently wrapped up an initial version of an automated real estate appraisal review app which appears to have some of the same technical challenges and risks. https://getvalara.com / jwillis@valara.net\nWould love to share notes. I was able to get away with landing.ai and some really careful schema design and multi-step workflow with a few agents sprinkled in at the end.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47421086",
+          "by": "jondwillis",
+          "time": 1773802382
+        },
+        {
+          "id": 47419915,
+          "text": "Sidenote: unlike in Tagalog, Kita means “day-care facility for children” in German, so names like Kita Capture and Kita Credit Agent could carry unintended connotations.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47419915",
+          "by": "wumms",
+          "time": 1773791258
+        }
+      ],
+      "by": "rheamalhotra1",
+      "time": 1773776789,
+      "score": 55,
+      "descendants": 14
+    },
+    {
+      "id": 47414440,
+      "type": "story",
+      "title": "'The Secret Agent': Exploring a Vibrant, yet Violent Brazil (2025)",
+      "rank": 22,
+      "depth": 0,
+      "storyId": 47414440,
+      "storyTitle": "'The Secret Agent': Exploring a Vibrant, yet Violent Brazil (2025)",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47414440",
+      "topComments": [
+        {
+          "id": 47418301,
+          "text": "I've had the privilege to watch it at São Luis movie theater in Recife. The place is really a character of the movie. The theater was at full capacity. 10% of the public was with a yellow t-shirt that Wagner Moura uses for 10s :-) I forgot how good it was to see movies in a theater. Everybody laughed or clapped together. I've never more seen a movie with so much popular appeal. People seeing their lives and history in the big screen. If it had won an Oscar, maybe São Luiz would exhibit it frequently. Like the Casablanca theater in Morocco that just exhibits Casablanca movie.\nPure cinema.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47418301",
+          "by": "neves",
+          "time": 1773781500
+        },
+        {
+          "id": 47418876,
+          "text": "Secret Agent has a slow, difficult beginning (~hour). Not much happens. And it's not clear why what's happening is happening, particularly for someone unfamiliar with Brazil's political climate in the 1970s.\nAs someone who's never been to Brazil, certainly not in the 1970s, watching Secret Agent still felt like being transported there. How did they make a movie that makes you feel like you're in a familiar place you've never been to?\nAnd then after about an hour, it picks up a bit more, and by the end, it felt like they directly transmitted to the audience the horror of the Brazilian junta in all kinds of subtle and dramatic ways. We don't see the resolution of the main character's story because that moment is lost. Memories of his life are fractured (through disjointed audio recordings) or repressed (by those closest to him).\nHard to put it into words. I started out disliking it and ended up loving it.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47418876",
+          "by": "ShamblingMound",
+          "time": 1773784545
+        },
+        {
+          "id": 47416795,
+          "text": "One thing I noticed is that both this and another incredible film this year, Sirāt, were, at least in part, funded by a grants and state institutions.\nhttps://en.wikipedia.org/wiki/Sir%C4%81t\nhttps://en.wikipedia.org/wiki/The_Secret_Agent_(2025_film)\nIf you haven't seen either, highly recommended. Don't watch Sirat if you're wanting a \"good time,\" but I honestly can't think of the last time a film made me feel the way it did, especially the final minutes of it.\nThe Secret Agent is maybe as good though. Makes you want to say \"they don't make them like this anymore..\" It feels like a good long novel; every character, however minor, is rich, full of life, in some way beautiful. It's something about how the past has these pockets of clarity, bookended by loose ends and uncertainty. The mix of myth and anecdote. Pieces of life we can remember, those we can't... Five bags of popcorn.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47416795",
+          "by": "beepbooptheory",
+          "time": 1773774318
+        },
+        {
+          "id": 47416452,
+          "text": "Having grown up in Brazil in the 70s, I thought the cinematography of \"The Secret Agent\" absolutely nailed the aesthetics of that era.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47416452",
+          "by": "pearlsontheroad",
+          "time": 1773772509
+        },
+        {
+          "id": 47418022,
+          "text": "I found it unsatisfying. Such a strong opening let down by a meandering movie with no payoff. Made all the sadder by great moments and performances spread thinly through the 2-something hours. I remember coming out of the movie theatre thinking there was a really enjoyable film buried underneath the crud if they could have had more restraint in the editing room. To each their own I suppose.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47418022",
+          "by": "zemvpferreira",
+          "time": 1773780164
+        },
+        {
+          "id": 47415844,
+          "text": "The Secret Agent was not an easy movie for the average movie watcher. It had an unorthodox ending, graphic violence, and it's in a different language. With that said, it's too bad it wasn't able to come out with any Oscars. I can see why OBAA won quite a few awards.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47415844",
+          "by": "anderber",
+          "time": 1773769381
+        },
+        {
+          "id": 47416941,
+          "text": "Decent film but to me 'I'm Still Here' (Ainda Estou Aqui) was still a too fresh experience from last year to have  a similar film again from Brazil set in the 70s covering the military dictatorship. I also think that I'm Still Here is a much better film.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47416941",
+          "by": "haunter",
+          "time": 1773775037
+        },
+        {
+          "id": 47420627,
+          "text": "That movie was an absolute snooze-fest—way too slow and dull. I actually went to the theater with high hopes, but 15 minutes in, I felt like scrubbing the toilet would’ve been more fun.\n It’s a shame Brazilian cinema is so stuck on such a tired trope like the dictatorship era. Enough already. That’s a oranje that’s been squeezed dry.\n But I wouldn't bet against another one popping up this year...\n At least I won't make the mistake of wasting my money and time on the same old cinematic garbage again.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47420627",
+          "by": "ymgch",
+          "time": 1773797534
+        },
+        {
+          "id": 47417986,
+          "text": "I watched both The Secret Agent and One Battle After Another (didn’t see any of the other nominees). For me, The Secret Agent was definitely better.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47417986",
+          "by": "next_xibalba",
+          "time": 1773779972
+        },
+        {
+          "id": 47417442,
+          "text": "One of the strongest movie start sequences in a while, it immediately sets the vibe.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47417442",
+          "by": "basiliobeltran",
+          "time": 1773777218
+        }
+      ],
+      "by": "tambourine_man",
+      "time": 1773762969,
+      "url": "https://theasc.com/articles/the-secret-agent-cinematography",
+      "score": 161,
+      "descendants": 86,
+      "storyUrl": "https://theasc.com/articles/the-secret-agent-cinematography"
+    },
+    {
+      "id": 47366766,
+      "type": "story",
+      "title": "Show HN: Thermal Receipt Printers – Markdown and Web UI",
+      "rank": 23,
+      "depth": 0,
+      "storyId": 47366766,
+      "storyTitle": "Show HN: Thermal Receipt Printers – Markdown and Web UI",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47366766",
+      "topComments": [
+        {
+          "id": 47407704,
+          "text": "I've not much to say on the thermal printer part of this but the extensions they did to markdown are great. They had me double taking for a few seconds thinking they might be real markdown because they make so much sense.\n    [align=center]    Center-align the following text (also left, right)\n    [qr=https://...]  Generate and print a QR code\n\nDeprecating align in html was a mistake.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47407704",
+          "by": "Spunkie",
+          "time": 1773713012
+        },
+        {
+          "id": 47406871,
+          "text": "I actually use my printers thank you very much. Even bought one of those bank teller slip printer things and a few boxes check-sized slips. I use them for time tracking and todo list.\nI didn't go totally crazy, though, and stopped before getting too deep into \"...and then OCR them using the check scanner\" because I remembered I was already keeping track of start/stop times in a database when printing the slips.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47406871",
+          "by": "bigbuppo",
+          "time": 1773706373
+        },
+        {
+          "id": 47408114,
+          "text": "This rules! I've been working on a similar project where friends DM a discord bot and it prints out a \"fax\" on my thermal printer.\nOne thing I solved differently: I rendered the fax as an image using PIL and then I just print the image. That way I can support arbitrary Unicode and can lay things out independently of what my printer is capable of.\nExample rendered fax: https://github.com/frizzle-chan/fax.frizzle.lol/blob/main/fa...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47408114",
+          "by": "frizzle-chan",
+          "time": 1773716856
+        },
+        {
+          "id": 47409855,
+          "text": "This comes so timely. I bought the receipt printer last week and a large metal sheet to hold them magnetically to the wall for a real life todo kanban board",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47409855",
+          "by": "andruby",
+          "time": 1773735086
+        },
+        {
+          "id": 47406361,
+          "text": "Obligatory \"be careful with that poison paper\" warning![1]\n[1]: https://hn.algolia.com/?dateRange=all&page=0&prefix=false&qu...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47406361",
+          "by": "thomascountz",
+          "time": 1773702868
+        },
+        {
+          "id": 47406718,
+          "text": "Called me out with that first sentence",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47406718",
+          "by": "speakbits",
+          "time": 1773705287
+        },
+        {
+          "id": 47407655,
+          "text": "I had started working on something similar a few months back but as a collection of CLI utilities.\nThe first was a todo list printer where the todos are written in a YAML file.\nIt includes fields for the name of the list and the date.\nI also started working on a Sudoku printer (which I think is only possible on 80mm paper).\nBut I completely forgot about the entire thing after coming back from vacation.\nYou've inspired be to get back to working on it :D\nAs an aside, are there any good recommendations for a wifi/bluetooth printer using 80mm paper that doesn't break the bank? I initially bought the Munbyn ITPP098P but it being USB only is a bit unergonomic.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47407655",
+          "by": "owobeid",
+          "time": 1773712585
+        },
+        {
+          "id": 47408715,
+          "text": "What’s a cheap but ok thermal printer? The brand mentioned in this repo?\nI wanted to setup https://www.colonnes.com but their recommendations were quite expensive.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47408715",
+          "by": "2muchcoffeeman",
+          "time": 1773722490
+        },
+        {
+          "id": 47407517,
+          "text": "these things seem like too much fun, someone made a gleam printer library (https://hexdocs.pm/escpos/) and suddenly everyone on the discord is buying a printer...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47407517",
+          "by": "dematz",
+          "time": 1773711237
+        },
+        {
+          "id": 47408113,
+          "text": "I troubleshoot thermal printers for work and the error is rarely in the hardware. I have no issue with this work request; TPs are deterministic and predictable.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47408113",
+          "by": "plussed_reader",
+          "time": 1773716850
+        }
+      ],
+      "by": "howlett",
+      "time": 1773420541,
+      "url": "https://github.com/sadreck/ThermalMarky",
+      "score": 119,
+      "descendants": 48,
+      "storyUrl": "https://github.com/sadreck/ThermalMarky"
+    },
+    {
+      "id": 47416548,
+      "type": "story",
+      "title": "Java 26 is here",
+      "rank": 24,
+      "depth": 0,
+      "storyId": 47416548,
+      "storyTitle": "Java 26 is here",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47416548",
+      "topComments": [
+        {
+          "id": 47417649,
+          "text": "the people that work on Java & the JVM are very smart.\nit has become a best of breed language - hell its better than Go for industry purposes.\nthe drawback with Java will always be the CULTURE - (maybe someone can insert a quote of how in physics progress is only made, when old physicist die - I don't wanna be morbid ) but with Java same that's when the culture will change.\nAll those people using typescript (could be using Java - but the culture doesn't want them and consider them heretics for not embracing religion of OOP and FactoryFactory)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47417649",
+          "by": "dzonga",
+          "time": 1773778248
+        },
+        {
+          "id": 47418251,
+          "text": "I program in Java for more than 15 years now. I can resonate with people hating the language from it's early days due to the experience with all the enterprisy features and over abstractions. Or confunding Java with the Spring ecosystem. But Java came a long way over the years. It's now what many would call a \"modern\" language. It's less verbose, has many of the features people find appealing in Scala and Kotlin and it can even compile to native binaries using GraalVM. This made building CLIs in Java feasible. Or lambdas.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47418251",
+          "by": "ludovicianul",
+          "time": 1773781278
+        },
+        {
+          "id": 47417589,
+          "text": "I think astronomers could measure the age of the universe in nano-Valhallas. Every year, it feels 50% closer to completion...\nIn all seriousness I'm happy with what Mr. Goetz and the team have done. Sealed interfaces (java 17) + exhaustive switch statements (java 21) means we now have union types in java! And instead of jumping on the async/await bandwagon we now have a more general solution that doesn't lead to API duplication (virtual threads). But Valhalla has been a veeery long time coming.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47417589",
+          "by": "xeubie",
+          "time": 1773777927
+        },
+        {
+          "id": 47417101,
+          "text": "JEP 504: Remove the Applet API\nGlad to see this being removed. Java plugins especially on Linux were awful and required by tons of corporate stuff. Anyone remeber IcedTea Web? A functional and opensource Java plugin and Java Webstart implementation?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47417101",
+          "by": "vyskocilm",
+          "time": 1773775754
+        },
+        {
+          "id": 47416981,
+          "text": "I was pretty surprised when I learned recently that the Java alternative for green threads doesn't use colored functions. It put Java in a higher place in my perception.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47416981",
+          "by": "haolez",
+          "time": 1773775202
+        },
+        {
+          "id": 47419176,
+          "text": "I have been using Java since version 1.4. Both the language and its ecosystem have come a long way since then. I endured the height of the EJB phase. I adopted Spring when version 1.2 was released. I spent hours fighting with IDEs to run OSGi bundles. I hated building UIs with Swing/AWT, many of which are still in use today and are gradually being replaced by lovely JavaFX. When I look at code I wrote around 12 years ago, I'm amazed at how much I've matured too.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47419176",
+          "by": "einrealist",
+          "time": 1773786178
+        },
+        {
+          "id": 47417201,
+          "text": "As someone who has been out of the Java world for many years, but recently forced back into it due to Android dev requirements, Post lawsuit, what is the relationship between Android (Google) and Java now?  When can we expect 26 on Android?  On that note, why is Android always so far behind?  Is it because Kotlin is primary or is it deeper?  Did the lawsuit play a role?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47417201",
+          "by": "freedomben",
+          "time": 1773776194
+        },
+        {
+          "id": 47418424,
+          "text": "Man I still have scars learning Java in college. Took the entire fun out of coding until I ended up learning C.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47418424",
+          "by": "Bnjoroge",
+          "time": 1773782096
+        },
+        {
+          "id": 47418920,
+          "text": "I haven't read a Java manual since the time of Java 8. Do you have any books or other resources you could recommend to catch up with all that has changed in these years?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47418920",
+          "by": "GTP",
+          "time": 1773784768
+        },
+        {
+          "id": 47418218,
+          "text": "Really glad to see we're getting a native PEM API.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47418218",
+          "by": "olivia-banks",
+          "time": 1773781139
+        }
+      ],
+      "by": "mfiguiere",
+      "time": 1773773049,
+      "url": "https://hanno.codes/2026/03/17/java-26-is-here/",
+      "score": 277,
+      "descendants": 339,
+      "storyUrl": "https://hanno.codes/2026/03/17/java-26-is-here/"
+    },
+    {
+      "id": 47359010,
+      "type": "story",
+      "title": "In space, no one can hear you kernel panic (2020)",
+      "rank": 25,
+      "depth": 0,
+      "storyId": 47359010,
+      "storyTitle": "In space, no one can hear you kernel panic (2020)",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47359010",
+      "topComments": [
+        {
+          "id": 47410780,
+          "text": "> running identical software on multiple computer systems is the name of the software-architecture game\nIn the railway signalling industry (which for historically obvious reasons is obsessed with reliability) there even is a pattern of running different software implementing the same specification, written by different team, running on a different RTOS and different CPU architecture.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47410780",
+          "by": "dfox",
+          "time": 1773743222
+        },
+        {
+          "id": 47410030,
+          "text": "\"From the dawn of the Space Age through the present, NASA has relied on resilient software running on redundant hardware to make up for physical defects, wear and tear, sudden failures, or even the effects of cosmic rays on equipment.\"\nAn interesting case study in this domain is to compare the Saturn V Launch Vehicle Digital Computer with the Apollo Guidance Computer\nNow the LVDC, that was a real flight computer, triply redundant, every stage in the processing pipeline had to be vote confirmed, the works.\nhttps://en.wikipedia.org/wiki/Launch_Vehicle_Digital_Compute...\nCompare the AGC, with no redundancy. a toy by comparison. But the AGC was much faster and lighter so they just shipped two of them(three if you count the one in the lunar module) and made sure it was really good at restarting fast.\nThere is a lesson to be learned here but I am not sure what it is. Worse is better? Can not fail vs fail gracefully?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47410030",
+          "by": "somat",
+          "time": 1773737005
+        },
+        {
+          "id": 47409680,
+          "text": "OT: I really enjoyed The Increment when it was first being released. It felt like the first software engineering practitioner's publication and introduced me to a lot of new people to follow.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47409680",
+          "by": "thomascountz",
+          "time": 1773733038
+        },
+        {
+          "id": 47410724,
+          "text": "The contrast with modern software development is striking. Today we often rely on fast iteration and patching problems in production. Spacecraft software is the opposite",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47410724",
+          "by": "KurSix",
+          "time": 1773742789
+        },
+        {
+          "id": 47417990,
+          "text": "Today, that could also be a great title for a commentary about datacenters in space.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47417990",
+          "by": "rkagerer",
+          "time": 1773780005
+        },
+        {
+          "id": 47408458,
+          "text": "How would these considerations affect Musk's space cloud ?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47408458",
+          "by": "throwaradfy5745",
+          "time": 1773720204
+        },
+        {
+          "id": 47359023,
+          "text": "(2020)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47359023",
+          "by": "gnabgib",
+          "time": 1773360185
+        },
+        {
+          "id": 47411105,
+          "text": "interesting point about patching in production – it's a totally different mindset. we had a similar issue with a legacy system at my old job, felt like a constant firefighting situation.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47411105",
+          "by": "shadowbyte17",
+          "time": 1773746033
+        },
+        {
+          "id": 47407520,
+          "text": "Do not attempt to adjust your television. We control the horizontal. We control the vertical.\nWe know Glenn is loquacious.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47407520",
+          "by": "adampunk",
+          "time": 1773711263
+        }
+      ],
+      "by": "p0u4a",
+      "time": 1773360120,
+      "url": "https://increment.com/software-architecture/in-space-no-one-can-hear-you-kernel-panic/",
+      "score": 88,
+      "descendants": 23,
+      "storyUrl": "https://increment.com/software-architecture/in-space-no-one-can-hear-you-kernel-panic/"
+    },
+    {
+      "id": 47366616,
+      "type": "story",
+      "title": "Font Smuggler – Copy hidden brand fonts into Google Docs",
+      "rank": 26,
+      "depth": 0,
+      "storyId": 47366616,
+      "storyTitle": "Font Smuggler – Copy hidden brand fonts into Google Docs",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47366616",
+      "topComments": [
+        {
+          "id": 47411590,
+          "text": "Whoa. How does this work?\nOne of the major issues we had at my previous company weaning people off of powerpoint (to google docs) was brand fonts. Ours, of course.\nA lot of what is considered brand identity in presentations comes from fonts, which makes Google Docs Slides a non-starter for many unfortunately.\n(we ended up making them in powerpoint and using the Google Docs compatibility mode with pptx).",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47411590",
+          "by": "dijit",
+          "time": 1773749573
+        },
+        {
+          "id": 47412601,
+          "text": "Received DMCA takedown notices for a paid font I used for my wife’s interior design website that she liked but we didn’t pay for because…I’m lazy.\nI was surprised to receive the DMCA (it is hosted on GitHub Pages). I ignored the emails because…I’m lazy.\nThey (GitHub) eventually took down the repository (and site). So I swapped to another font and I don’t think my wife noticed.\nI think all of this was still easier than probably paying for the font!\nLesson of the story? Don’t underestimate the impact of laziness on your potential customers.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47412601",
+          "by": "jmathai",
+          "time": 1773755166
+        },
+        {
+          "id": 47411786,
+          "text": "Is there any difference between Source Serif and Source Sans as listed here and the publicly available versions, given they are open source typefaces?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47411786",
+          "by": "novov",
+          "time": 1773750945
+        },
+        {
+          "id": 47411989,
+          "text": "Would be really good if Google Docs could support custom brand fonts by letting their customers upload them in the admin console.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47411989",
+          "by": "ngrilly",
+          "time": 1773752054
+        },
+        {
+          "id": 47414140,
+          "text": "I didn't know that many brands had their own bespoke fonts. Especially the less prominent players like Colgate or Korean Air. Was this caused by normal font licensing being so restrictive or expensive that they just decided to hire someone to make a font just for them, or design teams insisting that this sans serif that looks almost like all the others (but not quite) is essential to their design?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47414140",
+          "by": "tavavex",
+          "time": 1773761635
+        },
+        {
+          "id": 47412426,
+          "text": "Any idea how did the creator manage to get access to the fonts in the first place? Won't you need a Google Docs document which uses the given font and then copy it from there and put it up on the website? Or is there some way the creator could have put these fonts on his website from publicly available information?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47412426",
+          "by": "ILoveHorses",
+          "time": 1773754383
+        },
+        {
+          "id": 47412286,
+          "text": "I knew about this for Google’s own fonts but had no idea they offered the option to use custom fonts. Is there any easy place to find a list of them? I wonder if the custom fonts are just hardcoded/pushed to their CDN alongside all the other ones.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47412286",
+          "by": "varun_ch",
+          "time": 1773753728
+        },
+        {
+          "id": 47411762,
+          "text": "I really like the style of copying the “google tool” style that this website and jmail use. It makes the project feel different compared to all the ai-generated app these days.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47411762",
+          "by": "love2read",
+          "time": 1773750757
+        },
+        {
+          "id": 47413013,
+          "text": "I love how all these 'brand' fonts look indistinguishable to an untrained eye and still brain-frying-bordedom-inducingly close to each other to someone like me who actually studied & worked in typography.\nRelated: https://eidosdesign.substack.com/p/why-every-brand-looks-the...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47413013",
+          "by": "virtualritz",
+          "time": 1773756998
+        },
+        {
+          "id": 47418978,
+          "text": "The word YouTube really depends a lot on good kerning.  The \"YouTube Display\" font has much better kerning around the uppercase T than the other three fonts that mention YouTube.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47418978",
+          "by": "Dwedit",
+          "time": 1773785084
+        }
+      ],
+      "by": "lanewinfield",
+      "time": 1773419744,
+      "url": "https://brianmoore.com/fontsmuggler/",
+      "score": 178,
+      "descendants": 82,
+      "storyUrl": "https://brianmoore.com/fontsmuggler/"
+    },
+    {
+      "id": 47365299,
+      "type": "story",
+      "title": "Claude Tips for 3D Work",
+      "rank": 27,
+      "depth": 0,
+      "storyId": 47365299,
+      "storyTitle": "Claude Tips for 3D Work",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47365299",
+      "topComments": [
+        {
+          "id": 47410565,
+          "text": "This \"screenshot -> refine loop\" is a great strategy and I have built it into my 3D Modeling product as well[0], but had to disable it because it would often quadruple the costs and the product is already expensive.\nI am on standby to enable it though, just need a price to drop a bit more!\n[0]: https://grandpacad.com",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47410565",
+          "by": "ponyous",
+          "time": 1773741406
+        },
+        {
+          "id": 47408985,
+          "text": "Really good. I’ve struggled with the same thing.\n> Instead of expecting it to understand my requests, I almost always build tooling first to give us a shared language to discuss the project.\nThis is probably the key. I’ve found this to be true in general. Building simple tools that the model can use help frame the problem in a very useful way.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47408985",
+          "by": "mungoman2",
+          "time": 1773725188
+        },
+        {
+          "id": 47409685,
+          "text": ">I still occasionally hand write code in NeoVim on the bits I care the most about (CSS, design and early architecture like API patterns)\nI find it amazing how people's opinions differ here. This is the first stuff I'd trust to Claude and co. because it is very much in-distribution for training data. Now if I had sensitive backend code or a framework/language/library that is pretty new or updated frequently, I'd be much more cautious about trusting LLMs or at least I would want to understand every bit of the code.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47409685",
+          "by": "sigmoid10",
+          "time": 1773733083
+        },
+        {
+          "id": 47409637,
+          "text": "Just yesterday I used Claude to great effect in FreeCAD to model a church tower. The tower has a square base and an octagonal top, but connecting the two by creating a loft using the GUI in FreeCAD results in a wrong and ugly abomination.\nClaude understood the problem and produced elegant Python code that worked perfectly the first time.\nSo I continued and described the other features of the tower to Claude, who coded them.\nIt's sometimes difficult to properly describe what you want in English, and Claude does a lot of thinking, and sometimes goes deep into a wrong direction of which it won't come out easily; but in the end the result is almost perfect.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47409637",
+          "by": "bambax",
+          "time": 1773732589
+        },
+        {
+          "id": 47411612,
+          "text": "My mind-blown moment was when I was doing work like this and Claude started positioning the camera itself to get better looks at areas it wanted to improve.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47411612",
+          "by": "neomantra",
+          "time": 1773749671
+        },
+        {
+          "id": 47409670,
+          "text": "Great article. I've been trying to achieve something similar with a Revit. It's an old CAD application for Windows which means there's a few additional hurdles in exposing a cli interface that allows the LLM to drive it. However, once that is done, the loop of \"write code, take a screenshot, repeat\" works pretty well.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47409670",
+          "by": "ftcHn",
+          "time": 1773732931
+        },
+        {
+          "id": 47409776,
+          "text": "I've been having pretty good success with unity as a 3d llm tool. In addition to the iso views I've included a perspective mode that can focus on a list of game object ids with a custom camera origin. The agent is required to send instructions along with the VLM request each time in order to condition how the view is interpreted. E.g.: \"How does ambient occlusion look in A vs B?\".\nThe VLM is invoked as a nested operation within a tool call, not as part of the same user-level context. This provides the ability to analyze a very large number of images without blowing token budgets.\nI've observed that GPT5.4 can iteratively position the perspective camera and stop once it reaches subjectively interesting arrangements. I don't know how to quantify this, but it does seem to have some sense of world space.\nI think much of it comes down to conditioning the vision model to \"see\" correctly, and willingness to iterate many times.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47409776",
+          "by": "bob1029",
+          "time": 1773734204
+        },
+        {
+          "id": 47412737,
+          "text": "I've been using Codex (GPT-5.4 extra high) to code custom FeatureScript in Onshape (3D mechanical CAD software). It's challenging to get it to do TDD that involves any visual reasoning. At the moment I've got tooling through Google Chrome Devtools MCP and Playwright to extract things and control the browser and I use some custom features which help with formatting and controlling debugging outputs (text and visual overlays). Mostly the text debugging outputs are very helpful to Codex. It will often add debugging payloads when we're focused on a particular issue. I do occasionally take screenshots and paste them into Codex and explain the issue that I'm seeing. It seems to understand a certain amount, especially if the issue can be seen in orthogonal views.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47412737",
+          "by": "s1mon",
+          "time": 1773755710
+        },
+        {
+          "id": 47417516,
+          "text": "Love to see this stuff. I recently used codex to produce me a scad file for generating multicolored tokens for 3d printing. I had alot of more fun than grinding it out in the software, and if I ever want to make more for other board games, most of the word is already done.\nhttps://makerworld.com/en/models/2456180-token-creator",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47417516",
+          "by": "nickthegreek",
+          "time": 1773777564
+        },
+        {
+          "id": 47413488,
+          "text": "This is where I'm at too and why I wound up building my own ticketing system similar to Beads. I got tired of my personal frustrations (and errors from Beads when switching branches). I think its fine to build tools to help you be more productive with the model, it makes a lot of sense.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47413488",
+          "by": "giancarlostoro",
+          "time": 1773758933
+        }
+      ],
+      "by": "snide",
+      "time": 1773413590,
+      "url": "https://www.davesnider.com/posts/claude-3d",
+      "score": 200,
+      "descendants": 43,
+      "storyUrl": "https://www.davesnider.com/posts/claude-3d"
+    },
+    {
+      "id": 47410532,
+      "type": "story",
+      "title": "Building a Shell",
+      "rank": 28,
+      "depth": 0,
+      "storyId": 47410532,
+      "storyTitle": "Building a Shell",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47410532",
+      "topComments": [
+        {
+          "id": 47411219,
+          "text": "Building a shell is a great exercise, but honestly having to deal with string parsing is such a bother that it robs like 2/3 of the joy along the way. I once built a very simple one in Go [0] as a learning exercise and I stopped once I started getting frustrated with all the corner cases.\n[0] https://github.com/lourencovales/codecrafters/blob/master/sh...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47411219",
+          "by": "lvales",
+          "time": 1773746835
+        },
+        {
+          "id": 47411520,
+          "text": "Some time ago I've written an article about a particular aspect of shells, job control: https://emersion.fr/blog/2019/job-control/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47411520",
+          "by": "emersion",
+          "time": 1773749075
+        },
+        {
+          "id": 47415696,
+          "text": "Fun read! I built a minimal Linux shell [0] in c and Zig last year which does not depend on libc. It was a great way to learn about execve, the new-ish clone3 syscall and how Linux starts a process. Parsing strings is the least fun part of the building the shell.\n[0] https://gist.github.com/rrampage/5046b60ca2d040bcffb49ee38e8...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47415696",
+          "by": "rrampage",
+          "time": 1773768549
+        },
+        {
+          "id": 47411297,
+          "text": "Had an assignment to build a shell in a week, how hard could it be?\n  controlling terminal\n  session leader\n  job control\n\nThe parser was easy in comparison.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47411297",
+          "by": "mzs",
+          "time": 1773747555
+        },
+        {
+          "id": 47414949,
+          "text": "There's a very good exercise on Codecrafters (https://app.codecrafters.io/courses/shell/overview) to walk you through writing your own shell. I found it enlightening, as well as a good way to learn a new language.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47414949",
+          "by": "ratzkewatzke",
+          "time": 1773765112
+        },
+        {
+          "id": 47413273,
+          "text": "Unix shells are conceptually simple but hide a surprising amount of complexity under the hood that we take for granted. I recently had build my own PTY controller. There were so many edge-cases to deal with. It took weeks of stress testing and writing many tests to get it right.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47413273",
+          "by": "hexer303",
+          "time": 1773758054
+        },
+        {
+          "id": 47413789,
+          "text": "Link was previously posted by author: https://news.ycombinator.com/item?id=47398749 There are other good quality articles on their site, and maybe deserves the imaginary points.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47413789",
+          "by": "lioeters",
+          "time": 1773760218
+        },
+        {
+          "id": 47411141,
+          "text": "Bit of pedantry but I don't think traditional unix shell (like this) follows repl model; the shell is not usually doing printing of the result of evaluation. Instead the printing happens more as a side effect of the commands.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47411141",
+          "by": "zokier",
+          "time": 1773746240
+        },
+        {
+          "id": 47416021,
+          "text": "Great article. There are many things every developer should do when starting to learn programming or when trying to improve their skills. This is one of them. I once built a shell-like programming language (not an interpreter). If anyone reading this wants to improve their skills, I strongly suggest building your own shell from scratch.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47416021",
+          "by": "lasgawe",
+          "time": 1773770284
+        },
+        {
+          "id": 47415749,
+          "text": "Is there a (real) shell whose code is relatively short and self contained and would be valuable to read? This was always something I wanted to do but never quite spent time to look for a good one to explore.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47415749",
+          "by": "doe88",
+          "time": 1773768812
+        }
+      ],
+      "by": "ingve",
+      "time": 1773741154,
+      "url": "https://healeycodes.com/building-a-shell",
+      "score": 180,
+      "descendants": 39,
+      "storyUrl": "https://healeycodes.com/building-a-shell"
+    },
+    {
+      "id": 47364337,
+      "type": "story",
+      "title": "Finding a CPU Design Bug in the Xbox 360 (2018)",
+      "rank": 29,
+      "depth": 0,
+      "storyId": 47364337,
+      "storyTitle": "Finding a CPU Design Bug in the Xbox 360 (2018)",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47364337",
+      "topComments": [
+        {
+          "id": 47413374,
+          "text": "It is interesting that IBM dominated this generation of consoles, and was vanquished in the next.\nThe high failure rates of the Xbox 360 did not help.\nhttps://en.wikipedia.org/wiki/Xbox_360_technical_problems",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47413374",
+          "by": "chasil",
+          "time": 1773758470
+        },
+        {
+          "id": 47414433,
+          "text": "This article is from 2018.\nPreviously:\n- https://news.ycombinator.com/item?id=16094925\n- https://news.ycombinator.com/item?id=27480448",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47414433",
+          "by": "TazeTSchnitzel",
+          "time": 1773762935
+        },
+        {
+          "id": 47413330,
+          "text": "Would need \"(2018)\" in the title.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47413330",
+          "by": "jszymborski",
+          "time": 1773758270
+        },
+        {
+          "id": 47417545,
+          "text": "Wow... A speculative branch prediction path actually get's preemptively executed despite the branch outcome? No matter if the execution has side-affects??? That's quite amazing. Are modern CPUs doing speculative execution like this and just put extra safeguards around affects or do they just prefetch / decode instructions now-a-days?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47417545",
+          "by": "dev-ns8",
+          "time": 1773777718
+        },
+        {
+          "id": 47414652,
+          "text": "unrelated, but recently XBox One was hacked for the first time\nhttps://www.youtube.com/watch?v=FTFn4UZsA5U",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47414652",
+          "by": "NooneAtAll3",
+          "time": 1773763827
+        },
+        {
+          "id": 47416413,
+          "text": "Sobre calentamiento",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47416413",
+          "by": "alumno_007",
+          "time": 1773772247
+        }
+      ],
+      "by": "mariuz",
+      "time": 1773409221,
+      "url": "https://randomascii.wordpress.com/2018/01/07/finding-a-cpu-design-bug-in-the-xbox-360/",
+      "score": 153,
+      "descendants": 52,
+      "storyUrl": "https://randomascii.wordpress.com/2018/01/07/finding-a-cpu-design-bug-in-the-xbox-360/"
+    },
+    {
+      "id": 47400089,
+      "type": "story",
+      "title": "Give Django your time and money, not your tokens",
+      "rank": 30,
+      "depth": 0,
+      "storyId": 47400089,
+      "storyTitle": "Give Django your time and money, not your tokens",
+      "sourceUrl": "https://news.ycombinator.com/item?id=47400089",
+      "topComments": [
+        {
+          "id": 47414129,
+          "text": "s/Django/the codebase/g, and the point stands against any repo for which there is code review by humans:\n> If you do not understand the ticket, if you do not understand the solution, or if you do not understand the feedback on your PR, then your use of LLM is hurting Django as a whole.\n> Django contributors want to help others, they want to cultivate community, and they want to help you become a regular contributor. Before LLMs, this was easier to sense because you were limited to communicating what you understood. With LLMs, it’s much easier to communicate a sense of understanding to the reviewer, but the reviewer doesn’t know if you actually understood it.\n> In this way, an LLM is a facade of yourself. It helps you project understanding, contemplation, and growth, but it removes the transparency and vulnerability of being a human.\n> For a reviewer, it’s demoralizing to communicate with a facade of a human.\n> This is because contributing to open source, especially Django, is a communal endeavor. Removing your humanity from that experience makes that endeavor more difficult. If you use an LLM to contribute to Django, it needs to be as a complementary tool, not as your vehicle.\nI am going to try to make these points to my team, because I am seeing a huge influx of AI-generated PRs where the submitter interacts with CodeRabbit etc. by having Claude/Codex respond to feedback on their behalf.\nThere is little doubt that if we as an industry fail to establish and defend a healthy culture for this sort of thing, it's going to lead to a whole lot of rot and demoralization.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47414129",
+          "by": "jihadjihad",
+          "time": 1773761601
+        },
+        {
+          "id": 47416099,
+          "text": "The best people I've worked with tended to go out of their way to make it as easy for me as possible to critique their ideas or implementations.\nThey spelled out exactly their assumptions, the gaps in their knowledge, what they have struggled with during implementation, behavior they observed but don't fully understand, etc.\nTheir default position was that their contribution was not worth considering unless they can sell it to the reviewer, by not assuming their change deserves to get merged because of their seniority or authority, but by making the other person understand how any why it works. Especially so if the reviewer was their junior.\nWhen describing the architecture, they made an effort to communicate it so clearly that it became trivial for others to spot flaws, and attack their ideas. They not only provided you with ammunition to shoot down their ideas, they handed you a loaded gun, safety off, and showed you exactly where to point it.\nIf I see that level of humility and self-introspection in a PR, I'm not worried, regardless of whether or not an LLM was involved.\nBut then there's people that created PRs with changes where the stack didn't even boot / compile, because of trivial errors. They already did that before, and now they've got LLMs. Those are the contributions I'm very worried about.\nSo unlike people in other threads here, I don't agree at all with \"If the code works, does it matter how it was produced and presented?\". For me, the meta / out-of-band information about a contribution is a massive signal, today more than ever.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47416099",
+          "by": "lukasgraf",
+          "time": 1773770613
+        },
+        {
+          "id": 47415091,
+          "text": "This is getting really out of control at the moment and I'm not exactly sure what the best way to fix it is, but this is a very good post in terms of expressing the why this is not acceptable and why the burden if shifting on the wrong people.\nWill humans take this to heart and actually do the right thing? Sadly, probably not.\nOne of the main issues is that pointing to your GitHub contributions and activity is now part of the hiring process. So people will continue to try to game the system by using LLMs to automate that whole process.\n\"I have contributed to X, Y, and Z projects\" - when they actually have little to no understanding of those projects or exactly how their PR works. It was (somehow) accepted and that's that.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47415091",
+          "by": "EMM_386",
+          "time": 1773765776
+        },
+        {
+          "id": 47413859,
+          "text": "I like the idea of donating money instead of tokens. I think django contributors are likely to know how to spend those tokens better than I might, as I am not a django core contributor.\nSome projects ( https://news.ycombinator.com/item?id=46730504 ) are setting a norm to disclose AI usage. Another project simply decided to pause contributions from external parties ( https://news.ycombinator.com/item?id=46642012 ). Instead of accepting driveby pull requests, contributors have to show a proof of work by working with one of the other collaborators.\nAnother project has started to decline to let users directly open issues ( https://news.ycombinator.com/item?id=46460319 ).\nThere's definitely an aspect here where the commons or good will effort of collaborators is being infringed upon by external parties who are unintentionally attacking their time and attention with low quality submissions that are now cheaper than ever to generate. It may be necessary to move to a more private community model of collaboration ( https://gnusha.org/pi/bitcoindev/CABaSBax-meEsC2013zKYJnC3ph... ).\nedit: Also I applaud the debian project for their recent decision to defer and think harder about the nature of this problem. https://news.ycombinator.com/item?id=47324087",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47413859",
+          "by": "kanzure",
+          "time": 1773760499
+        },
+        {
+          "id": 47415646,
+          "text": "\"For a reviewer, it’s demoralizing to communicate with a facade of a human.\"\nThis is so important. Most humans like communicating with other humans. For many (note, I didn't say all) open source collaborators, this is part of the reward of collaborating on open source.\nMaking them communicate with a bot pretending to be a human instead removes the reward and makes it feel terrible, like the worst job nobody would want. If you spent any time at all actually trying to help the contributor underestand and develop their skills, you just feel like an idiot. It lowers the patience of everyone in the entire endeavor, ruining it for everyone.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47415646",
+          "by": "jrochkind1",
+          "time": 1773768210
+        },
+        {
+          "id": 47414698,
+          "text": "It's like every new innovation at this point is exacerbating the problem of us choosing short term rewards over long time horizon rewards. The incentive structure simply doesn't support people who want to view things from the bird's eye view. Once you see game theory, you really can't unsee it.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47414698",
+          "by": "module1973",
+          "time": 1773764029
+        },
+        {
+          "id": 47414437,
+          "text": "Great message but I wonder if the people who do everything via LLM would even care to read such a message. \nAnd at what point is it hard/impossible to judge whether something is entirely LLM or not? I sometimes struggle a lot with this being OSS maintainer myself",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47414437",
+          "by": "MidnightRider39",
+          "time": 1773762947
+        },
+        {
+          "id": 47414435,
+          "text": "Perhaps we should start making LLM- open source projects (clearly marked as such). Created by LLMs, open for LLM contributions, with some clearly defined protocols I'd be interesting where it would go. I imagine it could start as a project with a simple instruction file to include in your project to try to find abstractions which can be useful to others as a library and look for specific kind of libraries. Some people want to help others even if they are sharing effectively money+time rather than their skill.\nAlthough I'm afraid big part of these LLM contributions may be people trying to build their portfolio. Some known project contributor sounds better than having some LLM generated code under your name.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47414435",
+          "by": "comboy",
+          "time": 1773762942
+        },
+        {
+          "id": 47415142,
+          "text": "Well said:\n> Before LLMs, [high quality code contribution] was easier to sense because you were limited to communicating what you understood. With LLMs, it’s much easier to communicate a sense of understanding to the reviewer, but the reviewer doesn’t know if you actually understood it.\nNow my twist on this: This same spirit is why local politics at the administrative level feels more functional than identity politics at the national level. The people that take the time to get involved with quotidian issues (e.g. for their school district) get their hands dirty and appreciate the specific constraints and tradeoffs. The very act of digging in changes you.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47415142",
+          "by": "xpe",
+          "time": 1773765959
+        },
+        {
+          "id": 47414654,
+          "text": "Curious what simon thinks about using an LLM to work on Django...\nI've used an LLM to create patches for multiple projects. I would not have created said work without LLMs. I also reviewed the work afterward and provided tests to verify it.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=47414654",
+          "by": "__mharrison__",
+          "time": 1773763833
+        }
+      ],
+      "by": "dcreager",
+      "time": 1773673970,
+      "url": "https://www.better-simple.com/django/2026/03/16/give-django-your-time-and-money/",
+      "score": 442,
+      "descendants": 171,
+      "storyUrl": "https://www.better-simple.com/django/2026/03/16/give-django-your-time-and-money/"
+    }
+  ]
+}

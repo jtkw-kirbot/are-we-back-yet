@@ -1,0 +1,2506 @@
+{
+  "date": "2026-01-29",
+  "fetchedAt": "2026-04-29T22:20:27.929Z",
+  "samplingMethod": "frontpage_day_query_story_comment_snapshot",
+  "source": "hn_front_day_query_firebase",
+  "items": [
+    {
+      "id": 46810282,
+      "type": "story",
+      "title": "Claude Code daily benchmarks for degradation tracking",
+      "rank": 1,
+      "depth": 0,
+      "storyId": 46810282,
+      "storyTitle": "Claude Code daily benchmarks for degradation tracking",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46810282",
+      "topComments": [
+        {
+          "id": 46815013,
+          "text": "Hi everyone, Thariq from the Claude Code team here.\nThanks for reporting this. We fixed a Claude Code harness issue that was introduced on 1/26. This was rolled back on 1/28 as soon as we found it.\nRun `claude update` to make sure you're on the latest version.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46815013",
+          "by": "trq_",
+          "time": 1769713956
+        },
+        {
+          "id": 46811319,
+          "text": "[SWE-bench co-author here]\nIt seems like they run this test on a subset of 50 tasks, and that they only run the test once per day. So a lot of the movement in accuracy could be attributed to that. \nI would run on 300 tasks and I'd run the test suite 5 or 10 times per day and average that score. Lots of variance in the score can come from random stuff like even Anthropic's servers being overloaded.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46811319",
+          "by": "ofirpress",
+          "time": 1769699781
+        },
+        {
+          "id": 46811365,
+          "text": "Why I do not believe this shows Anthropic serves folks a worse model:\n1. The percentage drop is too low and oscillating, it goes up and down.\n2. The baseline of Sonnet 4.5 (the obvious choice for when they have GPU busy for the next training) should be established to see Opus at some point goes Sonnet level. This was not done but likely we would see a much sharp decline in certain days / periods. The graph would look like dominated by a \"square wave\" shape.\n3. There are much better explanations for this oscillation: A) They have multiple checkpoints and are A/B testing, CC asks you feedbacks about the session. B) Claude Code itself gets updated, as the exact tools version the agent can use change. In part it is the natural variability due to the token sampling that makes runs not equivalent (sometimes it makes suboptimal decisions compared to T=0) other than not deterministic, but this is the price to pay to have some variability.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46811365",
+          "by": "antirez",
+          "time": 1769699990
+        },
+        {
+          "id": 46814501,
+          "text": "> We model tests as Bernoulli random variables and compute 95% confidence intervals around daily, weekly, and monthly pass rates. Statistically significant differences in any of those time horizons are reported.\nThey're going to need to provide a lot more detail on their methodology, because that doesn't make a lot of sense. From their graphs, they seem to be calculating the confidence interval around the previous value, then determining whether the new value falls outside of it. But that's not valid for establishing the statistical significance of a difference. You need to calculate the confidence interval of the difference itself, and then see if all the values within that confidence interval remain positive (if it excludes 0).  This is because both the old and new measurement have uncertainty. Their approach seems to be only considering uncertainty for one of them.\nThey should also really be more specific about the time periods. E.g. their graphs only show performance over the past 30 days, but presumably the monthly change is comparing the data from 60 to 31 days ago, to the data from 30 days ago until yesterday? In which case the weekly graph really ought to be displaying the past two months, not one month.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46814501",
+          "by": "crazygringo",
+          "time": 1769712037
+        },
+        {
+          "id": 46811171,
+          "text": "Simply search user prompts for curse words and then measure hostility sentiment.  User hostility rises as agents fail to meet expectations.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46811171",
+          "by": "Dowwie",
+          "time": 1769699164
+        },
+        {
+          "id": 46811257,
+          "text": "There was a moment about a week ago where Claude went down for about an hour. And right after it came back up it was clear a lot of people had given up and were not using it.\nIt was probably 3x faster than usual. I got more done in the next hour with it than I do in half a day usually. It was definitely a bit of a glimpse into a potential future of “what if these things weren’t resource constrained and could just fly”.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46811257",
+          "by": "silverlight",
+          "time": 1769699550
+        },
+        {
+          "id": 46811279,
+          "text": "Wouldn't be surprised if they slowly start quantizing their models over time. Makes it easier to scale and reduce operational cost. Also makes a new release have more impact as it will be more notably \"better\" than what you've been using the past couple of days/weeks.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46811279",
+          "by": "dajonker",
+          "time": 1769699640
+        },
+        {
+          "id": 46812832,
+          "text": "Lack of transparency as regards \"thinking power\"-consistency is a big gripe of mine with LLM providers. It's even worse with ChatGPT and the like. E.g. I had to learn the hard way that at >45k input tokens ChatGPT 5.2 Thinking Extended bumps its intelligence down so hard that it can't follow basic instructions (or it somehow truncates the input, losing the instructions). It sucks to lose confidence in an otherwise great tool. I would 100x prefer being forced to back-off, or getting a straight-no, than getting silently downgraded. Transparency is a big deal.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46812832",
+          "by": "dmos62",
+          "time": 1769705828
+        },
+        {
+          "id": 46811930,
+          "text": "I am using API mode, and it's clear that there are times when the Claude model just gives up. And it is very noticeable because the model just does the most dumb things possible.\n\"You have a bug in line 23.\" \"Oh yes, this solution is bugged, let me delete the whole feature.\" That one-line fix I could make even with ChatGPT 3.5 can't just happen. Workflows that I use and are very reproducible start to flake and then fail.\nAfter a certain number of tokens per day, it becomes unusable. I like Claude, but I don't understand why they would do this.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46811930",
+          "by": "jampa",
+          "time": 1769702323
+        },
+        {
+          "id": 46810283,
+          "text": "FYI the MarginLab Claude Code degradation tracker is showing a statistically significant ~4% drop in SWE-Bench-Pro accuracy over the past month",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46810283",
+          "by": "qwesr123",
+          "time": 1769695147
+        }
+      ],
+      "by": "qwesr123",
+      "time": 1769695147,
+      "url": "https://marginlab.ai/trackers/claude-code/",
+      "score": 760,
+      "descendants": 354,
+      "storyUrl": "https://marginlab.ai/trackers/claude-code/"
+    },
+    {
+      "id": 46812933,
+      "type": "story",
+      "title": "Project Genie: Experimenting with infinite, interactive worlds",
+      "rank": 2,
+      "depth": 0,
+      "storyId": 46812933,
+      "storyTitle": "Project Genie: Experimenting with infinite, interactive worlds",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46812933",
+      "topComments": [
+        {
+          "id": 46817148,
+          "text": "Now I can't stop thinking about _The Experience Machine_ by Andy Clark. It theorizes that this is how humans navigate and experience the real world: Our brains generate what we think the world around is like and our senses don't so much directly process visual information but instead act like a kind of loss function for our internal simulations. Then we use that error to update our internal model of the world.\nIn this view, we are essentially living inside a high-fidelity generative model. Our brains are constantly 'hallucinating' a predicted reality based on past experience and current goals. The data from our senses isn't the source of the image; it's the error signal used to calibrate that internal model. Much like Genie 3 uses latent actions and frames to predict the next state of a world, our brains use 'Active Inference' to minimize the gap between what we expect and what we experience.\nIt suggests that our sense of 'reality' isn't a direct recording of the world, but a highly optimized, interactive simulation that is continuously 'regularized' by the photons hitting our retinas.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46817148",
+          "by": "jlhawn",
+          "time": 1769723312
+        },
+        {
+          "id": 46814670,
+          "text": "Everyone here seems too caught up in the idea that Genie is the product, and that its purpose is to be a video game, movie, or VR environment.\nThat is not the goal.\nThe purpose of world models like Genie is to be the \"imagination\" of next-generation AI and robotics systems: a way for them to simulate the outcomes of potential actions in order to inform decisions.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46814670",
+          "by": "in-silico",
+          "time": 1769712716
+        },
+        {
+          "id": 46814137,
+          "text": "Really great to see this released! Some interesting videos from early-access users:\n- https://youtu.be/15KtGNgpVnE?si=rgQ0PSRniRGcvN31&t=197 walking through various cities\n- https://x.com/fofrAI/status/2016936855607136506 helicopter / flight sim\n- https://x.com/venturetwins/status/2016919922727850333 space station, https://x.com/venturetwins/status/2016920340602278368 Dunkin' Donuts\n- https://youtu.be/lALGud1Ynhc?si=10ERYyMFHiwL8rQ7&t=207 simulating a laptop computer, moving the mouse\n- https://x.com/emollick/status/2016919989865840906 otter airline pilot with a duck on its head walking through a Rothko inspired airport",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46814137",
+          "by": "ollin",
+          "time": 1769710726
+        },
+        {
+          "id": 46814345,
+          "text": "The actual breakthrough with Genie is being able to turn around and look back, and seeing the same scene that was there before. A few other labs have similar world simulators, but they all struggle badly with keeping coherence of things not in view. Hence why they always walk forwards and never look around.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46814345",
+          "by": "WarmWash",
+          "time": 1769711521
+        },
+        {
+          "id": 46814567,
+          "text": "The more of this I see the more I want to spend time away from screens and doing  those things I love to do in the real world.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46814567",
+          "by": "krunck",
+          "time": 1769712325
+        },
+        {
+          "id": 46814103,
+          "text": "I have no idea why Google is wasting their time with this. Trying to hallucinate an entire world is a dead-end. There will never be enough predictability in the output for it to be cohesive in any meaningful way, by design. Why are they not training models to help write games instead? You wouldn't have to worry about permanence and consistency at all, since they would be enforced by the code, like all games today.\nLook at how much prompting it takes to vibe code a prototype. And they want us to think we'll be able to prompt a whole world?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46814103",
+          "by": "phailhaus",
+          "time": 1769710639
+        },
+        {
+          "id": 46813753,
+          "text": "I have been confused for a long time why FB is not motivated enough to invest in world models, it IS the key to unblock their \"metaverse\" vision. And instead they let go Yann LeCun.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46813753",
+          "by": "sy26",
+          "time": 1769709331
+        },
+        {
+          "id": 46813619,
+          "text": "Reminds me of this [1] HN post from 9 months ago, where the author trained a neural network to do world emulation from video recordings of their local park — you can walk around in their interactive demo [2].\nI don't have access to the DeepMind demo, but from the video it looks like it takes the idea up a notch.\n(I don't know the exact lineage of these ideas, but a general observation is that it's a shame that it's the norm for blog posts / indie demos to not get cited.)\n[1] https://news.ycombinator.com/item?id=43798757\n[2] https://madebyoll.in/posts/world_emulation_via_dnn/demo/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46813619",
+          "by": "montebicyclelo",
+          "time": 1769708752
+        },
+        {
+          "id": 46813645,
+          "text": "I keep on repeating myself, but it feels like I'm living in the future.\nCan't wait to hook this up to my old Oculus glasses and let Genie create a fully realistic sailing simulator for me, where I can train sailing with realistic conditions. On boats I'd love to sail.\nIf making games out of these simulations work, it't be the end for a lot of big studios, and might be the renaissance for small to one person game studios.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46813645",
+          "by": "0xcb0",
+          "time": 1769708883
+        },
+        {
+          "id": 46813984,
+          "text": "I don't know ... it's impressive and all but the result always looks kind of dead.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46813984",
+          "by": "ofrzeta",
+          "time": 1769710153
+        }
+      ],
+      "by": "meetpateltech",
+      "time": 1769706159,
+      "url": "https://blog.google/innovation-and-ai/models-and-research/google-deepmind/project-genie/",
+      "score": 675,
+      "descendants": 321,
+      "storyUrl": "https://blog.google/innovation-and-ai/models-and-research/google-deepmind/project-genie/"
+    },
+    {
+      "id": 46801419,
+      "type": "story",
+      "title": "Apple to soon take up to 30% cut from all Patreon creators in iOS app",
+      "rank": 3,
+      "depth": 0,
+      "storyId": 46801419,
+      "storyTitle": "Apple to soon take up to 30% cut from all Patreon creators in iOS app",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46801419",
+      "topComments": [
+        {
+          "id": 46808090,
+          "text": "Apple’s App Store profits on commissions from digital sales\n    Revenue          $32 B\n    Operating Costs   $7 B [1]\n    Estimated Profit $25 B \n    Operating Margin ~78%\n\n[1] R&D, security, hosting, human review, and including building and maintaining developer tools Xcode, APIs, and SDKs.\nApple could take just 7% cut and still make 20% profits.\nFun Fact: During the Epic trial, it was revealed that Apple's profit margins on the App Store were so high that even Apple's own executives were sometimes surprised by the internal financial reports.\n---\nedit: There is no ideological argument for voluntary action here. The entire goal is to force regulators to step in. The debate over 'good vs. bad companies' is just online noise and rhetorical trik, no one on either side of the political spectrum wants these systems to be fixed voluntarily with corporate altruism.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46808090",
+          "by": "nabla9",
+          "time": 1769681619
+        },
+        {
+          "id": 46807250,
+          "text": "How long until they make the argument that they're entitled to 30% of your salary because you use Apple hardware to do your work?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46807250",
+          "by": "supernes",
+          "time": 1769674868
+        },
+        {
+          "id": 46808879,
+          "text": "The wealthiest company in the world really needs that last little bit from those Patreon creators who have it way too easy in their lives. It's not as if the people that take that meager bit of cash are going to invest it in Apple stock so they're going to have to pay up.\nThe Mafia can learn a thing or two from Cook.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46808879",
+          "by": "jacquesm",
+          "time": 1769686782
+        },
+        {
+          "id": 46808520,
+          "text": "2035: Apple takes 30% of my Patreon, Google matched it through their \"Competitive Parity Agreement,\" and the EU fined them both €2 billion which they paid in 45 minutes of revenue then raised fees to 32% to cover legal costs.\nThe real innovation was convincing us this was inevitable.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46808520",
+          "by": "cong-or",
+          "time": 1769684672
+        },
+        {
+          "id": 46810587,
+          "text": "Sometimes I think the 30% was supposed to be 3% originally, and no one noticed the decimal was in the wrong place when they shipped it, and then people paid it anyway, so they kept it.\n30% is just so unreasonable that it would be totally understandable if someone would believe this.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46810587",
+          "by": "davidmurdoch",
+          "time": 1769696660
+        },
+        {
+          "id": 46807218,
+          "text": "You can be the patron of a creator and Apple in the same time! Jokes aside, this is awful...I like/use Apple products but this unacceptable, I hope everyone dodges this and pays through the website",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46807218",
+          "by": "aquir",
+          "time": 1769674497
+        },
+        {
+          "id": 46807192,
+          "text": "Just stop publishing the app, not every little thing needs an app. What the use for the app anyway? Notifications and apple pay?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46807192",
+          "by": "mhitza",
+          "time": 1769674225
+        },
+        {
+          "id": 46807811,
+          "text": "I still can't believe developers love to work for this feudal overlord. They are building a wall around our profession. Have a little foresight and move your business elsewhere.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46807811",
+          "by": "amelius",
+          "time": 1769679257
+        },
+        {
+          "id": 46807368,
+          "text": "Apps bad. Web good.\nWhy did we let mobile go down the one-app-per-website path?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46807368",
+          "by": "bluescrn",
+          "time": 1769675808
+        },
+        {
+          "id": 46805726,
+          "text": "I actually love Apple for pushing this matter this hard and sticking to its guns. This will bring in more regulatory scrutiny not just in the U.S. but in other countries as well. That will force Apple to give up (maybe in a decade or so) this practice of arbitrary rules and squeezing the last penny from others.\nThanks a lot, Eddy Cue, for all that you do to bring Apple down to its knees!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46805726",
+          "by": "AnonC",
+          "time": 1769659842
+        }
+      ],
+      "by": "pier25",
+      "time": 1769633970,
+      "url": "https://www.macrumors.com/2026/01/28/patreon-apple-tax/",
+      "score": 1116,
+      "descendants": 917,
+      "storyUrl": "https://www.macrumors.com/2026/01/28/patreon-apple-tax/"
+    },
+    {
+      "id": 46805665,
+      "type": "story",
+      "title": "We can’t send mail farther than 500 miles (2002)",
+      "rank": 4,
+      "depth": 0,
+      "storyId": 46805665,
+      "storyTitle": "We can’t send mail farther than 500 miles (2002)",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46805665",
+      "topComments": [
+        {
+          "id": 46806161,
+          "text": "About the same time the 500-mile email problem happened (mid 1990s), I had a difficult to understand issue with my office PC. Every morning, I'd come in, slide my hard drive sled in, and turn the computer on. We had 128 Kbps ISDN internet at the office and I had the same at home, but that was too slow to do much work. So I'd take the drive home so I could work at night, especially in the winter when the office was too cold at night.\nSuddenly one winter morning, the PC wouldn't boot. I had to run to a meeting. When I got back, I turned the PC off and on again and everything was fine. The next morning, the same thing happened. The third day, I didn't have a meeting. I turned it off and back on, still no boot. I'd gotten in late, so I just turned it off and took an early lunch. When I got back, it still wouldn't boot. But I had a meeting, so I ran to that, leaving the computer on. When I got back, it booted fine.\nThe next morning, same thing. I decided to look inside, not having any idea what might cause such symptoms. As I took the shell off, a tiny mouse came out, jump off my desk, and ran across my lap before jumping on the floor and scurrying out of sight. From inside the computer came the smell of mouse urine. Apparently he'd been crawling in through the open drive bay to keep warm every night, and urinating while he was in there. Once the computer had been on for a while, the heat and airflow would dry it out enough to eliminate whatever electrical short was keeping it from booting. I went to the store and bought an empty drive sled to put in the drive bay whenever I took my drive out, and the problem never came back. I felt lucky that the liquid didn't cause permanent damage.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46806161",
+          "by": "rented_mule",
+          "time": 1769664478
+        },
+        {
+          "id": 46806289,
+          "text": "He doesn't give the chairman due credit, IMHO. The chairman collected information to help solve the problem AND it actually was the information needed. Without it, the author might look for \"randomly unreachable servers\" for a long time.\nIt's almost raw data -- exactly what you would wish for. By lecturing people that \"email does not work that way\", next time you either get no data at all because people don't even try, or no data because people hide it thinking email doesn't work that way, or a misguided conclusion when a layman tries to make a better guess at the cause of the problem.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46806289",
+          "by": "moring",
+          "time": 1769665728
+        },
+        {
+          "id": 46805678,
+          "text": "Popular in:\n2023 (1164 points, 198 comments) https://news.ycombinator.com/item?id=37576633\n2020 (1034 points, 136 comments) https://news.ycombinator.com/item?id=23775404\n2015 (915 points, 140 comments) https://news.ycombinator.com/item?id=9338708",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46805678",
+          "by": "gnabgib",
+          "time": 1769659263
+        },
+        {
+          "id": 46809372,
+          "text": "Last night I downloaded a TV episode and played it in VLC. 30 seconds in, the power failed. Fine, it's an old laptop I'm using as a media server, battery is long dead - this never happened before but maybe something is loose. I checked the power supply and restarted it. It failed again at the same point in the video, and again a third time. Something about that video causes my laptop to die.\nI turned it off and went to bed. Maybe I'll troubleshoot it today. But I'd love to understand what could have happened. The closest thing I know of is the Janet Jackson video that could crash hard drives [0]. In this case the sound was playing on a different device (my TV) so I don't think it's the same explanation.\nFor extra weirdness, the episode was Black Mirror S7E01. Exactly the kind of thing the creators would like to build into a Black Mirror episode.\n[0] https://devblogs.microsoft.com/oldnewthing/20220816-00/?p=10...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46809372",
+          "by": "dmurray",
+          "time": 1769690324
+        },
+        {
+          "id": 46806717,
+          "text": "Reminds me of this classic that resurfaces here every few years: if I buy vanilla ice cream my car won’t start https://www.netscrap.com/netscrap_detail.cfm?scrap_id=501",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46806717",
+          "by": "glenngillen",
+          "time": 1769669770
+        },
+        {
+          "id": 46812442,
+          "text": "A classic. It's like the hacker version of the SR-71 Blackbird speed check story [0]. Every time it comes up, I have to read it.\n0: https://www.thesr71blackbird.com/Aircraft/Stories/sr-71-blac...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46812442",
+          "by": "jihadjihad",
+          "time": 1769704193
+        },
+        {
+          "id": 46806158,
+          "text": "This, Stalking the Wiley Hacker[1], and others were the stories that got me into computers. I wish so much the experience of working in this industry hadn't so thoroughly annihilated the joy they once brought.\n[1] https://archive.org/details/5626281-Clifford-Stoll-Communica...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46806158",
+          "by": "jcgrillo",
+          "time": 1769664456
+        },
+        {
+          "id": 46806127,
+          "text": "FAQ about this, which answers such questions as \"Did this actually happen, or were you just spinning a yarn?\"\nhttps://ibiblio.org/harris/500milemail-faq.html",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46806127",
+          "by": "reaperducer",
+          "time": 1769664193
+        },
+        {
+          "id": 46806411,
+          "text": "How about sending mail 500 miles more?\nJust to be the man/woman/non-binary who sends mail 500 miles to your front door?\nYou had me at EHL0.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46806411",
+          "by": "austinallegro",
+          "time": 1769666931
+        },
+        {
+          "id": 46806228,
+          "text": "I immediately did a \"apt install units\".  Very cool!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46806228",
+          "by": "raegis",
+          "time": 1769665073
+        }
+      ],
+      "by": "giancarlostoro",
+      "time": 1769659113,
+      "url": "https://web.mit.edu/jemorris/humor/500-miles",
+      "score": 683,
+      "descendants": 113,
+      "storyUrl": "https://web.mit.edu/jemorris/humor/500-miles"
+    },
+    {
+      "id": 46814743,
+      "type": "story",
+      "title": "PlayStation 2 Recompilation Project Is Absolutely Incredible",
+      "rank": 5,
+      "depth": 0,
+      "storyId": 46814743,
+      "storyTitle": "PlayStation 2 Recompilation Project Is Absolutely Incredible",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46814743",
+      "topComments": [
+        {
+          "id": 46818613,
+          "text": "> The PlayStation 2’s library is easily among the best of any console ever released, and even if you were to narrow down the list of games to the very best, you’d be left with dozens (more like hundreds) of incredible titles.  But the PS2 hardware is getting a bit long in the tooth\nBesides the library, the PS2 is the most successful video game console of all time in terms of number of units shipped, and it stayed on the market for over ten years, featured a DVD drive, and at one point was positioned by Sony not just as an entertainment appliance but as a personal computer, including their own official PS2 Linux distribution.\nIn a more perfect world, this would have:\n(a) happened with a hypothetical hardware platform released after the PS2 but before the PS3, with specs lying in between the two: a smidge better than the former, but not quite as exotic as the latter (with its Cell CPU or the weird form factor; whereas the PS2's physical profile in comparison was perfect, whether in the original form or the Slim version), which could have:\n(b) resulted in a sort of standardization in the industry like what happened to the IBM PC and its market of clones, with other vendors continuing to manufacture semi-compatible units even if/when Sony discontinued it themselves, periodically revving the platform (doubling the amount of memory here, providing a way to tap into higher clock speeds there) all while maintaining backwards compatibility such that you would be able to go out today and buy a brand new, $30 bargain-bin, commodity \"PS2 clone\" that can do basic computing tasks on it (in other words, not including the ability to run a modern Web browser or Electron apps), can play physical media, and supports all the original games and any other new games that explicitly target(ed) the same platform, or you could pay Steam Machine 2026 prices for the latest-gen \"PS2\" that retains native support for the original titles of the very first platform revision but unlocks also the ability to play those for every intermediate rev, too.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46818613",
+          "by": "pwdisswordfishs",
+          "time": 1769730587
+        },
+        {
+          "id": 46816612,
+          "text": "This is cool but of course it's only going to be a small handful of titles that ever receive this kind of attention.  But I have been blown away that now sub-$300 Android handhelds are more than capable of emulating the entire PS2 library, often with upscaling if you prefer.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46816612",
+          "by": "emodendroket",
+          "time": 1769720934
+        },
+        {
+          "id": 46817796,
+          "text": "Link to the actual project rather than just a news article about it https://github.com/ran-j/PS2Recomp",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46817796",
+          "by": "bananaboy",
+          "time": 1769726265
+        },
+        {
+          "id": 46817288,
+          "text": "On this topic of ports/recomps there's also OpenGOAL [1] which is a FOSS desktop native implementation of the GOAL (Game Oriented Assembly Lisp) interpreter [2] used by Naughty Dog to develop a number of their famous PS2 titles.\nSince they were able to port the interpreter over they have been able to start rapidly start porting over these titles even with a small volunteer team.\n1. https://opengoal.dev/\n2. https://en.wikipedia.org/wiki/Game_Oriented_Assembly_Lisp",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46817288",
+          "by": "OneDeuxTriSeiGo",
+          "time": 1769723900
+        },
+        {
+          "id": 46818267,
+          "text": "> So yes, currently playing PS2 games on PC via emulator is still absolutely fantastic, but native ports would be the holy grail of game preservation.\nI would think that emulation of the original game as closely as possible would be the gold standard of preservation, and native ports would be a cool alternative. As described in the article, native ports are typically not faithful reproductions but enhanced to use the latest hardware.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46818267",
+          "by": "colordrops",
+          "time": 1769728623
+        },
+        {
+          "id": 46820096,
+          "text": "I absolutely love the idea!\nAs a movie geek I'm personally offended when someone says \"oh, it's from 2017, it's an old movie!\", or \"I don't want to see anything from 90s, yuck\" - and that's pretty common.\nOf course, \"Nosferatu, eine Symphonie des Grauens\" is not for everyone, but I firmly believe that you can watch the new Dune and Lawrence of Arabia back to back and have similarly enjoyable time.\nFallout 1 and 2 are miles ahead of Fallout 3 (mostly due to uncanny valley phenomenon). Sure, the medium has changed a lot and modern consumers are used to more streamlined experience - my favorite example is the endless stream of Baldurs Gate \"modern reimplementations\" or rehashes, like Pilars of Eterniety that were too close to the original source, and then, suddenly, someone came up with Divinity, basically a Baldurs clone but with modern UI and QoL improvements.\nBut consoles are different.\nThis can truly be a window for the next generation to look back in the past.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46820096",
+          "by": "zeroq",
+          "time": 1769742461
+        },
+        {
+          "id": 46818055,
+          "text": "90% of the PS2’s floating point throughput is in the two vector units, not the R5900 conducting them. Concentrating on that, as the article does, seems as futile as focussing on the 68000 rather than the Amiga PAD in a 16-bit context (ignoring the EE’s 16-bit RAMBUS bottleneck).\nHowever that approach will probably suit the least-ambitious PC-ports to PS2 (by studios that didn’t appreciate the difference) - rather as an ST emulator was a short cut to run the simplest Amiga games.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46818055",
+          "by": "ZX8301",
+          "time": 1769727479
+        },
+        {
+          "id": 46816658,
+          "text": "An application of the first Futamura projection. https://en.wikipedia.org/wiki/Partial_evaluation",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46816658",
+          "by": "wmf",
+          "time": 1769721149
+        },
+        {
+          "id": 46816849,
+          "text": "Emulation is already amazing. What can be done with recompilation is magic: https://github.com/Zelda64Recomp/Zelda64Recomp",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46816849",
+          "by": "xnx",
+          "time": 1769722012
+        },
+        {
+          "id": 46817231,
+          "text": "I wonder how they will tackle the infamous non-conformant Ps2 floating-point behavior issue, that is the biggest hurdle on emulating Ps2.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46817231",
+          "by": "flykespice",
+          "time": 1769723669
+        }
+      ],
+      "by": "croes",
+      "time": 1769712938,
+      "url": "https://redgamingtech.com/playstation-2-recompilation-project-is-absolutely-incredible/",
+      "score": 561,
+      "descendants": 341,
+      "storyUrl": "https://redgamingtech.com/playstation-2-recompilation-project-is-absolutely-incredible/"
+    },
+    {
+      "id": 46809708,
+      "type": "story",
+      "title": "AGENTS.md outperforms skills in our agent evals",
+      "rank": 6,
+      "depth": 0,
+      "storyId": 46809708,
+      "storyTitle": "AGENTS.md outperforms skills in our agent evals",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46809708",
+      "topComments": [
+        {
+          "id": 46820867,
+          "text": "Models are not AGI. They are text generators forced to generate text in a way useful to trigger a harness that will produce effects, like editing files or calling tools.\nSo the model won’t “understand” that you have a skill and use it. The generation of the text that would trigger the skill usage is made via Reinforcement Learning with human generated examples and usage traces.\nSo why don’t the model use skills all the time? Because it’s a new thing, there is not enough training samples displaying that behavior.\nThey also cannot enforce that via RL because skills use human language, which is ambiguous and not formal. Force it to use skills always via RL policy and you’ll make the model dumber.\nSo, right now, we are generating usage traces that will be used to train the future models to get a better grasp of when to use skills not.  Just give it time.\nAGENTS.md, on the other hand, is context. Models have been trained to follow context since the dawn of the thing.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46820867",
+          "by": "motoboi",
+          "time": 1769750964
+        },
+        {
+          "id": 46816813,
+          "text": "> In 56% of eval cases, the skill was never invoked. The agent had access to the documentation but didn't use it.\nThe agent passes the Turing test...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46816813",
+          "by": "tottenhm",
+          "time": 1769721826
+        },
+        {
+          "id": 46818579,
+          "text": "The key finding is that \"compression\" of doc pointers works.\nIt's barely readable to humans, but directly and efficiently relevant to LLM's (direct reference -> referent, without language verbiage).\nThis suggests some (compressed) index format that is always loaded into context will replace heuristics around agents.md/claude.md/skills.md.\nSo I would bet this year we get some normalization of both the indexes and the referenced documentation (esp. matching terms).\nPossibly also a side issue: API's could repurpose their test suites as validation to compare LLM performance of code tasks.\nLLM's create huge adoption waves.  Libraries/API's will have to learn to surf them or be limited to usage by humans.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46818579",
+          "by": "w10-1",
+          "time": 1769730428
+        },
+        {
+          "id": 46817413,
+          "text": "Am I missing something here?\nObviously directly including context in something like a system prompt will put it in context 100% of the time. You could just as easily take all of an agent's skills, feed it to the agent (in a system prompt, or similar) and it will follow the instructions more reliably.\nHowever, at a certain point you have to use skills, because including it in the context every time is wasteful, or not possible. this is the same reason anthropic is doing advanced tool use ref: https://www.anthropic.com/engineering/advanced-tool-use, because there's not enough context to straight up include everything.\nIt's all a context / price trade off, obviously if you have the context budget just include what you can directly (in this case, compressing into a AGENTS.md)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46817413",
+          "by": "jgbuddy",
+          "time": 1769724479
+        },
+        {
+          "id": 46817461,
+          "text": "The article presents AGENTS.md as something distinct from Skills, but it is actually a simplified instance of the same concept. Their AGENTS.md approach tells the AI where to find instructions for performing a task. That’s a Skill.\nI expect the benefit is from better Skill design, specifically, minimizing the number of steps and decisions between the AI’s starting state and the correct information. Fewer transitions -> fewer chances for error to compound.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46817461",
+          "by": "thorum",
+          "time": 1769724646
+        },
+        {
+          "id": 46817150,
+          "text": "Something that I always wonder with each blog post comparing different types of prompt engineering is did they run it once, or multiple times? LLMs are not consistent for the same task. I imagine they realize this of course, but I never get enough details of the testing methodology.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46817150",
+          "by": "jryan49",
+          "time": 1769723315
+        },
+        {
+          "id": 46816605,
+          "text": "This is confusing.\nTFA says they added an index to Agents.md that told the agent where to find all documentation and that was a big improvement.\nThe part I don't understand is that this is exactly how I thought skills work. The short descriptions are given to the model up-front and then it can request the full documentation as it wants. With skills this is called \"Progressive disclosure\".\nMaybe they used more effective short descriptions in the AGENTS.md than they did in their skills?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46816605",
+          "by": "EnPissant",
+          "time": 1769720903
+        },
+        {
+          "id": 46818380,
+          "text": "I'm not sure if this is widely known but you can do a lot better even than AGENTS.md.\nCreate a folder called .context and symlink anything in there that is relevant to the project. For example READMEs and important docs from dependencies you're using. Then configure your tool to always read .context into context, just like it does for AGENTS.md.\nThis ensures the LLM has all the information it needs right in context from the get go. Much better performance, cheaper, and less mistakes.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46818380",
+          "by": "chr15m",
+          "time": 1769729314
+        },
+        {
+          "id": 46818205,
+          "text": "This largely mirrors my experience building my custom agent\n1. Start from the Claude Code extracted instructions, they have many things like this in there. Their knowledge share in docs and blog on this aspect are bar none\n2. Use AGENTS.md as a table of contents and sparknotes, put them everywhere, load them automatically\n3. Have topical markdown files / skills\n4. Make great tools, this is still opaque in my mind to explain, lots of overlap with MCP and skills, conceptually they are the same to me\n5. Iterate, experiment, do weird things, and have fun!\nI changed read/write_file to put contents in the state and presented in the system prompt, same for the agents.md, now working on evals to show how much better this is, because anecdotally, it kicks ass",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46818205",
+          "by": "verdverm",
+          "time": 1769728305
+        },
+        {
+          "id": 46818024,
+          "text": "Wouldn't this have been more readable with a \\n newline instead of a pipe operator as a seperator? This wouldn't have made the prompt longer.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46818024",
+          "by": "BenoitEssiambre",
+          "time": 1769727320
+        }
+      ],
+      "by": "maximedupre",
+      "time": 1769692091,
+      "url": "https://vercel.com/blog/agents-md-outperforms-skills-in-our-agent-evals",
+      "score": 524,
+      "descendants": 196,
+      "storyUrl": "https://vercel.com/blog/agents-md-outperforms-skills-in-our-agent-evals"
+    },
+    {
+      "id": 46806773,
+      "type": "story",
+      "title": "Europe’s next-generation weather satellite sends back first images",
+      "rank": 7,
+      "depth": 0,
+      "storyId": 46806773,
+      "storyTitle": "Europe’s next-generation weather satellite sends back first images",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46806773",
+      "topComments": [
+        {
+          "id": 46810446,
+          "text": "ESA has done a lot of good for public benefit with the Sentinel-1/2 missions. I happen to work with remote sensing and Sentinel data has been my entry point to the field.\nI hope that ESA keeps pushing forward even more. I am afraid that although Sentinel missions are great, ESA projects are a bit demo-like and limited in scope. Europe should focus on scaling up and applying the tech, not just proving that ambitious projects are possible for their own sake.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46810446",
+          "by": "maciejzj",
+          "time": 1769695959
+        },
+        {
+          "id": 46807616,
+          "text": "Would the data from this satellite be freely available to the public? I couldn't see anything obvious",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46807616",
+          "by": "cyclotron3k",
+          "time": 1769677840
+        },
+        {
+          "id": 46807336,
+          "text": "I recently met a European space startup founder and was surprised to learn how much space innovation is happening in Europe with ESA. Europe wants to become less depended on SpaceX and NASA, and is heavily investing there. More funding + strong aerospace programs at universities like TU Munich has led to companies like ISAR Aerospace (SpaceX competitor), which is great to see.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46807336",
+          "by": "hubraumhugo",
+          "time": 1769675582
+        },
+        {
+          "id": 46809952,
+          "text": "Europe Is back on the map. It´s going slow but steady. \nHope they involve community in their tech projects.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46809952",
+          "by": "trilogic",
+          "time": 1769693367
+        },
+        {
+          "id": 46807085,
+          "text": "Does anyone know what are we talking about in practice in terms of weather forecast prediction improvement? Like MAE/RMSE",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46807085",
+          "by": "aleciffo",
+          "time": 1769673235
+        },
+        {
+          "id": 46807826,
+          "text": "Also check out the EUMETSAT site if you want more information on how the data is used:\nhttps://www.eumetsat.int/features/see-earths-atmosphere-neve...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46807826",
+          "by": "eypandabear",
+          "time": 1769679403
+        },
+        {
+          "id": 46811610,
+          "text": "Congrats ESA! Those first images are pretty striking. It's pretty cool to see the contrast between the blue high altitude clouds and the red hot surface, particularly just below the Sahara.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46811610",
+          "by": "accrual",
+          "time": 1769701135
+        },
+        {
+          "id": 46809673,
+          "text": ">\"Most engineers (including me) spent months grinding LeetCode ...\"\nI have not done it once (work in programming for 40+ years) as independent. Few times potential clients tried to play this game but I just simple refuse. On was surprised and asked why? My answer was - I have a track record of successful deliveries, here is big list of projects, emails and phone numbers to confirm. If you are going instead to rely on some tests to prove my abilities I have better things to do then be a schoolboy on exams.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46809673",
+          "by": "FpUser",
+          "time": 1769691907
+        },
+        {
+          "id": 46811681,
+          "text": "Is there any info about the modulation/encoding/frequency?\nIt would be great to have an open source decoder for RTL-SDR like we have for NOAA or METEOR.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46811681",
+          "by": "lormayna",
+          "time": 1769701436
+        },
+        {
+          "id": 46815181,
+          "text": "The most surprising thing on this page for me was:\n>  The areas of least atmospheric humidity ... a large area of ‘dry’ atmosphere also covers part of the South Atlantic Ocean (centre of image).\nThis area is not that far south as to basically indicate the antarctic, and it is warm season in the southern hemisphere. I did not even think it would be possible to have a larger area of low humidity over a massive ocean like that.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46815181",
+          "by": "sgc",
+          "time": 1769714575
+        }
+      ],
+      "by": "saubeidl",
+      "time": 1769670437,
+      "url": "https://www.esa.int/Applications/Observing_the_Earth/Meteorological_missions/meteosat_third_generation/Europe_s_next-generation_weather_satellite_sends_back_first_images",
+      "score": 708,
+      "descendants": 99,
+      "storyUrl": "https://www.esa.int/Applications/Observing_the_Earth/Meteorological_missions/meteosat_third_generation/Europe_s_next-generation_weather_satellite_sends_back_first_images"
+    },
+    {
+      "id": 46808251,
+      "type": "story",
+      "title": "Vitamin D and Omega-3 have a larger effect on depression than antidepressants",
+      "rank": 8,
+      "depth": 0,
+      "storyId": 46808251,
+      "storyTitle": "Vitamin D and Omega-3 have a larger effect on depression than antidepressants",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46808251",
+      "topComments": [
+        {
+          "id": 46810707,
+          "text": "Vitamin D and Omega-3 are the two supplements that consistently appear to be super powerful in small studies and then fail to do anything significant at all in larger studies.\nPause for a moment and consider the mere plausibility of the claims in the first few paragraphs: The effect size for antidepressants is 0.4, but the effect size for Vitamin D is 1.8? Are we to believe that Vitamin D supplements have an effect size 4.5X larger than antidepressant drugs, and nobody noticed this massive discrepancy until now?\nEffect size is also a favorite metric in this vein of supplement-over-pharma writing because it’s so commonly misunderstood and it’s so easy to find small supplement studies that have outlier effect sizes.\nTo put it in context, even common OTC pain meds can have effect sizes lower than 0.4 depending on the study. Have you ever taken Tylenol or Ibuprofen and had a headache or other pain reduced? Well you’ve experience what a drug with a small effect size on paper can do for you.\nPlease be very careful when someone tries to tell you that supplements are miraculous and pharmaceutical drugs don’t work at all. I know too many people who delayed trialing SSRIs for years due to internet driven fears and lost many years of their lives to depression based on content like this. People with cabinets full of dozens of supplement bottles that were chosen based on studies, too. Then they finally decided to try real antidepressant medications and wished they’d done it sooner.\nAs much as I wish we could all just cure depression by taking a simple Vitamin D supplement that has 4.5X higher effect size than antidepressant drugs, this claim just isn’t passable.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46810707",
+          "by": "Aurornis",
+          "time": 1769697165
+        },
+        {
+          "id": 46808670,
+          "text": "Because it's common to hate on antidepressants, I've always personally had a bias against them.\nFor the past 15-20 years, november thru february are basically a writeoff due for me due to seasonal affective disorder. Cold showers, exercise, no alcohol, strict sleeping rituals. Vitamin d. I can still sleep 11 hours and feel like reheated cat shit.\nEnter citalopram. \"It will take up to six weeks to dial in\" they said. Within four days I felt like the inside of my head was designed by Apple in their glory days. My mind became an orderly, well lit, tastefully designed space... instead of a dimly lit crack den. I'm more emotionally available, no longer tired, less cranky. I felt cozy. I could cry with joy because I could finally understand emotionally why people like the Christmas season.\nI won the SSRI lottery I guess, the side effect are sweaty feet, vivid dreams and a dry mouth. That's all.\nThis just goes to show that for me, they're extremely effective.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46808670",
+          "by": "isoprophlex",
+          "time": 1769685574
+        },
+        {
+          "id": 46808507,
+          "text": "Please do not take 5000mg/day of Vitamin D. The author confuses IU and mg which is very dangerous.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46808507",
+          "by": "r1ch",
+          "time": 1769684628
+        },
+        {
+          "id": 46808656,
+          "text": "Be careful - many studies in the Vitamin D meta-analysis *enrolled patients already taking antidepressants.* [1] Reporting effect sizes without specifying \"on which population?\" is misleading.\n(As an aside, Cohen would be the person not to tell you to assign qualitative values to effect sizes. They are as arbitrary as any other threshold used by working statisticians.)\n[1] https://www.cambridge.org/core/journals/psychological-medici...\nEDIT – that is, please don't draw the conclusion that you can substitute supplements for antidepressants. The meta-analyses don't seem designed to examine that hypothesis, and I doubt anyone would ever participate in a such a trial. In general (and as a working biostatistician), I would be very, very, very cautious applying estimates of average effect to myself, you, or any other individual person in a field as murky as psychiatry. That's why even the stingiest American health insurance plans still have an incredibly large range of antidepressants in their formularies.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46808656",
+          "by": "nxobject",
+          "time": 1769685484
+        },
+        {
+          "id": 46812250,
+          "text": "I saw a thing from HealthyGamerGG youtube[1] that he said one of the things about depression is that it causes/influences one to avoid the things that would make their life less depressing.\neg just to paint the picture: you're depressed so you don't get out of bed, therefore you don't go do your workout, therefore you lack endorphins and look in the mirror and see squishy, you're sad about how squishy you are and so you get more depressed. You're more depressed so you also don't do your dishes, when you do get out of bed you are depressed you feel like a slob and you're squishy, so you get more depressed...\nWhereas adding anti-depressants, and other virtuous cycle things like vitD/O3, exercise et al. Give the boost necessary to _make your life less depressing_ ...\nSo if you know someone who's depressed, it might be helpful to help them make their life less depressing too. (in addition to all the best medical advice!)\n[1]- he's a real Dr... Dr. Alok Kanojia (Dr. K), a Harvard-trained psychiatrist (MD, MPH) specializing in modern mental health",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46812250",
+          "by": "maerF0x0",
+          "time": 1769703393
+        },
+        {
+          "id": 46808477,
+          "text": "I found this to be the case. Tried Sertraline for a while, gave me headaches and made me feel sick. Then as part of a new gym plan, started taking Omega 3+VitD daily, and I just felt a sense of calm and peace after a few weeks. The massive uptick in exercise probably also helped. I also felt quite an extreme uptick because I was a vegan for 10 years, and found out I had basically zero Omega 3 in my blood. I suspect one of the main reasons my mental health declined was due to the lack of Omega 3.\nDisclaimer, not saying vegans should stop being vegans, just make sure you find a good supplement, and make sure you understand the difference between EPA/DHA Omega 3.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46808477",
+          "by": "vegancap",
+          "time": 1769684447
+        },
+        {
+          "id": 46808667,
+          "text": "With depression it is important to find the cause of it.\nYou might be depressed because you life objectively sucks. Then you symptoms are good and healthy and a signal to make changes in your circumstances.\nYou might actually have a good life but still feel depressed because there is a chemical imbalance in your brain. (Very simplified). That is when drugs come in.\nIt might be just a seasonal thing and you need to go outside more and take some supplements.\nYou might have some other undiagnosed issue. You might have ADHD, autism and other things that cause you to struggle and develop depression as a side effect.\nSo find out what works and what doesn't work for you.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46808667",
+          "by": "cardanome",
+          "time": 1769685563
+        },
+        {
+          "id": 46808522,
+          "text": "> A 2014 systematic review concluded that vitamin D supplementation does not reduce depressive symptoms overall but may have a moderate benefit for patients with clinically significant depression, though more high-quality studies were determined to be needed.\nhttps://en.wikipedia.org/wiki/Vitamin_D#Depression",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46808522",
+          "by": "legulere",
+          "time": 1769684684
+        },
+        {
+          "id": 46810515,
+          "text": "The first thing I would do in case of depression is to make sure that the patient's energy levels are good and that mitochondria and other energy-related biochem phenomena work as expected.\nI know first-hand that low energy-levels and lacking energy production mechanically lead to depression.\nAlso, look at how people (children also) experience the world and their relationships and their stresses when they are tired (or even just hungry) compared to when they are fit...\nFix those, and the depression might be gone.\nThis is not bashing against anti-depressants, they play their role to. But in some cases, energy-management is key.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46810515",
+          "by": "humanfromearth9",
+          "time": 1769696331
+        },
+        {
+          "id": 46808557,
+          "text": "Can I just add: In addition to this, if you struggle with anxiety or have some sort of ADHD, then try cutting out caffeine entirely. Not just switching to \"decaf\" (which isn't), but cutting out tea and coffee, and switching to an alternative like Barleycup.\nDoing this has had a massive positive effect for me, and combined with decent nutrition and daily exercise, has been wonderful.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46808557",
+          "by": "b800h",
+          "time": 1769684888
+        }
+      ],
+      "by": "mijailt",
+      "time": 1769682900,
+      "url": "https://blog.ncase.me/on-depression/",
+      "score": 954,
+      "descendants": 641,
+      "storyUrl": "https://blog.ncase.me/on-depression/"
+    },
+    {
+      "id": 46815297,
+      "type": "story",
+      "title": "Flameshot",
+      "rank": 9,
+      "depth": 0,
+      "storyId": 46815297,
+      "storyTitle": "Flameshot",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46815297",
+      "topComments": [
+        {
+          "id": 46817354,
+          "text": "This has the same issue as most screenshot software, it's out of date relative to modern devices. Every Mac laptop for the last ~4 years has an HDR display. Many windows devices are also HDR. But this app doesn't capture HDR.\nI tried putting up an HDR image and then capturing the screen. All HDR brightness was gone from the image.\nI get it's not easy per-se. It wasn't until MacOS Tahoe that Apple's own screen capture on Mac started supporting HDR. Windows 10/11, AFAIK, only supports HDR through the XBox Game Bar's capture. Apps like ShareX still only capture SDR.\nI mostly bring that up because I have apps the draw HDR and spent some time trying to find ways to add tests that we're actually getting HDR on the screen using screen captures. I hit a wall and gave up (2021).",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46817354",
+          "by": "socalgal2",
+          "time": 1769724194
+        },
+        {
+          "id": 46816027,
+          "text": "Flameshot is the best! I've been using it for 10+ years. I have it wired up to some hot keys in my window manager, and have it dump to s3 so I can paste around links to screenshots everywhere for work.\nhttps://github.com/kingcu/screendrop",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46816027",
+          "by": "cullenking",
+          "time": 1769718136
+        },
+        {
+          "id": 46816330,
+          "text": "Great software.\nOn a small note: This recent PR is both awesome and pretty funny to me.\nhttps://github.com/flameshot-org/flameshot/pull/4498#issue-3...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46816330",
+          "by": "vitaminCPP",
+          "time": 1769719503
+        },
+        {
+          "id": 46819145,
+          "text": "I used to really like this software, and I still do. But there were a couple of dealbreakers for me.\n1) As others mentioned, Wayland support. But it seems that it's gotten a lot better since I last used it. I resisted using Wayland for a long time because of several software breaking, but I've switched over now that most of the things I use now work (or because I've stopped using things that don't work).\n2) it was broken for me with fractional scaling. This is the main reason why I switched, I started using fractional scaling on my second monitor and could not properly fix it for the life of me. I haven't tested it recently, but I just checked, and the github issue seems to still be open. https://github.com/flameshot-org/flameshot/issues/564",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46819145",
+          "by": "b1temy",
+          "time": 1769733869
+        },
+        {
+          "id": 46817535,
+          "text": "I wish ShareX was available on Linux https://github.com/ShareX/ShareX",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46817535",
+          "by": "haunter",
+          "time": 1769724950
+        },
+        {
+          "id": 46816856,
+          "text": "Love flameshot. Did my due diligence for screenshot tools, found it, and never tried anything else again :)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46816856",
+          "by": "julius-fx",
+          "time": 1769722023
+        },
+        {
+          "id": 46816443,
+          "text": "Flameshot is great! It was one of the reasons I have not switched to Wayland. Although it seems now they have wayland support in beta.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46816443",
+          "by": "vzaliva",
+          "time": 1769720090
+        },
+        {
+          "id": 46821440,
+          "text": "Spectacle for KDE is also a good choice.\nhttps://apps.kde.org/spectacle/\nI found Flameshot to work flawlessly only on Linux X11 and Windows. Other platforms (Wayland, macOS) have problems.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46821440",
+          "by": "self_awareness",
+          "time": 1769757516
+        },
+        {
+          "id": 46816163,
+          "text": "Hopefully wayland support will improve",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46816163",
+          "by": "mog_dev",
+          "time": 1769718750
+        },
+        {
+          "id": 46817729,
+          "text": "Honestly the best screenshot software I've used so far is KDE's built-in printscreen thingy. I think it's called Spectacle. Does exactly all of the things you want - easy copying of regions, recording videos of regions (Wayland only unfortunately), annotation, etc.\nOne of the few times in Linux land where the UX is actually significantly better than Windows or Linux, and there's basically no jank at all.\n(The only slight jank I noticed is that on X11 the \"Screen recording\" button just ... doesn't do anything. No \"you need Wayland\" message. Just nothing. I'll give it a pass though because the rest is so surprisingly great. Good job Spectacle authors!)\nI do use ShareX on Windows for video recordings but Spectacle is better.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46817729",
+          "by": "IshKebab",
+          "time": 1769725878
+        }
+      ],
+      "by": "OsrsNeedsf2P",
+      "time": 1769715035,
+      "url": "https://github.com/flameshot-org/flameshot",
+      "score": 281,
+      "descendants": 113,
+      "storyUrl": "https://github.com/flameshot-org/flameshot"
+    },
+    {
+      "id": 46810027,
+      "type": "story",
+      "title": "A lot of population numbers are fake",
+      "rank": 10,
+      "depth": 0,
+      "storyId": 46810027,
+      "storyTitle": "A lot of population numbers are fake",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46810027",
+      "topComments": [
+        {
+          "id": 46819689,
+          "text": "I happened to have participated in census work before. For instance, in a country like China, the national census conducted every ten years generally yields accurate overall data, but the data for individual regions is indeed based on estimates. There are several reasons for this:\n1. Population Mobility: Generally speaking, in economically developed areas, population figures are often underestimated because a large number of people freely migrate into these regions, and local governments are actually unclear about the exact increase in population. In contrast, in less economically developed areas, population figures are often overestimated because many people leave to work in cities, only returning to their hometowns for brief periods each year.\n2. Mortality Data: China’s birth data is already quite accurate. Nowadays, the vast majority of babies are born in hospitals, unlike decades ago when midwives would come to homes to assist with deliveries. Moreover, birth certificates must be issued immediately after a baby is born. However, China’s mortality data is not precise, primarily because burials are still common in many rural areas, and these death records are often delayed.\nFor example, my city conducted multiple rounds of mass COVID-19 testing in 2021.  Each time, more than 4.4 million people were tested, but our small city's 2020 census results only showed a population of 3.7 million.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46819689",
+          "by": "hyruo",
+          "time": 1769738309
+        },
+        {
+          "id": 46811402,
+          "text": "The post leans too hard on “we have no idea.” Population numbers are estimates with error bars, especially in places with weak census infrastructure, but that’s not the same as ignorance. Most countries run censuses (sometimes badly) and use births/deaths/migration accounting to update totals. Calling them “fake” is misleading — it’s uneven data quality, not numerology. “Large uncertainty” ≠ “no idea.”",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46811402",
+          "by": "hybrid_study",
+          "time": 1769700135
+        },
+        {
+          "id": 46810830,
+          "text": "Quoting from the article \"But here’s a question about Papua New Guinea: how many people live there? The answer should be pretty simple.\"\nThat sounds a very strange expectation. Most of my life post university I realized most of questions have complex answers, it is never as simple as you expect.\nIf the author would check how things biology and medicine work currently, I think he will have even more surprises than the fact that counting populations is an approximate endeavor.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46810830",
+          "by": "vladms",
+          "time": 1769697812
+        },
+        {
+          "id": 46811148,
+          "text": "I was in Chile in 2017 for a census operation and the whole country shut down to conduct the census. It was a pretty big deal while I was there (and also a bit inconvenient because everything was closed). There was a lot of talk about how there had been a previous attempt at conducting the census which had ended up being a huge failure and how getting the 2017 census done right was a point of national pride.\nI also worked as a canvasser in 2019 and 2020 for the US census and, while we were about as thorough as you could reasonably get, the whole operation made me somewhat skeptical of official statistics in general. 2020 in particular was a bit of a disaster due to the pandemic and when the statistics were published, a bunch of mainstream news outlets published stories about certain areas experiencing \"population decline\" and all I could think was that those were actually the areas where the census didn't manage to count everyone.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46811148",
+          "by": "merryocha",
+          "time": 1769699063
+        },
+        {
+          "id": 46811759,
+          "text": ">Every election would have to be fake. Every government database would have to be full of fake names. And all for what? To get one over on the dumb Westerners?\nWhile I agree that the claim that world population is under 1 billion is bonkers, I also think he grossly underestimates how frequent and large the fraud is.\nTake Venezuela for example, the UN and several NGO's have confirmed a diaspora caused by chavismo of well over 7 million people. This is not recognized by the venezuelan government and is not reflected in any of the stats pages you can find.\nThat's a 20-30% difference in the real vs reported population of the country.\nAnd yes. They do fake the elections.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46811759",
+          "by": "cptaj",
+          "time": 1769701733
+        },
+        {
+          "id": 46810502,
+          "text": "A previous employer deployed a wireless relay network through the jungle in PNG and had rules to obey to avoid being accused of witchcraft and burned.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46810502",
+          "by": "direwolf20",
+          "time": 1769696241
+        },
+        {
+          "id": 46811683,
+          "text": "Fake is generally the wrong word. Inaccurate would be much more appropriate. Every population estimate is just that. There is going to be error. The error may be small or large, and it may be biased in one direction or another, but there is a clear chain from data to result. Even if your data sources are fraudulent, if you're making any attempt to account for that, though you may not do a very good job, it's still just inaccuracy. Fake would imply that the people releasing the population estimates have a much better estimate but are choosing to instead publish a made up number. This may actually happen in a few cases, but the claim that it's widespread is both hard to believe and unsupported by this article.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46811683",
+          "by": "jjk166",
+          "time": 1769701440
+        },
+        {
+          "id": 46810874,
+          "text": "“The next census, in 1991, was by far the most credible, and it shocked many people by finding that the population was about 30 percent smaller than estimated. But even that one was riddled with fraud. Many states reported that every single household had exactly nine people.”\nIf I worked in the government of a country like this I’d just throw in the towel.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46810874",
+          "by": "rayiner",
+          "time": 1769697983
+        },
+        {
+          "id": 46810560,
+          "text": "Cannot get to the page, from the wayback machine, the link works odd for me, but select \"A lot of population numbers are fake\" once the page displays.\nhttps://web.archive.org/web/20260129141207/https://davidoks....",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46810560",
+          "by": "jmclnx",
+          "time": 1769696556
+        },
+        {
+          "id": 46811420,
+          "text": "Link is dead but I think the population number of DRC (Congo) can't be right\nLook at the size of the country (around 1/3 of USA) and the number of people living there (112M according to wikipedia), also 1/3 of USA. So the density should be about the same but when you look at satellite photos it's one giant city (18M), several smaller cities and the endless forest. Can it support other 90M people?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46811420",
+          "by": "postsantum",
+          "time": 1769700228
+        }
+      ],
+      "by": "bookofjoe",
+      "time": 1769693814,
+      "url": "https://davidoks.blog/p/a-lot-of-population-numbers-are-fake",
+      "score": 401,
+      "descendants": 325,
+      "storyUrl": "https://davidoks.blog/p/a-lot-of-population-numbers-are-fake"
+    },
+    {
+      "id": 46802867,
+      "type": "story",
+      "title": "Tesla ending Models S and X production",
+      "rank": 11,
+      "depth": 0,
+      "storyId": 46802867,
+      "storyTitle": "Tesla ending Models S and X production",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46802867",
+      "topComments": [
+        {
+          "id": 46803677,
+          "text": "The next shoe to drop will be shifting Model Y production from Fremont to Austin. Fremont will make Model 3s. Austin will make Model Ys and Robotaxis/2s. Cybertruck will be canceled. None of the Tesla plants will be making robots at any scale for many years.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46803677",
+          "by": "vannevar",
+          "time": 1769645211
+        },
+        {
+          "id": 46808060,
+          "text": "Tesla will become a case study on how to completely waste the first-mover advantage.\nFor many people, the very term EV itself is still ubiquitous to Tesla.\nAnd somehow Tesla is still worth more than every other non-Chinese automaker combined. $1.5T.\nGM? $80B. Stellantis? $40B. Toyota? $280B. Mercedes-Benz? $60B. BMW? $55B. Volkswagen Group? Also $55B.\nI’m sure I’ve missed plenty of others, but I could miss some 18 $50B automakers, and Tesla would still be worth more than all of them combined.\nIf Tesla was valued fairly, it would probably be at the tune of $5B. But I’ll never bet against it, because the markets can remain irrational for longer than I can remain solvent. And for some unbeknownst to me reason, the markets value Tesla as a hot tech company, not a 3rd rate automaker, which is what it actually is.\nAnd to add insult to injury, even GM Super Cruise is widely renowned as better and safer than Tesla’s current “FSD”.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46808060",
+          "by": "sgjohnson",
+          "time": 1769681408
+        },
+        {
+          "id": 46803591,
+          "text": "I am confused about what Tesla is doing.  They have effectively two automobile products now with one failed product (cybertruck). reading various articles about this doesn't make it more clear.  Do they not want to be a car company?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46803591",
+          "by": "harshaw",
+          "time": 1769644803
+        },
+        {
+          "id": 46809842,
+          "text": "Five years ago, during the 2021 Q1 earnings call, Musk was asked about Models S and X. He responded:\n> I mean, they’re very expensive, made in low volume. To be totally frank, we’re continuing to make them more for sentimental reasons than anything else. They’re really of minor importance to the future.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46809842",
+          "by": "cs702",
+          "time": 1769692780
+        },
+        {
+          "id": 46806816,
+          "text": "So he milked Tesla for another $2B to subsidize xAI, has dropped the models to 2 (3 and Y), revenue is down, growth is negative, BYD is eating Tesla for lunch, followed by the other CN and KR vehicle companies.\nHe doesn't have FSD, camera only navigation without sensor fusion with LIDAR will fail, the only thing keeping Tesla where it is is the bullshit dispersal field that surrounds Musk.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46806816",
+          "by": "rswail",
+          "time": 1769670881
+        },
+        {
+          "id": 46803231,
+          "text": "Why is it seen initially so negatively?\nThere's nothing inherently wrong with a company deciding to stop producing models that are extremely old, have newer comparable models that are more widely available globally and sell multiples more of. So why would you keep those older models?\nIf anything its a good thing. But its Tesla so nothing they do will be spoken positively of.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46803231",
+          "by": "NoPicklez",
+          "time": 1769642747
+        },
+        {
+          "id": 46808551,
+          "text": "Relevant part: \"Tesla's far more popular models are the 3 and Y, which accounted for 97% of the company's 1.59 million deliveries last year.\"",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46808551",
+          "by": "yazantapuz",
+          "time": 1769684860
+        },
+        {
+          "id": 46803794,
+          "text": "Tesla is a meme stock in a similar manner to GME.  You cannot bet against them even if they have incredibly unsure future prospectives because there are too many believers who will buy any dips.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46803794",
+          "by": "bhouston",
+          "time": 1769645863
+        },
+        {
+          "id": 46804114,
+          "text": "> “If you’re interested in buying a Model S and X, now would be the time to order it.”\nI can't tell if this is real and he realizes the traditional luxury brands have beaten him or if he's just using the classic rug store sales tactic.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46804114",
+          "by": "cosmicgadget",
+          "time": 1769647641
+        },
+        {
+          "id": 46803570,
+          "text": "It seems fairly easy to find figures on how many cars Tesla has produced each quarter but, surprisingly (at least to me), it's harder to find compiled information on (for each quarter):\n- Average Selling Price;\n- Cars produced vs cars sold;\n- How many unsold cars are in inventory. I did find this [1];\n- A model breakdown of the above 2.\nThe reason I'm interested in this because my theory is that:\n1. Sales have been shifting from the Model S/X to the Model 3/Y, which reduces average selling price and overall profit. Stopping production is really about the inventory glut;\n2. Unsold inventory is going up, particularly for the Cybertruck; and\n3. Tesla marketshare is collapsing in many markets due to a combination of brand collapse among the most likely EV buyers and competition from lower-priced alternatives, particularly Chinese EVs in developing markets.\nSo what exactly is propping up this company at an above $1T market cap?\n[1]: https://electrek.co/2025/06/17/tesla-tsla-inventory-overflow...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46803570",
+          "by": "jmyeet",
+          "time": 1769644674
+        }
+      ],
+      "by": "keyboardJones",
+      "time": 1769640834,
+      "url": "https://www.cnbc.com/2026/01/28/tesla-ending-model-s-x-production.html",
+      "score": 566,
+      "descendants": 1200,
+      "storyUrl": "https://www.cnbc.com/2026/01/28/tesla-ending-model-s-x-production.html"
+    },
+    {
+      "id": 46804828,
+      "type": "story",
+      "title": "Mermaid ASCII: Render Mermaid diagrams in your terminal",
+      "rank": 12,
+      "depth": 0,
+      "storyId": 46804828,
+      "storyTitle": "Mermaid ASCII: Render Mermaid diagrams in your terminal",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46804828",
+      "topComments": [
+        {
+          "id": 46807949,
+          "text": "Really cool. Alexander Grooff (this is based on his go library [0]) did a great job.\n[0]: https://github.com/AlexanderGrooff/mermaid-ascii\nI think I ran into a bug, the \"start\" edge is not rendered. This is from https://agents.craft.do/mermaid:\n    stateDiagram-v2\n      [*] --> Idle\n      Idle --> Active : start\n      Active --> Idle : cancel\n      Active --> Done : complete\n      Done --> [*]\n\n    ┌──────────┐\n    │          │\n    │          │\n    │          │\n    └─────┬────┘\n          │     \n          │     \n          │     \n          │     \n          ▼     \n    ┌──────────┐\n    │          │\n    │   Idle   │\n    │          │\n    └─────┬────┘\n          ▲     \n          │     \n      cancel   \n          │     \n          ▼     \n    ┌─────┴────┐\n    │          │\n    │  Active  │\n    │          │\n    └─────┬────┘\n          │     \n          │     \n      complete  \n          │     \n          ▼     \n    ┌──────────┐\n    │          │\n    │   Done   │\n    │          │\n    └─────┬────┘\n          │     \n          │     \n          │     \n          │     \n          ▼     \n    ┌──────────┐\n    │          │\n    │          │\n    │          │\n    └──────────┘",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46807949",
+          "by": "dmos62",
+          "time": 1769680445
+        },
+        {
+          "id": 46806990,
+          "text": "I’m not entirely sure why there’s a push toward ASCII diagrams (perhaps influenced by AI usage).\nMermaid and PlantUML are already text-based representations, and what most users actually want is a rendered diagram in a standard, widely recognized notation—primarily for humans, not machines.\nASCII diagrams are inherently constrained by printable characters, which makes them hard to standardize and limits their expressiveness compared to proper diagram renderers.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46806990",
+          "by": "smilingleo",
+          "time": 1769672239
+        },
+        {
+          "id": 46805085,
+          "text": "I love ASCII diagrams! The fact that I can write a diagram that looks equally wonderful in my terminal via cat as it does rendered on my website is incredible.\nA good monospaced font and they can look really sharp!\nI will definitely give this tool a shot.\nI will also shout out monodraw as a really nice little application for building generic ASCII diagrams- https://monodraw.helftone.com/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46805085",
+          "by": "jonfw",
+          "time": 1769654648
+        },
+        {
+          "id": 46805600,
+          "text": "The actual Mermaid ASCII renderer is from another project [0]. This project transliterated it to typescript and added their own theming.\n[0]: https://github.com/AlexanderGrooff/mermaid-ascii",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46805600",
+          "by": "tempaccsoz5",
+          "time": 1769658530
+        },
+        {
+          "id": 46805982,
+          "text": "While Mermaid gets the limelight, Kroki[1] offers: BlockDiag, BPMN, Bytefield, SeqDiag, ActDiag, NwDiag, PacketDiag, RackDiag, C4 with PlantUML, D2, DBML, Ditaa, Erd, Excalidraw, GraphViz, Nomnoml, Pikchr, PlantUML, Structurizr, Svgbob, Symbolator, TikZ, Vega, Vega-Lite, WaveDrom, WireViz, and Mermaid.\nMy Markdown editor, KeenWrite[2], integrates Kroki as a service. This means whenever a new text-based diagram format is offered by Kroki, it is available to KeenWrite, dynamically. The tutorial[3] shows how it works. (Aside, variables within diagrams are also possible, shown at the end.)\nNote that Mermaid diagrams cannot be rendered by most libraries[4] due to its inclusion of , which is browser-dependent.\n[1]: https://kroki.io/\n[2]: https://keenwrite.com/\n[3]: https://www.youtube.com/watch?v=vIp8spwykZY\n[4]: https://github.com/orgs/mermaid-js/discussions/7085",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46805982",
+          "by": "thangalin",
+          "time": 1769662786
+        },
+        {
+          "id": 46805960,
+          "text": "Also see https://arthursonzogni.com/Diagon for text to ascii.\nI have a list of text to diagram tools here https://xosh.org/text-to-diagram/ but not many are text to ascii. There are a few text to ascii sequence diagram tools.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46805960",
+          "by": "smusamashah",
+          "time": 1769662593
+        },
+        {
+          "id": 46805282,
+          "text": "The live demo requires some download of an AI agent platform? I'd really like to try this but not if that's what's required.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46805282",
+          "by": "a_t48",
+          "time": 1769656159
+        },
+        {
+          "id": 46805551,
+          "text": "Wow! It has this:\n  Subgraph Direction Override: Using direction LR inside a subgraph while the outer graph flows TD.\n\nWith this, you should be able to approximate swim lane diagrams, which is something Mermaid lacks.\nThe last time I checked, Mermaid couldn't render subgraphs in a different direction than the overall graph.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46805551",
+          "by": "rahimnathwani",
+          "time": 1769658195
+        },
+        {
+          "id": 46805753,
+          "text": "If you like Obsidian.md but can't quite recommend it for less technical folks, these devs' Craft notes spaces are a great alternative:\nhttps://www.craft.do/\nWhile great for individuals, it's particularly strong out-of-the-box for teams, or even teams of teams with two levels of grouping.\nThey bring the same ... craft (ahem) ... to the whole product as shown in their Craft Agents or this renderer, with a strong foundation originally started in the Markdown philosophy.  Check out the founder's story on their About page for a refreshingly LLM-free backgrounder.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46805753",
+          "by": "Terretta",
+          "time": 1769660162
+        },
+        {
+          "id": 46805302,
+          "text": "Pair this with Unicode plots[0] and you're set!\n[0]:  https://github.com/JuliaPlots/UnicodePlots.jl",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46805302",
+          "by": "dleeftink",
+          "time": 1769656276
+        }
+      ],
+      "by": "mellosouls",
+      "time": 1769652520,
+      "url": "https://github.com/lukilabs/beautiful-mermaid",
+      "score": 418,
+      "descendants": 66,
+      "storyUrl": "https://github.com/lukilabs/beautiful-mermaid"
+    },
+    {
+      "id": 46816539,
+      "type": "story",
+      "title": "Retiring GPT-4o, GPT-4.1, GPT-4.1 mini, and OpenAI o4-mini in ChatGPT",
+      "rank": 13,
+      "depth": 0,
+      "storyId": 46816539,
+      "storyTitle": "Retiring GPT-4o, GPT-4.1, GPT-4.1 mini, and OpenAI o4-mini in ChatGPT",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46816539",
+      "topComments": [
+        {
+          "id": 46817345,
+          "text": "> We’re continuing to make progress toward a version of ChatGPT designed for adults over 18, grounded in the principle of treating adults like adults, and expanding user choice and freedom within appropriate safeguards. To support this, we’ve rolled out age prediction  for users under 18 in most markets.\nhttps://help.openai.com/en/articles/12652064-age-prediction-...\ninteresting",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46817345",
+          "by": "leumon",
+          "time": 1769724161
+        },
+        {
+          "id": 46817119,
+          "text": ">We brought GPT‑4o back after hearing clear feedback from a subset of Plus and Pro users, who told us they needed more time to transition key use cases, like creative ideation, and that they preferred GPT‑4o’s conversational style and warmth.\nThis does verify the idea that OpenAI does not make models sycophantic due to attempted subversion by buttering up users so that that they use the product more, its because people actually want AI to talk to them like that. To me, that's insane, but they have to play the market I guess",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46817119",
+          "by": "NewsaHackO",
+          "time": 1769723218
+        },
+        {
+          "id": 46817429,
+          "text": "After they pushed the limits on the Thinking models to 3000 per week, I haven't touched anything else. I am really satisfied with their performance and the 200k context windows is quite nice.\nI've been using Gemini exclusively for the 1 million token context window, but went back to ChatGPT after the raise of the limits and created a Project system for myself which allows me to have much better organization with Projects + only Thinking chats (big context) + project-only memory.\nAlso, it seems like Gemini is really averse to googling (which is ironic by itself) and ChatGPT, at least in the Thinking modes loves to look up current and correct info. If I ask something a bit more involved in Extended Thinking mode, it will think for several minutes and look up more than 100 sources. It's really good, practically a Deep Research inside of a normal chat.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46817429",
+          "by": "europeanNyan",
+          "time": 1769724521
+        },
+        {
+          "id": 46821515,
+          "text": "Been unhappy with the GPT5 series, after daily driving 4.x for ages (I chat with them through the API) - very pedantic, goes off on too many side topics, stops following system instructions after a few turns (e.g. \"you respond in 1-3 sentences\" becomes long bulleted lists and multiple paragraphs very quickly.\nMuch better feel with the Claude 4.5 series, for both chat and coding.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46821515",
+          "by": "QuadrupleA",
+          "time": 1769758263
+        },
+        {
+          "id": 46817344,
+          "text": "ChatGPT 5.2 has been a good motivator for me to try out other LLMs because of how bad it is. Both 5.1 and 5.2 have been downgrades in terms of instruction following and accuracy, but 5.2 especially so. The upside is that that's had me using Claude much more, and I like a lot of things about it, both in terms of UI and the answers. It's also gotten me more serious about running local models. So, thank you OpenAI, for forcing me to broaden my horizons!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46817344",
+          "by": "sundarurfriend",
+          "time": 1769724159
+        },
+        {
+          "id": 46818411,
+          "text": "Retiring the most popular model for the relationship roleplay just one day before the Valentin's day is particularly ironic =) bravo, OpenAI!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46818411",
+          "by": "shmel",
+          "time": 1769729514
+        },
+        {
+          "id": 46816828,
+          "text": "> [...] the vast majority of usage has shifted to GPT‑5.2, with only 0.1% of users still choosing GPT‑4o each day.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46816828",
+          "by": "simonw",
+          "time": 1769721928
+        },
+        {
+          "id": 46817327,
+          "text": "I noticed how ChatGPT got progressively worse at helping me with my research. I gave up on ChatGPT 5 and just switched Grok and Gemini. I couldn’t be happier that I switched.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46817327",
+          "by": "jostmey",
+          "time": 1769724074
+        },
+        {
+          "id": 46816771,
+          "text": "Last time they tried to do this they got huge push back from the AI boyfriend people lol",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46816771",
+          "by": "__loam",
+          "time": 1769721675
+        },
+        {
+          "id": 46816978,
+          "text": "There will be a lot of mentally unwell people unhappy with this, but this is a huge net positive decision, thank goodness.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46816978",
+          "by": "femiagbabiaka",
+          "time": 1769722619
+        }
+      ],
+      "by": "rd",
+      "time": 1769720551,
+      "url": "https://openai.com/index/retiring-gpt-4o-and-older-models/",
+      "score": 300,
+      "descendants": 415,
+      "storyUrl": "https://openai.com/index/retiring-gpt-4o-and-older-models/"
+    },
+    {
+      "id": 46810401,
+      "type": "story",
+      "title": "Waymo robotaxi hits a child near an elementary school in Santa Monica",
+      "rank": 14,
+      "depth": 0,
+      "storyId": 46810401,
+      "storyTitle": "Waymo robotaxi hits a child near an elementary school in Santa Monica",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46810401",
+      "topComments": [
+        {
+          "id": 46811473,
+          "text": "From the Waymo blog...\n> the pedestrian suddenly entered the roadway from behind a tall SUV, moving directly into our vehicle's path. Our technology immediately detected the individual as soon as they began to emerge from behind the stopped vehicle. The Waymo Driver braked hard, reducing speed from approximately 17 mph to under 6 mph before contact was made.\n> Following contact, the pedestrian stood up immediately, walked to the sidewalk, and we called 911. The vehicle remained stopped, moved to the side of the road, and stayed there until law enforcement cleared the vehicle to leave the scene.\n> Following the event, we voluntarily contacted the National Highway Traffic Safety Administration (NHTSA) that same day.\nI honestly cannot imagine a better outcome or handling of the situation.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46811473",
+          "by": "BugsJustFindMe",
+          "time": 1769700502
+        },
+        {
+          "id": 46814694,
+          "text": "This is the classic Suddenly Revealed Pedestrian test case, which afaik, most NCAP (like EuroNCAP, Japan NCAP) have as part of their standard testing protocols.\nHaving performed this exact test on 3 dozen vehicles (L2/L3/L4) for several AV companies in the Bay Area [1], I would say that Waymo's response, per their blog post [2] has been textbook compliance. (I'm not defending their performance... just their response to the collision). This test / protocol is hard for any driver (including human driven vehicles), let alone ADAS/L3/L4 vehicles, for various reasons, including: pedestrian occlusion, late ped detection, late braking, slick roads, not enough braking, etc. etc.\nHaving said all that, full collision avoidance would have been best outcome, which, in this case, it wasn't.  Wherever the legal fault may lie -- and there will be big debate here -- Waymo will still have to accept some responsibility, given how aggressively they are rolling out their commercial services.\nThis only puts more onus on their team to demonstrate a far higher standard of driving than human drivers. Sorry, that's just the way societal acceptance is. We expect more from our robots than from our fellow humans.\n[1] Yes, I'm an AV safety expert\n[2] https://waymo.com/blog/2026/01/a-commitment-to-transparency-...\n(edit: verbiage)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46814694",
+          "by": "aanet",
+          "time": 1769712801
+        },
+        {
+          "id": 46812849,
+          "text": "Meanwhile the news does not report the other ~7,000 children per year injured as pedestrians in traffic crashes in the US.\nI think the overall picture is a pretty fantastic outcome -- even a single event is a newsworthy moment _because it's so rare_ .\n> The NHTSA’s Office of Defects Investigation is investigating “whether the Waymo AV exercised appropriate caution given, among other things, its proximity to the elementary school during drop off hours, and the presence of young pedestrians and other potential vulnerable road users.”\nMeanwhile in my area of the world parents are busy, stressed, and on their phones, and pressing the accelerator hard because they're time pressured and feel like that will make up for the 5 minutes late they are on a 15 minute drive... The truth is this technology is, as far as i can tell, superior to humans in a high number of situations if only for a lack of emotionality (and inability to text and drive / drink and drive)... but for some reason the world wants to keep nit picking it.\nA story, my grandpa drove for longer than he should have. Yes him losing his license would have been the optimal case. But, pragmatically that didn't happen... him being in and using a Waymo (or Cruise, RIP) car would have been a marginal improvement on the situation.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46812849",
+          "by": "maerF0x0",
+          "time": 1769705885
+        },
+        {
+          "id": 46819278,
+          "text": "We should all think twice before taking a company PR statement completely at face value and praising them for slowing down faster than their own internal \"model\" says a human driver would.  Companies are heavily interested in protecting their bottom line and in a situation like this probably had 5-10 people carefully craft every single word of the statement for maximum damage control.\nSurprised at how many comments here seem eager to praise Waymo based off their PR statement.  Sure it sounds great if you read that the Waymo slowed down faster than a human.  But would a human truly have hit the child here?  Two blocks from a school with tons of kids, crossing guards, double parked cars, etc?  The same Waymo that is under investigation for passing school busses illegally?  It may have been entirely avoidable for the average human in this situation, but the robotaxi had a blind spot that it couldn't reason around and drove negligently.\nMaybe the robotaxi did prevent some harm by braking with superhuman speed.  But I am personally unconvinced it was a completely unavoidable freak accident type of situation without seeing more evidence than a blog post by a company with a heavily vested interest in the situation.  I have anecdotally seen Waymo in my area drive poorly in various situations, and I'm sure I'm not the only one.\nThere's the classic \"humans are bad drivers\" but I don't think that is an excuse to not look critically into robotaxi accidents.  A human driver who hit a child next to a school would have a personal responsibility and might face real jail time or at the least be put on trial and investigated.  Who at Waymo will face similar consequences or risk for the same outcome?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46819278",
+          "by": "naet",
+          "time": 1769734834
+        },
+        {
+          "id": 46815556,
+          "text": "The a human would do it better people are hilarious. Given how many times I have been hit by human drives on my bike and watched others get creamed by a cars. One time in Boulder at a flashing cross walk a person ran right through it and the biker they creamed got stuck in the roof rack.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46815556",
+          "by": "bhewes",
+          "time": 1769716011
+        },
+        {
+          "id": 46814039,
+          "text": "I was just dropping my kids off at their elementary school in Santa Monica, but not at Grant Elementary where this happened.\nWhile it's third-hand, word on the local parent chat is that the parent dropped their kid off on the opposite side of the street from Grant.  Even though there was a crossing guard, the kid ran behind a car an ran right out in to the street.\nIf those rumors are correct, I'll say the kid's/family's fault.  That said, I think autonomous vehicles should probably go extra-slowly near schools, especially during pickup and dropoff.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46814039",
+          "by": "dlg",
+          "time": 1769710345
+        },
+        {
+          "id": 46818539,
+          "text": "A human driver travelling at the same speed would have hit that child at exactly 17 mph, before their brain even registered that child was there. If that driver would also have been driving a large SUV that child would have been pushed on the ground and ran over, so probably a fatality. And also functionally nobody would have given a shit apart from some lame finger pointing at (probably) the kid’s parents.\nAnd it is not the child’s or their parents’ fault either:\nOnce you accept elementary school aged children exist, you have to accept they will sometimes run out like this. Children just don’t have the same impulse control as adults. And honestly even for adults stepping out a bit from behind an obstacle in the path of a car is an easy mistake to make. Don’t forget that for children an SUV is well above head height so it isn’t even possible for them to totally avoid stepping out a bit before looking. (And I don’t think stepping out vs. running out changes the outcome a lot)\nThis is why low speed limits around schools exist.\nSo I would say the Waymo did pretty well here, it travelled at a speed where it was still able to avoid not only a fatality but also major injury.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46818539",
+          "by": "rsch",
+          "time": 1769730171
+        },
+        {
+          "id": 46814143,
+          "text": "Vehicle design also plays a role: passenger cars have to meet pedestrian collision standards. Trucks don't. The silly butch grilles on SUVs and pickups are deadly. This is more of an argument for not seeing transportation as a fashion or lifestyle statement. Those truck designs are about vanity and gender affirming care. It's easier to make rational choices when it's a business that's worried about liability making those choices.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46814143",
+          "by": "Zigurd",
+          "time": 1769710746
+        },
+        {
+          "id": 46814005,
+          "text": "The school speed limit there is 15 mph, and that wasn't enough to prevent an accident.\nhttps://www.yahoo.com/news/articles/child-struck-waymo-near-...\nhttps://maps.app.goo.gl/7PcB2zskuKyYB56W8?g_st=ac",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46814005",
+          "by": "aimor",
+          "time": 1769710230
+        },
+        {
+          "id": 46815113,
+          "text": "Cheers to cities pedestrianizing school streets even in busy capitals (e.g. Paris). Cars have no place near school entrances. Fix your urbanism and public transportation.\nYes, kids in developed countries have the autonomy to go to school by themselves from a very young age, provided the correct mindset and a safe environment. That's a combination of:\n* high-trust society: commuting alone or in a small group is the norm, soccer moms a rare exception,\n* safe, separated lanes for biking/walking when that's an option.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46815113",
+          "by": "Zopieux",
+          "time": 1769714334
+        }
+      ],
+      "by": "voxadam",
+      "time": 1769695736,
+      "url": "https://techcrunch.com/2026/01/29/waymo-robotaxi-hits-a-child-near-an-elementary-school-in-santa-monica/",
+      "score": 482,
+      "descendants": 787,
+      "storyUrl": "https://techcrunch.com/2026/01/29/waymo-robotaxi-hits-a-child-near-an-elementary-school-in-santa-monica/"
+    },
+    {
+      "id": 46814569,
+      "type": "story",
+      "title": "My Mom and Dr. DeepSeek (2025)",
+      "rank": 15,
+      "depth": 0,
+      "storyId": 46814569,
+      "storyTitle": "My Mom and Dr. DeepSeek (2025)",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46814569",
+      "topComments": [
+        {
+          "id": 46815623,
+          "text": "> she said she was aware that DeepSeek had given her contradictory advice. She understood that chatbots were trained on data from across the internet, she told me, and did not represent an absolute truth or superhuman authority\nWith highly lucid people like the author's mom I'm not too worried about Dr. Deepseek. I'm actually incredibly bullish on the fact that AI models are, as the article describes, superhumanly empathetic. They are infinitely patient, infinitely available, and unbelievably knowledgeable, it really is miraculous.\nWe don't want to throw the baby out with the bathwater, but there are obviously a lot of people who really cannot handle the seductivity of things that agree with them like this.\nI do think there is pretty good potential in making good progress on this front in though. Especially given the level of care and effort being put into making chatbots better for medical uses and the sheer number of smart people working on the problem.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46815623",
+          "by": "kingstnap",
+          "time": 1769716300
+        },
+        {
+          "id": 46816398,
+          "text": "I'm reminded of the monologue from Terminator 2:\n> Watching John with the machine, it was suddenly so clear. The Terminator would never stop, it would never leave him... it would always be there. And it would never hurt him, never shout at him or get drunk and hit him, or say it couldn't spend time with him because it was too busy. And it would die to protect him. Of all the would-be fathers who came and went over the years, this thing, this machine, was the only one who measured up. In an insane world, it was the sanest choice.\nThe AI doctor will always have enough time for you, and always be at the top of their game with you.  It becomes useful when it works better than an overworked midlevel, not when it competes with the best doctor on their best day.  If we're not there already, we're darn close.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46816398",
+          "by": "repiret",
+          "time": 1769719849
+        },
+        {
+          "id": 46816012,
+          "text": "I prepared for a new patient appointment with a medical specialist last week by role playing the conversation with a chatbot. The bot turned out to be much more responsive, inquisitive and helpful. The doctor was passive, making no suggestions, just answering questions. I had to prompt him explicitly to get to therapy recommendations, unlike the AI. I was glad that I had learned enough from the bot to ask useful questions. It would have been redundant if the doctor was active and interested, but that can't be depended on. This is standard procedure for me now.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46816012",
+          "by": "delichon",
+          "time": 1769718065
+        },
+        {
+          "id": 46815865,
+          "text": "I and many of my friends have used ChatGPT extremely effectively to diagnose medical issues. In fact, I would say that ChatGPT is better than most doctors because most doctors don't actually listen to you. ChatGPT took the time to ask me questions and based on my answers, narrowed down a particularly scary diagnosis and gave excellent instructions on how to get to a local hospital in a foreign country, what to ask for, and that I didn't have to worry very much because it sounded very typical for what I had. The level of reassurance that I was doing everything right actually made me feel less scared, because it was a pretty serious problem. Everything it told me was 100% correct and it guided me perfectly.\nI was taking one high blood pressure medication but then noticed my blood sugar jumped. I did some research with ChatGPT and it found a paper that did indicate that it could raise blood sugar levels and gave me a recommendation for an alternative  I asked my doctor about it and she said I was wrong, but I gently pushed her to switch and gave the recommended medication. She obliged, which is why I have kept her for almost 30 years now, and lo and behold, my blood sugar did drop.\nMost people have a hard time pushing back against doctors and doctors mostly work with blinders on and don't listen. ChatGPT gives you the ability to keep asking questions without thinking you are bothering them.\nI think ChatGPT is a great advance in terms of medical help in my opinion and I recommend it to everyone. Yes, it might make mistakes and I caution everyone to be careful and don't trust it 100%, but I say that about human doctors as well.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46815865",
+          "by": "reenorap",
+          "time": 1769717370
+        },
+        {
+          "id": 46814891,
+          "text": "This was not what I was expecting. The doctors I know are mostly miserable; stuck between the independence but also the burden of running their own practice, or or else working for a giant health system and having no control over their own days. You can see how an LLM might be preferable, especially when managing a chronic, degenerative condition. I have a family member with stage 3 kidney disease who sees a nephrologist, and there's nothing you can actually do. No one in their right mind would recommend a kidney transplant, let alone dialysis for someone with moderately impaired kidneys. All you can do is treat the symptoms as they come up and monitor for significant drops in function.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46814891",
+          "by": "wnissen",
+          "time": 1769713458
+        },
+        {
+          "id": 46816515,
+          "text": "One of my kids recently had a no-contact knee injury while playing basketball. He immediately started limping and crying and I had to carry him from the court to the car.\nI did some searching with Grok and I found out:\n- no contact injuries are troubling b/c it generally means they pulled something\n- kids don't generally tear an ACL (or other ligament)\n- it's actually way more common for the ligament to pull the anchor point off of the bigger bone b/c kid bones are soft\nI asked it to differentially diagnose the issue with the details of: can't hold weight, little to no swelling and some pain.\nIt was adamant, ADAMANT, that this was a classic case of bone being pulled off by the ligament and that it would require surgery. It even pointed out the no swelling could be due to a very small tear etc. It gave me a 90% chance of surgery too.\nI followed up by asking what test would definitely prove it one way or the other and it mentioned getting an X-Ray.\nWe go off to the urgent care, son is already kind of hobbling around. Doctor says he seems fine, I push for an X-Ray and turns out no issue: he probably just pulled something. He was fully healed in 2-3 days.\nAs someone who has done a lot of differential diagnosing/troubleshooting of big systems (FinTech SRE) I find it interesting that it was basically correct in what could have happened but couldn't go the \"final mile\" to establish it correctly. Once we start hooking up X-Rays to Claude/Grok 4.2 etc equivalent LLMs, will be even more interesting to see where this goes.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46816515",
+          "by": "alexpotato",
+          "time": 1769720430
+        },
+        {
+          "id": 46816159,
+          "text": "If you get the \"You're absolutely right!\" response from an LLM that screwed up on a field you're familiar with and still let them play with your health, you're...courageous to say the least.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46816159",
+          "by": "zzzoom",
+          "time": 1769718741
+        },
+        {
+          "id": 46816787,
+          "text": "Much like talking to your doctor - you need to ask/prompt the right questions.  I've seen chatgpt and gemini make one false assumption that was never mentioned and run with it and continue referencing it down the line as if it were fact... That can be extremely dangerous if you don't know enough to ask it to reframe or verify, or correct it's assumption.\nIf you are using it like a tool to review/analyze or simplify something - ie explain risk stratification for a particular cancer variant and what is taken into account, or ask it to provide probabilities and ranges for survival based on age/medical history, it's usually on the money.\nEvery other caveat mentioned here is valid, and it's valid for many domains not just medical.\nI did get hemotologist/oncologist level advice out of chatgpt 4o based on labs, pcr tests and symptoms - and those turned out to be 100% true based on how things panned out in the months that followed and ultimately the treatment that was given.  Doctors do not like to tell you the good and the bad candidly - it's always \"we'll see what the next test says but things look positive\" and \"it could be as soon as 1 week or as long as several months depending on what we find\" when they know full well you're in there for 2 months at minimum you're a miracle case.  Only once cornered or prompted will they give you a larger view of the big picture.  The same is true for most professional fields.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46816787",
+          "by": "tgtweak",
+          "time": 1769721730
+        },
+        {
+          "id": 46816129,
+          "text": "For major medical issues it may well be best practice to use the four eyes principle like we do for all safety related systems. Access is key and at this time getting a second pair of eyes in close timely proximity is a luxury few have and even fewer will have looking at the demographics in the developed world. Human doctors are failable as is AI. For the time being having a multitude of perspectives may well be the best in most cases.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46816129",
+          "by": "heisenbit",
+          "time": 1769718609
+        },
+        {
+          "id": 46815492,
+          "text": "This almost certainly isn't only a China problem. I've observed UK users asking questions about diabetes and other health advice. We also have an inexpensive (free-at-point of use for most stuff) but stretched healthcare system. Doubtless there are US users looking at the cost of their healthcare and resorting to ChatGPT instead too.\nIn companies people talk about Shadow-IT happening when IT doesn't cover the user needs. We should probably label this stuff Shadow-Health.\nTo some extent, the deployment of a publicly funded AI health chat bot, where the responses can be analysed by healthcare professionals to at least prevent future harm is probably significantly less bad than telling people not to ask AI questions and consult the existing stretched infrastructure. Because people will ask the questions regardless.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46815492",
+          "by": "philipwhiuk",
+          "time": 1769715762
+        }
+      ],
+      "by": "kieto",
+      "time": 1769712327,
+      "url": "https://restofworld.org/2025/ai-chatbot-china-sick/",
+      "score": 238,
+      "descendants": 147,
+      "storyUrl": "https://restofworld.org/2025/ai-chatbot-china-sick/"
+    },
+    {
+      "id": 46758652,
+      "type": "story",
+      "title": "Mecha Comet – Open Modular Linux Handheld Computer",
+      "rank": 16,
+      "depth": 0,
+      "storyId": 46758652,
+      "storyTitle": "Mecha Comet – Open Modular Linux Handheld Computer",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46758652",
+      "topComments": [
+        {
+          "id": 46805205,
+          "text": "So... what's the OS situation? From a glance at https://github.com/mecha-org/linux -> https://github.com/mecha-org/linux/commits/imx/lf-6.12.20/ it looks like they're starting from a 6mo-old kernel (6.12.20 vs current LTS 6.12.67 and current stable 6.18.7). Is there any reason to expect upstreaming or even just consistent updates, or is this yet another device that will ship with an old-ish kernel and never get updated again?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46805205",
+          "by": "yjftsjthsd-h",
+          "time": 1769655529
+        },
+        {
+          "id": 46805159,
+          "text": "Stumbled across this thing a while back and thought it looked really cool but I have never been able to come up with an idea for how I would use it so I haven't pledged.\nI want to want it but I fear it would just sit on my desk. Does anyone have cool ideas for uses?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46805159",
+          "by": "solomonb",
+          "time": 1769655181
+        },
+        {
+          "id": 46805281,
+          "text": "Small gimmicky computers seem to attract so much attention and people who can’t help themselves but buy it, play with it for a while, then toss it into a drawer and never use it again.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46805281",
+          "by": "deadbabe",
+          "time": 1769656158
+        },
+        {
+          "id": 46811857,
+          "text": "Any screenshots or videos of it running? All I'm seeing are renders. As someone who has been burned by crowdfunded \"engineering\" (where something seems good on paper, and then there's a year or two of posts about all the challenges that were \"unforeseen\" before a heartfelt postmortem) I feel like that's a requirement.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46811857",
+          "by": "bdcravens",
+          "time": 1769702081
+        },
+        {
+          "id": 46805986,
+          "text": "This reminds me of Phonebloks from 13 years ago.\nhttps://de.wikipedia.org/wiki/Phonebloks",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46805986",
+          "by": "matricaria",
+          "time": 1769662828
+        },
+        {
+          "id": 46808836,
+          "text": "I wish we can have the low power Intel or AMD chip rather than ARM :( the distro fragmentation in ARM and my distaste for uboot makes me hard to press the buy button.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46808836",
+          "by": "stevefan1999",
+          "time": 1769686518
+        },
+        {
+          "id": 46806609,
+          "text": "Website's a bit weird.  The app icons highlight when you hover over them, but don't seem to do anything.\nThey've got a grab-bag of unrelated Linux etc. org icons - Nix, Debian, postmarketOS, Node, Kubernetes…  You could argue that someone _could_ run Nix or Node on it, but Debian is just nerdbait.  It's not relevant to the product they're selling, unless you're gonna wipe the disk and support it yourself.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46806609",
+          "by": "bsimpson",
+          "time": 1769668686
+        },
+        {
+          "id": 46805024,
+          "text": "This project is currently seeking funds (and is funded) on Kickstarter:\nhttps://www.kickstarter.com/projects/mecha-systems/mecha-com...\n(and the super early bird rewards are all gone)\nI might be interested if I weren't still waiting on the Soulcircuit Pilet to ship....",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46805024",
+          "by": "WillAdams",
+          "time": 1769654116
+        },
+        {
+          "id": 46811547,
+          "text": "I’m planning to build something like this over the next few months. Think Nintendo 3DS-sized, but as a tiny laptop. The goal is extreme portability while still being able to program on it reasonably well.\nI travel a lot and manage servers, so I’ve been wanting a dedicated “SSH machine” that I can always carry with me. With how good AI tooling has gotten, doing real work on a tiny device is suddenly very viable. The other day I SSH’d into a box from my phone while I was at the gym and just told Claude Code to fix a Kubernetes manifest issue. It was fixed and deployed in under two minutes.\nI mentioned this idea at work and a few coworkers immediately said they’d buy one if it existed. Curious what others think.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46811547",
+          "by": "Realman78",
+          "time": 1769700905
+        },
+        {
+          "id": 46810013,
+          "text": "Buyers beware: 4-core A53 is genuinely unusable (original Pinebook/PinePhone specs), A55 is better but I still wouldn’t recommend buying. You may expect performance similar to 15+ years old desktops.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46810013",
+          "by": "watusername",
+          "time": 1769693723
+        }
+      ],
+      "by": "Realman78",
+      "time": 1769377490,
+      "url": "https://mecha.so/comet",
+      "score": 270,
+      "descendants": 98,
+      "storyUrl": "https://mecha.so/comet"
+    },
+    {
+      "id": 46804854,
+      "type": "story",
+      "title": "Maine’s ‘Lobster Lady’ who fished for nearly a century dies aged 105",
+      "rank": 17,
+      "depth": 0,
+      "storyId": 46804854,
+      "storyTitle": "Maine’s ‘Lobster Lady’ who fished for nearly a century dies aged 105",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46804854",
+      "topComments": [
+        {
+          "id": 46810297,
+          "text": "I just lost my Mom, at 97. We would go to lunch on Tuesday and then grocery shopping. She'd talk of the family and where they all were and what they were doing - it was MY day to catch up.\nThe last Tuesday we got back and she said \"That was too hard. I think that was the last one.\" I agreed, and thought I'd call her next tuesday just the same and see if she'd changed her mind. But there was no 'next tuesday'.\nAnyway, life is a gift and I miss her and Tuesday doesn't come but I feel the gap.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46810297",
+          "by": "JoeAltmaier",
+          "time": 1769695207
+        },
+        {
+          "id": 46811597,
+          "text": "> Some regard stories such as that of Oliver, who came to be known as her state’s “Lobster Lady”, as evidence of the growing number of Americans who extend their working days well past the typical retirement age as the cost of living in the US has soared, wages have stagnated and many therefore have been unable to save.\nIt's unfortunate that this publication decides to go hard on politics no matter what the feel-good story behind the article is.  This Ginny lady clearly said that she loved banding lobsters and wanted to do it for as long as she could.  It had nothing to do with working into her old age because she needed the money.  Obviously that is a real issue, but has nothing to do with this story.\nI like this news website better: https://www.positive.news/\nAt least it doesn't try to snipe me into feeling bad, or scared about everything.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46811597",
+          "by": "petcat",
+          "time": 1769701092
+        },
+        {
+          "id": 46807519,
+          "text": "The article states that a raising amount of people in the US still work, albeit their age and it feels a little strange to me. Ginny, probably got so old because she was working and had a purpose every day. Being 100 and still capable of working is a blessing",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46807519",
+          "by": "ulf-77723",
+          "time": 1769676874
+        },
+        {
+          "id": 46807443,
+          "text": "She must have had so many interesting stories to tell. Such an amazing experiences - born in the early 1920s, being a young adult at the beginning of the Second World War, seeing mass commercialization of air travel, flight to space, miniaturization and age of information. And she even caught beginnings of AI (or pseudo-AI).\nShe \"picked\" a good place to live and observe the flow of time and events where she directly wouldn't be affected by various negative events throughout the century of her life.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46807443",
+          "by": "Ronsenshi",
+          "time": 1769676255
+        },
+        {
+          "id": 46805393,
+          "text": "It always seems it's a fall that ends it, I wonder if she could have made 100 years on the water if she hadn't fell. What an inspiring life!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46805393",
+          "by": "havaloc",
+          "time": 1769656954
+        },
+        {
+          "id": 46807515,
+          "text": "I wonder if there is a lobster that survived her.\nLobsters are long-lived, they don't age (in the sense of slowly losing their fitness - senescence) and they only die when they grow too big and suffocate during moulting, or possibly catch some infection, or get killed by other animals/people.\nA 105 y.o. lobster is plausible.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46807515",
+          "by": "inglor_cz",
+          "time": 1769676857
+        },
+        {
+          "id": 46805412,
+          "text": "Rugged individualism. Rest in peace, Queen.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46805412",
+          "by": "dayyan",
+          "time": 1769657136
+        },
+        {
+          "id": 46807366,
+          "text": "So Long, and Thanks for All the... Lobster.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46807366",
+          "by": "GuestFAUniverse",
+          "time": 1769675785
+        },
+        {
+          "id": 46805712,
+          "text": "Who else reading the headline thought it’s about 100 year old lobster that died?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46805712",
+          "by": "dostick",
+          "time": 1769659688
+        },
+        {
+          "id": 46811848,
+          "text": "I took a boat ride in Maine on a lobster boat once that was owned and operated by a man in his 90s. Someone else in the town told me that he was being pressured to stop working by his family because he had recently fallen out of the boat while lobstering alone and broken a rib. He still managed to climb back into the boat with his injury and get home. It's a different America up there.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46811848",
+          "by": "kiliantics",
+          "time": 1769702058
+        }
+      ],
+      "by": "NaOH",
+      "time": 1769652702,
+      "url": "https://www.theguardian.com/us-news/2026/jan/28/maine-lobster-lady-dies-aged-105",
+      "score": 235,
+      "descendants": 61,
+      "storyUrl": "https://www.theguardian.com/us-news/2026/jan/28/maine-lobster-lady-dies-aged-105"
+    },
+    {
+      "id": 46812173,
+      "type": "story",
+      "title": "US cybersecurity chief leaked sensitive government files to ChatGPT: Report",
+      "rank": 18,
+      "depth": 0,
+      "storyId": 46812173,
+      "storyTitle": "US cybersecurity chief leaked sensitive government files to ChatGPT: Report",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46812173",
+      "topComments": [
+        {
+          "id": 46820069,
+          "text": "Comments moved to https://news.ycombinator.com/item?id=46786672.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46820069",
+          "by": "tomhow",
+          "time": 1769742177
+        },
+        {
+          "id": 46812971,
+          "text": "Better to read the original story from Politico.\nhttps://www.politico.com/news/2026/01/27/cisa-madhu-gottumuk...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46812971",
+          "by": "nilstycho",
+          "time": 1769706284
+        },
+        {
+          "id": 46812500,
+          "text": "Well they’re about to solve that by intentionally cramming it into grok instead",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46812500",
+          "by": "Havoc",
+          "time": 1769704503
+        },
+        {
+          "id": 46813382,
+          "text": "It looke like he's unfit for the position, and was using ChatGPT to burnish his reports etc.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46813382",
+          "by": "mlmonkey",
+          "time": 1769707800
+        },
+        {
+          "id": 46812412,
+          "text": "\"Information wants to be free\". Government stooges help information with what it wants.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46812412",
+          "by": "01284a7e",
+          "time": 1769704078
+        }
+      ],
+      "by": "randycupertino",
+      "time": 1769703139,
+      "url": "https://www.dexerto.com/entertainment/us-cybersecurity-chief-leaked-sensitive-government-files-to-chatgpt-report-3311462/",
+      "score": 435,
+      "descendants": 37,
+      "storyUrl": "https://www.dexerto.com/entertainment/us-cybersecurity-chief-leaked-sensitive-government-files-to-chatgpt-report-3311462/"
+    },
+    {
+      "id": 46814614,
+      "type": "story",
+      "title": "County pays $600k to pentesters it arrested for assessing courthouse security",
+      "rank": 19,
+      "depth": 0,
+      "storyId": 46814614,
+      "storyTitle": "County pays $600k to pentesters it arrested for assessing courthouse security",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46814614",
+      "topComments": [
+        {
+          "id": 46819265,
+          "text": "What is wild about this is the cops showed up, held the guys, they showed them their letter that they were authorized and the cops called the references on the letter and everyone was fine.\nThen the Sheriff showed up and insisted they be arrested...\nEverything was fine until one person who didn't get it, who happened to be in charge, showed up.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46819265",
+          "by": "duxup",
+          "time": 1769734749
+        },
+        {
+          "id": 46815285,
+          "text": "I remember reading about this when it first happened. Glad there was at least a somewhat positive outcome.\nFor reference, here is the HN thread shortly after the arrest:  https://news.ycombinator.com/item?id=21000273",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46815285",
+          "by": "ricree",
+          "time": 1769714987
+        },
+        {
+          "id": 46815537,
+          "text": "This happened in 2019. The wheels of justice turn very slowly.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46815537",
+          "by": "rappatic",
+          "time": 1769715936
+        },
+        {
+          "id": 46817833,
+          "text": "Public service sector: we can't find employees and contractors willing to work for us!\nAlso public service sector: this right here.\nBesides, let me guess, that sheriff is elected?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46817833",
+          "by": "mschuster91",
+          "time": 1769726412
+        },
+        {
+          "id": 46815523,
+          "text": "For someone who is in such a position in the future, always notify the local police in writing and by phone call, if not also in person, before starting such an exercise. Make sure they have the get-out-of-jail documentation in advance of the exercise. If the police doesn't approve, don't do it.  It would be better to get a no-objection letter from the police in advance. Make sure an attorney is aware of the activities and all documentation. Do not take any chances. You don't live in a kind or forgiving world. Handling unknown unknowns is the point.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46815523",
+          "by": "OutOfHere",
+          "time": 1769715900
+        },
+        {
+          "id": 46816245,
+          "text": "I'm glad the charges were dismissed, but to be honest the original reporting shows the story was actually more nuanced than this article led me to believe. 2019 article: https://arstechnica.com/information-technology/2019/11/how-a...\nI'll probably get downvoted for even questioning the narrative, but here are some of the nuances that stood out to me:\n- When the police contacted someone listed on the authorization letter, that person denied that they had been authorized to conduct physical intrusions. Another contact didn't answer their phone. What are the police supposed to do if the people supposedly authorizing the intrusion are actively denying the authorization?\n- The contract had vague language that say they couldn't \"force-open doors\". The two men told police they had used a tool to open a locked door. The language should have been more specific about what was and was not allowed. (EDIT: This is causing a lot of controversy. The legal definition of \"forced entry\" in my state does not require literal damage to the property, only a bypassing of barriers. I don't know about the circumstances in this state, but to be clear the term \"force-open doors\" doesn't necessarily mean using destructive force everywhere)\n- The contract said \"alarm subversion\" was not allowed, but supposedly the police had evidence that they were trying to manipulate the alarm. They deny this.\n- The men had been drinking alcohol before the break-in. By the time they were breathalyzed it was at 0.05, meaning the number was even higher when they started the break-in. Drinking alcohol before you do a professional job guaranteed to get the police responding is a terrible idea.\n- After they tripped the alarm and the police showed up, they didn't immediately identify themselves and end the exercise. They hid from the police, claiming that they were \"testing the authorities' response\" which seems obviously out of scope for their agreement.\nSo I agree that the charges were excessive and the Sheriff was in the wrong on a lot of things, but after reading the details this wasn't really a clear cut case. The pentesters weren't really doing everything \"by the book\" if they thought that testing the police response by hiding was in scope of their contract and doing this job after a few alcoholic beverages is a bizarre choice.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46816245",
+          "by": "Aurornis",
+          "time": 1769719112
+        },
+        {
+          "id": 46819740,
+          "text": "This is the kind of hacker news I'm here for",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46819740",
+          "by": "alexfromapex",
+          "time": 1769738811
+        },
+        {
+          "id": 46815515,
+          "text": "So... the county sheriff showed up, decided he needed to be a big boss man, and made everything worse for everyone. Sounds pretty typical.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46815515",
+          "by": "QuercusMax",
+          "time": 1769715870
+        },
+        {
+          "id": 46815606,
+          "text": "I kinda hate that it settled. I fully understand the plaintiffs not wanting to proceed, but i really wish the sheriff was actually punished for what he did. This sort of power tripping should be a fireable offence",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46815606",
+          "by": "samrus",
+          "time": 1769716236
+        },
+        {
+          "id": 46817403,
+          "text": "Not bad bug bounty if you ask me",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46817403",
+          "by": "aussieguy1234",
+          "time": 1769724446
+        }
+      ],
+      "by": "MBCook",
+      "time": 1769712489,
+      "url": "https://arstechnica.com/security/2026/01/county-pays-600000-to-pentesters-it-arrested-for-assessing-courthouse-security/",
+      "score": 442,
+      "descendants": 203,
+      "storyUrl": "https://arstechnica.com/security/2026/01/county-pays-600000-to-pentesters-it-arrested-for-assessing-courthouse-security/"
+    },
+    {
+      "id": 46810828,
+      "type": "story",
+      "title": "Moltworker: a self-hosted personal AI agent, minus the minis",
+      "rank": 20,
+      "depth": 0,
+      "storyId": 46810828,
+      "storyTitle": "Moltworker: a self-hosted personal AI agent, minus the minis",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46810828",
+      "topComments": [
+        {
+          "id": 46820417,
+          "text": "The prompt injection concerns are valid, but I think there's a more fundamental issue: agents are non-deterministic systems that fail in ways that are hard to predict or debug.\nSecurity is one failure mode. But \"agent did something subtly wrong that didn't trigger any errors\" is another. And unlike a hacked system where you notice something's off, a flaky agent just... occasionally does the wrong thing. Sometimes it works. Sometimes it doesn't. Figuring out which case you're in requires building the same observability infrastructure you'd use for any unreliable distributed system.\nThe people running these connected to their email or filesystem aren't just accepting prompt injection risk. They're accepting that their system will randomly succeed or fail at tasks depending on model performance that day, and they may not notice the failures until later.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46820417",
+          "by": "devonkelley",
+          "time": 1769746094
+        },
+        {
+          "id": 46813062,
+          "text": "Clawdbot/Moltbot looks to be a supply-chain attack waiting to happen, and I pity the poor soul who finds out when this ticking time bomb eventually detonates.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46813062",
+          "by": "SimianSci",
+          "time": 1769706605
+        },
+        {
+          "id": 46815704,
+          "text": "I wish they would give a real-world cost estimate of what this would look like.  They have a section of it \"in action\" [1] and I wish they would be like, \"with this setup, the invoice is going to look like this, include these products, and with similar daily usage be about $XXX.00 per month.\"\n[1] https://blog.cloudflare.com/moltworker-self-hosted-ai-agent/...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46815704",
+          "by": "JoblessWonder",
+          "time": 1769716670
+        },
+        {
+          "id": 46813022,
+          "text": "On one hand, with the top comments of the rebrand post showing how many insecure deployments there are, something like this alongside cloudflare zero trust is probably a much more secure solution.\nOn the other hand, I just wanna point out\n> Firstly, Cloudflare Workers has never been so compatible with Node.js. Where in the past we had to mock APIs to get some packages running, now those APIs are supported natively by the Workers Runtime.\nDeployed a project a couple of days ago, and compared to past attempts where I had to wrangle (pun intended) with certain configs for deployment styles for node based applications, the normal build tooling just worked out of the box. Planning to move a couple of my free-from-me high DAU user projects that are on the vercel premium tier over to CF workers.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46813022",
+          "by": "sh3rl0ck",
+          "time": 1769706464
+        },
+        {
+          "id": 46813475,
+          "text": "I have a bespoke local agent that I built over the last year, similar in facilities to Moltbot, but more deterministic code.\nRunning it this kind of agent in the cloud certainly has upsides, but also:\n- All home/local integrations are gone.\n- Data needs to be stored in the cloud.\nNo thanks.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46813475",
+          "by": "biddit",
+          "time": 1769708210
+        },
+        {
+          "id": 46813437,
+          "text": "These breathy blogposts are getting way ahead of their service uptime. Advertising CF Workers while your CF Worker fleet is under impact is certainly a vibe\n> Workers Rate limit Degradation\n> Update - We are continuing to work on a fix for this issue.\nhttps://www.cloudflarestatus.com/incidents/dk0d6pjt9vjx",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46813437",
+          "by": "philipwhiuk",
+          "time": 1769708045
+        },
+        {
+          "id": 46815795,
+          "text": "Main problem to solve is Prompt Injection protection from Websites, emails. If cloudflare could proxy all the URLs outgoing from an agent, scrub away or block Prompt injection sites/pages/emails/chats , that's a product i might find valuable.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46815795",
+          "by": "Jayakumark",
+          "time": 1769717037
+        },
+        {
+          "id": 46815650,
+          "text": "Oh man, so many big players are JUMPING on this bandwagon!  I got an email for Digital Ocean's Moltbot app this morning.  All of them are touting their increased security over rolling your own.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46815650",
+          "by": "JoblessWonder",
+          "time": 1769716461
+        },
+        {
+          "id": 46816240,
+          "text": "It's certainly easier than setting up and maintaining a VPS and probably less expensive for most users, but your data is not private. Cloudflare can always read everything that goes through Moltworker and its attached storage.\nHosting Moltbot on your own hardware reigns supreme.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46816240",
+          "by": "linkage",
+          "time": 1769719062
+        },
+        {
+          "id": 46814685,
+          "text": "I understand the downsides of Moltbot better than the upsides. What does it have that running a coding agent in a VM doesn't give you?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46814685",
+          "by": "skybrian",
+          "time": 1769712754
+        }
+      ],
+      "by": "ghostwriternr",
+      "time": 1769697787,
+      "url": "https://blog.cloudflare.com/moltworker-self-hosted-ai-agent/",
+      "score": 246,
+      "descendants": 71,
+      "storyUrl": "https://blog.cloudflare.com/moltworker-self-hosted-ai-agent/"
+    },
+    {
+      "id": 46811664,
+      "type": "story",
+      "title": "Is the RAM shortage killing small VPS hosts?",
+      "rank": 21,
+      "depth": 0,
+      "storyId": 46811664,
+      "storyTitle": "Is the RAM shortage killing small VPS hosts?",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46811664",
+      "topComments": [
+        {
+          "id": 46813920,
+          "text": "I'd see Chinese RAM manufacturers like CXMT filling the void left in the market for consumer-grade RAM modules, I appreciate they face challenges (like lack of access to cutting edge EUV machines), but the RAM just needs to be fast enough and affordable enough for the average user for these companies to make significant inroads into the market that Micron, Samsung and SK Hynix are abandoning to chase the AI server market.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46813920",
+          "by": "ZenoArrow",
+          "time": 1769709923
+        },
+        {
+          "id": 46815066,
+          "text": "While not a small host, I thought I would mention what I observed with OVH's VPS offering. I was considering their line of VPSes recently because of how generous the cores/ram quantities were given the price. For example, the smallest offering is 4 cores / 8GB at just over $4 a month.\nWhat I found is that it is cheap because the cores, and presumably ram, is old. Like, 2013 era Xeon E3-1275 v3 old. But that's fine! Old hardware like this uses old ram that is less affected by the current shortage. It's good enough for my needs.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46815066",
+          "by": "dpedu",
+          "time": 1769714146
+        },
+        {
+          "id": 46818203,
+          "text": "This article looks like actual gibberish to me?\nIt goes on about DSL and dial-up for some reason?\nAnd yes VPS providers are affected by ram shortage. Turns out things that need ram are affected by ram shortages. 5 stars for the insight",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46818203",
+          "by": "Havoc",
+          "time": 1769728290
+        },
+        {
+          "id": 46813808,
+          "text": "Most low-end providers will just keep using old hardware for longer.\nIPv4 shortages didn’t kill it, and I don’t think this will either.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46813808",
+          "by": "miyuru",
+          "time": 1769709492
+        },
+        {
+          "id": 46814728,
+          "text": "I don't know if you can consider Netcup \"small\", but their RS 4000 G12 (\"root server\", basically a VPS with dedicated/guaranteed resources) costs ~€31 for a monthly contract for any location in Europe without VAT included.\nIt's 12 dedicated cores of a modern EPYC CPU, 32GB RAM, 1TB NVMe.\nI got that offer during their Black Friday sale and pay €25/month (price before VAT), plus the offer I got has a 2TB NVMe instead of the 1TB one.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46814728",
+          "by": "Tiberium",
+          "time": 1769712902
+        },
+        {
+          "id": 46817616,
+          "text": "RAM is still cheaper than 10 years ago. Every time you ask \"are RAM prices killing X?\" ask yourself if we had X 10 years ago.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46817616",
+          "by": "direwolf20",
+          "time": 1769725299
+        },
+        {
+          "id": 46814276,
+          "text": "If everyone is being hit by the same cost issues, small VPS hosts just need to charge more to operate the same. Most small VPS hosts are dirt cheap and I don't think many people would be shocked if prices go up in this environment.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46814276",
+          "by": "conductr",
+          "time": 1769711290
+        },
+        {
+          "id": 46813907,
+          "text": "Out of curiosity, what advantages do the small VPS hosts offer compared to the big 3 (AWS, Azure, Google Cloud)? Customer Service? Pricing? Local Data Center?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46813907",
+          "by": "saidinesh5",
+          "time": 1769709870
+        },
+        {
+          "id": 46819560,
+          "text": "I suspended my current K8S startup plan exactly due to the RAM shortage. Instead I sold my existing investment in RAM for a pretty good markup",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46819560",
+          "by": "stevefan1999",
+          "time": 1769737018
+        },
+        {
+          "id": 46814267,
+          "text": "RAM shortage or competent programmer shortage?\nCan't get a Linux box to idle (or even install) under 512M these days.\nCan't find a web developer worth a shit who doesn't think he needs a Python backend application server to print \"Hello, world\" when you could do this with a static page served with something like OpenBSD with two-digit RAM requirements.\nIt's not the RAM that's changed; it's everyone around the RAM.\nA coddled generation who were taught that AWS is the Internet and live in abstractions certainly hasn't helped.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46814267",
+          "by": "tokyobreakfast",
+          "time": 1769711259
+        }
+      ],
+      "by": "neelc",
+      "time": 1769701377,
+      "url": "https://www.fourplex.net/2026/01/29/is-the-ram-shortage-killing-small-vps-hosts/",
+      "score": 228,
+      "descendants": 255,
+      "storyUrl": "https://www.fourplex.net/2026/01/29/is-the-ram-shortage-killing-small-vps-hosts/"
+    },
+    {
+      "id": 46812159,
+      "type": "story",
+      "title": "Drug trio found to block tumour resistance in pancreatic cancer in mouse models",
+      "rank": 22,
+      "depth": 0,
+      "storyId": 46812159,
+      "storyTitle": "Drug trio found to block tumour resistance in pancreatic cancer in mouse models",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46812159",
+      "topComments": [
+        {
+          "id": 46813589,
+          "text": "I keep reading about these advancements in pancreatic cancer like early detection or possible treatments, but nothing ever seems to make it to daylight. Is there a reason why there's such disparity between this?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46813589",
+          "by": "reenorap",
+          "time": 1769708643
+        },
+        {
+          "id": 46817267,
+          "text": "Anybody read that as \"Dugtrio found to block tumour resistance...\"?\n\"Here we describe peptides secreted as part of the Diglett evolution process, that have been found to disrupt oncocyte metabolism in vitro...\"",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46817267",
+          "by": "bitwize",
+          "time": 1769723822
+        },
+        {
+          "id": 46816377,
+          "text": "Recently YouTube again started recommending to me channels of people who died of cancer.\nI looked at a clip of a man just a few years my senior where he was describing the symptoms that in his view should have made him go see a doctor earlier, because maybe then his pancreatic cancer wouldn't have been fatal.\nTruth be told they wouldn't raise any red flags if I had them.\nOnly thing that I'm doing differently is having blood tests done on an annual basis, but those only show anything when e.g. the cancer has spread to the liver, which is typically too late anyway. It's an incredibly insidious disease, and if the tumor is growing on the wrong end of the organ, it won't give any symptoms whatsoever.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46816377",
+          "by": "Tade0",
+          "time": 1769719742
+        },
+        {
+          "id": 46814790,
+          "text": "For all the folks complaining about \"it's only in mice! things never work in humans!\" -- I work at MSK and we definitely have seen success treating PDAC in humans: https://www.nature.com/articles/s41586-023-06063-y\n\"Why don't I see these treatments hitting the general public?\" Because trials like these are phase I/II. Then you need a phase III that takes a long time to recruit a large cohort and has overall survival as an end point so you need a long time to measure the actual outcome you care about. And most trials fail in phase III because the surrogate end points used in phase II studies, like progression free survival (ie how long did patients go before their disease advanced in screens), are not necessarily great predictors of improved overall survival.\nSpecifically for cancer vaccines, this paper was a driving force behind MSK establishing a cancer vaccine center to scale up these personalized neoantigen mRNA vaccines. It's very very difficult to do and extremely expensive right now.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46814790",
+          "by": "tansey",
+          "time": 1769713134
+        },
+        {
+          "id": 46815979,
+          "text": "> Clinical implications: While more research will be needed before trials in humans can begin\nWhy?  Seriously, think about it.  Most people with pancreatic cancer have nothing to lose and many of them have just weeks or months to live.\nDaraxonrasib, Afatinib, and SD36 are molecules that can already be purchased in bulk, and what's the worst that can happen?\nOur society's morbid, irrational fear of quack medicine causes orders of magnitude more deaths through therapeutic neglect than it prevents through safety screening.  \"Better 10,000 die of cancer than 1 person die of fraud/waste/mismanagement or even in failed experiments performed in good faith.\"",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46815979",
+          "by": "A_D_E_P_T",
+          "time": 1769717882
+        },
+        {
+          "id": 46817286,
+          "text": "Am I misunderstanding the headline?  Is the word \"block\" now meaning \"enhance\" instead of \"stop\"?  I would think based on the text of the article that it enhances resistance.  Or are tumors necessary to stop cancer growth (even though it is cancer growth?)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46817286",
+          "by": "wormius",
+          "time": 1769723896
+        },
+        {
+          "id": 46814052,
+          "text": "> These agents together were tested in orthotopic mouse models of PDAC, where tumour cells are implanted in a location that closely resembles their natural environment in the pancreas.\nUgh, of course: \"in mice\"!\n> The combination therapy also led to significant regression in genetically engineered mouse tumours and in human cancer tissues grown in lab mice, known as patient-derived tumour xenografts (PDX).\nOK, maybe \"in human tissue grown in mice\" isn't so bad.\nFingers crossed. Pancreatic cancer is terrible.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46814052",
+          "by": "apparent",
+          "time": 1769710394
+        },
+        {
+          "id": 46816397,
+          "text": "if that holds true in humans that would be a huge win. but it would be interesting at which stage those drugs still help. btw, it is said Chris Rea was diagnosed with pancreatic cancer at the age of 33, he died last year at he age of 74. it would be interesting to know what circumstance helped him to fight the cancer for such a long time",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46816397",
+          "by": "wolfi1",
+          "time": 1769719848
+        },
+        {
+          "id": 46813904,
+          "text": "I was wondering what preclinical models meant.  It would be more accurate to call it animal models.  I read roughly 3% - 5% of compounds move from preclinical cancer therapies to fda approval.  That’s a tough success rate.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46813904",
+          "by": "lazarus01",
+          "time": 1769709859
+        },
+        {
+          "id": 46817830,
+          "text": "This should be seen as a warning of how much time and efforts and money and stability are required to cultivate a discovery that could have never happened.\nSpanish researcher from Madrid. Hired by US on a grant. Worked hard and became director of the Oncology department on the NCI on Maryland. Somebody on the Spanish government decided to bet strong on him and recover it for Spanish Cancer research. A specific customised job offer was created for him. Politicians came and go; some are sensitive about science, other not so much. Some promises were never fulfilled, and he was about to quit and migrate again until private companies stepped on the scene with the resources needed and the will to allocate those resources. Money well spent, that was about to never find his target.\nNobel prizes were created exactly for this kind of humble, serious, zero-nonsense, zero-drama, all-work scientists.\nThe question here is: how much \"Barbacids\" quit US in the last year? Scientists aren't stupid. Everybody is aware that Barbacid in US today would have being harassed just for speaking Spanish and having a scarred face. All points that US is bleeding talent at a level never seen in their history.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46817830",
+          "by": "pvaldes",
+          "time": 1769726399
+        }
+      ],
+      "by": "axiomdata316",
+      "time": 1769703064,
+      "url": "https://www.drugtargetreview.com/news/192714/drug-trio-found-to-block-tumour-resistance-in-pancreatic-cancer/",
+      "score": 271,
+      "descendants": 150,
+      "storyUrl": "https://www.drugtargetreview.com/news/192714/drug-trio-found-to-block-tumour-resistance-in-pancreatic-cancer/"
+    },
+    {
+      "id": 46812608,
+      "type": "story",
+      "title": "Launch HN: AgentMail (YC S25) – An API that gives agents their own email inboxes",
+      "rank": 23,
+      "depth": 0,
+      "storyId": 46812608,
+      "storyTitle": "Launch HN: AgentMail (YC S25) – An API that gives agents their own email inboxes",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46812608",
+      "topComments": [
+        {
+          "id": 46816553,
+          "text": "I'm 100% for this, but I think you can go even more granular than \"gives agents their own inboxes\".\nThanks to Action Mailbox in Rails[1], I give all my records email addresses. Eg let ecommerce \"order\" records accept forwarded emails that are pinned as comments. It opens you up for doing things like forwarding a purchase order and having the PO number pulled out and attached to an order, or forwarding tracking information from a supplier and having it attached to a \"supplier order\" etc.\nIn my personal life I have individual email addresses for all my utilities and emails automatically get filed away.\nIf this idea tickles your fancy, I opensourced Emitt[2], an inbound email processing server with LLM-powered automation.\n1. https://guides.rubyonrails.org/action_mailbox_basics.html\n2. https://github.com/schappim/emitt",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46816553",
+          "by": "schappim",
+          "time": 1769720613
+        },
+        {
+          "id": 46814325,
+          "text": "I'm concerned that this fits in \"using today's innovation to solve outdated paradigms\".\nGoogle has A2A: An Agent-to-Agent Protocol. SaaS is plumetting in value.\nArbitrary semantics made sense when communications were human-dominated.\nIf agents dominate these fields, why wouldn't they simply set their own protocols and methods to communicate both text, binary, and agreed data structures?\nThere's an assumption that email is somehow the best channel, when you've found yourself that the most popular, functional interfaces don't align with your expectations.\nThen, ultimately I have a single agent that can sit in numerous communication platforms, such as email",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46814325",
+          "by": "MattDaEskimo",
+          "time": 1769711441
+        },
+        {
+          "id": 46815930,
+          "text": "Interesting take, but this feels like one of those tarpit ideas that YC discourages their portco to start attacking.\nGuaranteed this is going to attract a ton of abusers who are looking to use this for signing up to services, spamming or other nefarious purposes, which then blacklists the doman. This is an infinite whack-a-mole.\ndo you guys have some ways of handling it?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46815930",
+          "by": "suriya-ganesh",
+          "time": 1769717691
+        },
+        {
+          "id": 46813324,
+          "text": "Cool launch. Assuming you guys view email (and therefore SMTP) as becoming the de facto agent communication protocol in the long run. My question — why not something bespoke, similar to OpenAI’s Agentic Commerce Protocol or x402 from Coinbase?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46813324",
+          "by": "smpandya",
+          "time": 1769707619
+        },
+        {
+          "id": 46815309,
+          "text": "This is super interesting. Interesting to see how I'll be able to use this to help my customers with handling email responses. Gmail sucks for this. Super excited to see what you guys develop this into. Will this be able to eventually expand to other forms of agent communication (i.e. payment or phone numbers)?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46815309",
+          "by": "jessechoe10",
+          "time": 1769715068
+        },
+        {
+          "id": 46813628,
+          "text": "How does this differentiate from a solution like AWS SES? (Which I assume AI Agents would be quite adept at using to send email)\nI understand the differentiator vs GMail, but API-based scripted email access isn’t new.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46813628",
+          "by": "nerdsniper",
+          "time": 1769708790
+        },
+        {
+          "id": 46813624,
+          "text": "> Agents that source quotes, negotiate prices, and get the best deals.\nDidn't Alexa fail miserably with the \"have AI buy something for me\" theory?\nThere is a significant mental in allowing someone else make purchase decisions on my behalf:\n- With a human, there is accountability.\n- With deterministic software, there is reproducibility.\nWith an agent, you get neither.\nFWIW - I am not anti-LLM. I work with them and build them full time.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46813624",
+          "by": "biddit",
+          "time": 1769708770
+        },
+        {
+          "id": 46815858,
+          "text": "A pricing thought: if you keep the volume limits but do 10x the amount of inboxes per plan, I think that could be more attractive. For If I have 100s of agents that send limited email each.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46815858",
+          "by": "petervandijck",
+          "time": 1769717318
+        },
+        {
+          "id": 46815746,
+          "text": "The moat for SaaS is gone.\nI am 99% certain I could build to parity in a weekend using Cloudflare without the the pricing limitations.\nI am thinking it would be within the free tier of CF usage.\nI am not certain I have the bandwidth to communicate over delivery and plain text inspection concerns.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46815746",
+          "by": "pizzafeelsright",
+          "time": 1769716806
+        },
+        {
+          "id": 46815966,
+          "text": "excellent idea, this will eventually be the SendGrid for email agents. Just automating 2FA alone is worth the gold. And there's tons of use cases.\nI have no doubt this will be huge.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46815966",
+          "by": "pirsquare",
+          "time": 1769717807
+        }
+      ],
+      "by": "Haakam21",
+      "time": 1769704953,
+      "score": 169,
+      "descendants": 169
+    },
+    {
+      "id": 46810904,
+      "type": "story",
+      "title": "How to choose colors for your CLI applications (2023)",
+      "rank": 24,
+      "depth": 0,
+      "storyId": 46810904,
+      "storyTitle": "How to choose colors for your CLI applications (2023)",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46810904",
+      "topComments": [
+        {
+          "id": 46812791,
+          "text": "As long as CLI programs stick to the 8 or 16 standard colors and refrain from setting background colors (inverse mode is fine), as well as from explicitly setting white or black as text color, everyone can reasonably configure their terminal colors so that everything is readable.\nWhen going beyond that, the colors really need to be configurable on the application.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46812791",
+          "by": "layer8",
+          "time": 1769705661
+        },
+        {
+          "id": 46811381,
+          "text": "Use only default (white/black), red for bad, green for good. If you need more than that, like vim or whatever, then maybe a 'fullscreen' TUI is better, with a specified background and foreground. For CLI tools, I'm not sure if I prefer more colours.\nThe CSS to make the terminals look like iTerm was smooth, to the point I read them as screenshots.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46811381",
+          "by": "j4cobgarby",
+          "time": 1769700053
+        },
+        {
+          "id": 46813686,
+          "text": "A confused user once stopped by, they had a blank terminal, so I showed them how to select all which revealed the helpfully black on black text. These days I compile colour support out of st, or set *colorMode:false for xterm. \"But you can customize the colours\" is a typical response, to which one might respond that one has grown weary of pushing that particular rock, and moreover one may be busy with other things at a drag-out monitor in a server room at three in the morning that has helpfully dark blue text on a black console, or worse if some high-minded expert has gone and rubbed the backside of a unicorn everywhere so that they may improve the \"legibility\".",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46813686",
+          "by": "tolciho",
+          "time": 1769709113
+        },
+        {
+          "id": 46813093,
+          "text": "Colourful terminals are so useful. I have mine colour coded according to the working directory depending on the project. So I can see which terminal is associated with which project even if there are twenty terminals open. The scripts are even in my servers so when I ssh in to them it changes colour as well.\nhttps://michael.mior.ca/blog/coloured-ssh-terminals/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46813093",
+          "by": "s_dev",
+          "time": 1769706745
+        },
+        {
+          "id": 46812135,
+          "text": "There's an ever more basic rule: don't just make your text white (ANSI 37m) because you assume the terminal will have a dark background. Even white-on-black (37;40m), while usually readable, can stand out the wrong way if you assume that everyone is using dark mode.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46812135",
+          "by": "red_admiral",
+          "time": 1769702989
+        },
+        {
+          "id": 46813397,
+          "text": "As long as you respect the NO_COLOR variable, it will work for me.\nhttps://no-color.org/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46813397",
+          "by": "ori_b",
+          "time": 1769707880
+        },
+        {
+          "id": 46812856,
+          "text": "I'm a bit color blind and it might be quite common to show errors in red but when the background is black, I can't see it at all.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46812856",
+          "by": "jammcq",
+          "time": 1769705903
+        },
+        {
+          "id": 46817078,
+          "text": "I made the \"Aardvark Blue\" a while back[1] to solve some of the problems that most color schemes have. The goal of this theme is that:\n- colors are fairly natural\n- background and black are distinct\n- grays are naturally ordered avoiding full black\n- light and dark colors are distinct from each other\n- all colors look good on background, black, dark gray, gray, white\nWe use this for all the screenshots on https://ratatui.rs and https://github.com/ratatui/ratatui\nIt's available from the usual places https://iterm2colorschemes.com/, https://windowsterminalthemes.dev/?theme=Aardvark%20Blue, built in to ghostty, extension for vscode etc.\n[1]: https://github.com/mbadolato/iTerm2-Color-Schemes/pull/417",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46817078",
+          "by": "joshka",
+          "time": 1769723039
+        },
+        {
+          "id": 46817809,
+          "text": "The problem with CLI colors is that they operate on the wrong abstraction layer. Individual program shouldn't send \"this text is red\" but \"this text signals failure\" and then terminal interprets \"failure\" as \"red\". Until this change happens (never) colors in CLI will remain a hot mess.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46817809",
+          "by": "anal_reactor",
+          "time": 1769726312
+        },
+        {
+          "id": 46813646,
+          "text": "I really think we should converge to semantic codes. By example Background is zero, standard is 7, positive / negative, highlight, colored1,2,3 .. with correct defaults, and let the user have a common 8 or 16 colors palette in the terminal for all textmode apps. Imagine having some kind of unified color themes in the terminal.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46813646",
+          "by": "makapuf",
+          "time": 1769708883
+        }
+      ],
+      "by": "kruuuder",
+      "time": 1769698148,
+      "url": "https://blog.xoria.org/terminal-colors/",
+      "score": 191,
+      "descendants": 99,
+      "storyUrl": "https://blog.xoria.org/terminal-colors/"
+    },
+    {
+      "id": 46803356,
+      "type": "story",
+      "title": "Please don't say mean things about the AI I just invested a billion dollars in",
+      "rank": 25,
+      "depth": 0,
+      "storyId": 46803356,
+      "storyTitle": "Please don't say mean things about the AI I just invested a billion dollars in",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46803356",
+      "topComments": [
+        {
+          "id": 46803718,
+          "text": "> There’s an extremely hurtful narrative going around that my product, a revolutionary new technology that exists to scam the elderly and make you distrust anything you see online, is harmful to society\nThe article is certainly interesting as yet another indicator of the backlash against AI, but I must say, “exists to scam the elderly” is totally absurd. I get that this is satire, but satire has to have some basis in truth.\nI say this as someone whose father was scammed out of a lot of money, so I’m certainly not numb to potential consequences there. The scams were enabled by the internet, does the internet exist for this purpose? Of course not.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46803718",
+          "by": "seizethecheese",
+          "time": 1769645431
+        },
+        {
+          "id": 46804431,
+          "text": "Viewed from historical perspective, big tech is really reaping the benefits of the intellectual wealth accumulated over many thousands of years by humanity collectively. This should be recognized to find a better path forward.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46804431",
+          "by": "quantum_state",
+          "time": 1769649707
+        },
+        {
+          "id": 46804538,
+          "text": "Up Next: A McSweeney's article where McSweeney's takes the debates about it on Hacker News as seriously as Hacker News takes McSweeney's: way too much",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46804538",
+          "by": "Gene5ive",
+          "time": 1769650517
+        },
+        {
+          "id": 46804718,
+          "text": "> As someone who desperately needs this technology to work out, I can honestly say it is the most essential tool ever created in all of human history.\nFor those having trouble finding the humor, it lies in the vast gulf between grand assertions that LLMs will fundamentally transform every aspect of human life, and plaintive requests to stop saying mean things about it.\nAs a contrast: truly successful products obviate complaints. Success speaks for itself. In TV, software, e-commerce, statins, ED pills, modern smartphones, social media, etc… winning products went into the black quickly and made their companies shitloads of money (profits). No need to adjust vibes, they could just flip everyone the bird from atop their mountains of cash. (Which can also be pretty funny.)\nThere are mountains of cash in LLMs today too, but so far they’re mostly on the investment side of the ledger. And industry-wide nervousness about that is pretty easy to discern. Like the loud guy with a nervous smile and a drop of sweat on his brow.\nhttps://youtu.be/wni4_n-Cmj4\nSo much of the current discourse around AI is the tech-builders begging the rest of the world to find a commercially valuable application. Like the AgentForce commercials that have to stoop to showing Matthew McConaughey suffering the stupidest problems imaginable. Or the OpenAI CFO saying maybe they’ll make money by taking a cut of valuable things their customers come up with. “Maybe someone else will change the world with this, if you’ll all just chill out” is a funny thing to say repeatedly while also asking for $billions and regulatory forbearance.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46804718",
+          "by": "snowwrestler",
+          "time": 1769651809
+        },
+        {
+          "id": 46803624,
+          "text": "guys were just trying to take jobs away from you.... please stop being mean to us - richest people on earth 2026",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46803624",
+          "by": "jaybyrd",
+          "time": 1769644943
+        },
+        {
+          "id": 46805109,
+          "text": "Today I asked copilot agent a question about a selector in a cypress test and it requested to run a python command in my terminal.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46805109",
+          "by": "i_love_retros",
+          "time": 1769654872
+        },
+        {
+          "id": 46805204,
+          "text": "We, humans, will read this and laugh, chuckle, but the AI Overloads will not understand that. This will be added to the training data and become a truth. But what if that is?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46805204",
+          "by": "Brajeshwar",
+          "time": 1769655528
+        },
+        {
+          "id": 46804800,
+          "text": "Jensen needs to keep escalating the hype to keep the hoarding dynamics in play. Because that's what's selling GPU's. You can't look at voracious GPU demand as a real signal of AI app profitability or general demand. It's a function of global tech oligarchs with gargantuan cash hoards not wanting to be left behind. But hoarding dynamics are nonlinear through self reinforcment and the moment any hint of limitations of current gen AI crop up spend will collapse.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46804800",
+          "by": "gradus_ad",
+          "time": 1769652341
+        },
+        {
+          "id": 46819799,
+          "text": "Investing and scalping are two different things. When you invest the pie grows larger, scalping you take more than you can eat from the existing pie.\nVery few companies are investing into AI, most are engaged in scalping, hoping they are big enough to weather the storm.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46819799",
+          "by": "casey2",
+          "time": 1769739327
+        },
+        {
+          "id": 46804889,
+          "text": "Excellent satire, absolutely something I could see in The Onion or Hard Drive as an Op-Ed.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46804889",
+          "by": "stego-tech",
+          "time": 1769653059
+        }
+      ],
+      "by": "randycupertino",
+      "time": 1769643383,
+      "url": "https://www.mcsweeneys.net/articles/please-dont-say-mean-things-about-the-ai-that-i-just-invested-a-billion-dollars-in",
+      "score": 678,
+      "descendants": 305,
+      "storyUrl": "https://www.mcsweeneys.net/articles/please-dont-say-mean-things-about-the-ai-that-i-just-invested-a-billion-dollars-in"
+    },
+    {
+      "id": 46810950,
+      "type": "story",
+      "title": "Deep dive into Turso, the “SQLite rewrite in Rust”",
+      "rank": 26,
+      "depth": 0,
+      "storyId": 46810950,
+      "storyTitle": "Deep dive into Turso, the “SQLite rewrite in Rust”",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46810950",
+      "topComments": [
+        {
+          "id": 46817489,
+          "text": "Related. Others?\nTurso is an in-process SQL database, compatible with SQLite - https://news.ycombinator.com/item?id=46677583 - Jan 2026 (102 comments)\nBeyond the SQLite single-writer limitation with concurrent writes - https://news.ycombinator.com/item?id=45508462 - Oct 2025 (70 comments)\nAn adventure in writing compatible systems - https://news.ycombinator.com/item?id=45059888 - Aug 2025 (12 comments)\nIntroducing the first alpha of Turso: The next evolution of SQLite - https://news.ycombinator.com/item?id=44433997 - July 2025 (11 comments)\nWorking on databases from prison - https://news.ycombinator.com/item?id=44288937 - June 2025 (534 comments)\nTurso SQLite Offline Sync Public Beta - https://news.ycombinator.com/item?id=43535943 - March 2025 (67 comments)\nWe will rewrite SQLite. And we are going all-in - https://news.ycombinator.com/item?id=42781161 - Jan 2025 (3 comments)\nLimbo: A complete rewrite of SQLite in Rust - https://news.ycombinator.com/item?id=42378843 - Dec 2024 (232 comments)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46817489",
+          "by": "dang",
+          "time": 1769724760
+        },
+        {
+          "id": 46812327,
+          "text": "I’d imagine this will go a bit like the rust rewrite of sudo etc. Despite the memory safety advantages at least towards the start it still ends up more fragile because the incumbent has years of testing and fixing behind it",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46812327",
+          "by": "Havoc",
+          "time": 1769703726
+        },
+        {
+          "id": 46820365,
+          "text": "I never read this article by the C developers before. \nIt's so odd to read a level headed C vs. Rust take on the internet.\nhttps://sqlite.org/whyc.html",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46820365",
+          "by": "mickrich345",
+          "time": 1769745416
+        },
+        {
+          "id": 46812428,
+          "text": "I was surprised that the test suit not open source. Some info in https://sqlite.org/testing.html\nIt looks like some parts are open source and other not. Does anyone know more about the backstory? (It looks like one is a custom program that generate fuzz test. Do they sell it to others SQL engines?)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46812428",
+          "by": "gus_massa",
+          "time": 1769704141
+        },
+        {
+          "id": 46812419,
+          "text": "This is very shallow for a supposed deep dive.\nI'm not ready to entertain Turso as an alternative to something that is as battle tested as Sqlite.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46812419",
+          "by": "rantingdemon",
+          "time": 1769704107
+        },
+        {
+          "id": 46812351,
+          "text": "The thing that worries me the most about Turso is that rather than the small, stable team running SQLite, Turso is a VC backed startup trying to capitalize on the AI boom. I can easily see how SQLite's development is sustainable, but not Turso's. They're currently trying to grow their userbase as quickly as possible with their free open source offering, but when they have investors breathing down their necks asking about how they're going to get 100x returns I'm not sure how long that'll last. VCs generally expect companies they invest in to grow to $100 million in revenue in 5-10 years. If your use of their technology doesn't help them get there, you should expect to be rugpulled at some point.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46812351",
+          "by": "ndiddy",
+          "time": 1769703823
+        },
+        {
+          "id": 46812535,
+          "text": "I recently benchmarked different SQlite implementations/driver for Node. Better-sqlite3 came out on top of this test: https://sqg.dev/blog/sqlite-driver-benchmark/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46812535",
+          "by": "uwemaurer",
+          "time": 1769704638
+        },
+        {
+          "id": 46821246,
+          "text": "So the idea is to rewrite it in Rust and drop SQLite? I mean, maybe that’s just how things evolve. But it feels like every project is only a few vibe-coding sessions away from getting rewritten in $LANGUAGE. And I can’t help wondering whether that’s hurting a sustainable open-source ecosystem.\nSQLite is a good example: the author built a small ecosystem around it and managed to make a living from open source. Thanks to author's effort, we have a small surface area, extreme stability, relentless focus on correctness.\nIf we keep rewarding novelty over stewardship, we’ll lose more “SQLite-like” projects—stable cores that entire ecosystems depend on.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46821246",
+          "by": "pelasaco",
+          "time": 1769755499
+        },
+        {
+          "id": 46811518,
+          "text": "> A database that can scale from in-process to networked is badly needed\nWhy not Postgres? https://pglite.dev",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46811518",
+          "by": "9rx",
+          "time": 1769700752
+        },
+        {
+          "id": 46812045,
+          "text": "> ... most of which can be fixed by a rewrite in Rust\nhuh? That is clearly not the case. memory bugs - sure. Not having a public test suite, not accepting public contributions, weakly typed columns and lack of concurrency has nothing to do with the language. They're governance decisions, that's it.\n>I see this situation trhough the prism of the innovator's dilemma: the incumbent is not willing to sacrifice a part of its market to evolve, so we need a new player to come and innovate.\nI don't think the innovators dilemma quite applies in the open source world. Projects are tools, that's it. Preserving a project for the sake of preserving it isn't a good idea.\nIf people need to run a sqlite db in these exotic places, shedding it means someone else has to build their own tool now that can do it. Sqlite has decided that they care about that, so they support it, so they can't use rust. Seems sound.\nProjects coming and going is a good thing in open source, not a bug.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46812045",
+          "by": "sauercrowd",
+          "time": 1769702670
+        }
+      ],
+      "by": "unsolved73",
+      "time": 1769698316,
+      "url": "https://kerkour.com/turso-sqlite",
+      "score": 192,
+      "descendants": 145,
+      "storyUrl": "https://kerkour.com/turso-sqlite"
+    },
+    {
+      "id": 46729139,
+      "type": "story",
+      "title": "EmulatorJS",
+      "rank": 27,
+      "depth": 0,
+      "storyId": 46729139,
+      "storyTitle": "EmulatorJS",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46729139",
+      "topComments": [
+        {
+          "id": 46815279,
+          "text": "Cool to see this on HN today.\nI'm currently using RetroArch in the browser along with the original Sony devkit and a custom hot-reload C dev server to develop a PS1 game engine. I started with EmulatorJS but ran into issues with its prebuilt cores while trying to get audio streaming working, and decided to just work with libretro directly.\nIt's been a blast. I didn't know much about developing on the PS1 and it's been fun playing code golf and trying to squeeze a more modern engine out of its tiny 2MB RAM and 33.8MHz CPU.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46815279",
+          "by": "soulofmischief",
+          "time": 1769714954
+        },
+        {
+          "id": 46816006,
+          "text": "[RomM](https://romm.app) added EmulatorJS support a while back, pretty nice setup if you have a home server.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46816006",
+          "by": "threetonesun",
+          "time": 1769718036
+        },
+        {
+          "id": 46815076,
+          "text": "If you're not familiar with RetroArch I highly recommend checking it out. Very cool tech.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46815076",
+          "by": "apitman",
+          "time": 1769714172
+        },
+        {
+          "id": 46819663,
+          "text": "I made an Actually Portable Executable web server out of this.  You download one file, and it can run on many different systems.\nhttps://github.com/MattCruikshank/emu_ape\nI'm trying to set it up so you can add roms to a folder, and it'll use them.  (Remember Actually Portable Executables are ZIP files, too!)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46819663",
+          "by": "VikingCoder",
+          "time": 1769738011
+        },
+        {
+          "id": 46820695,
+          "text": "Ok, I think it's time for me to finally build a controller PWA with websocket/webrtc so I can play games in the browser with my phone.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46820695",
+          "by": "CleanCoder",
+          "time": 1769749202
+        },
+        {
+          "id": 46814637,
+          "text": "Doesn't look like keyboard input is supported on the flappy bird demo on the site?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46814637",
+          "by": "jasonblick",
+          "time": 1769712569
+        },
+        {
+          "id": 46814514,
+          "text": "Looks cool, but too bad it doesn't support PS2 :(",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46814514",
+          "by": "hungryhobbit",
+          "time": 1769712102
+        },
+        {
+          "id": 46818443,
+          "text": "> This project has no ads.\n> Although, the demo page currently has an ad to help fund this project.\n> Ads on the demo page may come and go depending on how many people are funding this project.\nSounds like the project has ads.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46818443",
+          "by": "ranger_danger",
+          "time": 1769729662
+        }
+      ],
+      "by": "avaer",
+      "time": 1769149600,
+      "url": "https://github.com/EmulatorJS/EmulatorJS",
+      "score": 102,
+      "descendants": 16,
+      "storyUrl": "https://github.com/EmulatorJS/EmulatorJS"
+    },
+    {
+      "id": 46753037,
+      "type": "story",
+      "title": "Xmake: A cross-platform build utility based on Lua",
+      "rank": 28,
+      "depth": 0,
+      "storyId": 46753037,
+      "storyTitle": "Xmake: A cross-platform build utility based on Lua",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46753037",
+      "topComments": [
+        {
+          "id": 46806595,
+          "text": "I think a syntax example on the homepage would be a good idea. Also comparison charts for things like cmake, ninja, meson, and bazel. If you have a dependency finding strategy, highlight the pros and cons of that. Basically the only reason states for why I should use this is lua, and that’s not inherently compelling to me for build tooling.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46806595",
+          "by": "MobiusHorizons",
+          "time": 1769668588
+        },
+        {
+          "id": 46808600,
+          "text": "A teammate evaluated this and the experience was night and day compared to cmake + vcpkg. However, there wasn’t a lot of motivation to cutover our existing large project over because of the unknown unknowns. I think projects like these looking to dethrone the status quo definitely need some case studies or examples of larger projects using it to increase confidence because I’d much rather use xmake over cmake if it can get the job done",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46808600",
+          "by": "lazypenguin",
+          "time": 1769685141
+        },
+        {
+          "id": 46813253,
+          "text": "This is an interesting system that I studied closely a few years ago, along with a few others based on Lua or Python.\nWhat surprises me enormously about all these systems is the fact that, in builds that can become enormously large and complex systems in themselves, we voluntarily forego most of the advantages we have learned over sixty years of software engineering. I am thinking, for example, of strong typing and type checking by the compiler, which then also enables better support from IDEs and analysis or visualization tools.\nIt's kind of like other scripting languages. For small applications, it all looks practical and efficient, but woe betide it if it becomes as big as Qt or other systems with several hundred thousand lines of code.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46813253",
+          "by": "Rochus",
+          "time": 1769707358
+        },
+        {
+          "id": 46811992,
+          "text": "So, digging through the website git repo a bit, some basic facts:\n* The project started almost 11 years ago, in 2015.\n* It can be both a build-system generator like CMake, or a 'builder' like Make or ninja.\n* Code is almost exclusively by one person, waruqi: https://github.com/waruqi , with several other people making a few contribution.\n* Prima facie, the API seems to be less flexible/rich than CMake's, but I'm not sure.\n* It supports quite a few languages, despite saying \"C/C++\" on the website.\n* It has a built-in REPL.\nAs @MobiusHorizons points out, a comparison with other build system generators would be appropriate, mostly CMake, but I did not find it.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46811992",
+          "by": "einpoklum",
+          "time": 1769702516
+        },
+        {
+          "id": 46807535,
+          "text": "Just yesterday someone was telling me xmake does a lot of what bazel can do (hermetic, deterministic, optionally remote builds) while being easier to use.\nI took a look at the docs later and couldn’t find a direct comparison. But there does seem to be a remote build system. And there were a few mentions of sandboxing.\nCan anyone provide a head to head comparison?\nDoes xmake strictly enforce declared dependencies? Do actions run in their own sandboxes?\nCan you define a target whose dependency tree is multi language, multi toolchain, multi target platform and which is built across multiple remote execution servers?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46807535",
+          "by": "skavi",
+          "time": 1769677012
+        },
+        {
+          "id": 46807998,
+          "text": "Can anyone explain xmake in terms of Build Systems a la Carte?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46807998",
+          "by": "rienbdj",
+          "time": 1769680887
+        },
+        {
+          "id": 46807639,
+          "text": "I apologise for this:\nWhat's wrong with premake which is also Lua based?\nwhen I meant:\nWhat advantage does this have over premake which is also Lua based?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46807639",
+          "by": "richrichardsson",
+          "time": 1769678007
+        },
+        {
+          "id": 46806712,
+          "text": "At my work we use MSBuild and vcpkg. What would a transition from that to XMake be like?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46806712",
+          "by": "wsve",
+          "time": 1769669707
+        },
+        {
+          "id": 46806919,
+          "text": "My work uses this and it's slooooooow. Would not recommend.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46806919",
+          "by": "IshKebab",
+          "time": 1769671656
+        },
+        {
+          "id": 46815101,
+          "text": "https://xkcd.com/927/\nWe have so many build utilities out there.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46815101",
+          "by": "mrlonglong",
+          "time": 1769714295
+        }
+      ],
+      "by": "phmx",
+      "time": 1769339567,
+      "url": "https://xmake.io/",
+      "score": 87,
+      "descendants": 38,
+      "storyUrl": "https://xmake.io/"
+    },
+    {
+      "id": 46768845,
+      "type": "story",
+      "title": "Decompiling Xbox games using PDB debug info",
+      "rank": 29,
+      "depth": 0,
+      "storyId": 46768845,
+      "storyTitle": "Decompiling Xbox games using PDB debug info",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46768845",
+      "topComments": [
+        {
+          "id": 46808196,
+          "text": "Over the last year I have seen some really nice exploration posts on HN with people poking around on:\n- Splinter Cell\n- Deus Ex\n- Thief\n- Civ\nThis is great work and will help tell the story of how these games were made.\nIt would be great if all games after a certain period of time were opensourced like some companies are doing:\nhttps://github.com/electronicarts\nhttps://github.com/bobeff/open-source-games?tab=readme-ov-fi...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46808196",
+          "by": "tomaytotomato",
+          "time": 1769682430
+        },
+        {
+          "id": 46809037,
+          "text": "My general experience with decompilation has been very negative (rough and not ready for use)\nIt feels like tool devs target byte editting more than refactoring decompiled code into something readable - you can't move lines of code, can't flip statement checked in if() for early return\nAuthor of this article mentioned \"byte euivalence\", and while I'd be fine with functional sameness, I imagine provably-reversible refactor steps would be of great help for everyone",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46809037",
+          "by": "RandomTeaParty",
+          "time": 1769688009
+        },
+        {
+          "id": 46808491,
+          "text": "Do you think it is possible/easy to de-compile MCLA?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46808491",
+          "by": "01hman",
+          "time": 1769684525
+        }
+      ],
+      "by": "orange_redditor",
+      "time": 1769449338,
+      "url": "https://i686.me/blog/csplit/",
+      "score": 123,
+      "descendants": 20,
+      "storyUrl": "https://i686.me/blog/csplit/"
+    },
+    {
+      "id": 46736804,
+      "type": "story",
+      "title": "Tea Chemistry (1997)",
+      "rank": 30,
+      "depth": 0,
+      "storyId": 46736804,
+      "storyTitle": "Tea Chemistry (1997)",
+      "sourceUrl": "https://news.ycombinator.com/item?id=46736804",
+      "topComments": [
+        {
+          "id": 46810016,
+          "text": "Experiments on how to make tea (well does milk go in before or after) is the original exposition of statistical testing of the null hypothesis.\nhttps://en.wikipedia.org/wiki/Lady_tasting_tea",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46810016",
+          "by": "pasc1878",
+          "time": 1769693734
+        },
+        {
+          "id": 46813311,
+          "text": "Worth mentioning that though tea does contain polyphenols and flavinoids which are good for us (and l-theanine and caffeine which we enjoy introducing to our nervous systems), it's had a much bigger impact on health historically because it required us to heat water to boiling (or near boiling, depending on what kind of tea you're making).\nAlso, can't miss a chance to spice things up with the mention of adding salt to brewed tea[1]. Which is heretical, but seems palatable to me, though I probably wouldn't do it to good tea.\n1: https://www.bbc.com/news/uk-68085304",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46813311",
+          "by": "blacksmith_tb",
+          "time": 1769707562
+        },
+        {
+          "id": 46809967,
+          "text": "of possible interest\nGeorge Orwell's 11 rules of tea making\nhttps://www.orwellfoundation.com/the-orwell-foundation/orwel...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46809967",
+          "by": "the-mitr",
+          "time": 1769693421
+        },
+        {
+          "id": 46808176,
+          "text": "quite interesting but I would have expected some insight into the preparation itself as how long do you have to steep, what temperature should the water have, etc",
+          "sourceUrl": "https://news.ycombinator.com/item?id=46808176",
+          "by": "wolfi1",
+          "time": 1769682295
+        }
+      ],
+      "by": "aabiji",
+      "time": 1769197037,
+      "url": "https://www.researchgate.net/profile/Matthew-Harbowy/publication/216792045_Tea_Chemistry/links/0912f4fb863f786725000000/Tea-Chemistry.pdf",
+      "score": 83,
+      "descendants": 38,
+      "storyUrl": "https://www.researchgate.net/profile/Matthew-Harbowy/publication/216792045_Tea_Chemistry/links/0912f4fb863f786725000000/Tea-Chemistry.pdf"
+    }
+  ]
+}

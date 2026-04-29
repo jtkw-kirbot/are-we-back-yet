@@ -1,0 +1,148 @@
+{
+  "date": "2026-03-27",
+  "generatedAt": "2026-04-29T22:39:54.688Z",
+  "samplingMethod": "frontpage_day_query_story_comment_snapshot",
+  "rankingDirection": "most_negative_to_most_positive",
+  "headlineSummary": "HN sentiment is mostly neutral: Anthropic draws mixed feedback with praise for Claude’s workflow quality alongside benchmark and cloud-agent criticisms, while Microsoft Copilot gets a small positive note but on limited evidence [E1][E2][E3].",
+  "primarySignalTarget": null,
+  "primarySignalTargets": [],
+  "primarySignalTie": false,
+  "primarySignalDirection": "neutral",
+  "hasLowSupportLeader": false,
+  "ranking": [
+    {
+      "target": "anthropic",
+      "bucket": "mixed_neutral",
+      "direction": "neutral",
+      "support": "medium",
+      "confidence": "medium",
+      "rawMean": -0.25,
+      "adjustedMean": -0.1667,
+      "effectiveSupport": 4,
+      "evidenceBalance": {
+        "positive": 1,
+        "neutral": 1,
+        "negative": 1
+      },
+      "displayRank": 1,
+      "tiedWith": [],
+      "evidenceIds": [
+        "E1",
+        "E2",
+        "E3"
+      ],
+      "summary": "Anthropic’s coverage is mixed-neutral, with one comment saying Claude works best for planning and execution, another saying a GPU outperforms Claude Sonnet on coding benchmarks, and a third praising Claude generally while criticizing its cloud-agent setup [E1][E2][E3]."
+    },
+    {
+      "target": "microsoft_copilot",
+      "bucket": "mixed_neutral",
+      "direction": "neutral",
+      "support": "low",
+      "confidence": "low",
+      "rawMean": 1,
+      "adjustedMean": 0.3333,
+      "effectiveSupport": 1,
+      "evidenceBalance": {
+        "positive": 1,
+        "neutral": 0,
+        "negative": 0
+      },
+      "displayRank": 2,
+      "tiedWith": [],
+      "rankNote": "low_support",
+      "evidenceIds": [
+        "E3"
+      ],
+      "summary": "Microsoft Copilot gets a modestly positive signal from one comment calling GitHub Copilot Coding Agents significantly more robust, but this rests on limited evidence [E3]."
+    }
+  ],
+  "unmentioned": [
+    "openai",
+    "google_gemini"
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "storyId": 47543139,
+      "commentId": 47546767,
+      "hnUrl": "https://news.ycombinator.com/item?id=47546767",
+      "sourceType": "comment",
+      "excerpt": "Plain Claude, ask it to write a plan, review plan, then tell it to execute still works the best in my experience.",
+      "annotations": [
+        {
+          "target": "anthropic",
+          "referenceBasis": "explicit_alias",
+          "stance": 1,
+          "stanceLabel": "positive",
+          "relevance": "central",
+          "topic": "model_quality",
+          "confidence": "high",
+          "attributionConfidence": "high",
+          "rationale": "The commenter explicitly names Claude and says it \"works the best,\" which is direct praise of Anthropic's coding/workflow performance."
+        }
+      ]
+    },
+    {
+      "id": "E2",
+      "storyId": 47533297,
+      "hnUrl": "https://news.ycombinator.com/item?id=47533297",
+      "sourceType": "title",
+      "excerpt": "$500 GPU outperforms Claude Sonnet on coding benchmarks",
+      "annotations": [
+        {
+          "target": "anthropic",
+          "referenceBasis": "explicit_alias",
+          "stance": -1,
+          "stanceLabel": "negative",
+          "relevance": "central",
+          "topic": "comparison",
+          "confidence": "high",
+          "attributionConfidence": "high",
+          "rationale": "The title explicitly says Claude Sonnet is outperformed on coding benchmarks, which is a negative comparison for Anthropic's model quality."
+        }
+      ]
+    },
+    {
+      "id": "E3",
+      "storyId": 47539188,
+      "commentId": 47540127,
+      "hnUrl": "https://news.ycombinator.com/item?id=47540127",
+      "sourceType": "comment",
+      "excerpt": "While Claude is clearly superior in many aspects, one area where it falls short is remote/cloud agents. Yesterday, I spent the entire day trying to set up \"Claude on the web\" for an Elixir project and eventually had to give up. Their network firewall kept killing Hex/rebar3 dependency resolution, even after I selected \"full\" network access. The environment setup for \"on the web\" is just a bash script. And when something goes wrong, you only see the tail of the log. There is currently no way to view the full log for the setup script. It's really a pain to debug. The Copilot equivalent to \"Claude on the web\" is \"GitHub Copilot Coding Agents,\" which leverages GitHub Actions infrastructure and conventions (YAML files with defined steps). Despite some of the known flaws of GitHub Actions, it felt significantly more robust.",
+      "annotations": [
+        {
+          "target": "anthropic",
+          "referenceBasis": "explicit_alias",
+          "stance": 0,
+          "stanceLabel": "neutral_mixed",
+          "relevance": "central",
+          "topic": "comparison",
+          "confidence": "high",
+          "attributionConfidence": "high",
+          "rationale": "The commenter says Claude is \"clearly superior in many aspects\" but also details serious problems with Claude's remote/cloud agent setup, making the overall sentiment mixed."
+        },
+        {
+          "target": "microsoft_copilot",
+          "referenceBasis": "explicit_alias",
+          "stance": 1,
+          "stanceLabel": "positive",
+          "relevance": "central",
+          "topic": "comparison",
+          "confidence": "high",
+          "attributionConfidence": "high",
+          "rationale": "The commenter explicitly names GitHub Copilot Coding Agents and says it \"felt significantly more robust,\" which is direct praise in comparison to Claude's cloud-agent experience."
+        }
+      ]
+    }
+  ],
+  "models": {
+    "evidenceDetection": "gpt-5.4-2026-03-05",
+    "dailySummary": "gpt-5.4-mini-2026-03-17"
+  },
+  "methodVersion": {
+    "evidenceDetectionPrompt": "evidence-annotation-v1",
+    "dailySummaryPrompt": "cited-summary-v1",
+    "aggregation": "deterministic-auditable-v1",
+    "schema": "daily-v4"
+  }
+}

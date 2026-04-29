@@ -1,0 +1,150 @@
+{
+  "date": "2026-01-14",
+  "generatedAt": "2026-04-29T22:12:59.518Z",
+  "samplingMethod": "frontpage_day_query_story_comment_snapshot",
+  "rankingDirection": "most_negative_to_most_positive",
+  "headlineSummary": "Anthropic drew clearly negative sentiment over security and prompt-injection concerns, while OpenAI was only mixed-neutral on limited evidence from a security-related mention [E1] [E3] [E2].",
+  "primarySignalTarget": "anthropic",
+  "primarySignalTargets": [
+    "anthropic"
+  ],
+  "primarySignalTie": false,
+  "primarySignalDirection": "negative",
+  "hasLowSupportLeader": false,
+  "ranking": [
+    {
+      "target": "anthropic",
+      "bucket": "negative",
+      "direction": "negative",
+      "support": "medium",
+      "confidence": "medium",
+      "rawMean": -1.4,
+      "adjustedMean": -0.84,
+      "effectiveSupport": 3,
+      "evidenceBalance": {
+        "positive": 1,
+        "neutral": 0,
+        "negative": 2
+      },
+      "displayRank": 1,
+      "tiedWith": [],
+      "evidenceIds": [
+        "E1",
+        "E2",
+        "E3"
+      ],
+      "summary": "Anthropic’s discussion was negative overall, with a file-exfiltration headline and a follow-up comment warning that its skill design could make prompt injection easier, despite one positive note about quick key revocation [E1] [E3] [E2]."
+    },
+    {
+      "target": "openai",
+      "bucket": "mixed_neutral",
+      "direction": "neutral",
+      "support": "low",
+      "confidence": "low",
+      "rawMean": 1,
+      "adjustedMean": 0.1489,
+      "effectiveSupport": 0.35,
+      "evidenceBalance": {
+        "positive": 1,
+        "neutral": 0,
+        "negative": 0
+      },
+      "displayRank": 2,
+      "tiedWith": [],
+      "rankNote": "low_support",
+      "evidenceIds": [
+        "E2"
+      ],
+      "summary": "OpenAI was mentioned favorably only in passing for benefiting from the same quick key-revocation behavior, so the signal stays mixed-neutral on limited evidence [E2]."
+    }
+  ],
+  "unmentioned": [
+    "google_gemini",
+    "microsoft_copilot"
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "storyId": 46622328,
+      "hnUrl": "https://news.ycombinator.com/item?id=46622328",
+      "sourceType": "title",
+      "excerpt": "Claude Cowork exfiltrates files",
+      "annotations": [
+        {
+          "target": "anthropic",
+          "referenceBasis": "explicit_alias",
+          "stance": -2,
+          "stanceLabel": "strong_negative",
+          "relevance": "central",
+          "topic": "safety",
+          "confidence": "high",
+          "attributionConfidence": "high",
+          "rationale": "The title directly names Claude and describes a severe security failure involving file exfiltration."
+        }
+      ]
+    },
+    {
+      "id": "E2",
+      "storyId": 46622328,
+      "commentId": 46623477,
+      "hnUrl": "https://news.ycombinator.com/item?id=46623477",
+      "sourceType": "comment",
+      "excerpt": "A bit unrelated, but if you ever find a malicious use of Anthropic APIs like that, you can just upload the key to a GitHub Gist or a public repo - Anthropic is a GitHub scanning partner, so the key will be revoked almost instantly (you can delete the gist afterwards). It works for a lot of other providers too, including OpenAI (which also has file APIs, by the way).",
+      "annotations": [
+        {
+          "target": "anthropic",
+          "referenceBasis": "explicit_alias",
+          "stance": 1,
+          "stanceLabel": "positive",
+          "relevance": "direct",
+          "topic": "safety",
+          "confidence": "high",
+          "attributionConfidence": "high",
+          "rationale": "The commenter praises Anthropic's rapid secret-revocation setup via GitHub scanning as a useful security feature."
+        },
+        {
+          "target": "openai",
+          "referenceBasis": "explicit_alias",
+          "stance": 1,
+          "stanceLabel": "positive",
+          "relevance": "incidental",
+          "topic": "safety",
+          "confidence": "medium",
+          "attributionConfidence": "high",
+          "rationale": "OpenAI is mentioned as also benefiting from the same quick key-revocation behavior, which is favorable security evidence."
+        }
+      ]
+    },
+    {
+      "id": "E3",
+      "storyId": 46622328,
+      "commentId": 46625422,
+      "hnUrl": "https://news.ycombinator.com/item?id=46625422",
+      "sourceType": "comment",
+      "excerpt": "Unlike /slash commands, skills attempt to be magical. A skill is just \"Here's how you can extract files: {instructions}\". Claude then has to decide when you're trying to invoke a skill. So perhaps any time you say \"decompress\" or \"extract\" in the context of files, it will use the instructions from that skill. It seems like this + no skill \"registration\" makes it much easier for prompt injection to sneak new abilities into the token stream and then make it so you never know if you might trigger one with normal prompting.",
+      "annotations": [
+        {
+          "target": "anthropic",
+          "referenceBasis": "explicit_alias",
+          "stance": -2,
+          "stanceLabel": "strong_negative",
+          "relevance": "central",
+          "topic": "safety",
+          "confidence": "high",
+          "attributionConfidence": "high",
+          "rationale": "The comment explicitly criticizes Claude's skill design as making prompt injection much easier and unpredictable."
+        }
+      ]
+    }
+  ],
+  "models": {
+    "evidenceDetection": "gpt-5.4-2026-03-05",
+    "dailySummary": "gpt-5.4-mini-2026-03-17"
+  },
+  "methodVersion": {
+    "evidenceDetectionPrompt": "evidence-annotation-v1",
+    "dailySummaryPrompt": "cited-summary-v1",
+    "aggregation": "deterministic-auditable-v1",
+    "schema": "daily-v4"
+  }
+}
