@@ -19,6 +19,7 @@ The daily workflow is scheduled for 9pm America/Los_Angeles. The workflow has tw
 
 ## GitHub Actions
 
+- `Deploy static site`: rebuilds and deploys GitHub Pages on every push to `main`, and can also be triggered manually. It does not fetch HN data or call OpenAI.
 - `Daily HN snapshot`: captures the current HN front page, runs entity detection, sentiment analysis, daily adjudication, rebuilds the static site, and deploys GitHub Pages. Manual runs can set `force=true` to bypass the 9pm time gate.
 - `Continue pending processing`: resumes any fetched or partially processed day, writes daily reports once sentiment is complete, rebuilds the static site, and deploys GitHub Pages. It runs every 30 minutes and can also be triggered manually.
 - `Backfill HN sentiment range`: manually fetches a historical date range using Algolia HN date search. It stores raw snapshots as `fetched`; the pending workflow processes them.
