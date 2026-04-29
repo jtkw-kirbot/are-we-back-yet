@@ -26,13 +26,14 @@
 
 body {
   margin: 0;
-  min-height: 100vh;
+  height: 100dvh;
+  max-height: 100dvh;
   display: flex;
   flex-direction: column;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   color: var(--ink);
   background: var(--bg);
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 body.modal-open {
@@ -49,15 +50,18 @@ button {
 
 .shell {
   width: 100%;
-  flex: 1;
+  flex: 1 1 auto;
+  min-height: 0;
   display: grid;
   place-items: center;
-  padding: 32px 16px;
+  padding: clamp(18px, 4dvh, 32px) 16px;
+  overflow: hidden;
 }
 
 .site-footer {
   width: 100%;
-  padding: 0 16px 18px;
+  flex: 0 0 auto;
+  padding: 0 16px clamp(10px, 2dvh, 18px);
   text-align: center;
   color: var(--muted);
   font-size: 11px;
@@ -77,6 +81,7 @@ button {
 .tracker {
   width: min(var(--tracker-width), 100%);
   min-width: 0;
+  max-height: 100%;
 }
 
 .tracker-header {
@@ -134,11 +139,14 @@ p {
   width: 100%;
   min-width: 0;
   overflow-x: auto;
+  overflow-y: hidden;
   overscroll-behavior-x: contain;
+  overscroll-behavior-y: none;
   padding: 3px 0 10px;
   scrollbar-width: thin;
   scrollbar-color: rgba(139, 148, 158, 0.45) transparent;
   -webkit-overflow-scrolling: touch;
+  touch-action: pan-x;
 }
 
 .grid::-webkit-scrollbar {
@@ -479,6 +487,8 @@ p {
 
   .shell {
     place-items: center stretch;
+    padding-top: clamp(14px, 3dvh, 22px);
+    padding-bottom: clamp(14px, 3dvh, 22px);
     padding-left: 16px;
     padding-right: 16px;
   }
