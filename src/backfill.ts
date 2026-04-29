@@ -18,6 +18,7 @@ import { buildSite } from "./site.js";
 import type { RunFile } from "./types.js";
 
 const execFile = promisify(execFileCallback);
+const BACKFILL_CONCURRENCY = 5;
 
 type BackfillOptions = {
   start: string;
@@ -33,6 +34,12 @@ type CommandResult = {
 type GitStatusEntry = {
   path: string;
   status: string;
+};
+
+type BackfillResult = {
+  date: string;
+  run: RunFile;
+  cost: RunCost;
 };
 
 function assertDate(value: string, label: string): void {
@@ -119,6 +126,35 @@ async function resetGeneratedDate(date: string): Promise<void> {
   await fs.rm(dailyPath(date), { force: true });
 }
 
+async function mapWithConcurrency<T, R>(
+  items: T[],
+  concurrency: number,
+  worker: (item: T) => Promise<R>,
+): Promise<R[]> {
+  const results: Array<R | undefined> = new Array<R | undefined>(items.length);
+  let nextIndex = 0;
+
+  async function runWorker(): Promise<void> {
+    while (nextIndex < items.length) {
+      const index = nextIndex;
+      nextIndex += 1;
+      const item = items[index];
+      if (item === undefined) continue;
+      results[index] = await worker(item);
+    }
+  }
+
+  const workers = Array.from(
+    { length: Math.min(concurrency, items.length) },
+    () => runWorker(),
+  );
+  await Promise.all(workers);
+  return results.map((result, index) => {
+    if (result === undefined) throw new Error(`Missing backfill result at index ${index}`);
+    return result;
+  });
+}
+
 async function ensureHistoricalRaw(date: string, force: boolean): Promise<void> {
   if (force) await resetGeneratedDate(date);
   if (await pathExists(rawPath(date))) {
@@ -144,17 +180,24 @@ function printCost(cost: RunCost): void {
   }
 }
 
-async function commitAndPublish(date: string): Promise<void> {
+function rangeLabel(dates: string[]): string {
+  const first = dates[0] ?? "";
+  const last = dates[dates.length - 1] ?? first;
+  if (dates.length === 1) return first;
+  return `${first} through ${last}`;
+}
+
+async function commitAndPublish(dates: string[]): Promise<void> {
   await buildSite();
-  const paths = generatedDatePaths(date);
+  const paths = dates.flatMap(generatedDatePaths);
 
   await runCommand("git", ["add", "--", ...paths]);
   if (!(await hasStagedChanges())) {
-    console.log(`${date}: no data changes to commit`);
+    console.log(`${rangeLabel(dates)}: no data changes to commit`);
     return;
   }
 
-  await runCommand("git", ["commit", "-m", `Backfill HN title sentiment ${date}`]);
+  await runCommand("git", ["commit", "-m", `Backfill HN title sentiment ${rangeLabel(dates)}`]);
   await runCommand("git", ["pull", "--rebase", "origin", "main"]);
   await runCommand("git", ["push", "origin", "main"]);
   const { stdout: sha } = await runCommand("git", ["rev-parse", "HEAD"]);
@@ -189,7 +232,7 @@ async function commitAndPublish(date: string): Promise<void> {
   if (!runId) throw new Error("Could not find triggered Publish static site run");
 
   await runCommand("gh", ["run", "watch", runId, "--exit-status"]);
-  console.log(`${date}: published via workflow run ${runId}`);
+  console.log(`${rangeLabel(dates)}: published via workflow run ${runId}`);
 }
 
 async function processDate(date: string): Promise<RunFile> {
@@ -203,18 +246,25 @@ export async function runBackfill(options: BackfillOptions): Promise<void> {
   let totalStandard = 0;
 
   await requireCleanExceptGenerated(dates);
-  console.log(`Backfilling ${dates[0]} through ${dates[dates.length - 1]} with title-only Responses analysis`);
+  console.log(`Backfilling ${rangeLabel(dates)} with title-only Responses analysis at concurrency ${BACKFILL_CONCURRENCY}`);
 
-  for (const date of dates) {
-    await requireCleanExceptGenerated(dates);
+  const results = await mapWithConcurrency(dates, BACKFILL_CONCURRENCY, async (date): Promise<BackfillResult> => {
     console.log(`\n=== ${date} ===`);
     await ensureHistoricalRaw(date, Boolean(options.force));
     const run = await processDate(date);
     const cost = calculateRunCost(run);
-    totalStandard += cost.standardUsd;
-    printCost(cost);
-    await commitAndPublish(date);
+    console.log(`${date}: analysis complete`);
+    return { date, run, cost };
+  });
+
+  for (const result of results) {
+    if (result.run.state !== "complete") throw new Error(`${result.date} did not complete`);
+    totalStandard += result.cost.standardUsd;
+    printCost(result.cost);
   }
+
+  await requireCleanExceptGenerated(dates);
+  await commitAndPublish(dates);
 
   console.log(`\nTotal Responses cost: ${formatUsd(totalStandard)}`);
 }

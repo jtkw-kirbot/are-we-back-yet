@@ -64,7 +64,7 @@ Selecting a day shows a ranked provider chart, the evidence-backed daily judgeme
 
 For UI-only changes, the publish workflow can rebuild and deploy the checked-in site without fetching Hacker News or running model analysis again.
 
-For historical backfills, the local backfill command processes and publishes one day at a time, then prints actual Responses API cost.
+For historical backfills, the local backfill command analyzes up to five days at a time, prints actual Responses API cost for each day, then publishes the completed range once.
 
 ## 6. Fail Safely
 
