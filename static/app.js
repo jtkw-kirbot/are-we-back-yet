@@ -468,9 +468,10 @@
       const day = date ? byDate.get(date) : undefined;
       const targets = daySignalTargets(day);
       const primary = targets.length === 1 ? targets[0] : null;
+      const signalClass = primary ?? (targets.length > 1 ? "tied_signal" : "no_signal");
       const square = document.createElement("button");
       square.type = "button";
-      square.className = date ? `day ${primary ?? "no_signal"}` : "day empty";
+      square.className = date ? `day ${signalClass}` : "day empty";
       if (!date) {
         square.tabIndex = -1;
         heatmap.appendChild(square);
