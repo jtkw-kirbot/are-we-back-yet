@@ -17,6 +17,7 @@
   const grid = document.getElementById("grid");
   const popover = document.getElementById("popover");
   const rangeLabel = document.getElementById("range-label");
+  const signalToggle = document.querySelector(".signal-toggle");
   let activeAnchor = null;
   let activeDate = null;
   let openedFromGridRoute = false;
@@ -24,6 +25,7 @@
   let weeks = [];
   const squareByDate = new Map();
   const routeDatePattern = /^\d{4}-\d{2}-\d{2}$/;
+  let signalMode = readSignalMode();
 
   function useCompactModal() {
     return window.matchMedia("(max-width: 900px)").matches;
@@ -206,12 +208,51 @@
     });
   }
 
-  function dayMostPositiveRows(day) {
+  function readSignalMode() {
+    const value = new URLSearchParams(window.location.search).get("signal");
+    return value === "negative" ? "negative" : "positive";
+  }
+
+  function signalModeLabel() {
+    return signalMode === "negative" ? "negative" : "positive";
+  }
+
+  function signalSearch() {
+    const params = new URLSearchParams(window.location.search);
+    params.set("signal", signalMode);
+    return `?${params.toString()}`;
+  }
+
+  function updateSignalToggle() {
+    signalToggle?.querySelectorAll("[data-signal-mode]").forEach((button) => {
+      const selected = button.dataset.signalMode === signalMode;
+      button.classList.toggle("selected", selected);
+      button.setAttribute("aria-pressed", selected ? "true" : "false");
+    });
+  }
+
+  function setSignalMode(nextMode, options = {}) {
+    const normalized = nextMode === "negative" ? "negative" : "positive";
+    if (signalMode === normalized && !options.force) return;
+    signalMode = normalized;
+    updateSignalToggle();
+    paintGrid();
+    if (activeDate && !popover.hidden) renderDetail(squareByDate.get(activeDate), activeDate, byDate.get(activeDate));
+    if (options.replaceRoute) {
+      window.history.replaceState({ date: activeDate, signalMode }, "", `${window.location.pathname}${signalSearch()}`);
+    } else if (options.pushRoute) {
+      window.history.pushState({ date: activeDate, signalMode }, "", `${window.location.pathname}${signalSearch()}`);
+    }
+  }
+
+  function daySignalRows(day) {
     if (!day) return [];
     const rows = day.ranking ?? [];
     if (rows.length === 0) return [];
     const topRow = rows.reduce((best, row) => (
-      Number(row.adjustedMean) > Number(best.adjustedMean) ? row : best
+      signalMode === "negative"
+        ? Number(row.adjustedMean) < Number(best.adjustedMean) ? row : best
+        : Number(row.adjustedMean) > Number(best.adjustedMean) ? row : best
     ));
     const tiedTargets = new Set([topRow.target, ...(topRow.tiedWith ?? [])]);
     return rows
@@ -220,7 +261,7 @@
   }
 
   function daySignalTargets(day) {
-    return dayMostPositiveRows(day).map((row) => row.target);
+    return daySignalRows(day).map((row) => row.target);
   }
 
   function routeDateFromLocation() {
@@ -237,14 +278,35 @@
   }
 
   function routePathForDate(date) {
-    return `${routeBasePath()}${date}`;
+    return `${routeBasePath()}${date}${signalSearch()}`;
   }
 
   function displayRankingRows(day) {
     return [...(day.ranking ?? [])].sort((a, b) => (
-      Number(b.adjustedMean ?? 0) - Number(a.adjustedMean ?? 0)
+      (signalMode === "negative"
+        ? Number(a.adjustedMean ?? 0) - Number(b.adjustedMean ?? 0)
+        : Number(b.adjustedMean ?? 0) - Number(a.adjustedMean ?? 0))
       || String(a.target).localeCompare(String(b.target))
     ));
+  }
+
+  function paintSquare(square, date, day) {
+    const targets = daySignalTargets(day);
+    const primary = targets.length === 1 ? targets[0] : null;
+    const signalClass = primary ?? (targets.length > 1 ? "tied_signal" : "no_signal");
+    square.className = date ? `day ${signalClass}` : "day empty";
+    square.style.removeProperty("background-image");
+    if (date) applyDayBackground(square, day);
+    const label = targets.length > 0
+      ? `${targets.map((target) => labels[target] ?? target).join(", ")} most ${signalModeLabel()} signal`
+      : "no ranked signal";
+    if (date) square.setAttribute("aria-label", day ? `${date}: ${label}` : `${date}: no data`);
+  }
+
+  function paintGrid() {
+    for (const [date, square] of squareByDate.entries()) {
+      paintSquare(square, date, byDate.get(date));
+    }
   }
 
   function evidenceBalanceItems(row) {
@@ -268,7 +330,7 @@
       const end = ((index + 1) * stop).toFixed(2);
       return `var(${providerColorVars[target]}) ${start}% ${end}%`;
     });
-    square.style.background = `linear-gradient(to right, ${bands.join(", ")})`;
+    square.style.backgroundImage = `linear-gradient(to right, ${bands.join(", ")})`;
   }
 
   function renderRankingChart(day, evidenceById) {
@@ -278,7 +340,7 @@
         <section class="detail-section" aria-label="Provider ranking">
           <div class="section-heading">
             <span>ranking</span>
-            <span>most positive first</span>
+            <span>most ${escapeHtml(signalModeLabel())} first</span>
           </div>
           <p class="judgement secondary">No tracked provider had relevant HN story/comment signal.</p>
         </section>
@@ -288,7 +350,7 @@
       <section class="detail-section provider-section" aria-label="Provider ranking">
         <div class="section-heading">
           <span>ranking</span>
-          <span>most positive first</span>
+          <span>most ${escapeHtml(signalModeLabel())} first</span>
         </div>
         <div class="provider-list">
           ${rows.map((row, index) => {
@@ -393,7 +455,7 @@
     const signalTargets = daySignalTargets(day).map((target) => labels[target] ?? target);
     const flags = [
       "HN story/comment snapshot",
-      signalTargets.length > 0 ? `Most positive: ${signalTargets.join(", ")}` : "No ranked signal",
+      signalTargets.length > 0 ? `Most ${signalModeLabel()}: ${signalTargets.join(", ")}` : "No ranked signal",
     ].filter(Boolean);
 
     popover.innerHTML = `
@@ -465,12 +527,16 @@
     }
     closeDetail();
     openedFromGridRoute = false;
-    if (routeDate) window.history.replaceState(null, "", routeBasePath());
+    if (routeDate) window.history.replaceState({ signalMode }, "", `${routeBasePath()}${signalSearch()}`);
   }
 
   const response = await fetch("data/index.json");
   const data = response.ok ? await response.json() : { days: [] };
   const byDate = new Map(data.days.map((day) => [day.date, day]));
+  updateSignalToggle();
+  if (!new URLSearchParams(window.location.search).has("signal")) {
+    window.history.replaceState({ date: routeDateFromLocation(), signalMode }, "", `${window.location.pathname}${signalSearch()}`);
+  }
   const startDate = trackerStartDate(data.days);
   const dates = dateRange(startDate);
   rangeLabel.textContent = `since ${displayDate(startDate)}`;
@@ -507,12 +573,9 @@
   for (const week of weeks) {
     for (const date of week) {
       const day = date ? byDate.get(date) : undefined;
-      const targets = daySignalTargets(day);
-      const primary = targets.length === 1 ? targets[0] : null;
-      const signalClass = primary ?? (targets.length > 1 ? "tied_signal" : "no_signal");
       const square = document.createElement("button");
       square.type = "button";
-      square.className = date ? `day ${signalClass}` : "day empty";
+      square.className = date ? "day no_signal" : "day empty";
       if (!date) {
         square.tabIndex = -1;
         heatmap.appendChild(square);
@@ -521,11 +584,7 @@
       square.dataset.date = date;
       square.dataset.state = day ? "complete" : "missing";
       squareByDate.set(date, square);
-      applyDayBackground(square, day);
-      const label = targets.length > 0
-        ? `${targets.map((target) => labels[target] ?? target).join(", ")} most positive signal`
-        : "no ranked signal";
-      square.setAttribute("aria-label", day ? `${date}: ${label}` : `${date}: no data`);
+      paintSquare(square, date, day);
       square.addEventListener("click", (event) => {
         event.stopPropagation();
         if (activeDate === date && !popover.hidden) return;
@@ -568,8 +627,19 @@
     if (event.key !== "Escape" || popover.hidden) return;
     dismissDetail();
   });
+  signalToggle?.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-signal-mode]");
+    if (!button) return;
+    setSignalMode(button.dataset.signalMode, { pushRoute: true });
+  });
   window.addEventListener("popstate", () => {
     openedFromGridRoute = false;
+    const nextMode = readSignalMode();
+    if (nextMode !== signalMode) {
+      signalMode = nextMode;
+      updateSignalToggle();
+      paintGrid();
+    }
     const routeDate = routeDateFromLocation();
     if (routeDate) {
       openDetailForDate(routeDate);

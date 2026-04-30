@@ -92,6 +92,14 @@ button {
   margin-bottom: 16px;
 }
 
+.header-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+}
+
 h1 {
   font-size: 22px;
   line-height: 1.2;
@@ -103,6 +111,32 @@ h1 {
 p {
   margin: 0;
   color: var(--muted);
+}
+
+.signal-toggle {
+  display: inline-flex;
+  flex: 0 0 auto;
+  padding: 2px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(22, 27, 34, 0.72);
+}
+
+.signal-option {
+  min-width: 76px;
+  padding: 5px 10px;
+  border: 0;
+  border-radius: 999px;
+  color: var(--muted);
+  background: transparent;
+  font-size: 12px;
+  line-height: 1.2;
+  cursor: pointer;
+}
+
+.signal-option.selected {
+  color: var(--ink);
+  background: var(--line);
 }
 
 .legend {
@@ -243,7 +277,8 @@ p {
 .day.google_gemini,
 .day.microsoft_copilot,
 .day.tied_signal {
-  border-color: transparent;
+  border-color: var(--bg);
+  background-clip: padding-box;
 }
 
 .day:focus-visible {
@@ -312,6 +347,11 @@ p {
 
   .legend {
     font-size: 14px;
+  }
+
+  .signal-option {
+    min-width: 82px;
+    font-size: 13px;
   }
 }
 
@@ -694,6 +734,17 @@ p {
     padding-bottom: clamp(14px, 3dvh, 22px);
     padding-left: 16px;
     padding-right: 16px;
+  }
+
+  .header-top {
+    align-items: flex-start;
+  }
+
+  .signal-option {
+    min-width: 60px;
+    padding-left: 6px;
+    padding-right: 6px;
+    font-size: 11px;
   }
 
   .grid {
