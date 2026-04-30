@@ -100,6 +100,20 @@
     }).format(new Date(`${date}T00:00:00Z`));
   }
 
+  function hnFrontPageUrl(date) {
+    return `https://news.ycombinator.com/front?day=${encodeURIComponent(date)}`;
+  }
+
+  function renderDetailTitle(date) {
+    const label = displayDate(date);
+    return `
+      <div class="detail-title">
+        <h2>${escapeHtml(label)}</h2>
+        <a class="hn-front-link" href="${hnFrontPageUrl(date)}" target="_blank" rel="noopener noreferrer" aria-label="View Hacker News front page for ${escapeHtml(label)}">View HN front page</a>
+      </div>
+    `;
+  }
+
   function trackerStartDate(days) {
     const dates = days
       .map((day) => day.date)
@@ -442,7 +456,7 @@
       popover.innerHTML = `
         ${detailCloseButton()}
         <div class="detail-scroll">
-          <h2>${escapeHtml(date)}</h2>
+          ${renderDetailTitle(date)}
           <div class="meta"><span class="pill">No completed data</span></div>
           <p class="judgement">This day has not been processed yet.</p>
         </div>
@@ -462,7 +476,7 @@
       ${detailCloseButton()}
       <div class="detail-scroll">
         <header class="detail-header">
-          <h2>${escapeHtml(displayDate(day.date))}</h2>
+          ${renderDetailTitle(day.date)}
           <div class="meta">${flags.map((flag) => `<span class="pill">${escapeHtml(flag)}</span>`).join("")}</div>
         </header>
         <section class="summary-block" aria-label="Daily summary">
