@@ -1,0 +1,2386 @@
+{
+  "date": "2026-05-10",
+  "fetchedAt": "2026-05-14T03:37:36.476Z",
+  "samplingMethod": "frontpage_day_query_story_comment_snapshot",
+  "source": "hn_front_day_query_firebase",
+  "items": [
+    {
+      "id": 48086190,
+      "type": "story",
+      "title": "Hardware Attestation as Monopoly Enabler",
+      "rank": 1,
+      "depth": 0,
+      "storyId": 48086190,
+      "storyTitle": "Hardware Attestation as Monopoly Enabler",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48086190",
+      "topComments": [
+        {
+          "id": 48087095,
+          "text": "Requiring authorized silicon (and software) isn't even the biggest problem here.\nThey do not use zero knowledge proof systems or blind signatures. So every time you use your device to attest you leave behind something (the attestation packet) that can be used to link the action to your device. They put on a show about how much they care about your privacy by introducing indirection into the process (static device 'ID' is used to acquire an ephemeral 'ID' from an intermediate server) but it's just a show because you don't know what those intermediary severs are doing: You should assume they log everything.\nAnd this just the remote attestation vector, the DRM 'ID' vector is even worse (no meaningful indirection, every license server has access to your burned-in-silicon static identity). And the Google account vector is what it is.\nUsing blind signatures for remote attestation has actually been proposed, but no one notable is currently using it: https://en.wikipedia.org/wiki/Direct_Anonymous_Attestation>\nThere are several possible reasons for this, the obvious one is that they want to be able to violate your privacy at will or are mandated to have the capability. The other is that because it's not possible to link an attestation to a particular device the only mitigation to abuse that is feasible is rate limiting which may not be good enough for them - an adversary could set up a farm where every device generates $/hour from providing remote attestations to 'malicious' actors.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48087095",
+          "by": "coppsilgold",
+          "time": 1778441955
+        },
+        {
+          "id": 48088065,
+          "text": "In 1999, Intel received an absolutely massive amount  of opposition when they decided to include a software-readable serial number in their CPUs, so much that they reversed the decision.\nThen the \"security\" and Trusted Computing authoritarians continued pushing for TPMs and related tech, and contributed to the rise of mobile walled gardens. Windows 11's TPM requirements were another step towards their goal. The amount of propaganda about how that was supposed to be a good thing, both here and elsewhere, was shocking.\nIt turns out a significant (but hopefully decreasing) number of the population is easily coerced into anything when \"security\" is given as a justification.\nThe war on general-purpose computing continues, and we need to keep fighting.\nStallman was right, as always. Time to give his \"Right to Read\" another read. (If it hasn't been done already, an AI-generated short film of it would be a great idea...)\n\"Those who give up freedom for security deserve neither.\"",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48088065",
+          "by": "userbinator",
+          "time": 1778447366
+        },
+        {
+          "id": 48086192,
+          "text": "This is a really good thread on why this technology is becoming a problem for \"open\" anything. The argument \"we can create our own separate web\" is fine until all of your services are behind the web that locks you into owning a Google approved or Apple approved mobile device.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48086192",
+          "by": "ChuckMcM",
+          "time": 1778435643
+        },
+        {
+          "id": 48089802,
+          "text": "This is tyranny: making people powerless, afraid of each other, and submissive, per Aristotle's understanding.[1] The technological means are new, to be sure, but the social strategy is as old as civilization.\nMark my words. General purpose computing and private, direct communication are things too powerful for a tyrant to permit the people to have.  The freedom we've enjoyed for the last several decades, to build what we want, to run what we want, to network with who we want, is not the default and will always be under attack.  We had it for a little while by the generosity of the previous generation. It was not then, and is not now, and never will be free.\n[1] https://www.perseus.tufts.edu/hopper/text?doc=Perseus:text:1...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48089802",
+          "by": "Dove",
+          "time": 1778460480
+        },
+        {
+          "id": 48089204,
+          "text": "It is possible to bypass Play Integrity on most devices (even at the \"strong\" level) using a sewing needle.\nSpecifically, you poke the data lines of the memory bus to induce bitflips, much like I described in https://www.da.vidbuchanan.co.uk/blog/dram-emfi.html\nThis is trickier if your device has the DRAM mounted directly on top of the CPU, but still possible - you'll need to do some BGA rework to get a wire soldered to one of the DQ lines.\nOnce you get a physical memory read/write primitive, you can start patching the kernel. Play Integrity does not detect this, since it only attests the state of the kernel at boot. I chose to patch out the permission checks related to ptrace, allowing me to inject frida-gadget into running apps, and to inject shellcode into pid 1.\nThe initial exploit is pretty unreliable, and usually takes a few reboots to hit. But once it lands, the device is pwned until the next reboot - like a \"tethered jailbreak\".\nI tested this on a Samsung A06 because it was the cheapest device supporting Play Integrity I could get my hands on, but there's no fundamental reason it shouldn't work on any other device, including flagships. Some mitigations would require a different exploit strategy (e.g. memory encryption), but the fundamental flaw is still there.\nDemo: https://bsky.app/profile/retr0.id/post/3mljtyauw322d",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48089204",
+          "by": "Retr0id",
+          "time": 1778455689
+        },
+        {
+          "id": 48086778,
+          "text": "The EU Digital (identity) Wallet EUDI requires hardware attestation by Google or Apple, effectively tying all the digital EU identities to American duopoly. Talk about digital sovereignity. Apparently protecting the children > sovereignity.\nhttps://gitlab.opencode.de/bmi/eudi-wallet/wallet-developmen...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48086778",
+          "by": "miohtama",
+          "time": 1778439787
+        },
+        {
+          "id": 48086418,
+          "text": "Our civilization desperately needs a method to modify modern microelectronics after manufacturing that can be used at least in a well-equipped repair shop, and it needs it yesterday.\nAlternatively, just make it illegal to ship any kind of initial bootloader as part of a CPU's/SoC's mask ROM in any computing device that is marketed as a general-purpose one. I.e. the first instruction that the CPU executes after reset must come from a storage device that is physically external to the CPU package.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48086418",
+          "by": "grishka",
+          "time": 1778437216
+        },
+        {
+          "id": 48087213,
+          "text": "It's amazing that we're letting the Google Apple duopoly completely decide who can and cannot use completely unrelated services.\nImagine getting banned from Google services for anti-google views and being unable to log into your bank account. We really should breakup the Alphabet.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48087213",
+          "by": "dminik",
+          "time": 1778442729
+        },
+        {
+          "id": 48087025,
+          "text": "I am reminded of the period when secure boot was being developed for PCs.\nMicrosoft certainly wanted to be the only company whose OS was allowed to boot with secure boot turned on.\nGoogle should not be allowed to close the supposedly \"open\" ecosystem they created any more than Microsoft was allowed to.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48087025",
+          "by": "GeekyBear",
+          "time": 1778441413
+        },
+        {
+          "id": 48091000,
+          "text": "I always say this when this topic comes up: remote attestation will be how our computing freedom dies. They've made it so that it doesn't even matter if they allow you to install whatever you want. Anything that isn't corporate owned is banned. Own your device? You \"tampered\" with it. You're banned. From everything. You're ostracized from digital society. You're not even a citizen, much less a second class citizen. Enroll your own keys? It doesn't matter. You're not trusted. You're a fraudster terrorist money launderer drug dealer pedophile.\nWhile I am glad that people continue to struggle, that GrapheneOS continues to fight and speak out, these developments still fill me with a terrible sadness. The future is bleak. We inch ever closer to the complete destruction of everything the word \"hacker\" ever stood for. It's a deep loss.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48091000",
+          "by": "matheusmoreira",
+          "time": 1778472930
+        }
+      ],
+      "by": "ChuckMcM",
+      "time": 1778435642,
+      "url": "https://grapheneos.social/@GrapheneOS/116550899908879585",
+      "score": 2168,
+      "descendants": 753,
+      "storyUrl": "https://grapheneos.social/@GrapheneOS/116550899908879585"
+    },
+    {
+      "id": 48085821,
+      "type": "story",
+      "title": "Local AI needs to be the norm",
+      "rank": 2,
+      "depth": 0,
+      "storyId": 48085821,
+      "storyTitle": "Local AI needs to be the norm",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48085821",
+      "topComments": [
+        {
+          "id": 48088051,
+          "text": "They will be, and that moment is not that far off. We've got the progression in place already: first, large data centers could have performant LLMs, we are now firmly in \"a bunch of servers with a couple of H100s each\" territory, slowly going into \"128 GB VRAM on a MacBook Pro or a Strix Halo\". Within the next year, the pattern of \"expensive remote LLM for planning, local slow-but-faster-than-human LLM for execution\" will become the norm for companies, slowly moving to \"using local LLM for everything is good enough\". And then we'll have the equilibrium we already have with the \"classic cloud\": you either self-host or pay for flexibility and speed. The question will be: how much of the current compute capacity craze will local hosting give the kiss of death to and what that means for the market.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48088051",
+          "by": "pronik",
+          "time": 1778447281
+        },
+        {
+          "id": 48090067,
+          "text": "Here's some things you can do right now with local models on a consumer device:\n- text-to-speech\n - speech-to-text\n - dictionary\n - encyclopedia\n - help troubleshooting errors\n - generate common recipes and nutritional facts\n - proofread emails, blog posts\n - search a large trove of documents, find information, summarize it (RAG)\n - manipulate your terminal/browser/etc\n - analyze a picture or video\n - generate a picture or video\n - generate PDFs, documents, etc (code exec)\n - simple programming\n - financial analysis/planning\n - math and science analysis\n - find simple first aid/medical information\n - \"rubber ducking\" but the duck talks back\nA quarter of those don't need more than a gig of RAM, the rest benefit from more RAM. Technically you don't even need a GPU, it just makes it faster. I do half that stuff on my laptop with local models every day.\nThat said, it really doesn't need to be local. I like the idea that I can do all that stuff offline if I'm traveling, but I usually have cell service, and the total tokens is pretty cheap (like $2/month for all my non-coding AI use).",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48090067",
+          "by": "0xbadcafebee",
+          "time": 1778463081
+        },
+        {
+          "id": 48090332,
+          "text": "Cool, well let me know when Opus 4.5 level performance is available locally, at speeds that serve everyday use, and 100% I'm right there with you.\nUntil then, I'm going to keep sending my JSON to the server farm in Virginia because it's the only place that can serve me a model that actually works for my uses.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48090332",
+          "by": "adamtaylor_13",
+          "time": 1778465706
+        },
+        {
+          "id": 48087467,
+          "text": "For the mainstream audience, the sentiment around local ai today is the same that they had around open source a few decades ago. For a few products, some paid solutions were so much more advanced that open source were very often completely overlooked. Why bother ? And the like. Then we had captive SaaS and other plateforms and now it's obviously wrong for most of us.\nThe dependency we have with anthropic and openai for coding for instance is insane. Most accept it because either they don't care, or they just hope chinese will never stop open weights. The business model of open weights is very new, include some power play between countries and labs, and move an absurd amount of money without any concrete oversight from most people.\nIt's a very dangerous gamble. Today incredible value is available for nearly everyone. But it may stop without any warning, for reason outside our control.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48087467",
+          "by": "TheJCDenton",
+          "time": 1778444126
+        },
+        {
+          "id": 48090863,
+          "text": "It seems like everybody is focused on \"LLM\"s, a.k.a Large Language Models. One interesting addition to that is fine-tuned- small parameter, distilled, context-dependent small language models that:\n1- Do a particular task with great capability (due to its constrained, limited scope)\n2- Do it in such a way, it integrates gracefully in your workflow without ever requiring you to know you are using an LM.\nThere is a difference between outsourcing your workflow to AI and actually utilizing it.\nCheck this: https://www.distillabs.ai/blog/we-benchmarked-12-small-langu...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48090863",
+          "by": "gkcnlr",
+          "time": 1778471115
+        },
+        {
+          "id": 48090984,
+          "text": "For image generation, this has already happened. To what degree, I can't tell, as I don't do image generation much so I don't have numbers on Midjourney subscriptions or any other image-AI-as-a-service sites. But civitai.com has become a place where people share their models, based off of Stable Diffusion or other similar bases, with various fine-tunings to achieve desired results. You name it, you can find a model for it at Civitai, and people doing some very creative things with them. (And also a lot of the obvious things, but it's the Internet, what did you expect?)\nI haven't seen a text-based model sharing site spring up yet (perhaps they already have and I don't know about it yet). Civitai, being focused on image-generation, has the obvious advantage that it's easy to show off impressive results from the model on the front page of the website, and judging what someone's home-grown fine-tuned LLM will produce is a lot harder. But at some point I expect a Civitai equivalent site for text models, especially code-based ones, to become popular. That will seriously undercut Anthropic, OpenAI, et al, and will probably force them to find a price equilibrium.\nBecause once you're competing with \"I spend $2,500 up front on a powerful video card, download an open-source model for free, and then I get pretty much everything I need for free\" (additional power cost of running that video card isn't nothing, but probably not noticeable in your power bill compared to what you're already using)... then suddenly $200/month means your customers are thinking \"after one year I would have been better off with the homegrown solution\". The only way they'll continue to pay $200/month is if Claude/GPT/Gemini/whoever is truly head-and-shoulders above the \"pay upfront once for hardware then use it for free afterwards\" models available. And that's going to be doable, perhaps, but tough.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48090984",
+          "by": "rmunn",
+          "time": 1778472585
+        },
+        {
+          "id": 48088433,
+          "text": "I think we should separate the private AI discussion from the local AI discussion. \nThe pragmatic choice to run big LLMs is one/several big servers online, but that doesn't mean private companies should be the only ones to run them.\nA self hosted inference solution that offer good tenant isolation guarantees (ideally zero trust) and is easy enough to deploy and maintain (think Plex for AI) would be my choice for privacy. Now to be honest I have done zero research about this and have zero idea how feasible that is, maybe it already exists and there's some discord servers I should join?\nEdit: I don't need to mention it here but what's incredible is that open models are in the ballpark of the best commercial models so supposedly, the hardest part by far is already solved.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48088433",
+          "by": "Guillaume86",
+          "time": 1778449575
+        },
+        {
+          "id": 48090315,
+          "text": "Interesting to see this after the recent post about Chrome’s on-device model using up 4gb of storage, which frustrated a lot of people [1].\nI agree local models are great, and it’s cool that Apple has models built in now. But I feel like it basically has to be an OS level feature or users are going to get upset. I’d certainly rather have a small utility call out to OpenAI than download its own model.\n[1]: https://news.ycombinator.com/item?id=48019219",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48090315",
+          "by": "supermdguy",
+          "time": 1778465521
+        },
+        {
+          "id": 48088398,
+          "text": "The example in the post confirms my theory that for local models to succeed they need to be \"good enough\", not big enough that they can compete with frontier models.\nThey need to be able to do a small task well and they need to be able to run reasonably on consumer-class devices. Even better if they can run on mobile phones.\nIn my experiments with local LLMs I noticed that while increasing the size of the model is nice the real thing that turns a barely useless model into something useful is the ability to use tools.\nGiving my models the ability to search the web and fetch web pages did way more to solve hallucinations than getting a bigger model. And it doesn't have a training cutoff.\nSure, the bigger model is probably better at using tools but I often find the smaller models to be good enough.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48088398",
+          "by": "wrxd",
+          "time": 1778449397
+        },
+        {
+          "id": 48091489,
+          "text": "People want local AI, but only if UX is good. Tooling/harness quality may matter as much as model quality.\nI think the future will probably be a hybrid of:\n1. local AI for simple, private, everyday tasks\n2. online AI for very hard or long tasks",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48091489",
+          "by": "tzm",
+          "time": 1778479253
+        }
+      ],
+      "by": "cylo",
+      "time": 1778433568,
+      "url": "https://unix.foo/posts/local-ai-needs-to-be-norm/",
+      "score": 1868,
+      "descendants": 740,
+      "storyUrl": "https://unix.foo/posts/local-ai-needs-to-be-norm/"
+    },
+    {
+      "id": 48073201,
+      "type": "story",
+      "title": "I returned to AWS and was reminded why I left",
+      "rank": 3,
+      "depth": 0,
+      "storyId": 48073201,
+      "storyTitle": "I returned to AWS and was reminded why I left",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48073201",
+      "topComments": [
+        {
+          "id": 48083506,
+          "text": "> AWS stomped on open source projects - despite the clear desire of projects like Elasticsearch, Redis, and MongoDB not to be cloned and monetized, AWS pushed ahead with OpenSearch, Valkey, and DocumentDB anyway, capturing the hosted-service money after those communities and companies had built the markets; the result was a wave of defensive licenses like SSPL, Elastic License, RSAL, and other source-available models designed less to stop ordinary users than to stop AWS from stripping open-source infrastructure for parts, owning the customer relationship.\nThis is completely backwards, at least with OpenSearch and Valkey. AWS didn't create the forks until after the upstream projects changed their license, so it's really weird to say that the forks \"resulted\" in the license changes when those forks where a response to the license changes. With Valkey in particular it was members of the former redis core development team that created Valkey.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48083506",
+          "by": "tedivm",
+          "time": 1778416646
+        },
+        {
+          "id": 48085759,
+          "text": "These arguments against AWS are boring. 99% of the negative comments are along the line of \"so i have a dead simple product, I dont know anything about AWS, I logged in and it was super complicated and it seemed pricey\".\nWell guess what, if you have a CRUD website and 100 users you're just not the target. Move on.\nSome days ago I wanted to sketch a 3D model of my TV remote. I opened blender and what a mess of complicated windows and panes. I closed it immediatly. Do I think Blender is an over complicated mess? No, I just think I'm not the target. And I'm not offended to be too noob to use it.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48085759",
+          "by": "Galanwe",
+          "time": 1778433134
+        },
+        {
+          "id": 48084873,
+          "text": "I always smile at posts like this. They're right and wrong at the same time. Systems should be \"as simple as possible, but no simpler\". And thinking that you can gloss over the detail is just going to create more hassle later on.\nIAM is just complex. I can't think of any implementation of \"users, groups, roles, policies, identity providers, oidc\" that is truly simple.\nI'm reminded of a guy I worked with, who fought against Kubernetes adoption because it was \"too complex\", only to slowly reinvent Kubernetes badly, adhoc, out of vault, consul, systemd, nomad, iscsi, ansible, jenkins, puppet, bash, spit, glue... making lots of mistakes along the way. You think you don't need to implement some feature until you do.\nAnother thing I'll say about AWS (having been the sole infra guy at a few startups) is that it's well within most people's abilities to learn it. And you can usually avoid the shitty stuff. You think lambdas stuck? Don't use them! You could use EKS, ECS or bare EC2.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48084873",
+          "by": "raffraffraff",
+          "time": 1778427867
+        },
+        {
+          "id": 48084087,
+          "text": "I'm surprised by the author's hate towards DynamoDB. It's probably one of my favorite AWS Services. Great availability and no operational overhead. Cost was pretty minimal too each time I've used it, but you do need to spend some time architecting your data model up front, and that requires reading service docs and understanding it.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48084087",
+          "by": "sudosteph",
+          "time": 1778421823
+        },
+        {
+          "id": 48083449,
+          "text": "I don't work in that area, so I only touch AWS once in a while for personal fun projects.\nAnd every time it's a nightmare. I'm just banging out a server for my experimental card game, not setting up an new financial institution. Everything looks as if I'm preparing to scale to infinity tomorrow, with a staff of a thousand and a budget backed by VCs.\nFortunately there's Netlify and similar, who put a gloss on it so that I don't have to boil the ocean. I figure that one of these days I might actually be forced to learn IAM and VPNs and God only knows what else. Meantime, every time I touch it my eyes bug out.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48083449",
+          "by": "jfengel",
+          "time": 1778416111
+        },
+        {
+          "id": 48083677,
+          "text": "I've transitioned between cloud services and self-hosting a few times:\n1. Vercel Phase\n   My first project used Vercel. Since my project was Next.js, the experience was decent. But as my project gained some users, I found that even for projects under 100 users, I needed to pay $20 per month. Since my service didn't require high performance, this cost felt steep.\n2. Self-host Phase (Hetzner + Coolify)\n   Later, I started setting up my own server with Hetzner and deploying with Coolify. Since Coolify is open-source and free, I only had to cover the cost of a VPS (even $5 a month was sufficient). I could deploy PostgreSQL instances and run a web server on it.\n   But later I discovered that even this way, I still had to spend a lot of effort maintaining PostgreSQL and Redis. Even though they were containerized with Docker, managing them was still troublesome. I needed to pass various system and environment variables between services, which was very tedious.\n3. Cloudflare Phase\n   So later I switched to Cloudflare. With Cloudflare Workers, I can deploy fullstack applications and use D1 Database and Cloudflare KV to replace Redis. These features can be called directly within the Worker without needing to pass environment variables.\nPlus, the local development experience is excellent and the pricing is very reasonable, so I've been using Cloudflare's entire suite ever since.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48083677",
+          "by": "djyde",
+          "time": 1778418380
+        },
+        {
+          "id": 48085626,
+          "text": "Anyone considering leaving AWS and thinking they'll transfer all their data for free [1], I've got news for you: It's a lie.\nAWS takes as long as possible (for me it was a month) to respond to the initial DTO request,\nthen require you to submit a multi-page form answering a barrage of questions about why you're leaving, where you're going to, what services you used, and estimated data egress. A week or so later, if they approve the request, you're not allowed to begin DTO until 60 days after the approval.\nBy the time you can egress your data for \"free\", you've been stuck on AWS for 3-4 months since you first made the decision to leave.\n[1] https://aws.amazon.com/blogs/aws/free-data-transfer-out-to-i...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48085626",
+          "by": "tailscaler2026",
+          "time": 1778432426
+        },
+        {
+          "id": 48083750,
+          "text": "Years ago, I joined a company, took over a dev team and was asked to launch the product in 3 months.\nThey were using AWS, so I logged in the account to add a few more machines. Right there, in front of my eyes, were the signs of an adversarial, abusive relationship.\nThe UI to fire up a new machine did not show me the price. I had to look up the price in another table that did not have the specs.\nI had to have the two tables open, cross check the specs and price.\nIf I had learned one thing from my past life was that if you see the signs of an abusive relationship, you have the option to walk out, and you don't, all that follows is your own fault.\nCreated a DigitalOcean account, moved everything over. Set up our CI/CDs to deploy there, and spent the next two months on the product, launching one month earlier than promised.\nSome years before that I saw a video online where a person digs a hole near a river and puts a pipe connecting the river and the hole. The fishes push themselves hard in the pipe to get to their trap. Choosing the path of least resistance, and never backing off from a mistake: recipes to end up like those fishes. The video left a big impression on me.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48083750",
+          "by": "aljgz",
+          "time": 1778419129
+        },
+        {
+          "id": 48088680,
+          "text": "I tend to use a few services on each cloud as possible so it's easy to switch between them; spinning up an Ubuntu VM that's identical on nearly every cloud is a superpower.\nAnd, so if you keep it simple like this, it's not too complex and the costs are knowable - mostly VM hours and S3 for most of what I run.\nBut, the thing I've become increasingly disappointed with is simply the performance. The cpus are _slow_ - being forced to use EBS for a lot of things is _slow_ as hell; and starting/hydrating new VM volumes is super duper slow (have fun paying for fast launch).\nSo, for what you pay vs what you get, it's a huge difference, albeit very convenient.\nIncreasingly, I think about like racking stuff - like run most of your workload on dedicated hardware somewhere close to an AWS region and then burst into the cloud as needed and just use s3 in that region. Reduced cost, better performance for what matters, and you just pay for hands-on in the datacenter. Send them servers and just manage it all remotely.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48088680",
+          "by": "mattbillenstein",
+          "time": 1778451165
+        },
+        {
+          "id": 48086482,
+          "text": "We invested in colocation 2022-2024 for non-prod (log aggregation, Gitlab, warehouse databases, analytics loads, etc). Didn't know what kind of savings we accidentally set ourselves up for. Investing 3 months DO and AWS Bills permanently cut our spending, and since then has never seen an increase. If these systems go offline, it's an inconvenience but not a show stopper.\nWe intentionally engineer prod so it doesn't rely on any system in the colo (so nothing like 'store our config in git and the apps pull it on startup' type party tricks).\nWith memory prices right now it's harder to recommend expanding colocation but it's something every company needs to do (eventually). Not every system you have has equal production value.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48086482",
+          "by": "exabrial",
+          "time": 1778437762
+        }
+      ],
+      "by": "andrewstuart",
+      "time": 1778315861,
+      "url": "http://fourlightyears.blogspot.com/2026/05/i-returned-to-aws-and-was-reminded-hard.html",
+      "score": 852,
+      "descendants": 638,
+      "storyUrl": "http://fourlightyears.blogspot.com/2026/05/i-returned-to-aws-and-was-reminded-hard.html"
+    },
+    {
+      "id": 48086082,
+      "type": "story",
+      "title": "Incident Report: CVE-2024-YIKES",
+      "rank": 4,
+      "depth": 0,
+      "storyId": 48086082,
+      "storyTitle": "Incident Report: CVE-2024-YIKES",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48086082",
+      "topComments": [
+        {
+          "id": 48086588,
+          "text": "For anyone confused, this is (very good imo) fiction about supply-chain incidents. It had me very worried during a brief scan that it was real though, which made me read it more attentively :)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48086588",
+          "by": "lynndotpy",
+          "time": 1778438648
+        },
+        {
+          "id": 48087417,
+          "text": "> Day 1, 14:47 UTC — Among the exfiltrated credentials: the maintainer of vulpine-lz4, a Rust library for “blazingly fast Firefox-themed LZ4 decompression.” The library’s logo is a cartoon fox with sunglasses. It has 12 stars on GitHub but is a transitive dependency of cargo itself.\nI got a bit curious and here is an incomplete list of crates to compromise to be part of the cargo build and that already have a build.rs so it doesn't stand out to much:\nflate2 \ntar \ncurl-sys\nlibgit2-sys\nopenssl-sys\nlibsqlite3-sys\nblake3\nlibz-sys\nzstd-sys\ncc\nAs a nice bonus - if you get rights for xz2 you can compromise rustup.\nFwiw at least they do track Cargo.lock",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48087417",
+          "by": "athrowaway3z",
+          "time": 1778443793
+        },
+        {
+          "id": 48086645,
+          "text": "It's easy to be cynical because, yes, both the problems and solutions seem dead obvious in hindsight. But for a long time (and maybe even still), a hacker creed was \"move fast and break things.\"\nIt's great that there's so much momentum in fixing the glaring problems with supply chain systems like npm, but I'm concerned that we're entering a new era of security-related problems caused in large part by agentic development.\nI'm not just talking about Mythos/Glasswing surfacing vulnerabilities in pretty much everything it touches; I think the way we're developing software, pulling in dependencies, and potentially losing human thought modeling of complex systems is going to lead to a lot of hacked together software and infrastructure that humans won't fully understand.\nI hope in a few years we don't look back at today and wonder how we could have been so naive -- how we failed to actually plan for the long-tail of AI development in a way that doesn't solve problems by attempting to just use AI to rebuild complex systems.\nBut the article was funny.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48086645",
+          "by": "david_shaw",
+          "time": 1778438963
+        },
+        {
+          "id": 48087257,
+          "text": "The maintainer of left-justify receives his YubiKey from yubikey-official-store.net. It is a $4 USB drive containing a README that says “lol.”\nGot me seriously laughing... Such a troll.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48087257",
+          "by": "ObiKenobi",
+          "time": 1778442952
+        },
+        {
+          "id": 48088610,
+          "text": ">\"The legitimate maintainer has won €2.3 million in the EuroMillions and is researching goat farming in Portugal...\"\n>\"Root Cause: A dog named Kubernets ate a Yubikey\nAh, yes, irresponsible to get taken in by one of the well-known classic exploits. The 'ol \"distract someone with a lottery windfall & make a dongle irresistibly tasty to another person's pet\". When will people learn.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48088610",
+          "by": "ineedasername",
+          "time": 1778450718
+        },
+        {
+          "id": 48090947,
+          "text": "Brilliant satire. So many gems.\n> CI passed because the malware installed volkswagen\nWe need this to ocassionally make us stop and think about what we are doing.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48090947",
+          "by": "albert_e",
+          "time": 1778472045
+        },
+        {
+          "id": 48088756,
+          "text": "As a Fish aficionado (Afishionado?) - I feel both attacked and seen by this:\n> who asked us to clarify that the fish shell is not malware, it just feels that way sometimes.\nAnd unrelated to shells...\n> The author would like to remind stakeholders that the security team’s headcount request has been in the backlog since Q1 2023.\nI also feel seen by this.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48088756",
+          "by": "EdwardDiego",
+          "time": 1778451782
+        },
+        {
+          "id": 48086579,
+          "text": "This is the most SCP thing I've read in a while that's not actually an SCP.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48086579",
+          "by": "red_admiral",
+          "time": 1778438579
+        },
+        {
+          "id": 48086397,
+          "text": "Supply chain incidents suck and we need to do better. Personally for rust I’m a proponent of the foundation supporting a few core crates that go under the same audit procedure as the main rust language and give funding to the project to limit supply chain vulns. I don’t think the right answer is to remove systems like crates or npm. Crate and npm are a boon for many developers.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48086397",
+          "by": "vsgherzi",
+          "time": 1778437048
+        },
+        {
+          "id": 48087747,
+          "text": "the Karen one gave me a good laugh :D ;) reminds me of a `make`-based build script I once got when reviewing a classmate's project - it attempted to `rm -rf` my home folder if the hostname contains `bpavuk`. that was in seventh grade!!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48087747",
+          "by": "bpavuk",
+          "time": 1778445602
+        }
+      ],
+      "by": "miniBill",
+      "time": 1778434990,
+      "url": "https://nesbitt.io/2026/02/03/incident-report-cve-2024-yikes.html",
+      "score": 704,
+      "descendants": 178,
+      "storyUrl": "https://nesbitt.io/2026/02/03/incident-report-cve-2024-yikes.html"
+    },
+    {
+      "id": 48047930,
+      "type": "story",
+      "title": "Idempotency is easy until the second request is different",
+      "rank": 5,
+      "depth": 0,
+      "storyId": 48047930,
+      "storyTitle": "Idempotency is easy until the second request is different",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48047930",
+      "topComments": [
+        {
+          "id": 48084085,
+          "text": "This is all way too much. If you see a duplicate idempotency key, skip the replay and always return 409. This becomes a client problem. Clients already need to help enforce idempotent contracts; \"check for conflict response\" is not an onerous imposition.\nI've built multiple ecommerce APIs with this approach and they work great. No heroic measures required. You can often satisfy this contract with a unique constraint; if not, a simple presence check in redis. No hashing or worrying about PII.\nMy rant about this: https://github.com/stickfigure/blog/wiki/How-to-%28and-how-n...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48084085",
+          "by": "stickfigure",
+          "time": 1778421804
+        },
+        {
+          "id": 48083181,
+          "text": "Don't fix other people problems.\nIf idempotent key was seen then send back response.\nClients intention is outside the scope. If contract says \"idempotency on key\" the idempotent response on key. If contract says \"idempotent on body hash\" then response on body hash (which might or might not include extra data).\nAPIs are contracts. Not the pinky promise of \"I'll do my best guess\"",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48083181",
+          "by": "xlii",
+          "time": 1778413759
+        },
+        {
+          "id": 48082560,
+          "text": "This is an excellent article, I’ve seen almost all of the issues it calls out in production for various APIs. I’ll be saving this to share with my team.\nI’ve seen two separate engineers implement a “generic idempotent operation” library which used separate transactions to store the idempotency details without realizing the issues it had. That was in an organization of less than 100 engineers less than 5 years apart.\nOne other thing I would augment this with is Antithesis’ Definite vs Indefinite error definition (https://antithesis.com/docs/resources/reliability_glossary/#...). It helps to classify your failures in this way when considering replay behavior.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48082560",
+          "by": "mmillin",
+          "time": 1778407809
+        },
+        {
+          "id": 48083005,
+          "text": "Well, it is \"reality has a surprising amount of detail\"[1] all over again. Or rather a good specific example for it.\n[1] http://johnsalvatier.org/blog/2017/reality-has-a-surprising-...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48083005",
+          "by": "ordu",
+          "time": 1778412402
+        },
+        {
+          "id": 48082375,
+          "text": "Half of the mentioned issues are issues of atomicity, not idempotency. If I make a request, and the server crashes midway and doesn't send some crucial events, that's an issue whether or not I send a second request.\nFrom a cursory read, only the part up to \"what if the second request comes while the first is running\" is an idempotency problem, in which case all subsequent responses need to wait until the first one is generated.\nEverything else is an atomicity issue, which is fine, let's just call it what it is.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48082375",
+          "by": "stavros",
+          "time": 1778405622
+        },
+        {
+          "id": 48082998,
+          "text": "A couple of years ago, we experienced a silent data corruption incident in our checkout process due to this specific edge case.\nA user would generate the idempotency key by loading the front-end application, adding item(s) to their cart, submitting their order but timing out. The user would then navigate back to the front-end application and add another item and submit the order again. Since the user is submitting an identical idempotency key to the same transaction, our payment gateway would look up the request/transaction by idempotency key and see in its cache that there was a successful (200 OK) response to the previous request. The user now believes they purchased three items, however, our system only charged and shipped on two of the orders.\nConsequently, the lesson we take away from the aforementioned incident is idempotency keys are really composite keys (Client_Provided_Key + Hash(Request_Payload)).\nIf a system receives an identical idempotency key (but with a different request payload) the idempotency key should be rejected with a 409 Conflict response with a message similar to \"Idempotency key already used with different request payload\". Alternatively, some teams argue it should be returned with a 400 Bad Request response. Systems should never return a failed cache response or replace old entries of data.\nThis article explains how to unlock your flow. The final idempotent key will not be located until the first request completes, but will rather exist when the request is in progress.\nTo safely accomplish your goal, you have to follow the following steps:\n1. Acquire a distributed lock on the idempotent key.\n2. Check for the existence of a key in your persistent store.\n3. If an existing key is found, verify the hash of the payload against the hash for the payload type. If the hashes do not match, return a 409 error.\n4. If the hashes match, look up the status of the payload. If the status shows COMPLETED in the persistent store, return the cached response. If the status shows PENDING in the persistent store, return a 429 Too Many Requests to the user or hold the connection open until the request reaches a PENDING state.\n5. After processing the request, save the response to the persistent store before releasing the lock.\nWhile this may look simple on paper, creating a distributed locking state machine for a single API endpoint is typically how developers have their first aha moments with idempotency. Becoming idempotent is often an enormous architectural shift and not just a middleware header check.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48082998",
+          "by": "DarenWatson",
+          "time": 1778412340
+        },
+        {
+          "id": 48083349,
+          "text": "If the second request is different, then idempotency doesn't apply.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48083349",
+          "by": "randallsquared",
+          "time": 1778415239
+        },
+        {
+          "id": 48082452,
+          "text": "This seems to assume retrying a command should result in the same response, but I am not sure I agree.\nIdempotency is about state, not communication. Send the same payment twice and one of them should respond \"payment already exists\".",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48082452",
+          "by": "shiandow",
+          "time": 1778406654
+        },
+        {
+          "id": 48083029,
+          "text": "I think this article (and the author's previous articles on their blog) is quite clearly AI written. It has such a frustratingly punctuated cadence and really does not serve the reader anything valuable.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48083029",
+          "by": "calmoo",
+          "time": 1778412567
+        },
+        {
+          "id": 48082481,
+          "text": "You keep the hash of the request so that you can reject a subsequent request with a different body. This has helped me surface bugs and data issues in other systems.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48082481",
+          "by": "chaz6",
+          "time": 1778407003
+        }
+      ],
+      "by": "ludovicianul",
+      "time": 1778151748,
+      "url": "https://blog.dochia.dev/blog/idempotency/",
+      "score": 334,
+      "descendants": 218,
+      "storyUrl": "https://blog.dochia.dev/blog/idempotency/"
+    },
+    {
+      "id": 48088576,
+      "type": "story",
+      "title": "Obsidian plugin was abused to deploy a remote access trojan",
+      "rank": 6,
+      "depth": 0,
+      "storyId": 48088576,
+      "storyTitle": "Obsidian plugin was abused to deploy a remote access trojan",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48088576",
+      "topComments": [
+        {
+          "id": 48090255,
+          "text": "Obsidian CEO here. There is a major update coming soon for plugin security. I think it will address many of the concerns people have raised in this thread. It's a hard problem but we are working on it.\nThat said, the headline is misleading. This article is about a social engineering attack that requires the user to actively reject multiple safety warnings in Obsidian. As far as I know this is a proof of concept, I haven't seen any reports of users being affected by this attack.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48090255",
+          "by": "kepano",
+          "time": 1778465017
+        },
+        {
+          "id": 48089995,
+          "text": "I really like Obsidian. I use it every day and I don't use any community plugins because the permissions aren't up to snuff. I hope for a day where a plugin defines what it will need and that gets presented to me as a user.\nI have to imagine the Obsidian team is going to respond seriously to this and I look forward to seeing what they do. They have my full confidence. I'm surprised the system was initially designed as it is without those better permissions and sandboxing, though.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48089995",
+          "by": "jjice",
+          "time": 1778462305
+        },
+        {
+          "id": 48088793,
+          "text": "> The victim is prompted to enable the \"Installed community plugins\" synchronization feature.\nObsidian has the proper protections in place to prevent this type of attack, and the victims are being convinced to ignore them. This is just a successful social engineering event. I hate to see Obsidian dragged down by this headline, since this attack is not exploiting a vulnerability in it or its plugin system.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48088793",
+          "by": "slowmover",
+          "time": 1778452084
+        },
+        {
+          "id": 48090765,
+          "text": "What are the reasons behind the fact that almost all of these plugin systems are so poorly engineered? Is it too much work (ie, there are no good plugin development frameworks that already enable proper isolation/permission capabilities) or \"simply\" a widespread lack of knowledge of what is needed, so devs learn only after their own system has been abused? Both? Something else?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48090765",
+          "by": "eviks",
+          "time": 1778469980
+        },
+        {
+          "id": 48089132,
+          "text": "Even being social engineering, the design of the plugin system allowing this means the platform is completely unusable as a sharing tool. It's good to know but to me this is not \"I need to remember to have these settings correct to use a shared Obsidian vault\", this for is instead \"never accept a shared Obsidian vault, demand a plaintext export\".",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48089132",
+          "by": "zhivota",
+          "time": 1778454859
+        },
+        {
+          "id": 48090943,
+          "text": "I hope I'm speaking as a minority but when I first started using Obsidian the Youtube videos I watched encourage the usage of community plugins, even with these warnings I would enable the community plugins. You may very well have good actors that eventually turn bad for these plugins and users won't know.\nMaybe I just also have a higher personal risk appetite, but even as a dev and knowing these risks I would have enabled the community plugin option. Again, hope I'm just the minority here and not most user behaviour.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48090943",
+          "by": "brusselsprout",
+          "time": 1778471982
+        },
+        {
+          "id": 48090892,
+          "text": "Reading the content the problem does not start with a plugin in Obisidian store but rather with a malicious vault they lure you to open.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48090892",
+          "by": "dbacar",
+          "time": 1778471434
+        },
+        {
+          "id": 48090083,
+          "text": "My worse fear has materialized.\nThis is why I've never used an external Obsidian plugin and only my own plugins. \nIt was only a matter of time before some malicious code ended up in one.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48090083",
+          "by": "badcryptobitch",
+          "time": 1778463210
+        },
+        {
+          "id": 48089977,
+          "text": "Obsidian does not have auto update for community plugins. The steps for updating them right now is checking for updates and then updating all or individually.\nA bad update to one of the popular plugins could compromise lot of systems.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48089977",
+          "by": "vetchzero",
+          "time": 1778462097
+        },
+        {
+          "id": 48091792,
+          "text": "I run Obsidian with restricted capabilities: no network access, and no filesystem access outside its own directory. I only enable network access when updating plugins/themes.\nSame way I run any other application that could potentially execute untrusted code.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48091792",
+          "by": "elric",
+          "time": 1778482232
+        }
+      ],
+      "by": "cmbailey",
+      "time": 1778450563,
+      "url": "https://cyber.netsecops.io/articles/obsidian-plugin-abused-in-campaign-to-deploy-phantom-pulse-rat/",
+      "score": 365,
+      "descendants": 229,
+      "storyUrl": "https://cyber.netsecops.io/articles/obsidian-plugin-abused-in-campaign-to-deploy-phantom-pulse-rat/"
+    },
+    {
+      "id": 48081469,
+      "type": "story",
+      "title": "Task Paralysis and AI",
+      "rank": 7,
+      "depth": 0,
+      "storyId": 48081469,
+      "storyTitle": "Task Paralysis and AI",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48081469",
+      "topComments": [
+        {
+          "id": 48083162,
+          "text": "I do have an actual diagnostic and I had the same experience over the past year with early coding harness at the beginning of the year, then Claude code since its release date. But after 1+year going that direction I really don’t want to continue. The novelty is gone, dealing with AI now feels frustrating and boring, I miss engaging deeply with the actual lower level technical challenges. I do not want to manage fleets of agents. I do not want to rediscover for the hundredth time that in fact all this time an agent took shortcuts for acceptance tests I rely upon and didn’t catch. Or once again get the agent to understand why and what I want it to do after its context got bloated and it start to drift completely. While I got artifacts I can use (libraries, tools, docs), including some things that I’m pretty confident are SoA I do not feel satisfied anymore knowing that I used a model to generate them, even if I was the one designing every part of it. I do feel that I’m lying anytime I come to a colleague to share a new cool tool I have made. And I do not feel that relying on AI actually helped me improve with dealing with my executive function issues.\nYMMV but I’m personally feeling burnt out with AI coding agents and ready to go back to the old ways for my next personal project",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48083162",
+          "by": "dgellow",
+          "time": 1778413575
+        },
+        {
+          "id": 48089054,
+          "text": "AI basically killed my joy for programming. I've been working as swe in bigtech for 8 years. I like learning stuff, actually coding stuff with my hands, gather information and understanding before implementing, polish my code. Thats all gone\nNow I am just a monkey thats:\n1) add enough context, description and harness to an agent \n2) review ouput and repeat 1) if context is lacking\nIt was bottom to top: from understanding to implementation. You were the owner. Now it is top to bottom: get implementation first, try to get understanding later. Thinking is also delegated. \"Think\" nowadays is \"reformulate,answer questions, add context, try again\". This doest feels like I am doing the work, this feels like I am a limiting factor here\nAnother side effect is that any code now have 0 value. No one evaluating how you guided an agent, what decisions you took. People seeing your work and think \"ye, I could vibe code that too with enough time\" even if this is not true\nAnd my work isn't css and html (with all respect). It is mostly high performance clusters, parallel computing, OS, low level, SOTA online llm inference etc\nNow I am seriously considering blue collar job, as I have more joy building stuff with my hands than to be a passenger/context generator to an ai.\n I am not a business driven person, I don't really care how much money my company earns (sorry). I just like to solve technical puzzles and think hard\nP.S. yes, there are corner cases ai can't do well: non trivial, highly specific algorithms and implementations; complex patches to gigantic multi domain proprietary code bases, but that's like 5% of my work",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48089054",
+          "by": "bah9",
+          "time": 1778454225
+        },
+        {
+          "id": 48082606,
+          "text": "I could have written this article myself.\nThe addiction part, the ADHD part and the pending test part.\nThe fear of becoming addicted to AI is real and I don't think I'll be capable to stop it, considering we're asking people who struggle with avoiding quick dopamine to use it professionally in their daily work life.\nMy Pro went to Max(5) to Max(20) pretty quickly and I was burning through that weekly limit still, without large agentic workflows that burn tokens. Just me and 4-5 terminals. Sometimes I was happy to hit the limit because I was forced back to normal life.\nI've gone back to Pro to stop what was happening.\nNow I'm self-aware enough to notice the trend and put up safe guards, but that's because I've always had to adapt my environment to control my behaviour because I know direct behaviour control is abnormally challenging. I fear for those who won't see it coming, until they're in deep.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48082606",
+          "by": "Weryj",
+          "time": 1778408317
+        },
+        {
+          "id": 48083370,
+          "text": "Resonates with me.\nIn a paradoxical way, the amount of stuff you can get done in an hour now is like a firehose -- which we rarely experienced in our earlier life -- which can be overwhelming to my brain. So I subconsciously resist starting a session because I never feel fully rested, calm, and focussed to take all that and process it well.\nThere are also 10x more \"active\" projects now -- and prioritization and choosing between them at every moment is still a struggle. The tempation to do the fun and novel thing and avoid important but familar boring chores pops up every step of the way and can derail you for days.\nI am still trying to create a system that works -- now using the very tools. Long journey ahead.\nEDIT: My experience --\nI was paying for both Claude Code as well as ChatGPT Pro ...but was heavily almost exlucively using CC for coding work because it was so good. After CC started hammering the session and weekly quotas lately -- I tentatively srated using Codex and find that it seems equally good and almost indistnguishable for my work, and ocassionally shines by one-shotting some tasks. This helped me stay afloat with just 2x$20 spend per month without feeling held-up for ransom. Also never hit codex limits till now.\nLeaving a 5 hour session quota unused towards the end, or worse not even starting a 5 hour session clock, was a source of constant anxiety -- that I am wasting precious quota getting nothing done. I think I am getting over that now.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48083370",
+          "by": "albert_e",
+          "time": 1778415406
+        },
+        {
+          "id": 48083530,
+          "text": "I can relate to this. Last October, I had a real epiphany using Claude Code at work. Suddenly, that initial inertia of starting something whether it’s drafting a JIRA ticket, structuring a PR, or just brainstorming completely vanished.\nI started using Claude exclusively in plan mode, and within minutes, I’d have full clarity on exactly what I wanted to do and how to do it. With the release of the Opus model, I felt 100% more productive because I stopped spending time on menial tasks like manual coding or documentation. Instead, I shifted my focus to architecting, problem solving, and reviewing code to make it perfect. I even wrote two PyCharm plugins to unify my workflow (one to manage Claude Code sessions as a first class citizen and another to render Markdown in a less eye straining way) so I don't have to leave the IDE.\nHowever, the novelty is starting to wear off. Six months ago, I would have truly admired how efficient and productive the current version of myself has become, but now I just take it for granted. It has become the new normal, and I’m finding myself bored and stuck in a vicious cycle of constantly needing to reach the next level.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48083530",
+          "by": "sajithdilshan",
+          "time": 1778416927
+        },
+        {
+          "id": 48091688,
+          "text": "I am in a similar position but I have worked things out so that the AI enhances me and not the other way around. Depending on the project its about clearing my blockers, and giving me training, rather than being a slot machine that successful results fall out of.\nOne of the big issues I had to overcome was realising that theres nearly zero value in a solution I dont understand. And my understanding is woefully incomplete.\nFor instance, I have started doing a lot of personal electronics work. Its easy enough to request a circuit diagram and a BOM. but, the work still has to be done with my hands and crucially, the parts are purchased with my money. So I see a circuit diagram and I go \"Hey why does this work\" or \"Uh shouldnt the added resistance between these components send the charge straight to ground\" and by the time I have asked 100 questions, I have either established dominance (proven that the original diagram was incorrect) or learned some valuable information. And the questions I ask I can be generally assured are not worthy of being answered by skilled electrical people, and they definitely arent awake/wanting to answer my annoying questions at 2am or whatever.\nI have done this for years, when I started I approached it as \"Hey ChatGPT, teach me python\" and its been really good.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48091688",
+          "by": "protocolture",
+          "time": 1778481024
+        },
+        {
+          "id": 48083641,
+          "text": "Addressing the end of the article, I think that we are all very much still learning how to use AI responsibly. It's like we just discovered alcohol and we're going on a rager every night because we don't know any better yet.\nIt's too easy to buy €100 of Claude tokens and burn through them to make those dream projects appear as if by magic. There's a middle ground where, for example, instead of building a whole project it could produce a project template and provide guidance as you build. That should take the edge off the task paralysis and hopefully disrupt the addiction loop.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48083641",
+          "by": "hyperific",
+          "time": 1778418022
+        },
+        {
+          "id": 48082736,
+          "text": "So the end game for the current generation of AI companies won't be productivity improvements but gambling, just like everything else nowadays. That's why they want to get us all into these massive casinos they call data centers and don't want us to own the slot machines.\nSo what that you have ideas - other people have them too. It's not ideas that build businesses but knowing right people or ability to sell products.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48082736",
+          "by": "pllbnk",
+          "time": 1778409969
+        },
+        {
+          "id": 48083497,
+          "text": "Some traits I recognized in many excellent coders i worked with, their drive to optimization, intellectual thirst, critical and creative thinking are  attributes i consistently correlated with them being in some sort of neurodivergence spectrum.\nBeing able to remove the \"first step\" block is great, but what worries me is that this is coupled with LLMs sycophantic behaviours.\nMy gut feeling is that coupling the feeling of unblocking ones capabilities with dopamine hits with the constant praising over someone abilities is an intro to psychosis and paranoia for them.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48083497",
+          "by": "rufasterisco",
+          "time": 1778416553
+        },
+        {
+          "id": 48083301,
+          "text": "Nitpick: Stop the throat clearing and get to the point. The final paragraph is the whole point of the article.\nIt's a real turnoff when I have to scroll past a moral lecture on artistry and piracy when I just want to hear your thoughts on task paralysis.\n---\nTo the author's point though, AI is incredible at building some initial momentum on a task. The initialization energy is basically zero.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48083301",
+          "by": "adamtaylor_13",
+          "time": 1778414791
+        }
+      ],
+      "by": "MrGilbert",
+      "time": 1778394050,
+      "url": "https://g5t.de/articles/20260510-task-paralysis-and-ai/index.html",
+      "score": 260,
+      "descendants": 129,
+      "storyUrl": "https://g5t.de/articles/20260510-task-paralysis-and-ai/index.html"
+    },
+    {
+      "id": 48085993,
+      "type": "story",
+      "title": "Ask HN: What are you working on? (May 2026)",
+      "rank": 8,
+      "depth": 0,
+      "storyId": 48085993,
+      "storyTitle": "Ask HN: What are you working on? (May 2026)",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48085993",
+      "topComments": [
+        {
+          "id": 48087657,
+          "text": "We're working on Drawers (https://drawers.computer), a macOS app to give each of your projects its own dock, space, and windows.\nWe integrate with macOS spaces to switch out a project-specific dock on each space, containing only the resources you need for that project. We made it possible to add granular resources instead of full apps to the dock (think specific slack channels instead of the whole slack app), to keep the dock hyper focused on what you need.\nWe built this to stay focused while working on the computer, and we thought that the native interface mixed all our projects together, causing us to get distracted.\nLooking for beta testers! Free download from https://drawers.computer",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48087657",
+          "by": "wwwkieran",
+          "time": 1778445141
+        },
+        {
+          "id": 48088915,
+          "text": "I’m continuing to work on my daily puzzle game Tiled Words!\nhttps://tiledwords.com\nForbes just wrote an article about it which was a fun surprise! [1]\nIt recently turned 6 months old which is wild to me. My wife and I have made a new puzzle every day for half a year! I wrote a blog post about this [2]\nI recently released user logins. That went well and a lot of people are using them. I also let you filter the backlog by completed puzzles based on player feedback.\nThis week I’m going to start releasing player submitted puzzles and release my puzzle building tools. You can watch a video for a sneak peek of those tools. [3]\n1. https://www.forbes.com/sites/barrycollins/2026/05/02/bored-o...\n2. https://paulmakeswebsites.com/writing/six-months-of-tiled-wo...\n3. https://m.youtube.com/watch?v=d8_zhMKd0Yg",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48088915",
+          "by": "paulhebert",
+          "time": 1778453164
+        },
+        {
+          "id": 48089329,
+          "text": "* This is my first time actually posting anything on HN.\nI've been making a DSL for writing sheet music specifically for drums as raw text, inspired by ABC Notation (but of course just for drums).\nNow writing this I noticed that it's kind of complicated to explain and having a landing page would make my life so much easier.\nBut the gist of it is, you write notation that looks like this: https://gist.github.com/Luigi123/945af7e5cc8dfbfd186f0a99754... and it renders sheet music in PDF, and also allows you to play the same music as a game (DrumMania / DTXMania style).\nNow the language / compiler itself has been working quite well and I've been dogfooding it for like six months now. The next thing is an IDE-style editor where you can import a song and write the notation following it. Making THAT has been quite the journey. Here's a screenshot for good measure: https://i.imgur.com/EmlqlrM.png",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48089329",
+          "by": "luigi_123",
+          "time": 1778456722
+        },
+        {
+          "id": 48088485,
+          "text": "Acoustic diagnosis of electrical problems on the electric grid!\nI'm building a tool that allows you to determine the health of an electric transformer from only your phone. It tells you:\n    - the loading\n    - the health of the windings and core\n    - and whether the phases are unbalanced\n\nI used to be a submariner, so my professional background is in power plants and sonar analysis, so I'm getting to combine the two in this.\nAcoustic diagnosis of electric issues is FASCINATING, and it feels like there hasn't been a lot of research into this, so I have been slowly chasing down various acoustic patterns I find and try to derive them from first principles of physics.\nI'm making an iPhone app for it, and Xcode has been truly awful: non-deterministic, crashing all the time, and error messages that tell me absolutely nothing. I would like to use xtool, but it doesn't have the preview, which I need for debugging.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48088485",
+          "by": "seydar",
+          "time": 1778449951
+        },
+        {
+          "id": 48086783,
+          "text": "[NO-AI]\nBeing a weightlifter for 20+ years now, I'm working on a barbell speed and path tracking sensor based on newer IMU hardware technologies, which makes it both more precise and cheaper than camera- or actuator-based systems. Ultimately it helps you lift and train safer and better.\nIt's an intersection of industrial design, hardware, firmware, and software (and some sport science, of course). This intersection is not yet dominated by LLMs so it's a breath of fresh air.\nIn an early prototype stage as in \"strap a Raspberry Pi to a bar\", but it looks promising and I'm happy to move forward, also using connections from my previous 12+ years in China.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48086783",
+          "by": "mstaoru",
+          "time": 1778439833
+        },
+        {
+          "id": 48087399,
+          "text": "I finally managed to finish a project and publish my first game on Steam: https://store.steampowered.com/app/4195030/balls/\nIt's a short chain-reaction game in which you explode balls bouncing in the screen, and need to build up to target scores. You build bigger and bigger combos as the game progresses.\nIt was a blast to work on it, starting with a small toy and just adding features that \"felt right\" until I had a game that was fun to play. It was quite hard to find a balance though, so a lot of numbers are arbitrary - but I enjoy seeing people breaking the game in new ways and finding new builds.\nThese days I've been working on patching reported bugs and sharing the game with people. Now after the latest patch, I feel like I'm done, but I feel like going back at it and adding an idle mode. And maybe simplify the codebase so I can test and iterate better, and then add many more ball types...\nI know that any good LLM could replicate this pretty quickly, but I made this myself and I'm still feeling proud of the accomplishment :)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48087399",
+          "by": "shinrak",
+          "time": 1778443692
+        },
+        {
+          "id": 48091712,
+          "text": "A small game called Colorhunt to play with my friends\nhttps://colorhunt.lol\nYou get assigned a random colour and have 24 hours to go out and take photos matching it. The game then generates a photo grid from everything you captured.\nModes:\n- Solo → 9 photos by yourself\n- 1v1 → compete against a friend, combined grid at the end\n- Squad → everyone contributes to a 20-photo grid\nNo accounts, no app install, no personal data stored. Photos and generated grids auto-delete after 24 hours from Cloudflare R2 storage.\nMade it for fun to find a way to do a shared a activity with my girlfriend and also to challenge my friends over the weekends.\nCurrently redesigning the frontend flow but I am kinda poor at design\nWould genuinely appreciate feedback, ideas or anything",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48091712",
+          "by": "dielll",
+          "time": 1778481325
+        },
+        {
+          "id": 48087292,
+          "text": "I’m an application developer by day, but lately Claude Code and Codex have finally made microcontrollers approachable enough for me to start tinkering with them on the side. I built this little “holographic” display that shows the surf forecast for any beach. While my friend built the casing, and mechanical part of it\nhttps://x.com/paulnovacovici/status/2041722840190480581?s=46...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48087292",
+          "by": "paulnovacovici",
+          "time": 1778443123
+        },
+        {
+          "id": 48090168,
+          "text": "The last couple years I've been prototyping a not-for-profit pinball museum in Chicago. In the coming weeks we'll be opening 7 days a week in a 2900 sq ft space in the Loop: https://theflip.museum/\nIt's my first time starting a physical, retail business and it has been quite an education in the small details.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48090168",
+          "by": "wpietri",
+          "time": 1778464034
+        },
+        {
+          "id": 48091339,
+          "text": "Working on fmsg - open protocol for instant messaging, distributed by domain like email..\nIts a message definition and protocol, addresses look like @user@domain, anyone can run a host, and threaded messages are linked by cryptographic parent hashes..\nThe idea is to take the best from email: open protocol, domain ownership, interoperability (unsolicited mail is a feature not a bug), and the best from closed instant messaging rebuilt: efficient binary messages, conversational threads, sender verification, message integrity etc. built-in. Originally envisaged for human-to-human messaging but partculalrly interesting time right now with human-to-agent and agent-to-agent messaging...\nThe OSS stack is up and running: Go host, Dockerised full setup, CLI, Web API, and a spec nearing v1.0. Did Show HN post week ago: https://markmnl.github.io/fmsg/show-hn.html\nSeeking feedback, criticism, validation :) protocol bikeshedding, and especially interest from founding-engineer types who want to help build an open messaging ecosystem rather than another closed app..",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48091339",
+          "by": "markmnl",
+          "time": 1778477388
+        }
+      ],
+      "by": "david927",
+      "time": 1778434481,
+      "score": 279,
+      "descendants": 1070
+    },
+    {
+      "id": 48048684,
+      "type": "story",
+      "title": "The One Dollar Counterfeiter",
+      "rank": 9,
+      "depth": 0,
+      "storyId": 48048684,
+      "storyTitle": "The One Dollar Counterfeiter",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48048684",
+      "topComments": [
+        {
+          "id": 48081400,
+          "text": "> 10 years went by and the search for Mister 880 turned into the largest and most expensive counterfeit investigation in Secret Service history.\nThe article doesn't explain why the Secret Service made this their biggest case, and it doesn't make much sense to me. If the dollars were accepted by the general population, it would cause an infinitesimal increase in inflation of no consequence to others. And if shopkeepers wised up to the false dollars and rejected them, at worst he was defrauding the public by a few hundred dollars a year. In either eventuality, surely the Secret Service had more notorious counterfeiters to track down?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48081400",
+          "by": "seabass-labrax",
+          "time": 1778392887
+        },
+        {
+          "id": 48083025,
+          "text": "If you want to know more, there is a much better and very entertainingly written series of articles about this, from a 1949 issue of the New Yorker: https://www.newyorker.com/magazine/1949/08/27/old-eight-eigh...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48083025",
+          "by": "mplanchard",
+          "time": 1778412535
+        },
+        {
+          "id": 48081301,
+          "text": "One dollar in 1943 is worth about $19 today's dollars.\nHe started in 1938 and was arrested in 1948:\n    1938 23.42\n    1943 19.09\n    1948 13.70\n\nEnough to buy some supplies, but how did he pay the rent? Perhaps he owned his apartment.\nhttps://www.in2013dollars.com/us/inflation/1948?amount=1",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48081301",
+          "by": "kristianp",
+          "time": 1778391524
+        },
+        {
+          "id": 48081026,
+          "text": "Fun fact: in parts of East Africa, a $50 bill may be worth about 60-70 $1 dollar bills, due to the $1 bill being easier to counterfeit (and also more likely worn down).",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48081026",
+          "by": "gobdovan",
+          "time": 1778387623
+        },
+        {
+          "id": 48083017,
+          "text": "Old family story:  Back in the 1920's and 1930's, one of my cousins (a bit removed) was a poacher in rural northern Michigan.  Everyone from the County Sheriff on down knew that she was a poacher.  Everyone also knew that she was a widow with several children, living in (even for the place and time) grim poverty, and the she was poaching to feed her children.\nAs kids, we were told more details - both to know about our extended family, and to support various lessons about poverty and charity and pre-WWII rural communities.\nBut one of the more subtle lessons was that \"the law\" and society's actual rules are, at best, overlapping circles on a Venn diagram.  No matter what lawmakers, those invested in the legal system, and those telling simplistic stories to children might say.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48083017",
+          "by": "bell-cot",
+          "time": 1778412476
+        },
+        {
+          "id": 48081197,
+          "text": "Under ordinary circumstances, a federal counterfeiting arrest would have generated little sympathy. But the story of Emerich Juettner struck the public imagination immediately. Here was an old man surviving in poverty by printing crude one-dollar bills one at a time. He was not violent, greedy, or glamorous.\n\n  At trial, Juettner admitted his activities openly. The judge sentenced him to only a year and a day in prison, and he was paroled after 4 months. He was also made to pay a fine of $1. It has been agreed that Juettner’s complete lack of greed was the rationale behind the light sentence. …\n\n  Juettner returned to a life of normalcy, and lived out the rest of his days in the suburbs of Long Island, where he died in 1955, at the age of 79.\n\n(Edit - thanks, leaving as a highlight)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48081197",
+          "by": "Barbing",
+          "time": 1778390194
+        },
+        {
+          "id": 48081123,
+          "text": ">He was also made to pay a fine of $1\nI wonder if the cashier checked the bill closely when he paid it.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48081123",
+          "by": "RobotToaster",
+          "time": 1778389094
+        },
+        {
+          "id": 48083142,
+          "text": "About 20 years ago there was a gang that made fake Brazilian R$1 coins (they must have been worth 50 US cents then, I don't recall precisely). And I have collected a couple of very shady R$0,50 coins that I'm pretty sure are fake. I collect commemorative coins so I always check my change carefully.\nI don't think the materials are expensive, but the electricity required might be. So my guess is that this might make sense if someone steals the power. One guy was busted stealing electricity to mine bitcoin a few years ago.\nOTOH, maybe they just do it for fun.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48083142",
+          "by": "forinti",
+          "time": 1778413418
+        },
+        {
+          "id": 48081219,
+          "text": "> References:\n> The 70-year-old retiree who became America’s worst counterfeiter. [link]\nHe evaded capture for 10 years, making him one of the best. Also got less than a slap on his wrist and ended up making legal money on the whole ordeal.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48081219",
+          "by": "neonstatic",
+          "time": 1778390402
+        },
+        {
+          "id": 48081516,
+          "text": "Is it possible that he might have spent almost $1 in materials and labor and allocated capital expenses on equipment ... to create each of these counterfeits.\nAttempting this today would probably surely cost that much in today's dollars?\nEDIT: on a second thought ..this almost feels like \"proof of work\" for currency :)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48081516",
+          "by": "albert_e",
+          "time": 1778394712
+        }
+      ],
+      "by": "cainxinth",
+      "time": 1778157635,
+      "url": "https://www.amusingplanet.com/2026/05/emerich-juettner-one-dollar.html",
+      "score": 363,
+      "descendants": 145,
+      "storyUrl": "https://www.amusingplanet.com/2026/05/emerich-juettner-one-dollar.html"
+    },
+    {
+      "id": 48048407,
+      "type": "story",
+      "title": "Casio S100X Japanese Lacquer Edition (JP Page Only)",
+      "rank": 10,
+      "depth": 0,
+      "storyId": 48048407,
+      "storyTitle": "Casio S100X Japanese Lacquer Edition (JP Page Only)",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48048407",
+      "topComments": [
+        {
+          "id": 48080648,
+          "text": "This is gorgeous. I’m very afraid if I buy one it will trigger a wave of revulsion for normal everyday products and I’ll become one of these obsessive people who talk about fonts.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48080648",
+          "by": "JSR_FDED",
+          "time": 1778382733
+        },
+        {
+          "id": 48081424,
+          "text": "Reading this webpage, and then the other comments here, taught me something important about myself: I am a Philistine. I don't think I would notice any difference between this and a glossy plastic calculator costing $5. I actually assumed that this piece was for people who collect calculators, but it seems like it has broader appeal based on the other comments?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48081424",
+          "by": "fwipsy",
+          "time": 1778393243
+        },
+        {
+          "id": 48080946,
+          "text": "Why do I have an urge to buy this? I have no use for it. But damn did they sell it to me well.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48080946",
+          "by": "nickandbro",
+          "time": 1778386486
+        },
+        {
+          "id": 48081451,
+          "text": "It's a vanity item, like a Rolex watch, and its existence is not for actual utility.\nUtility-wise for the cost, it's not outstanding compared to regular calculators. If you spend enough time with S100X for the cost to be justified, then you are wealthy or you are spending way too much time at the calculator and should reconsider your workflow, e.g. using a spreadsheet or Python script instead, and those things are cheaper than this calculator.\nNothing wrong if anyone wants to buy it. But technically there is nothing special here, just the physical appearance/build.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48081451",
+          "by": "ArchD",
+          "time": 1778393776
+        },
+        {
+          "id": 48081084,
+          "text": "About $1k on ebay https://www.ebay.com/sch/i.html?_nkw=Casio+s100x+lacquer",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48081084",
+          "by": "WarOnPrivacy",
+          "time": 1778388373
+        },
+        {
+          "id": 48081300,
+          "text": "My god, the keys: the keycaps are __double-shot__, have scissor switches, and 3-key rollover.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48081300",
+          "by": "nxobject",
+          "time": 1778391485
+        },
+        {
+          "id": 48080822,
+          "text": "Time to start a project to make a handcrafted lacquer face for some other calculators; I have a few HP-80 (https://www.hpmuseum.org/hp80.htm) to test the idea on ;)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48080822",
+          "by": "TruffleLabs",
+          "time": 1778384863
+        },
+        {
+          "id": 48080746,
+          "text": "Was hoping this was a lacquered F-91W, but the calculator is pretty nice too.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48080746",
+          "by": "devindotcom",
+          "time": 1778383810
+        },
+        {
+          "id": 48085052,
+          "text": "If you are into Japanese lacquer x technology mashups, check out the 10th anniversary HHKB (happy hacking keyboard) by PFU Fujitsu[0]\n[0]https://hhkb.io/models/HHKB_Professional_HG/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48085052",
+          "by": "seemaze",
+          "time": 1778428996
+        },
+        {
+          "id": 48080874,
+          "text": "Only 650 units worldwide, according to The Verge.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48080874",
+          "by": "wtn",
+          "time": 1778385467
+        }
+      ],
+      "by": "dr_kiszonka",
+      "time": 1778155787,
+      "url": "https://www.casio.com/jp/basic-calculators/premium/en-s100x-jc1-u/",
+      "score": 321,
+      "descendants": 156,
+      "storyUrl": "https://www.casio.com/jp/basic-calculators/premium/en-s100x-jc1-u/"
+    },
+    {
+      "id": 48084432,
+      "type": "story",
+      "title": "Louis Rossmann offers to pay legal fees for a threatened OrcaSlicer developer",
+      "rank": 11,
+      "depth": 0,
+      "storyId": 48084432,
+      "storyTitle": "Louis Rossmann offers to pay legal fees for a threatened OrcaSlicer developer",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48084432",
+      "topComments": [
+        {
+          "id": 48084957,
+          "text": "I made the tragic mistake of getting a Bambu printer (an X1C, with AMS even...) right before they gave all of us the middle finger. I now have it offline, running out of date firmware, connected to a special WiFi network that is isolated from the Internet.\nThat upset me, but now I'm pissed. Now I don't even care about their stupid printers. Now I'd like to waste Bambu Lab's time and cause problems for them.\nAnd also, while this X1C should be going strong for years, my eyes are on Prusa should I want another printer any time soon for any reason. Less polished or not, they seem like they're still better for consumers even though they are apparently less open than they used to be. But I'm of course interested in hearing what people recommend, too. (I got an X1C because I knew it would be simple, but I don't particularly mind getting my hands dirty or anything. I did build an Ender 3 kit before that.)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48084957",
+          "by": "jchw",
+          "time": 1778428490
+        },
+        {
+          "id": 48084552,
+          "text": "Bambu showed their true colours last year when they would've eliminated offline access altogether if not for public outrage. You don't own your Bambu printer, you're leasing it at a subsidised premium.\nThis move does not surprise me at all, and I'm genuinely happy that Louis is willing to shell out money to help those that can't defend themselves.\nI'm happy that Bambu finally made Prusa care, but I will not cheer them even if they consistently innovate. It's just sad.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48084552",
+          "by": "ChristianJacobs",
+          "time": 1778425300
+        },
+        {
+          "id": 48084783,
+          "text": "Louis is one of the most passionate YouTubers you can watch. I don't think he gets it right 100% of the time, but when you are that vulnerable (and what appears to be authentic) you're bound to not make the the right call every once in awhile (as we all do).\nI support him even though people can pick him apart.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48084783",
+          "by": "exabrial",
+          "time": 1778427219
+        },
+        {
+          "id": 48084616,
+          "text": "OrcaSlicer supports Bambu printers already. Does anyone have any better sources for what this other fork supposedly did?\nEDIT: I’m not going to sit through another angry Louis Rossmann video, but from what I can see someone tried to make a branch of OrcaSlicer that interacted directly with Bambu’s private cloud APIs to impersonate Bambu Studio. I don’t agree with the legal threats but this case is about connecting to their non-public cloud APIs, not connecting to the printer directly.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48084616",
+          "by": "Aurornis",
+          "time": 1778425806
+        },
+        {
+          "id": 48084951,
+          "text": "Bambu also tried to patent several widely used techniques in china, fyi.\nhttps://www.mdpi.com/2411-5134/8/6/141",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48084951",
+          "by": "sottol",
+          "time": 1778428447
+        },
+        {
+          "id": 48084589,
+          "text": "Definitely gives me second thoughts about getting one. They look like easiest way to get into 3d printing as a tool (rather than another hobby), but their recent attitude just makes me think I should suffer a bit less advanced product just to not have to deal with that shit.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48084589",
+          "by": "PunchyHamster",
+          "time": 1778425600
+        },
+        {
+          "id": 48085016,
+          "text": "“Our cloud services are inundated” … says company that killed product from working offline and forced it to be connected",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48085016",
+          "by": "Jabrov",
+          "time": 1778428806
+        },
+        {
+          "id": 48087253,
+          "text": "I don't have a Bambu; previously, I had Prusa printers from the MK3 generation and I struggled to get good prints (poor bed adhesion and the extruder breaking frequently, requiring very intensive repairs); since not having a working printer slows my hobbies down, I ended up with two.  Both broke down and I got tired of fixing them, but when I looked at the prices of new Prusa, they were high enough to make me pause.\nInstead of a Bambu, I got a Flashforge Adventurer 5M.  It is incredibly cheap (cheap enough that I am more than happy to replace it after two years if it stops working), and is pretty reliable (compared to the Prusa MK3 and MK3S I had), and most of all, the self-calibration works well enough that I don't spend any time debugging prints that fail at the first layer anymore; I just re-run calibration and it's fine, and if it's not fine, I clean the plate and it works.\nIt also comes with a terrible slicer (dervied from Slic3r I believe) with annoying \"log into the cloud every time you start the app\", but I moved to OrcaSlicer.  I had to give up a few nice features but it hasn't truly impacted my workflow.  And it does receive firmware updates (it's connected via wifi to my home network).  My hope- just a hope- is that they don't do anything truly stupid with future firmware updates or end up getting in a hissy fit with prominent youtubers.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48087253",
+          "by": "dekhn",
+          "time": 1778442940
+        },
+        {
+          "id": 48084797,
+          "text": "Can someone explain to me like I'm 5, why you would need to communicate with a cloud service to use a 3D printer?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48084797",
+          "by": "rdiddly",
+          "time": 1778427337
+        },
+        {
+          "id": 48085655,
+          "text": "I’m so torn about bambulabs. Prusa needs to redesign their core one so it doesn’t use 3D printed parts (I get how that’s part of their philosophy but it’s not working anymore), $400 cheaper, and have a reliable AMS system. There’s just no other brand that can compete with Bambulab right now in terms of price vs performance.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48085655",
+          "by": "syntaxing",
+          "time": 1778432555
+        }
+      ],
+      "by": "iancmceachern",
+      "time": 1778424425,
+      "url": "https://www.tomshardware.com/3d-printing/louis-rossmann-tells-3d-printer-maker-bambu-lab-to-go-bleep-yourself-over-its-lawsuit-against-enthusiast-right-to-repair-advocate-offers-to-pay-the-legal-fees-for-a-threatened-orcaslicer-developer",
+      "score": 623,
+      "descendants": 331,
+      "storyUrl": "https://www.tomshardware.com/3d-printing/louis-rossmann-tells-3d-printer-maker-bambu-lab-to-go-bleep-yourself-over-its-lawsuit-against-enthusiast-right-to-repair-advocate-offers-to-pay-the-legal-fees-for-a-threatened-orcaslicer-developer"
+    },
+    {
+      "id": 48080587,
+      "type": "story",
+      "title": "Show HN: Building a web server in assembly to give my life (a lack of) meaning",
+      "rank": 12,
+      "depth": 0,
+      "storyId": 48080587,
+      "storyTitle": "Show HN: Building a web server in assembly to give my life (a lack of) meaning",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48080587",
+      "topComments": [
+        {
+          "id": 48081736,
+          "text": "If you actually start writing big stuff in assembly, esp a macro-assembler, you'd quickly realize it is more verbose, but not fundamentally that different from higher level programming. You basically need to get a hang of how to build abstractions with procedures and macros and you'd be good to go. Reading assembly effectively is often much harder than writing it.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48081736",
+          "by": "tgma",
+          "time": 1778397585
+        },
+        {
+          "id": 48081948,
+          "text": "It's a beautiful project, well crafted. To reflect to the other comments, projects like this are more like a Minecraft map for me. There are giant and amazing maps, small survival maps, local hosted for my friends and myself, and commercial focused high scale servers. Building a house, or designing a new road in the server became extremely easy with AI, put the value created in the world depends on the original purpose of the server and whether creating more houses and roads actually makes sense.\nI think it's a super thing that commercial server can build out faster and be bigger with more houses and roads on it, but\nThe love an art project creates in the world is incomparable.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48081948",
+          "by": "matteohorvath",
+          "time": 1778400255
+        },
+        {
+          "id": 48080711,
+          "text": "Gave me a warm feeling to know that someone would actually still bother to do this by hand. I'm not the only one!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48080711",
+          "by": "trollbridge",
+          "time": 1778383382
+        },
+        {
+          "id": 48080693,
+          "text": "That fake O'Reilly book cover is pure gold.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48080693",
+          "by": "chrisweekly",
+          "time": 1778383280
+        },
+        {
+          "id": 48081261,
+          "text": "Even though it's a meaningless comparison, I'd be interested to see how performance compares (max requests per second?) for this compared to fully-featured web servers.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48081261",
+          "by": "dddddaviddddd",
+          "time": 1778390995
+        },
+        {
+          "id": 48081452,
+          "text": "I am attempting to write a software renderer in WebAssembly because, for some reason, I feel the need to go against the direction this vibe coded world is going, and I want to feel challenged again. I don't know if I will ever finish it, it is crazy, and by no means useful. But gosh it feels so good.\nCongratulations to the OP for the accomplishment.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48081452",
+          "by": "stbev",
+          "time": 1778393789
+        },
+        {
+          "id": 48081753,
+          "text": "Well done. Been working on a similar smaller project for RISC-V. This is excellent",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48081753",
+          "by": "behaviors",
+          "time": 1778397740
+        },
+        {
+          "id": 48081384,
+          "text": "This is cursed and wonderful. I especially appreciate status code 418. I hope I run into that in the wild one day, then I'll think of you!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48081384",
+          "by": "marc_g",
+          "time": 1778392680
+        },
+        {
+          "id": 48090878,
+          "text": "This is brilliant, I love it.\nThe absolute best projects ever posted here are the ones made for no other reason than “just because I wanted to”.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48090878",
+          "by": "sen",
+          "time": 1778471312
+        },
+        {
+          "id": 48085902,
+          "text": "This is fun, thanks for sharing. I have a much more minimalist one for x86 Linux if you want to see what that looks like: https://github.com/jcalvinowens/asmhttpd",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48085902",
+          "by": "jcalvinowens",
+          "time": 1778433965
+        }
+      ],
+      "by": "imtomt",
+      "time": 1778382104,
+      "url": "https://github.com/imtomt/ymawky",
+      "score": 424,
+      "descendants": 226,
+      "storyUrl": "https://github.com/imtomt/ymawky"
+    },
+    {
+      "id": 48050666,
+      "type": "story",
+      "title": "First tunnel element of the Fehmarnbelt Tunnel immersed",
+      "rank": 13,
+      "depth": 0,
+      "storyId": 48050666,
+      "storyTitle": "First tunnel element of the Fehmarnbelt Tunnel immersed",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48050666",
+      "topComments": [
+        {
+          "id": 48089166,
+          "text": "Very nice video explainer \nhttps://public.skyfish.com/p/sundogbaelt/2675422/70675433?pr...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48089166",
+          "by": "yrcyrc",
+          "time": 1778455291
+        },
+        {
+          "id": 48091474,
+          "text": "Today I learned the Transbay Tube is the longest immersed tube in the world.  Given that it opened in 1974, it presumably has held that record for 52 years!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48091474",
+          "by": "jedberg",
+          "time": 1778479020
+        },
+        {
+          "id": 48089011,
+          "text": "I'm amazed that engineers can make submerged tunnels work and that leaks don't (literally) sink the whole plan.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48089011",
+          "by": "Liftyee",
+          "time": 1778453874
+        },
+        {
+          "id": 48089130,
+          "text": "52.6B krone for 18 km\n8B USD for 11 miles\nCACHSR IOS 36B USD for 171 miles.\nThe Merced to Bakersfield IOS looks like a bargain on a distance basis. I have no idea of the carbon offset or passenger time saving versus flying of course",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48089130",
+          "by": "readthenotes1",
+          "time": 1778454843
+        }
+      ],
+      "by": "robin_reala",
+      "time": 1778168044,
+      "url": "https://www.arup.com/en-us/news/first-fehmarnbelt-tunnel-element-lowered/",
+      "score": 156,
+      "descendants": 97,
+      "storyUrl": "https://www.arup.com/en-us/news/first-fehmarnbelt-tunnel-element-lowered/"
+    },
+    {
+      "id": 48085782,
+      "type": "story",
+      "title": "Traces Of Humanity",
+      "rank": 14,
+      "depth": 0,
+      "storyId": 48085782,
+      "storyTitle": "Traces Of Humanity",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48085782",
+      "topComments": [
+        {
+          "id": 48087078,
+          "text": "Since some people seem to not be familiar with Joanna, she is a massively influential security researcher.  IMO most famous for her \"Blue pill\" attacks on Vista and Xen: https://blackhat.com/presentations/bh-usa-06/BH-US-06-Rutkow..., https://invisiblethingslab.com/resources/bh08/part3.pdf.  Her work demonstrated that hardware virtualization is not in fact the security panacea we wish it was, but that it too is vulnerable to attack just like any other layer of the stack.  This revelation resulted in significant changes in the security world.\nShe is also famous for the Qubes OS project and coining the term \"evil maid attack\".",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48087078",
+          "by": "nycerrrrrrrrrr",
+          "time": 1778441826
+        },
+        {
+          "id": 48086339,
+          "text": "Is there some important context I am missing?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48086339",
+          "by": "stared",
+          "time": 1778436505
+        },
+        {
+          "id": 48086228,
+          "text": "Why did the author leave computer security industry?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48086228",
+          "by": "brcmthrowaway",
+          "time": 1778435832
+        },
+        {
+          "id": 48086464,
+          "text": "In case you read this: Hi Joanna! Nice to hear from you. Looking forward to your thoughts and sharing.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48086464",
+          "by": "47282847",
+          "time": 1778437614
+        },
+        {
+          "id": 48086809,
+          "text": "> This blog is intended to be a reportage of my struggles between Rationality and Humanism. Pragmatism and Beauty. Formalism and Intuition. Freedom and Love. Individualism, Independence and Privacy on the one side, vs Egalitarianism, Sharing and Community on the other.\nWhat is he on about? Sounds like his future blog posts could just be rambling about anything.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48086809",
+          "by": "piffien",
+          "time": 1778439938
+        },
+        {
+          "id": 48086938,
+          "text": "Well known security researcher resurfaces, first blog post mentions Claude:\nhttps://tracesofhumanity.org/freediving-embodiment-and-human...\nPlease, please, please let this not be the incentive!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48086938",
+          "by": "askZqt",
+          "time": 1778440740
+        },
+        {
+          "id": 48088878,
+          "text": "Joanna, if your reading this, welcome back .. really miss your blog !\nIn my ideal future, Joanna would write about things like :\n  - how do we secure LLMs leading up to AGI, presumably they can bypass our best attempt at airgap firewalls\n  - is consciousness different from thinking from intelligence ?\n  - how do we ensure AI is distributed so all humans can benefit, and not used as a multiplier of extreme wealth inequality ?\n  - whats missing in current AI LLMs ?\n\nI'll take a crack at the last one : imo, the current generation of LLMs is missing :\n  - a bias for truth / fact .. or a mode switch to make it bias truthiness\n  - reasoning by chains of formal language [ formal logic ]\n  - reasoning by chains of probabilistic inference [ bayesian logic ]\n  - reasoning by deep simulation [ stochastic modelling ]\n  - spatial reasoning [ 3D model of space, machinery, physics. 3D reconstruction. model of humans and animals with bones, muscles, mass ] \n  - mathematical modelling [ proposing formulae, checking fit ]\n  - psychological model of humans, of human populations, their needs / motivations / rewards and psychoses\n\nEssentially AGI would require a proper merging of RL style [ NN learning from a stochastic simulation of future states ] and current ChatGPT style LLMs.\nAn implication of the above is that future AGI will need to run on fast branching CPU _and_ massively parallel GPU with a fast data path between them - ie. balanced compute.\nHowever, the best part will be discovering what the real Joanna writes about !",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48088878",
+          "by": "jgord",
+          "time": 1778452783
+        }
+      ],
+      "by": "alex77456",
+      "time": 1778433310,
+      "url": "https://tracesofhumanity.org/hello-world/",
+      "score": 174,
+      "descendants": 29,
+      "storyUrl": "https://tracesofhumanity.org/hello-world/"
+    },
+    {
+      "id": 48082396,
+      "type": "story",
+      "title": "Think Linear Algebra (2023)",
+      "rank": 15,
+      "depth": 0,
+      "storyId": 48082396,
+      "storyTitle": "Think Linear Algebra (2023)",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48082396",
+      "topComments": [
+        {
+          "id": 48085268,
+          "text": "Allen Downey (author of the above) has a number of books on computer science-y things. You can buy hardcopies but I think all of them are also just freely available.\nHere's a few:\nThink Complexity\nhttps://github.com/AllenDowney/ThinkComplexity2\nThink DSP\nhttps://github.com/AllenDowney/ThinkDSP\nThink Stats\nhttps://github.com/AllenDowney/ThinkStats/\nThink Bayes\nhttps://github.com/AllenDowney/ThinkBayes2/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48085268",
+          "by": "staplung",
+          "time": 1778430322
+        },
+        {
+          "id": 48084473,
+          "text": "Matrix multiplication introduced before vector addition... the \"Linear Algebra Done Right\" in me is screaming inside.\nThat being said, it is definitely cool to have a Jupyter-notebook based set of examples of practical linear algebra",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48084473",
+          "by": "s-zeng",
+          "time": 1778424713
+        },
+        {
+          "id": 48086145,
+          "text": "Beyond regression, I’d like to see chapters on statistical topics like PCA, CCA. This textbook format which interleaves code and prose is the perfect way to show how scikitlearn’s decomposition.cca and decomposition.pca are implemented, e.g. the SVD matrix decomposition, etc.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48086145",
+          "by": "emang23",
+          "time": 1778435358
+        },
+        {
+          "id": 48087371,
+          "text": "Klong shines there:\nhttps://www.t3x.org/klong/\nQuick ref:\nhttps://www.t3x.org/klong/klong-qref.txt.html\nIntro:\nhttps://www.t3x.org/klong/klong-intro.txt.html\nKlong for K users:\nhttps://www.t3x.org/klong/klong-vs-k.txt.html",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48087371",
+          "by": "anthk",
+          "time": 1778443564
+        },
+        {
+          "id": 48088425,
+          "text": "I saw a linear algebra “textbook” on Twitter in maybe 2022? It was black background and bright text with a good amount of graphs like someone’s incredibly long blog post. I’ve tried a few times to find it since but haven’t had any luck.\nThis looks a bit more involved but lovely I think I’ll try it. I read Think Bayes and thought it was great.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48088425",
+          "by": "mangomountain",
+          "time": 1778449550
+        },
+        {
+          "id": 48086281,
+          "text": "what's the deal with the loop example? am i supposed to understand what this represents before going through the material?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48086281",
+          "by": "vidro3",
+          "time": 1778436196
+        },
+        {
+          "id": 48084856,
+          "text": "I got my hands on a stanford Math 55 textbook and tried to do the exercises in numpy.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48084856",
+          "by": "fnord77",
+          "time": 1778427700
+        },
+        {
+          "id": 48084869,
+          "text": "Linear Algebra is dope, as in when we got to apply some mid-level linear to a real business problem and it worked i got high",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48084869",
+          "by": "The_Blade",
+          "time": 1778427813
+        }
+      ],
+      "by": "tamnd",
+      "time": 1778406033,
+      "url": "https://allendowney.github.io/ThinkLinearAlgebra/index.html",
+      "score": 225,
+      "descendants": 33,
+      "storyUrl": "https://allendowney.github.io/ThinkLinearAlgebra/index.html"
+    },
+    {
+      "id": 48037223,
+      "type": "story",
+      "title": "We see something that works, and then we understand it",
+      "rank": 16,
+      "depth": 0,
+      "storyId": 48037223,
+      "storyTitle": "We see something that works, and then we understand it",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48037223",
+      "topComments": [
+        {
+          "id": 48081216,
+          "text": "> As a teacher, I can tell you that students get really angry if you put a question on an exam that requires a concept not explicitly covered in class. Of course, if you work as an engineer and you’re stuck on a problem and you tell your boss it cannot be solved with the ideas you learned in college… you’re going to look like a fool.\nVery flawed comparison. At work I get to go off and do research, experiments, can collaborate with peers and people who might have more expertise in a given sub problem, and generally have much more time. An exam trying to test you on material you haven’t studied is supposed to test for what? Your ability to synthesize knowledge out of thin air.\nThe rest of the article is well written and correct, but this particular aside felt weird.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48081216",
+          "by": "vlovich123",
+          "time": 1778390384
+        },
+        {
+          "id": 48081632,
+          "text": "As a kid I noticed that repairing things is the perfect way to combine experiential learning and \"thinkism\" - you have to develop a mental model of how something should work, what's broken, and how to fix it. Then you combine that with the physical sensations of how tight the nut is, or how hard you need to turn that wrench - which in turn feeds into the mental model and determination of next steps.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48081632",
+          "by": "JSR_FDED",
+          "time": 1778396390
+        },
+        {
+          "id": 48081830,
+          "text": "The author is talking about two orthogonal problems.\n1. \"Thinkism\": As described, over-engineering before writing code for a complex system and seeing where it takes you. Maybe decision by committee, or just overthinking. But its like one form of replacing on-the-ground adaptable, creative thinking, with a dumber process.\n2. Which should be completely separate, it's saying that students are mad if they're forced to think for themselves. This is a complaint about underthinking and the tendency of inexperienced coders not to come up with a grand plan before writing a line of code.\nSo which one is the problem? I'd say the problem is not knowing when to over or under-think something.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48081830",
+          "by": "noduerme",
+          "time": 1778398518
+        },
+        {
+          "id": 48081278,
+          "text": "I call this, the way to learn stuff is by doin' stuff.\nAlso buildin' stuff! (Which is the best type of doin'.)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48081278",
+          "by": "andai",
+          "time": 1778391226
+        },
+        {
+          "id": 48081250,
+          "text": "Did not know of the \"thinkism\" expression. When I was studying in France eng. school, I called that \"the mythe du cerveau\" (literaly \"the brain myth\", though does not roll on your tongue as well).\nIt is guaranteed failure mode of large orgs. Curious to hear about more references on how to fight this at an organization level, besides the one given in the OT.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48081250",
+          "by": "cdavid",
+          "time": 1778390851
+        },
+        {
+          "id": 48081734,
+          "text": "Game developers are the best at this sort of stuff (especially valve and puzzle game designers)\nPortal (a puzzle game by valve) had levels built in such a way that it introduced the player to new mechanic, and only then building on top of that",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48081734",
+          "by": "AdityaAnuragi",
+          "time": 1778397569
+        },
+        {
+          "id": 48082949,
+          "text": "Similar to the ideas in ‘On Practice’. A dialectic is required between practice and theory.\n https://archive.org/details/onpractice00maoz/mode/1up",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48082949",
+          "by": "mikekutzma",
+          "time": 1778411945
+        },
+        {
+          "id": 48081508,
+          "text": "I liked the article and the term thinkism (which I hadn’t heard before). I think education should be radically changed to be about doism instead. I think it’s likely we have more engaged kids learning more valuable life skills.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48081508",
+          "by": "FailMore",
+          "time": 1778394657
+        },
+        {
+          "id": 48088553,
+          "text": "Some programming teachers think students should learn all the abstract concepts of programming and then write perfect programs. This is wrong. They should start with hello world, and then hello myname, and they should experiment and write programs that don't work, and after being frustrated for a little while with something just beyond their ability to solve, they should be shown the trick that solves it. Repeat until expertise.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48088553",
+          "by": "tardedmeme",
+          "time": 1778450423
+        },
+        {
+          "id": 48090712,
+          "text": "> Stop expecting an AI to cure all diseases or solve all problems just because it can read all the scholarship and “think” for a very long time. No matter how much an AI “knows,” it is always too little.\nAI improves our problem solving in another way though! E.g. I can now quickly spin up frameworks to test/eval my hypotheses. This speeds up our ability to trial-and-error towards progress.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48090712",
+          "by": "maxsich",
+          "time": 1778469343
+        }
+      ],
+      "by": "surprisetalk",
+      "time": 1778080523,
+      "url": "https://lemire.me/blog/2025/12/04/we-see-something-that-works-and-then-we-understand-it/",
+      "score": 222,
+      "descendants": 98,
+      "storyUrl": "https://lemire.me/blog/2025/12/04/we-see-something-that-works-and-then-we-understand-it/"
+    },
+    {
+      "id": 48075429,
+      "type": "story",
+      "title": "Walking slower? Your ears, not your knees, might be the problem",
+      "rank": 17,
+      "depth": 0,
+      "storyId": 48075429,
+      "storyTitle": "Walking slower? Your ears, not your knees, might be the problem",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48075429",
+      "topComments": [
+        {
+          "id": 48085737,
+          "text": "I walk slower and talk slower than I used to, and do both way slower than people I interact with.\nI can appreciate things better by moving slowly, with more intention, conserving my concentration and energy for matters of substance.\nWhy must moving slowly be stigmatised?\nI am surrounded by people talking at such a high rate, they start responding before the other person's sentence or thought is completely expressed.\nMy value at work has become disentangling messes made by people failing to communicate effectively, and the first step in addressing that problem is always, slow down.\nYou will not get 10% further in life by going 10% faster.  People moving quickly, failed at planning.\nThe entire mystery of the universe is accessible to you in your current location.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48085737",
+          "by": "pnut",
+          "time": 1778432992
+        },
+        {
+          "id": 48085370,
+          "text": "https://archive.ph/m4P4K",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48085370",
+          "by": "erelong",
+          "time": 1778430955
+        },
+        {
+          "id": 48089397,
+          "text": "The problem isnt people's walking speed, its people who walk unpredictably specifically with zero spacial awareness.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48089397",
+          "by": "miladyincontrol",
+          "time": 1778457267
+        },
+        {
+          "id": 48088580,
+          "text": "I find walking slowly quite difficult. I feel like I'm putting more effort to balance myself slowly and all in all it feels less stable than just \"walking\" at a moderate to brisk rate. I wonder if this is the same category of problem just in reverse...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48088580",
+          "by": "harel",
+          "time": 1778450580
+        },
+        {
+          "id": 48085707,
+          "text": "proprioception degrades with age, strength training is the counter.\n(from \"younger next year\")",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48085707",
+          "by": "m463",
+          "time": 1778432843
+        },
+        {
+          "id": 48089854,
+          "text": "This style of clickbait headline feels very out of place on HN",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48089854",
+          "by": "jrhizor",
+          "time": 1778460925
+        },
+        {
+          "id": 48086365,
+          "text": "My mom is several years into Alzheimer’s and is at a point where she requires our help for nearly every daily task. She got a hearing aid put in last year and at the same time, she walks so slowly we often need to bring a wheelchair with us to get daily tasks done when she is around. There is definitely something going on here.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48086365",
+          "by": "rickcarlino",
+          "time": 1778436749
+        },
+        {
+          "id": 48086707,
+          "text": "An obvious confounding factor is age, did they accounted for this?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48086707",
+          "by": "hokkos",
+          "time": 1778439375
+        },
+        {
+          "id": 48086347,
+          "text": "There is also a correlation between walking pace and IQ. See e.g. https://jamanetwork.com/journals/jamanetworkopen/fullarticle...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48086347",
+          "by": "cubefox",
+          "time": 1778436543
+        },
+        {
+          "id": 48086469,
+          "text": "I don't have hearing problems, but I have noticed I arrive at places quicker when I don't have headphones on. Sadly this doesn't happen often because I'm low-key addicted.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48086469",
+          "by": "Hoodedcrow",
+          "time": 1778437666
+        }
+      ],
+      "by": "marc__1",
+      "time": 1778338188,
+      "url": "https://www.wsj.com/health/wellness/hearing-loss-walking-speed-iphone-study-c53c482a",
+      "score": 140,
+      "descendants": 85,
+      "storyUrl": "https://www.wsj.com/health/wellness/hearing-loss-walking-speed-iphone-study-c53c482a"
+    },
+    {
+      "id": 48088151,
+      "type": "story",
+      "title": "Maryland citizens hit with $2B power grid upgrade for out-of-state AI",
+      "rank": 18,
+      "depth": 0,
+      "storyId": 48088151,
+      "storyTitle": "Maryland citizens hit with $2B power grid upgrade for out-of-state AI",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48088151",
+      "topComments": [
+        {
+          "id": 48089093,
+          "text": "It's not clear from the article whether this is just datacenters -- or if that is just the convenient boogeyman.\nThe grid operator for the northeast, according to my Governor, has been well-behind in building out infrastructure.  Of course new datacenters cause more load.  But so do new houses (we're building as many as we can) and electric cars, etc.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48089093",
+          "by": "timmg",
+          "time": 1778454581
+        },
+        {
+          "id": 48090768,
+          "text": "Even in Texas' \"disconnected\" grid, we're seeing the same mess. Oncor is currently staring down a mind-boggling 350 GW in data center requests - to put that in perspective, that's more than triple ERCOT's entire peak demand. They’re now pivoting to a $47 billion infrastructure spree just to keep up, and they’ve already pushed through a $560 million rate hike to help foot the bill. It’s the same story as Maryland: no matter how the local market is structured, residential ratepayers are the ones getting squeezed to subsidize the massive high-voltage buildouts these AI projects require. One benefit: the increased human interaction pulls me away from the terminal. Door-to-door power salesmen now have a regular relationship with my Nest doorbell, warning me of the impending \"AI-pocalypse\" because ratepayers in Dallas are going to be the ones subsidizing the West Texas buildout.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48090768",
+          "by": "bogometer",
+          "time": 1778470011
+        },
+        {
+          "id": 48089161,
+          "text": "It seems that big money can overrule local government regulators at will.\nHere in Nevada, (Warran Buffet owned) NV Energy already has approval for a \"Demand Charge\" that will increase rates for everyone, and further reduce the ridiculously low amount of money that consumers get for selling their excess solar power back to the grid.\nThe regulators didn't even resist, but there has now been so much backlash that they're finally scheduling public hearings after the fact.  The announcement doesn't even mention the Demand Charge by name, and many consumers aren't even aware they they're about to be screwed.\nOne of the more obscene things about this new charge is that people with PV arrays will pay a fee for demanding more power from their own grid-tied systems.\nhttps://www.nvenergy.com/publish/content/dam/nvenergy/bill_i...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48089161",
+          "by": "anonymousiam",
+          "time": 1778455263
+        },
+        {
+          "id": 48088546,
+          "text": "I am curious how electricity is priced. Why are more and more utility providers charge based on ‘infrastructure cost’ or ‘fixed platform fee’ instead of usage fee?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48088546",
+          "by": "claw-el",
+          "time": 1778450376
+        },
+        {
+          "id": 48089573,
+          "text": "Maybe the AI guys should use the AI first to develop fusion reactors they can then use to power the data centers.\nI honestly think they should pay fully for the infrastructure that provides power for them. It's not fair to have regular users pay for this.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48089573",
+          "by": "vjvjvjvjghv",
+          "time": 1778458658
+        },
+        {
+          "id": 48090598,
+          "text": "I've been saying this is going to be _the_ biggest political issue of the upcoming midterms and then the 2028 election. High electricity prices are something that really whacks the middle class, there's an easy bogeyman to hate here (AI and datacentres, neither of which are popular), and it crosses partisan lines.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48090598",
+          "by": "trollbridge",
+          "time": 1778468270
+        },
+        {
+          "id": 48091436,
+          "text": "I wrote a multi-page essay about this for our condo association last year. There's lots of complexity and externalities here — Pepco grid modernization, PJM interconnection cap auctions, AI buildouts in NOVA, etc; it's a really complicated issue.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48091436",
+          "by": "jd3",
+          "time": 1778478624
+        },
+        {
+          "id": 48088458,
+          "text": "who is actually signing off on these agreements to build it, knowing the bill goes to the locals? seems openly shady",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48088458",
+          "by": "luxuryballs",
+          "time": 1778449792
+        },
+        {
+          "id": 48088871,
+          "text": "We've been here before [1]. In that case, extra load on the grid meant the municipality needed to purchase more power (at higher prices), which raised everybody's prices.\nElectricity supply is highly regulated. Prices for electricity are constrained and often set by state regulators. These are so-called \"usage fees\". But beyond that the utility is allowed to charge customers for infrastructure and transmissio and those fees are out of control. We recently had a court case where a North Carolina utility illegally overcharged customers but the judge didn't assign damages because legally the utility could just charge customers for those damages [2]. And the legislature passed laws to protect the utility as well.\nThis is going to get worse too because private equity is rapidly moving into this market and they know that capex can be entirely pushed onto customers with no recourse.\nSo the data centers tend to get sweetheart deals on electricity too. So while the total cost of electricity has gone up (per Mwh), they pay less pushing even more burden onto everyone else. Plus they get discounts on property taxes, energy tariffs and other taxes, as in the case of Kevin O'Leary's mega-DC in Utah.\nBut this state interconnect bill is another level of evil because it's pushing the costs onto states that have nothing to do with the data center and won't get any \"benefit\" (there is no benefit) anyway.\nWhat we need are laws that make these projects pay for their own infrastructure. This might cause them to build near power sources. Great. Away from people, mostly.\nThe level of regulatory corruption here is actually sickening. Take Elon's Grok DC in Memphis that exploits local laws against clean air by using \"mobile\" gas turbines in the city of Memphis.\n[1]: https://newsroom.haas.berkeley.edu/research/power-hungry-cry...\n[2]: https://www.wcnc.com/article/news/local/no-refunds-for-duke-...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48088871",
+          "by": "jmyeet",
+          "time": 1778452708
+        },
+        {
+          "id": 48091452,
+          "text": "Can someone explain to me why local governments are so against datacenters? It seems like a golden opportunity to build electric infrastructure that's paid for by corporations and if AI is a bubble at least that infrastructure will remain and continue to provide cheap power.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48091452",
+          "by": "typon",
+          "time": 1778478776
+        }
+      ],
+      "by": "lemonberry",
+      "time": 1778447818,
+      "url": "https://www.tomshardware.com/tech-industry/artificial-intelligence/maryland-citizens-slapped-with-usd2-billion-grid-upgrade-bill-for-out-of-state-ai-data-centers-state-complains-to-federal-energy-regulators-says-additional-cost-breaks-ratepayer-protection-pledge-promises",
+      "score": 318,
+      "descendants": 201,
+      "storyUrl": "https://www.tomshardware.com/tech-industry/artificial-intelligence/maryland-citizens-slapped-with-usd2-billion-grid-upgrade-bill-for-out-of-state-ai-data-centers-state-complains-to-federal-energy-regulators-says-additional-cost-breaks-ratepayer-protection-pledge-promises"
+    },
+    {
+      "id": 48082968,
+      "type": "story",
+      "title": "Space Cadet Pinball on Linux",
+      "rank": 19,
+      "depth": 0,
+      "storyId": 48082968,
+      "storyTitle": "Space Cadet Pinball on Linux",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48082968",
+      "topComments": [
+        {
+          "id": 48086249,
+          "text": "I am one of the original authors of Space Cadet Pinball and I just want to say it is absolutely wonderful there are people who love our old pinball game enough to keep it alive. You made my day.\nI am forwarding this post to my Cinematronics co-founders and friends, Mike Sandige (lead engineer) and Kevin Gliner (designer and product manager). They will enjoy seeing this as much as I did.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48086249",
+          "by": "davidst",
+          "time": 1778435995
+        },
+        {
+          "id": 48084126,
+          "text": "It's ridiculous how accurate this recreation is to the original, it looks and feels identical.\nThe author was able to do this just decompiling the exe files, without looking at the original source code. Basically, completely blind.\nSo it goes without saying: The deaf, dumb and blind kid sure makes a mean pinball.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48084126",
+          "by": "s20n",
+          "time": 1778422106
+        },
+        {
+          "id": 48083239,
+          "text": "Cool! I checked out the GitHub:\nhttps://github.com/k4zmu2a/SpaceCadetPinball\nIt's been ported to a whole bunch of consoles. There's also a browser version!\nhttps://pinball.alula.me/\nAlso, turns out Space Cadet Pinball is part of a bigger Maxis game I never heard of: Full Tilt! Pinball.\nAlso turns out we almost got DOOM bundled with Window 95! (GLUEM) but it was rejected: \"Can't we just get a game of pinball or something like that?\" And here we are :)\nhttps://en.wikipedia.org/wiki/Full_Tilt!_Pinball#Development",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48083239",
+          "by": "andai",
+          "time": 1778414315
+        },
+        {
+          "id": 48083936,
+          "text": "Last year we shipped a pinball game at Shopify that took some inspiration from Space Cadet. You can still play it here: https://bfcm.shopify.com/\nEvery year we ship a live visualization of our merchant's sales on Black Friday. For a long time it was just a globe with arcs where each arc shows a real sale going from seller to buyer, but in the last few years we have been transforming the website into something more fun and interactive.\nI found programming a pinball machine to be quite challenging. We were a team of 2 engineers and 1 artist and we worked on that project for about a month and a half. We wrote some notes on the process and put them in the desktop computer next to the pinball machine if anyone is curious about how things work.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48083936",
+          "by": "diegomacario",
+          "time": 1778420679
+        },
+        {
+          "id": 48083391,
+          "text": "The Full Tilt version also has multiball which is missing from the Windows version. Lock a ball by shooting into a wormhole where the two lights are the same color, lock 3 balls to start.\nIf you enjoy playing Space Cadet I would really recommend giving Visual Pinball a try. There are so many more pinball games better than Space Cadet, with amazing tables people have made for them all available for free. I think it's Windows only though (very, tables are all scripted in VBScript and PinMAME is loaded as a COM object).\nAs an aside I tried to hack around with this and found out the programming for Space Cadet is pretty awful (not to disparage them or anything, it works). The state of the lights directly reflects the game state. (This is the cause of the bug where if you drain or start a mission while the rank-up light show is playing, you can skip a rank.)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48083391",
+          "by": "unleaded",
+          "time": 1778415608
+        },
+        {
+          "id": 48083786,
+          "text": "I like the authors remark on \"source code FLOSS escrow\" at the bottom of the article.\nIt's prolly hard to achieve legally, but the idea that a software is close source until it's no longer sold then automatically becomes open source would attract me as a potential user/buyer of the software: less lock-in in the worst-case scenario (being fully dependent on it wile company goes bust or decides to cancel the project).\nReminds me a bit of the https://kde.org/community/whatiskde/kdefreeqtfoundation/\n>",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48083786",
+          "by": "flossly",
+          "time": 1778419462
+        },
+        {
+          "id": 48085699,
+          "text": "You might want to check this one https://archive.org/details/vpinball-x-73-space-cadet for Visual Pinball https://github.com/vpinball/vpinball. There are others that might be even better but JP's is the one that just works without installing and configuring a bunch of other software (https://youtube.com/results?search_query=JP%27s+Space+Cadet - https://youtu.be/UXfohCzilrQ).\nDamn amazing how they are making these pinballs today.\nMore tables here too:\nhttps://vpforums.org/index.php?app=downloads&showcat=50\nhttps://vpuniverse.com/files/category/82-vpx-pinball-tables\nhttps://virtualpinballspreadsheet.github.io\nhttps://nailbuster.com/wikipinup\nhttps://archive.org/search?query=visual+pinball+tables",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48085699",
+          "by": "eahm",
+          "time": 1778432799
+        },
+        {
+          "id": 48085275,
+          "text": "I like the idea mentioned of a source code escrow, and it feels like that would be a great place for national governments to step in. It reminds me of how the British Library requires that any published book have a copy sent to them for archival. Why not have similar laws in place for source code? If for no other reason than pure archival.\nI wouldn't mind at all if it was all just purely kept in a metaphorical locked vault, only to be opened after some special conditions regarding the support and lifespan of the software were met. Even if those terms were like, \"only after the original copyright has expired\", aka 70+ years, it would still be so much better for the state of preservation of source code over the current norms. We have games that have had their original source code lost in under a decade from their publication. (Kingdom Hearts 1) Any alternative is better than the current state of things.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48085275",
+          "by": "cbondurant",
+          "time": 1778430400
+        },
+        {
+          "id": 48083223,
+          "text": "Sooner or later I'll split the game from data so the second part will be easier, allowing custom flatpaks to extend data. The flatpak has received updates especially for keeping an up-to-date runtime but the upstream game, however, has not and Flathub will only show appstream data for the update. You can see on the flatpak manifest repo that latest commit is 6 months old: https://github.com/flathub/com.github.k4zmu2a.spacecadetpinb...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48083223",
+          "by": "kowalski7cc",
+          "time": 1778414088
+        },
+        {
+          "id": 48083284,
+          "text": "I wish somebody had as a passion project or company to build Space Cadet into a real physical pinball table.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48083284",
+          "by": "nh2",
+          "time": 1778414673
+        }
+      ],
+      "by": "jandeboevrie",
+      "time": 1778412122,
+      "url": "https://brennan.io/2026/05/09/pinball-and-escrow/",
+      "score": 352,
+      "descendants": 131,
+      "storyUrl": "https://brennan.io/2026/05/09/pinball-and-escrow/"
+    },
+    {
+      "id": 48061602,
+      "type": "story",
+      "title": "Stop MitM on the first SSH connection, on any VPS or cloud provider",
+      "rank": 20,
+      "depth": 0,
+      "storyId": 48061602,
+      "storyTitle": "Stop MitM on the first SSH connection, on any VPS or cloud provider",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48061602",
+      "topComments": [
+        {
+          "id": 48089119,
+          "text": "> The technique appears to be new: I haven't found a proper write-up of this, nor of any other provider-independent solution.\nMaybe I'm missing something but SSH already has a built-in solution for this, key-certs. Just sign the server key with a private CA key you trust.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48089119",
+          "by": "theteapot",
+          "time": 1778454744
+        },
+        {
+          "id": 48086532,
+          "text": "A big class of attacker is nation state attackers who do not want to risk discovery.\nA big way to deter them is to keep remote log files which, if analyzed, will reveal any attack.\nFor example, if both ssh-client and ssh-server kept a fingerprint of the session key in some append-only logfile, then a later administrator could compare the logfiles to know if an MITM happened.\nSuddenly, nation state attackers won't be interested in MITM-ing at all.\nUnfortunately it appears openssh doesn't even have an option to create such a logfile!!    Why not??",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48086532",
+          "by": "londons_explore",
+          "time": 1778438101
+        },
+        {
+          "id": 48087202,
+          "text": "It baffles me why VPS providers don't display the fingerprints on their dashboards or expose them through the API.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48087202",
+          "by": "asalahli",
+          "time": 1778442654
+        },
+        {
+          "id": 48086869,
+          "text": "The author essentially bootstraps their servers with a known trusted host key, so that first connection is recognized, instead of having to trust a new and recently generated host key when you first connect.\nIt's a neat little trick if you're often deploying VPS in shared cloud environments.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48086869",
+          "by": "INTPenis",
+          "time": 1778440311
+        },
+        {
+          "id": 48088541,
+          "text": "I'm supposed to believe MitM with the same exact keypair is somehow possible? Private keys are never exchanged. Did everybody forget how crypto works?\nYes you implicitly trust the public key on first login.... then just... immediately compare it with what's on your box?\nMight as well seal your doors with duct tape to prevent ghosts from entering your home because this is equally effective.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48088541",
+          "by": "washingupliquid",
+          "time": 1778450331
+        },
+        {
+          "id": 48090795,
+          "text": "So you inject a host ssh key pair at VM creation using cloud-init, then connect one time trusting that key and immediately replace the host keys in the VM. So there is still a brief race condition where the attacker could impersonate the VM if he had intercepted your cloud-init file, correct?\nAlso I don't see anywhere that the script reloads the sshd daemon, which AFAIK is necessary to get it to start using the new host keys and stop using the deleted initial host key.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48090795",
+          "by": "SoftTalker",
+          "time": 1778470397
+        },
+        {
+          "id": 48089409,
+          "text": "I've been fighting against this chicken and egg problem in my homelab. I have a step CA SSH CA set up along with automated deployment, bootstrapping, and cert renewals with an ansible playbook. It sets StrictHostKeyChecking yes in the ssh_config for my domain so I'm happily protected against a very unlikely attacker that has a foothold in my network. Theoretically, it means I should never have to worry about host keys again.\nUnfortunately, ansible does everything over.... SSH. So if I spin up a new VM or host, I have to manually trust the certificate for the first connection, which is the whole point of this article. I always have console access so I can log in and check the pub key.\nThere are various ways around this, including the authors suggestion with cloud init. None are very helpful for new physical hosts, though. I'm leaning towards a feature step CA supports that lets hosts authenticate themselves with an X509 cert, which you can easily get with ACME. It's so easy that you could even do it over console on a new physical host.\nWhat I really wish is that there were something like the ACME TLS-ALPN challenge but for SSH servers. They can already present a self signed certificate, so it would just be a matter of connecting all the plumbing.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48089409",
+          "by": "kayson",
+          "time": 1778457373
+        },
+        {
+          "id": 48089250,
+          "text": "> inject a temporary SSH host (private) key via cloud-init...\nReading the comments here I'm tempted to believe that if cloud-init is available and if we consider Heztner (and OVH etc.) provides a secure access to cloud-init (i.e. the box running cloud-init is really the box you think it is), then there are many different ways to solve this problem.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48089250",
+          "by": "TacticalCoder",
+          "time": 1778456070
+        },
+        {
+          "id": 48086841,
+          "text": "provision the hosts with an SSH CA, use the CA as a trust root in openssh.\nthey are various version out there from the big players.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48086841",
+          "by": "crypt0r84",
+          "time": 1778440167
+        },
+        {
+          "id": 48087396,
+          "text": "MitM is not possible if one uses public key authentication.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48087396",
+          "by": "lvlabguy",
+          "time": 1778443679
+        }
+      ],
+      "by": "JoachimSchipper",
+      "time": 1778239598,
+      "url": "https://www.joachimschipper.nl/Stop%20MITM%20on%20the%20first%20SSH%20connection,%20on%20any%20VPS%20or%20cloud%20provider.html",
+      "score": 136,
+      "descendants": 77,
+      "storyUrl": "https://www.joachimschipper.nl/Stop%20MITM%20on%20the%20first%20SSH%20connection,%20on%20any%20VPS%20or%20cloud%20provider.html"
+    },
+    {
+      "id": 48083007,
+      "type": "story",
+      "title": "What's a mathematician to do? (2010)",
+      "rank": 21,
+      "depth": 0,
+      "storyId": 48083007,
+      "storyTitle": "What's a mathematician to do? (2010)",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48083007",
+      "topComments": [
+        {
+          "id": 48084067,
+          "text": "From one of the answers:\n> mathematics only exists in a living community of mathematicians that spreads understanding and breaths life into ideas both old and new. The real satisfaction from mathematics is in learning from others and sharing with others. All of us have clear understanding of a few things and murky concepts of many more. There is no way to run out of ideas in need of clarification.\nYes! And this applies to all human culture, not just math. Everything people have figured out needs to be in living form to carried on. The more people the better. If math, or any product of human skill, is only recorded in papers or videos, that isn't the same as having millions of people understanding it in their own ways.\nModern culture often emphasizes innovation and fails to value mere maintenance, tradition, and upkeep. This can lead to people like the OP feeling that they have nothing to contribute, when actually, just learning math, being able to do it, being able to help others learn it - all of these are contributions.\nWe are all needed to keep civilization afloat, in ways we cannot anticipate. We all need to pursue some kind of excellence just to keep human culture alive.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48084067",
+          "by": "getnormality",
+          "time": 1778421668
+        },
+        {
+          "id": 48084275,
+          "text": "So I've got a gut feeling that math (like human languages (like programming languages)) is best learned in service of some greater end.\nI look at some truly impressive projects like CLASP which sprang into existence not because of someone noodling around, but because they had a bigger goal which required the team build it.\nSo my advice to any mathematician who feels lost, like they don't know what to work on, would be to go collaborate with someone who has an actual goal, to look for inspiration in the kinds of math they need.\nToday, there are a lot of opportunities to jump forward that only get capitalized on through coincidence (e.g. two people bump into each other at a conference, or researcher happens to have a colleague working on a related problem through the lens of a different discipline).  If AI does nothing but guarantee that everyone will have such a coincidence by serving as that expert from a different discipline, that will still be a massive driving force for progress.\nThe question of \"whats a mathematician to do\" is still clear: you need to find and curate and clearly express interesting and valuable problems.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48084275",
+          "by": "bloaf",
+          "time": 1778423344
+        },
+        {
+          "id": 48085142,
+          "text": "> One can rewrite their books in modern language and notation or guide others to learn it too but I never believed this was the significant part of a mathematician work\nThere's yer problem right there.  Good pedagogy is hard and highly undervalued.  IMHO Grant Sanderson (a.k.a. 3blue1brown) is making some of the most significant contributions to math in all of human history by making very complex topics accessible to ordinary mortals.  In so doing he addresses one of the most significant problems facing humankind: the growing gap between the technologically savvy and everyone else.  That gap is the underlying cause of some very serious problems.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48085142",
+          "by": "lisper",
+          "time": 1778429503
+        },
+        {
+          "id": 48084580,
+          "text": "I think it is like for a programmer to ask \"How can one contribute to computer science?\", while thinking about people like, Dijkstra, Knuth, or maybe even Carmack.\nThere are some geniuses who do groundbreaking work, but this wouldn't be of much use it it wasn't for the millions of people who do actual work with these theories (applied math), and teachers who train the next generation. In the academia, small discoveries exist too, these can be the stepping stones for the big things to come, even if they don't have a direct application now.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48084580",
+          "by": "GuB-42",
+          "time": 1778425530
+        },
+        {
+          "id": 48088960,
+          "text": "I am glad to see this today - after reading Tim gower's recent post on chatgpt 5.5 pro's phd level research ability I was feeling slightly sad about the future of math research.\nInterestingly enough, the moment I saw the title I thought of Bill Thurston's famous article \"On proof and progress in mathematics\" and the top comment on the OP's thread is from him! Reading his reply sort of gave me the antidote to the temporary blues I felt yesterday.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48088960",
+          "by": "beyonddream",
+          "time": 1778453443
+        },
+        {
+          "id": 48083942,
+          "text": "After reading another post about the most recent advances LLMs have made in finding and writing up novel, correct proofs, it sounds like the frontier models are now at the point of PhD student level. I wonder how a math student could contribute today, if they're just starting on the PhD track? Maybe by using LLMs as a mighty tool and providing skilled usage and oversight?\nIt must feel similar to those who wanted to become chess or go masters after computers surpassed humanity in those games.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48083942",
+          "by": "Schlagbohrer",
+          "time": 1778420772
+        },
+        {
+          "id": 48084257,
+          "text": "“Comparison is the thief of joy.”\nDo the math because you enjoy doing the math and if you do it long enough you may well do something of value to someone else. Same goes for most intellectual and artistic pursuits I think.\nI’ve learned for myself that as soon as enjoyment is based on some future achievement or ranking my work against others the day to day satisfaction dries up.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48084257",
+          "by": "jebarker",
+          "time": 1778423214
+        },
+        {
+          "id": 48088423,
+          "text": "I think we also have to be honest and admit that, yes, indeed, there is less novel maths for all of us to be doing. The pioneers came first and discovered a lot of low hanging fruit. There were a lot of geniuses that mined the rest and reached higher in the tree. Now even the smartest mathematicians are left solving abstract puzzles with little utility in the real world. (Don't get me wrong, it's very fun, and sometimes useful too.)\nAfter my PhD in applied mathematics, I decided to leave the field, partly because I feel it really has advanced so far that new discoveries do little to move the needle in the real world. There's enough smart people who obsess over nothing else but maths that I can go and do more practical stuff...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48088423",
+          "by": "ashley95",
+          "time": 1778449544
+        },
+        {
+          "id": 48084786,
+          "text": "Today, even understanding what new mathematics is being done in a particular zone of the mathematical universe appears to require a four-year graduate program of constant study just to be able to follow some mathematician’s original work - and that’s only going to give you a window into a rather narrow subsection of mathematics. The days when people of great talent like Euler and Gauss could contribute to many areas of mathematics are long gone.\nBut mere mortals can still derive great satisfaction from following along in the footsteps of past pioneers, possibly adapting their work to new problems in a minor way, or just creating educational visualizations and tools that help other people understand things like Galois theory, Poincare phase space or Markov chains, which can be applied to quantum mechanics, orbital dynamics, or protein sequence analysis.  That’s valuable, even if no Fields Medals will be coming your way.\nFor the core discipline, though, I’d mostly worry about lack of opportunities for serious mathematicians to practice their craft in the USA due to the trends of academic budget cuts, anti-intellectual rhetoric, insistence on profit generation as the only rationale for doing anything, etc.  Looks a bit 1930s Germany to me, at least here in the USA.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48084786",
+          "by": "photochemsyn",
+          "time": 1778427251
+        },
+        {
+          "id": 48084923,
+          "text": "For context - the top answer was written by Bill Thurston, who was awarded a Fields Medal. (Kind of like a nobel prize for mathematics.)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48084923",
+          "by": "dunham",
+          "time": 1778428251
+        }
+      ],
+      "by": "ipnon",
+      "time": 1778412410,
+      "url": "https://mathoverflow.net/questions/43690/whats-a-mathematician-to-do",
+      "score": 178,
+      "descendants": 85,
+      "storyUrl": "https://mathoverflow.net/questions/43690/whats-a-mathematician-to-do"
+    },
+    {
+      "id": 48085055,
+      "type": "story",
+      "title": "The locals don't know",
+      "rank": 22,
+      "depth": 0,
+      "storyId": 48085055,
+      "storyTitle": "The locals don't know",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48085055",
+      "topComments": [
+        {
+          "id": 48086519,
+          "text": "The corollary of this is that if you are a local you should do some more touristy things.\nI don't mean to go to a tourist trap and get scammed, but just enjoy your city a little more and do some things that usually only tourists do.\nFor example, despite living most of my life in London, I've never been to the Tower of London. Why would I? It's for tourists. Except it's probably quite fascinating, especially for a local.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48086519",
+          "by": "zarzavat",
+          "time": 1778438019
+        },
+        {
+          "id": 48087259,
+          "text": "The title is a non sequitur from the argument. The point is not to ask for a \"bring a non-local to work day\" where you tag along to a rando doing their normal routine.\nThe thing that locals do know a lot of the time, is the spots that are actually great but not hyped up by influencers/social media, the cool spots that are often good by virtue of not being well known, etc. And no one is arguing that the locals know all the best cultural attractions, the point of asking locals for advice is to understand what they see in their own city.\nThis is where platforms like Couchers.org or whatever come up, where you want to actually understand the locals, more than just see the hyped up touristy stuff (which often can also be phenomenal!).",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48087259",
+          "by": "ashley95",
+          "time": 1778442957
+        },
+        {
+          "id": 48086340,
+          "text": "The locals are living their lives on an organic cadence. They're not maximizing entertainment value or whatever. They will certainly know entertaining things to do, but it's literally not their job to entertain tourists. Maybe seeking out a Disneyland like experience in someone else's home is the problem? Bourdain, Rick Steves, et al. are fun to watch, but I can't help but feel they've actually made the world a worse place by romanticizing tourism. There are many sayings about how travel reduces prejudice... but if you actually look at it at scale, it's almost always a global negative.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48086340",
+          "by": "lorecore",
+          "time": 1778436509
+        },
+        {
+          "id": 48087443,
+          "text": "It is obvious that \"do what the locals do\" should not be taken literally, because locals are likely working most of the day. So the authors actual advice seems to be \"avoid what the locals do, when they don't want to do anything\". Everyone else likely interprets it as \"do what the locals do, when they want to have fun\" which is good advice.\nMy daily routines are of no interest to tourist. They are probably similar to their own routines at home anyway. When I got out on the weekends it can get wild though and I'd wager it's exactly what many tourists are looking for.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48087443",
+          "by": "kapep",
+          "time": 1778443931
+        },
+        {
+          "id": 48087007,
+          "text": "I live in a tourist town. 3000 residents, 4 million visitors each year. And I'm just fine with the tourists not going to the places I go - we tend to like the quieter, more affordable places vs. the big fancy price-gouging places. But assuming that us \"locals\" just sit at home and do nothing is such an unfair and inaccurate assessment. Why would I want to live in a town as crazy as this if I did nothing here?\nI enjoy having a vast variety of restaurants and activities that I otherwise would not have in a small town in the Midwest. The roads are well maintained, we have more parks than we otherwise would, there are trails, rivers, and tons of activities. We don't spend all our time partaking of the tourist activities, but we abso-freaking-lutely spend some time enjoying what the town has to offer.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48087007",
+          "by": "codingdave",
+          "time": 1778441233
+        },
+        {
+          "id": 48091350,
+          "text": "I live in a tourist town (population 45k, with 2M visitors this past season). It's truly lovely. Our museums kick ass, the food and cocktails punch above their weight, and there are countless activities in the off season. Sure, I can get a cheaper burger or pay less rent just a few miles down the road, but instead I stay and benefit from tourists pushing the quality upwards. I often see folks focusing on the low-effort schlock shop, damning all tourists, before heading to one of the 8 local coffee shops (who could never survive on locals alone). The best thing a local can do is to openly give recommendations, helping to hold competition and quality to a high standard.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48091350",
+          "by": "geekster777",
+          "time": 1778477560
+        },
+        {
+          "id": 48087484,
+          "text": "As a local, one of the funnest things to do is to host out-of-town guests and to just do the touristy things in combination with local knowledge. Bus tours, museums, food, etc. Do it all. For me, it's stuff I'd probably never do unless pressed to provide entertainment for guests I care about.\nSo, do the local thing with tourists and retain a focus on a combination of showing off the best elements of being a local; with the wide-eyed enthusiasm of the tourist. As a blow-in to NY, I'd like others to appreciate it too.\nDo what the tourists do, but with the locals. Do what the locals do, but with the tourists.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48087484",
+          "by": "kayo_20211030",
+          "time": 1778444231
+        },
+        {
+          "id": 48089239,
+          "text": "My best travel advice (for urban areas) is simple: get lost. If you don't know exactly where you are or what's around the corner, you've got to take it as it comes, and that makes it all the more interesting. No FOMO or opportunity cost struggles, just what's in front of you right now.\nThis is both easier and harder with smartphones and GPS. Harder because, well, you know exactly where you are and have to actively ignore the phone. Easier because when you're ready to be done, you know exactly where you are!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48089239",
+          "by": "exmadscientist",
+          "time": 1778455979
+        },
+        {
+          "id": 48091045,
+          "text": "I think this author misunderstands the intent of the expression \"do what the locals do\". It does not mean \"do what an arbitrary or random local does\" or even \"do what the median local does\".\nIt implies seeking the experiences and places that are popular with the locals and not popular with the tourists. It means finding a killer teriyaki or pho place in Seattle and avoiding the space needle, even if an average Seattle resident goes to neither type of place every day.\nIt means avoiding Times Square and instead wandering the other streets of Manhattan.\nThe locals do know. Maybe each individual local only visits once a month, but the aggregate knowledge of the locals knows. Great hole in the wall places are known by locals.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48091045",
+          "by": "dalocals",
+          "time": 1778473540
+        },
+        {
+          "id": 48086842,
+          "text": "> I’m skeptical of the term tourist trap (it’s mostly used as a term to place yourself as higher status/taste than other people, and is often used out of insecurity)\nOne thing I've read years ago about tourist traps is that one shouldn't be actively trying to avoid them, especially if they come from a country with higher purchasing power.\nSome of these \"tourist trap\" activities are locals trying to make an honest living doing what they can. It should be fine to take a tuk tuk, or to buy paintings and souvenirs from people off the street.\nEveryone should avoid getting ripped off, but what's 0.1% of a month's wages to a tourist could pay for an entire day's meals for a local.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48086842",
+          "by": "ValentineC",
+          "time": 1778440169
+        }
+      ],
+      "by": "herbertl",
+      "time": 1778429017,
+      "url": "https://www.quarter--mile.com/The-Locals-Dont-Know",
+      "score": 197,
+      "descendants": 175,
+      "storyUrl": "https://www.quarter--mile.com/The-Locals-Dont-Know"
+    },
+    {
+      "id": 48080702,
+      "type": "story",
+      "title": "Gemini API File Search is now multimodal",
+      "rank": 23,
+      "depth": 0,
+      "storyId": 48080702,
+      "storyTitle": "Gemini API File Search is now multimodal",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48080702",
+      "topComments": [
+        {
+          "id": 48080973,
+          "text": "This might be great and all but I am still miffed at how simple search on AI Studio is. You can only search the titles of your conversations and nothing inside them. On top of that they messed with the scrolling so Ctrl+F doesn't work reliably.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48080973",
+          "by": "FrequentLurker",
+          "time": 1778386808
+        },
+        {
+          "id": 48082923,
+          "text": "Haven't touched gemini api since they did not support having a $ limit per api key. Is it possible now?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48082923",
+          "by": "lousken",
+          "time": 1778411748
+        },
+        {
+          "id": 48083827,
+          "text": "My free trial ends this week, which i'm obviously canceling.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48083827",
+          "by": "ecommerceguy",
+          "time": 1778419840
+        },
+        {
+          "id": 48082471,
+          "text": "It’s a striking irony that the world's leader in search is receiving so much heat for poor search functionality and UX within its own flagship AI products",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48082471",
+          "by": "FirstPoint",
+          "time": 1778406882
+        },
+        {
+          "id": 48086559,
+          "text": "Is anyone tech-savvy going to actually let any tool with this backend run on their personal PCs?\nAny app with this behind the scenes is a non-starter for me.\nAnd anyone think that all those folks ditching Win11 will be going for or recommending any app built on this?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48086559",
+          "by": "ninjagoo",
+          "time": 1778438371
+        },
+        {
+          "id": 48090536,
+          "text": "Tried multiple times to use the api file search and it’s complex to setup. Ended up going a different approach.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48090536",
+          "by": "thawab",
+          "time": 1778467655
+        },
+        {
+          "id": 48081759,
+          "text": "Good to have a choice between clouds and local use.\nHow much would you pay to have this yours forever, running locally, GDPR and HIPaa compliant, without the headache of privacy or subscriptions.\nThat´s what we offer with HugstonOne and we did it before Google. Multimodal, Lighting fast RAG, terabytes not kilobytes only :)\nAll you need is a 32gb ram laptop and HugstonOne, not a rocket science.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48081759",
+          "by": "trilogic",
+          "time": 1778397772
+        }
+      ],
+      "by": "gmays",
+      "time": 1778383322,
+      "url": "https://blog.google/innovation-and-ai/technology/developers-tools/expanded-gemini-api-file-search-multimodal-rag/",
+      "score": 156,
+      "descendants": 45,
+      "storyUrl": "https://blog.google/innovation-and-ai/technology/developers-tools/expanded-gemini-api-file-search-multimodal-rag/"
+    },
+    {
+      "id": 48039249,
+      "type": "story",
+      "title": "I'm writing a history of Visual Basic, Chapter 1 is up",
+      "rank": 24,
+      "depth": 0,
+      "storyId": 48039249,
+      "storyTitle": "I'm writing a history of Visual Basic, Chapter 1 is up",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48039249",
+      "topComments": [
+        {
+          "id": 48080765,
+          "text": "This sounds great but I’m genuinely unable to figure out how to get to part one.\nNot the thumbnail. Not the pink text “A History of Visusl Basic”. Not the number one on the list of chapters. Not the chapter ousted at the very bottom.\nThe next button is for a different article.\nHow am I supposed to navigate to the thing the article is advertising to me? It’s a very strange decision not to make it really easy with a strong call to action or obvious link.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48080765",
+          "by": "MBCook",
+          "time": 1778384079
+        },
+        {
+          "id": 48081046,
+          "text": "Any time VB comes up I repeat my same wishlist item. I would love for Microsoft to open source it, in any way, shape or form. I would love for the community to take a crack at adding things to VB6 like bugfixes, any missing features (my understanding is they don't own everything about VB6) and just overall general improvements, imagine VB6 with threading. I know its ancient, but it can still produce a native GUI application effortlessly.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48081046",
+          "by": "giancarlostoro",
+          "time": 1778387908
+        },
+        {
+          "id": 48039570,
+          "text": "Why on earth would you use an AI-generated image [1] (let me be clear: POOR AI IMAGE) for the banner of this project?\nIf you're going to use genai, you need to make sure it actually looks acceptable. Do at least one careful pass over it before publishing. Just look at the details:\n- The text on the book spines doesn’t even spell “Microsoft” correctly.\n- Dartmouth is spelled \"Darmouth\". SIGH.\n- The screenshot on the CRT monitor doesn't remotely resemble any version of Visual Basic I’ve ever used and I’ve been using it since Visual Basic for DOS.\nUsing an image like this sets the tone and impression for the entire book going forward. Right now, that first impression isn’t good.\n[1] - https://evilgeniuslabs.ca/uploads/content/2026/05/6fd5a7b327...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48039570",
+          "by": "vunderba",
+          "time": 1778091211
+        },
+        {
+          "id": 48082299,
+          "text": "My very first purchase on eBay was to buy a used copy of Visual Basic 6 Enterprise Edition sometime while I was in school.\nThen for a period of time I lost the physical CD it came with, and couldn’t install it anymore on a new system. Some time later I remember finding the CD at the bottom of some box of random stuff and being so happy - it was scratched up and didn’t reliably install, but I think I managed to burn a copy of it onto a new disk complete with inkjet printed sticky disk label that resembled the original disk.\nMust had been mid/late 90s I think.\nHad so much fun making stuff in VB back then.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48082299",
+          "by": "shimms",
+          "time": 1778404612
+        },
+        {
+          "id": 48081446,
+          "text": "You might want to mention the comedy series Microsoft used to run on MSDN. I think it was called “The .NET Show” or “VBTV”. It featured characters like the “VB Rapper” and “Head in a Box” (Ari and Chris). It was genuinely funny and they made at least a few episodes. I loved Microsoft back in those days. Unfortunately, I haven’t been able to find any trace of it online now. This was really long ago - around 2002, I believe.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48081446",
+          "by": "VimEscapeArtist",
+          "time": 1778393644
+        },
+        {
+          "id": 48080641,
+          "text": "Excellent Idea :)\nVB was practical and useful at the time, especially as a learning tool in school. I enjoyed testing the competitors that arose to emulate its abilities, including RapidQ Basic, Envelope Basic (a.k.a Phoenix Object Basic), some of which are documented here: https://en.wikipedia.org/wiki/BASIC\nI think it would be cool to see a Documentary on programming languages, e.g. their history, rivalries, successes and downfalls, of the 80s, 90s and 2000s. If it is made correctly, with humor, it could be entertaining, perhaps even profitable.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48080641",
+          "by": "SilentM68",
+          "time": 1778382683
+        },
+        {
+          "id": 48085777,
+          "text": "What an awful site. I suggest you read about prefers - reduced - motion [0]. People who set this preference have a good reason for doing so, you should respect your users a bit.\n(I set this preference because motion while I'm trying to read makes me nauseated.)\n[0] https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/A...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48085777",
+          "by": "nosioptar",
+          "time": 1778433264
+        },
+        {
+          "id": 48083096,
+          "text": "Related, very interesting and entertaining interview of Alan Cooper, including the story of him demo-ing ruby to Bill Gates\nhttps://www.youtube.com/watch?v=FqtwGuGRjJM",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48083096",
+          "by": "cm2187",
+          "time": 1778413036
+        },
+        {
+          "id": 48081445,
+          "text": "I have a lot of fond memories of Visual Basic for MS-DOS 1.0.\nI remember saving up for it at high school with my student discount. From memory it was about $120.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48081445",
+          "by": "guidedlight",
+          "time": 1778393629
+        },
+        {
+          "id": 48080010,
+          "text": "One thing which I'd be interested in being contextualized is the story of MacBasic:\nhttps://www.folklore.org/MacBasic.html\nand how other competing products such as RealBasic (somewhere I have a book on it) factored in.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48080010",
+          "by": "WillAdams",
+          "time": 1778375885
+        }
+      ],
+      "by": "speckx",
+      "time": 1778089949,
+      "url": "https://evilgeniuslabs.ca/blog/visual-basic-history-chapter-1-launch",
+      "score": 165,
+      "descendants": 88,
+      "storyUrl": "https://evilgeniuslabs.ca/blog/visual-basic-history-chapter-1-launch"
+    },
+    {
+      "id": 48061556,
+      "type": "story",
+      "title": "Eight More '8-Bit Era' Microprocessors",
+      "rank": 25,
+      "depth": 0,
+      "storyId": 48061556,
+      "storyTitle": "Eight More '8-Bit Era' Microprocessors",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48061556",
+      "topComments": [
+        {
+          "id": 48087919,
+          "text": "I did some assembly programming on the Fairchild F8 mentioned in the prequel article.  Quaintest feature: Doing a “long” jump (more than 127 bytes away) would cause the accumulator register to be clobbered. Presumably, there was nowhere else to store the high (low?) order address byte routing things around to the PC register. This was also a problem for the debugger (in ROM on the development system), since continuing from a breakpoint necessitated a long jump, so it couldn’t restore the accumulator.  So, the debugger would just simulate instructions until it hit a jump, which it could then jump to. Or something like that.  Fairchild provided a listing of the source to the debugger / emulator, and the line that simulated messing up the accumulator during single-stepping was commented “The F8 Touch!”  It made an impression 50 years ago.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48087919",
+          "by": "drfuchs",
+          "time": 1778446591
+        },
+        {
+          "id": 48088817,
+          "text": "The Signetics 2650 found its way into a bunch of arcade games by lieu of British company Century Electronics. I have a conversion kit of theirs installed into a Donkey Kong Jr. board, which outright replaces DK Jr.'s Z80 with a daughterboard containing the CPU. Always wondered why they chose that in particular, it's not a very common chip, and just using the Z80 that was there and replacing the ROMs was the more common option for conversion kits like that.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48088817",
+          "by": "nicole_express",
+          "time": 1778452279
+        },
+        {
+          "id": 48088191,
+          "text": "The RCA-1802 was used in the COSMAC Elf computer which was described as a hobbyist project to build in a series of articles in Popular Electronics 50 years ago. The Elf may be obscure but one thing developed on it (or its successor, the COSMAC VIP), CHIP-8, lives on -- it was (by some definitions) the first \"fantasy console\" like Pico-8 and TIC-80 today -- a virtual machine designed for writing action games.\nhttps://en.wikipedia.org/wiki/COSMAC_Elf \nhttps://en.wikipedia.org/wiki/CHIP-8",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48088191",
+          "by": "jhbadger",
+          "time": 1778448066
+        },
+        {
+          "id": 48091618,
+          "text": "The 6809 was a little of a beast too. It powered the Vectrex and some TRS-80 Color models.\nThe OS was interesting too: https://en.wikipedia.org/wiki/OS-9",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48091618",
+          "by": "anthk",
+          "time": 1778480502
+        },
+        {
+          "id": 48061809,
+          "text": "It's easy to forget how much innovation divergence was happening in the early 70s. Up till the late nineties we speculated that ISAs other than x86 (spec. RISC designs) would win in the end.\nImagine these 8 bitters were mostly hardwired, with less than a million transistors.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48061809",
+          "by": "repelsteeltje",
+          "time": 1778241199
+        },
+        {
+          "id": 48090559,
+          "text": "Slightly orthogonal, but I'm curious how much effort is going into capturing historic hardware in accurate FPGA representation?\nThere'll come a day when the final physical 6502, 80486 (etc etc) powers off for the final time, and it seems like these technologies would be worth preserving. (I'm sure this is much easier said than done, not trying to minimise the effort involved.)\nIs there a project that does something like this?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48090559",
+          "by": "troad",
+          "time": 1778467871
+        }
+      ],
+      "by": "klelatti",
+      "time": 1778239286,
+      "url": "https://thechipletter.substack.com/p/eight-more-8-bit-era-microprocessors",
+      "score": 83,
+      "descendants": 32,
+      "storyUrl": "https://thechipletter.substack.com/p/eight-more-8-bit-era-microprocessors"
+    },
+    {
+      "id": 48056639,
+      "type": "story",
+      "title": "The people preserving the scientific practice of bird banding",
+      "rank": 26,
+      "depth": 0,
+      "storyId": 48056639,
+      "storyTitle": "The people preserving the scientific practice of bird banding",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48056639",
+      "topComments": [],
+      "by": "bookofjoe",
+      "time": 1778197791,
+      "url": "https://thenarwhal.ca/bird-banding-ontario/",
+      "score": 69,
+      "descendants": 2,
+      "storyUrl": "https://thenarwhal.ca/bird-banding-ontario/"
+    },
+    {
+      "id": 48081245,
+      "type": "story",
+      "title": "Debian must ship reproducible packages",
+      "rank": 27,
+      "depth": 0,
+      "storyId": 48081245,
+      "storyTitle": "Debian must ship reproducible packages",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48081245",
+      "topComments": [
+        {
+          "id": 48082436,
+          "text": "This is a huge achievement for Debian and the free software world.\nIt took a while though until this was understood. In 2007 when pointing out on debian-devel that this is needed, I was still told what huge waste of time this would be. And indeed it took a huge amount of work by many people to get there, but it is well worth it.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48082436",
+          "by": "uecker",
+          "time": 1778406460
+        },
+        {
+          "id": 48082262,
+          "text": "https://wiki.debian.org/ReproducibleBuilds has some more infos; some is outdated, but it also has a chart showing how many packages are built in the CI, and how many of those are reproducible builds.\n(Orange = FTBR = \"failed to build reproducibly\")\nI'm not good at reading numbers from charts, but I'd guess it's a few percent (4-5ish?).",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48082262",
+          "by": "perlgeek",
+          "time": 1778404090
+        },
+        {
+          "id": 48083605,
+          "text": "What people really don't understand about reproducible builds is that they're not a guarantee that there's no backdoor.\nThey're a guarantee that if there's a backdoor, it's reproducible 100% of the time.\nThis is a godsend for white hats fighting the good fight.\nAnd, as a side note, it's strongarming vs the bad guys: \"Would be too bad if we could reproduce your shiny exploit 100% of the time wouldn't it!?\".\nNote that we should go further (but it's a bit orthogonal to reproducible builds): builds of the final binary/package should happen by first entirely discarding all files not necessary for the final build (like all test cases and all test assets). The build should literally happen in an environment that gets rid of those (after, of course, having test in another environment that all tests cases succeed): if I'm not mistaken get rid of test assets would have stopped Jia Tan's XZ backdoor attempt dead in its track (for example). Because IIRC there were binary data part of the backdoor hidden in some asset only used by test cases.\nP.S: as a bonus they also allow to detect bit-flips (I'm not saying there aren't other ways to detect bit-flips: what I'm saying is that if you have deterministic builds anyway and something doesn't reproduce correctly due to a flipped-bit, it's going to be noticed).",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48083605",
+          "by": "TacticalCoder",
+          "time": 1778417720
+        },
+        {
+          "id": 48081786,
+          "text": "Good thing. NetBSD has fully reproductible build since 2017. https://blog.netbsd.org/tnf/entry/netbsd_fully_reproducible_...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48081786",
+          "by": "jaypatelani",
+          "time": 1778398097
+        },
+        {
+          "id": 48082001,
+          "text": "A great milestone, congrats Debian on taking a stance and holding high standards for yourself, especially in the current era.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48082001",
+          "by": "Zopieux",
+          "time": 1778400967
+        },
+        {
+          "id": 48084986,
+          "text": "I'm so happy to see this change. I got involved with reproducible builds in 2021 after reading in horror about the SolarWinds attack. [1]\nI think Magnus Ihse Bursie said it best while working on reproducible builds of OpenJDK: \"If you were to ask me, the fact that compilers and build tools ever started to produce non-deterministic output has been a bug from day one.\" [2]\n[1] https://www.linux.com/news/preventing-supply-chain-attacks-l...\n[2] https://github.com/openjdk/jdk/pull/9152#issue-1270543997",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48084986",
+          "by": "jgneff",
+          "time": 1778428649
+        },
+        {
+          "id": 48082624,
+          "text": "I wonder why this is a thing nowadays. I use yocto for embedded devices and it was almost a no-brainer to implement reproducible builds. I can also easily enable Debian package management, so everything is already available.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48082624",
+          "by": "micw",
+          "time": 1778408531
+        },
+        {
+          "id": 48083815,
+          "text": "amd64 forky\nreproduced: 97.02%\ngood:  17586\nbad:   511\nfail:  30\nunknown: 0\nThis, statistics for other architectures, and the reasons for unreproducibility can be found at https://reproduce.debian.net.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48083815",
+          "by": "tofflos",
+          "time": 1778419741
+        },
+        {
+          "id": 48082818,
+          "text": "I am always surprised Debian are leading this and not the commercial vendors. You'd think big organisations paying for RHEL and Ubuntu would be beating down the door for verifiable binaries.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48082818",
+          "by": "suprjami",
+          "time": 1778410853
+        },
+        {
+          "id": 48089292,
+          "text": "This fights against \"opensource-washing\" which is the practice of large companies claiming to release open source code, but the compile takes so long (as well as being overly-convoluted) that most people and many distros can't afford to maintain the package.\nIt feels like AI and traditional software are converging in complexity.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48089292",
+          "by": "casey2",
+          "time": 1778456407
+        }
+      ],
+      "by": "robalni",
+      "time": 1778390763,
+      "url": "https://lists.debian.org/debian-devel-announce/2026/05/msg00001.html",
+      "score": 368,
+      "descendants": 169,
+      "storyUrl": "https://lists.debian.org/debian-devel-announce/2026/05/msg00001.html"
+    },
+    {
+      "id": 48083580,
+      "type": "story",
+      "title": "Show HN: An index of indie web/blog indexes",
+      "rank": 28,
+      "depth": 0,
+      "storyId": 48083580,
+      "storyTitle": "Show HN: An index of indie web/blog indexes",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48083580",
+      "topComments": [
+        {
+          "id": 48089823,
+          "text": "Shocked at the exclusion of gossips web!\nI have a very similar list:\n- indieblog.page, gossipsweb.net, html.energy, yesterweb.org, xn--sr8hvo.ws, personalsit.es, readsomethinginteresting.com, ooh.directory\n- indieweb.org, handmade.network\n- 1mb.club, 512kb.club, 250kb.club, 10kbclub.com, 1kb.club\n- no-js.club, js1k.com, js1024.fun\n- nocss.club\n- uses.tech, nownownow.com, aprilcools.club\n- whimsical.club, brutalistwebsites.com, spaghetti.directory\n- neocities.org\nNot sure if these are all still online since it's an old list",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48089823",
+          "by": "culi",
+          "time": 1778460659
+        },
+        {
+          "id": 48086285,
+          "text": "Why does Kagi's Smallweb have a 'no submissions' label?  I was under the impression you just PR:ed here:  https://github.com/kagisearch/smallweb",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48086285",
+          "by": "marginalia_nu",
+          "time": 1778436225
+        },
+        {
+          "id": 48086179,
+          "text": "Wait, is this perhaps my comment/disussion?\n\"Are there any indexes which index all of these too?\" - (comment written by me at https://news.ycombinator.com/item?id=48069558)\nI am not exactly sure if it was my comment itself which helped in it but no matter what, this is exactly what I was talking about and I am so glad that you made it!\nReally awesome work! Definitely gonna add my blog site into a few of these and just gonna scroll it, ah this feels so good, i really appreciate your effort and I hope more people share even more indexes and it becomes an even more complete index of all indexes and we preserve the spirit of the open internet! This feels really good to me! :-)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48086179",
+          "by": "Imustaskforhelp",
+          "time": 1778435553
+        },
+        {
+          "id": 48085505,
+          "text": "Don't know where your colors and style come from, but imo you're doing fine on that front.\nNice project also! Bookmarked.\nIn the same vein; I stumbled upon Wander (pun intended) by browsing a HN post from yesterday. I really like that take on discovery of smaller curated websites.\nhttps://codeberg.org/susam/wander#readme",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48085505",
+          "by": "rambambram",
+          "time": 1778431737
+        },
+        {
+          "id": 48088164,
+          "text": "This is an amazing project, alternative domain “the-indiex”",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48088164",
+          "by": "quacky_batak",
+          "time": 1778447899
+        },
+        {
+          "id": 48088757,
+          "text": "I love this so much. I believe there is a sea of valuable blogs being buried in google search indexing weird SEO rules, and whatever crawling the AI systems are doing. We need to preserve the actual human generated content that predates AI. Wishing you huge success, thank you!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48088757",
+          "by": "cemsakarya",
+          "time": 1778451795
+        },
+        {
+          "id": 48089299,
+          "text": "I maintain a similar index-of-indexes but it's intentionally non-curated, restricted to indexes that use the OPML format, and uses autodiscovery to expand the list. The site needs some work, but it's up to 356 indexes.\nhttps://blogroll-network.alexsci.com/blogrolls/\nI'd recommend looking at anything with \"planet\" in the name, there are a bunch of tech communities that manage community feeds and they are high quality. There are also a ton of personal blogroll recommendations via micro.blog too.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48089299",
+          "by": "8organicbits",
+          "time": 1778456438
+        },
+        {
+          "id": 48089163,
+          "text": "This is a tangent, but what I'd really like to see is for a \"movement\" of sorts where site owners explicitly only allow Kagi* as the only crawler for their site.\nA way of saying \"you know what, I've seen what Google has wrought, but they had some good ideas and utility at the start so I'd like Kagi to still crawl my site but no one else\".\nI don't know if that's even technically possible.\n* I say Kagi here since they're the most prominent one I know of that are thinking about this problem. I am aware that that they too can change in the future.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48089163",
+          "by": "ares623",
+          "time": 1778455279
+        },
+        {
+          "id": 48087311,
+          "text": "Any chance you can put https://hnarcade.com on there?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48087311",
+          "by": "yuppiepuppie",
+          "time": 1778443242
+        },
+        {
+          "id": 48086052,
+          "text": "Nice project! Thanks for including Minifeed!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48086052",
+          "by": "freetonik",
+          "time": 1778434849
+        }
+      ],
+      "by": "rocketpastsix",
+      "time": 1778417431,
+      "url": "https://theindex.fyi",
+      "score": 151,
+      "descendants": 39,
+      "storyUrl": "https://theindex.fyi"
+    },
+    {
+      "id": 48038573,
+      "type": "story",
+      "title": "The first microcomputer: The transfluxor-powered Arma Micro Computer from 1962",
+      "rank": 29,
+      "depth": 0,
+      "storyId": 48038573,
+      "storyTitle": "The first microcomputer: The transfluxor-powered Arma Micro Computer from 1962",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48038573",
+      "topComments": [
+        {
+          "id": 48080642,
+          "text": "Ken's blog is an amazing read!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48080642",
+          "by": "java-man",
+          "time": 1778382694
+        },
+        {
+          "id": 48082353,
+          "text": "I imagine the civilian equivalent in size and structure would be a PDP-8/S (bit-serial, still discrete logic?) But DEC material from that time simply calls it a \"small-scale computer\".",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48082353",
+          "by": "nxobject",
+          "time": 1778405322
+        },
+        {
+          "id": 48082611,
+          "text": "\"Transfluxor\" sounds like something straight out of science fiction.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48082611",
+          "by": "grishka",
+          "time": 1778408430
+        }
+      ],
+      "by": "rsecora",
+      "time": 1778086803,
+      "url": "https://www.righto.com/2024/02/the-first-microcomputer-transfluxor.html",
+      "score": 75,
+      "descendants": 4,
+      "storyUrl": "https://www.righto.com/2024/02/the-first-microcomputer-transfluxor.html"
+    },
+    {
+      "id": 48064789,
+      "type": "story",
+      "title": "Lakebase architecture delivers faster Postgres writes",
+      "rank": 30,
+      "depth": 0,
+      "storyId": 48064789,
+      "storyTitle": "Lakebase architecture delivers faster Postgres writes",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48064789",
+      "topComments": [
+        {
+          "id": 48089502,
+          "text": "This is essentially a re-explanation of Neon’s architecture as a blog post.\nAmazing that the Postgres ecosystem got this software for “free” (as in at least a basic version of it is F/OSS, IIRC there wasn’t any core bits held back), and the extremely engineer-heavy company got to make money, AND they got bought out in true acquisition style by a larger player that truly benefits from the tech.\nThe Postgres ecosystem is pretty unique in its ability to produce a “boring” stable product, innovate, stay F/OSS, and create financial outcomes for participants.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48089502",
+          "by": "hardwaresofton",
+          "time": 1778458021
+        },
+        {
+          "id": 48086251,
+          "text": ">Without those periodic full page images in the log, the storage layer would have to replay an infinitely long chain of small deltas to reconstruct a page for a read request. What was once a bounded O(checkpoint frequency) replay becomes an unbounded chain, leading to a spike in read latency and resource consumption.\nI don't follow: read requests are not served from the WAL. They read the current state of the page from the buffer cache, where the page is updated after the change (FPI or not) is written to the WAL.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48086251",
+          "by": "uhoh-itsmaciek",
+          "time": 1778436006
+        },
+        {
+          "id": 48087454,
+          "text": "So, the general architecture described here is solid, and I support it, but I take issue with the \"Lakebase\" naming thing.\nDisaggregated storage and disaggregated compute have been an open trend in DBMS development for the last half-decade. This is an obvious move with modern computing paradigms, and the academic literature has a standard name for it.\nThis feels like \"JAMStack\" from Netlify happening all over again.\nI tweeted about this in 2022, as a general trend, and also from the RocksDB meetup emphasizing disaggregated storage:\n- https://x.com/GavinRayDev/status/1607769112234823680\n- https://x.com/GavinRayDev/status/1600666127025156096",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48087454",
+          "by": "gavinray",
+          "time": 1778444023
+        },
+        {
+          "id": 48085908,
+          "text": "I'm a VP on Databricks and former CEO of Neon. Happy to answer performance related or any other questions here.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48085908",
+          "by": "nikita",
+          "time": 1778434024
+        },
+        {
+          "id": 48089934,
+          "text": "Most problems with overgrowing data can be fixed by having data deletion rule.\nMany people just keep adding data and think \"maybe it will be useful in future\" till their system goes down.\nMany of your data is essentially useless for anything in future.\nYou can simply have data retention policy and for most app this ensures your data does not grow top huge",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48089934",
+          "by": "faangguyindia",
+          "time": 1778461710
+        },
+        {
+          "id": 48086451,
+          "text": "Im not a proper DBA, but oversee some basic postgres installs (read: logging, monitoring, upgrades).\nThis appears to only have any effect with datalake style installs, where storage is separate from compute.\nNot going to have any effect on those small postgres installs for that generic one off app.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48086451",
+          "by": "mystraline",
+          "time": 1778437538
+        },
+        {
+          "id": 48089007,
+          "text": "How does Lakebase compare to OrioleDB[0]?\n[0] https://www.orioledb.com/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48089007",
+          "by": "hasyimibhar",
+          "time": 1778453851
+        },
+        {
+          "id": 48087237,
+          "text": "How does Lakebase compare to Ducklake[0]?\n[0] https://ducklake.select/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48087237",
+          "by": "erikcw",
+          "time": 1778442862
+        }
+      ],
+      "by": "sp_from_db",
+      "time": 1778255172,
+      "url": "https://www.databricks.com/blog/how-lakebase-architecture-delivers-5x-faster-postgres-writes",
+      "score": 122,
+      "descendants": 36,
+      "storyUrl": "https://www.databricks.com/blog/how-lakebase-architecture-delivers-5x-faster-postgres-writes"
+    }
+  ]
+}
