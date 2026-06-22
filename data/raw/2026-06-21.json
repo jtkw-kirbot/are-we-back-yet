@@ -1,0 +1,2501 @@
+{
+  "date": "2026-06-21",
+  "fetchedAt": "2026-06-22T04:01:25.285Z",
+  "samplingMethod": "frontpage_day_query_story_comment_snapshot",
+  "source": "hn_front_day_query_firebase",
+  "items": [
+    {
+      "id": 48614844,
+      "type": "story",
+      "title": "Developers don't understand CORS (2019)",
+      "rank": 1,
+      "depth": 0,
+      "storyId": 48614844,
+      "storyTitle": "Developers don't understand CORS (2019)",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48614844",
+      "topComments": [
+        {
+          "id": 48616086,
+          "text": "Even TFA seemingly doesn't understand CORS. Or at least misreprents it grossly:\n> The webserver listening in on localhost:19421 should implement a REST API and set a Access-Control-Allow-Origin header with the value https://zoom.us. This will ensure that only Javascript running on the zoom.us domain can talk to the localhost webserver.\nNo, that does not do that. JavaScript from any other website can still talk to localhost:19421 just the same. CORS doesn't restrict anything, it loosens the default set of restrictions (ignoring preflight requests for now and assuming we're talking just about \"safe\" Methods). That Access-Control-Allow-Origin header just allows JavaScript running on zoom.us to read the responses when it queries localhost:19421. The requests happen in any case, and you must ensure in your backend that they don't cause any adverse effects.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48616086",
+          "by": "muvlon",
+          "time": 1782021901
+        },
+        {
+          "id": 48615990,
+          "text": "I wish more people read the CORS article on MDN[1] which helped me a lot at the time when I was trying to understand it. I knew some people had trouble with CORS but had no idea it was this bad, going by the comments here.\n[1] https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/COR...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48615990",
+          "by": "supriyo-biswas",
+          "time": 1782020401
+        },
+        {
+          "id": 48615354,
+          "text": "It's not just CORS that's hard to understand. Many (most?) developers don't really understand the threat model. And even when it's explained it hard to see why it's a big deal. Part of this is that backend developers usually have to configure CORS and it's not an access privilege protection. From the point of view of the backend it doesn't seem to matter. Bad guys can't get it. From the point of view of the front-end it's often seen as a nuisance.\nThe article does a nice job giving a concrete example.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48615354",
+          "by": "encomiast",
+          "time": 1782011871
+        },
+        {
+          "id": 48616542,
+          "text": "I think this is legitimately the least informed HN comment section I've ever seen. Entirely proving the author's point.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48616542",
+          "by": "kittywantsbacon",
+          "time": 1782027305
+        },
+        {
+          "id": 48615168,
+          "text": "The only thing I remember about CORS is that it takes way longer than expected to debug, by design the error messages sent to the browser are intentionally gutted, and CORS error scenarios are hard to tell from other failure modes atfirst glance.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48615168",
+          "by": "piyh",
+          "time": 1782009618
+        },
+        {
+          "id": 48618376,
+          "text": "To understand CORS, you have to understand the Same Origin Policy.\nIf you find CORS difficult to understand, particularly the question of \"why do we need this?\", I suggest starting here: https://developer.mozilla.org/en-US/docs/Web/Security/Defens...\nI've tried using the Same Origin Policy as an interview question in the past, but it's not a good question because the majority of candidates aren't familiar with it, so you learn very little by bringing it up.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48618376",
+          "by": "simonw",
+          "time": 1782045226
+        },
+        {
+          "id": 48616697,
+          "text": "It was pretty amusing reading the comment section so I'll chime in: SOP protects you (the browser) from leaking information to websites that should not be able to access that information and CORS allows you to weaken it.\nExample: SOP stops example.com from fetching the list of subscriptions on youtube.com. But CORS allows example.com to access youtube.com/public/*.\nThis is also not the sole use-case, it also stops your backend api being up under a different frontend which would allow data theft since you could log into real services on google.com, but you're actually on g00gle.com enabling data exfiltration because now every request can be MitM'd.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48616697",
+          "by": "himata4113",
+          "time": 1782028943
+        },
+        {
+          "id": 48616113,
+          "text": "I'm one of them. CORS is THE topic that I have to get a refresher for periodically. It's like I forget about it, it never sticks. I'm a backend developer so I never encounter any cors issues. Maybe that's why? I seem to forget things that I don't use on a day to day basis, so.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48616113",
+          "by": "mparnisari",
+          "time": 1782022289
+        },
+        {
+          "id": 48622754,
+          "text": "I read through the comments to make sure I wasn’t the only one…Nobody understands CORS because it’s too complicated and too conflicting. The standards and the headers are always changing too, so mostly what happens is that we developers just tinker with it until it works, then ship the product and call it a day. Even when it works, you may still end up with errors and warnings in the dev console, but as long as things appear to be working, we leave it alone.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48622754",
+          "by": "temporallobe",
+          "time": 1782077135
+        },
+        {
+          "id": 48620073,
+          "text": "I understand how the Same Origin Policy protects browsers from executing malicious scripts. I also understand how the Access-Control-Allow-Origin header can be used by servers to declare additional origins as trustworthy, relaxing the SOP.\nWhat I still don't understand is what purpose the Access-Control-Allow-Headers header serves. It doesn't seem like it improves security for the browser (and definitely not for the server). Was it included \"just for completeness\" by the protocol designers? See also https://stackoverflow.com/questions/17992042",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48620073",
+          "by": "default-kramer",
+          "time": 1782057977
+        }
+      ],
+      "by": "toilet",
+      "time": 1782005740,
+      "url": "https://fosterelli.co/developers-dont-understand-cors",
+      "score": 368,
+      "descendants": 255,
+      "storyUrl": "https://fosterelli.co/developers-dont-understand-cors"
+    },
+    {
+      "id": 48613755,
+      "type": "story",
+      "title": "Renting a sewing machine from the library",
+      "rank": 2,
+      "depth": 0,
+      "storyId": 48613755,
+      "storyTitle": "Renting a sewing machine from the library",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48613755",
+      "topComments": [
+        {
+          "id": 48614129,
+          "text": "My local library which is part of the Washington county Library system (next to Portland). It's where Hillsboro is, which is where Intel's manufacturing is, also called Silicon Forest, has a Library Of Things!\nI've checked out a KitchenAid stand mixer, synthesizer, guitar, stud finder, drum machine, ukulele, air quality detector, and many more things.\nThey also have a sewing machine and a. Vitamix.\nIt's amazing! I love being able to check out new things from our library!\nI think there's an effort towards tool checkout as well in the future! There's a tool library in a couple cities east of us as well that I keep hearing about!\nPDX has it going on!!!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48614129",
+          "by": "ElijahLynn",
+          "time": 1781998582
+        },
+        {
+          "id": 48614733,
+          "text": "My library has something similar. Sewing and embroidering machines, 3D printers and even a CNC machine.  Most are free to use as long as you bring the material, the only one that I can remember having a cost is the laser cutter but even then it was under 10 bucks an hour.  They have a bunch of other things like being able to check out a pass the the state parks and some museum passes.\nThis is the Charleston County library system.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48614733",
+          "by": "cuvinny",
+          "time": 1782004513
+        },
+        {
+          "id": 48613977,
+          "text": "I'd argue that sewing machines are among the most complex, high skill items found in a typical home, above the laptop and car. I find it very hard to keep mine operational.  I struggle with it a lot more than I sew with it. They require fine motor skills and scads of parts and supplies. If you plan to rent them, plan for a repair staff or frequent replacements.\nCompared to a book, a sewing machine is a space ship, and you should see what people can do to a book. To be sustainable it needs a replacement value deposit, which isn't easy for someone who can't afford an entry level model.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48613977",
+          "by": "delichon",
+          "time": 1781997624
+        },
+        {
+          "id": 48614923,
+          "text": "Libraries around me have just become a homeless shelter. Pretty sad because the buildings themselves are actually quite nice and I'd use them often if it weren't for the high likelihood of being harassed.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48614923",
+          "by": "akouri",
+          "time": 1782006655
+        },
+        {
+          "id": 48616415,
+          "text": "I remember a day, long, long ago in a dusty, lonely outback Australian town, when Mum would send me down to the library on a Saturday morning to loan the iron, a kettle, and the last weeks’ papers, which she’d return on the very early Monday morning after putting me off on the .. two hour .. bus ride to school.\nNow I’m sitting in a room full of hard core technology, wondering if I shouldn’t talk to my local technical museum about setting up an 8-bit lending library with a catalog of fully operational machines ..",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48616415",
+          "by": "MomsAVoxell",
+          "time": 1782025899
+        },
+        {
+          "id": 48614680,
+          "text": "Denver has this... nominally. 3 machines (2 in circulation, one is a \"Display\"). 4 week checkout period. 103 current holds. 103*4/2/12 ≈ 17 year wait time.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48614680",
+          "by": "whycombinetor",
+          "time": 1782004014
+        },
+        {
+          "id": 48614045,
+          "text": "If you went into programming because you like making things, odds are high you'll like sewing too. Speaking from experience.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48614045",
+          "by": "felooboolooomba",
+          "time": 1781998052
+        },
+        {
+          "id": 48614666,
+          "text": "Finnish libraries are fantastic. Many had free-to-use 3D printers as far back as 2012!\nLibraries are a place of possibilities and fun, and it makes people want to be there. You can imagine the long-term positive impact this has.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48614666",
+          "by": "yakkomajuri",
+          "time": 1782003888
+        },
+        {
+          "id": 48613963,
+          "text": "One of the libraries near me has kayaks for loan as well as picking up the slack when all of the funding for after school programs was slashed. The value of third spaces is slowly creeping back into the public mindspace, but not enough.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48613963",
+          "by": "Avicebron",
+          "time": 1781997513
+        },
+        {
+          "id": 48622506,
+          "text": "Finland's investment reflects this commitment: in 2025, the country spent nearly €371m ($430m/£321m) on its public libraries – that's €65.78 ($76/£57) per person, compared to the average £10 ($13.5) per person spent in the UK, and a total public library expenditure of $15.2bn (£11.4bn ), or $45 (£34) per person in the US.\n\nAre those numbers correct?\nIn San Francisco, the 2025 public library budget was over $240 per resident per year.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48622506",
+          "by": "rahimnathwani",
+          "time": 1782075294
+        }
+      ],
+      "by": "sohkamyung",
+      "time": 1781996051,
+      "url": "https://www.bbc.com/future/article/20260618-the-weird-and-wonderful-libraries-of-finland",
+      "score": 334,
+      "descendants": 204,
+      "storyUrl": "https://www.bbc.com/future/article/20260618-the-weird-and-wonderful-libraries-of-finland"
+    },
+    {
+      "id": 48608645,
+      "type": "story",
+      "title": "Loupe – A iOS app that raises awareness about what native apps can see",
+      "rank": 3,
+      "depth": 0,
+      "storyId": 48608645,
+      "storyTitle": "Loupe – A iOS app that raises awareness about what native apps can see",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48608645",
+      "topComments": [
+        {
+          "id": 48616478,
+          "text": "I don't understand why internet access isn't opt-in for apps. Preventing exfiltration would prevent much of this harm, and most apps don't have any need to access the internet in the first place. Why am I creating a GE account to read my blood pressure? At least I know it's taking advantage of me. But this is clearly abusive behavior",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48616478",
+          "by": "throwaway27448",
+          "time": 1782026701
+        },
+        {
+          "id": 48614731,
+          "text": "Damn. The \"iPhone last setup or erased on ...\" is really nasty. What can a user really do about that? I feel like this should be fudged somehow by the OS.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48614731",
+          "by": "regecks",
+          "time": 1782004483
+        },
+        {
+          "id": 48616635,
+          "text": "One correction to some comments here: an iOS app cannot list all apps that are installed. You can only check for specific apps/schemes (LSApplicationQueriesSchemes) by specifying apps you are looking to query for installation status or open. You cannot provide a large list of unrelated applications since Apple rejects that during app review.\nApple added these restrictions because installed app lists can be used for fingerprinting and privacy invasive profiling.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48616635",
+          "by": "aggregator-ios",
+          "time": 1782028307
+        },
+        {
+          "id": 48615037,
+          "text": "Volume creation date is pretty egregious. I don't see any reason that and Pasteboard changeCount should be so granular.\nThe \"Installed Apps Probe\" leak also surprised me. It is better than the current state of Android, though.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48615037",
+          "by": "RedComet",
+          "time": 1782007969
+        },
+        {
+          "id": 48616251,
+          "text": "For anyone without an iPhone or doesn't want to install the app you can see a demo here (same video different platforms):\nhttps://odysee.com/@techlore:3/permission-not-required-the-o...\nhttps://www.youtube.com/watch?v=_n_SpEWtqog\nhttps://inv.nadeko.net/watch?v=_n_SpEWtqog\nhttps://techlore.tv/w/d7dh4P7y4dVngNoL7u7s3B",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48616251",
+          "by": "Cider9986",
+          "time": 1782023954
+        },
+        {
+          "id": 48615833,
+          "text": "This is excellent. Seeing this makes me appreciate how much visual awareness tools like this are needed.\nI built something similar, for the web. https://neberej.github.io/exposedbydefault/\nGithub: https://github.com/neberej/exposedbydefault",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48615833",
+          "by": "coffeecoders",
+          "time": 1782018090
+        },
+        {
+          "id": 48616439,
+          "text": "Why does a random app (with no special permissions given to it) get access to so much info, and why doesn't Apple tell users this (important) info? Why can't Apple make a long list of check boxes so users can dis/allow on a per-category and per-app basis?\nE.g. I had no idea a random app you install (and give no permissions to) instantly has a list of every app installed on the device (e.g. can infer whether you're dating [or cheating!] from presence of tinder/bumble/hinge). That alone seems instantly monetizable by unscrupulous actors via 'is-my-partner-cheating' as a service: charge $10 to give a probable answer.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48616439",
+          "by": "nomilk",
+          "time": 1782026142
+        },
+        {
+          "id": 48616843,
+          "text": "Is something similar already available for Android phones?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48616843",
+          "by": "jiri",
+          "time": 1782030579
+        },
+        {
+          "id": 48619446,
+          "text": "Holy cow, did not know ios lets apps access so many finger printable information such as apps installed, last wipe and number of copy actions.   \nInstalled the browser as I am confident it will be good also.\nThank you!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48619446",
+          "by": "kamyarg",
+          "time": 1782053357
+        },
+        {
+          "id": 48618036,
+          "text": "I must say, I like the Mysk team, and wish them well; AI or not.\nIt seems a bit quixotic, but anything that goes against $_BIGCORP is tilting at windmills, anyway.\nOf course, the one narrative I almost never hear, no matter who it is, is \"Simply don't collect any extra data.\"\nIt's that simple. If you don't have the data, your app could be Swiss cheese, and no one can get anything dangerous.\nBut, in today's tech world, data is money, so every app and Web site out there, goes to any length, to hoover up as much data as possible.\nI regularly get prompted to join \"teams,\" and \"leaderboards,\" or do \"challenges,\" on my solitaire games.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48618036",
+          "by": "ChrisMarshallNY",
+          "time": 1782042218
+        }
+      ],
+      "by": "Cider9986",
+      "time": 1781957303,
+      "url": "https://github.com/mysk-research/loupe",
+      "score": 519,
+      "descendants": 221,
+      "storyUrl": "https://github.com/mysk-research/loupe"
+    },
+    {
+      "id": 48584261,
+      "type": "story",
+      "title": "15-minute at-home Lyme disease tick test",
+      "rank": 4,
+      "depth": 0,
+      "storyId": 48584261,
+      "storyTitle": "15-minute at-home Lyme disease tick test",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48584261",
+      "topComments": [
+        {
+          "id": 48616517,
+          "text": "I didn’t discover that ticks were a problem until I was in my mid 20s, and had been rolling around in deer-filled brush for years. Either I got very lucky, or have a chronic tick-borne disease.\nI’ve been battling unexplained anxiety, fatigue, poor sleep and cognitive decline throughout my 30s. I’ve had every blood test under the sun, numerous sleep studies and tried every vitamin. I’ve had no answers and no change.\nSometimes, I've believed that it impacts my performance at work. Sometimes I feel like I should be retiring, but I’m not even 40 yet. Sometimes, it's not so bad.\nI saw a video on controlled hypothermia the other day, which seems like snake oil. I guess that’s next on my list to try. I feel desperate, but I’m just having to get used to the feeling of desperation, because there appears to be no answer or solution.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48616517",
+          "by": "beaker52",
+          "time": 1782027064
+        },
+        {
+          "id": 48614675,
+          "text": "https://lymealert.com/how-it-works/\nI’m not optimistic this will be all that helpful. Just because the tick you found is negative, that tells you nothing about those you did not find. Just because a tick is positive, that does not mean that it has infected whoever it was attached to.\nMy understanding is that the ticks only transmit disease after they have been attached long enough to become engorged. None of the ticks shown were engorged.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48614675",
+          "by": "mgerdts",
+          "time": 1782003984
+        },
+        {
+          "id": 48614755,
+          "text": "I always keep doxycyline around take a couple whenever I find a deer tick on me.\nhttps://www.ncbi.nlm.nih.gov/books/NBK545493/table/rc1121.ap...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48614755",
+          "by": "billfor",
+          "time": 1782004710
+        },
+        {
+          "id": 48623562,
+          "text": "Start thinking about α-gal syndrome, even if you're in The North. I just pulled an adult Lone Star tick off my back last night. I had no idea that they had made it to Northern Illinois. Now I get to spend the summer waiting to see if a burger is going to kill me.\nhttps://radiolab.org/podcast/alpha-gal",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48623562",
+          "by": "miiiiiike",
+          "time": 1782083483
+        },
+        {
+          "id": 48614917,
+          "text": "I like that it involves grinding up the tick.  Just deserts.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48614917",
+          "by": "daemonologist",
+          "time": 1782006584
+        },
+        {
+          "id": 48621754,
+          "text": "Pfizer recently released that they’re planning to send in their new Lyme vaccine to regulatory authorities after their phase 3 study: https://www.pfizer.com/news/press-release/press-release-deta...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48621754",
+          "by": "mfi",
+          "time": 1782069584
+        },
+        {
+          "id": 48618733,
+          "text": "My pet theory is that lyme disease coevolved to make mamals \"addicted\" to ticks. Every reinfection and the resulting fever-body pyrolysis, resets the infections malaise sideffects for a while. Thus, if you where outside all the time, you would be conditioned to expose yourselfs to ticks all the time, to feel \"healthy\" again. If those little bastards secreted fentanyl it would have a similar outcome.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48618733",
+          "by": "warumdarum",
+          "time": 1782047924
+        },
+        {
+          "id": 48618978,
+          "text": "Fancy! One can buy a pack of 3 for 30€ in Germany, which detect multiple types of borrelia bacteria ...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48618978",
+          "by": "jaeckel",
+          "time": 1782049725
+        },
+        {
+          "id": 48621947,
+          "text": "How effective do you think this test will be?\nIs the reactive strip used in the kit an existing, well-proven product?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48621947",
+          "by": "rkagerer",
+          "time": 1782070977
+        },
+        {
+          "id": 48617810,
+          "text": "it's good to have test for Lyme in case of strange symptoms (joint pain etc.) but check for alpha-tryptasemia which is more probable (5% people have it).",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48617810",
+          "by": "skirge",
+          "time": 1782040176
+        }
+      ],
+      "by": "bookofjoe",
+      "time": 1781785356,
+      "url": "https://www.bostonglobe.com/2026/06/17/business/lyme-disease-tick-test/",
+      "score": 236,
+      "descendants": 154,
+      "storyUrl": "https://www.bostonglobe.com/2026/06/17/business/lyme-disease-tick-test/"
+    },
+    {
+      "id": 48613555,
+      "type": "story",
+      "title": "Slow breathing modulates brain function and risk behavior",
+      "rank": 5,
+      "depth": 0,
+      "storyId": 48613555,
+      "storyTitle": "Slow breathing modulates brain function and risk behavior",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48613555",
+      "topComments": [
+        {
+          "id": 48615483,
+          "text": "Slow breathing is also recommended for novices before public speaking, as it helps speakers overcome irrational physiological fear of facing people, the risk-taking shift is useful as it helps you speak more confidently, not more cautiously. Slow breathing can calm nerves quickly; bottom-up regulation: body tells brain “you’re safe”.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48615483",
+          "by": "Sam6late",
+          "time": 1782013473
+        },
+        {
+          "id": 48614842,
+          "text": "Parasympathetic nervous activation increased risk-taking behavior? That's interesting/unexpected (at least to me). Also, this part caught my eye:\n> The selective impact of prolonged exhalation breathing on reward responsiveness has important implications for clinical contexts, such as anxiety, panic disorder, and depression, given their distinct autonomic signatures and maladaptive reward processing. By enhancing cardiac parasympathetic modulation through prolonged exhalation techniques, individuals may restore reward processing, a valuable pathway for emotional recalibration. Prolonged exhalation harbors the potential for a low-cost, low-risk, easily applicable intervention to be incorporated into therapy or rehabilitation programs, especially to support pharmacological treatments.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48614842",
+          "by": "cryzinger",
+          "time": 1782005735
+        },
+        {
+          "id": 48614479,
+          "text": "\"When you feel so mad that you want to roar, take a breath and count to four.\" - Daniel Tiger's mom",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48614479",
+          "by": "chopete3",
+          "time": 1782001850
+        },
+        {
+          "id": 48614627,
+          "text": "I've found breathing exercises to be effective for the duration of the exercise, but I'm more interested in the possibility of training myself to adjust my respiration patterns over sustained durations.  Would it be beneficial -- or even possible at all -- to adjust my body's default/subconscious breathing patterns to match those mentioned in the article?\nTangentially related, are there any wearable devices that allow for high resolution respiration monitoring?  I'm imagining some measurement of lung expansion over time (probably at least 10 Hz) so that I can quantify the deepness/shallowness of my breaths as well as the phase of inhalation/exhalation cycles.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48614627",
+          "by": "ansk",
+          "time": 1782003418
+        },
+        {
+          "id": 48615290,
+          "text": "Weren't 90s of deep breathing supposed to remove all cortisol in the blood? This seems like an opposite result. Also a single prolonged breath was supposed to reset autonomic nervous system. Which research should I trust now?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48615290",
+          "by": "storus",
+          "time": 1782010963
+        },
+        {
+          "id": 48615645,
+          "text": "Also try to make decisions ahead of time too. E.g. figure out what your opinion is before the meeting. Think like a pilot, don't let the plane do something you hadn't anticipated 5 minutes before (or in case of life 5 days 5 weeks 5 months or sometimes 5 years!)\nCant do this for everything but examples are supermarket lists, home viewing (know your price, questions, decision criteria)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48615645",
+          "by": "uberex",
+          "time": 1782015629
+        },
+        {
+          "id": 48617106,
+          "text": "I've been practicing coherent breathing (6 breaths/min, equal inhalation and exhalation) to help with anxiety. I'm mostly going off a study[1] where participants who practiced coherent breathing 20 mins a day reported significantly improved outcomes weeks later.\nDoes anyone have advice about HRV specifically within the context of anxiety?\nI've been measuring my SDNN using a Polar strap, and it hasn't really budged. However, I'm not taking that too seriously. I think my HRV is already fairly good because I bike. Anecdotally, I think the coherent breathing helps, especially if I _remember to do it in stressful moments_, not just in the morning.\n[1] https://pmc.ncbi.nlm.nih.gov/articles/PMC10719279/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48617106",
+          "by": "tmach32",
+          "time": 1782033465
+        },
+        {
+          "id": 48616035,
+          "text": "But fear is often good. Breathing slow to counter your fear should only be done when you know it is an irrational fear.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48616035",
+          "by": "galaxyLogic",
+          "time": 1782020972
+        },
+        {
+          "id": 48617759,
+          "text": "Slowed breathing with longer exhales makes a noticeable (5-10 bpm) decrease in HR during endurance bike rides. It’s interesting seeing it happen when the power output is the same.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48617759",
+          "by": "AaronAPU",
+          "time": 1782039864
+        },
+        {
+          "id": 48615245,
+          "text": "i developed a health issue that has affected my breathing over the past few years and i am cognitively and emotionally destroyed, it has made me realize that breathing is really important",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48615245",
+          "by": "k__o",
+          "time": 1782010615
+        }
+      ],
+      "by": "croes",
+      "time": 1781994172,
+      "url": "https://www.cell.com/neuron/fulltext/S0896-6273(26)00339-9",
+      "score": 386,
+      "descendants": 109,
+      "storyUrl": "https://www.cell.com/neuron/fulltext/S0896-6273(26)00339-9"
+    },
+    {
+      "id": 48608570,
+      "type": "story",
+      "title": "Show HN: TownSquare, a tiny presence layer for websites",
+      "rank": 6,
+      "depth": 0,
+      "storyId": 48608570,
+      "storyTitle": "Show HN: TownSquare, a tiny presence layer for websites",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48608570",
+      "topComments": [
+        {
+          "id": 48614553,
+          "text": "I just took a look at the page's own 'town square'. At the moment, it's largely full of people saying offensive things for the sake of it.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48614553",
+          "by": "lambdaone",
+          "time": 1782002606
+        },
+        {
+          "id": 48616317,
+          "text": "Love it, also love that there's one HN visitor just hanging out typing \"dick and balls\" over and over again. That's unmoderated anonymous public squares for you",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48616317",
+          "by": "swiftcoder",
+          "time": 1782024765
+        },
+        {
+          "id": 48618211,
+          "text": "Oh how fun. \nSadly I went there and someone has botted it with “dick and balls” constantly being spammed by multiple people.\nBut that’s to be expected when something gets attention. On other sites I can see this being nice addition. And a great concept.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48618211",
+          "by": "justeoghan",
+          "time": 1782043735
+        },
+        {
+          "id": 48618441,
+          "text": "I'm interested in trying a moderation scheme that puts the power in the receiving client, with opinionated defaults. Let the client filter for itself, mute users for itself, and make users invisible to itself. Have default settings that make sense for the app, but let the user override them.\nUse a cheap purpose-built LLM like OpenAI's free moderation endpoint to classify the text and send the original text plus the classification to clients, and let clients choose what to do with it, with opinionated defaults appropriate to the app.\nMaybe you still need to identify persistent bad actors rather than acting only on content. But still, allow clients to decide what to do with that information.\nI suppose my thinking is that strong default automatic moderation that's invisible to offenders is a requirement for a project like this to be able to offer a welcoming experience to users, but putting the power in an LLM and fixed filter lists feels very wrong. So my thought is to use those things to give the client power. But maybe that makes no difference if nobody changes settings away from defaults anyway.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48618441",
+          "by": "furyofantares",
+          "time": 1782045736
+        },
+        {
+          "id": 48615733,
+          "text": "The contrast between the example screenshots and the standard internet behavior in the live demo is hilarious",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48615733",
+          "by": "thatguysaguy",
+          "time": 1782016820
+        },
+        {
+          "id": 48615311,
+          "text": "I made something similar last year: A p2p chat popup (that sits on bottom right of the page as a bubble) that allows all visitors to chat with each other. It had simple keyword based moderation in-built (can be easily bypassed though).\nWas planning to add github oauth to get a known identity and persistent messaging so visitors can chat with each other across sites.\nInstead of a webmaster adding script to their site, it was a browser extension.\nThe intent was two folds:\n1. Get to know other people having similar interests,\n2. Try something on the lines of a decentralized chat/messaging system.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48615311",
+          "by": "freakynit",
+          "time": 1782011284
+        },
+        {
+          "id": 48615423,
+          "text": "Moderation moderation moderation . It’s a big problem\nI have similar moderation concerns in my browser game/engine but I only ban offensive slurs not swears, but I give no visual affordance that the word is not allowed\nThe only surface where players see the input content is in a share card, and if they finish a game and get to the share card they will find the offensive word has been REDACTED lol\nSo it’s a long feedback loop just to find out your hijinks lead nowhere",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48615423",
+          "by": "purple-leafy",
+          "time": 1782012746
+        },
+        {
+          "id": 48615111,
+          "text": "There was a thing from the 90s kind of like this called Third Voice. It was a cool idea, but I remember there being a lot of backlash from brands.\nhttps://en.wikipedia.org/wiki/Third_Voice",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48615111",
+          "by": "afpx",
+          "time": 1782008978
+        },
+        {
+          "id": 48615575,
+          "text": "Matt Webb made a version of this (and wrote about it) a while back—Cursor Party: https://interconnected.org/home/2024/09/05/cursor-party\nI contemplated implementing it on my site for a while but decided I didn’t want to add the JavaScript. Still find it a really cute concept.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48615575",
+          "by": "figbert",
+          "time": 1782014584
+        },
+        {
+          "id": 48615682,
+          "text": "I love the idea, but it’s a real shame how people are using it. I wonder if AI can moderate it for offensiveness and spam prevention",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48615682",
+          "by": "dawie",
+          "time": 1782016121
+        }
+      ],
+      "by": "cauenapier",
+      "time": 1781956503,
+      "url": "https://townsquare.cauenapier.com/",
+      "score": 250,
+      "descendants": 144,
+      "storyUrl": "https://townsquare.cauenapier.com/"
+    },
+    {
+      "id": 48613872,
+      "type": "story",
+      "title": "Epoll vs. io_uring in Linux",
+      "rank": 7,
+      "depth": 0,
+      "storyId": 48613872,
+      "storyTitle": "Epoll vs. io_uring in Linux",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48613872",
+      "topComments": [
+        {
+          "id": 48614757,
+          "text": "> But my students weren’t as happy as I was - they wanted to build something genuinely useful, and they were really disappointed that our “product” had strong architectural limits and couldn’t outperform titans like nginx and haproxy.\nI took a (very brief) look at the github repo [1], it doesn't look like you're doing anything with cpu pinning.\nYou can probably eke (thanks) out a bit more performance if you cpu pin your threads and cpu pin your listen sockets (sockopt SO_INCOMING_CPU).\nIf you also cpu align your outgoing sockets, you should get a significant boost, but afaik, there's no great api for that. Linux does have an api for compatible NICs (traffic steering/flow steering) which can work, but if you know what hash your NIC uses (it's probably toeplitz) and you manage source port selection to your backend, you can pick ports that will hash properly.\nThe goal is for your proxy to be able to handle packets without any cross cpu communication.\n[1] https://github.com/sibexico/TinyGate",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48614757",
+          "by": "toast0",
+          "time": 1782004739
+        },
+        {
+          "id": 48614466,
+          "text": "Take a look at https://github.com/concurrencykit/ck and https://github.com/microsoft/mimalloc, it will fit well for a zero-copy and mem aligned reverse proxy. Also, if you want to add a DDoS protection and more advanced L4 stuff check out https://docs.ebpf.io/ebpf-library/libxdp/libxdp/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48614466",
+          "by": "spliffedr",
+          "time": 1782001686
+        },
+        {
+          "id": 48617414,
+          "text": "Such a great article!\nThis sent me through a rabbit hole of uring, kernel development and C. I've been a rust and c++ dev for quite a few years now, but there's such a simplicity and even artistic feel to small(ish) C programs.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48617414",
+          "by": "witx",
+          "time": 1782036624
+        },
+        {
+          "id": 48616237,
+          "text": "I've not yet tested the shared buffers for my io uring based web server, but that's because instead of reading from a file and writing, i send directly from a mmaped region.\nBut really, I want to sendfile with io_uring, but that's not supported yet.\nMy writeup, with extra buzzwords like Rust and kTLS: https://blog.habets.se/2025/04/io-uring-ktls-and-rust-for-ze...\nIt was on HN too: https://news.ycombinator.com/item?id=44980865",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48616237",
+          "by": "thomashabets2",
+          "time": 1782023793
+        },
+        {
+          "id": 48618267,
+          "text": "In the context of a proxy one should mention epoll_wait busy poll. I've recently dived into this when reviewing low-latency options, and found that it's almost possible to do user space busy polling just for simple sockets, no DPDK/VMA/io_uring needed, and Fastly contributed to this and uses it.\nIt's too low level, I cannot even tell that I understand everything, only the concept, so I will just share some links. It works only per NAPI epoll context, and one cannot easily control NAPI ID, but if an entire machine is dedicated for a proxy one can do a simple trick of assinging sockets by NAPI ID to dedicated pollers.\nIn my use case, it was not a proxy, but N socket polling on a machine that then processes received data. It does not look feasible for such case, maybe round-robin polling of NAPI contexts from a single thread may work. What I would really want to have one day from the kernel is that I can easily tell it: trust me, I will poll this single socket eventually, never ever use IRQ path for it.\nPrevious HN discussion of the kernel feature: https://news.ycombinator.com/item?id=43749271\nNice presentation by the Fastly contributor, with nice diagrams making the big picture much easier to understand: https://netdevconf.info/0x18/docs/netdev-0x18-paper10-talk-s...\nLWN articles: https://lwn.net/Articles/1008399/, https://lwn.net/Articles/997491/,  https://lwn.net/Articles/959462/\nKernel docs: https://docs.kernel.org/networking/napi.html#irq-mitigation",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48618267",
+          "by": "buybackoff",
+          "time": 1782044164
+        },
+        {
+          "id": 48617485,
+          "text": "If you write one with DPDK, it'll be infinitely more complex but you'll have the opportunity to blow away nginx in performance.\nIf you make one run on an FPGA you it'll be even more complex.\nThe lesson is that cutting through abstraction like a hot knife through butter is a necessary mindset for performance but also makes things more difficult. Sockets and thread-per-connection were good approaches when networks were very slow relative to CPUs, and they're still often the simplest approach today.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48617485",
+          "by": "inigyou",
+          "time": 1782037554
+        },
+        {
+          "id": 48617908,
+          "text": "I was also always curious about this and recently wrote a few implementations of an http file server to teach myself the key differences.\nhttps://theconsensus.dev/p/2026/05/18/serving-files-three-wa...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48617908",
+          "by": "eatonphil",
+          "time": 1782041060
+        },
+        {
+          "id": 48614117,
+          "text": "Boost asio if you love C++ and asynchronous networking.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48614117",
+          "by": "mrlonglong",
+          "time": 1781998477
+        },
+        {
+          "id": 48615677,
+          "text": "The year is 2050; there are 20 different ways to poll a socket on Linux.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48615677",
+          "by": "GalaxyNova",
+          "time": 1782016101
+        },
+        {
+          "id": 48614302,
+          "text": "Yes, io_uring is significantly faster than epoll (I think I had like 20% faster req/s with io_uring.) The catch is that its kernel opt-in and disabled just about everywhere for security reasons. I think that it has direct memory sharing between the kernel and user-land which is kind of yikes. There's been multiple exploits that hit io_uring in recent times. It's because of this that even engineering projects that try to reach the highest performance possible (like Go) don't really bake io_uring in as a sane default. Though if you want to take the risk you can always run it yourself for your favourite language. It is faster but the cost is possible exploits.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48614302",
+          "by": "Uptrenda",
+          "time": 1781999967
+        }
+      ],
+      "by": "Sibexico",
+      "time": 1781996829,
+      "url": "https://sibexi.co/posts/epoll-vs-io_uring/",
+      "score": 250,
+      "descendants": 60,
+      "storyUrl": "https://sibexi.co/posts/epoll-vs-io_uring/"
+    },
+    {
+      "id": 48617990,
+      "type": "story",
+      "title": "Beyond All Reason (Free Total Annihilation Inspired RTS)",
+      "rank": 8,
+      "depth": 0,
+      "storyId": 48617990,
+      "storyTitle": "Beyond All Reason (Free Total Annihilation Inspired RTS)",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48617990",
+      "topComments": [
+        {
+          "id": 48618604,
+          "text": "Great game, technically impressive, but the community can be quite mean and toxic. I played for around a year after having played other TA Spring RTS for a few years prior, and if you don’t follow the exact meta of the month (whatever that might be) in terms of build order and things, people can get really aggro and your team can vote to kick you and take your units.\nAlso, one particularly aggravating part of the community is that it’s considered courtesy to surrender once the front line is broken instead of playing the game out and letting the back eco players try and recover it.\nThe drafting for picking map spots is done in order of seniority, and the good players take all the low stress spots which leaves the newer players to take the more difficult spots. This feeds into a loop where the senior players get aggro at the new players for letting the front break down, but simultaneously they won’t take it themselves even though it’s the more important position.\nI stopped playing because I felt like I had a lot of negative interactions in every 2nd or 3rd game. The front player blames the back player, the back player blames the front player, everyone flames the weakest player.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48618604",
+          "by": "aetherspawn",
+          "time": 1782046914
+        },
+        {
+          "id": 48619662,
+          "text": "This is amazing to see TA on HN.\nI grew up playing Total Annihilation in the 90s because my cousin worked for Cavedog and got us a CD for free. It is still one of my favorite games to this day.\nSo many great memories with that game, countless hours playing with my brothers, getting up early to play before school, asking my parents for extra chores to earn more computer time.\nGames aren't the same anymore.\nI still have the original game and expansion packs. Highly recommend playing it.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48619662",
+          "by": "tobinfekkes",
+          "time": 1782054888
+        },
+        {
+          "id": 48622325,
+          "text": "Best RTS ever made, in my subjective opinion, but incredibly toxic player base despite active moderation.\nI think it's a numbers issue with 16 players in a standard game, and if you play five games in a session, with all chat enabled, you're going to run into a small handful of truly nasty people, which is souring of the experience and why I put the game down in the end.\nI know the standard advice is to ignore it but it's just not fun to be constantly exposed to aggressive and unhappy people.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48622325",
+          "by": "bar2",
+          "time": 1782073790
+        },
+        {
+          "id": 48619384,
+          "text": "I play Zero-K (a related open source game) a few times a month. I really enjoy their 'cold take' blog series discussing game mechanics and the history of TA derivatives. https://zero-k.info/mediawiki/Cold_Takes",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48619384",
+          "by": "mboerwink",
+          "time": 1782052899
+        },
+        {
+          "id": 48621888,
+          "text": "BAR is amazing but there's a hurdle for new players.\nIf you download it, don't join the first lobby you see.\nMy advice is to watch some videos on youtube, play some games solo, then look for new player lobbies or create your own and set restrictions on it.\nIt only takes one player on the enemy team who regularly plays the game and you'll get stream rolled.\nOr you'll join a game of regular players, can't hold your lane and everyone will get frustrated when their base is blown up from your lane not holding.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48621888",
+          "by": "InsomniacL",
+          "time": 1782070576
+        },
+        {
+          "id": 48618498,
+          "text": "The game is very mature and well thought RTS. The user experience and performance is beyond anything on the market now. It beats all well known AAA studios attempts at it by far.\nIt's still actively developed and very free to play.\nHere's a cast of 40 vs 40 players by a former Star Craft 2 pro player: https://www.youtube.com/watch?v=B1a5dkjUq3o",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48618498",
+          "by": "SockThief",
+          "time": 1782046280
+        },
+        {
+          "id": 48618574,
+          "text": "If you are into playing with others, you might find a more stable community with FAF.\nhttps://www.faforever.com/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48618574",
+          "by": "bob1029",
+          "time": 1782046739
+        },
+        {
+          "id": 48618866,
+          "text": "I know this is kind of silly, but even though TA's game mechanics are obviously great, I really liked its ambience and story. The sort of a melancholic vibe of a slow-moving neverending war.\nBAR in contrast is a bit of a PvP clickfest, which I don't enjoy. I wonder if there's a game mode or another Spring mod that would give me a more authentic feel? Single-player or perhaps PvE.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48618866",
+          "by": "abc42",
+          "time": 1782048955
+        },
+        {
+          "id": 48625313,
+          "text": "Just from playing a bit in skirmish, this game seems really tryhard and that's not really what I want from my RTS games",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48625313",
+          "by": "WillowWithAWand",
+          "time": 1782098818
+        },
+        {
+          "id": 48619450,
+          "text": "Interesting, tried this game just 2 weeks ago and beat one of the pve modes with a friend just yesterday.\nJoined some 8v8 for noobs and some were very friendly but they also wanted to kick me for not knowing the game. After all they let me stay but I stuck to pve or vs bots with friends now",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48619450",
+          "by": "queuep",
+          "time": 1782053398
+        }
+      ],
+      "by": "mosiuerbarso",
+      "time": 1782041881,
+      "url": "https://www.beyondallreason.info",
+      "score": 447,
+      "descendants": 269,
+      "storyUrl": "https://www.beyondallreason.info"
+    },
+    {
+      "id": 48620090,
+      "type": "story",
+      "title": "Prefer duplication over the wrong abstraction (2016)",
+      "rank": 9,
+      "depth": 0,
+      "storyId": 48620090,
+      "storyTitle": "Prefer duplication over the wrong abstraction (2016)",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48620090",
+      "topComments": [
+        {
+          "id": 48620636,
+          "text": "I believe that \"single source of truth\" is a principle that should always be followed. If there's duplicated code where it'd be a bug if they diverge, then you should refactor. It creates a long-distance coupling in your code that may be invisible to future developers until a bug emerges.\nBut with that in mind, I mostly agree with the article: if it's not a violation of \"single source of truth\", then abstractions are just a convenience. If it starts being inconvenient, then it's not doing its job and there's no reason to use it. It's a serious code smell if a function needs several flags for custom behavior; that means it's probably the wrong abstraction or violating the single responsibility principle. If there is a legit need for lots of customization, an often-good way to handle is to take a function/functor as an argument for the customization. E.g., rather than `solve(f:double -> double, max_iters = 99, x_abs_tol = 1e-15, x_rel_tol = 1e-15, ...)` you can do `solve(f:double -> double, stopping_criteria: StoppingCriteriaClass)`",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48620636",
+          "by": "lg5689",
+          "time": 1782062033
+        },
+        {
+          "id": 48621955,
+          "text": "I think about this on occasion. Most recently I ran into an issue during a personal project: 2d sprites for RTS units were packed on spritesheets in a consistent manner: 5 sprites for 8 directions (you mirror 3). Packed in order of: stand, move, attack, die. So I made a loader that understands how to take action + direction and offer an array of sprites to play through.\nBut then I came across more cases: sprites with no directionality (an explosion), and corpse sprites (which were only 4 directions, 2 mirrors, and most except the first four were shared by both orcs and humans).\nI agonized for a little bit on what the hell the common abstraction is for all this.  In the end, I factored out some of the loading code, and made a UnitLoader, CorpseLoader, EffectLoader and moved on.  Now, there's probably a better abstraction in there because all 3 loaders have to reason about the same things a little bit. But I will discover that abstraction later on and it's easier to just de-duplicate the code then, rather than try to identify the abstraction now and make some complicated EverythingLoader that handles all those cases.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48621955",
+          "by": "Waterluvian",
+          "time": 1782071021
+        },
+        {
+          "id": 48620406,
+          "text": "I used to struggle with abstractions back in my OOP days but since moving pretty much to a purely functional approach I find that code duplication is rare.  Just have a function and call it in two parts.  The main abstraction issue is then data structures but with TypeScript interfaces being duck typing essentially I run into few problems there as well.\nSo code duplication because of abstraction issues is rare.  Code duplication because of siloed developers is so much more common.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48620406",
+          "by": "bhouston",
+          "time": 1782060586
+        },
+        {
+          "id": 48620455,
+          "text": "Echoing the article, anyone who has experienced both will agree: it’s far easier to work with an under engineered code base than an over engineered one.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48620455",
+          "by": "strongpigeon",
+          "time": 1782060914
+        },
+        {
+          "id": 48624708,
+          "text": "Nice to see Sandi mentioned! If anyone liked her philosophy / writing style I highly recommend you check out her books\nI read “Practical Object-Oriented Design (POODR)” ages ago at this point, but it reshaped how I approached OOP\nGranted… OOP as a default paradigm has fallen out of favor (at least for me), but it’s still everywhere & won’t be going away. She gives a great framework for making it sane",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48624708",
+          "by": "skreem",
+          "time": 1782093466
+        },
+        {
+          "id": 48620438,
+          "text": "+1 The worst code I had to maintain was code that tried to follow DRY (without the trying to understand what the original intention of that principle was). The only way out of that mess was widespread code duplication.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48620438",
+          "by": "znkr",
+          "time": 1782060828
+        },
+        {
+          "id": 48620539,
+          "text": "Two talks come to mind here: Mike Acton's Data-Oriented Design and C++ [1] and \nBrian Cantrill's The Complexity of Simplicity [2].\nMike's talk argues that code solutions need not be modelled on the real world, and that different data creates different problems, which need different solutions. I can't do the talk justice, but it's had a big impact on me.\nBrian's talk is about abstraction generally, and how it's difficult to find the \"right\" abstraction.\n1. https://www.youtube.com/watch?v=rX0ItVEVjHc\n2. https://www.youtube.com/watch?v=Cum5uN2634o",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48620539",
+          "by": "Rendello",
+          "time": 1782061481
+        },
+        {
+          "id": 48620563,
+          "text": "Nobody wants to listen. Nobody. In 90% of the companies there are some so called senior devs that get ecstatic when they create a new abstraction.\nOverengineering, abstractions and premature optimisation are the 3 worst plagues of engineering.\nAt the same time I’m happy they exist because it means we’ll always have a job.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48620563",
+          "by": "ultim8k",
+          "time": 1782061692
+        },
+        {
+          "id": 48622008,
+          "text": "Similarly, I've seen some developers who seem to think that any inline string or numeric constant is evil. In one PR, I saw:\n    HTTPS_SCHEME = 'https'\n    DOMAIN = 'www.example.com'\n    \n    url = HTTPS_SCHEME + '://' + DOMAIN\n\nI don't understand what they think this is buying, other than just cargo culting \"don't embed constants.\" And of course, the constant definitions were at the top of the file and the url building code was hundreds of lines away.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48622008",
+          "by": "aftbit",
+          "time": 1782071442
+        },
+        {
+          "id": 48620302,
+          "text": "You can do both with microservices!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48620302",
+          "by": "cryo32",
+          "time": 1782059745
+        }
+      ],
+      "by": "rafaepta",
+      "time": 1782058103,
+      "url": "https://sandimetz.com/blog/2016/1/20/the-wrong-abstraction",
+      "score": 440,
+      "descendants": 300,
+      "storyUrl": "https://sandimetz.com/blog/2016/1/20/the-wrong-abstraction"
+    },
+    {
+      "id": 48618455,
+      "type": "story",
+      "title": "Identity verification on Claude",
+      "rank": 10,
+      "depth": 0,
+      "storyId": 48618455,
+      "storyTitle": "Identity verification on Claude",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48618455",
+      "topComments": [
+        {
+          "id": 48621207,
+          "text": "The US is really shooting itself in the foot here.\nThe restrictions on LLM models like Fable has created a viable international LLM market where it was  difficult to justify investment two weeks ago.\nAs a non-US citizen Opus 4.8 is the best American LLM I will ever have access to. That's no longer up for debate or question. Each month that I pay Anthropic is now a depreciating value -- I'm paying for models I'll never be able to access, while other models are able to catch up.\nAdding US based identity verification through Persona is also incredibly off-putting. I think it's sufficient to kill my use of Claude altogether.\nSo the question I have to live with is what do I do instead.\nI installed Mistral Vibe last week and I've been experimenting with offloading work to it. I won't pretend that Mistral-medium is close to state of the art. It isn't. It still writes incorrect tool calls.\nFrom the last week about 50% of my LLM tasks actually reduced to \"take this work and write about it\" and Mistral excels there -- it definitely beats Opus at writing. Mistral nails it, and when it doesn't its so fast to iterate.\nThere's another say 30% of tasks that's writing queries against a data warehouse. I updated my semantic layer MCPs and Vibe uses them, but it struggles with ambiguity here. It's not a replacement, it's maybe where Opus was a year ago.\nThe rest of my work involves writing code. That's going to be harder to replace for now. My next step is exploring OpenRouter and other models. I can't decide if I was ever actually happy with Opus's work on this front though -- the understanding tradeoffs when you trust LLMs with decisions stack non-linearly and negatively. I did like Fable on these tasks, I won't lie, I will miss it, but not by any choice of my own.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48621207",
+          "by": "data-ottawa",
+          "time": 1782065833
+        },
+        {
+          "id": 48622980,
+          "text": "This page has been up since April: https://web.archive.org/web/20260415064244/https://support.c...\nI see a lot of comments linking this to Fable or implying that the existence of this page is triggering them to cancel.\nYou should know that this help page and their ID process are not new. This page has been up for many months. It gets discussed from time to time, including in past HN posts.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48622980",
+          "by": "Aurornis",
+          "time": 1782078851
+        },
+        {
+          "id": 48618606,
+          "text": "OpenAI also has this kind of check. What is especially bad is that if you fail the verification process, they won’t let you retry – you are permanently locked out from the top models. They aren’t clear about this upfront during the process, so make sure the lighting is good when you scan your ID!\nhttps://help.openai.com/en/articles/10910291-api-organizatio...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48618606",
+          "by": "JimDabell",
+          "time": 1782046937
+        },
+        {
+          "id": 48618482,
+          "text": "Funny how no-one talks about AI neutrality like we used to discuss net neutrality. We literally now enter a space where not only you will have to prove your identity with a gov issued ID, but they will silently block you if they deem you try to use it in a way that they don't like.\nIt is literally similar to a situation where your ISP would investigate all sites you visit and limit your bandwidth if they don't like the the ones you enter...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48618482",
+          "by": "xmstan",
+          "time": 1782046150
+        },
+        {
+          "id": 48622516,
+          "text": "Most importantly, they state \"We [Antrhopic] are not using your identity data to train our models\" but \"Persona [...] can use your data [...] to improve their ability to prevent fraud.\" -- in other words, Persona can (and will) use your data to train their models.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48622516",
+          "by": "tgsovlerkhgsel",
+          "time": 1782075344
+        },
+        {
+          "id": 48618843,
+          "text": "Cancel and Refund link if anyone is searching\nhttps://claude.ai/settings/billing?action=cancel-refund",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48618843",
+          "by": "truthbe",
+          "time": 1782048776
+        },
+        {
+          "id": 48618747,
+          "text": "Previous discussion: https://news.ycombinator.com/item?id=47775633 - 67 days ago, 100 comments\nAs mentioned in that thread, Persona as the provider is a bit surprising and problematic.\nDiscord dropped them after user backlash.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48618747",
+          "by": "consumer451",
+          "time": 1782048041
+        },
+        {
+          "id": 48622462,
+          "text": "Cancelled. Anthropic can get bent if it wants to market itself as the ethical AI choice and at the same time lies in bed with those openly pushing for a surveillance state.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48622462",
+          "by": "sinker",
+          "time": 1782074910
+        },
+        {
+          "id": 48618699,
+          "text": "I really don't like that headlines have been surfacing about the US government putting pressure on Anthropic, and now a short time later they are requiring ID's (albeit for certain use cases, but that's a slippery slope).\nI may very well stop using Claude due to this.\nAlso, who is providing the verification service? We don't want another Discord situation.\nEDIT: Just saw it's Persona. Definitely dropping Claude now.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48618699",
+          "by": "Rooster61",
+          "time": 1782047641
+        },
+        {
+          "id": 48622422,
+          "text": "> Verification data stays between you, Persona, and Anthropic, except where we're legally required to respond to valid legal processes.\nThat, in conventional meaning, means an ongoing judicial investigation. But \"valid legal process\" very plausibly means as well \"this legal order we secretly received from a branch of the government that means we shall build a dossier of every foreigner using our service and share it with the agencies\". And honestly, after other recent news from Anthropic and its \"lively\" relationship with the concentration-camp-building-current-administration, I dread handing over id documents to them. If I see the prompt, I'll close my account and use one of the many alternatives.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48622422",
+          "by": "dsign",
+          "time": 1782074624
+        }
+      ],
+      "by": "bathory",
+      "time": 1782045853,
+      "url": "https://support.claude.com/en/articles/14328960-identity-verification-on-claude",
+      "score": 622,
+      "descendants": 544,
+      "storyUrl": "https://support.claude.com/en/articles/14328960-identity-verification-on-claude"
+    },
+    {
+      "id": 48615569,
+      "type": "story",
+      "title": "The brain was not designed for this much bad news",
+      "rank": 11,
+      "depth": 0,
+      "storyId": 48615569,
+      "storyTitle": "The brain was not designed for this much bad news",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48615569",
+      "topComments": [
+        {
+          "id": 48615806,
+          "text": "The other option is to be more realistic - people often have wildly unrealistic expectations of how the world should work and seem to get a bit stressed when they are confronted with reality.\nThe more pressing problem is the voters who accept policies being put in place based on something going wrong one time without accepting that things go wrong and we have to tolerate problems to some extent. If policies were made after a bit of experimentation, maybe trying a few things in parallel [0] and with prescribed objectives they were to be evaluated against the legislative process would get better results.\n[0] The results of experiments like Shenzhen are significant. The US used to be a lot better at letting people act independently too.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48615806",
+          "by": "roenxi",
+          "time": 1782017709
+        },
+        {
+          "id": 48617052,
+          "text": "Beter wording: your brain is made for detecting dangers and attention grabbers are taking advantage of that",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48617052",
+          "by": "stcg",
+          "time": 1782032939
+        },
+        {
+          "id": 48615751,
+          "text": "I’ve been thinking about this a lot lately. Back in 2010 I gave a TEDx talk about how the internet can be an extension of your mind.\nNowadays I feel like it is contributing noise. The internet has become X, Reddit, AI, doomscrolling and group messaging.\nVery little room for positive messaging. I don’t mean to harp about the theft of attention: the message itself is just not even contributing anything.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48615751",
+          "by": "tetrisgm",
+          "time": 1782017031
+        },
+        {
+          "id": 48621269,
+          "text": "A past thread about one of the papers linked to in the OP:\nNegativity drives online news consumption - https://news.ycombinator.com/item?id=35197587 - March 2023 (355 comments)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48621269",
+          "by": "dang",
+          "time": 1782066211
+        },
+        {
+          "id": 48615675,
+          "text": "Neil Postman called this the “Peekaboo World”.\n“What steps do you plan to take to reduce the conflict in the Middle East? Or the rates of inflation, crime and unemployment? What are your plans for preserving the environment or reducing the risk of nuclear war? What do you plan to do about NATO, OPEC, the CIA, affirmative action, and the monstrous treatment of the Baha’is in Iran? I shall take the liberty of answering for you: You plan to do nothing about them.”\nhttps://www.nateliason.com/notes/amusing-death-neil-postman",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48615675",
+          "by": "spking",
+          "time": 1782016034
+        },
+        {
+          "id": 48616261,
+          "text": "I don't know, I am a naturally anxious person even before I started reading the news daily, and I'm fine. Seeing the brutal chaos of the world definitely makes me appreciate the peace at home more. It's a grounding experience to be aware of the good and bad things that happen in the world.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48616261",
+          "by": "rf15",
+          "time": 1782024015
+        },
+        {
+          "id": 48615976,
+          "text": "Also applies to reading comments and replying to them. You don’t know these people.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48615976",
+          "by": "cryptoegorophy",
+          "time": 1782020160
+        },
+        {
+          "id": 48615689,
+          "text": "I only read local news. It’s pretty nice I don’t feel stressed at all. Turns out random shit far away has no significant effect on my life. And even if it did it’s not like I can do anything about it",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48615689",
+          "by": "zeroonetwothree",
+          "time": 1782016151
+        },
+        {
+          "id": 48622845,
+          "text": "It is natural that early brain evolved to handle \"negativity bias\" from local dangers, not 24/7 exposure to worldwide bad news.\nBut the author missed some key nuances.\n- Whether a news is good or bad depends on the person.\n- The same news is seen as good by one person but as bad news by another or not news by some. Good and bad is too general categorization.\n- People seek out news naturally to expand the awareness. The author appear to make the point people are forced to know.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48622845",
+          "by": "chopete3",
+          "time": 1782077889
+        },
+        {
+          "id": 48615900,
+          "text": "One thing that really helped me was to start viewing my news media in black and white.\nWithout the colored dressing, a lot of (especially partisan political) articles have much less emotional impact on me.\nNote: this worked particularly well for written media and less well for vocal media",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48615900",
+          "by": "failrate",
+          "time": 1782019070
+        }
+      ],
+      "by": "colinprince",
+      "time": 1782014528,
+      "url": "https://www.sciencedaily.com/releases/2026/06/260614012006.htm",
+      "score": 391,
+      "descendants": 314,
+      "storyUrl": "https://www.sciencedaily.com/releases/2026/06/260614012006.htm"
+    },
+    {
+      "id": 48616713,
+      "type": "story",
+      "title": "A 3D voxel game engine written in APL",
+      "rank": 12,
+      "depth": 0,
+      "storyId": 48616713,
+      "storyTitle": "A 3D voxel game engine written in APL",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48616713",
+      "topComments": [
+        {
+          "id": 48616860,
+          "text": "APL game engine is indeed an unusual thing. I don't know much about APL, and never used it (toyed with J back in the days though). I am really interested in the development process and the challenges posed by using APL for that kind of project.\nAlso, I really appreciate that the ReadMe file doesn't try to sell this project as something more than it actually is - a buggy passion project. Such honesty is, I feel, relatively rare nowadays.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48616860",
+          "by": "Vedor",
+          "time": 1782030808
+        },
+        {
+          "id": 48617165,
+          "text": "A voxel world is a pretty good sales pitch for APL: the weird-looking part is the notation, not the model.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48617165",
+          "by": "Littice",
+          "time": 1782033956
+        },
+        {
+          "id": 48621801,
+          "text": "It would be nice to know how fast it is in comparison to a similar voxel engine written in a language like C++ or Rust.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48621801",
+          "by": "Panzerschrek",
+          "time": 1782069980
+        },
+        {
+          "id": 48623767,
+          "text": "> This started off as a bet with myself that APL notation would provide an easier way to make a voxel game.\nDid you win the bet?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48623767",
+          "by": "fourthark",
+          "time": 1782085265
+        },
+        {
+          "id": 48616981,
+          "text": "shameless plug, been working a a voxel editor to create voxels that you could use to decorate a home for a a little creature you have to take care of(a la sims). if anyone has some feedbacks, would be happy to take them!\nhttps://kamio.ai/studio",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48616981",
+          "by": "eric_khun",
+          "time": 1782032260
+        }
+      ],
+      "by": "sph",
+      "time": 1782029094,
+      "url": "https://github.com/namgyaaal/avoxelgame",
+      "score": 151,
+      "descendants": 14,
+      "storyUrl": "https://github.com/namgyaaal/avoxelgame"
+    },
+    {
+      "id": 48599555,
+      "type": "story",
+      "title": "Running MicroVMs in Proxmox VE, the Easy Way",
+      "rank": 13,
+      "depth": 0,
+      "storyId": 48599555,
+      "storyTitle": "Running MicroVMs in Proxmox VE, the Easy Way",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48599555",
+      "topComments": [
+        {
+          "id": 48617598,
+          "text": "FWWI, we did evaluate and benchmark microVMs back in 2020. Back then it was not really seen worth it the maintenance cost compared to what it brought to the table, but it makes sense to re-evaluate that again soonish; with native dynamic load balancing and affinity rules (and further orchestration improvements being lined up) they might be better leveraged today.\nOh, and mailing lists are a bliss to use compared to (barely loading) forges, at least to me and especially with public inbox and tools like b4 and lei for patch review, management and applying. For the sending side it's basically a git send-email command to pve-devel@list.proxmox.com, see https://git-send-email.io for a simple tutorial.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48617598",
+          "by": "tlamponi",
+          "time": 1782038403
+        },
+        {
+          "id": 48619853,
+          "text": "My favorite microVM discovery recently has been tools built around libkrun. See smolvm[0].\nThe killer feature still missing from microVMs for me is the ability to enable CUDA support without passing through the entire GPU. vfio is just too much of a pain and too limiting. Sometimes I want to use my GPU on the host. Vulkan works fairly well with virtio-gpu and Venus, but I need CUDA. Venus is also still missing some important things like accelerated video encoding.\n[0]: https://smolmachines.com/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48619853",
+          "by": "apitman",
+          "time": 1782056336
+        },
+        {
+          "id": 48617992,
+          "text": "I was just looking into microvm (via microvm.nix) to isolate coding agents. While the machine starts quickly, as in the article, the userspace (nixos) takes much longer. I'd probably need to spend some time to strip the system of all non-essential services. I also briefly considered running the agent harness as PID 0. That would speed things up, but also mean a lot of responsibility on my end. My biggest struggle is how to imperatively manage agent microvms on nixos. microvm.nix isn't really well suited for that task. For longer-running VMs, that I can manage via my nixos config, I'm quite happy with microvm.nix. Related article by Michael Stapelberg: https://michael.stapelberg.ch/posts/2026-02-01-coding-agent-...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48617992",
+          "by": "wereHamster",
+          "time": 1782041891
+        },
+        {
+          "id": 48617972,
+          "text": "This is clever work, especially given that Proxmox is already a very viable VMware replacement and wasn’t originally designed around microVMs as the primary abstraction. I’m glad this is working well for you.\nWe’ve been on a similar journey, but came at it from the opposite direction. We started SlicerVM in 2022 after seeing how slow Multipass felt when launching more than one Linux VM, even though it is relatively lean. Tearing them down was slower.. we made it seconds either way for a 30 node cluster and kept it internal until August last year.\nWith Slicer, microVMs are the native primitive: API launch, guest-agent exec/shell/cp/forward workflows, isolated networking, and agent sandboxes are built into the control plane.\nThat was not our first use case. Back then we were standing up Kubernetes clusters quickly for OpenFaaS e2e testing and customer scale-out support across multiple machines. The agent/sandbox workflows came naturally after that.\nWe do see people come over from Proxmox when they want something more directly driven from code, especially with a deeper guest-agent model: exec, file copy, port forwarding, fs watches, etc. When you string it all together it becomes very powerful and what we've gradually dogfooded for our code review bot that started out by using SSH/SFTP to completely native SDK (Go/TS).\nOne thing I’d separate in the benchmarks is in-guest boot time vs. actual time-to-interactive/useful. For agent-style workloads, the number that tends to matter is: API request made -> VM created/cloned -> network policy applied -> guest agent reachable -> exec/shell/cp/forward works. Snapshot cloning, network device setup, and control-plane readiness all show up there.\nTTI can also be moved around depending on tradeoffs: no real init system, snapshot resume, CrosVM-style lower-level primitives, or a VMM built for one narrow job. We use systemd in the guest, so we’re intentionally carrying some weight there.\nI also liked that you retained module support for Docker. Supporting Docker, Kubernetes-ish workloads, and eBPF tends to add a lot of useful weight back in.\nThere’s room for several tools here. The space is moving quickly, and I’m looking forward to seeing which approaches consolidate.\nIf folks are looking to scratch that microVM, or programmable / bash / agent / SDK driven primitive, you're welcome to check us out and join the Discord.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48617972",
+          "by": "alexellisuk",
+          "time": 1782041738
+        },
+        {
+          "id": 48615252,
+          "text": "I see Proxmox blog post I upvote.\nI’ve also been wanting a setup like this but don’t have to courage to use pve-microvm. First class microVM support would be very nice.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48615252",
+          "by": "cedws",
+          "time": 1782010661
+        },
+        {
+          "id": 48620178,
+          "text": "< 300ms boot with HW isolation sounds very nice but the pve-daemon patching approach is risky and might break at every eye-blink.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48620178",
+          "by": "mtron_",
+          "time": 1782058764
+        },
+        {
+          "id": 48624543,
+          "text": "I wonder if https://katacontainers.io/ would be a nice competitor",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48624543",
+          "by": "stevefan1999",
+          "time": 1782091865
+        },
+        {
+          "id": 48620334,
+          "text": "proxmox has been great although it comes with a learning curve\nback when I used to use cursor I build this mcp but it should work for codex or claude\nit lets me easily spin up vms with specs\nits tough to create boxes now due to ram prices but got mine at a great time when it was very cheap; i just wish i had bought more then\nhttps://github.com/agentify-sh/cursor-proxmox-mcp",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48620334",
+          "by": "agentifysh",
+          "time": 1782059983
+        },
+        {
+          "id": 48619304,
+          "text": "Thanks for the write-up, I like the integration in the Proxmox VE environment.\nGiven some similarities, I’d like to briefly mention `krun` here. Although it’s an OCI-compatible container runtime, it uses MicroVMs with a similar approach. Perhaps we can exchange ideas here? I recall that GPU passthrough is also a recurring topic there.\nhttps://github.com/containers/crun/blob/main/krun.1.md",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48619304",
+          "by": "tobwen",
+          "time": 1782052315
+        },
+        {
+          "id": 48621700,
+          "text": "Very interesting work on microvms there. I would add that removing any kind of storage or file-system interaction is reachable for even faster bringup and removing the risk of attacks needing some form of persistence.\nAlso replacing network access with af-vsock is actually interesting if you want to simplify bring-up. SSH does some magic with vsocks these days too.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48621700",
+          "by": "touisteur",
+          "time": 1782069099
+        }
+      ],
+      "by": "zdw",
+      "time": 1781881991,
+      "url": "https://taoofmac.com/space/blog/2026/06/18/1845",
+      "score": 215,
+      "descendants": 41,
+      "storyUrl": "https://taoofmac.com/space/blog/2026/06/18/1845"
+    },
+    {
+      "id": 48582894,
+      "type": "story",
+      "title": "Whole cross-sectional human ultrasound tomography",
+      "rank": 14,
+      "depth": 0,
+      "storyId": 48582894,
+      "storyTitle": "Whole cross-sectional human ultrasound tomography",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48582894",
+      "topComments": [
+        {
+          "id": 48614359,
+          "text": "Be interested to know if this is related to the same process/technology that Midjourney announced last week[0]\n0. https://www.midjourney.com/medical/blogpost",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48614359",
+          "by": "ajcp",
+          "time": 1782000483
+        },
+        {
+          "id": 48616548,
+          "text": "This is cool! I've got a personal project in the works to build an ultrasound machine just to learn how it works. There's a lot of electronics design, PCB design, FPGA work etc that in learning. \nThe probes themselves are used medical grade ones from ebay.\nThe hard part is that there can be over hundreds of piezo elements each needing to receive on their own channel. That means lots of expensive ADCs. Not to mention either having many pulser circuits or muxing a pulser to many elements.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48616548",
+          "by": "polishdude20",
+          "time": 1782027389
+        },
+        {
+          "id": 48614581,
+          "text": "Relevant article:\nScanning the Body with Sound\nhttps://www.caltech.edu/about/news/scanning-the-body-with-so...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48614581",
+          "by": "o4c",
+          "time": 1782002856
+        },
+        {
+          "id": 48615551,
+          "text": "I did a tech deep-dive into the Midjourney tank, and this is basically the origin of that (the first author David Garrett worked at Midjourney for a while) so I have some thoughts on the tech.\nA ring of devices at 60cm (70cm for Midjourney) diameter means much longer distances than even the deepest tissue imaging ultrasound is typically used for. Geometric 1/r^2 attenuation through water and exponential attenuation through tissue. Sensitivity is always the key question for any sensor. This is why they use 1MHz ultrasound (lower frequencies attenuate less) rather than say 5-10Mhz, but that also means lower resolution. Sound wavelength in water/tissue at 1MHz is roughly 1.5mm. So in pursuit of sensitivity, good resolution becomes a challenge.\nWhat sensors could we line up around the tank? This work has gone to great lengths to build custom transducers for receiving the ultrasound signal, but I couldn't easily find a direct characterization of sensitivity (pardon me if I missed it; I'd love to know more) but I don't think they are claiming a breakthrough in sensitivity -- only a new (tank) system architecture. AFAIK, all available technology, be it Butterfly/Olympus/whatever have a fundamental tradeoff in cost and sensitivity, because they all pick different operating points on the Pareto curve set by the underlying technology. Butterfly is not as sensitive as the top-grade devices, but the top-grade hospital ultrasound machines are way more expensive and bulky (roughly 150k USD & 150Kg). It would be a real challenge to fit dozens of them around the tank! Let alone pay for them, if one wants to deploy at scale.\nIf cost and bulk were not a constraint, we could definitely use many hospital-grade sensors and get high-fidelity images. The problem is what happens if the sensitivity is not quite enough. Look at the online discourse from doctors about how low-sensitive full-body scans are asking for trouble from over-diagnosis (incidentalomas) and iatrogenic side-effects. Low sensitivity full-body scan is basically the diagnostic version of p-hacking. Just like the US air force found that there is no \"fully average\" pilot, every body scanned will always have some anomaly or the other. And most of them never need to be clinically intervened on. That's not quite the fault of the device, but that's still a massive gap in the deployment strategy and it will require retraining doctors and restructuring large parts of the existing healthcare system.\nIt's easier to just invent technology and build higher-fidelity sensors. This device is mostly just an assemblage of available sensors, we need innovation that produces sensors which are smaller + inexpensive + less power hungry. It's not just a question of assembling it into different form factors or scaling production, or nudging people into using these by frequenting spas. AFAICT that's barely getting any discussion in the chatter around the Midjourney launch.\nLastly, it's really important that this doesn't require a trained sonographer. That's a real scaling bottleneck if we want to enable exponentially more usage of scanning. (Not taking a dig at the paper authors, but only at the online discourse) If we really wanted to scale this to population level use... the tank form-factor is good, but guess what's easier: having smaller devices one could just drop into a bathtub at home :-)\n--\nPS: I also wrote more broadly about the Midjourney scanner, looking at both the tech and the road to deployment: https://woventhought.substack.com/p/visions-and-blindspots-t...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48615551",
+          "by": "ssivark",
+          "time": 1782014296
+        },
+        {
+          "id": 48615162,
+          "text": "I really wanted to make a career in tomography. But had only one elective from another department and didn't know how to make it into this stream.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48615162",
+          "by": "Guestmodinfo",
+          "time": 1782009523
+        },
+        {
+          "id": 48616209,
+          "text": "The results really look rather blurry compared to the MRI...\nPresumably that's just a matter of better system modelling to fix?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48616209",
+          "by": "londons_explore",
+          "time": 1782023451
+        }
+      ],
+      "by": "lnyan",
+      "time": 1781774596,
+      "url": "https://www.nature.com/articles/s41551-026-01660-4",
+      "score": 108,
+      "descendants": 22,
+      "storyUrl": "https://www.nature.com/articles/s41551-026-01660-4"
+    },
+    {
+      "id": 48616800,
+      "type": "story",
+      "title": "Google Hits 50% IPv6",
+      "rank": 15,
+      "depth": 0,
+      "storyId": 48616800,
+      "storyTitle": "Google Hits 50% IPv6",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48616800",
+      "topComments": [
+        {
+          "id": 48617787,
+          "text": "Just to add to the 'but the ISPs do not' anecdotes, it has been six months since someone last commented so it is probably time to mention this again on Hacker News:\n* https://havevirginmediaenabledipv6yet.co.uk/\nA major ISP in the U.K., that said in a public statement on World IPv6 Day in 2011 that\n> As well as our core and access networks being capable of supporting IPv6, we're rigorously testing our entire network to ensure that all customers have a smooth and simple transition when the time comes to flick the switch and turn IPv6 on. We're really pleased with how our tests are advancing and are happy to say that by the end of 2012, we'll be able to fully support customers looking to switch to IPv6.\nhas not managed to actually flick that switch in 15 years.\n* https://ispreview.co.uk/story/2011/06/08/uk-isp-fluidata-hai...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48617787",
+          "by": "JdeBP",
+          "time": 1782040062
+        },
+        {
+          "id": 48617042,
+          "text": "Thread from two months ago (626 comments): https://news.ycombinator.com/item?id=47777894",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48617042",
+          "by": "MYEUHD",
+          "time": 1782032839
+        },
+        {
+          "id": 48618128,
+          "text": "When I set up a \"pure\" (not really) IPv6 server, was surprised that Github does not support it.  Without the voluntary operations listed at https://nat64.xyz/ , they'd be unreachable from IPv6.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48618128",
+          "by": "axus",
+          "time": 1782042931
+        },
+        {
+          "id": 48617075,
+          "text": "Noooo, my /22 IPv4 subnet allocation is my personal 401k, I need this money to retire.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48617075",
+          "by": "ThePhysicist",
+          "time": 1782033199
+        },
+        {
+          "id": 48617113,
+          "text": "Meanwhile T-Mobile/Odido in the Netherlands is still not supporting IPv6 despite promising to have been working on it for years.\nUbiquity gateways also seem to not support it sadly. It would be awesome if they supported something like Hurricane Electric’s tunneling.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48617113",
+          "by": "spockz",
+          "time": 1782033531
+        },
+        {
+          "id": 48619746,
+          "text": "I would love to stop paying AWS for public ipv4 addresses.\nBut simply it is impossible to go full ipv6, as many of isps of the clients do not support it.\nCurrently there is no pressure to the isps to move to ipv6. In fact the incentives are OPPOSITE! They love charging for static IPs.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48619746",
+          "by": "whatever1",
+          "time": 1782055528
+        },
+        {
+          "id": 48617755,
+          "text": "Specifically on weekends, which seems to indicate that it's the corporate/business network side of things that is not bothering with implementing it.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48617755",
+          "by": "throw0101a",
+          "time": 1782039826
+        },
+        {
+          "id": 48617057,
+          "text": "Google hits 50% IPv6, very good for accessing websites.\nBut my TP-Link router blocks by default inbound IPv6 connections, without any option to configure it, still bad for pure IPv6 bidirectional streaming, gaming or services on home networks.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48617057",
+          "by": "coldstartops",
+          "time": 1782032967
+        },
+        {
+          "id": 48617457,
+          "text": "Cloudflare sees over 40%, and it hasn't gone up in the last year even with the overall traffic increase. Personally, as the APNIC article also says about their own observations, I guess the overall adoption is somewhere in between.\nhttps://radar.cloudflare.com/adoption-and-usage#ipv4-vs-ipv6\nBut we have to remember that this reflects the adoption on the client side. With many high profile services still IPv4-only, the fraction of IPv6 flowing on the public Internet might be much lower.\nI wonder what incentives are needed to push this forward, because it's not the same incentives as years ago for sure. We've long since exhausted new IPv4 allocations.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48617457",
+          "by": "CrLf",
+          "time": 1782037121
+        },
+        {
+          "id": 48617322,
+          "text": "Interesting to see the per-country rates[1]. France is up to 85%, apparently!\n[1] https://www.google.com/intl/en/ipv6/statistics.html#tab=per-...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48617322",
+          "by": "mmwelt",
+          "time": 1782035615
+        }
+      ],
+      "by": "barqawiz",
+      "time": 1782030082,
+      "url": "https://blog.apnic.net/2026/04/28/google-hits-50-ipv6/",
+      "score": 388,
+      "descendants": 410,
+      "storyUrl": "https://blog.apnic.net/2026/04/28/google-hits-50-ipv6/"
+    },
+    {
+      "id": 48600311,
+      "type": "story",
+      "title": "Proportional-Integral-Derivative (PID) controllers",
+      "rank": 16,
+      "depth": 0,
+      "storyId": 48600311,
+      "storyTitle": "Proportional-Integral-Derivative (PID) controllers",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48600311",
+      "topComments": [
+        {
+          "id": 48625462,
+          "text": "Oh! My first job out of college had me implementing PID control for a two axis rotary control tables. The design had counter weights (think dumbbell shaped). I was the dumbbell implementing this and as I was young, had almost 168 hrs a week to work on this.\nOMG! I spent so much time trying to tune this and it would occasionally enter these oscillatory states back and forth. Unfortunately the device on the turntables cost about $500k….\nIt was such a painful experience.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48625462",
+          "by": "zippyman55",
+          "time": 1782100535
+        },
+        {
+          "id": 48619416,
+          "text": "For a robotic BLDC motor velocity control application, I moved to using a linear ADRC (Active Disturbance Rejection Control) [0] controller. It is not much more complex to implement that a PID, but at least in my context it handles changing real-world environmental conditions with a correctness which I could not achieve with a PID however much I tried to tune it.\nStill uses a PID for BLDC motor coil current control, as this control loop is much more predictable.\nCurrently using the proportional part only from a PID for position control, but this may change in the future.\n[0] https://en.wikipedia.org/wiki/Active_disturbance_rejection_c... (although this isn't a very useful reference if you want the implementation maths!)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48619416",
+          "by": "chrisb",
+          "time": 1782053174
+        },
+        {
+          "id": 48616118,
+          "text": "The fascination of programmer types with classical control and estimation topics is endlessly interesting as someone who studied control and estimation and hangs out here for interest in the programming. For me it was surprising to see that JEPA is a model predictive control algorithm it an almost literal sense; I guess I’m happy to have studied what I chose when I was 18.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48616118",
+          "by": "_kulang",
+          "time": 1782022328
+        },
+        {
+          "id": 48616605,
+          "text": "I used it in metal detector (direct frequency measurement kind). It works really well. I (and you probably too) half assed pid controllers before you even know what it is. But it makes perfect sense. Proportional part reacts to the acute difference, derivative adjusts it when your controller is already going right direction to limit overshoot, and integral part improves cases when the difference is small but persist for long time. Learn them and use them, they're good tool.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48616605",
+          "by": "dvh",
+          "time": 1782028006
+        },
+        {
+          "id": 48619393,
+          "text": "My personal exposure to the PID algorithm was my GPU fan. There is supposed to be some sort of internal fan curve to control it's speed but mine was not working, crashes everywhere. I Could still set the speed by hand. and while I was putting together a sort of hacky user space fan curve I had an epiphany. I Don't actually want a fan curve. I want to set an ideal temperature and have the computer figure out what fan speed is needed to maintain it. So I learned more about control logic than I was really prepared for and my user space fan speed script has a cute little PID controller to do just that. (technically for fan thermals you really only need a PD controller. No anticipatory preload needed. but who's counting)\nI do sort of suspect a fan thermal control curve is a PID response curve written out in long hand but don't really have the math to prove it.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48619393",
+          "by": "somat",
+          "time": 1782052974
+        },
+        {
+          "id": 48618780,
+          "text": "Thanks to the advice of a colleague who had studied control theory, I once used PID controllers to manage autoscaling compute resources downstream of a lot of message queues. We used plenty of more typical autoscaling systems too, but for some workloads, PID controllers were ideal—when we had thousands of compute clusters across many queues, they minimized the state that needed to be stored between scaling system polls while effectively smoothing out the scale up/down rate to minimize resource waste and pointless whipsawing.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48618780",
+          "by": "zbentley",
+          "time": 1782048296
+        },
+        {
+          "id": 48616155,
+          "text": "Honest question: are wiki links to any technical topic post worthy now?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48616155",
+          "by": "boguscoder",
+          "time": 1782022716
+        },
+        {
+          "id": 48616105,
+          "text": "Obligatory link to PID without a PhD: https://www.wescottdesign.com/articles/pid/pidWithoutAPhd.pd...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48616105",
+          "by": "RossBencina",
+          "time": 1782022197
+        },
+        {
+          "id": 48618901,
+          "text": "I did a lab exercise (part of physics curriculum) with a PID controller once. It controlled a small electric motor with a small flywheel (i.e. not much inertia). We hand-tuned the parameters with potentiometers. The effect was quite impressive: the flywheel kept spinning at the same speed when we touched it, even with moderate force. It felt like there was a huge motor driving it because the RPM just wouldn't budge. It was still not hard to stop it completely (small motor after all), but it felt very stiff before that point.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48618901",
+          "by": "ahartmetz",
+          "time": 1782049257
+        },
+        {
+          "id": 48618416,
+          "text": "PIDs are great but notoriously hard to tune. They require deep insight into the underlying physical phenomena to get right. They are also rather rigid and cannot adjust well to a changing environment (temperature and humidity can fluctuate dramatically between summer and winter in some climates).\nOf course, no one tunes them by hand anymore for these reasons, relying instead on optimization techniques like particle swarm to find the best set of coefficients for a given steady state condition. Eventually, I suspect we will replace most PIDs with a small neural network for almost all industrial applications (a handful of nodes is sufficient). The neural network is also easier to adapt to changing conditions.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48618416",
+          "by": "glitchc",
+          "time": 1782045558
+        }
+      ],
+      "by": "dhorthy",
+      "time": 1781886499,
+      "url": "https://en.wikipedia.org/wiki/PID_controller",
+      "score": 101,
+      "descendants": 54,
+      "storyUrl": "https://en.wikipedia.org/wiki/PID_controller"
+    },
+    {
+      "id": 48573902,
+      "type": "story",
+      "title": "Zigzag Decoding with AVX-512",
+      "rank": 17,
+      "depth": 0,
+      "storyId": 48573902,
+      "storyTitle": "Zigzag Decoding with AVX-512",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48573902",
+      "topComments": [
+        {
+          "id": 48617177,
+          "text": "Worth mentioning that MeshOptimizer (https://github.com/zeux/meshoptimizer) has become one of a handful 'hidden champion' pillar libraries that probably carries half of the gaming industry.\nBasically the curl of asset pipelines ;)\nhttps://github.com/zeux/meshoptimizer/discussions/986",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48617177",
+          "by": "flohofwoe",
+          "time": 1782034102
+        },
+        {
+          "id": 48616597,
+          "text": "While we could utilize zigzag encoding (i>>31) ^ (i> 1) ^ -(z & 1);\n}",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48616597",
+          "by": "MaskRay",
+          "time": 1782027878
+        },
+        {
+          "id": 48619044,
+          "text": "Zigzag encodings are a common compression scheme used in the Parquet format.  It is fun to speculate that these kind of tricks could be applied there in something so commonly under the hood of a lot of data processing and analytics",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48619044",
+          "by": "wood_spirit",
+          "time": 1782050225
+        },
+        {
+          "id": 48617888,
+          "text": "Is the matrix for bit shifting upside down or am I momentarily making a really dumb mistake here? Edit: nvm I missed the footnote which clarifies that for whatever reason the instruction populates the matrix from bottom to top.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48617888",
+          "by": "fc417fc802",
+          "time": 1782040895
+        },
+        {
+          "id": 48616630,
+          "text": "This sort of analysis is great.\nNow why can't compilers do this sort of thing automatically?\nAlmost any problem seems to be possible to speed up 1000x in AVX512+days of thought compared to the naive version written in a python loop.      If we could automate that whole process for big codebases the performance gains could be huge.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48616630",
+          "by": "londons_explore",
+          "time": 1782028239
+        }
+      ],
+      "by": "luu",
+      "time": 1781718202,
+      "url": "https://zeux.io/2026/06/17/zigzag-decoding-avx512/",
+      "score": 125,
+      "descendants": 22,
+      "storyUrl": "https://zeux.io/2026/06/17/zigzag-decoding-avx512/"
+    },
+    {
+      "id": 48619831,
+      "type": "story",
+      "title": "(How to Write a (Lisp) Interpreter (In Python)) (2010)",
+      "rank": 18,
+      "depth": 0,
+      "storyId": 48619831,
+      "storyTitle": "(How to Write a (Lisp) Interpreter (In Python)) (2010)",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48619831",
+      "topComments": [
+        {
+          "id": 48621746,
+          "text": "Is it classics day or something? (Fine with us!)\nRelated:\n(How to Write a (Lisp) Interpreter (In Python)) (2010) - https://news.ycombinator.com/item?id=39665939 - March 2024 (91 comments)\n(How to Write a (Lisp) Interpreter (In Python)) (2010) - https://news.ycombinator.com/item?id=30443949 - Feb 2022 (9 comments)\n(How to Write a (Lisp) Interpreter (In Python)) - https://news.ycombinator.com/item?id=30327437 - Feb 2022 (3 comments)\n(How to Write a (Lisp) Interpreter (In Python)) - https://news.ycombinator.com/item?id=26036431 - Feb 2021 (1 comment)\nHow to Write a Lisp Interpreter In Python (2010) - https://news.ycombinator.com/item?id=20590439 - Aug 2019 (29 comments)\nHow to Write a Lisp Interpreter in Python (2010) - https://news.ycombinator.com/item?id=12777852 - Oct 2016 (28 comments)\nHow to Write a Lisp Interpreter in Python (2010) - https://news.ycombinator.com/item?id=7825054 - May 2014 (41 comments)\n(How to Write a ((Better) Lisp) Interpreter (in Python)) - https://news.ycombinator.com/item?id=1746916 - Oct 2010 (10 comments)\n(How to Write a (Lisp) Interpreter (in Python)) - https://news.ycombinator.com/item?id=1745322 - Sept 2010 (39 comments)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48621746",
+          "by": "dang",
+          "time": 1782069492
+        },
+        {
+          "id": 48620229,
+          "text": "If you ever wondered how to write a programming language, this is probably the best resource to get started (and then of course Crafting Interpreters).\nSee also part 2 https://norvig.com/lispy2.html",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48620229",
+          "by": "chombier",
+          "time": 1782059146
+        },
+        {
+          "id": 48623969,
+          "text": "Strangely, Peter's 1987 Ph.D. thesis cites itself (reference 90), but with the year being off by one (1986).\nWriting a LISP in Python is only for educational use, or to have a boostrap LISP that you can write a better (faster) LISP in.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48623969",
+          "by": "jll29",
+          "time": 1782087337
+        },
+        {
+          "id": 48619997,
+          "text": "(how-to in-python (write (interpreter lisp)))",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48619997",
+          "by": "zahlman",
+          "time": 1782057431
+        },
+        {
+          "id": 48622534,
+          "text": "I've been working on a similar (ish) project for a while: Ribbit (https://github.com/udem-dlteam/ribbit). Supports a full R4RS REPL (with tail-calls) in the same sizes as Lispy (8Kb for JavaScript and 6.5Kb for x86)!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48622534",
+          "by": "leonardool",
+          "time": 1782075475
+        },
+        {
+          "id": 48622517,
+          "text": "And in the other direction, here's a Python interpreter written in Lisp: https://github.com/metawilm/cl-python",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48622517",
+          "by": "userbinator",
+          "time": 1782075348
+        },
+        {
+          "id": 48620099,
+          "text": "Writing a Lisp is one of my favorite projects. I try to do it every year or two, taking a different approach each time.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48620099",
+          "by": "azhenley",
+          "time": 1782058155
+        },
+        {
+          "id": 48621891,
+          "text": "My Lisp from 1975 was actually used in real world and highly lucrative. Gemini could read the source code, but it told that my code was piece of shit and cannot be implemented in 64-bit world without drastic changes, so it made an example. But that version was just too advanced and too complex as a study subject. There are already enuff good Lisps in the world, methinks.\nhttps://github.com/timonoko/nokolisp",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48621891",
+          "by": "timonoko",
+          "time": 1782070589
+        },
+        {
+          "id": 48622435,
+          "text": "Interestingly enough, linguists also use Lisp-like parentheses or brackets to annotate sentence structures. Trees and brackets are isomorphic, as both phrase structure grammarians and the original SICP lectures pointed out.\nThe brackets in the title sentence would look a lot different though. ;-)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48622435",
+          "by": "adamddev1",
+          "time": 1782074679
+        },
+        {
+          "id": 48619922,
+          "text": "I can't recommend highly enough to implement a simple lisp (or a forth).\nIlluminating experience and it will also help you see (among many other things) the parentheses in a different light.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48619922",
+          "by": "tosh",
+          "time": 1782056924
+        }
+      ],
+      "by": "tosh",
+      "time": 1782056193,
+      "url": "https://norvig.com/lispy.html",
+      "score": 169,
+      "descendants": 55,
+      "storyUrl": "https://norvig.com/lispy.html"
+    },
+    {
+      "id": 48591276,
+      "type": "story",
+      "title": "Guide to the TD4 4-bit DIY CPU",
+      "rank": 19,
+      "depth": 0,
+      "storyId": 48591276,
+      "storyTitle": "Guide to the TD4 4-bit DIY CPU",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48591276",
+      "topComments": [
+        {
+          "id": 48619800,
+          "text": "One day i hope to build something like this.\nI am not a hardware guy but very intrigued by the basics of computing and interested enough to throw some, but not a lot, of hours at building something like this from a kit I can order in one part.\nSo far though, all projects I have seen are fairly expensive (Ben Eater’s excellent kits) or unobtainable as they were one-off projects by someone four years ago or (again in this case) using components from suppliers that.. stopped supplying.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48619800",
+          "by": "andrehacker",
+          "time": 1782055941
+        },
+        {
+          "id": 48616026,
+          "text": "Awesome! I wonder if it would be possible to extend it to get 4bit games running https://youtu.be/eKpjXh-vH8I?si=rNMJpJIu1Hk0X9vQ",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48616026",
+          "by": "kmmbvnr_",
+          "time": 1782020832
+        },
+        {
+          "id": 48618608,
+          "text": "similar https://github.com/c0rRupT9/STEPLA-1\nQuestion is how add input , output data, screen, keyboard similar DPD-11 or ODRA1305 how add more element or... meybe add a 10 BITS",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48618608",
+          "by": "ee3ee",
+          "time": 1782046950
+        },
+        {
+          "id": 48616353,
+          "text": "So you program it with dip switches is that right?\nTruly old school.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48616353",
+          "by": "andrewstuart",
+          "time": 1782025176
+        },
+        {
+          "id": 48618177,
+          "text": "This articale made me have recoolection of the EDUC 8  from about 1974 built with just TTL chips\nhttps://en.wikipedia.org/wiki/EDUC-8\nThe EDUC-8 is an 8-bit bit-serial design with 32 to 256 bytes of RAM. The internal clock speed is 500 kHz, with an instruction speed of approximately 10 kHz,\nFirst published in Electronics Australia in August 1974, the EDUC-8 was designed specifically for home construction by electronics hobbyists.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48618177",
+          "by": "asdefghyk",
+          "time": 1782043376
+        }
+      ],
+      "by": "andrewstuart",
+      "time": 1781815440,
+      "url": "https://www.philipzucker.com/td4-4bit-cpu/",
+      "score": 61,
+      "descendants": 6,
+      "storyUrl": "https://www.philipzucker.com/td4-4bit-cpu/"
+    },
+    {
+      "id": 48614311,
+      "type": "story",
+      "title": "Project Fetch: Phase Two",
+      "rank": 20,
+      "depth": 0,
+      "storyId": 48614311,
+      "storyTitle": "Project Fetch: Phase Two",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48614311",
+      "topComments": [
+        {
+          "id": 48614968,
+          "text": "I'm getting a bit tired of these disguised adverts.\nHere's how non robotics engineers used AI to do a short robot integration task faster than other non robotics engineers without AI.\nWhere \"better\" mostly means faster, and who knows what happens on longer horizons, with actual robotics experts, robustness requirements, or tasks where the hard part is control rather than API spelunking.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48614968",
+          "by": "didibus",
+          "time": 1782007148
+        },
+        {
+          "id": 48614667,
+          "text": "> Preliminary trials with Claude Mythos Preview showed that it would not provide an apples-to-apples comparison with other models because of how we had set up the experiment and how the model was served.\nWhat does this mean? My guess is they couldn’t co-locate Mythos close enough to reduce latency?\n(I’m assuming this experiment pre-dates the export controls)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48614667",
+          "by": "bob778",
+          "time": 1782003889
+        },
+        {
+          "id": 48614802,
+          "text": "This mostly reads as a comparison between Opus 4.7 and 4.1 it would be more interesting if they reran the experiment against a team of humans with 4.7 and see how much the humans still improve the results today.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48614802",
+          "by": "jascha_eng",
+          "time": 1782005324
+        },
+        {
+          "id": 48615248,
+          "text": "Fast? Sure. Good maintainable code? Doubted.\nI think they skip the right metrics there. So that's just their AI promo.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48615248",
+          "by": "nickosh",
+          "time": 1782010633
+        },
+        {
+          "id": 48614797,
+          "text": "stop trying to make fetch happen",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48614797",
+          "by": "joshu",
+          "time": 1782005257
+        },
+        {
+          "id": 48615377,
+          "text": "> However, once again, we are seeing a pattern whereby first, models are helpful to humans. Then, humans are helpful to models. Finally, models are largely able to do things themselves. We have seen this in cybersecurity and now the same dynamics are starting to take shape at the intersection of AI and the physical world.\nIt’s good they are the one seeing those things because otherwise no one else would have. Now if only seeing things would translate into getting any actual economic value out of them… instead of losing billions. But hey, who am I to do a reality check on this shameless piece of hype.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48615377",
+          "by": "usernametaken29",
+          "time": 1782012141
+        },
+        {
+          "id": 48615469,
+          "text": "Is that a Unitree?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48615469",
+          "by": "InkCanon",
+          "time": 1782013341
+        },
+        {
+          "id": 48614882,
+          "text": "Do you want Terminators? Because this is how you get Terminators.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48614882",
+          "by": "etchalon",
+          "time": 1782006241
+        }
+      ],
+      "by": "stopachka",
+      "time": 1782000025,
+      "url": "https://www.anthropic.com/research/project-fetch-phase-two",
+      "score": 72,
+      "descendants": 24,
+      "storyUrl": "https://www.anthropic.com/research/project-fetch-phase-two"
+    },
+    {
+      "id": 48615680,
+      "type": "story",
+      "title": "Building reliable agentic AI systems",
+      "rank": 21,
+      "depth": 0,
+      "storyId": 48615680,
+      "storyTitle": "Building reliable agentic AI systems",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48615680",
+      "topComments": [
+        {
+          "id": 48618645,
+          "text": "Most important piece of information is in the linked Frontiers article:\n   However, the overall capability of the chatbot to fully meet user needs received a lower average score (3.1/5.0), highlighting the need for further improvements.\n\nAlso there is still the problem of hallucinations, as we see in the „Evaluation“ paragraph:\n   Live traffic evaluations are essential for monitoring system behavior, identifying potential issues like hallucinations in production, and understanding performance on diverse live queries.\n\nThis are quite devastating results. This is a system for scientific research on medicines and mediocrity and hallucinations will kill people.\nWould be interesting to know how much money was flushed down the toilet with these experts.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48618645",
+          "by": "BodyCulture",
+          "time": 1782047266
+        },
+        {
+          "id": 48616187,
+          "text": "The most important part is the database that the agent can see and how clean the data is. I pitched a custom enterprise agent to a client thinking it would be maybe 50/50 time on data vs agent tuning, but it's more like 99/1.\nThe alignment process goes very quickly once you have all the fish in exactly one barrel. I think pulling data dynamically from the source systems is where this turns into a game of whack-a-mole.\nThe problem with dynamic fetch is that you don't get any kind of persistent or compounding gains. There are queries that you simply cannot run because you'd chew through your GitHub, et. al., API quotas. It takes over 48h to fully hydrate the database for GitHub items on my current project. But, once that process is complete I can query across things like issue comments and do crosscutting joins with the state of other vendor systems in milliseconds.\nI am finding the MSSQL dialect to be quite agreeable to the OAI models. With absolutely no prompting they will bootstrap off information schema and extended description properties every single time. If you design the schema for your audience, the amount of \"Jesus prompting\" you will require is much better controlled.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48616187",
+          "by": "bob1029",
+          "time": 1782023230
+        },
+        {
+          "id": 48617815,
+          "text": "You can almost tell the \"era\" that a solution was built in these days since things are changing so fast.\nMid-2026, we have very large context windows, and much smarter models than we did in 2024 when this was built. If I were to tackle this today I'd ask a current frontier model to work through the source data and design a hierarchy that would give it the ability to sift through the content itself by drilling down as it sees fit, and I expect it would nail that.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48617815",
+          "by": "stevex",
+          "time": 1782040229
+        },
+        {
+          "id": 48616172,
+          "text": "What was the main driver for a dynamic workflow with loops vs a rigid forward running only workflow. The non-deterministic nature of these loops with LLM decision points doesn't mesh well with the transparency requirement imho",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48616172",
+          "by": "smallnix",
+          "time": 1782023084
+        },
+        {
+          "id": 48624200,
+          "text": "The infra/agent architecture to run all this is becoming a bit much, if we want to have (some level of) assurable output, in any area of their application. Not only medicsl research needs citation-backed output.\nThis is an ongoing working project since 2024, I would like to see some KPI metrics to back off any productivity /job satisfaction improvement in the research department, or what have you, at Bayer.\nMonthly average token usage would be another interesting information to read about. Paired with any latency numbers (time to first token, for example).",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48624200",
+          "by": "mhitza",
+          "time": 1782089144
+        },
+        {
+          "id": 48616753,
+          "text": "Two paragraph section on Evaluation after 30 paragraphs explaining the most bog standard rag system you've ever heard of.\nHmm...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48616753",
+          "by": "AJRF",
+          "time": 1782029549
+        },
+        {
+          "id": 48619857,
+          "text": "Seeing this article and seeing the replies. Oof. Maybe Thoughtworks did some good work in traditional software engineering (not sure) - but why would you trust them to touch anything related to LLMs. They don't seem to know what they are doing.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48619857",
+          "by": "AJRF",
+          "time": 1782056374
+        },
+        {
+          "id": 48616037,
+          "text": "The part about context discipline feels underrated. \nLarger context windows don’t remove the need to decide what the model shouldn’t see.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48616037",
+          "by": "Littice",
+          "time": 1782021012
+        },
+        {
+          "id": 48619099,
+          "text": "I happen to have made another attempt trusting an agentic tool, latest \"Continue\" with frontier model: 8M token burned in 30 minutes. App does not work.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48619099",
+          "by": "hirako2000",
+          "time": 1782050660
+        },
+        {
+          "id": 48619024,
+          "text": "I find papers/articles which discuss solutions that rely heavily on a model in the middle unreadable, if the models used are not discussed.\nThe data you need to get into context for a small model, vs a big boy frontier model, vs a fine tuned open weight big boy- are all very different. I can understand what they're doing here, and most of the 'why', but- not all of the why.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48619024",
+          "by": "agentdev001",
+          "time": 1782050008
+        }
+      ],
+      "by": "sarangk90",
+      "time": 1782016119,
+      "url": "https://martinfowler.com/articles/reliable-llm-bayer.html",
+      "score": 186,
+      "descendants": 47,
+      "storyUrl": "https://martinfowler.com/articles/reliable-llm-bayer.html"
+    },
+    {
+      "id": 48620342,
+      "type": "story",
+      "title": "The minimum viable unit of saleable software",
+      "rank": 22,
+      "depth": 0,
+      "storyId": 48620342,
+      "storyTitle": "The minimum viable unit of saleable software",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48620342",
+      "topComments": [
+        {
+          "id": 48621636,
+          "text": "I have multiple side projects that I would never have contemplated building before but whose utility now exceeds the much lower cost to build.\nI got a few weeks in to each and then stalled on all of them because the effort and motivation required to extend beyond the crazed early days _is_ still more than the utility I get.\nIn a professional context, paying someone for software to do something outside my core domain is still the practical option compared to the motivation and effort needed to maintain another dependency.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48621636",
+          "by": "zingar",
+          "time": 1782068689
+        },
+        {
+          "id": 48621252,
+          "text": "I like that you point out that the cost to build software is still not 0. And in my expirence it’s further from 0 than I would expect.  I often find myself thinking I can rebuild a project (or usually improve upon an existing one) in just a few days.  And yet when it comes down to making anything well, it still takes time and iteration.\nIt’s a bit funny because I felt this way before coding agents as well, like you could clone something in just a few weeks. But in practice my expectations are rarely accurate.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48621252",
+          "by": "ahamilton454",
+          "time": 1782066119
+        },
+        {
+          "id": 48625257,
+          "text": "As someone who built a niche SaaS I can see both sides of this.\nIf you are looking to replicate the exact same feature set of an existing product - buying would almost always be a better choice.\nBut it's rare for avg customer needs to perfectly match product features. Most often they need 20-40% of the product + some custom, business specific logic that's missing and is later fixed with spreadsheets/integrations. In that case it depends on how mission critical this software is.\nI'd say investing into the core software that runs your business might very well be worth the effort, even if it's 10x between build vs buy.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48625257",
+          "by": "andreybaskov",
+          "time": 1782098361
+        },
+        {
+          "id": 48622408,
+          "text": "“Build vs buy” assumes that there are only two parties. If it’s easier to build internally, then it’s easier for a 3rd party competitor to enter the market and bid the price down. I think the \"zone of viability\" is real, it just narrows and shifts downward.\nThe author hints at this in a footnote:\n> It does, however, pencil out to use a different product instead. In this particular case, it’s easy: use Linear instead of Jira.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48622408",
+          "by": "bze12",
+          "time": 1782074479
+        },
+        {
+          "id": 48621311,
+          "text": "I wouldn't underestimate the community effect of software. There are plenty of features that get shipped because a small but important minority requested them, only to benefit the long tail of users who never knew to ask for such a feature but now find it indispensable. If everyone is building their own isolated solutions, how does this positive externality manifest itself?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48621311",
+          "by": "monkeydust",
+          "time": 1782066456
+        },
+        {
+          "id": 48623897,
+          "text": "> Are you crazy?! Anything you ship can be instantly displaced by an internal package built by an LLM!\nThat's funny, the first thing every LLM I use generally does is install a bunch of third party packages...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48623897",
+          "by": "andai",
+          "time": 1782086499
+        },
+        {
+          "id": 48622789,
+          "text": "> the internet’s most wretched hive of engagement farmers and master solicitors of fake information and fictional anecdotes, LinkedIn\nGreat quote!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48622789",
+          "by": "ChrisMarshallNY",
+          "time": 1782077429
+        },
+        {
+          "id": 48621169,
+          "text": "Truly agree with the framing of buy vs build.\nAlso, some software businesses use a ton of aggregated or hard to get data which needs to be synthesized and that doesn't go away even if the llm driven coding is cheap.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48621169",
+          "by": "deftio",
+          "time": 1782065582
+        },
+        {
+          "id": 48621900,
+          "text": "Brandur of course knows more than me, and his framing sounds correct. I would be worried about whether the TAM of Go + Postgres is enough for business sustainability, but that says probably more about my fears than the reality in this huge market called “internet”",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48621900",
+          "by": "drchaim",
+          "time": 1782070653
+        },
+        {
+          "id": 48620915,
+          "text": "Be careful with making decisions about your livelihood based on a rational calculus. As you correctly point out, there is a threshold for which a programmer or company should not even blink at the cost of software. It's often the case that if the software they're buying saves one single hour of productivity, it's value-positive... and yet they won't buy it. Individual devs are notorious for refusing to pay a cent out of their own wallet, turning up their noses at anything that isn't offered open source and completely free. Enterprises manage to saddle what should be a no-brainer trivial expense into dozens of hours of bureaucracy that cost two orders of magnitude more than the expense the bureaucracy is for.\nYour customers are more irrational than you are, and your appeal to them will likely need to resonate with them on an emotional level rather than logical one. I would argue that marketing is the hardest part of entrepreneurship, by far.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48620915",
+          "by": "applfanboysbgon",
+          "time": 1782063897
+        }
+      ],
+      "by": "brandur",
+      "time": 1782060081,
+      "url": "https://brandur.org/minimum-viable-unit",
+      "score": 141,
+      "descendants": 53,
+      "storyUrl": "https://brandur.org/minimum-viable-unit"
+    },
+    {
+      "id": 48614631,
+      "type": "story",
+      "title": "When I reject AI code even if it works",
+      "rank": 23,
+      "depth": 0,
+      "storyId": 48614631,
+      "storyTitle": "When I reject AI code even if it works",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48614631",
+      "topComments": [
+        {
+          "id": 48615105,
+          "text": "Even using Fable (while it was briefly available), having it refine a plan, and directing it to make only small incremental changes, I still found reasons to reject its first pass at a lot of work. There was a lot of “You’re right to push back” responses. A lot of incidents where it would creat some giant complex set of abstractions to accomplish something that I could find ways to do much more elegantly and in a more maintainable manner.\nIt’s really eye opening to work with these tools on a codebase you know deeply because these problems are everywhere.\nHowever if I opened an unfamiliar project in another language and I wanted to add a little feature with no intention of maintaining it, I’d happily accept the changes and loop until it worked well enough for my temporary needs.\nThe scary middle is when you’re dealing with coworkers who don’t care about anything other than closing tickets and collecting credit. With enough of a token budget you can now wrap loops around an LLM and have it try things until the program appears to work. Ask it to do a code review and then submit the PR without having understood what it was doing. There are a lot of workplaces where there isn’t a good mechanism to push back on this and the tech debt just keeps growing.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48615105",
+          "by": "Aurornis",
+          "time": 1782008908
+        },
+        {
+          "id": 48615155,
+          "text": "If we rephrased this to \"When I reject my coworkers code even if it works\" and give the same reasons there would be zero dissent. There is this weird idea that seems to come up with AI that any solution must be good and adequate. Software Engineering is all about rejecting code that works for the right code that works.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48615155",
+          "by": "ecshafer",
+          "time": 1782009472
+        },
+        {
+          "id": 48615625,
+          "text": "Coding with AI eventually comes down to two paths, I've realized. One is using AI exclusively for everything. The other is not using it at all. There is almost no middle ground. The reason is that as the complexity and depth of the problem increase, the code AI generates increasingly follows enterprise level patterns. The deeper the meaning of what I input, the more AI tends to produce code that goes beyond my own area of expertise. For example, a human expert's code is very powerful and deep within their own domain, but when you look at the entire codebase, it's often shallow and uneven outside that domain. But the moment you write code with AI, once you go deep in one part, AI tries to standardize the rest accordingly. This means the entire codebase converges toward enterprise level standard code, which essentially reflects the average patterns of senior programmers who built large scale systems.\nThe problem is this. Human cognitive resources are finite, so we inevitably become shallow outside our own expertise. There is no programmer who can do everything well. And as systems grow in scale, they become more modularized and fragmented, making it impossible to understand the whole system. So what should we do about this? That's always the question.\nIn the end, do I choose not to use AI, finish the project with uneven code outside my domain, and deliver it? Or do I use AI and deliver a program that is uniform and consistent, but not in my own style? I still don't know. I haven't found the answer yet.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48615625",
+          "by": "jdw64",
+          "time": 1782015274
+        },
+        {
+          "id": 48615110,
+          "text": "My personal rule of thumb: I am usually okay with agents driving e2e  implementations if this won't make life noticeably worse when it does not work. Some analytical code? Perfectly fine. Hobby projects? Fine, though I prefer doing a fun part myself. Refactoring production code generating 10x more revenue than my salary? You'd better be at least understanding what it does.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48615110",
+          "by": "summerlight",
+          "time": 1782008978
+        },
+        {
+          "id": 48616652,
+          "text": "Not that I disagree with anything here, but...\nI wish it were clearer in these kinds of posts how \"I use AI code I don't understand\" is so different from \"I use libraries written by other people I don't understand\", or \"I work in a large codebase which was 99% written by other people, and I haven't seen all of it\", or even \"I use software written by other people I don't understand\".",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48616652",
+          "by": "edanm",
+          "time": 1782028557
+        },
+        {
+          "id": 48616552,
+          "text": "Titles like these make me always point out the obvious: A working state is the absolute minimum requirement for any code to be merged, isn't it? ...imagine to merge something even though you know that's not working.\nBesides, this post has nothing specific to code produced by an LLM, and placing AI in the stated reasons feels completely arbitrary, or is rather a fallacy of our times:\n- I reject [AI] code when I can’t explain the approach in my own words.\n- I reject [AI] code when the diff is bigger than the problem.\n- I reject [AI] code when it introduces abstractions before proving they’re needed.\n- I reject [AI] code when it works locally but makes the system harder to reason about.\n- I reject [AI] code when I’m trusting the output more than my understanding.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48616552",
+          "by": "whilenot-dev",
+          "time": 1782027420
+        },
+        {
+          "id": 48617695,
+          "text": "The bottleneck when using a \"faster keyboard\" is understanding. We have a tool for this in compsci. Not having to fully understand something in order to successfully exploit it is a staple of computer science; we use abstractions to help us reason at a higher level. You don't necessarily always have to understand the nuance involved in selecting a hash function just to put and get some items in a hash map. Specifically, when are these cases where you don't need to go that deep? Are there similar scenarios for ai written code?\nI'm more interested right now in what does that abstraction look like for AI generated code. Is there some reasonable solution wherein a sandboxed component in the enterprise architecture has various attributes (e.g. the bytes i stuff into this file store component are always the exact bytes i get back from it) confirmed by methods other than a human reading its code? Those methods, are they cheaper, faster, safer than just having a human do it?\nIf your enterprise architects have to read every line of code in your system today then i'd claim your architecture practices have room to mature. What can derived from that, and in which scenarios, for the purposes of safely leveraging immutable write-only code? I'm not interested in evolving the code (lines of code spent to solve a business problem was never an asset, it was always a cost) if it wasn't hand crafted by a human, i still have the requirements so i can just regenerate the entire thing with the revised requirement.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48617695",
+          "by": "CraigJPerry",
+          "time": 1782039316
+        },
+        {
+          "id": 48615353,
+          "text": "And again this makes me wonder, is AI really helping if this much review and rework is needed for all the code it writes?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48615353",
+          "by": "krupan",
+          "time": 1782011869
+        },
+        {
+          "id": 48616169,
+          "text": "Its hard to find a middle ground between fully understanding everything in a PR vs a vibe coding type approach. Can you understand \"just a little bit\" of a PR and merge it into a code base you really care about? Is it maybe fine to \"mostly understand it\" on the other hand? Its definitely a tough call and its impossible to argue that no trade off is being made.\nLLMs are perfect for quick prototypes, speed runs, learning, etc., but if the code really matters its still not clear cut. I think the definition of what \"really matters\" is very project dependent of course As an extreme example you would want to understand every line of the code for the control system  runs an MRI machine or a jet engine since bugs might mean life or death. Depositing money into the wrong account might not kill anyone but could lead to severe economic losses. But, then again, even problems in far less consequential software may be drastically sub-economic (i.e. saving $1000 on the implementation might cost $10000 if customers aren't happy and fails to re new). Pick your scenario I guess.\nThe problem is, this isn't going to change regardless of how well a new model scores on a benchmark. It seems actually AGI is needed.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48616169",
+          "by": "osigurdson",
+          "time": 1782022997
+        },
+        {
+          "id": 48614979,
+          "text": "\"The reality is that code that runs and makes the CI green can still be a bad solution, and engineering has always been about implementing adequate, scalable, and extensible solutions.\"\nAdequate often means done and cheap",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48614979",
+          "by": "datadrivenangel",
+          "time": 1782007254
+        }
+      ],
+      "by": "vnbrs",
+      "time": 1782003493,
+      "url": "https://vinibrasil.com/when-i-reject-ai-code-even-if-it-works/",
+      "score": 219,
+      "descendants": 157,
+      "storyUrl": "https://vinibrasil.com/when-i-reject-ai-code-even-if-it-works/"
+    },
+    {
+      "id": 48579013,
+      "type": "story",
+      "title": "HPV jabs cut risk of dying from cervical cancer before 30 to almost zero",
+      "rank": 24,
+      "depth": 0,
+      "storyId": 48579013,
+      "storyTitle": "HPV jabs cut risk of dying from cervical cancer before 30 to almost zero",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48579013",
+      "topComments": [
+        {
+          "id": 48623373,
+          "text": "Reducing deaths is great, but shouldn’t they also mention the reduction in treatment (which is usually surgical or chemo, both of which are massively expensive, traumatic, and life altering in negative ways).",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48623373",
+          "by": "alistairSH",
+          "time": 1782082018
+        },
+        {
+          "id": 48623672,
+          "text": "Why is a this news headline using the slang \"jabs\"?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48623672",
+          "by": "Supermancho",
+          "time": 1782084428
+        },
+        {
+          "id": 48624895,
+          "text": "I wasn't allowed to have it from the official health service because I'm already 50 even though I've not been very active in earlier years. But I paid for it myself (600€ for the 3 shots, quite expensive). I'm glad I did, when reading stuff like this.\nThey don't usually give it to older people because the more you have been exposed to the virus the less effective the vaccine is. But it protects against 9 variants and I think it is very unlikely I've encountered them all.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48624895",
+          "by": "wolvoleo",
+          "time": 1782095078
+        },
+        {
+          "id": 48623285,
+          "text": "Just a note: the article focuses on the ladies, but men should absolutely get it as well because it cuts risk for other types of cancers. I was looking for a better link, however this is the only one I found (I had an older one saved, however I can't find it):\nhttps://www.cnn.com/2026/04/24/health/hpv-men-vaccine-cancer...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48623285",
+          "by": "eek2121",
+          "time": 1782081277
+        },
+        {
+          "id": 48623489,
+          "text": "Glad to see it, except it is still a sensationalist headline IMO because HPV deaths, and specifically below 30 years old, is already extremely low.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48623489",
+          "by": "AngryData",
+          "time": 1782082962
+        },
+        {
+          "id": 48623673,
+          "text": "Every time HPV comes up, someone says “guys should get the vaccine too” but I’ve never managed to succeed. Even after last time someone mentioned it I tried and I got the absolutely worst result where they recorded me as being given it but then said it wasn’t meant for men my age. Had to get it removed from the record by the One Medical people I saw next.\nAnd when I saw them, they said it wouldn’t be covered under insurance and would be like $1.2k. I intended to just get it on my next visit to India but ended up not traveling.\nI don’t get it. Is this like those Internet memes “don’t mess with the postal police” and stuff or is it a real thing? Any guy in their late 30s in the US who managed to get it?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48623673",
+          "by": "arjie",
+          "time": 1782084431
+        },
+        {
+          "id": 48625284,
+          "text": "This is such a ridiculously complicated subject, there are people who spend ten years in training just so they can handle the complexities of individual instances of this kind of health issue. Why would a corporate media outlet try to weigh in?  A crossover between the pharma marketing and the news division seems most likely.  Someone said I used AI in my posts recently, and no, I write all my words by hand. But I do use things like this:\nRole: You are an expert in the clinical detection and medical treatment of cervical cancer in human females over the course of the 20th century.\nObjective: Review the totality of evidence for the cause of these cancers, including but not limited to environmental exposure, viral infection, or any other factor whatsoever that has been reputably liked to the incidence of cervical cancer in human females over the 20th century timeline as reflected in the reputable medical literature.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48625284",
+          "by": "photochemsyn",
+          "time": 1782098562
+        },
+        {
+          "id": 48625375,
+          "text": "Can we stop calling vaccines jabs?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48625375",
+          "by": "Escapade5160",
+          "time": 1782099672
+        },
+        {
+          "id": 48623887,
+          "text": "What's the rate for the unvaccinated group? So a comparison can be made vs. the vaccinated one.\nThe fact that they leave this out is a bit weird, sloppy journalism I guess.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48623887",
+          "by": "moralestapia",
+          "time": 1782086337
+        },
+        {
+          "id": 48579648,
+          "text": "From what risk level without them? How many people actually die of cervical cancer before age 30??\nI mean, vaccinations and cancer prevention are both great, but this headline is ridiculous.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48579648",
+          "by": "apothegm",
+          "time": 1781747977
+        }
+      ],
+      "by": "toomuchtodo",
+      "time": 1781743012,
+      "url": "https://www.theguardian.com/society/2026/jun/17/hpv-jabs-reduce-risk-dying-cervical-cancer-before-30-zero-study-finds",
+      "score": 197,
+      "descendants": 118,
+      "storyUrl": "https://www.theguardian.com/society/2026/jun/17/hpv-jabs-reduce-risk-dying-cervical-cancer-before-30-zero-study-finds"
+    },
+    {
+      "id": 48621517,
+      "type": "story",
+      "title": "JSON-LD explained for personal websites",
+      "rank": 25,
+      "depth": 0,
+      "storyId": 48621517,
+      "storyTitle": "JSON-LD explained for personal websites",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48621517",
+      "topComments": [
+        {
+          "id": 48622373,
+          "text": "> It can aid web crawlers in understanding the semantic structure of your site, qualifying you for richer link previews, and even potentially improving your search ranking.\nThis is fighting the last war, to stretch a metaphor.\nAs far as I and my WWW site are concerned, Google has nowadays switched to giving people lengthy LLM-generated versions of my stuff, with errors, above pointing people to my actual stuff.  'Breadcrumbs' and getting a pretty display name instead of the domain name, don't address the fact that Google de-prioritizes all of that, pretty tweaks or no, nowadays.\nThis is a lot of effort for stuff that people visiting my actual site directly will never see, and which people using Google will not find above the fold of its own massively LLM-ized version of stuff.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48622373",
+          "by": "JdeBP",
+          "time": 1782074138
+        },
+        {
+          "id": 48622286,
+          "text": "I would encourage people who have the pragmatic bent to read about JSON-LD from the Google documentation for web sites;\nhttps://developers.google.com/search/docs/appearance/structu...\nYou’ll also notice that a lot of the information is relevant to only a small subset of sites. Rotten Tomatoes can publish the critic rating for movies using JSON-LD, but that’s not relevant for me (even if I write a review for a movie).\nJSON-LD is nice because it’s easy and it is actually used by search engines. Yes, it can duplicate information in the web page itself, but I think the dream of perfectly annotating information so it only appears exactly once in your document is, well, a dream of spherical cows and massless ropes. It takes human effort to make a webpage and I am ok with a little duplication in the final product. My  duplicates information in  anyway.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48622286",
+          "by": "klodolph",
+          "time": 1782073498
+        },
+        {
+          "id": 48625354,
+          "text": "For rich link previews, OpenGraph[0] is much more often supported than JSON-LD.\nFor seo purpose, the kind of JSON-LD a search engine will support is very specific and limited. You are far better consulting the targetted search engine's documentation (Google[1], Bing[2]) and following that. Anything else is a waste of time.\nOutside of search engines, again, without a specific purpose, JSON-LD is mostly useless. If you have a specific need that requires JSON-LD, go ahead and include the data you know will be useful. Including anything else is like shouting into the void.\nIndieWeb[3] does use structured data but considers JSON-LD a DRY violation and uses Microformats[4] instead.\n0: https://ogp.me\n1: https://developers.google.com/search/docs/appearance/structu...\n2: https://www.bing.com/webmasters/help/marking-up-your-site-wi...\n3: https://indieweb.org/\n4: https://microformats.org/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48625354",
+          "by": "ghssds",
+          "time": 1782099388
+        },
+        {
+          "id": 48625264,
+          "text": "There is a fine balance after which the symbiosis turns into exploitation. Websites trying to get visibility with the help of search engines was mutually beneficial to a large degree. However this is altogether going in a direction where the website owner is getting nothing for their sweat work.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48625264",
+          "by": "sandeepkd",
+          "time": 1782098417
+        },
+        {
+          "id": 48624415,
+          "text": "Some additional information, what you actually want to implement for every website is Structured Data, using the Schema.org vocabulary.\nJSON-LD is one of the ways to do this. There's also RDFa and Microdata.\nI used this article and can recommend it when I first learned about it: https://neilpatel.com/blog/get-started-using-schema/\nYou can try exploring what data to add with this tool: https://technicalseo.com/tools/schema-markup-generator/\nThe full list can be found on the schema.org site: https://schema.org/docs/schemas.html",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48624415",
+          "by": "bryanhogan",
+          "time": 1782090887
+        },
+        {
+          "id": 48622473,
+          "text": "Do these attributes actually help with search engine visibility or do they just make it easier for search engines to keep users from leaving the search page? Honest question here.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48622473",
+          "by": "gomoboo",
+          "time": 1782075012
+        },
+        {
+          "id": 48625128,
+          "text": "Reinventing XML but worse.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48625128",
+          "by": "denkmoon",
+          "time": 1782097171
+        },
+        {
+          "id": 48624667,
+          "text": "In the old days (a few weeks ago) you could read google’s SEO recommendations and guidelines.\nThis was great for debunking many a recommendation from clueless SEO agencies trying to force requirements on dev teams.\nIs there any similar recommendations available for their new, LLM, world?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48624667",
+          "by": "hi_hi",
+          "time": 1782093145
+        },
+        {
+          "id": 48622250,
+          "text": "Super useful article, wish that had existed in my seo days.\nI had misunderstood the type field, because to me I was often just linking to a webpage, even if it is for a saas, the marketing page is still a webpage.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48622250",
+          "by": "tommica",
+          "time": 1782073248
+        },
+        {
+          "id": 48621896,
+          "text": "We have semantic HTML, but for some weird reason we need to yet again re-express the semantic meaning of our website in bespoke weird JSON in a script tag that the browser won't process.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48621896",
+          "by": "lenkite",
+          "time": 1782070630
+        }
+      ],
+      "by": "ethanhawksley",
+      "time": 1782067907,
+      "url": "https://hawksley.dev/blog/json-ld-explained-for-personal-websites/",
+      "score": 184,
+      "descendants": 55,
+      "storyUrl": "https://hawksley.dev/blog/json-ld-explained-for-personal-websites/"
+    },
+    {
+      "id": 48622778,
+      "type": "story",
+      "title": "Apertus – Open Foundation Model for Sovereign AI",
+      "rank": 26,
+      "depth": 0,
+      "storyId": 48622778,
+      "storyTitle": "Apertus – Open Foundation Model for Sovereign AI",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48622778",
+      "topComments": [
+        {
+          "id": 48623127,
+          "text": "Other fully open LLMs include Allen AI's OLMo 3.1 and MBZUAI's K2 Think V2, both of which have released their full training pipelines and datasets.\nNvidia Nemotron is also an open training source model, though a portion of its dataset remains proprietary.\nQuoting lambda's comment:\n> Note that the Nemotron models are generally stronger than Olmo and K2 Think V2 (according to Artificial Analysis benchmarks), and there is a lot of overlap in their datasets (lots of datasets are based on the same sources with different filtering, Olmo and K2 Think V2 both have used some Nemotron datasets).\n> But yeah, Nemotron is a modern and fairly capable LLM, even the 122b is more capable than Deepseek R1 (a 671b model) on most benchmarks, and there's also the recently released 550b Ultra now.\nhttps://news.ycombinator.com/item?id=48492439",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48623127",
+          "by": "maxloh",
+          "time": 1782079849
+        },
+        {
+          "id": 48623204,
+          "text": "I like the idea, and it has become more pressing that everyone outside the US think about tech sovereignty because the US has become an unsafe place to keep your data, but the impression I get from Apertus is that it moves at the speed of a committee. I have no expectation they'll deliver a competitive model. At least, not competitive with current models. Maybe competitive with models a year ago (though they haven't even done that yet, right?).",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48623204",
+          "by": "SwellJoe",
+          "time": 1782080521
+        },
+        {
+          "id": 48624540,
+          "text": "Sort of interesting license not sure if anyone will do it long term.\nThe training data and the Apertus LLM may contain or generate information that directly or indirectly refers to an identifiable individual (Personal Data). You process Personal Data as independent controller in accordance with applicable data protection law. SNAI will regularly provide a file with hash values for download which you can apply as an output filter to your use of our Apertus LLM. The file reflects data protection deletion requests which have been addressed to SNAI as the developer of the Apertus LLM. It allows you to remove Personal Data contained in the model output. We strongly advise downloading and applying this output filter from SNAI every six months following the release of the model.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48624540",
+          "by": "zitterbewegung",
+          "time": 1782091828
+        },
+        {
+          "id": 48623004,
+          "text": "Looks like their instruct models are Llama3.1 fine tune from last year. Is there any progress on new models?\nMy last hope for soverign AI is from Chinese open models",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48623004",
+          "by": "throwaw12",
+          "time": 1782078993
+        },
+        {
+          "id": 48623524,
+          "text": "By far the most impactful product of the Apretus project are the people. To quote a memorable line from Dominique Paul (https://www.thisiscrispin.com/):\n> What most people miss IMO is that this is not a team who is doing this for the fourth time like virtually any other LLM provider and who could learn from its own past experiences. I bet if the team would do another model training they could get way better results at one fourth of the costs.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48623524",
+          "by": "mrshu",
+          "time": 1782083172
+        },
+        {
+          "id": 48623188,
+          "text": "For a model that claims to focus on many languages, it's quite unreliable when it comes to simple questions like \"how to say X in language Y\" or \"how to conjugate verb X in language Y\". It keeps hallucinating words that do not exist, and when corrected, it only hallucinates a new lie.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48623188",
+          "by": "pferde",
+          "time": 1782080408
+        },
+        {
+          "id": 48623579,
+          "text": "A chat interface where you can try Apertus:\nhttps://chat.publicai.co",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48623579",
+          "by": "reconnecting",
+          "time": 1782083629
+        },
+        {
+          "id": 48622936,
+          "text": "The previous version of this model has been pretty bad, but claimed to adhere to copyright laws. However, based on my testing, that's not true either. So in my view this is completely useless.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48622936",
+          "by": "trvz",
+          "time": 1782078564
+        },
+        {
+          "id": 48622887,
+          "text": "previous thread: https://news.ycombinator.com/item?id=45108401",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48622887",
+          "by": "yreg",
+          "time": 1782078233
+        },
+        {
+          "id": 48623654,
+          "text": "I am curious about how opt-outs and PII removal work.\nWho confirms those requests are legit?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48623654",
+          "by": "jawns",
+          "time": 1782084236
+        }
+      ],
+      "by": "T-A",
+      "time": 1782077383,
+      "url": "https://apertvs.ai/",
+      "score": 252,
+      "descendants": 89,
+      "storyUrl": "https://apertvs.ai/"
+    },
+    {
+      "id": 48594090,
+      "type": "story",
+      "title": "An Embedded Linux on a Single Floppy",
+      "rank": 27,
+      "depth": 0,
+      "storyId": 48594090,
+      "storyTitle": "An Embedded Linux on a Single Floppy",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48594090",
+      "topComments": [
+        {
+          "id": 48621715,
+          "text": "I wonder why it needs 20MB minimum. Back in the day linux 2.0.33 would boot happily into a GUI and everything on an 8MB machine.\nOr maybe I misremember... I know my machine at the time got upgraded to 24MB so maybe it was that machine I was running.\nAnyway it's neat this can still be done.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48621715",
+          "by": "muppetman",
+          "time": 1782069185
+        },
+        {
+          "id": 48621080,
+          "text": "I remember around 2002 running my home router without any hdd on fli4l  - a single floppy linux router distribution. I slept in the same room as the router was, hence I wanted a solution without a noisy hdd from that era.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48621080",
+          "by": "littlecranky67",
+          "time": 1782065052
+        },
+        {
+          "id": 48625215,
+          "text": "This is straining my geriatric memory, but I'm pretty sure my first install of Slackware in 1994 involved 18 floppy disks",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48625215",
+          "by": "bandrami",
+          "time": 1782098025
+        },
+        {
+          "id": 48622121,
+          "text": "I always had a muLinux disk handy in my computer toolbox.  Most of its shell commands came from a simple script ingeniously written by the distro's author.  It's been around since the mid-90s, I'd guess.\nhttps://micheleandreoli.org/public/Software/mulinux/mu/html/...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48622121",
+          "by": "Crunchified",
+          "time": 1782072229
+        },
+        {
+          "id": 48621692,
+          "text": "I guess I made a floppy-based \"distribution\" of Linux back in the late 90s without even realizing it.\nI built it to do network-based disk imaging of fleets of Windows 9X PCs in a K12 school district. I used udpcast[0] to receive the image of a FAT32 volume (as a raw dd of the source drive gzip'd) and would stream it in realtime (decompressing and writing) to the hard disk drive on the clients.\nI would run the udpcast sender on a \"gold master\" PC and stream its drive out to as many clients as I wanted (over 10Base-T Ethernet at the time, but later over faster networks). Since the sending PC's CPU was typically the bottleneck the receiving PCs never had problems falling behind receiving and writing the stream.\nThe most time consuming part of this \"generation\" of the tool was writing all zeros to the free space on the \"gold master\" computer to minimize transferring \"slack\" space (since I was just using dd and not a filesystem-aware tool). I'd mount up the drive in a Linux distro and dd from /dev/zero to a dummy file on the volume until it was full, then delete the dummy file. (One of Jeff's axioms of computing in play: Never underestimate the power of stupid technology.)\nI updated the \"distribution\" in the early 2000's to support NTFS using the various ntfsprogs tools (ntfsclone, ntfsresize) to support imaging Windows XP machines. It was vastly more efficient than the dd method because it only transferred the used blocks of the filesystem.\nSince you could make bootable CDs (and later DVDs) using floppy diskette images as the \"boot media\" I updated the \"distribution\" again to support mounting a local optical disk and streaming the image off a bzip2'd ntfsclone image. I even added some silly multi-disk \"spanning\" capability for images >4.7GB. (It was very janky and involved recombining the image chunks in a temporary partition on the local drive, then imaging the machine from that local copy. The I/O contention of reading / writing from the same drive made that very, very slow.)\nFinally, when PXE-capable NICs were more common, I would PXE boot the \"distribution\" (because PXE easily supported booting floppy disk images) and modified it to pull from HTTP, local optical drive, or udpcast.\nI gave up when AHCI became common because I couldn't keep up with making the \"modern\" Linux kernels work with the various models of PCs I was using. I moved over to a Windows PE-based tool in about 2006 - 2007.\n[0] http://www.udpcast.linux.lu/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48621692",
+          "by": "EvanAnderson",
+          "time": 1782069044
+        },
+        {
+          "id": 48622777,
+          "text": "This project has a website that was previously posted on HN[1], I (unsuccessfully) tried to boot it on an actual 486 machine[2], as the site boasts about supporting that.\nThe version of the SYSLINUX bootloader that it uses had a bug in the fallback path if E820 memory information is not available from the BIOS, and the BIOS on my machine indeed does not support it, or E801 for that matter[3].\nI have not gotten around to further testing and fixing the actual issue in SYSLINUX yet (also one of the RAM sticks has sadly developed a parity issue, so I'm stuck at 16M for now). However, I did manage to dig up a newer 486 machine[4][5]. From some testing just this weekend, the BIOS on that one does support INT 15h, AX=E820. I'll have to dig up more memory, but I'm looking forward to another round of trying to get this to boot on the actual hardware, once again :-)\n[1] https://news.ycombinator.com/item?id=46866544\n[2] https://news.ycombinator.com/item?id=46873814\n[3] https://imgur.com/a/GCG9jO7\n[4] https://imgur.com/a/am486dx4-retrotank-VUOTahf\n[5] https://theretroweb.com/motherboards/s/zida-4dps",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48622777",
+          "by": "st_goliath",
+          "time": 1782077371
+        },
+        {
+          "id": 48624932,
+          "text": "I wonder why the 486 DX is supported but not the SX. How is the math coprocessing unit necessary for kernel and basic system tools?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48624932",
+          "by": "buttocks",
+          "time": 1782095414
+        },
+        {
+          "id": 48624441,
+          "text": "2000 Coyote Linux keeping a whole university network going while running from a floppy disk joined the chat.\nThe idea is cool but anything nowadays has USB ports, there is no suck solution to run from those devices.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48624441",
+          "by": "h4kunamata",
+          "time": 1782091092
+        },
+        {
+          "id": 48624388,
+          "text": "See also https://distro.ibiblio.org/baslinux/, http://www.tinycorelinux.net/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48624388",
+          "by": "nycerrrrrrrrrr",
+          "time": 1782090708
+        },
+        {
+          "id": 48621620,
+          "text": "“Floppydistros” were a thing back in the day.\nWhen i was 12 or 13 in the very early 2000s i tried to download something called “coyote linux” (from sourceforge iirc) and boot it on an internet cafe pc because i really wanted to try this linux thing.\nBut i was very nooby and of course it mostly didn’t go anywhere. I have vague memories of maybe getting it to boot, getting a shell and then not know what to do with it.\nFun times :)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48621620",
+          "by": "znpy",
+          "time": 1782068581
+        }
+      ],
+      "by": "modinfo",
+      "time": 1781835016,
+      "url": "https://github.com/w84death/floppinux",
+      "score": 69,
+      "descendants": 38,
+      "storyUrl": "https://github.com/w84death/floppinux"
+    },
+    {
+      "id": 48583407,
+      "type": "story",
+      "title": "Excessive nil pointer checks in Go",
+      "rank": 28,
+      "depth": 0,
+      "storyId": 48583407,
+      "storyTitle": "Excessive nil pointer checks in Go",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48583407",
+      "topComments": [
+        {
+          "id": 48622835,
+          "text": "I am very ambivalent on this post. On one hand, I agree that excessive defensiveness stinks up a code base. On the other, I am a huge fan of local reasoning. Especially in the world of LLMs, I don't want to rely on my, my teammate's or my LLM agent's ability to know every single code path that results in `Allow` begin called.\nOf course, this really comes down to the type system and the fact that non-nullable pointers are missing.\nThe one definite thing I would say, swallowing the error and just trying to do a reasonable thing is the most wrong thing here. At the least, there ought to be an ERROR log, even if one was trying to be defensive against outright panics.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48622835",
+          "by": "zoogeny",
+          "time": 1782077817
+        },
+        {
+          "id": 48616805,
+          "text": "I could have forgiven nil checks, but nil checks on interfaces elevated nils to a whole new level, which is annoying, but I do get where they were going with this: you should never nil check an interface. After all,an interface could be valid for a nil value.\nThere are ways to decently write go and not deal with nil, but as usual, linters defaults makes it impossible and you have to fight with your team before they will understand (we did this at some point and it was a huge improvement).\nDon't use pointers at all, always allocate structs on the stack, pass them by value.\nYou pay the copy price, even with large structs, and that's fine. When there are exceptions, be very explicit about the reason: performance must be critical,not just an optimization.\nDon't ever check interfaces for nil, if you need some sort of optional parameter, make a separate function and make it pass an valid object for that interface that's a null object.\nThese two did improve things substantially",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48616805",
+          "by": "Fire-Dragon-DoL",
+          "time": 1782030161
+        },
+        {
+          "id": 48616824,
+          "text": "I agree with first point “Nil Check on a Dependency” and disagree with 2nd point\n“Nil Check on a Dependency in the Constructor”, at least in the way it is described in article’s example.\nThe _parameter_ check in the constructor is the standard practice of testing on perimeter/blundaries. You test your parameters on the public methods (that constructor obviously is), and assume valid state in private methods. And even there I can accept practice of debug build assertions (DCHECK/TCHECK in Google c++ terminology ).",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48616824",
+          "by": "galkk",
+          "time": 1782030330
+        },
+        {
+          "id": 48616510,
+          "text": "Also known as contract programming vs. defensive programming. This argument is very old, is not specific to golang, and I have found myself on both sides at different points in my carreer.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48616510",
+          "by": "usrnm",
+          "time": 1782027017
+        },
+        {
+          "id": 48622612,
+          "text": "The design of error handling in Go is interesting because they wanted to force people to actually handle errors by returning them as values, but then you as the programmer have to decide whether an error should be returned or a panic should be used.\nIt reminds me of the original intention of checked exceptions in Java: checked exceptions are for things you force the caller to handle, unchecked exceptions are for \"you the programmer messed up\". In reality checked exceptions are pretty unpopular and can't be used in many situations, so people fall back to unchecked exceptions.\nIf we equate unchecked exceptions with panics in Go, falling back to panics would be an anti-pattern in many cases.\nNPEs in Java have become rarer and rarer recently with the introduction of records (to easily create immutable classes, which are easier to validate for null against). Plus JSpecify annotations get you null denotation that's almost as good as Kotlin's. Combine that with NullAway are you have compile time null safety. Go has nilaway [0]. One interesting thing about nilaway is that you don't null-annotate your code, it just detects nilness when you run nilaway. That makes nilaway a decent tool to get feedback right away, but it doesn't force you to document the intention behind parameters and fields for whether they are nullable or not, which I would argue is one of the advantages to null-annotating Java code with JSpecify.\n[0] https://github.com/uber-go/nilaway",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48622612",
+          "by": "retrodaredevil",
+          "time": 1782076110
+        },
+        {
+          "id": 48617377,
+          "text": "Go is a very unique language in that it is the only language designed to make you understand the frustration of online dating.\nFirst, seduction, and then as it reveals how little it cares about you, eventual disappointment.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48617377",
+          "by": "nilirl",
+          "time": 1782036328
+        },
+        {
+          "id": 48616570,
+          "text": "This is the mess a language lands on when it conflates optionality (a semantic concept) with references/pointers (purely a machine concept). In Go, the requirement \"need (non-optional) a reference to an object\" is simply not expressible. This is a solved problem in other languages, for example `&T` vs. `Option` in Rust.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48616570",
+          "by": "diarrhea",
+          "time": 1782027554
+        },
+        {
+          "id": 48617638,
+          "text": "> You may attempt to address this by pushing the problem up one layer. You now check for nil and return an error to flag the nil dependency as an invalid state.\n> It’s better, but it’s still not correct. Why not? Because we still allowed the invalid state to enter our system. A nil pointer is still being passed to our function, which puts the burden of deciding whether to trust the input on code that should have received a valid value in the first place.\n> The constructor is not where the error happened. The error happens at the initialization site:\n> Once initialization fails, we should handle that error immediately. We should not continue with a nil pointer and force the next, deeper layer to rediscover the outcome. Doing so also removes the need for the rate limiter constructor to return an error in the first place!\nBut... surely it'd be better to leave this guard rail of a nil check in the rate limiter constructor, to quickly and accurately detect regressions in the very possible future where you reshuffle the code that constructs your objects?\n> The check belongs at the boundary\nWait... is the author operating under an assumption that I control (almost) the whole of my codebase, so there is no need to have the boundaries inside of it?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48617638",
+          "by": "Joker_vD",
+          "time": 1782038780
+        },
+        {
+          "id": 48622796,
+          "text": "At a previous job, we introduced a simple Optional generic type, with JSON implementation, and it pretty much solved uncertain nil issues. Sometimes the solution is simple and boring.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48622796",
+          "by": "liampulles",
+          "time": 1782077487
+        },
+        {
+          "id": 48617307,
+          "text": "A good point and the java ecosystem makes similar mistakes. In general any:\n```\nif (x != null && !x.isEmpty()) doAThing(x);\n```\nis either:\n[A] Code directly on the boundary between systems; the other system is explicitly documented to treat null and empty as semantically equivalent, which is bad, but given that the mistake lies in a system beyond the control of this programmer, they're working around it. It can exist in this boundary code and nowhere else, or\n[B] Extremely rare, but there is a real semantic difference between the notion 'x is null' and 'x is empty' but this code wants to do the same thing in both semantically separate cases, or\n[C] it's bad code.\nNPEs are better than endless defensive dealings. If code checks for null I'd expect that null has a semantically identifiable meaning, and one that isn't also covered by something else (such as some notion of 'empty', e.g. an empty string or an empty list).",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48617307",
+          "by": "rzwitserloot",
+          "time": 1782035483
+        }
+      ],
+      "by": "ingve",
+      "time": 1781778992,
+      "url": "https://konradreiche.com/blog/excessive-nil-pointer-checks-in-go/",
+      "score": 104,
+      "descendants": 80,
+      "storyUrl": "https://konradreiche.com/blog/excessive-nil-pointer-checks-in-go/"
+    },
+    {
+      "id": 48616173,
+      "type": "story",
+      "title": "Windows UI evolution: Clicking an unassociated file",
+      "rank": 29,
+      "depth": 0,
+      "storyId": 48616173,
+      "storyTitle": "Windows UI evolution: Clicking an unassociated file",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48616173",
+      "topComments": [
+        {
+          "id": 48617796,
+          "text": "I wish this was more of a full tour than a random sampler of Windows versions. For instance I feel like Windows Me introduced the online search but it's been like... 26 years... since I've used it.\n> Now there's a big gap. I don't have access to anything between Windows XP and Windows 10. So, Windows 10 (2015) is next\nI'm guess these are just what the author already had set up. They're not really difficult to find or set up in a VM...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48617796",
+          "by": "donatj",
+          "time": 1782040106
+        },
+        {
+          "id": 48620074,
+          "text": "Fun fact: on modern Windows, if you uninstall modern notepad using the Settings app to get the old one, you won't be able to associate .txt files with notepad.exe without a registry trick: https://superuser.com/questions/1750222/how-to-open-file-typ...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48620074",
+          "by": "Krssst",
+          "time": 1782057982
+        },
+        {
+          "id": 48618691,
+          "text": "I wonder why in Windows 10 and 11 there is no obvious way to cancel this dialog. You can press Esc, but there are no buttons to do it.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48618691",
+          "by": "brewmarche",
+          "time": 1782047602
+        },
+        {
+          "id": 48620828,
+          "text": "What were the internal politics at Microsoft at the time that resulted in the .NET branding being pushed more aggressively than Copilot today, everywhere from the login screen to file associations?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48620828",
+          "by": "1bpp",
+          "time": 1782063255
+        },
+        {
+          "id": 48617501,
+          "text": "I imagine that the database for the online file association service for Windows XP has been lost to time, but for those who remember it: was it any good?\nIt seems like quite a good idea now -- if I remember correctly, Windows as of current seems to suggest a generic Bing search, which brings up all the spam \"What extension is XXX?\" sites.\nThat could have changed; I haven't really used Windows after 11's debut.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48617501",
+          "by": "tentacleuno",
+          "time": 1782037668
+        },
+        {
+          "id": 48617421,
+          "text": "I think Windows 9x was peak Windows.\nEverything is clear, you know what's a button and what's not. Information density is also high, which is a good thing on a computer screen.\nBut the main thing is that Windows 9x felt responsive. The Windows widgets felt solid and performant, while \"modern\" UWP apps feel clunky and prone to breakage. And don't even get me started on Electron.\nEdit. See OP's previous article here, he managed to capture what I was trying to say in more details, with nice screenshots: https://movq.de/blog/postings/2026-06-16/0/POSTING-en.html",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48617421",
+          "by": "reddalo",
+          "time": 1782036760
+        },
+        {
+          "id": 48619436,
+          "text": "On Win 11, if you disable the Vibe Notepad it refuses to let you associate .txt files to any program, and popups an error. Instead you have to go turn off a specific file association toggle elsewhere (as i recall) only then you can you reassign it",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48619436",
+          "by": "petee",
+          "time": 1782053309
+        },
+        {
+          "id": 48617837,
+          "text": "> Sadly, I don't know anymore what kind of web service that was.\nI don't know that either, but I remember there were websites specifically for that purpose, where you could look up a file extension and what program to open it with.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48617837",
+          "by": "amadeuspagel",
+          "time": 1782040463
+        },
+        {
+          "id": 48619980,
+          "text": "They finally made a CLI version of it a decade ago and it works exactly as it should when setting up a new system with a script.\nhttps://learn.microsoft.com/en-us/windows-server/administrat...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48619980",
+          "by": "1970-01-01",
+          "time": 1782057334
+        },
+        {
+          "id": 48617549,
+          "text": "I like your Windows postings, please don’t stop!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48617549",
+          "by": "vivid242",
+          "time": 1782037999
+        }
+      ],
+      "by": "jandeboevrie",
+      "time": 1782023092,
+      "url": "https://movq.de/blog/postings/2026-06-20/0/POSTING-en.html",
+      "score": 135,
+      "descendants": 95,
+      "storyUrl": "https://movq.de/blog/postings/2026-06-20/0/POSTING-en.html"
+    },
+    {
+      "id": 48622867,
+      "type": "story",
+      "title": "Did my old job only exist because of fraud?",
+      "rank": 30,
+      "depth": 0,
+      "storyId": 48622867,
+      "storyTitle": "Did my old job only exist because of fraud?",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48622867",
+      "topComments": [
+        {
+          "id": 48623671,
+          "text": "As a junior software engineer, I worked at a large UK bank.\nSenior management routinely seem baffled that they could announce redundancies or hiring freezes, yet technology costs would continue to rise.\nOne pattern I saw repeatedly was a contractor being let go, only to return via a large outsourcing provider. The provider must have added a substantial markup despite supplying the same engineer back to the same team, without having incurred any procurement costs.\nI once asked a more senior colleague how this made any sense. His answer stuck with me:\n\"You can’t stop people from doing their jobs. If someone thinks their job is to deliver X, they’ll find a way to deliver X. Sometimes that means working around processes and incentives in ways that look very strange from the outside.\"",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48623671",
+          "by": "etothepii",
+          "time": 1782084423
+        },
+        {
+          "id": 48623889,
+          "text": "I worked for Advanced Network and Services, which operated the NSFNET and was later acquired by America Online. Then one day the company was acquired by WorldCom. A few years later the CEO was sentenced to 25 years in prison for a ~$10 billion fraud. As a systems administrator I knew nothing about any of that, but I could tell that the new management included a lot of players and empire builders. That's the signal that told me to quit a few months after the acquisition. Employees were invited to invest their retirement savings in a mutual fund that contained only WorldCom stock. Many of them lost everything. Pay attention to those signals.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48623889",
+          "by": "siskiyou",
+          "time": 1782086411
+        },
+        {
+          "id": 48623332,
+          "text": "I was on a government project where I found out I was being fraudulently billed on my hours. It was towards the end of the year and my manager was trying to use up the budget of the client. Although this is normal in the private sector I told him from the beginning that you can't do this on a government project.\nThe project was $1M+ which was enough for prison time. He had gone into our billing software and edited my entries - it wasn't as if he was submitting the fraudulent totals only - he was changing what I was entering.\nI gathered as much documentation as I cloud and went to a law firm. They told me I had two options - report it to the Government Accounting Office or report it to the head of the project, an academic.\nSo I simultaneously resigned and reported it to the professor. I covered my butt. I'm pretty sure the professor hid the fraudulent billing but I didn't look into afterwards because basically that was what I was hoping he'd do so I wouldn't have to go to court and defend that my reported hours weren't really mine.\nThe full project was eventually awarded to another academic group.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48623332",
+          "by": "comrade1234",
+          "time": 1782081637
+        },
+        {
+          "id": 48623778,
+          "text": "I was briefly employed by a robotics company in the US ... robotics is too nice: glorified if/then/else is better.\nThe owner was the son of an old school magnate out of PA.\nAmong other things his line has always stuck with me: \"A whale that surfaces is soon harpooned.\"\nThe company never made money. I think the whole thing was run as a loss on purpose for tax purposes. I became tired of the head manager/engineer combo (big fish in this tiny, tiny world) and left.\nEven they knew this company was never really trying to do anything serious. Strange indeed",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48623778",
+          "by": "scrubs",
+          "time": 1782085334
+        },
+        {
+          "id": 48623280,
+          "text": "Why does any of this actually matter? Why were you shaken?\nYou weren’t committing fraud. You did real work. Now you’re in the US with a family and a career.\nHappy Father’s Day.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48623280",
+          "by": "Zhenya",
+          "time": 1782081226
+        },
+        {
+          "id": 48625029,
+          "text": "https://hannahhowell.com/stuart-frost-drained-14m-from-inves...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48625029",
+          "by": "JMiao",
+          "time": 1782096410
+        },
+        {
+          "id": 48623475,
+          "text": "Fraud aside, I think a more common thought among developers is\n> Did my old job only exist because the Product Owners didn't realize we didn't have product-market fit?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48623475",
+          "by": "exac",
+          "time": 1782082830
+        },
+        {
+          "id": 48623519,
+          "text": "If we can see far, it is because we are standing on the shoulders of tyrants.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48623519",
+          "by": "uberex",
+          "time": 1782083137
+        },
+        {
+          "id": 48624013,
+          "text": "I worked for a company that did opt-in spam email. Their main offices were in Silicon Valley, but they had a startup thing in LA that I worked at. Ostensibly we were building a self-service email campaign app to be bundled with Weblogic Commerce Server (which itself was basically DOA).\nIt became pretty obvious to me from the get-go that nothing was being built, and the startup was just siphoning money off the parent company. I'm not sure if there was any fraud going on beyond a bunch of people collecting a paycheck.\nI think the boss was skimming off of the captive H1Bs, and there was a guy in NYC who never did anything as far as I could tell. I wouldn't be surprised if there was some kind of kickback going on there.\nMy first day, I went out for sushi with the top devs, who proceeded to tell one horror story after another about the boss. Awesome way to start a job. I lasted 3 months.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48624013",
+          "by": "suzzer99",
+          "time": 1782087665
+        },
+        {
+          "id": 48624853,
+          "text": "First, you'll probably never know and this is one of those ouroboros questions that can drive you a little crazy if you let it. I urge you to not let it, because the only actual answer is that if you did work you were proud of and met the mother of your children, it quite literally doesn't matter. We should all be so lucky!\nSecond, very few things in life are so cut and dry. Legal cases are by nature simplified abstractions that attempt to render a three dimensional situation that unfolded over a long time in a few pages of a graphic novel.\nThird, this sort of thing is so incredibly common. Often the only difference between fraud and IPO is whether it worked or not. That's not cynicism, just pragmatism.\nIf you ever read David Graeber's Bullshit Jobs - and you should - you'll quickly decide that the real fraud is late capitalism writ large.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48624853",
+          "by": "peteforde",
+          "time": 1782094788
+        }
+      ],
+      "by": "advisedwang",
+      "time": 1782078053,
+      "url": "https://david.newgas.net/did-my-old-job-only-exist-because-of-fraud/",
+      "score": 304,
+      "descendants": 144,
+      "storyUrl": "https://david.newgas.net/did-my-old-job-only-exist-because-of-fraud/"
+    }
+  ]
+}
