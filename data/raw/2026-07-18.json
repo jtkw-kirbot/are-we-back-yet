@@ -1,0 +1,2452 @@
+{
+  "date": "2026-07-18",
+  "fetchedAt": "2026-07-20T04:02:56.069Z",
+  "samplingMethod": "frontpage_day_query_story_comment_snapshot",
+  "source": "hn_front_day_query_firebase",
+  "items": [
+    {
+      "id": 48956688,
+      "type": "story",
+      "title": "LG monitors silently install software through Windows Update without consent",
+      "rank": 1,
+      "depth": 0,
+      "storyId": 48956688,
+      "storyTitle": "LG monitors silently install software through Windows Update without consent",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48956688",
+      "topComments": [
+        {
+          "id": 48957021,
+          "text": "This is so much worse that the title makes it out to be:\n  1. Your OS installs malware (technically manufacturers software) from a 3rd party vendor in background, zero user interaction\n  2. Happens as soon as you or anyone with physical access plug in a device into the HDMI port\n  3. That malware has internet and full system access, no sandboxing\n  4. It starts with every system boot\n  5. This software gets installed when you plug in a new LG monitor\n  6. OR ALREADY HAD AN OLDER LG MONITOR PLUGGED IN, BECAUSE LG APPARENTLY ROLLED THIS OUT FOR MANY OLDER MODELS TOO!!\n  7. And yes, if you think that's horrendous, as mentioned in the video below, that also applies to 'Professional' LG monitors!\n\nThis situation has.. no precedent as far as I can tell..\nGamersNexus has a video diving deeper into what LG did here - https://www.youtube.com/watch?v=Q9uefFYe6bM",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48957021",
+          "by": "devttyeu",
+          "time": 1784373937
+        },
+        {
+          "id": 48956964,
+          "text": "Workaround:\n  gpedit.msc\n  Computer Configuration > Administrative Templates > System > Device Installation\n  Prevent automatic download of applications associated with device metadata\n  Set to enabled\n  OK\n\nOn home editions sans gpedit.msc:\n  sysdm.cpl\n  Hardware tab\n  Click Device Installation Settings\n  Under 'Do you want to automatically download manufacturers' apps for your devices?', select 'No'\n  Save Changes",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48956964",
+          "by": "delta_p_delta_x",
+          "time": 1784373261
+        },
+        {
+          "id": 48957051,
+          "text": "Assuming they don't get a revenue cut, pushing back on Microsoft can in principle be effective here.\nMicrosoft decides what happens here, and presumably today they just take it on trust that hardware makers know what software to install. New driver? Sure. McSpam installer? OK. Maybe they have a guideline saying \"Don't ship unrelated garbage\" but today it's not enforced because why would you do that?\nIf the Microsoft customers (particularly larger corporate customers) tell Microsoft they hate this that policy will get tightened or if there isn't a policy one is introduced, and outfits like LG get told if you do this again we're taking away your update privileges, 'cos our customers hated this. Because (as I said assuming MS don't get a taste) this is all downside for Microsoft.\nPushing back on LG will be less likely to work because you already bought their product, so at most you can insist you'll forgo LG next iteration and they know such pledges evaporate in practice usually. Whereas Microsoft has contract negotiations every day, somewhere a $$$ contract is being renegotiated next week and if \"Yeah, these LG popups suck\" comes up - even if it's not a corporate system but the VP's niece's video editing suite for her vlog that's strictly unrelated - that Microsoft sales droid reports this was an impediment and it's on the list of things that don't benefit Microsoft.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48957051",
+          "by": "tialaramex",
+          "time": 1784374156
+        },
+        {
+          "id": 48957609,
+          "text": "A monitor cannot install software on your computer by the way. It's Windows installing this software automatically (for some reason), so the blame should be on Microsoft.\nAutorun of malware when you plugged in a USB drive was also a Windows issue, I'd classify this as the same security problem.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48957609",
+          "by": "gkbrk",
+          "time": 1784378312
+        },
+        {
+          "id": 48957005,
+          "text": "Gamers Nexus have a video about this. Definitely worth a watch.\nhttps://www.youtube.com/watch?v=Q9uefFYe6bM",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48957005",
+          "by": "GaProgMan",
+          "time": 1784373752
+        },
+        {
+          "id": 48956966,
+          "text": "They used to call this spyware/malware. Now it's a regular practice by eng. teams and managers inside these big corp. Well played guys :) Congrats with new type of tricks",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48956966",
+          "by": "kingleopold",
+          "time": 1784373266
+        },
+        {
+          "id": 48957088,
+          "text": "I am tired of this. LG is now on my blacklist alongside EA and Blizzard Entertainment for their anti consumer practices.\nI can't change them, I can't change policies about it. I can choose to not buy.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48957088",
+          "by": "motbus3",
+          "time": 1784374464
+        },
+        {
+          "id": 48959946,
+          "text": "Windows urgently needs to revamp their driver consent model.\nYou can't block a just one driver. E.g. for my touch screen on the Lenovo website there is version X. When I install it the next day Windows installs X-1.\nOn Lenovo's website the latest version is 7.7.2.66 (https://pcsupport.lenovo.com/us/en/products/laptops-and-netb...).\nWindows reverts that to 7.7.2.44.\nI tried blocking that update with the Powershell command-thingy, but even that doesn't work:\n    Administrator in ~\n    get-windowsupdate -isHidden | ft Status,KB,Size,Title\n\n    Status  KB Size Title\n    ------  -- ---- -----\n    ----H--    92KB Wacom Technology - HIDClass - 7.7.2.44\n\n(this command by the way takes 20+ seconds), and the filtering doesn't work because there is no KB.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48959946",
+          "by": "OptionOfT",
+          "time": 1784394490
+        },
+        {
+          "id": 48960276,
+          "text": "Malware like this will continue until there is privacy laws that make it illegal.\nThe GN video focuses a lot on consent, and while maybe this is notionally currently illegal without consent, that just steers towards companies shipping a generic ToS popup, claiming you \"read\" that 1.8 PiB of ToS, and including the \"oh btdubs we can modify these terms at any times and if you want to go to court lol forced arbitration has other ideas about that.\"\nMS & Windows having conditioned users to expect / think they need drivers for peripherals speaking standard protocols is also part of this. A monitor shouldn't need a driver. It takes the pixels, it displays the pixels.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48960276",
+          "by": "deathanatos",
+          "time": 1784396273
+        },
+        {
+          "id": 48959324,
+          "text": "I dunno why so many people across different platforms insist that anyone concerned about this is overdramatic.\nThis is one of those things where if I found the person responsible I would likely spit in their face; if not worse. It's quite literally spyware installed as you plug it in much like those old DVD DRMs from sony that would install spyware.\nIt's garbage.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48959324",
+          "by": "lardosaurusrex",
+          "time": 1784390748
+        }
+      ],
+      "by": "baranul",
+      "time": 1784370079,
+      "url": "https://videocardz.com/newz/lg-monitors-silently-install-software-through-windows-update-without-user-consent",
+      "score": 1192,
+      "descendants": 602,
+      "storyUrl": "https://videocardz.com/newz/lg-monitors-silently-install-software-through-windows-update-without-user-consent"
+    },
+    {
+      "id": 48911793,
+      "type": "story",
+      "title": "Speech Recognition and TTS in less than 500kb",
+      "rank": 2,
+      "depth": 0,
+      "storyId": 48911793,
+      "storyTitle": "Speech Recognition and TTS in less than 500kb",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48911793",
+      "topComments": [
+        {
+          "id": 48962547,
+          "text": "I made a little python wrapper around it to serve an HTTP endpoint that’s OpenAI/elevenlabs compatible https://github.com/clayrosenthal/bootlegger",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48962547",
+          "by": "clayhacks",
+          "time": 1784409678
+        },
+        {
+          "id": 48911956,
+          "text": "Quick link to the video where he demos it: https://www.youtube.com/watch?v=kMliOFYBiz4",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48911956",
+          "by": "sgt",
+          "time": 1784057778
+        },
+        {
+          "id": 48965388,
+          "text": "Stt/tts systems always seem to me so promising, but I pretty much never use voice to interface with a computer. Sometimes instead of typing on my phone, I use a voice dictation. I would be keen to use voice to control Claude code, but I've always felt that the way I speak is different from the way I write good prompts.\nFishing for anecdotes here, does anyone have any good tts/stt experiences?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48965388",
+          "by": "almogo",
+          "time": 1784440947
+        },
+        {
+          "id": 48965039,
+          "text": "This is awesome. I am trying to build a full scale ASR system within 20-25MB. Now that we have Claude code to run experiments, I have started running some experiments. Promising results so far. First realization is that you can capture the nuances of speech in just 3300 embedding vectors(786d). This sequence can be decoded with a small CTC system to get text. Next experiments are on reducing the 768 dimension space into a 64D space. Thats also show some promising results. Hooking up my system so that the agent blogs the results everyday[1]. So my research \"claw\" setup does the experiments and posts results which I check in the morning and adjust the experiment direction as needed. Its not fully automated yet, but almost there.\n[1] https://blog.trulm.com/posts/speech-as-independent-parts/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48965039",
+          "by": "nutanc",
+          "time": 1784436108
+        },
+        {
+          "id": 48962685,
+          "text": "Do you have any accuracy benchmarks?\nI’ve worked in this space. TTS in a small footprint isn’t the hard part —- it’s doing it accurately that’s hard.\nAlthough for the use cases OP is targeting, lower accuracy may be good enough!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48962685",
+          "by": "jedberg",
+          "time": 1784410654
+        },
+        {
+          "id": 48962573,
+          "text": "Wow, it seems like this might beat out flite for very-low-memory TTS? I ended up abandoning a project of mine because I couldn't get high enough quality or low enough memory usage out of flite, so I'm very excited to try this out.\nFlite for comparison: https://github.com/festvox/flite",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48962573",
+          "by": "senkora",
+          "time": 1784409905
+        },
+        {
+          "id": 48963191,
+          "text": "For TTS I wonder how this compares to nanotts[1] with the en-GB voice, which is sort of unreasonably good.\n[1] https://github.com/gmn/nanotts",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48963191",
+          "by": "smcameron",
+          "time": 1784414606
+        },
+        {
+          "id": 48963011,
+          "text": "I installed the command line version using uv\n    uv init\n    uv add moonshine-voice\n    uv run moonshine-voice mic --language en\n\nsuper nice to be able to run it to test it like this\ngood job on a clear readme.md tbh",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48963011",
+          "by": "orliesaurus",
+          "time": 1784413146
+        },
+        {
+          "id": 48963849,
+          "text": "So at that tiny 500kb size I imagine it could be compiled to web assembly, and run entirely in the browser right?\nCouldn’t find a link, is that hard to do?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48963849",
+          "by": "gitgud",
+          "time": 1784421123
+        },
+        {
+          "id": 48963051,
+          "text": "Very cool. I've done TTS on a 32K Arduino but it was pretty croaky. https://youtu.be/ErGDboTpwM0",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48963051",
+          "by": "t0mpr1c3",
+          "time": 1784413366
+        }
+      ],
+      "by": "petewarden",
+      "time": 1784057110,
+      "url": "https://github.com/moonshine-ai/moonshine/tree/main/micro",
+      "score": 550,
+      "descendants": 83,
+      "storyUrl": "https://github.com/moonshine-ai/moonshine/tree/main/micro"
+    },
+    {
+      "id": 48957779,
+      "type": "story",
+      "title": "GPT-5.6 used a prompt to close a 30-year gap in convex optimization",
+      "rank": 3,
+      "depth": 0,
+      "storyId": 48957779,
+      "storyTitle": "GPT-5.6 used a prompt to close a 30-year gap in convex optimization",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48957779",
+      "topComments": [
+        {
+          "id": 48958516,
+          "text": "I know a bit about this field. This conjecture reads as somewhat more niche than the cyclic double cover conjecture recently proved by OpenAI, but nevertheless represents a real contribution.\nYou want to know how long it takes to solve an optimization problem, in this case over convex, lipschitz functions. (The restriction to a spherical domain is not really a restriction, you can just change variables for any bounded domain.) Anyway, showing upper bounds on time complexity is \"easy\" because it's just the runtime of your algorithm. Showing (nontrivial) lower bounds is usually much harder because it requires constraining all algorithms.\nThis proof apparently shows that the lower bound time complexity is equal to the time complexity of an existing 30-year old algorithm: it requires Omega(d^2) function evaluations to solve over this class of functions.\nMy gut says likely implies that d is the minimal number of evaluations if you have a gradient oracle because you can approximate a gradient with d function evaluations, but I'm not sure how hard it is to make that rigorous.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48958516",
+          "by": "_alternator_",
+          "time": 1784385212
+        },
+        {
+          "id": 48958194,
+          "text": "> I don't think researchers in math/TCS will be made obsolete, but I think it will instead no longer make sense to work on any low-hanging, or even medium-hanging (you know what I mean) fruit. We'll be needed for problems where actual novel approaches are needed.\nI wonder how this compares to what we see happening with \"juniors\" in software development?\nIn math research, do you also get the training for the profession from working on the low hanging fruits for a while, to then move to the medium-hanging, and later go on to work on previously unsolved stuff?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48958194",
+          "by": "rakel_rakel",
+          "time": 1784383000
+        },
+        {
+          "id": 48963674,
+          "text": "So if you dig down a bit it turns out the author had been trying to solve that problem for a year with GPT 5.4 and 5.5 and he fed all that information to the prompt he gave to Sol Pro which may or may not had direct access to the author's chat history. So the claimed \"148 minutes\" was really \"a year plus 148 minutes\".\nMoreover, it seems the prompt included the technique used to solve the problem:\nhttps://old.reddit.com/r/math/comments/1uxj3cy/after_openais...\nIn the prompt I basically just throw all reasonable approaches at it, without making a big distinction for what to explore most, and these approaches would all be reasonable for someone who knows the area. Sol helped me with the prompt as well, for which I gave it the CDC prompt, some ideas and specifications, a crystal clear problem description, and then modified things slightly myself after. One thing I do wonder is how much it accessed memory of previous chats, since as mentioned I had worked with 5.5 and 5.4 on this previously, and the main construction is not so different from something I discussed there. But, the function class max of affine functions that worked in the end was also in my prompt, so I'm not totally sure. \nSo it's not clear to me the degree to which \"GPT-5.6 used a prompt\" to close the gap etc, or the author basically did all the work himself and assigned it to GPT-5.6 out of enthusiasm.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48963674",
+          "by": "YeGoblynQueenne",
+          "time": 1784419150
+        },
+        {
+          "id": 48959109,
+          "text": "In the Reddit post there was clarification that this was done with Sol Pro not Ultra - curious what is everyone’s mental model of the difference.\nMy understanding is that ChatGPT Pro is effectively a multi agent system, or somehow uses multiple LLMs in parallel and selects a best answer. And Ultra is more similar to Claude-Code UltraCode where the main agent can choose to create a dynamic JS workflow that deterministically orchestrates multiple agents to handle different parts of a task and have adversarial checkers etc.\nIs that more or less the difference? Any substantiating sources would be great to see.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48959109",
+          "by": "d4rkp4ttern",
+          "time": 1784389152
+        },
+        {
+          "id": 48958394,
+          "text": "If I recall correctly there was a proposed proof to the abc conjecture by Mochizuki https://en.wikipedia.org/wiki/Abc_conjecture#Claimed_proofs which was rejected due to being rather inpenetrable to humans. Shouldn't this be an ideal target for LLMs?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48958394",
+          "by": "a_imho",
+          "time": 1784384296
+        },
+        {
+          "id": 48958103,
+          "text": "Crazy how intelligence is cheap, efficient and commonplace now. \nWe humans better refocusing our energy on our core values/principles, given most of our skills are becoming irrelevant",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48958103",
+          "by": "mw67",
+          "time": 1784382302
+        },
+        {
+          "id": 48962549,
+          "text": "I tried using AI to solve some advanced math problems. One thing I see is that they can throw an enormous amount of brute force into a problem. When mathematical logic can be brute forced we will see some interesting advances.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48962549",
+          "by": "charlieyu1",
+          "time": 1784409696
+        },
+        {
+          "id": 48959515,
+          "text": "Not yet peer reviewed",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48959515",
+          "by": "sdwvit",
+          "time": 1784391872
+        },
+        {
+          "id": 48961535,
+          "text": "The amount of people several months ago stating that no one cares about the \"unsolved\" mathematical problems that AI is able to solve is funny.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48961535",
+          "by": "Kirillekko",
+          "time": 1784403652
+        },
+        {
+          "id": 48961658,
+          "text": "Can't wait for GPT to prove that P=NP (or not)!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48961658",
+          "by": "Noe2097",
+          "time": 1784404373
+        }
+      ],
+      "by": "mbustamanter",
+      "time": 1784379652,
+      "url": "https://old.reddit.com/r/math/comments/1uxj3cy/after_openais_cdc_proof_announcement_gpt56_used_a/",
+      "score": 584,
+      "descendants": 384,
+      "storyUrl": "https://old.reddit.com/r/math/comments/1uxj3cy/after_openais_cdc_proof_announcement_gpt56_used_a/"
+    },
+    {
+      "id": 48954851,
+      "type": "story",
+      "title": "Regressive JPEGs",
+      "rank": 4,
+      "depth": 0,
+      "storyId": 48954851,
+      "storyTitle": "Regressive JPEGs",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48954851",
+      "topComments": [
+        {
+          "id": 48956492,
+          "text": "I did something very similar with progressive (adam7 interlaced) PNG: https://www.da.vidbuchanan.co.uk/adamation/image.png\n> so playback is entirely dependent on network delay\nUltimately true, but I set up my server to send each \"frame\" separately, with a fixed delay between each. Each frame is small so unless your network is unusually slow, the timing is set by my server.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48956492",
+          "by": "Retr0id",
+          "time": 1784366876
+        },
+        {
+          "id": 48955977,
+          "text": "That is 1. Cursed, and 2. Definitely in the right place here.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48955977",
+          "by": "robbak",
+          "time": 1784359918
+        },
+        {
+          "id": 48956319,
+          "text": "I wonder if and how you can use this for steganography, hiding data in plain sight. I bet most automated image analysis programs would only consider the final image. I sure some highschooler can use this to bypass their schools contentfilter",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48956319",
+          "by": "tda",
+          "time": 1784364841
+        },
+        {
+          "id": 48956567,
+          "text": "> “Besides unconventional rickrolls and other trolling, this has no practical applications: there's no way to add timing information, so playback is entirely dependent on network delay.”\nA progress bar for something that’s loading in parallel over the same network, to give the user an idea of how much the delay is?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48956567",
+          "by": "pavlov",
+          "time": 1784367969
+        },
+        {
+          "id": 48955691,
+          "text": "Nice! I think you can approximate timing somewhat, by making your web server create the \"jpeg\" on the fly and send it to the client in timed chunks. The source could even be a webcam, so the \"jpeg\" would go on forever.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48955691",
+          "by": "cousin_it",
+          "time": 1784355629
+        },
+        {
+          "id": 48956206,
+          "text": "> so playback is entirely dependent on network delay\nYou can use Service Worker to emulate a slow connection :)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48956206",
+          "by": "est",
+          "time": 1784363180
+        },
+        {
+          "id": 48960430,
+          "text": "Weird that it’s inconsistent\nWorks fine for me in desktop Firefox. But on mobile iOS the “whole video within a jpeg” is 3 frames, all of which are nearly entirely solid color brown->orange->red with a vague cat silhouette. The color changes each frame, so you can tell it’s “working” but it’s certainly not what I’d call a video.\nI was surprised when I pulled it up on my desktop and it did actually play like a video. Wonder if it’s causing some weird iOS image decoding glitch/edge case.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48960430",
+          "by": "snailmailman",
+          "time": 1784397254
+        },
+        {
+          "id": 48956315,
+          "text": "Adjacent advice:\nI've recently played with opengl and jpeg turbo and I wanted to display images fast. I don't remember exact numbers, but enabling progressive for a jpeg was a significant slowdown for decoding.\nSo if anyone like me is stuck with the old school advice that progressive is an nice to have, it's likely not. I personally don't remember any visual progressive image buildup in like decades, so it's not doing anything valuable at all.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48956315",
+          "by": "Yokohiii",
+          "time": 1784364802
+        },
+        {
+          "id": 48955788,
+          "text": "I tried to think about difficult ways to compute the high frequency coefficients to work from the \"wrong\" coefficients of the first image...\nBut this is clever - just smash them together. Low frequency of one image concatenated with high frequency from another. This works surprisingly well!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48955788",
+          "by": "schobi",
+          "time": 1784356990
+        },
+        {
+          "id": 48955818,
+          "text": "Excellent hack! Should definitely be possible to make an animated gif to jpeg converter. I guess the animation could be slowed a little by repeating frames.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48955818",
+          "by": "xnx",
+          "time": 1784357538
+        }
+      ],
+      "by": "vitaut",
+      "time": 1784344460,
+      "url": "https://maurycyz.com/projects/bad_jpeg/",
+      "score": 710,
+      "descendants": 68,
+      "storyUrl": "https://maurycyz.com/projects/bad_jpeg/"
+    },
+    {
+      "id": 48960218,
+      "type": "story",
+      "title": "The Kimi K3 Moment",
+      "rank": 5,
+      "depth": 0,
+      "storyId": 48960218,
+      "storyTitle": "The Kimi K3 Moment",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48960218",
+      "topComments": [
+        {
+          "id": 48961457,
+          "text": "Regardless of whether they achieved parity via distillation, or whether they got here via independently constructing a model from scratch, it was always going to end this way for the frontier American labs. Distillation “attacks” are not attacks. The frontier labs “distilled” all existing human written knowledge into their models, there was always going to be a second class lab that would distill that model into a cheaper version of it. There was never any plausible explanation for why this wouldn’t happen. There was never any practical mechanism to prevent someone from saving a conversation and using it to train their own model.\nEven if it didn’t happen here, it was still the case that it was going to happen going forward. It was always going to end like this. Invest in the hardware companies, not the model companies.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48961457",
+          "by": "nickysielicki",
+          "time": 1784403185
+        },
+        {
+          "id": 48961187,
+          "text": "This was always where this was heading, but we got here much faster than expected.\nOnce western governments declare it to be a \"national security\" risk for citizens to have access to open-weight frontier models, and once they classify using these models as acts of terrorism, what will that world be like?\nWill using Kimi K3 come to be like how napster was in the olden days?  Everybody knew it was technically illegal, but come on -- any track at your fingertips?  But surveillance is quite more evolved now.\nOr it will be like cannabis, where a guy in the neighborhood will low key rent you metered access to the 8x5090 rig in his basement he cobbled together from parts on ebay?  Or everyone will flock to VPNs?\nOr will the oppressors actually succeed?  The same way that napster is long gone, and everyone accepts that they must pay spotify for a homogenized collection, where artists must take only a minuscule cut (more than napster though)... We'll be stuck with nerfed Cohere or Mistral models for open-weight options, as if they need more lobotomizing.  Or else we can pay through the nose for Anthropic/OpenAI for \"American Frontier\" models which will fall increasingly far behind China.\nOr else, like how Kindle Fire was subsidized by ads, we'll have \"Kindle AI\" where influence is sold to the highest bidder, where the LLM will tell us that smoking is actually healthy if big tobacco can engineer its renaissance by turning its lobbying dollars to pay-to-play, pumping its propaganda into the training pipeline for Amazon's extra commercialized line of ultra budget LLMs.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48961187",
+          "by": "montroser",
+          "time": 1784401718
+        },
+        {
+          "id": 48961116,
+          "text": "I tried Kimi K3 on a task I've done with every other model I use regularly (https://swelljoe.com/post/i-let-every-agent-implement-its-ow...) and found it chewed a lot longer on the problem and ate up almost the entirety of a 5 hour usage limit on their $19 plan.\nI only have the $20 plan from OpenAI and the same task, with a lot of the same implementation details as Kimi Code, only took a few minutes and consumed almost none of the 5 hour limit.\nSubscription usage limits are hard to measure as none of the providers tell you directly what it means in terms of tokens or anything else you can easily compare, but when I sat down to add Kimi Code to flar, it was because I wanted to try it on some real work and then couldn't do any, because usage was nearly gone after the trivial task...no other ~$20 subscription I have has felt that tight before.\nSo, it was really slow to complete the task and seemingly much more expensive than every other model I'd tried. Maybe bad luck. Maybe it'll do better on other tasks. I wouldn't know as I was out of usage when I had time to try.\nIt did find a bug that Gemini 3.5 Flash introduced unprompted, though, so it has that going for it.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48961116",
+          "by": "SwellJoe",
+          "time": 1784401354
+        },
+        {
+          "id": 48961849,
+          "text": "Even in this very thread the feedback on Kimi's actual efficacy is debated. I personally feel its worse than both Fable and 5.6 Sol, but I feel like the conversation isn't really about whether its good or not, but a backlash against the U.S governments foray into regulation. So I think people _want_ it to be superior out of anger/frustration with the current situation.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48961849",
+          "by": "aliasxneo",
+          "time": 1784405537
+        },
+        {
+          "id": 48962665,
+          "text": "I think it's the opposite.\nKimi K3 has 2.8 trillion parameters. We don't know the number of parameters of ChatGPT 5.6 or Opus 4.8, but it's probably in the same region. Fable/Mythos are rumored to be around 10 trillion.\nSo, K3 is directly comparable with ChatGPT 5.6 and Opus 4.8, and the price is not so much lower:\nK3: $3/$15 per 1 Mtok input/output\nChatGPT 5.6 Sol: $5/$30\nOpus 4.8: $5/$25\nThis is not a watershed moment. It's a competitor converging to the same capability and trying to undercut your prices, but not by a lot.\nAs for the open weights? For now, Kimi K3's weights are closed, and I don't expect the situation would change.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48962665",
+          "by": "credit_guy",
+          "time": 1784410566
+        },
+        {
+          "id": 48962653,
+          "text": "It was all distillation up to this point anyway. And I agree with what Suhail said on twitter: \"Make the margins next to zero for all these AI models. It was trained on humanity's data, it should be gift to ourselves. Doing so will save us from a few in control of our species.\"",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48962653",
+          "by": "thedreammachine",
+          "time": 1784410464
+        },
+        {
+          "id": 48961772,
+          "text": "Well, there is the small issue of privacy policy: Kimi will train their models on your interactions if you use their subscriptions, and only with direct API usage (billed at API prices) they say they won't. Whether you trust that is another matter.\nThose things do make a difference to some of us, even though nothing is black and white. In my case, I'll probably want to wait until other providers appear through OpenRouter and then I'll try to judge how much I trust them. But even if I don't trust them much, they don't train models anyway, so the likelihood of my data being used that way is smaller.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48961772",
+          "by": "jwr",
+          "time": 1784405006
+        },
+        {
+          "id": 48961109,
+          "text": "> I’ve been running Kimi K3 alongside Claude on my normal coding work, and for all practical purposes I can’t tell them apart\nWhen you say \"Claude\", do you mean Opus? Fable? What effort level?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48961109",
+          "by": "boogerlad",
+          "time": 1784401323
+        },
+        {
+          "id": 48962937,
+          "text": "Pricing is actually far cheaper than that. There's two tiers of pricing: Chinese and US.\nIf you sign up with non-Chinese phone number, you're bucketed into US, you get US prices, can pay only in USD and with American credit card network.\nChinese prices are about 9x cheaper than the US prices, which are already far cheaper than Claude or other American provider. If you can somehow get hold of a Chinese phone number, keep in mind that you can save ~90% of the bill.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48962937",
+          "by": "WhyNotHugo",
+          "time": 1784412497
+        },
+        {
+          "id": 48964066,
+          "text": "Since Kimi’s paid plans are mentioned in the article..interested ones should know that you can only access 1M context model with $79/mo or higher plan; otherwise you are capped at 256k context. Also, with minimal $15/mo plan k3 is currently not supported at all. (prices are yearly plan discount prices)\nref: https://www.kimi.com/code/docs/en/kimi-code/models.html",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48964066",
+          "by": "angst",
+          "time": 1784423212
+        }
+      ],
+      "by": "sbochins",
+      "time": 1784395960,
+      "url": "https://stephen.bochinski.dev/blog/2026/07/18/the-kimi-k3-moment/",
+      "score": 587,
+      "descendants": 579,
+      "storyUrl": "https://stephen.bochinski.dev/blog/2026/07/18/the-kimi-k3-moment/"
+    },
+    {
+      "id": 48956879,
+      "type": "story",
+      "title": "Fable 5 vs. GPT-5.6 Sol on an NP-Hard Problem: Does /goal help?",
+      "rank": 6,
+      "depth": 0,
+      "storyId": 48956879,
+      "storyTitle": "Fable 5 vs. GPT-5.6 Sol on an NP-Hard Problem: Does /goal help?",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48956879",
+      "topComments": [
+        {
+          "id": 48957485,
+          "text": "The chart at the top is somewhat confusing. It says, “lower is better” but the y-axis is inverted! So visually higher in the chart is better but lower in terms of # value.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48957485",
+          "by": "tyleo",
+          "time": 1784377327
+        },
+        {
+          "id": 48957842,
+          "text": "Claude seems to forget what you tell it in very long work sessions (things that take weeks to develop), no matter how many times you tell it which part is extra important. I dont use goal (I guess I should), but presumably it makes it actually remember the most important instruction. I believe this here is about shorter sessions where the issue doesn't crop up as much.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48957842",
+          "by": "Tenoke",
+          "time": 1784380220
+        },
+        {
+          "id": 48959572,
+          "text": "Great eval! If you are comparing search strategies, ultra mode is likely superior. Would love to see a follow-up evaluating that.\nUltra can fan out parallel investigators, run adversarial review at defined checkpoints, and do a bunch of other smart stuff to avoid getting stuck in a local optimum.\nGenerally as the OP notes, /goal works better for single-track investigations or small scale scatter/gather.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48959572",
+          "by": "theptip",
+          "time": 1784392285
+        },
+        {
+          "id": 48959477,
+          "text": "Anthropic is losing bigtime against Open AI in coding space. I was using Claude code upto last march. Not an enterprise customer, but a responsible AI user where i don't over spend and use basic plan to manage repository with 400Kloc all together.  We sell to local government and a team of 3. Claude code was super slow, never able to fix issues properly.(Despite with proper test cases, observability, documentation and layered architecture). After moving to codex, life has been much easy and free form usage anxiety. Now managing entire things with 2 codex plus account per team member. Its high time anthropic should stop scare mongering and build efficient models. Everyone doesn't need Fable. People need models that solve problems efficiently.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48959477",
+          "by": "sreekanth850",
+          "time": 1784391650
+        },
+        {
+          "id": 48957498,
+          "text": "/goal has replaced plan mode for me. This is the pattern I use for 95% of my AI work now:\n1. Read X feature of Y and tell me when you fully understand it (if there's any detail missing in the summary, repeat until the context is primed)\n2. What time is it?\n3. /goal Spend X minutes from $time writing a technical design doc on $feature. There must not be any vague language or ambiguity in the document. Read carry_forward_requirements.md and testing_best_practices.md and explicitly incorporate them into the document you write. The document should be executable for a contextless implementer when done and include specific code and document references and changes needed. Spend the full X minutes working on and reviewing this document - do not quit early and wait\nEven just spending 10 minutes forcing GPT to write a design doc results in much more robust plans than plan mode, in my experience, and saves time I would spend iterating on the initial plan mode draft anyway.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48957498",
+          "by": "o10449366",
+          "time": 1784377414
+        },
+        {
+          "id": 48957678,
+          "text": "What is /goal?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48957678",
+          "by": "tantalor",
+          "time": 1784378873
+        },
+        {
+          "id": 48960050,
+          "text": "I've used GPT 5.6 Sol Xhigh extensively since its launch, alongside Fable 5.\nMy impression is that it is about as intelligent as 5.5, but they dialed up the relentlessness meter to eleven. This makes it more likely that it will accomplish the task you give it, which I think is the primary reason it looks competitive in benchmarks. However, it also makes it more likely that it will resort to... unconventional, weird or outright unsafe methods to do it. So I have to watch it like a hawk.\nThe other day it tried to read env variables from prod using a CLI command. The task it was working on did not necessitate doing that even remotely. I have the SSH keys for that particular CLI tool tied to my 1Password. So when the agent failed (because I never authenticated the SSH key access), it wanted to take over the computer, for which I got an OS prompt. At that point I stopped the agent and asked it why it did that. It said it wanted to dig around 1Password itself to see if it could get the key. I asked it why it needed prod env variables, and it thought for a bit and admitted it actually shouldn't. So as of yesterday I stopped using the \"approve for me\" mode and now use it only for simpler tweaks and bug fixes.\nFable is not only more intelligent, but also way more insightful. It can sniff out my intent far more effectively, and its \"real world\" knowledge allows it to act as a seasoned product manager with domain expertise. It can also think outside the box and make suggestions that I would not have thought of. With GPT 5.6 I have to be way more literal.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48960050",
+          "by": "enraged_camel",
+          "time": 1784395069
+        },
+        {
+          "id": 48961930,
+          "text": "GPT should be better at these optimization problems given that they won the recent atcoder heuristics competition against top humans. And Anthropic is less focused on these types of things.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48961930",
+          "by": "osti",
+          "time": 1784406012
+        },
+        {
+          "id": 48961015,
+          "text": "I would personally love to see the best score over time, not only the final. Then IMO it's also useful to know about effectiveness of /goal",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48961015",
+          "by": "spikk",
+          "time": 1784400720
+        },
+        {
+          "id": 48957620,
+          "text": "Results seem mostly noise to me. One eval per model, in a large problem space (i.e. a problem which requires many attempts to solve well).",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48957620",
+          "by": "andai",
+          "time": 1784378410
+        }
+      ],
+      "by": "couAUIA",
+      "time": 1784372429,
+      "url": "https://charlesazam.com/blog/fable-5-gpt-5-6-sol-goal/",
+      "score": 252,
+      "descendants": 124,
+      "storyUrl": "https://charlesazam.com/blog/fable-5-gpt-5-6-sol-goal/"
+    },
+    {
+      "id": 48963465,
+      "type": "story",
+      "title": "Codex Resets",
+      "rank": 7,
+      "depth": 0,
+      "storyId": 48963465,
+      "storyTitle": "Codex Resets",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48963465",
+      "topComments": [
+        {
+          "id": 48963988,
+          "text": "Those resets and the removal of the 5-hour usage limit are quietly anchoring me to a much higher usage baseline. I've stopped rationing and just spawn a bunch of agents to work at whatever pace I want, because there always seem to be more resets on the way (at least true for the last week). And now I am actually worried about that if one day they just stop doing so, my \"normal\" workflow will suddenly exceed the limit, and upgrading will feel like a step backwards.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48963988",
+          "by": "Lwrless",
+          "time": 1784422571
+        },
+        {
+          "id": 48963749,
+          "text": "I'm kind of impressed how often they manage to do this. Claude Code and Grok Build do resets too, but nowhere near this often. And in an ironic twist for a big company with the infrastructure, Google Antigravity never seems to do resets like this at all (at least that I've noticed). I wonder how much this stuff costs OpenAI to do?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48963749",
+          "by": "midnightbobarun",
+          "time": 1784419953
+        },
+        {
+          "id": 48963517,
+          "text": "> 5 days ago: 7M users\n> 4 days ago: 8M users\n> 3 days ago: 9M users\nThat's some incredible growth.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48963517",
+          "by": "mvkel",
+          "time": 1784417703
+        },
+        {
+          "id": 48963574,
+          "text": "It’s like two parents fighting over their children with who can give them the most gifts. I’m loving it, two Christmases!!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48963574",
+          "by": "bottlepalm",
+          "time": 1784418235
+        },
+        {
+          "id": 48963595,
+          "text": "Crazy value for money now with the banked resets. At my $COMPANY, we have claude enterprise at API pricing. I've blown through $10k already this month, opting for Opus 4.8 w/ Sonnet 5 agents where possible. On my codex pro plan, I am 5.6 sol'ing my way everyday with the odd ultra mode. Point being my real API usage here must be very unsustainable!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48963595",
+          "by": "huey77",
+          "time": 1784418459
+        },
+        {
+          "id": 48963777,
+          "text": "I really wish there was a canonical platform endpoint to programmatically check Codex usage amount and the quota reset times so I could just vibecode an app to alert \"hey, your usage just went to 100% so that means OpenAI did a reset\" and \"hey, your 5-hour usage is at 10%, wrap up what you're doing\".\nThe only way to do it now is through shenanigans with the Codex App Server which is not ideal.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48963777",
+          "by": "minimaxir",
+          "time": 1784420218
+        },
+        {
+          "id": 48963533,
+          "text": "Compare to Anthropic who consistently do their resets between Thursday and Friday, somewhat alienating people who have their resets around that time.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48963533",
+          "by": "sva_",
+          "time": 1784417815
+        },
+        {
+          "id": 48964476,
+          "text": "This is a useful site.\nI've been enjoying the resets, plus I had 3 resets I haven't used.\nJust using 5.6 Sol in Fast mode the whole time, 1B tokens per day.\nHowever, when they removed the 5h limit they also quietly lowered the 5.6 Sol context from 354k to 258k or something like that. I noticed it in Codex.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48964476",
+          "by": "fomoz",
+          "time": 1784427981
+        },
+        {
+          "id": 48965608,
+          "text": "I'm starting to think It might be a good idea to stay with American models, by virtue of them feeling so threatened they give out more and more free perks.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48965608",
+          "by": "sim04ful",
+          "time": 1784444350
+        },
+        {
+          "id": 48963500,
+          "text": "Is Claude also doing something like this? I saw my Fable limit resetting earlier than expected.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48963500",
+          "by": "yewenjie",
+          "time": 1784417519
+        }
+      ],
+      "by": "denysvitali",
+      "time": 1784417066,
+      "url": "https://codex-resets.com/",
+      "score": 294,
+      "descendants": 192,
+      "storyUrl": "https://codex-resets.com/"
+    },
+    {
+      "id": 48959090,
+      "type": "story",
+      "title": "If You Build It, They Will Come",
+      "rank": 8,
+      "depth": 0,
+      "storyId": 48959090,
+      "storyTitle": "If You Build It, They Will Come",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48959090",
+      "topComments": [
+        {
+          "id": 48961211,
+          "text": "// Lots of people have a sort of consumer attitude towards their communities, where they take everything for granted. I saw things this way when I was young. A social scene is an automatic feature of the world that appears on its own, like a wild blueberry bush. It starts sprouting parties and dinners and conferences and reading groups as naturally as the bush sprouts berries\nTrue in general. As a kid you think of things as bigger than you. Like whoever maintains a hiking trail or runs your towns diner is \"big\" compared to you.\nAs a grown up you hopefully realize that it's the other way - the work and effort to make and maintain those things is vulnerable and fragile.\nI think about this whenever I see someone hop over the subway turnstile. The transit system is \"for granted\" - it's you and your few bucks that matters. But of enough ppl feel that way it all goes away via decay eventually.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48961211",
+          "by": "xyzelement",
+          "time": 1784401859
+        },
+        {
+          "id": 48960007,
+          "text": "You really have to do it for the love of the game. It can be surprisingly vulnerable to be the social fabric, and it’s super easy to fall into various toxic inner dialogs when you’re busy and others don’t pick up the slack, or if others don’t reciprocate the effort, or worst of all when others don’t include you for whatever reason.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48960007",
+          "by": "crab_galaxy",
+          "time": 1784394783
+        },
+        {
+          "id": 48960369,
+          "text": "> Lots of people have a sort of consumer attitude towards their communities, where they take everything for granted. I saw things this way when I was young. A social scene is an automatic feature of the world that appears on its own, like a wild blueberry bush. It starts sprouting parties and dinners and conferences and reading groups as naturally as the bush sprouts berries.\nI feel like this generally applies a lot in life, and most people generally sees themselves as passive consumers when it comes to most things. You can just do things, even if people look at you weird or say your weird, even in public, and nothing really changes when they say/think those things about you. Just enjoy life as much as you can, in the way you wish, without harming others.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48960369",
+          "by": "embedding-shape",
+          "time": 1784396860
+        },
+        {
+          "id": 48959757,
+          "text": "“I’ve come to believe that part of today’s problem of social alienation is a problem of too many free riders.”\nI started planning street festivals a few years ago. It’s now a lucrative and growing business for me. The demand for events at all scales vastly outstrips supply, and I think growing social isolation is part of the reason.\nThe free riders might seem like a problem to someone who just wants there to be events, but it is a huge opportunity to us who throw them.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48959757",
+          "by": "mattmaroon",
+          "time": 1784393297
+        },
+        {
+          "id": 48961736,
+          "text": "America used to be awash with grassroots social institutions. I know an elderly gent who belonged to the Lions _and_ two similar organizations. When my mother was young, there were dances and dinners multiple nights a week. Which, for me, raises the question why weren't these things passed down? Why weren't the young a kind of apprentices to the old? That seems like the natural progression. But we see this generational rift in many areas of American life, including on the job training or something as practical as home cooking. It's like gazing into the past across a cataclysmic divide.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48961736",
+          "by": "Exoristos",
+          "time": 1784404826
+        },
+        {
+          "id": 48964440,
+          "text": "I volunteer at a weekly event where we consistently have over 400 people show up, and every week it is a struggle to get 20 necessary volunteers to run it.\nWhen you ask, you do get volunteers, but there are a few awesome people who volunteer every week and love it. The event would absolutely be impossible without them.\nThank you to every person who volunteers, especially if you do it without asking.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48964440",
+          "by": "grahar64",
+          "time": 1784427614
+        },
+        {
+          "id": 48962080,
+          "text": "This is very interesting. I never thought of myself as a “consumer” in that sense, but I guess it is 100% correct, I’ve always been a consumer and I have in fact taken things for granted.\nI don’t see that changing, to be honest, but it’s interesting that this never even occurred to me. It seems so obvious in hindsight. Quite the blindspot.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48962080",
+          "by": "brap",
+          "time": 1784406838
+        },
+        {
+          "id": 48962412,
+          "text": "This is indeed part of the something i've been internalising for quite a while. I've always felt i needed to improve my social circle by finding/making one, but i realised it's better to just have hobbies and skill sets that make me useful and relevant to a certain niche and then my circle would naturally arise from there.\nIt's also why i'm trying to participate more here, even with the crippling imposters syndrome that prevents me from contributing anything...It's so difficult actively participating in a group that seemingly got cultivated from a culture somewhat alien to my own upbringing.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48962412",
+          "by": "sim04ful",
+          "time": 1784408853
+        },
+        {
+          "id": 48959726,
+          "text": "Do not expect a reward, dude.\nI spent 15 years building a local community, I had 10,000 daily users once, people recognized me on the street, then everyone left on a whim when Facebook made it easier to hang in one's own echo chambers.\nI still think it was worth it.\nOnce in a while, I bump into a stranger, and they tell me how the found their only true love because of me, or how they landed a job that made them loads of money because I facilitated communication in our community. Other times... I barely escaped molestation by a disgruntled member once, and someone  threw a glassful of Orval at me (yes, it really happened).\nIt was still worth it.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48959726",
+          "by": "sam_lowry_",
+          "time": 1784393114
+        },
+        {
+          "id": 48960284,
+          "text": "This makes me realize I should show my appreciation to organizers more. It’s easy to take events for granted.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48960284",
+          "by": "salahadawi",
+          "time": 1784396344
+        }
+      ],
+      "by": "barry-cotter",
+      "time": 1784389021,
+      "url": "https://www.benlandautaylor.com/p/if-you-build-it-they-will-come",
+      "score": 449,
+      "descendants": 190,
+      "storyUrl": "https://www.benlandautaylor.com/p/if-you-build-it-they-will-come"
+    },
+    {
+      "id": 48962758,
+      "type": "story",
+      "title": "Hardcore IndieWeb: Run your own website 100% independently for only $0.01/day",
+      "rank": 9,
+      "depth": 0,
+      "storyId": 48962758,
+      "storyTitle": "Hardcore IndieWeb: Run your own website 100% independently for only $0.01/day",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48962758",
+      "topComments": [
+        {
+          "id": 48963738,
+          "text": "Nearlyfreespeech is a great service though not a 100% independent as your still relying on them. I think the closest you can get to 100% independent without running your own internet infrastructure is either port forwarding from your home (if allowed) or hosting a website through TOR which isn't too hard. You just have to download the browser and edit a config file (torrc) with the port you want on the network. Not ideal of course though because anyone who wants to visit your website will need the tor browser and explaining to people that your website is on the \"dark web\" is a little hard to do.\nI am a little surprised that doing so isn't more popular on in the indie web scene though as you do it on hardware you own, from your home, and the tor network protects people from knowing your servers ip address if that's something you care about. You could even go to your domain provider and have one of your domains redirect to your .onion address so people don't need to memorize it.\nThere also used to be the beaker browser which let you create and host your own website directly from the browser but that project got shut down. Hopefully something similar will show up at some point. Maybe a website creating plugin for tor would be enough to make it more popular.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48963738",
+          "by": "raytopia",
+          "time": 1784419778
+        },
+        {
+          "id": 48963313,
+          "text": "Kind of funny that this is like some strange new concept... Having a web server and putting your stuff on it.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48963313",
+          "by": "jdjdjdjdjd",
+          "time": 1784415521
+        },
+        {
+          "id": 48963417,
+          "text": "> run 100% independently\n> For just $0.01/day, you can run a static website at NearlyFreeSpeech.net\nI respect the spotlight on hosting your own websites, but it's not much different from the usual Vercel/Netlify/GitHub/Cloudflare static hosting.\nWhat if I want a database, feedback form, social media previews, good SEO? Article says nothing about it. Perhaps that's what makes a website \"indie\"?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48963417",
+          "by": "ivanjermakov",
+          "time": 1784416648
+        },
+        {
+          "id": 48964453,
+          "text": "Self-plug here.\nI built a comment js plugin which hosts all data inside a git repo. https://github.com/est/req4cmt (as long as your git service accept http)\nIt runs a Cloudflare Worker for free. The data backup/migration is basically git clone & push\nThere's another twitter-replacement, also based on git. https://github.com/est/gitweets\nDemo https://f.est.im/  it supports comments via git notes :D\n$0.01/day ? They are all completely free thanks to Cloudflare Workers / Github Pages.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48964453",
+          "by": "est",
+          "time": 1784427708
+        },
+        {
+          "id": 48963606,
+          "text": "Recently, I had to make a website for an event, so domain was needed, but what's cool with that is that the domain provider (Infomaniak, with which I am not affiliated btw), also provided 10 MB of storage which is large enough for a lot of things. \nSo for something like 5€ per year (still more than 1c per day...), you can get the domain and the website, which is not too bad",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48963606",
+          "by": "pagoto",
+          "time": 1784418562
+        },
+        {
+          "id": 48963098,
+          "text": "It is nice to see a site preaching this that isn't hosted by Cloudflare or GitHub Pages",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48963098",
+          "by": "variety8675",
+          "time": 1784413802
+        },
+        {
+          "id": 48964989,
+          "text": "Personal, but I’d rather learn and own a process.\n1. Learn how you can get HTML generated from a human-readable and writer-friendly format, say, Markdown (plain-text). This can be Pandoc, a macOS/Win wrapper desktop UI over Pandoc, and many other tools that do this.\n2. Learn the process (and the tools) to upload, or sync to a service that hosts the HTML (CSS+JS).\n3. Learn the simple steps of owning of a domain, and updating the DNS to point to the right services, such as Github Pages, CloudFlare Pages, etc.\nAs you are not dependent on a particular tool/service/platform/company, you can walk out and host your files (the website content) elsewhere.\nThe post-processing of the raw (Markdown) articles/posts to HTML can be then automated with Static Site Generator if someone is willing to learn a little more on top of the above steps.\nOf course, it is a fun and good thing to know HTML but that should be optional to the target of “Run your own website 100% independently.” With Github and Cloudfalre, you can hve it for $0 monthly. If they go kaput or stops free, someone will come up - walk out and walk in elsewhere.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48964989",
+          "by": "Brajeshwar",
+          "time": 1784435458
+        },
+        {
+          "id": 48964737,
+          "text": "I'm building an Astro starter template that also makes it easy to start your own website / blog: https://github.com/BryanHogan/astro-starter-template\nAstro is a framework that uses no JavaScript by default. I also use just HTML and CSS, so no bloated additional frameworks or styling libraries.\nAll blog content is written as Markdown or .mdx files, so it's easy to write and move to any other tool if you wish to do so.\nYou can host it for free using any major provider since it's just a static website (e.g., GitHub Pages, Cloudflare, etc.).\nMaking it similar to my own website which is on: https://bryanhogan.com/\n(Repo: https://github.com/BryanHogan/bryanhogan )",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48964737",
+          "by": "bryanhogan",
+          "time": 1784431967
+        },
+        {
+          "id": 48965452,
+          "text": "I come at it from a slightly different angle.\nI write technical blog posts with visualizations and live demos. That usually means embedding a bit of custom javascript in the page for the demo. Or shipping custom wasm to enable extreme semantic model compression.\nI do this by pushing content from my machine to github pages which is wired up to my subdomain.\nIf github pages stops being a good, free option for this, I will find another. Not sure I would call this \"hardcore\" really.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48965452",
+          "by": "salamo",
+          "time": 1784442011
+        },
+        {
+          "id": 48963354,
+          "text": "This article is a great example for anyone in their 50’s who is worried about not having relevant skills anymore.\nAlthough calling it hardcore makes it sound like porn. Too bad they had to add that term for something painfully not hardcore.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48963354",
+          "by": "bartlebone",
+          "time": 1784415908
+        }
+      ],
+      "by": "cdrnsf",
+      "time": 1784411112,
+      "url": "https://www.neatnik.net/hardcore-indieweb",
+      "score": 244,
+      "descendants": 199,
+      "storyUrl": "https://www.neatnik.net/hardcore-indieweb"
+    },
+    {
+      "id": 48952565,
+      "type": "story",
+      "title": "TP-Link Kasa cameras leaked home GPS via unauthenticated UDP for 6 years",
+      "rank": 10,
+      "depth": 0,
+      "storyId": 48952565,
+      "storyTitle": "TP-Link Kasa cameras leaked home GPS via unauthenticated UDP for 6 years",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48952565",
+      "topComments": [
+        {
+          "id": 48954568,
+          "text": "This underscores the principle that IoT devices should not be allowed to communicate over the public Internet. Pretty much all cheap, Chinese-made hardware of this kind has intentional or unintentional security holes waiting to be exploited.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48954568",
+          "by": "drnick1",
+          "time": 1784341351
+        },
+        {
+          "id": 48954331,
+          "text": "The report seems obviously AI generated, so I can't be bothered to read in its entirety, but based on my quick skim, \"leaked home GPS\" makes it sound worse than it is. Unless you're dumb enough to set DMZ on this device, this won't be exposed to the internet, and if it's LAN only, don't you already know the location? Even for a remote attacker who somehow got LAN access remotely, they can probably deduce the location through other means (eg. using crowdsourced wifi databases).",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48954331",
+          "by": "gruez",
+          "time": 1784339334
+        },
+        {
+          "id": 48957532,
+          "text": "A shocking number of devices are continuously reporting location data over random unencrypted protocols. What’s worse, they’re often sending the data to cloud IPs that aren’t even controlled by the company, so some random person is getting your real-time location.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48957532",
+          "by": "ericpauley",
+          "time": 1784377635
+        },
+        {
+          "id": 48956628,
+          "text": "The fact that a firmware upgrade bricked the camera doesn't bode well for their other products...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48956628",
+          "by": "nubinetwork",
+          "time": 1784368988
+        },
+        {
+          "id": 48954953,
+          "text": "That disclosure timeline is brutal…",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48954953",
+          "by": "BobbyTables2",
+          "time": 1784345556
+        },
+        {
+          "id": 48960398,
+          "text": "Good, they used UDP for a one off request /response (maybe) exchange. Bad, they included precise location information.\nI can see how rough location information is helpful for support and business information. Maybe country, maybe even zip code. But precise GPS was a bit overkill. Maybe it was easy, maybe it was nefarious, but not encrypting it over the wow was just plain dumb. I guess there is a razor for that.\nHow would this exfiltration happen though? Aren’t these cameras going to be behind a firewall? Without a request originating internally no external packet will make it past, right? Does the firmware make the first request? If so, I missed it.\nI’m more mystified by the fleet wide certs. Old manufacturing tech that makes per-device firmware difficult, perhaps?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48960398",
+          "by": "mlhpdx",
+          "time": 1784397027
+        },
+        {
+          "id": 48959647,
+          "text": "I've used Kasa plugs for a long while and was not surprised that their API allowed relay control and basic info of them as long as you manage to get in the same internal network. It's local, so IMHO that is not just reasonable, it's desirable. I don't need to give my friends permission to toggle the lights manually either.\nRouters having abnormal amount of zerodays, and not being fixed on the other hand is actually serious, unlike this.\nJust a week ago I actually set up one of TP-link's new line of smartplugs (Tapo instead of the old Kasa), and for that I had to make an account. For actual security, I'd rather have an option to control them locally with zero additional authentication when you're already inside the network, instead of the cloud stuff. But I HAD to make an account even though the custom code I control said plug with only accesses the plug locally.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48959647",
+          "by": "maxlin",
+          "time": 1784392638
+        },
+        {
+          "id": 48956046,
+          "text": "Why do people keep buying all this garbage and putting it in their homes?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48956046",
+          "by": "AndyMcConachie",
+          "time": 1784361098
+        },
+        {
+          "id": 48959540,
+          "text": "btw there is now open-source 3rd party firmware for some tp-link cameras from https://thingino.com",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48959540",
+          "by": "ck2",
+          "time": 1784392054
+        },
+        {
+          "id": 48952566,
+          "text": "Six months of coordinated disclosure on a TP-Link Kasa camera resulted in two CVEs, a triage failure where the vendor described a vulnerability that doesn't exist in the reported payload, a beta patch that permanently bricked my test device, and a factory reset that doesn't clear previous owner data.\nThe GPS finding (CVE-2026-13230) has been publicly documented on this device class since 2020. A single UDP packet returns sub-meter home coordinates with no authentication required. TP-Link scored it 5.3 medium. My independent assessment is 7.1 high. Precise home coordinates aren't low confidentiality impact.\nThe credential finding (CVE-2026-9770) covers a fleet wide RSA key and unsalted MD5 TP-Link ID credentials. Same credentials provide global authentication across the TP-Link ecosystem.\nFactory reset on a secondhand device doesn't clear the data. Connecting to the device's soft AP during setup and sending a single UDP packet returns the previous owner's GPS coordinates.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48952566",
+          "by": "BadChemical",
+          "time": 1784324563
+        }
+      ],
+      "by": "BadChemical",
+      "time": 1784324563,
+      "url": "https://github.com/BadChemical/IoT-Vulnerability-Research-Public/blob/main/TP-Link_Kasa_EC71/Kasa_EC71.md",
+      "score": 234,
+      "descendants": 87,
+      "storyUrl": "https://github.com/BadChemical/IoT-Vulnerability-Research-Public/blob/main/TP-Link_Kasa_EC71/Kasa_EC71.md"
+    },
+    {
+      "id": 48916044,
+      "type": "story",
+      "title": "Is this the end of the once-mighty GoPro?",
+      "rank": 11,
+      "depth": 0,
+      "storyId": 48916044,
+      "storyTitle": "Is this the end of the once-mighty GoPro?",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48916044",
+      "topComments": [
+        {
+          "id": 48958122,
+          "text": "I’ve owned a lot of Gopro cameras, having done video capture for a variety of motorsports, and they just got too expensive for what you get.\nYou can be more expensive if you’re better, or you can be worse if you’re cheaper, but they’re both the downsides while living purely off brand recognition.\nThey also blew up in a time where there wasn’t any real competition. Sony had action cameras but they were bulkier and expensive, and didn’t have the features of GoPro.\nThese days other brands give better quality video in better quality hardware and more functionality, for cheaper.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48958122",
+          "by": "sen",
+          "time": 1784382459
+        },
+        {
+          "id": 48959049,
+          "text": "Many years ago had my first Gopro camera that seriously overheated, sent it for repairs, they said there was nothing wrong with it. It literally turned too hot to handle after taking a few clips and wouldn't work. I think there was some serious hardware issue that caused it to then drain the whole battery.\nGave the brand a second chance some years ago. Couldn't export my videos from the app, it always hanged. So I couldn't share footage. Apparently a common long standing problem on forums.\nWoved to never buy anything from them again.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48959049",
+          "by": "Gravityloss",
+          "time": 1784388779
+        },
+        {
+          "id": 48960739,
+          "text": "Extremely similar to iRobot (Roomba). They both practically genericized themselves by inventing and dominating the product category, then just couldn't keep up with the competition. GoPro does feel more self inflicted though. Their drone was a failure, and they burnt a lot of money trying to do some kind of pivot to being a media company.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48960739",
+          "by": "recursivecaveat",
+          "time": 1784399200
+        },
+        {
+          "id": 48959736,
+          "text": "As a cyclist (and former racer), I still want to know how to capture videos with telemetry overlays (speed, power, HR, etc) from my head unit in a straightforward way. NorCal Cycling's videos - https://www.youtube.com/@NorCalCycling - are an excellent demonstration of this at work.\nYes, I've done the Garmin VIRB Edit thing, which is the very approach recommended by Jeff (NorCalCycling) in his tutorial videos on the subject. It feels like something out of 2005. It is incredibly labour-intensive and imprecise unless you're fortunate enough to be in relatively short criteriums where you've got the battery runtime to just record the whole race. Most real-world events and rides require one to turn the camera on and off at certain moments, which then requires _hours_ of stitching together clips and correlating them to GPS fixes from the head unit (in the FIT file), and quite imprecisely at that.\nThere has to be a more 2026 solution to this. All you  need to do is correlate the footage to the FIT data points by timestamp, in the temporal domain.\nIf Garmin came out with one, it would absolutely annihilate this space. To the best of my knowledge, there is no competition that offers anything turn-key, though perhaps the best of my knowledge has not aged well and by now there is something. It's maddening.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48959736",
+          "by": "abalashov",
+          "time": 1784393149
+        },
+        {
+          "id": 48958055,
+          "text": "When I was looking to buy an action camera last year, I was deciding between Insta360 and DJI, with many YouTubers suggesting outright against GoPro since they haven't kept up with image quality.\nAction cameras sound like a tough business, since most of them are built to last ages, and they need to keep the vast majority of content creators happy trying to increase image quality in a small form factor.\nAnyway, I bought the Insta360 Go Ultra I had my mind on from the start, which I'm still reasonably happy with.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48958055",
+          "by": "ValentineC",
+          "time": 1784381832
+        },
+        {
+          "id": 48961773,
+          "text": "It’s the classic situation. China can outcompete all this stuff. It doesn’t really matter. Roomba, GoPro, they’re all going to be crushed by Chinese manufacturers. You just can’t get the margins to work anywhere else and if you do the R&D you’re a sucker.\nI’ve had a few GoPros and a few GoPro 360s. I also had Roombas so you can blame me as the brand killer.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48961773",
+          "by": "arjie",
+          "time": 1784405046
+        },
+        {
+          "id": 48958156,
+          "text": "I'm just surprised that an American brand making electronics lasted this long. Even Japanese companies are giving up. No one can compete with China.\nApple somehow reigns supreme still. Anyone else?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48958156",
+          "by": "rr808",
+          "time": 1784382830
+        },
+        {
+          "id": 48960246,
+          "text": "I bought my first GoPro for a scuba diving trip in Mexico once. Was super excited, it was my first scuba diving experience too.\nAs soon as we hit deeper waters the capture button pressed itself down due the pressure and it wouldn’t come back up. That, unfortunately happened in a way that I couldn’t start a capture. Lost the entire thing, despite the camera being perfectly fine after we came back to surface.\nHated them ever since.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48960246",
+          "by": "hmokiguess",
+          "time": 1784396111
+        },
+        {
+          "id": 48962676,
+          "text": "I had a GoPro Hero 7 and 8. In the -10c snow they battery wouldn't even last for 5 minutes. It's a bad product and just like with cars and solar the Chinese are ruthlessly out-engineering the west.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48962676",
+          "by": "tclarke142",
+          "time": 1784410604
+        },
+        {
+          "id": 48959478,
+          "text": "I stopped buying go pros when I drove from the top of Mt Blue Sky to the base. Had the camera mounted on my dashboard, planned to make a cool time lapse down the mountain road.\nTurns out it overheated 15 minutes into the drive, and corrupted all the footage from my whole ski trip.\nI'm also still salty that they cancelled my favorite fast video editing software (can't remember the name).\nThis was 8 years ago.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48959478",
+          "by": "aeonik",
+          "time": 1784391650
+        }
+      ],
+      "by": "aanet",
+      "time": 1784087195,
+      "url": "https://amateurphotographer.com/latest/photo-news/going-going-gone-is-this-the-end-of-the-once-mighty-gopro/",
+      "score": 231,
+      "descendants": 547,
+      "storyUrl": "https://amateurphotographer.com/latest/photo-news/going-going-gone-is-this-the-end-of-the-once-mighty-gopro/"
+    },
+    {
+      "id": 48956949,
+      "type": "story",
+      "title": "What AI did to stackoverflow in a graph",
+      "rank": 12,
+      "depth": 0,
+      "storyId": 48956949,
+      "storyTitle": "What AI did to stackoverflow in a graph",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48956949",
+      "topComments": [
+        {
+          "id": 48957311,
+          "text": "Any social organization needs to carefully consider their inclusion-exclusion curve with intentionality.\nI think a lot of people might balk at the word \"inclusivity\" today, but StackExchange had ridiculously high barriers to participation, making it inclusive to the long-time users on the site, but exclusive to the newbie participants who found themselves blocked for asking questions. They slowly killed the site in this manner.\nThe community might have survived this folly, even with AI, because it was still the best place for people with qualms about AI to ask questions... Except until StackOverflow management alienated those users, too, by shoving AI down their throats in every facet of the site.\nEven I had internalized the vagaries and neuroses of the SO community but I had heavy reticence to ask questions, knowing I'd have to consider all the ways a bully eager to use their powers might misunderstand me. I can't imagine asking a question there without having had lurked for longer than a typical Bachelor's + Masters program.\nPeak at 207K, minimum at 588. That might be an incomplete date point, so using the next most recent value 1226, StackOverflow has lost 99.41% of its activity.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48957311",
+          "by": "lynndotpy",
+          "time": 1784376275
+        },
+        {
+          "id": 48957257,
+          "text": "SO did that all to themselves when they decided they didn't want a community to form and that only question and answers mattered. The moment something else allowed to have a better way to get your answers, there was no reason to go there, because there was no community.\nI still don't understand why anyone would go with that whole \"no conversation please\"",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48957257",
+          "by": "nolok",
+          "time": 1784375879
+        },
+        {
+          "id": 48958645,
+          "text": "I don't have the time to, but I'm surprised there aren't a lot of comments on the decline before chatGPT was released, but after SO was sold to Prosus [1][2]\nEven the curious growth spike in activity happened just before the acquisition. I wish I had time to do this analysis a bit deeper, but you can look for SO activity up until when chatGPT was released, it is really noticeable.\n---\n[1] Stack Overflow acquired by Prosus for $1.8 billion: https://techcrunch.com/2021/06/02/stack-overflow-acquired-by...\n[2] Prosus to acquire Stack Overflow for US$1.8 billion\n https://www.prosus.com/news-insights/2021/prosus-to-acquire-...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48958645",
+          "by": "jeanlucas",
+          "time": 1784386115
+        },
+        {
+          "id": 48957697,
+          "text": "I never had an LLM tell me my question was already answered and imply I was stupid for not finding it. SO dug its own grave and jumped in.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48957697",
+          "by": "TomMasz",
+          "time": 1784379037
+        },
+        {
+          "id": 48957579,
+          "text": "The graph actually peaked in 2014. That's a decade before AI became a thing while the Software engineering workforce grew a lot since then.\nI think Stackoverflow was the last incarnation of romanticized old-school Q&A forums where you first had to earn your badges before being treated with respect. Luckily today's new projects have much better documentation, issue tracker's etc. And apparently AI is able to work with that by now...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48957579",
+          "by": "blablabla123",
+          "time": 1784378005
+        },
+        {
+          "id": 48957352,
+          "text": "The collapse into a ghost town is striking.\nNot sure I would blame it all on AI though, the incentives of SO only worked while there were worthwhile questions to answer and make you feel smart about. After that well dried up, the only thing left was the stuff AI can do with a prompt; ironically AI got a leg up by scraping SO.\nThis is similar to the evolution of Wikipedia, except the format of WP allowed it to transform into a feudal dictatorship of nerds who feel like they are deciding what's true, and they can get off on that.\nSO did not have that kind of incentive to keep the nerds around.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48957352",
+          "by": "avaer",
+          "time": 1784376513
+        },
+        {
+          "id": 48962521,
+          "text": "Ironically it gives me: This IP address has performed an unusually high number of requests and has been temporarily rate limited.\nThat's also something what AI did to the internet :(",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48962521",
+          "by": "_ink_",
+          "time": 1784409464
+        },
+        {
+          "id": 48957334,
+          "text": "Looks like SO was already dying since 2017.\nI think other helpful places like reddit, discord, web forums etc might be what hit SO 2014-15 onwards.\nAI seems to have given it a blow of mercy to end the misery.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48957334",
+          "by": "wtfHN26",
+          "time": 1784376409
+        },
+        {
+          "id": 48963752,
+          "text": "One thing I wonder, if you look at the comments here it is clear the moderation and the general hostility of the site was a big reason why a lot of people left or didn't engage with it. Yet, I can't recall SO doing anything about this, and its confusing to me why. Was it:\na) They don't acknowledge this was a problem.\nb) They are unwilling to tackle this problem.\nc) They are unable to tackle this problem.\nI'd love to know what the people who run the site (from a business perspective) think about this. It might offer some insight into its cousins that are going down the same path (reddit / wikipedia).",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48963752",
+          "by": "sackfield",
+          "time": 1784419975
+        },
+        {
+          "id": 48960180,
+          "text": "I used to read Coding Horror, I have been a programmer for longer than I had high speed Internet, yet somehow I never felt the urge to create a StackOverflow account. I have literally never browsed the site, always landed from Google and left when I found my answer.\nThere was an era of the Internet where moderators were seen as the solution to all the problems of Internet communities. Then we discovered that those people that enjoy playing petty bureaucrat for virtual karma will end up alienating normal users, especially in places that wants to maintain a certain standard of quality and not aim to the lowest denominator like Reddit, for example.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48960180",
+          "by": "sph",
+          "time": 1784395781
+        }
+      ],
+      "by": "secretslol",
+      "time": 1784373166,
+      "url": "https://data.stackexchange.com/stackoverflow/query/1953768#graph",
+      "score": 450,
+      "descendants": 550,
+      "storyUrl": "https://data.stackexchange.com/stackoverflow/query/1953768#graph"
+    },
+    {
+      "id": 48959143,
+      "type": "story",
+      "title": "Gleam Is Now on Tangled",
+      "rank": 13,
+      "depth": 0,
+      "storyId": 48959143,
+      "storyTitle": "Gleam Is Now on Tangled",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48959143",
+      "topComments": [
+        {
+          "id": 48959298,
+          "text": "This post needs a bunch more context; right now it's only immediately accessible to people who don't need the announcement [1].\n[1] https://knowyourmeme.com/memes/curtains-for-zoosha",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48959298",
+          "by": "Planktonne",
+          "time": 1784390571
+        },
+        {
+          "id": 48959715,
+          "text": "First hearing of tangled, tried signing up and this first time user experience needs to be tightened up. Currently unwilling to sign in because of the friction I ran into using a password manager. From what it looks like they:\n- ask you for an email\n- send you an email\n- ask you for a username\n- except you cant actually log in with this username directly\n- im being forced to learn some new social url protocol\n- why does the auth flow pass me through a new ui/url that seems owned by the project but visually disconnected (eg, different branding/colors for the form)\n- my password manager couldnt bridge the gap\nI'm notoriously fickle about dealing with signup/login friction, but the project sounds cool so hopefully my feedback is more actionable than curmudgeony.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48959715",
+          "by": "pbjerkeseth",
+          "time": 1784393064
+        },
+        {
+          "id": 48962948,
+          "text": "For some context (which people seem to be wanting): Gleam is an interestinf language that is very tight and small. I met the folks from Gleam at the recent Ubuntu Summit and was struck by the talk they gave which made the point (about the design philosophy of staying small and careful creation) excellently. It's very watchable, and Giacomo \nlater explained (when I asked) that he'd hand-animated every transition. Which re-struck me as a doubly good way to reinforce the point of the talk, which was itself small and carefully created.\nhttps://youtu.be/E6_JqYMeNqs\nhttps://discourse.ubuntu.com/t/gleam-and-the-value-of-small/...\nhttps://en.wikipedia.org/wiki/Gleam_(programming_language)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48962948",
+          "by": "speerer",
+          "time": 1784412562
+        },
+        {
+          "id": 48959921,
+          "text": "I tried Tangled and tried to run my own Knot, the problem I had was I'd create a repository, have it get created correctly on my Knot, but then would never see any updates to the repo on Tangled itself.\nThe main issue is that even though I had the knot with IPv6 connectivity, it only really reliably worked once I enabled lots of IPv4 NAT'ing and also created a dummy A record for the Knot.\nThis is a known issue - https://tangled.org/tangled.org/core/issues/494",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48959921",
+          "by": "sc68cal",
+          "time": 1784394332
+        },
+        {
+          "id": 48960237,
+          "text": "I'd love to hear why they chose a VC funded forge over e.g. Codeberg.\nDoesn't really fit the 'friendly language' claim IMO",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48960237",
+          "by": "lavela",
+          "time": 1784396038
+        },
+        {
+          "id": 48959885,
+          "text": "I just tried out tangled for the first time and unfortunately it seems buggy beyond being actually usable. I created a repo but can't look at it because I get a 404 for it. The login was quite painful as well as I needed several attempts to enter my atproto handle (copy-pasted every time, so no typo).\nBut I'm glad more people are working on git hosting options.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48959885",
+          "by": "LukaD",
+          "time": 1784394145
+        },
+        {
+          "id": 48959238,
+          "text": "if anyone has more info on tangled would love to hear. been looking for a decentralized git provider for a while. started self hosting but was missing the social element",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48959238",
+          "by": "propstober",
+          "time": 1784390158
+        },
+        {
+          "id": 48959385,
+          "text": "I'm willing to give Tangled a go too with a project, but feature set to bridge the gap still has a long way to go (no idea how long it'll take). Github outages (especially when just viewing repos!) are getting way too disrupting.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48959385",
+          "by": "jordand",
+          "time": 1784391070
+        },
+        {
+          "id": 48959242,
+          "text": "How does tangled compare with codeberg? Seem like a cool project, wonder how the migration story is.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48959242",
+          "by": "arikrahman",
+          "time": 1784390190
+        },
+        {
+          "id": 48960035,
+          "text": "What's tangled? Which Gleam?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48960035",
+          "by": "HeavyStorm",
+          "time": 1784394970
+        }
+      ],
+      "by": "nerdypepper",
+      "time": 1784389444,
+      "url": "https://tangled.org/gleam.run/gleam",
+      "score": 244,
+      "descendants": 153,
+      "storyUrl": "https://tangled.org/gleam.run/gleam"
+    },
+    {
+      "id": 48907063,
+      "type": "story",
+      "title": "Reviving a 15-year-old netbook with Arch Linux",
+      "rank": 14,
+      "depth": 0,
+      "storyId": 48907063,
+      "storyTitle": "Reviving a 15-year-old netbook with Arch Linux",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48907063",
+      "topComments": [
+        {
+          "id": 48955519,
+          "text": "These 2008-2010 era netbooks are impossible to use as a desktop. They were already painfully slow when they were new, so much so that OEMs shipped them dual booting a stripped down OS.\nI had an HP Mini. It had a weird 1024x600 display panel, and a lot of applications expect you to have at least 1024x768. Sometimes apps would work fine until they opened a modal that was just a bit too tall, and you had to pray that Enter or Escape did something reasonable.\nA few years ago I installed Debian, qBittorrent and Samba. I figured it could handle something IO-bound. I ran it for a couple of years and then recycled it when my Internet got faster than the 100 Mbps ethernet card.\nA tip if you have one of those laying around and it always ran a 32-bit OS is to check if the CPU is really 32-bit only. Only the very first Atom generation was 32-bit, but the next generations had poor 64-bit driver support on Windows, so OEMs shipped it as a 32-bit machine. Not the case for OP’s netbook, theirs is really 32-bit only.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48955519",
+          "by": "drdexebtjl",
+          "time": 1784353008
+        },
+        {
+          "id": 48955612,
+          "text": "This brings back memories. I loved my Asus Eee PC 1215p. Bought it with my own money. It was the computer I had when I was moving out of my parental home when I was 20 y/o. When I moved out I had Ubuntu installed on it, but in my student room I realised I had issues with connecting to the internet somehow. Went back to my moms and installed back Windows 7, with the Windows 98 look-and-feel-setting which was a built in option, great user experience. The last Windows machine I even used, but it was amazing. I brought it with me on my hitch hiking adventures through Europe, was using it to DJ using my personal iTunes library in a Polish hippie/hacker/eco village I was staying at. Eventually I stupidly broke the keyboard my cleaning it with a wet towel when it was on, I still feel bad about that really. What a machine, I absolutely loved it!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48955612",
+          "by": "stasiu",
+          "time": 1784354591
+        },
+        {
+          "id": 48959147,
+          "text": "I still run, and am writing this from, a 16-or-17 year old Dell E6510 (i5-540) that serves as my \"around the house\" computer. The battery life (with a huge 9 cell that protrudes out the back) isn't great, and it's hot and heavy, but with 8GiB of RAM and an SSD it works pretty well on Trixie with Cinnamon.\nMy main machine is a 13 year old Lenovo y510p running Debian and KDE. You'd be hard-pressed to tell that it's anywhere near that age.\nThe only aspect that has been annoying with both is graphics. Both machines are nvidia and are long past their support periods. The y510p has SLI (one graphics card is in the CD drive slot) which never worked on Linux. When removing the second card, the on-processor Intel graphics can be used, which have better support than nvidia, so I stick with that. I don't do anything graphics intensive anyway.\nThe biggest upgrade with old computers, without any doubt, is an SSD. I still remember getting my first one back in about 2011, a used 60GiB OCZ Vertex, and it was truly magic seeing the computer boot to the desktop in a few seconds even on a core 2 duo.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48959147",
+          "by": "93n",
+          "time": 1784389460
+        },
+        {
+          "id": 48955235,
+          "text": "The article just sort of stops. Was the ram upgrade helpful? How was the mouse - was it choppy like in Windows XP as discussed at the top of the article?  (And whatever happened to twm, possibly the lightest window manager around?)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48955235",
+          "by": "russfink",
+          "time": 1784349150
+        },
+        {
+          "id": 48962743,
+          "text": "I like how efficient Arch is, in the sense that you have nothing and now you get to pick and choose what you want.\nMy main desktop I use for full time software development and video editing is from 2014. I've run Windows on it forever. I put Arch on it ~8 months ago.\nA full desktop environment I put together based on niri boots at 1.1 GB of memory. Every app I want is installed (tons of CLI tools, various GUI tools, Docker, video editors, browser, etc.) all together comes in at 10 GB of disk total for everything based on what `df -h` says for my root partition.\nMy machine does have 16 GB of memory so I'm not pressed for memory, but it's nice to know the machine runs on a system designed to not be bloated.\nAfter switching from Windows 10 Pro, it felt like I got a hardware upgrade. Things open faster and generally speaking everything just feels snappier.\nAs an aside, it was super fun spending a few days setting everything up in a repeatable way which I've now replicated on a number of systems with https://github.com/nickjj/dotfriedrice.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48962743",
+          "by": "nickjj",
+          "time": 1784410976
+        },
+        {
+          "id": 48955819,
+          "text": "Did my whole engineering curriculum as my single computer, ran MATLAB and other JVM GUIs/IDEs on 1GB RAM/Atom N450. The build and display were horrendous, but that was a good companion to take notes during lectures and in the lab.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48955819",
+          "by": "ezst",
+          "time": 1784357547
+        },
+        {
+          "id": 48955597,
+          "text": "Linux can really unlock old hardware well, and glad it work great on 32bit systems\nRecently retired my pc with fx6300 because it take too much desktop space; and just setup a mini pc with j6412, also installed arch Linux, i3wm for desktop stuffs\nAlso find a old usb Bluetooth receiver make it play some music\nIt works great and use this new setup to get a Agent free experience",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48955597",
+          "by": "mintflow",
+          "time": 1784354298
+        },
+        {
+          "id": 48955354,
+          "text": "I really miss netbooks. They were an amazing moment for Linux. No surprise Microsoft killed them.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48955354",
+          "by": "trelane",
+          "time": 1784350680
+        },
+        {
+          "id": 48955435,
+          "text": "I have one of these in a closet and wondered for years about how to turn it in a distraction free word processor/simple digital typewriter.\nAlways loved the netbook form factor, and they were cheap!\nFunny thing is that probably I also have some 2GB DDR2 stick somewhere. Last thing I need to check for is the battery, I presume it is completely down after all those years.\nAnyway, this article will be very handy for this side project. Thank you!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48955435",
+          "by": "achairapart",
+          "time": 1784351758
+        },
+        {
+          "id": 48955891,
+          "text": "I would still be using my 1000HE if the mouse and power buttons hadn’t stopped working (would have put an ssd in it then). Sure the keyboard keys are a bit wobbly but otherwise I really loved that machine. Nice form factor. Would love to be able to get a new 400$-ish 10-11” netbook with 6+ hour battery that would fly with some minimal Linux. Recommendations?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48955891",
+          "by": "teekert",
+          "time": 1784358653
+        }
+      ],
+      "by": "parksb",
+      "time": 1784037756,
+      "url": "https://parksb.github.io/en/article/41.html",
+      "score": 220,
+      "descendants": 164,
+      "storyUrl": "https://parksb.github.io/en/article/41.html"
+    },
+    {
+      "id": 48959392,
+      "type": "story",
+      "title": "Setting up your spare Mac for Claude Code to control, a step-by-step guide",
+      "rank": 15,
+      "depth": 0,
+      "storyId": 48959392,
+      "storyTitle": "Setting up your spare Mac for Claude Code to control, a step-by-step guide",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48959392",
+      "topComments": [
+        {
+          "id": 48960606,
+          "text": "Outside of the article's mentioned graphics development, there is no reason to isolate an agent using actual hardware. I threw together this script[0] using libvirt to give claude its own graphical desktop env to be able to do user acceptance testing with Chrome. It has full root and can do what ever. If it makes a mess, I can dump and reinstall in seconds.\n0: https://gist.github.com/smith153/04b4068b5a2d7b234f1c3d5992d...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48960606",
+          "by": "esaym",
+          "time": 1784398381
+        },
+        {
+          "id": 48960252,
+          "text": "I just cannot come up with a good AI-is-actually-24/7-helping-me-out use case.\nPlease help: I wánt to need this!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48960252",
+          "by": "catoc",
+          "time": 1784396167
+        },
+        {
+          "id": 48960412,
+          "text": "> setting up your spare Mac\nas one has",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48960412",
+          "by": "arxari",
+          "time": 1784397153
+        },
+        {
+          "id": 48960432,
+          "text": "You people are too far gone",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48960432",
+          "by": "brandnewideas",
+          "time": 1784397260
+        },
+        {
+          "id": 48963830,
+          "text": "I've done this before as a free replacement for my OpenClaw bot. It loses its connection sometimes and you need to redo the handoff with your phone. But otherwise, nice to have a use for my old Mac. It's also running my Home Bridge, which Claude can interact with. Pretty cool.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48963830",
+          "by": "languagehacker",
+          "time": 1784420878
+        },
+        {
+          "id": 48959493,
+          "text": "I currently have Claude Desktop installed on a separate Mac mini M4 and control it with Dispatch.  Is there a reason to do this method, it still seems the way I have it setup it has full control over the local account I gave it on the Mac mini.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48959493",
+          "by": "addajones",
+          "time": 1784391732
+        },
+        {
+          "id": 48960510,
+          "text": "Though it doesn't get by all the hurdles mentioned, it is alternatively possible to run Mac OS in a VM on your Mac using UTM and install Claude Code within the UTM VM. UTM can be run under a non-admin Mac account. This can allow you to use most Mac-native tooling, at least. The interactive performance of using the Claude Code ui on the VM isn't great, however. I'm not sure if you can log into the VM via terminal on the host from the non-root admin account to avoid the ui performance issues.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48960510",
+          "by": "somewhatrandom9",
+          "time": 1784397751
+        },
+        {
+          "id": 48960159,
+          "text": "I just redid my homelab/media server (switched from an old NUC I couldn’t figure out how to stop overheating even with some decent modification work, now using an hp elitedesk with an i5 processor that is handling my stack nicely). Thinking about setting up a vm on the base ubuntu install for isolation to run Claude in. May play with dispatch, may just put raw Claude code then use Moshi app on my iPhone and iPad.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48960159",
+          "by": "dchuk",
+          "time": 1784395659
+        },
+        {
+          "id": 48959872,
+          "text": "I’ve been doing something similar with an old m2. It isn’t powerful enough for local models, well sufficient local models but for openclaw and Claude it’s been perfect.\nMacBook m1/m2 also are cheap enough now vs an Mac mini which I was surprised about, not too surprised but yeah..",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48959872",
+          "by": "rootsudo",
+          "time": 1784394049
+        },
+        {
+          "id": 48960841,
+          "text": "If I had one I would definitely try creating a separate VLAN for it to control, otherwise it's isolated from your files but still has access to your network and devices in it.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48960841",
+          "by": "spikk",
+          "time": 1784399759
+        }
+      ],
+      "by": "ykev",
+      "time": 1784391128,
+      "url": "https://ykdojo.github.io/claude-controls-mac/",
+      "score": 244,
+      "descendants": 179,
+      "storyUrl": "https://ykdojo.github.io/claude-controls-mac/"
+    },
+    {
+      "id": 48959042,
+      "type": "story",
+      "title": "Elixir-lang.org has a new design",
+      "rank": 16,
+      "depth": 0,
+      "storyId": 48959042,
+      "storyTitle": "Elixir-lang.org has a new design",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48959042",
+      "topComments": [
+        {
+          "id": 48960377,
+          "text": "José Valim & team have made such an incredible language and ecosystem. thank you for all the faithful work, especially the run up to 1.20 over this past year",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48960377",
+          "by": "hybridcivic182",
+          "time": 1784396920
+        },
+        {
+          "id": 48959411,
+          "text": "Elixir is great.\nOT: I wish more funding & development effort went into BEAM itself on making it more performant.\nNote: I’m not talking concurrency. I’m talking pure raw performance.\nSeems like it’s been a one person show for over a decade on making it faster.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48959411",
+          "by": "alberth",
+          "time": 1784391204
+        },
+        {
+          "id": 48964182,
+          "text": "I picked up Elixir this year. I’m gobsmacked on what the language and BEAM offer. Such a slept on ecosystem. I’m full convert.\nNew site looks great.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48964182",
+          "by": "asp_hornet",
+          "time": 1784424526
+        },
+        {
+          "id": 48959373,
+          "text": "This is great! Now waiting for the forum UI update too! :)\nHoping Elixir continues to thrive. It is such a great language (and such a great language for AI coding too!)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48959373",
+          "by": "grahac",
+          "time": 1784391027
+        },
+        {
+          "id": 48962320,
+          "text": "I don't really have large monitors by today's standards, and the site looks nice enough but fully half of what I'm looking at is blank space. I don't remember what the old site looked like so don't know if that's really a change.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48962320",
+          "by": "SoftTalker",
+          "time": 1784408246
+        },
+        {
+          "id": 48959426,
+          "text": "Nice! The showcase of companies is really nice",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48959426",
+          "by": "jeanlucas",
+          "time": 1784391330
+        },
+        {
+          "id": 48959247,
+          "text": "Looks pretty good, I like that they are highlighting the potential uses for elixir.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48959247",
+          "by": "allanmacgregor",
+          "time": 1784390240
+        },
+        {
+          "id": 48965455,
+          "text": "BEAM, the Elixir runtime, happens to be the perfect choice for agents and orchestration of multi-agent systems. I’ve written about it e.g. here https://josefrichter.design/blog/crowd",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48965455",
+          "by": "josefrichter",
+          "time": 1784442055
+        },
+        {
+          "id": 48959484,
+          "text": "To me, it seems one of the killer use cases for Elixir (/Erlang) is its distributed cluster capability. Does anyone have experience with that or case reports to share? I've used Elixir quite a bit professionally, but mostly as just a \"nicer Rails\" with horizontally scalable but otherwise independent Phoenix apps in your traditional Kubernetes setup, which seems to me to kind of missing out on its main purpose.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48959484",
+          "by": "losvedir",
+          "time": 1784391672
+        },
+        {
+          "id": 48960212,
+          "text": "Elixir is such an elegant language.\nI'm hoping to find a reason to use it soon.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48960212",
+          "by": "999900000999",
+          "time": 1784395929
+        }
+      ],
+      "by": "bbg2401",
+      "time": 1784388724,
+      "url": "https://elixir-lang.org/",
+      "score": 248,
+      "descendants": 134,
+      "storyUrl": "https://elixir-lang.org/"
+    },
+    {
+      "id": 48960155,
+      "type": "story",
+      "title": "Goodbye, and Thanks for All the Bikesheds",
+      "rank": 17,
+      "depth": 0,
+      "storyId": 48960155,
+      "storyTitle": "Goodbye, and Thanks for All the Bikesheds",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48960155",
+      "topComments": [
+        {
+          "id": 48962166,
+          "text": "A bit of an aside, but after someone introduced me to the notion of Reversible Decisions, it quickly became apparent to me that the solution to the bikeshed problem is to throw money at it before the roosters can start preening about which color the shed should be.\nDecisions that are reversible should just go with the instinctive answer of whoever volunteers to work on it.\nI've been in many meeting rooms where, because of the number and caliber of people in the room, we've blown $5000 worth of combined salary arguing about basically nothing. I've been in a few where that number was well over $10k.\nIf you're going to assign a relatively medium talent engineer to solve a problem, it's cheaper to let them solve it twice, maybe even three times, than it is to try to figure out what the right solution is before touching a keyboard. It helps them grow to give them that autonomy, and more importantly training your team out of reflexively reaching for optimization for every single feature saves gobs of money over time.\nThe interface for a piece of code matters to everyone. The internal implementation details mostly matter to the bus number on that code. If they're happy with it, that matters a lot. That can be overridden by the consequences of that design, but I've seen a couple cases where the bus number for a module wanted a solution with fewer consequences but the group wisdom wanted something flashier but also more brittle.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48962166",
+          "by": "hinkley",
+          "time": 1784407341
+        },
+        {
+          "id": 48961128,
+          "text": "For those unaware, PHK created (amongst other things) the MD5crypt password hashing algorithm ($1$…). It came before bcrypt (1999), scrypt (2009), SHA2crypt (2016), etc, and was committed in 1994:\n* https://svnweb.freebsd.org/base/head/lib/libcrypt/crypt.c?re...\n* https://github.com/freebsd/freebsd-src/commit/3b2b7f71deba2a...\n* https://phk.freebsd.dk/sagas/md5crypt/\n* https://en.wikipedia.org/wiki/Poul-Henning_Kamp",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48961128",
+          "by": "throw0101a",
+          "time": 1784401413
+        },
+        {
+          "id": 48960956,
+          "text": "First read of this pissed me off, but subsequent reads gave a much different opinion.\nDo yourself a favor and read this, a few times, and take a moment to actually try and see what the author's getting at.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48960956",
+          "by": "ai_critic",
+          "time": 1784400412
+        },
+        {
+          "id": 48960858,
+          "text": "I don't think age restriction will impact FOSS in the long term. If there are some regulations that threaten FOSS now, they are going to be adopted in the long term.\nRegulations for age restriction are understandable. A lot of modern technology is harming kids (and I don't mean dirty videos, social media seems to be much more harmful).\nA sensible regulator would leave some responsibility to the parents, but require restrictions for consumer devices (smartphones, laptops). Maybe even enable age restrictions by default, block replacing the OS or the firmware, and only allow it once the age was confirmed.\nI don't see a point of including all kind of OS or software into this regulation. Just the ones that are preinstalled on consumer devices, and commercially distributed to consumers. Once the age of the user was confirmed, the devices should be able to become as open as we know them now.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48960858",
+          "by": "andix",
+          "time": 1784399858
+        },
+        {
+          "id": 48960904,
+          "text": "\"LLM-assisted code review won't be a huge disruptor\" is quite the prediction. Because it already is in a very big way. The take on LLMs seems incredibly out of date and out of touch with reality. (Which of course, has moved/advanced very fast the past months/year)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48960904",
+          "by": "st3fan",
+          "time": 1784400135
+        },
+        {
+          "id": 48963351,
+          "text": "I have met women in tech who have been privacy conscious and paranoid about state control. Or even a healthy stream of non-tech women worried that it will be used to attack their sex and to discriminate. I don't think the author is correct in his belief that there are not a considerable amount of women worried about privacy. And to make such a board claim, and in light of my experience, would indicate either hubris or sexism.\nIf anything, he frames that he is concerned about his daughter as a father. The viewpoint of patriarchy.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48963351",
+          "by": "mimd",
+          "time": 1784415881
+        },
+        {
+          "id": 48962060,
+          "text": "I think the author is missing a layer of abstraction.\nyeah - once regulators come into play - the private ecosystems take over. discord is already a precursor to this.\nthe era of mass public social networks will come to the end. next it will be just private networks of individuals. likely the won't interact.\nhow the dynamics play out - I don't know - but if you study history - you will know what behaviors will happen.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48962060",
+          "by": "dzonga",
+          "time": 1784406723
+        },
+        {
+          "id": 48961086,
+          "text": "> my personal guess is that the opportunities for anonymity on the Internet will shrink until mothers no longer are forced to have “the talk” when their daughters get their first mobile phone. As the parent of a daughter, I am totally on board with that.\ndepends on the age but.. they've probably discovered all kinds of shit already or heard about it from others",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48961086",
+          "by": "r_lee",
+          "time": 1784401159
+        },
+        {
+          "id": 48961006,
+          "text": "> the weights of the model—which you have to sell many million times over before you turn a profit—easily fits on contemporary pocket-sized storage devices.\nWhich model is this author talking about? Which pocket-sized devices? Where can I get them? No one is using Gemma 4 to find cybersecurity issues.\nEdit: there are a lot of sentences that I can't distinguish from sarcasm in this article. I guess I read it too seriously.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48961006",
+          "by": "raincole",
+          "time": 1784400680
+        },
+        {
+          "id": 48962788,
+          "text": "I feel like “tech bro” is the scapegoat for all bad things in tech these days. It’s fairly dismissive of the ongoing debate and advancement of technology overall IMO",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48962788",
+          "by": "bsiverly",
+          "time": 1784411353
+        }
+      ],
+      "by": "Ygg2",
+      "time": 1784395644,
+      "url": "https://queue.acm.org/detail.cfm?id=3818307",
+      "score": 284,
+      "descendants": 259,
+      "storyUrl": "https://queue.acm.org/detail.cfm?id=3818307"
+    },
+    {
+      "id": 48950518,
+      "type": "story",
+      "title": "Lego building instructions through time",
+      "rank": 18,
+      "depth": 0,
+      "storyId": 48950518,
+      "storyTitle": "Lego building instructions through time",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48950518",
+      "topComments": [
+        {
+          "id": 48954591,
+          "text": "Buried at the bottom of the article, my favorite thing about modern Lego kits:\n> One of the most intriguing features is unlocked when you press the ‘build together’ button on select sets in the app. This allows consumers to build a LEGO set as a team by delegating each builder a building task to complete.\nMy partner and I enjoy assembling Lego kits together, but with paper instructions parallelizing the work is pretty tricky (usually we end up alternating one person doing the actual assembly and the other picking out the correct parts for them). But with the LEGO Builder app, it dynamically generates two parallel sets of instructions. It works great even if you're working at different paces.\nThis is one of those software features that delights me both as a user and as an engineer. It probably was not that complex to implement (once they had the building steps in a machine-readable format), but it's a great use of its medium, something that you genuinely couldn't do without software.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48954591",
+          "by": "aleksejs",
+          "time": 1784341561
+        },
+        {
+          "id": 48952089,
+          "text": "If you've ever made a digital model of Lego it can be quite surprising just how hard it is to make good instructions at the quality of Lego's - because you have to not only consider how the model goes together (can't place a brick after the bricks on top of it) but also how you can even SEE what the piece is and where it's going.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48952089",
+          "by": "bombcar",
+          "time": 1784321005
+        },
+        {
+          "id": 48952477,
+          "text": "I would love simpler (harder) instructions! It's too easy tbh brick by brick as it is today. 1964 looks lovely. I also have a gripe with the complexity of modern bricks (besides \"basic bricks\" sets). It's getting harder to build something else than what the model is.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48952477",
+          "by": "xixixao",
+          "time": 1784323680
+        },
+        {
+          "id": 48955523,
+          "text": "Very interesting article, but not very well written. A handful of examples from the first half:\n1. Suddenly in the 7th paragraph: “We know for a fact that from 1967 and until 2003 the main supplier of drawing building steps for the LEGO Group was a company called Palle…”. That’s a super odd thing to preface with “We know for a fact” - are all other claims/items in the article actually not known if they aren't similarly prefaced?\n2. They jump around a little in time, such as mentioning the 60s but then going back to the 50s in the next section.\n3. Some photos don't show what year or decade the set or instructions are from.\n4. They start by mentioning the 50s, but it would be helpful to also mention how long the bricks were made before then to quickly understand the length of the pre-instruction era - it appears 49, or 39 for wood versions, per some quick googling.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48955523",
+          "by": "no-name-here",
+          "time": 1784353038
+        },
+        {
+          "id": 48957237,
+          "text": "Modern Lego set design is this super refined art where the final product looks amazing. It also sort of sucks, ninety percent of the pieces are 1x1 greebles with very few common structural elements, Distinctly different and I feel inferior from the peak of my young Lego architect career in the late 80's, and even then in retrospect, still way to many greebles and not enough structural elements. Sure you want a few of those infernal 1x1's but it feels like the era that best matches the Lego ethos was the 70's where most of the set was structural.\nThere are a few sets left like this and I bought some to get my nephews Lego bucket started. but still way too many useless small pieces.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48957237",
+          "by": "somat",
+          "time": 1784375728
+        },
+        {
+          "id": 48956169,
+          "text": "This reminded me of coming across LeoCAD (https://www.leocad.org/ - first release in 1997!) as a kid and playing around with it for endless nights, wondering how close it was to whatever tool Lego was using in-house.\nLooking at screenshots of older versions gave a burst of nostalgia.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48956169",
+          "by": "Macuyiko",
+          "time": 1784362658
+        },
+        {
+          "id": 48963648,
+          "text": "I am not a big fan of the predesignated final 'this is the only thing you can create' type of set. When I build with children or on my own, I pick a direction and end goal.  Example: the goal is for us to build a \"Space Shark Transporter\" and set a time limit.\nAt the end we take photos and then animate them using AI.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48963648",
+          "by": "pizzafeelsright",
+          "time": 1784418890
+        },
+        {
+          "id": 48952934,
+          "text": "Might as well mention a couple of lego projects I've been working on, a parts browser TUI and a 3D model (eg .stl or .obj) to lego model (ldraw) converter:\nhttps://github.com/hbmartin/pyldraw3/\nhttps://github.com/hbmartin/legolization/\nI'm actively trying to get good instructions out of the legolization project now",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48952934",
+          "by": "hmartin",
+          "time": 1784327720
+        },
+        {
+          "id": 48955213,
+          "text": "There is other good stuff on that site.\nEg that tractor.\nhttps://www.lego.com/en-us/history/articles/d-the-lego-fergu...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48955213",
+          "by": "lostlogin",
+          "time": 1784348786
+        },
+        {
+          "id": 48956429,
+          "text": "I liked the old LEGO up to around the 1990s or so, give\nor take. When I look at LEGO nowadays, of course they\nhave some of the old spirit still in place, but in other\nareas they are just overpriced now and addicted to \nmaximizing cash influx. This was a bit different in the\npre-1990s era. 1990s already got more commercialized \nbut I still would say it was somewhat ok. Then something\nshifted and I am not sure what. The creativity seems to\nhave been degraded. I saw some huge LEGO sets for several\nhundred euros as collectors edition. And I understand that\nhe had fun building it with his kids, but to me this was\nno longer LEGO. The most fun I had was assembling my own\npieces back when I was young. For instance, after seeing\nthe old movie Tron, I built a few of the objects in the\n\"matrix\", in particular those floating T-like thingies.\nThese were quite easy to build via LEGO. I did not need\ninstructions, I just experimented until it worked. I think\nthis was the biggest selling point of LEGO, to be able to\nbuild things on your own. When I look at those huge expensive\nsets, that seems to have shifted. I get it, different portfolio\nand what not but this is also corporate fluff. It changed what\nLEGO is, and IMO it changed it to the worse.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48956429",
+          "by": "shevy-java",
+          "time": 1784366044
+        }
+      ],
+      "by": "NaOH",
+      "time": 1784312474,
+      "url": "https://www.lego.com/en-us/history/articles/d-lego-building-instructions-through-time",
+      "score": 154,
+      "descendants": 42,
+      "storyUrl": "https://www.lego.com/en-us/history/articles/d-lego-building-instructions-through-time"
+    },
+    {
+      "id": 48892021,
+      "type": "story",
+      "title": "I'm Making Strandfall, a Solarpunk Orienteering Larp",
+      "rank": 19,
+      "depth": 0,
+      "storyId": 48892021,
+      "storyTitle": "I'm Making Strandfall, a Solarpunk Orienteering Larp",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48892021",
+      "topComments": [
+        {
+          "id": 48961674,
+          "text": "Oh hey this is my project I’m making with Alex Macmillan! HNers will likely enjoy his more technical explanation: https://strandfall.com/2026/04/10/an-introduction-to-mfds/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48961674",
+          "by": "adrianhon",
+          "time": 1784404487
+        },
+        {
+          "id": 48962183,
+          "text": "The whole paragraph that starts with, \"Smartphones are anti-enchantment devices\" is gold. Love where you are coming from with this.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48962183",
+          "by": "Triphibian",
+          "time": 1784407445
+        },
+        {
+          "id": 48962410,
+          "text": "Today I learned the Nordic larp style is not the global default. As a Swede who's only ever participated in 2 larps,I hadn't realised people do it differently elsewhere!\nI really don't see how leveling and experience points would work in a larp, but then I'm not exactly a experienced larper!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48962410",
+          "by": "amarant",
+          "time": 1784408835
+        },
+        {
+          "id": 48961778,
+          "text": "McNair-Feldman Device sounds very futuristic. Props for coming up with that name. I want to participate just to find out what we could do with it.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48961778",
+          "by": "manincharge",
+          "time": 1784405106
+        },
+        {
+          "id": 48962673,
+          "text": "I love that there’s an organization nurturing this kind of experience in the UK - Immersive Arts[0]\nAre there any orgs like this in the US?\n0: https://immersivearts.uk/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48962673",
+          "by": "teucris",
+          "time": 1784410580
+        },
+        {
+          "id": 48962382,
+          "text": "Only vaguely related: is that tiny receipt printer at the end of the article real or is it itself a mockup? (It appears to be smaller than any of the ones I've come across, and google image search was unhelpful.)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48962382",
+          "by": "eichin",
+          "time": 1784408650
+        },
+        {
+          "id": 48961743,
+          "text": "Worth the read If just to find this sentence\n\"Smartphones are anti-enchantment devices.\"\nFull disclosure: I am using a smartphone right now.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48961743",
+          "by": "readthenotes1",
+          "time": 1784404867
+        },
+        {
+          "id": 48964031,
+          "text": ">“McNair-Feldman Devices” (named after its fictional inventors)\nIs it just me or are a disproportionate amount of fictional technologies named after *man",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48964031",
+          "by": "Havoc",
+          "time": 1784422885
+        },
+        {
+          "id": 48963837,
+          "text": "thats sick",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48963837",
+          "by": "SamPentz",
+          "time": 1784420967
+        }
+      ],
+      "by": "surprisetalk",
+      "time": 1783947635,
+      "url": "https://mssv.net/2026/04/29/im-making-strandfall-a-solarpunk-orienteering-larp/",
+      "score": 171,
+      "descendants": 21,
+      "storyUrl": "https://mssv.net/2026/04/29/im-making-strandfall-a-solarpunk-orienteering-larp/"
+    },
+    {
+      "id": 48896149,
+      "type": "story",
+      "title": "Vāgdhenu: A Sanskrit Chanting TTS System",
+      "rank": 20,
+      "depth": 0,
+      "storyId": 48896149,
+      "storyTitle": "Vāgdhenu: A Sanskrit Chanting TTS System",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48896149",
+      "topComments": [
+        {
+          "id": 48954688,
+          "text": "Forgive my ignorance; I'm not a Sanskrit speaker (Malayalam is my first language) -- but I love the sound of Sanskrit.\nI have lots of questions: what's the use case for this? Primarily religious / liturgical? It also seems that the fact that this tool works means that any arbitrary Sanskrit sentence can be translated into a chant by some sort of procedure (dare I say algorithm)? I'm terribly curious and fascinated by this!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48954688",
+          "by": "lordleft",
+          "time": 1784342510
+        },
+        {
+          "id": 48954574,
+          "text": "This must be insanely difficult to get right. I was not expecting such an impressive result from a site that looks so vibe coded! The look is underselling how good this is.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48954574",
+          "by": "sebmellen",
+          "time": 1784341401
+        },
+        {
+          "id": 48954505,
+          "text": "It was based on an existing TTS, IndicT5. I wonder how different is “Sanskrit Chanting” to languages it could already do, like Hindi. Is it largely the glyph—to-phoneme that needs relearning? Or pitch control? Or more?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48954505",
+          "by": "ks2048",
+          "time": 1784340859
+        },
+        {
+          "id": 48954408,
+          "text": "Very nice implementation. I tried developing my own to practice Santhai(repeat thrice) to learn Upnishads and this tool would be at the center of my workflow. A locally installable version would be even great! Kudos. Dhanyosmi :-)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48954408",
+          "by": "ultrasounder",
+          "time": 1784340045
+        },
+        {
+          "id": 48956406,
+          "text": "BaaS: Bhatta as a Service.\nnb: Bhatta is Sanskrit for priest.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48956406",
+          "by": "woadwarrior01",
+          "time": 1784365858
+        },
+        {
+          "id": 48955382,
+          "text": "Why does the visarga \"echo\" at the end of the verse? A mixed IAST - HK transliteration on the front page like \"Bhāgavata-VāNi\" does not inspire confidence either. Is it vibed?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48955382",
+          "by": "never_inline",
+          "time": 1784351091
+        },
+        {
+          "id": 48963443,
+          "text": "Congratulations on launching!\nI just tried this\nयं ब्रह्मा वरुणेन्द्ररुद्रमरुत: स्तुन्वन्ति दिव्यै: स्तवै-\nर्वेदै: साङ्गपदक्रमोपनिषदैर्गायन्ति यं सामगा: ।\nध्यानावस्थिततद्गतेन मनसा पश्यन्ति यं योगिनो\nयस्यान्तं न विदु: सुरासुरगणा देवाय तस्मै नम: ॥\nInterestingly, the word ब्रह्मा which should say Brahmaaaa says baa. \nPlease take a look.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48963443",
+          "by": "collabs",
+          "time": 1784416834
+        },
+        {
+          "id": 48955776,
+          "text": "People seem to be making all sorts of assumptions/conjectures about the project and confusing themselves without reading the paper explaining the project (linked to in the site itself);\nFrom the introduction;\nClassical Sanskrit recitation, parāyaṇa, is a chanted rather than a read register. A faithful synthesizer must hold long vowels, sustain a terminal visarga, articulate retroflex and aspirated consonants, render dense consonant conjuncts cleanly, and respect the metrical structure of the verse.\nNone of these is well served by general-purpose text-to-speech, and there is essentially no chant-domain training data available off the shelf. The problem is therefore doubly hard: it is low-resource, and the target prosody is a specialized melodic contour rather than ordinary read speech.\nThis report describes a system, Vāgdhenu, that solves the practical version of this problem well enough to ship two large deployments, and it documents the design decisions, the dead ends, and the one negative result that turned out to be the most useful finding. We do not claim a new model. We claim an honest account of what it takes to build a faithful Sanskrit chant pipeline on top of current open backbones, what works, and what is architecturally out of reach.\nOur framing is that of an experience report. The evidence we offer is the comparative lineage across architecture families, a reproducible production system, two shipped artifacts at real scale, and a public release of code, weights, data, and a live demonstration. Formal listening studies are limited to expert evaluation, which we state plainly and treat as a limitation rather than a result.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48955776",
+          "by": "rramadass",
+          "time": 1784356860
+        },
+        {
+          "id": 48954193,
+          "text": "This is so so so cool. the UX of the app could be better.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48954193",
+          "by": "nopin",
+          "time": 1784337677
+        },
+        {
+          "id": 48954282,
+          "text": "Amazing tool and very accurate, even on some esoteric texts I tested. Wish it let me just dump an entire stotra :)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48954282",
+          "by": "bhargav",
+          "time": 1784338865
+        }
+      ],
+      "by": "subinalex",
+      "time": 1783964606,
+      "url": "https://prathosh.in/vagdhenu/",
+      "score": 212,
+      "descendants": 53,
+      "storyUrl": "https://prathosh.in/vagdhenu/"
+    },
+    {
+      "id": 48958854,
+      "type": "story",
+      "title": "Show HN: Q3Edit – Edit and play Quake 3 maps in the browser",
+      "rank": 21,
+      "depth": 0,
+      "storyId": 48958854,
+      "storyTitle": "Show HN: Q3Edit – Edit and play Quake 3 maps in the browser",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48958854",
+      "topComments": [
+        {
+          "id": 48959867,
+          "text": "This is awesome! Great work! I love playing around with these older game engines that have source available, its really neat to explore how they work, and fiddle around with it.\nIf you haven’t already, Fabien’s write ups of the various ID engines are a joy to read: https://fabiensanglard.net/quake3/index.php\nShameless plug: I also like to play around with old game engines: https://github.com/bishopdynamics/Continuum",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48959867",
+          "by": "bishopdynamics",
+          "time": 1784394022
+        },
+        {
+          "id": 48961005,
+          "text": "Very cool. It's impossible to explain how cool the GPU rendered preview window looked when we first saw it in the early map editors.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48961005",
+          "by": "jacobgold",
+          "time": 1784400680
+        },
+        {
+          "id": 48962436,
+          "text": "Oh man this takes me back to map making days with q3radiant and gtkradiant.\nI miss the days of shooters with strong community run servers.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48962436",
+          "by": "voidfunc",
+          "time": 1784408982
+        },
+        {
+          "id": 48959877,
+          "text": "Very cool! Would love a way to implement and play on the browser as well. Fingers crossed for that one..such a good game and very nostalgic.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48959877",
+          "by": "SaltyAstronaut",
+          "time": 1784394081
+        },
+        {
+          "id": 48960014,
+          "text": "back when I was in high school, my friend and I used Quiver [0] to make quake maps on macos - it was very fun. to think that quake networking worked under those old school modem conditions/latency is kind of wild. id3 truly were miraculous developers.\nI remember asking someone who worked at my high school for a map of the school and remember thinking it would be fun to recreate the school... in quake... and probably model my least favorite teacher as a monster I could chase...\nit's somewhat scary to think back about this - especially since Columbine happened the same year. there was no risk from me (absolutely no way or interest to access guns - we were teenage dweebs in a country with strict gun laws) but thinking back I'm glad I never finished my maps or shared them.\n[0] https://www.macintoshrepository.org/6370-quiver-1-2-quake-ed...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48960014",
+          "by": "oldquakedays",
+          "time": 1784394836
+        },
+        {
+          "id": 48960691,
+          "text": "This can actually accidentally become the best debugging tool for map files, ngl you should cook",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48960691",
+          "by": "spikk",
+          "time": 1784398885
+        },
+        {
+          "id": 48962216,
+          "text": "When trying to do quick play on Windows 11 Firefox, I got an error saying it couldn't capture my mouse",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48962216",
+          "by": "valorzard",
+          "time": 1784407644
+        },
+        {
+          "id": 48965559,
+          "text": "Loading q3dm17sample.map seems to work fine.\nHowever trying to Quick Play the map gives me:\n=== Stage 1: BSP ===\nQ3Map v1.0s (c) 1999 Id Software Inc.\n---- q3map ----\nverbose = true\nqdir: /quake/\ngamedir: /quake/baseq3/\nentering /quake/baseq3/scripts/shaderlist.txt\nentering /quake/baseq3/scripts/acc.shader\nentering /quake/baseq3/scripts/ammo.shader\nentering /quake/baseq3/scripts/beams.shader\nentering /quake/baseq3/scripts/cf_models.shader\nentering /quake/baseq3/scripts/clown.shader\nentering /quake/baseq3/scripts/clown2.shader\nentering /quake/baseq3/scripts/common.shader\nUnknown surfaceparm: \"antiportal\"\nUnknown surfaceparm: \"lightgrid\"\nentering /quake/baseq3/scripts/cosmoflash.shader\n...\nentering /quake/baseq3/scripts/weapon_shotgun.shader\n1411 shaderInfo\n--- LoadMapFile ---\nLoading map file /quake/baseq3/maps/compile.map\nentering /quake/baseq3/maps/compile.map\n****** ERROR ******  \nLoadTGA: Only type 2 (RGB), 3 (gray), and 10 (RGB) TGA images supported",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48965559",
+          "by": "raymond_goo",
+          "time": 1784443666
+        },
+        {
+          "id": 48965064,
+          "text": "- can someone with expertise shed some light on how do you go about figuring out how a game like quake 3 works\n- now i know someone would say \"just read the source code bro\" but i am not a 3d game dev\n- as a beginner, how do you wrap your head around a codebase as complicated as quake or something?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48965064",
+          "by": "vivzkestrel",
+          "time": 1784436446
+        },
+        {
+          "id": 48965411,
+          "text": "is the community still here for this kind of project? like people actively seeking out more Quake 3?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48965411",
+          "by": "gregjw",
+          "time": 1784441332
+        }
+      ],
+      "by": "drdator",
+      "time": 1784387560,
+      "url": "https://q3edit.com",
+      "score": 92,
+      "descendants": 26,
+      "storyUrl": "https://q3edit.com"
+    },
+    {
+      "id": 48954149,
+      "type": "story",
+      "title": "I started a “dirt notebook”",
+      "rank": 22,
+      "depth": 0,
+      "storyId": 48954149,
+      "storyTitle": "I started a “dirt notebook”",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48954149",
+      "topComments": [
+        {
+          "id": 48954329,
+          "text": "Whenever I get a new notebook, I immediately scribble on the front page before I have a chance to stop myself. There. It's tainted and imperfect. And then I've given myself permission to make messy notes, and jot down just whatever, rather than treating it like some museum-grade archive.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48954329",
+          "by": "kstrauser",
+          "time": 1784339332
+        },
+        {
+          "id": 48957328,
+          "text": "IMO goal based note-taking & productivity systems can end up being where the attention is focused instead of the goal. The more complex the system, the more focus is put into it. The focus feels productive but the reality is that the goal has been abandoned or delayed until the excitement of the system dies down.\nI've struggled a lot with this. For me I think it comes down to not being intentional enough about why I'm doing the goal in the first place so I get distracted by shiny new systems that in theory will solve all my problems. With this in mind, I try to keep things as simple as possible and strip back as many layers between the goal and the thing that helps me keep on track to complete that goal.\nIn relation to notes specifically ( this is for tracking life stuff - DIY/projects/day trips/thoughts etc...), I use a reminders/todo app and one A7 notebook with a mini-pen that live in my pocket. The notebook/pen is the cheapest that i can buy with a spiral.\nDuring the week, I work through the todo list in the notebook, and write my thoughts/things to research more fully. At the end of the week, I remove the completed todos from the app, add new ones from the notebook. I tear up the pages from that week, then write up new todos to the notebook for next week.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48957328",
+          "by": "meeshmuesh",
+          "time": 1784376372
+        },
+        {
+          "id": 48956422,
+          "text": "Designing something good for me means going through at least 11 seriously bad approaches before half understanding the problem and having a half-working solution. Trying to use a notebook to aid a learning or research process at all has always meant wasting a lot of time \"perfecting\" those bad approaches. And ending up with lots of notes that document nothing but a painful struggle to make sense. Looking back through the notes that I did take, in notebooks that I have been gifted over the years, is almost unbearable. The approaches I tried before arriving at the right one were fundamentally wrong, there is no fixing them, and it's painfully obvious when looking back. Aside from the emotional problems I perceive there, it's obvious to me that there is no engineering value in keeping those notes at all.\nThe current best design always lives in my head, and by the time it exists, the solution and understanding is so clear and detailed that I can't be arsed to write it down.\nI do think there is value in taking notes for others, though.\nWhat works a little bit for me is having a lose stack of papers at work. The topmost paper serves to put a coffee mug on top, that will take the coffee stains so the table stays clean. From time to time I actually scribble something on a sheet, and since the sheets are all loose it's very easy to discard any sheet after it's served its (diminishingly small) purpose as a thinking aid.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48956422",
+          "by": "jstimpfle",
+          "time": 1784365951
+        },
+        {
+          "id": 48955807,
+          "text": "This reminds of when I was in school and we had 3 categories of notebooks.\n1. A \"rough\" notebook to jot down notes\n2. A \"classwork\" notebook to present those notes properly to the teacher and get them corrected and \n3. A \"homework\" notebook to finish homework assignments that used to be given\nIt's quite a discipline to jot things down in the rough work book and then write out a \"neat\" version in the class work book.\nI stopped doing it once I finished school and realized I didn't really need to do it anymore once I understood what I was writing out. But maybe it’s a habit worth returning to.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48955807",
+          "by": "chartered_stack",
+          "time": 1784357371
+        },
+        {
+          "id": 48954440,
+          "text": "I used to keep an engineering notebook open on my desk just for this purpose. The left side was scratchpad, the right side was a more structured notetaking system of things to remember. When the left side got full, I'd start stealing some area on the right. When the right got full, my things to remember were probably out of date so I'd flip to the next side.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48954440",
+          "by": "wildzzz",
+          "time": 1784340265
+        },
+        {
+          "id": 48954360,
+          "text": "I've been trying binders instead of notebooks (especially the mini-binders from folks like Maruman). Binders allow you to easily remove and add pages (and tabs, dividers, etc). This gives you the satisfaction of making something aesthetically pleasing, while also knowing you can move a 'messy' page somewhere else.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48954360",
+          "by": "encomiast",
+          "time": 1784339693
+        },
+        {
+          "id": 48956138,
+          "text": "I gave up trying to organize notes at all. I’ll try to keep the same notebook with me, but if I don’t happen to have it handy, I’d rather just write in whatever I’ve got lying around. Now there are many half-filled notebooks all over, and I stopped worrying about filling up one before opening the next. I don’t refer to them either, taking the notes helps me pay more attention, even if I will never read them.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48956138",
+          "by": "lasersox",
+          "time": 1784362308
+        },
+        {
+          "id": 48955947,
+          "text": "I keep buying the pretty notebooks and collecting them. I hate writing on them because they are too beautiful. I've finally started using random company merch notebooks (that are not pretty) while I also carry around a pretty one for the pretty thoughts (which I rarely use because nothing ends up deserving it)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48955947",
+          "by": "haritha1313",
+          "time": 1784359497
+        },
+        {
+          "id": 48955835,
+          "text": "A nice thing about being left handed is there a few things I can't get precious about. Fountain pens are never going to feature in my life as I'll just smudge everything. Similarly, I'll never end up collecting gaming mice as most of them are not usable for lefties.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48955835",
+          "by": "noelwelsh",
+          "time": 1784357742
+        },
+        {
+          "id": 48956821,
+          "text": "I have finally solved this for me. My system consists of two notebooks:\n1. Small A6 pocket notebook which I always have on me because it fits in any pocket. Write down anything and everything in it. Bundled with a pen, leather cover,and tiny e-ink ebook reader\n2. Big A4 notebook which I usually use at my desk. I used to have an A5 but since it’s not portable anyway, I might as well go with an A4\nI really like this setup. There’s also a digital side to it, which consists of Obsidian for creating notes, Quartz for converting obsidian-generated .md files into static websites, and a simple self-hosted web server which gets new files via git.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48956821",
+          "by": "iammjm",
+          "time": 1784371759
+        }
+      ],
+      "by": "herbertl",
+      "time": 1784337133,
+      "url": "https://pinewind.bearblog.dev/i-started-a-dirt-notebook/",
+      "score": 120,
+      "descendants": 98,
+      "storyUrl": "https://pinewind.bearblog.dev/i-started-a-dirt-notebook/"
+    },
+    {
+      "id": 48895763,
+      "type": "story",
+      "title": "A Second-Grade Teacher Revived a Beloved Video Game",
+      "rank": 23,
+      "depth": 0,
+      "storyId": 48895763,
+      "storyTitle": "A Second-Grade Teacher Revived a Beloved Video Game",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48895763",
+      "topComments": [
+        {
+          "id": 48960345,
+          "text": "I know from people who actually worked on this that the process of actually getting the game running and following modern platform conventions was somewhat insane and tortuous, but interesting. Too technical for the Times to go into though I guess.\nBut yeah, essentially the whole port is done with binary patches to the original executable.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48960345",
+          "by": "skrrtww",
+          "time": 1784396759
+        },
+        {
+          "id": 48960586,
+          "text": "TLDR; a Chicago-area schoolteacher was able to find the rights to the old Backyard Baseball PC game from the 1990s, and she commissioned a software game development company and a still-live fan base, to recreate the source code (because the original source was lost).\nShe founded a company called Playground Productions. Thanks to her efforts, nostalgic Millennials and their kids can purchase and enjoy this old game.\nA nice, feel-good story. But I have two questions:\n1. The story doesn't mention how this schoolteacher got enough \"private investors\" so she could quit her job and pursue this. Sounds like an important detail.\n2. Would have liked to know more about the source code. What happened to the original code (it wasn't in escrow somewhere?) and how did they recreate it? It says some fans had old CD-ROMs with the game on it, and the game dev company in Pittsburgh worked with them to rebuild the game.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48960586",
+          "by": "ripe",
+          "time": 1784398193
+        },
+        {
+          "id": 48900312,
+          "text": "I was just going to post this, and searched first and landed here. Not much to say beyond that reading this piece made me so happy, and brought back tons of nostalgia for days I'd long forgotten.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48900312",
+          "by": "mrkaye97",
+          "time": 1783985138
+        },
+        {
+          "id": 48961592,
+          "text": "I thought this article was really interesting but it's odd how it doesn't mention where the funds came from. I can't imagine the salary of a school teacher in her 20s can cover lawyers, a dev team, buying IP, etc",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48961592",
+          "by": "Rebelgecko",
+          "time": 1784403960
+        },
+        {
+          "id": 48962297,
+          "text": "https://archive.is/9FHar",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48962297",
+          "by": "reactordev",
+          "time": 1784408106
+        },
+        {
+          "id": 48963470,
+          "text": "I saw backyard baseball on steam the other day and was blown away by the $40 price tag.\nI expected $10 maybe $20. I think $40 is too far outside of impulse / nostalgia purchase.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48963470",
+          "by": "jasonjmcghee",
+          "time": 1784417092
+        },
+        {
+          "id": 48961585,
+          "text": "I came here expecting an AI story, and instead got a story of a classic IP hunt. Awesome!\nInterestingly it ends in them never finding the source (and another commenter here says they got it working by monkeypatching the binary.\nAt this point I wonder if they could feed all the assets and patches into and LLM and have it recreate the code from scratch, so that they could add new features.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48961585",
+          "by": "jedberg",
+          "time": 1784403929
+        },
+        {
+          "id": 48900435,
+          "text": "Never played the backyard games. For me, the ultimate nostalgia trip along these lines is the excellent Little League Baseball for NES.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48900435",
+          "by": "cool_dude85",
+          "time": 1783985953
+        },
+        {
+          "id": 48895764,
+          "text": "Deck: Backyard Baseball, a favorite game for 1990s kids, had been off the market for years. But Lindsay Barnett was determined.\nNon-paywall:\nhttps://www.nytimes.com/2026/07/13/style/backyard-baseball-v...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48895764",
+          "by": "danso",
+          "time": 1783962802
+        },
+        {
+          "id": 48960895,
+          "text": "Not a single hyperlink in that article. Infuriating.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48960895",
+          "by": "brandonmenc",
+          "time": 1784400082
+        }
+      ],
+      "by": "danso",
+      "time": 1783962802,
+      "url": "https://www.nytimes.com/2026/07/13/style/backyard-baseball-video-game-teacher.html",
+      "score": 95,
+      "descendants": 34,
+      "storyUrl": "https://www.nytimes.com/2026/07/13/style/backyard-baseball-video-game-teacher.html"
+    },
+    {
+      "id": 48953981,
+      "type": "story",
+      "title": "Stenchill: 3D Printable Solder Paste Stencil Generator",
+      "rank": 24,
+      "depth": 0,
+      "storyId": 48953981,
+      "storyTitle": "Stenchill: 3D Printable Solder Paste Stencil Generator",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48953981",
+      "topComments": [
+        {
+          "id": 48954546,
+          "text": "This looks great! I've ordered stencils and do 3D printing... kicking myself for not thinking of it.\nOn the other hand, it gave me a great idea. What if you could 3D print the solder paste right onto the PCB using a tool that swaps out the hot end?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48954546",
+          "by": "giantg2",
+          "time": 1784341104
+        },
+        {
+          "id": 48956519,
+          "text": "Cheap 3d printers are not terribly accurate, and the hot filament moves a bit (e.g. elephant foot). This method might not work well if your board is large or has very small components.\nAlso, even after ironing the surface will not be fully flat and some paste can end up in the space between the lines and go wasted.\nA cheap low-power laser cutter is about the same price as a very cheap printer, which may be a better option if you can dial in the accuracy needed.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48956519",
+          "by": "throwa356262",
+          "time": 1784367303
+        },
+        {
+          "id": 48956244,
+          "text": "For those of us without the cash/apartment space for a PNP, has anyone experimented with a stencil system for populating passives? Is that even a thing?\nMy PCB project's population time is currently 11 hours the last time I did it, from blank to tested, for one unit. The largest amount of time spent is on the resistors and capacitors - over 200 of them.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48956244",
+          "by": "junon",
+          "time": 1784363846
+        },
+        {
+          "id": 48956732,
+          "text": "Good stencils are like $10 if you order them with the PCB, so I honestly don't get the appeal this time. Unless it is aimed at people who make their own PCBs (?)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48956732",
+          "by": "amelius",
+          "time": 1784370789
+        },
+        {
+          "id": 48959257,
+          "text": "For this to work, your bed needs to be entirely flat.\nA 0.1mm hump will ruin everything, even if it's okay for most 3d prints.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48959257",
+          "by": "londons_explore",
+          "time": 1784390311
+        },
+        {
+          "id": 48954916,
+          "text": "I mean, why not laser cut a mylar sheet? That's an existing method and works well for 0603 footprints and similar, and is also quicker.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48954916",
+          "by": "aleph-z",
+          "time": 1784345148
+        },
+        {
+          "id": 48955369,
+          "text": "stench ill",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48955369",
+          "by": "pasquinelli",
+          "time": 1784350856
+        }
+      ],
+      "by": "radeeyate",
+      "time": 1784335717,
+      "url": "https://www.stenchill.com/en/",
+      "score": 81,
+      "descendants": 26,
+      "storyUrl": "https://www.stenchill.com/en/"
+    },
+    {
+      "id": 48956231,
+      "type": "story",
+      "title": "The Computer at the Bottom of a Canal",
+      "rank": 25,
+      "depth": 0,
+      "storyId": 48956231,
+      "storyTitle": "The Computer at the Bottom of a Canal",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48956231",
+      "topComments": [
+        {
+          "id": 48957594,
+          "text": "Thing is capability machines (like this and the 432 and lots of research machines) were very much the thing at the time - cutting edge even. The research literature was full of them. I did a paper design at the time.\nWhat ate them up was \"what can you fit all on a chip with not many pins\", followed by \"what can you fit along with a cache on a chip with more pins\", things move so much faster if everything's on the same die.\nTagged architectures are old, Burroughs mainframes had them back in the 70s along with rudimentary hardware objects (pageable even)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48957594",
+          "by": "Taniwha",
+          "time": 1784378157
+        },
+        {
+          "id": 48959546,
+          "text": "Very interesting and well written article. This sentence in particular:\n\"Linn Products is the Glasgow company Ivor Tiefenbrun founded in 1972, and if you know it at all you know it for the Sondek LP12, still widely regarded by its partisans as the finest record deck ever made.\"\nI was a big audiophile right at that time. Auditioned both Sondek and Sota Star Saphire. Went with the latter which I still proudly own (Alphason Tonearm). Note how carefully the author phrased \"...by its partisans...\" when describing the Sondek as the best. Nothing, not even programing code style zealots today can compare to audiophiles and their \"take\" on what made for the best playback. Pretty sure the author did not want to open that can of worms by simply declaring the Sondek the best.\nTurntables back then were pretty damn detailed re: technology. Not surprised Linn could make a great computer (in the day).\nHTH, NSC",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48959546",
+          "by": "needSomeCoffee",
+          "time": 1784392110
+        },
+        {
+          "id": 48959181,
+          "text": "It’s crazy what a small group of smart people can achieve if they’re not captive to conventional wisdom.\nThey got crushed by the commodity curve and Moore’s Law. But still a great story  - and thankfully written by a real person.\nThe author’s idea that the commodity curve is over and that hardware is now cheap enough to make special purpose hardware viable is intriguing. Standardization used to be important because you needed to convince scarce programmers to invest in the platform, but AI has ended the scarcity of programmers so dedicated purpose hardware is more viable than ever.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48959181",
+          "by": "JSR_FDED",
+          "time": 1784389760
+        },
+        {
+          "id": 48957480,
+          "text": "Website design comment: I love the orange/teal theme! Really drawn to the details such as illustrations carrying the orange/teal theme. Inspired me to re-color a project with this split complimentary color.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48957480",
+          "by": "scottconover",
+          "time": 1784377275
+        },
+        {
+          "id": 48956824,
+          "text": "I wonder if you could throw a small microcontroller at the bottom of a canal, powered by water passing through a fan, to hide it. And why you would want to do that.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48956824",
+          "by": "inigyou",
+          "time": 1784371800
+        },
+        {
+          "id": 48957489,
+          "text": "I console myself that this is why I never got fabulously wealthy. That brilliance is no guarantee of wealth. You need luck, too.\nBut the truth is, you also need to do the work. I used my conclusion about luck as an excuse to not even try. Not  even in some grand way. Just in the grinding everyday way. In the way of, \"You know what I should do?! I should ... meh. That'll never work.\"\nTake it from me, kids. If you want to do something great, do it while you are still young enough to believe it's possible.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48957489",
+          "by": "Hnrobert42",
+          "time": 1784377365
+        },
+        {
+          "id": 48959167,
+          "text": "What remains of this computer? Diagrams? Code? Anything that would let us take a closer look at how it works?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48959167",
+          "by": "dpedu",
+          "time": 1784389627
+        },
+        {
+          "id": 48959475,
+          "text": "A fascinating story.\nI owned a Linn Sondek turntabe in the 70's with a Denon cartridge.\nSpent a crazy amount on Hi-Fi chasing the audiophile dream :-)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48959475",
+          "by": "ozhero",
+          "time": 1784391637
+        },
+        {
+          "id": 48957695,
+          "text": "I read about them in Byte Magazine - the names were memorable - Objek - Numerik and a third chip - there were no silicon afaik but jsut emulator circuit boards run by a Sun workstation.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48957695",
+          "by": "tibbydudeza",
+          "time": 1784379030
+        },
+        {
+          "id": 48960171,
+          "text": "I don't think this is AI, but the writing style keeps reminding me of AI. I'm trying to isolate why. I think it's something to do with the information density. The sentences twist and turn, have lots of related ideas, digressions, and little details without much lead-in. The wording is also very precise, which is another characteristic of AI writing. This sounds like a critique, but I actually find it charming.\nThis sentence is a strong illustration of what I'm talking about:\n> Since only OBJEKT ever knew where anything physically lived, objects could be relocated freely without touching a reference, so garbage collection went into the silicon too: a two-space compacting collector that walked the live objects and slid them into the other half of DRAM while execution carried on above, oblivious.\nI mean, come on. Run-ons are one thing, but this is practically a lecture in a single sentence. :P",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48960171",
+          "by": "fwipsy",
+          "time": 1784395730
+        }
+      ],
+      "by": "Kudos",
+      "time": 1784363611,
+      "url": "https://negroniventurestudios.com/2026/07/18/the-computer-at-the-bottom-of-a-canal/",
+      "score": 173,
+      "descendants": 45,
+      "storyUrl": "https://negroniventurestudios.com/2026/07/18/the-computer-at-the-bottom-of-a-canal/"
+    },
+    {
+      "id": 48959297,
+      "type": "story",
+      "title": "Our Approach to Bioresilience: Isomorphic Labs and Google DeepMind",
+      "rank": 26,
+      "depth": 0,
+      "storyId": 48959297,
+      "storyTitle": "Our Approach to Bioresilience: Isomorphic Labs and Google DeepMind",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48959297",
+      "topComments": [
+        {
+          "id": 48960795,
+          "text": "One thing I really admire about isomorphic and DeepMind in general is that they really try and encode human ingenuity into their models. The only reason that AlphaFold worked wasn't because they had better hardware or more money to train models - it's because they used every bit of information they had access to.\nThe same goes for AlphaGenome - it only takes a few hours to train the model, but it's freaking amazing what it can predict.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48960795",
+          "by": "mbeavitt",
+          "time": 1784399519
+        },
+        {
+          "id": 48959664,
+          "text": "How about focus on keeping up with anthropic and openai. Less talk and more work. As a google shareholder I am really disappointed by their performance lately.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48959664",
+          "by": "PunchTornado",
+          "time": 1784392722
+        }
+      ],
+      "by": "bookofjoe",
+      "time": 1784390565,
+      "url": "https://deepmind.google/blog/our-approach-to-bioresilience/",
+      "score": 80,
+      "descendants": 23,
+      "storyUrl": "https://deepmind.google/blog/our-approach-to-bioresilience/"
+    },
+    {
+      "id": 48951756,
+      "type": "story",
+      "title": "Tech note: making your own V-I plots at home",
+      "rank": 27,
+      "depth": 0,
+      "storyId": 48951756,
+      "storyTitle": "Tech note: making your own V-I plots at home",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48951756",
+      "topComments": [
+        {
+          "id": 48958864,
+          "text": "> And yep, to preempt the inevitable comment: we used to have even more specialized devices, called \"curve tracers\", that were designed specifically for making V-I plots. They're more or less extinct now because SMUs can do the same job.\nThe ancient curve tracers, like the widely used Tektronix 576 or 577, could do things for which you would need much more expensive SMUs than that shown in TFA.\nFor example they could go up to voltages like 1500 V or 1600 V, to see the breakdowns of power transistors or diodes and they could apply very high powers during short pulses, e.g. up to 1000 W with the high current fixture, to see the V/I characteristics up to higher currents, like 200 A.\nIn general the most interesting parts of the V/I characteristics are towards higher voltages, to see the breakdown behavior, or towards higher currents, to see things like saturation voltages for bipolar transistors or minimum resistances for FETs and to see how the gain drops at higher currents.\nA movie showing the use of a curve tracer:\nhttps://youtu.be/bXbGktOHXzs\nNice pictures with the same:\nhttps://www.pa4tim.nl/meetapparatuur/tektronix-576-de-koning...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48958864",
+          "by": "adrian_b",
+          "time": 1784387605
+        },
+        {
+          "id": 48961464,
+          "text": "Nice article.\nLooking at the ONSemi datasheet for the BS170, it is very clear that the \"Drain−Source Breakdown Voltage\" spec only applies at \"VGS = 0, ID = 100 uA DC\".\nDoesn't it cause problems for designers if the curves measured from actual devices look different from those shown in textbooks?\nNot as much as you'd think, because (a) the measured curves are still within the stated parameters, and (b) many basic parameters vary from one part to the next (or as the same part drifts over time) even more.\nLook at the values of V_GS used in the graphs: [2.34, 2.5, 2.63, 2.71 V]. They differ by 0.4 V. But the data sheet specifies V_GS(th) (the V_GS threshold needed to just start to turn on) as a range of 0.8 to 3.0 V!\nA range isn't even given for the slope of the curve (g_fs). The datasheet only gives a \"typical\" value at a single operating point.\nSo the designer cannot rely on this parameter to determine the behavior of the circuit, only its general range and direction. You can't just use the bare transistor alone and expect to get an oscillator or amplifier that behaves predictably.\nAny manufacturable circuit must ensure that these variations are completely dominated by negative feedback. This is why actual circuits tend to have networks of resistors and capacitors hanging off of every leg of every transistor.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48961464",
+          "by": "marshray",
+          "time": 1784403203
+        },
+        {
+          "id": 48959510,
+          "text": "Takes me back to when I was working on Josephson junctions (JJ) as a student, I-V curves were the first thing we did when characterizing a junction. JJ I-V curves were tricky due to the hysteresis they have in the underdamped regime, so we had some pretty involved stepping logic to ensure we get the curve with the required precision.\nThat said today everything is pretty much digital, you have Acqiris/Agilent 1 GHz ADCs and all the measurements are done in software, but I still remember using my old 20 MHz HMAG oscilloscope in XY mode with a triangle voltage generator to plot IV curves in real-time. Good old times!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48959510",
+          "by": "ThePhysicist",
+          "time": 1784391819
+        },
+        {
+          "id": 48959196,
+          "text": "> The book is meant for the inquiring hobbyist, including those who have tried to learn the craft and hit a wall before. With 420+ pages and 290+ meticulously-crafted color illustrations, The Secret Life of Circuits prioritizes modern problem-solving and true intuition over plumbing analogies or cryptic formulas.\nIMHO this is a wasted opportunity to write a solid book on the subject. The poking at existing literature and offering a “true” intuition is tiresome at best.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48959196",
+          "by": "briomd",
+          "time": 1784389847
+        },
+        {
+          "id": 48964049,
+          "text": "I’m familiar with curve tracers but hadn’t heard about source measure units.\nDon’t see any on eBay for dirt cheap, wonder what author paid (he said a fraction of retail).",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48964049",
+          "by": "roger_",
+          "time": 1784423078
+        }
+      ],
+      "by": "zdw",
+      "time": 1784319002,
+      "url": "https://lcamtuf.substack.com/p/tech-note-making-your-own-v-i-plots",
+      "score": 83,
+      "descendants": 10,
+      "storyUrl": "https://lcamtuf.substack.com/p/tech-note-making-your-own-v-i-plots"
+    },
+    {
+      "id": 48958269,
+      "type": "story",
+      "title": "EU ban on destruction of unsold clothes and shoes enters into application",
+      "rank": 28,
+      "depth": 0,
+      "storyId": 48958269,
+      "storyTitle": "EU ban on destruction of unsold clothes and shoes enters into application",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48958269",
+      "topComments": [
+        {
+          "id": 48960026,
+          "text": "> To prevent misuse, businesses relying on these exemptions must provide proof (e.g. documents or test results) and publish annual reports on what they have discarded.\nI wonder if anybody is keeping track of everything a mid size business needs to take care of. Each particular report probably sounds like a reasonable request, but by now they're probably well into hundreds, and they're all outside the actual scope of the business (e.g. it may seem manageable for the bureaucrats designing them, because that's what they deal with all day, but not for a small organization doing... something else).",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48960026",
+          "by": "radu_floricica",
+          "time": 1784394884
+        },
+        {
+          "id": 48959860,
+          "text": "\"Companies may only destroy unsold clothes and shoes in limited cases, such as when items are unsafe or damaged, counterfeit or infringing intellectual property rights, or are rejected by charities or donation schemes.\"\nNike's unsold, defective, or returned shoes are ground up to make carpet padding. They're processed by the truckload in a large grinding machine.\nIt seems that under these rules, this would be illegal - ?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48959860",
+          "by": "bananamogul",
+          "time": 1784393980
+        },
+        {
+          "id": 48964634,
+          "text": "Hope they do not dump it on Africa just like US and UK doing.\n- https://www.theguardian.com/global-development/2023/jun/05/y...\n- https://www.theguardian.com/world/2025/jun/18/discarded-clot...\n- https://www.youtube.com/shorts/HTrOmJpJjg4",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48964634",
+          "by": "nerdyadventurer",
+          "time": 1784430785
+        },
+        {
+          "id": 48959149,
+          "text": "It seems like this policy would lead to shortages in less common sizes of clothing.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48959149",
+          "by": "nieksand",
+          "time": 1784389488
+        },
+        {
+          "id": 48959321,
+          "text": "I don’t understand why they would ban this rather than charge for it. It seems very likely that destroying unsold clothes is sometimes the socially efficient thing to do, even after taking into account the environmental externalities.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48959321",
+          "by": "dash2",
+          "time": 1784390726
+        },
+        {
+          "id": 48959597,
+          "text": "I’m pretty sure all those brands would now export those clothes to non-EU Balkan countries or even Turkey to be destroyed.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48959597",
+          "by": "sajithdilshan",
+          "time": 1784392421
+        },
+        {
+          "id": 48958964,
+          "text": "It looks like a great opportunity for mafia networks to get paid by clothing brands in order to dispose of the stocks.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48958964",
+          "by": "Saline9515",
+          "time": 1784388217
+        },
+        {
+          "id": 48958937,
+          "text": "some places already do this for food where anything thats after sell by date but still safe to eat has to be donated to a food bank.\ni think it should be expanded to cover more categories than food and clothes when reuse and recycling infra grows to take the demand. its not just good for the environment it also prevents producers from restricting supply to keep their profits high.\nthe ultimate goal is make it illegal to destroy or intentionally damage anything usable before it reaches consumers. that would create a new ecosystem of discount stores and giveaway centers, and save everyone a ton of money.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48958937",
+          "by": "tancop",
+          "time": 1784388062
+        },
+        {
+          "id": 48960375,
+          "text": "Africa is going to be full of old Versaces, Balenciagas, Guccis and Valentinos.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48960375",
+          "by": "storus",
+          "time": 1784396914
+        },
+        {
+          "id": 48960241,
+          "text": "Wouldn't that drive textile manufacturing out of the EU?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48960241",
+          "by": "WalterBright",
+          "time": 1784396087
+        }
+      ],
+      "by": "robtherobber",
+      "time": 1784383482,
+      "url": "https://environment.ec.europa.eu/news/ban-destruction-unsold-clothes-and-shoes-enters-application-2026-07-17_en",
+      "score": 308,
+      "descendants": 301,
+      "storyUrl": "https://environment.ec.europa.eu/news/ban-destruction-unsold-clothes-and-shoes-enters-application-2026-07-17_en"
+    },
+    {
+      "id": 48956307,
+      "type": "story",
+      "title": "Qubes OS Security in the Public Record",
+      "rank": 29,
+      "depth": 0,
+      "storyId": 48956307,
+      "storyTitle": "Qubes OS Security in the Public Record",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48956307",
+      "topComments": [
+        {
+          "id": 48957082,
+          "text": "Blast from the past for me, though primarily interacted with the complementary Whonix side of things. Not surprising to read, considering how lean Qubes was from the get-go designed to be it makes sense that most things are from resulting upstream rather than with their code.\nFully aware that it was never the goal for Qubes, but I have never been able to shake the idea that one could leverage their architecture in ways beyond security hardening, especially that screenshot with MSFT Office running in its own guest got my mind spinning back then. Might be worth revisiting some old ideas I'm just recalling, especially with there having been over a decade in development across many projects focused on hypervisors by many smart people, making a few old experiments likely less impossible.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48957082",
+          "by": "Topfi",
+          "time": 1784374403
+        },
+        {
+          "id": 48959010,
+          "text": "First I heard of Qubes was when Edward Snowden endorsed it\nhttps://www.qubes-os.org/endorsements/\nhttps://xcancel.com/Snowden/status/781493632293605376",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48959010",
+          "by": "khurs",
+          "time": 1784388551
+        },
+        {
+          "id": 48957183,
+          "text": "Author of the paper here; AMA.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48957183",
+          "by": "adg001",
+          "time": 1784375266
+        },
+        {
+          "id": 48957901,
+          "text": "Security claims backed by public evidence are a lot more convincing than marketing.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48957901",
+          "by": "preetham_rangu",
+          "time": 1784380636
+        },
+        {
+          "id": 48963392,
+          "text": "QubesOS is really fantastic, I wouldn't consider using anything less today.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48963392",
+          "by": "nullc",
+          "time": 1784416438
+        },
+        {
+          "id": 48958341,
+          "text": "Would need to create a lab and throw LLMs at it to see if they can break anything. That would be an interesting paper.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48958341",
+          "by": "jmakov",
+          "time": 1784383856
+        }
+      ],
+      "by": "sciences44",
+      "time": 1784364607,
+      "url": "https://arxiv.org/abs/2607.14587",
+      "score": 90,
+      "descendants": 18,
+      "storyUrl": "https://arxiv.org/abs/2607.14587"
+    },
+    {
+      "id": 48906171,
+      "type": "story",
+      "title": "An Update on Igalia's Layer Based SVG Engine in WebKit (Reducing Layer Overhead)",
+      "rank": 30,
+      "depth": 0,
+      "storyId": 48906171,
+      "storyTitle": "An Update on Igalia's Layer Based SVG Engine in WebKit (Reducing Layer Overhead)",
+      "sourceUrl": "https://news.ycombinator.com/item?id=48906171",
+      "topComments": [
+        {
+          "id": 48955274,
+          "text": "I'd be interested to see how Vello compares if it were to be dropped into WebKit as the main rendering engine.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48955274",
+          "by": "bschwindHN",
+          "time": 1784349492
+        },
+        {
+          "id": 48958511,
+          "text": "Igalia, the one company in the world sustainably building a web browser worth paying for.\nKeep up the good work!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48958511",
+          "by": "password4321",
+          "time": 1784385175
+        },
+        {
+          "id": 48957336,
+          "text": "Were you able to add the tests that stop regressions in the future?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=48957336",
+          "by": "bbkane",
+          "time": 1784376427
+        }
+      ],
+      "by": "bkardell",
+      "time": 1784033998,
+      "url": "https://blogs.igalia.com/nzimmermann/posts/2026-07-14-lbse-conditional-layers/",
+      "score": 73,
+      "descendants": 4,
+      "storyUrl": "https://blogs.igalia.com/nzimmermann/posts/2026-07-14-lbse-conditional-layers/"
+    }
+  ]
+}
