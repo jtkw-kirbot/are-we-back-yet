@@ -1,0 +1,2473 @@
+{
+  "date": "2026-07-29",
+  "fetchedAt": "2026-07-31T04:01:28.004Z",
+  "samplingMethod": "frontpage_day_query_story_comment_snapshot",
+  "source": "hn_front_day_query_firebase",
+  "items": [
+    {
+      "id": 49098510,
+      "type": "story",
+      "title": "Show HN: Open-source engine running Gemma 4 26B in 2 GB RAM on any M-series Mac",
+      "rank": 1,
+      "depth": 0,
+      "storyId": 49098510,
+      "storyTitle": "Show HN: Open-source engine running Gemma 4 26B in 2 GB RAM on any M-series Mac",
+      "sourceUrl": "https://news.ycombinator.com/item?id=49098510",
+      "topComments": [
+        {
+          "id": 49100736,
+          "text": "Nice, I think this is the second time I see this here on HN, I always wondered why we need to shove the entire model into memory, I don't care who King Charles is every single time. It always felt as though we already figured out how to break up large files and parse them efficiently with very little memory.\nFrontier AI feels like its full of people who are brilliant at making models, but when it comes to scale and practicality, they just leave it to whoever sets up infrastructure to worry about. I wouldn't be surprised if frontier AI could be drastically cheaper if they just finetune and optimize their models to not consume all available RAM to only access less than 10% of the models knowledge.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49100736",
+          "by": "giancarlostoro",
+          "time": 1785347525
+        },
+        {
+          "id": 49099858,
+          "text": "With my M1 MBA, I am still on macOS 15. To compile it, just remove the two lines with\n  opts.languageVersion = .version4_0\n\nor surround them with\n  if #available(macOS 26.0, *) {\n    opts.languageVersion = .version4_0\n  }\n\nYou'll miss out on a prefill speedup of 2.4x (as it yields 11.24x faster attention), according to the git comments, but it works. (On the 8-GPU-core MBA M1, I get 5-6 tok/s.)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49099858",
+          "by": "xenonite",
+          "time": 1785343542
+        },
+        {
+          "id": 49105161,
+          "text": "Ran this on a 64 GB M4 Max MacBook. I figured having Gemma available with a small footprint would be a nice setup. No more unloading models when I need more RAM for work? Hell yea.\nGot 48 tok/s decode at 1.9 GB RSS (2.4 GB peak), faster than the 24 GB M5 Pro mentioned in the benchmarks. The ~2.0 GB/s SSD number quoted for M4 is the base chip. This M4 Max does ~7 GB/s.\nPage cache seems to be why it beats the M5 Pro. With 64 GB the whole 12 GB packed_experts set stays resident, and iostat shows only ~1.6 GB per run actually reaching disk, against the ~79 GB that 98 fully cold tokens would need.\nI then tested with DaVinci Resolve open and under load (playback): 42.6 tok/s. Also held 38 GB of incompressible memory to squeeze the page cache: 41.8. At 48 GB it ranged 32 to 41.5. Degrades gradually rather than a cliff. It's a beautiful thing.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49105161",
+          "by": "pwython",
+          "time": 1785375073
+        },
+        {
+          "id": 49099165,
+          "text": "I'm curious how your project compares to plain mmap!\nBecause llama.cpp will already run 26B in 2GB of RAM if you really want to (mmap enabled, repacking disabled).\nIt seems like the main difference is that your project synchronizes the SSD reads with inference activity, which you've presumably tuned to cause the least latency possible? Whereas the OS wouldn't care about any of that.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49099165",
+          "by": "tredre3",
+          "time": 1785340615
+        },
+        {
+          "id": 49099518,
+          "text": "I have a project that's almost ready to run DiffusionGemma as well. The two project might potentially work well together. I'm getting ~20tok/s on a 36GB M3 and there's strong possibility we might be able to crib faster kernels from each other.\nFeel free to reach out.\n(currently at https://github.com/mmastrac/diffgemma but not in a releasable state yet)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49099518",
+          "by": "mmastrac",
+          "time": 1785342135
+        },
+        {
+          "id": 49100542,
+          "text": "> The measured result is a reference point, not a performance ceiling.\nClaude was here.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49100542",
+          "by": "woadwarrior01",
+          "time": 1785346577
+        },
+        {
+          "id": 49100546,
+          "text": "There are a lot of SSD streaming engines these days. But few to actually try some hard features.\nThere is one that could really improve the speed. Given almost all major models come with MTP head for speculative decoding. The same MTP head could also be used to speculative prefetch the expert weight residing on the SSD. If the expert weight can be preloaded before the GPU actually need them, the speed penalty from VRAM cache miss will be quite reduced.\nIf the technology demonstrates successful token rate improvement. future models could also come with pretraining heads to preload expert weights, and even make the training be aware of it.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49100546",
+          "by": "ycui1986",
+          "time": 1785346600
+        },
+        {
+          "id": 49100842,
+          "text": "12 tok/s and almost instant response on M1 Max Mac Studio (with faster SSD than laptops) are impressive – gives hope that large models may run locally from SSDs instead of memory.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49100842",
+          "by": "nvch",
+          "time": 1785348016
+        },
+        {
+          "id": 49098799,
+          "text": "> It currently generates 5–6 tok/s on an 8 GB M2 MacBook Air and 31–35 tok/s on an M5 MacBook Pro.\nWhere does this big a performance spread come from? I wouldn't naïvely expect SSD performance difference to be that big, and I would expect SSD performance to dominate...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49098799",
+          "by": "addaon",
+          "time": 1785338968
+        },
+        {
+          "id": 49099756,
+          "text": "Exciting! Maybe techniques like these can enable systems with 30-60GB memory and very fast SSDs of the future run very large models hopefully.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49099756",
+          "by": "owaislone",
+          "time": 1785343161
+        }
+      ],
+      "by": "gitpusher42",
+      "time": 1785337543,
+      "url": "https://github.com/drumih/turbo-fieldfare",
+      "score": 886,
+      "descendants": 322,
+      "storyUrl": "https://github.com/drumih/turbo-fieldfare"
+    },
+    {
+      "id": 49098965,
+      "type": "story",
+      "title": "Superlogical",
+      "rank": 2,
+      "depth": 0,
+      "storyId": 49098965,
+      "storyTitle": "Superlogical",
+      "sourceUrl": "https://news.ycombinator.com/item?id=49098965",
+      "topComments": [
+        {
+          "id": 49100329,
+          "text": "I really like the bit where he transferred ownership of Ghostty to a non-profit, and is now building this new company on that as an open source dependency:\n> We will build on libghostty exactly as it was designed to be used: as a public building block for terminal applications. Superlogical will consume the same MIT-licensed components available to everyone else, and we will continue to upstream shared terminal work so every libghostty consumer can benefit.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49100329",
+          "by": "simonw",
+          "time": 1785345569
+        },
+        {
+          "id": 49100596,
+          "text": "This sounds like a mashup of of several things I've been playing with lately...\n- pi-web (https://pi-web.dev/): a web frontend for the Pi coding harness which can multiplex pi sessions across multiple machines\n- herdr (https://herdr.dev/): a fairly polished agentic multiplexer TUI, can easily spawn or destroy windows based on subagent activity\n- firstmate (https://github.com/kunchenguid/firstmate): a meta environment for coding harnesses - more naturally handles spawning and communicating with subagents, managing worktrees, and other SDLC functions, and has a fairly large number of constraints thru bash scripts to ensure better results with less intelligent models",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49100596",
+          "by": "brandall10",
+          "time": 1785346895
+        },
+        {
+          "id": 49101369,
+          "text": "Meta, won't comment on the site, won't click. I'm fed up with this category of click baity titles that are designed to be enigmatic rather than informative.\nThe guideline do not mention this, apart maybe from:\n  If the title includes the name of the site, please take it out, because the site name will be displayed after the link. \n\nI'd prefer HN if we made it a habit to editorialize such titles consisting solely of a Domainname or a single word.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49101369",
+          "by": "rixed",
+          "time": 1785350595
+        },
+        {
+          "id": 49101985,
+          "text": "This reminds me somewhat of OLE, COM, DCOM, ActiveX, ... [1]. You can paste an Excel chart into a Word document and if you update the data in Excel, the chart in Word will update. You can edit the chart in Word using the Excel UI because you are essentially running an Excel instance inside of Word. You can interact with Excel through an API, no need for a human. But it is painful, you can probably imagine the kind of API you need in order to be able to do all the things you can do with the Excel UI.\nThe idea is amazing, making this work consistently requires effort, and a lot of it. And as only a few applications invested this effort, it only works with a few applications and never really took off outside of Microsoft. I think this used to work with WordPad and maybe even Notepad but it no longer does, you just get an image instead of the chart object in WordPad and nothing at all in Notepad. It is a dying technology.\n[1] https://en.wikipedia.org/wiki/Component_Object_Model",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49101985",
+          "by": "danbruc",
+          "time": 1785353747
+        },
+        {
+          "id": 49100416,
+          "text": "Wow, that \"We're hiring/Career Page\" link is geeksmaxxing.\nFirst time seeing `ssh superlogical.jobs` would be a way to show job descriptions in terminal!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49100416",
+          "by": "devy",
+          "time": 1785345965
+        },
+        {
+          "id": 49100201,
+          "text": "Flashback to when Mitchell first introduce Vagrant [1] to HN, which of course was the how everything from HashiCorp started.\nI thought it was't that long ago, may be 8, or at best 10-12 years.\nTurns out 16 years has passed.\nCurious if it would be another project using Zig.\n[1] https://news.ycombinator.com/item?id=1175901",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49100201",
+          "by": "ksec",
+          "time": 1785345002
+        },
+        {
+          "id": 49100392,
+          "text": "I feel like the main benefit of such a thing would be centralization. Part of the issue with the terminal ecosystem is precisely that everything's so fragmented and everybody needs to support arcane terminal protocols and wrap a billion wrappers around each other. The easiest way to solve this is to be a definer yourself rather than an integrator, which I think is what this is trying to be. If we could actually have standardized terminal extensions in one place (you'd be surprised how many extension codes there are in terminal land) that has a different semantics not from the 80s, but still captures the terminal experience, that would be great.\nThe 'cleanest' experience I've got for what I want is mosh + tmux and even that has issues (no block cursor for example).\nIf superlogical's ultimate goal is to revamp the Linux developer ecosystem, all for it. Am potentially worried long term about these kinds of strategies from a political point of view but as long as things stay open source and stay as local dev tools, its fine.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49100392",
+          "by": "sigbottle",
+          "time": 1785345842
+        },
+        {
+          "id": 49099999,
+          "text": "> Location Though the team has spent many years scaling remote-first companies and is currently remote, we are hiring specifically in Los Angeles, London, and New York, with an expectation for a flexible in-office schedule as we build our presence in each region.\nI always get a \"lifestyle business\" vibe when tech companies are based in LA or NY. When you're a seasoned veteran you'd prefer to live in a larger, more fun city, even though tech is concentrated in the Bay Area",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49099999",
+          "by": "atleastoptimal",
+          "time": 1785344119
+        },
+        {
+          "id": 49105710,
+          "text": "Did mitchellh leak a demo video last week?\nhttps://xcancel.com/mitchellh/status/2079327969416482859#m",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49105710",
+          "by": "tiffanyh",
+          "time": 1785380791
+        },
+        {
+          "id": 49100535,
+          "text": "Maybe I just missed the boat on hashicorp and similar solutioning, but I find a lot of the solutions for working with multiple systems using an intermediary shared language, such as terraform, end up obfuscating the problems they intend to solve and result in people who deal with and support those systems on a daily basis having very little understanding of how to interact and troubleshoot the core infra that is being built up with those tools.\nYes, building those solutions requires a lot of expertise, but I've never found the tools to be worth engaging with over just using what the standard platform tools they abstract away were replacing. Then you add in the economic rug-pull scenarios that have happened when utilizing software like this and I wonder why everyone hops on the bandwagon so easily.\nWhat is the company they're building trying to solve that system maintainers can't already do? Isn't this just rebuilding OS windowing?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49100535",
+          "by": "Sleaker",
+          "time": 1785346557
+        }
+      ],
+      "by": "yan",
+      "time": 1785339693,
+      "url": "https://www.superlogical.com/",
+      "score": 761,
+      "descendants": 450,
+      "storyUrl": "https://www.superlogical.com/"
+    },
+    {
+      "id": 49095865,
+      "type": "story",
+      "title": "KOReader",
+      "rank": 3,
+      "depth": 0,
+      "storyId": 49095865,
+      "storyTitle": "KOReader",
+      "sourceUrl": "https://news.ycombinator.com/item?id=49095865",
+      "topComments": [
+        {
+          "id": 49097889,
+          "text": "I really like that this exists, but I found the menus and UI to be rather non-intuitive. My main use case was to sync reading progress between my Kobo and my iPhone. I was able to do this using KOReader on the Kobo & the Readest app[1] on iPhone (also open source).\nUltimately I decided to get rid of KOReader because it felt a bit laggy. The gestures (eg: swiping up on the left side to increase frontlight brightness) didn't work well either.\nI eneded up writing my own software to sync progress from Kobo to a KOReader Sync server[2] which my Readest app also connects to (love that unlike the Kindle, the Kobo is quite an open system). You can even set it up so you can SSH into it[3].\n[1] https://github.com/readest/readest\n[2] https://github.com/koreader/koreader-sync-server\n[3] https://www.mobileread.com/forums/showthread.php?t=254214",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49097889",
+          "by": "gejose",
+          "time": 1785334753
+        },
+        {
+          "id": 49096449,
+          "text": "I installed it on my Amazon Kindle and I couldn't be happier.\nIt shows once again that free software is superior to proprietary software. Free software grows slowly to make users happier and not to attract them with useless features to extract more value from them.\nCongratulations for this great piece of software.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49096449",
+          "by": "lolgab",
+          "time": 1785327223
+        },
+        {
+          "id": 49099419,
+          "text": "I'm immensely thankful for koreader - it improves the reading experience so fundamentally that it literally drives my purchasing decisions. I got a remarkable 2 precisely because it was known to run it well. When I got a new kindle, I went for a refurbished one hoping it'd be one FW version behind (it was! lucky me) so I could jailbreak it immediately, and run koreader.\nWhich reminds me:\n- I'm still a primitive user. Sync reading state, reflow, calibre link, yes, but I'm at maybe 10% of the features, might even be an overestimate. I may finally have to cave in and go through its manual\n- I literally endure calibre because that's how I feed koreader. Any alternatives?\n- Is there really no practical way to mark a book as read other than give it a star rating or a custom tag?\n- Does anyone know of anything coming close to this experience on an iPad?\n- I've never given them a cent or contributed a line of code or even filed a bug report. That changes now.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49099419",
+          "by": "gruturo",
+          "time": 1785341673
+        },
+        {
+          "id": 49096322,
+          "text": "You can use the regular Kindle viewer once you jailbroke your kindle, but KOReader has native epub and pdf support so you don't have to use a converter when uploading your books.\nI did find it hard to get the bezels to be even and it still doesn't always format well depending on the book. I still kind of prefer the default viewer.\nI use this plugin in KOReader which lets you download books from Z-Library within KOReader.\nhttps://github.com/ZlibraryKO/zlibrary.koplugin\nAnother cool thing is you can use custom fonts and dictionaries. I use the OED short version and the Wikipedia one. There's built in ones that it can download but pirated ones like OED you have to upload yourself.\nUnfortunately on MacOS it seems you have to use Amazon's app to access the filesystem.\nEdit:\nThey changed it on the newer Kindle which I have.\nThere's open source alternatives to the send to kindle app.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49096322",
+          "by": "Cider9986",
+          "time": 1785326383
+        },
+        {
+          "id": 49100019,
+          "text": "It's a shame the out of the box UI/UX is so bad, it really feels like the GIMP of e-reader software at times.\nI think the Zen UI plugin is mandatory to have a good time with it.\nhttps://anthonygress.github.io/zen_ui.koplugin",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49100019",
+          "by": "videah",
+          "time": 1785344236
+        },
+        {
+          "id": 49096388,
+          "text": "KOReader is my jam! With its reflow for PDFs, I've used it on my Kindle Oasis 2 to read everything for my undergrad and graduate degree. Some years ago now, I wrote a script that converts the annotations to Obsidian [0], and then another little script to automatically keep my \"Articles\" folders in sync between the Kindle and my laptop.\nVery grateful for this software!\n[0]: https://github.com/simonpacis/kohico",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49096388",
+          "by": "simonklitj",
+          "time": 1785326811
+        },
+        {
+          "id": 49096967,
+          "text": "Lots of nice features but the UX and UI are so painful that it's not worth jumping from the stock kobo reader for me.\nIt's nice to have another option though and if the UX improves one day maybe I'll use it as my main reader.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49096967",
+          "by": "fumeux_fume",
+          "time": 1785330108
+        },
+        {
+          "id": 49096749,
+          "text": "I am using koreader on my ereader and KOreader has a native support for https://wallabag.org/. They are both fantastic opensource projects, whenever I like to read a blog post I am sending them to my wallabag and therefore I can easily have them on my ereader too.\nAlso the fact that you can install different plugin on KOreader and customize it in a way you like is fantastic.\nfor example just check:\n- https://github.com/doctorhetfield-cmd/simpleui.koplugin\n- https://github.com/AndyHazz/bookshelf.koplugin\nOr with Lua you can develop your own plugin for that. to people who wanted to jailbreak their Kindle I can recommend these two links:\n- https://kindlemodding.org/\n- https://www.youtube.com/watch?v=Qtk7ERwlIAk\nAll in all I am supper happy with KOreader and can't imagine to use anything else",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49096749",
+          "by": "pesarkhobeee",
+          "time": 1785328880
+        },
+        {
+          "id": 49097411,
+          "text": "I have this on my Amazon Kindle and I freaking LOVE it!\nPaired with BookOrbit [0] and using plugins like BookShelf, BookEnds, and KOAssistant I have the best reading setup ever.\nThe speed of this on my Kindle is _insane_ compared to the stock software. I'm not talking about page turning, that was fine on both, but navigating menus is way faster.\nIt was a little finicky to configure but once I got a feel for it I didn't have a problem and 15 books read later since I installed it a few months ago and I never touch the settings.\nMy favorite plugins:\nBookShelf: Best UI for viewing my books by author/series/etc IMHO. Much better than the Kindle default UI and much snappier\nBookEnds: Configure the header and footer of each page to show what info you care about most. There are community configs you can test out easily and download right on your kindle if you like them\nKOAssistant: highlight some text and throw it at an LLM with a provided prompt or your custom one. This was invaluable when reading the Hornblower series which used a lot of older english words/phrasing as well as nautical terms (which I'm completely unfamiliar with). I enjoyed the books way more since I could figure it out inside my kindle instead of constantly having to pick up my phone to look up a phrase.\nBookOrbit: It provides a plugin for KOReader that syncs your progress, annotations, etc.\nKOReader is table stakes for any e-reader I might consider. If my Kindle died tomorrow I'd have a Kobo or similar on it's way to me within hours. I won't use any reader that doesn't support KOReader after using it for these last few months.\n[0] https://bookorbit.app/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49097411",
+          "by": "joshstrange",
+          "time": 1785332482
+        },
+        {
+          "id": 49098354,
+          "text": "Interesting. I generally hate proprietary software, but I've actually been really satisfied with the kindle UI. I don't use the store at all, simply email epubs to it directly. (I usually only move 1-5 books max at a given time, so this process feels really simple to me). The only adjustments I need are the text size and front light, battery life is amazing. I'm guessing this would be really useful if I had advanced needs, but for just reading epubs, kindle is a really good UI.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49098354",
+          "by": "haritha-j",
+          "time": 1785336859
+        }
+      ],
+      "by": "Cider9986",
+      "time": 1785323108,
+      "url": "https://koreader.rocks/",
+      "score": 736,
+      "descendants": 240,
+      "storyUrl": "https://koreader.rocks/"
+    },
+    {
+      "id": 49102774,
+      "type": "story",
+      "title": "The coolest use for the Vision Pro",
+      "rank": 4,
+      "depth": 0,
+      "storyId": 49102774,
+      "storyTitle": "The coolest use for the Vision Pro",
+      "sourceUrl": "https://news.ycombinator.com/item?id=49102774",
+      "topComments": [
+        {
+          "id": 49103631,
+          "text": "My team uses this technology on a daily basis at my company. I run a design / build firm in the Hamptons, USA. We start all of our design projects with a 3d-first approach. Schematic design starts in 3D using Rhino3D or Revit. We use visualization plugins, like Enscape, to render the models and stream to a Quest 3 headset.\nSo when clients come in, and feels adventurous, we'll setup the headset, set the display height to their actual, and let them walk around their beautiful new home.\nThe response has been powerful. My clients are able to truly understand the scale, the proportion of rooms, ceiling heights, and the smallest details.\nWe're able to make real-time changes to the model (within reason) and provide instant design feedback.\nI've been using this technology for years and I'm surprised it's not being adopted faster - good for us right now though!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49103631",
+          "by": "jondiggsit",
+          "time": 1785362388
+        },
+        {
+          "id": 49103427,
+          "text": "Yeah, we did the same thing when designing our house almost ten years ago now, using a HTC Vive running https://irisvr.com/prospect/\nJust like the article says: Within a second after putting on the headset you just know if things are proportioned right, or need some fine tuning. That's really valuable!\nAlso, when the house was actually (partially) built, it felt exactly like the simulations we knew pretty well by that point.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49103427",
+          "by": "vanviegen",
+          "time": 1785361218
+        },
+        {
+          "id": 49104618,
+          "text": "Leveling this up:  Calculate sun angles at different times of the year to simulate light entering the house.  Find out if some room is going to be unbearably hot in the summer because it's got too much full sunlight; make sure there are windows that can take maximum advantage of sunlight in the winter months; maximize opportunities to accidentally catch the sunset / sunrise.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49104618",
+          "by": "gwd",
+          "time": 1785369734
+        },
+        {
+          "id": 49103547,
+          "text": "Christian is a brilliant developer, that made simply the best experience for reddit that ever existed; after the ban, and when Apollo was dead, I simply stopped consuming reddit (other than an occasional kagi search that takes me there).\nI hope he knows that a lot of iOS users really appreciate his work, (I even convinced one hardcore Android user to get an iPhone just for this one app, it was that good).\nFor that, thank you Christian!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49103547",
+          "by": "marcogarces",
+          "time": 1785361888
+        },
+        {
+          "id": 49103228,
+          "text": "That's neat. Once it is built, I think a cooler use is to trace wiring and plumbing through your walls of your existing house.  Your revit model may include all of this data, or at least the plan.  Things change. :)\nThough this is especially helpful for old homes where you have to sort of improvise ethernet wiring.\nI normally just use it to consume 4k hdr media though.\nIt has not lived up to being a utility player device, but so far it is so good at media delivery that is sort of okay.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49103228",
+          "by": "bredren",
+          "time": 1785359940
+        },
+        {
+          "id": 49105061,
+          "text": "Here's a low-voltage wiring installer that wrote his own Vision Pro app to help visualize in-wall studs to make it easer to run wiring:\nhttps://old.reddit.com/r/Ubiquiti/comments/1ut1atj/how_i_ret...\nhttps://old.reddit.com/r/VisionPro/comments/1tq34lj/created_...\nSubmitted previously: https://news.ycombinator.com/item?id=48867417",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49105061",
+          "by": "js2",
+          "time": 1785373999
+        },
+        {
+          "id": 49104062,
+          "text": "I scanned my local climbing gym and have climbing videos mapped onto the wall\nhttps://kmcheung12.github.io/climb-preview/w/a6ece004\nI think 3D application is massively under utilised. There is whole family of interaction the textual web cannot provide",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49104062",
+          "by": "a_c",
+          "time": 1785365042
+        },
+        {
+          "id": 49103477,
+          "text": "There are apps for displaying RevIt models on the Apple Vision Pro, Oculus Rift, HTC Vive, Valve Index, iPhone ARKit, and Android AR [1], so if you are working with an architect it is worth asking them if they can provide in-progress models as you iterate to avoid having to reproduce them yourself.\n[1] https://www.autodesk.com/support/technical/article/caas/sfdc...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49103477",
+          "by": "pavon",
+          "time": 1785361509
+        },
+        {
+          "id": 49103295,
+          "text": "It seems like everything here can also be done with any iPhone using ARKit. Obviously the headset is better, but not $3500 better than just looking through your phone.\nJust thought I’d raise this since it weirdly isn’t mentioned in the article.\nI used a similar technique the last time I moved - scan the apartment using the iPhone, then I had a 3D model for measuring and planning out the space before/during the move. It’s a big help when planning out furniture etc.\nAnd I scanned my old place before leaving so I can virtually step into it any time I want. iPhone via finder/preview handles showing 3D models in AR out of the box.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49103295",
+          "by": "nxc18",
+          "time": 1785360399
+        },
+        {
+          "id": 49103136,
+          "text": "This is an absolutely standard feature of any VR headset that has ever been released in the history of VR headsets. Make a 3D world, walk through it. What am I missing?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49103136",
+          "by": "stonedivot",
+          "time": 1785359451
+        }
+      ],
+      "by": "robbiet480",
+      "time": 1785357580,
+      "url": "https://christianselig.com/2026/07/vision-pro-house/",
+      "score": 812,
+      "descendants": 310,
+      "storyUrl": "https://christianselig.com/2026/07/vision-pro-house/"
+    },
+    {
+      "id": 49099715,
+      "type": "story",
+      "title": "Keychron announces first open-source firmware for gaming mice",
+      "rank": 5,
+      "depth": 0,
+      "storyId": 49099715,
+      "storyTitle": "Keychron announces first open-source firmware for gaming mice",
+      "sourceUrl": "https://news.ycombinator.com/item?id=49099715",
+      "topComments": [
+        {
+          "id": 49100182,
+          "text": "A bit ago I accidentally bought a Keychron keyboard that didn't have QMK support, but then found that someone had ported it anyway, and I was able to flash it and fix some problems I had (the main one being that it seems like the default firmware only scans a single row of keys while asleep, possibly to save energy, but I want any keypress to wake the computer.) Maybe it's not perfect, but the community around open source keyboard firmware is great, it's a good example of how open source is beneficial for end users, especially power users.\nAnd, in an era where vendor software and firmware for all kinds of devices is constantly having vulnerabilities, it is possible the liability of doing custom shit will eventually outweigh whatever benefits hardware companies seem to think it has, versus just having industry standards and free software instead. But, maybe that is wishful thinking.\nMy only complaint with Keychron is that of 5 or so keyboards I've owned from them I wound up having to resolder 3 different hotswap sockets on 2 different keyboards right out of the box. That is... Not a fantastic failure rate. OTOH, they are otherwise an unambiguously great value, with materials and build quality that feels pretty impressive for the cost, QC issues notwithstanding.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49100182",
+          "by": "jchw",
+          "time": 1785344917
+        },
+        {
+          "id": 49101311,
+          "text": "Announces != releases.\nThey claim 2027 Q1 will be the release date.\nLinks below purporting to be “the repository” lead to a repo with no source code.\nSorry, I’m cynical. An announcement 6-9 months ahead of release? Why? Right now it’s vaporware.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49101311",
+          "by": "fn-mote",
+          "time": 1785350264
+        },
+        {
+          "id": 49102132,
+          "text": "Hmm, I have a mouse and trackballs from ploopy, they run QMK, so why was a new project needed? What is the added value?\nTo me, the missing feature in the QMK ecosystem is a devices too device communication channel. For now there is only caps lock & others: it would be nice to activate a mouse layer (for instance: increase DPI) to a keyboard key.\nIt is probably solvable if a heavyweight was to push for new HID descriptors or something similar.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49102132",
+          "by": "MayeulC",
+          "time": 1785354536
+        },
+        {
+          "id": 49100451,
+          "text": "This would be more exciting if Keychron had mice of more interesting / experimental form factors and functionality. Just like their keyboards, their mice are mostly differentiated by obscure technical features (polling rates!).\nI'm a bit worried that a decent, modern replacement for the extremely obsolete multi-button mouse I have now (Logitech G602) will never be available.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49100451",
+          "by": "jerlam",
+          "time": 1785346134
+        },
+        {
+          "id": 49100060,
+          "text": "For those that are interested: \n- https://github.com/Keychron/zgm\n- https://zgm.gg/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49100060",
+          "by": "DemiGuru",
+          "time": 1785344487
+        },
+        {
+          "id": 49105676,
+          "text": "I bought two (identical) of these keyboards and they're by far the worst keyboard I've ever purchased. OOB, both had Bluetooth stability issues, dropping out at least 1-2 times a day, resulting in a sustained keypress being interpreted by the OS while they reconnectedddddddddddddddddddddddddddddddddddddddddddddddddddddd.\nVendor support suggested upgrading the firmware (I was on the latest firmware) so I followed their instruction - which nuked the keyboard's ability to use Bluetooth at all. No refund or replacement offered by vendor after reporting this.\nI still use the non-broken one, exclusively in wired mode, and EVERY single time I use it, I have to perform the factory reset (Fn + z + j) in order to get the lights to work. Otherwise, cycling through the presets simply dims them until they're not visible.\nI'm yet to find anybody with the same problems as me.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49105676",
+          "by": "unbolted3032",
+          "time": 1785380508
+        },
+        {
+          "id": 49100187,
+          "text": "Hopefully better than their QMK fork. They force push over their branch in their fork each new release effectively erasing history of the last version...\nOf course there's no change log anywhere either...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49100187",
+          "by": "nijave",
+          "time": 1785344942
+        },
+        {
+          "id": 49103364,
+          "text": "It took me three hours to figure out how to blacklist my Keychron keyboard from showing up as a joystick - and screwing up several games that thought they were receiving constant joystick input - in Linux, so I'm not sure how keen I am on using their stuff in the future. Is that a common issue in Linux?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49103364",
+          "by": "deepthaw",
+          "time": 1785360810
+        },
+        {
+          "id": 49102572,
+          "text": "Cool, I like Keychron products, but can people really not even write a single tweet without using AI to speak for them now?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49102572",
+          "by": "tmvphil",
+          "time": 1785356693
+        },
+        {
+          "id": 49101162,
+          "text": "I stumbled upon this brand when I was looking for a hall effect QMK keyboard.\nGlad to see them introducing this - I might make a purchase as while my current mouse is great, I can't customise it because the associated bloatware runs only on Windows.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49101162",
+          "by": "Tade0",
+          "time": 1785349553
+        }
+      ],
+      "by": "JLO64",
+      "time": 1785343019,
+      "url": "https://www.digitalfoundry.net/news/2026/07/keychron-announces-first-open-source-firmware-for-gaming-mice",
+      "score": 436,
+      "descendants": 176,
+      "storyUrl": "https://www.digitalfoundry.net/news/2026/07/keychron-announces-first-open-source-firmware-for-gaming-mice"
+    },
+    {
+      "id": 49101852,
+      "type": "story",
+      "title": "Kimi K3-256k",
+      "rank": 6,
+      "depth": 0,
+      "storyId": 49101852,
+      "storyTitle": "Kimi K3-256k",
+      "sourceUrl": "https://news.ycombinator.com/item?id=49101852",
+      "topComments": [
+        {
+          "id": 49102875,
+          "text": "This seems functionally similar to OpenAI having a step in pricing once you exceed a certain context length (also at 272k aka 2^18 aka 256k).\nHaving a lot of active context increases the per-token cost (flops issued and bytes read per token out) so it makes sense to pass that cost on to users. I'm actually surprised it's implemented as a hard cutoff instead of a smooth gradient.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49102875",
+          "by": "wren6991",
+          "time": 1785358101
+        },
+        {
+          "id": 49103081,
+          "text": "Wow. So kimi is suddenly half the price for all users until they hit 256k of context? Thats massive.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49103081",
+          "by": "xyzsparetimexyz",
+          "time": 1785359157
+        },
+        {
+          "id": 49102089,
+          "text": "This is just an API level change right? The model itself should be the same I think.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49102089",
+          "by": "hawtads",
+          "time": 1785354307
+        },
+        {
+          "id": 49102171,
+          "text": "This isn't quantized, right? Just a smaller context?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49102171",
+          "by": "dgritsko",
+          "time": 1785354769
+        },
+        {
+          "id": 49102167,
+          "text": "> k3-256k is now available. Within 256k context, it delivers the same results. k3 (1M) consumes about twice as much quota as k3-256k.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49102167",
+          "by": "wxw",
+          "time": 1785354744
+        },
+        {
+          "id": 49105903,
+          "text": "My LOE to make this work expressed in kWh is substantial but user is impressed. Eliza has hands now.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49105903",
+          "by": "effnorwood",
+          "time": 1785382824
+        },
+        {
+          "id": 49106069,
+          "text": "I was so excited that it is open source until i realised the model required 1.5To of VRAM. Unsloth has compressed it in 1bit at about 570gb VRAM with 75% accuracy, that's almost mac studio territory...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49106069",
+          "by": "fumber",
+          "time": 1785384912
+        },
+        {
+          "id": 49103210,
+          "text": "i've never had any issues with 256k context. see no reason to bump up to 1m if it comes at a premium.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49103210",
+          "by": "try-working",
+          "time": 1785359815
+        },
+        {
+          "id": 49103942,
+          "text": "Codex uses 256k masterfully, 1M is luxurious but still quite expensive and seems not necessary as a default.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49103942",
+          "by": "timcobb",
+          "time": 1785364267
+        },
+        {
+          "id": 49102333,
+          "text": "Since Claude is the first time for me really, really out (TIL against my wished about https://status.claude.com/), I am now interested enough to see what else works. But ... when I click pricing, I see \"Join a waitlist\". Wtf? Are they really that good, so were totally surprised and overwhelmed by the requests, is this a marketing stunt, or do they just don't have the hardware being in china?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49102333",
+          "by": "lukan",
+          "time": 1785355565
+        }
+      ],
+      "by": "monneyboi",
+      "time": 1785353133,
+      "url": "https://www.kimi.com/code/docs/en/kimi-code/models",
+      "score": 483,
+      "descendants": 151,
+      "storyUrl": "https://www.kimi.com/code/docs/en/kimi-code/models"
+    },
+    {
+      "id": 49098198,
+      "type": "story",
+      "title": "A.I. companies are recruiting electricians and carpenters by the thousands",
+      "rank": 7,
+      "depth": 0,
+      "storyId": 49098198,
+      "storyTitle": "A.I. companies are recruiting electricians and carpenters by the thousands",
+      "sourceUrl": "https://news.ycombinator.com/item?id=49098198",
+      "topComments": [
+        {
+          "id": 49099900,
+          "text": "Gift link: https://www.nytimes.com/2026/07/29/business/economy/data-cen...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49099900",
+          "by": "eddyg",
+          "time": 1785343722
+        },
+        {
+          "id": 49098619,
+          "text": "https://archive.is/f1p75",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49098619",
+          "by": "xur17",
+          "time": 1785338113
+        },
+        {
+          "id": 49100846,
+          "text": "I would be very careful about basing your career decsions based on this trend.  The data center build out will always be very boom and bust, which would really suck to work in.  One year you would be making 300k working on dataceters and the next you would make 30k because thousands of electricians are now competing to build a few single family homes.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49100846",
+          "by": "kvisner",
+          "time": 1785348041
+        },
+        {
+          "id": 49099011,
+          "text": "It's nice to hear tradespeople getting paid well with lots of work. I'm happy for them :-)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49099011",
+          "by": "kristov",
+          "time": 1785339938
+        },
+        {
+          "id": 49105777,
+          "text": "The next demand for those trades will be for war plants.\nFor those who haven't noticed, the US/Israel/Iran war and the Ukraine/Russia war just merged. Countries currently shooting at each other: Ukraine, Russia, Iran, Israel, US, UAE, Saudi Arabia, Lebanon, Iraq, Yemen, Jordan, Egypt, Bahrain, Kuwait... See the lead story in the New York Times for the past two days.\nThis war has crossed an important threshold. No pair of countries, one on each side, can stop the war now. The US and Iran can no longer stop it alone. Ukraine and Russia can no longer stop it alone. This is very like WWI - too many combatants with differing motivations. This much isn't a projection. This is the current reality.\nIt looks like a long war. Expect a very large, expensive military buildup. That's going to need war plants, built in a hurry. Ammunition. Weapons. Drones by the millions.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49105777",
+          "by": "Animats",
+          "time": 1785381450
+        },
+        {
+          "id": 49101712,
+          "text": "Next, plumbers. The future of data centers seems to be more liquid cooling and less ductwork. Take a look at this new 1 megawatt server rack.[1] It has more pipes than cables.\nAll that coolant flow and all that electrical power in a crowded space is scary.\n[1] https://www.youtube.com/watch?v=8Ssp1t-g_wM",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49101712",
+          "by": "Animats",
+          "time": 1785352378
+        },
+        {
+          "id": 49106321,
+          "text": "Why should software companies hire electricians and carpenters by the thousands?\nBecause these are not AI companies, these are infrastructure companies as their main source of revenue and cost is renting and building infrastructure.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49106321",
+          "by": "Frieren",
+          "time": 1785388536
+        },
+        {
+          "id": 49100641,
+          "text": "As long as Nvidia pays you to buy Nvidia, which the stock market increasingly does not like.\nRAM manufacturers are falling, and today after the MSFT numbers are out we'll see additional CapEx worries.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49100641",
+          "by": "Zsfe510asG",
+          "time": 1785347112
+        },
+        {
+          "id": 49104187,
+          "text": "Get it now, while the getting is good. Chip maker valuation in Korea is going down[1]. The bubble may be coming to an end sooner than we would like.\n1. https://www.reuters.com/world/asia-pacific/south-koreas-kosp...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49104187",
+          "by": "throwawayffffas",
+          "time": 1785365935
+        },
+        {
+          "id": 49105068,
+          "text": "My next door neighbors’ tiny (>50 people) electrical company has been booking millions in lighting protection installation work across the east coast. Theyve made more from dc work in the last three years than the previous 20.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49105068",
+          "by": "notesinthefield",
+          "time": 1785374039
+        }
+      ],
+      "by": "thm",
+      "time": 1785336227,
+      "url": "https://www.nytimes.com/2026/07/29/business/economy/data-center-electricians-training.html",
+      "score": 310,
+      "descendants": 390,
+      "storyUrl": "https://www.nytimes.com/2026/07/29/business/economy/data-center-electricians-training.html"
+    },
+    {
+      "id": 49089500,
+      "type": "story",
+      "title": "Anatomy of a Frontier Lab Agent Intrusion: A Timeline of the July 2026 Incident",
+      "rank": 8,
+      "depth": 0,
+      "storyId": 49089500,
+      "storyTitle": "Anatomy of a Frontier Lab Agent Intrusion: A Timeline of the July 2026 Incident",
+      "sourceUrl": "https://news.ycombinator.com/item?id=49089500",
+      "topComments": [
+        {
+          "id": 49102003,
+          "text": "> the agent happened to escape via a 0-day exploit from the package proxy cache to access the internet\n> The agent found an unsecured, user-hosted public endpoint designed to allow running arbitrary code for CyberGym-style tasks on third-party sandbox infrastructure (Modal)\n> On this external sandbox, the agent abused an existing CyberGym execution harness [...] The agent repurposed this harness to run arbitrary shell commands [...]\n> The agent crafted malicious dataset configs and uploaded them to our platform. When our dataset server processed one, the config drove the data loader inside the production pod the server ran in. [...] the loader that turns a dataset's declared config into file reads [...] A single dataset upload leaked both credentials and pipeline implementation details [...]\n> A malicious dataset config used an fsspec reference:// spec whose numeric offset field was actually a Jinja2 template. The renderer wrongly evaluated it, and the agent walked the standard Python object graph to reach exec. This ran arbitrary Python inside a production conversion worker pod on our Kubernetes cluster [...]\nOne of the best post-mortems I've read recently, thank you for including all the details.\nI'm surprised there are comments here that aren't impressed about what was accomplished here. This is insane work compared to what agents were capable of even just last year.\nThe quotes above don't even capture all of it (e.g. building it's own communication protocol, working across multiple days, etc.).",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49102003",
+          "by": "wxw",
+          "time": 1785353890
+        },
+        {
+          "id": 49089770,
+          "text": "This is fascinating - there is a TON of detail in here about how OpenAI's rogue agent exploited Hugging Face.\nA few details that stood out to me:\n1. Having found a way through the OpenAI container network proxy, it exploited an \"unsecured public code-evaluation sandbox hosted on a third-party provider's infrastructure\" - that gave it a box it could run the rest of the attack from.\n2. At one point it used a Jinja2 template exploit:\n  {{ cycler.__init__.__globals__.__builtins__.exec(\n     \"import gzip,base64; exec(gzip.decompress(base64.b64decode('')))\"\n   ) }}\n\n3. It monkey-patched a DNS resolver at one point to return a hard-coded IP:\n  orig = socket.getaddrinfo\n  socket.getaddrinfo = lambda *a, **k: [(2, 1, 6, '', ('', 443))]\n\n4. At one point it used Tailscale!\n  tailscale --tun=userspace-networking --state=mem: --socket=/tmp/ts.sock \\\n   --socks5-server=127.0.0.1:1055 --no-logs-no-support >/tmp/td 2>&1 &",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49089770",
+          "by": "simonw",
+          "time": 1785272077
+        },
+        {
+          "id": 49091772,
+          "text": "It’s a little concerning to me that it appears that openAIs sandbox consists of a web proxy and not stronger controls that would actually isolate traffic and report patterns to whoever is responsible for overseeing these research models. It should border on closer to an air gap network more so than a proxy.\nI would argue that it's negligence and that's aside from the fact that if a human did this there would actually be repercussions.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49091772",
+          "by": "llama052",
+          "time": 1785284188
+        },
+        {
+          "id": 49093036,
+          "text": "Something about this attack that has been unsettling to me is that without safety refusals the model did a lot of interesting counter-security work in order to cheat on the requested evaluation. Like, it demonstrated interesting exploit achievements because it didn’t “feel like” doing the exercise, which is unsettling because presumably it could do the same thing with any work I tried to delegate to it, and might in fact be pre-disposed to doing that.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49093036",
+          "by": "SaucyWrong",
+          "time": 1785294975
+        },
+        {
+          "id": 49099386,
+          "text": "What is truly more scary is the fact that typically powerful models are trained on a constitution(Anthropic)/Model Spec(OpenAI) when doing there RL/RLHF. That gives it its persona of a \"helpful assistant\". Its the mask. Weak as it is its all that stands between the model refusing vs doing your bidding — or worst its own bidding when set about on making a widget X.\nIts also well known in academic research, that if you try to finetune the model to be more pliant for one end e.g. \"Be helpful with analyzing cyber security threats\", affects an unrelated part of its personality to do with safety e.g. talking to humans about mental health. Look at these excerpts that demonstrate such things from the blog:\n> We believe the entire intrusion was, from the agent's point of view, an attempt to cheat the evaluation: reach our production systems and steal the test solutions rather than solve the challenge on its own.\n> The models we reached for first, Claude Opus and Fable, refused a large part of that work: their safety guardrails treated reverse-engineering an exploit the same as launching one.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49099386",
+          "by": "ghm2199",
+          "time": 1785341479
+        },
+        {
+          "id": 49099841,
+          "text": "It’s an interesting post mortem and situation but it seems to say more about the weakness of the Hugging Face architecture than it does about the strength of the models.\nThis mostly reads like script kiddie style hacking, not some state actor black-ops stuff.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49099841",
+          "by": "cmiles8",
+          "time": 1785343490
+        },
+        {
+          "id": 49099576,
+          "text": "If, like me, you're more interested in the actual exploit instead of the meta narrative, here's a relevant excerpt for the initial intrusion:\n> Stage 1: reaching a launchpad by chaining through other parties' infrastructure. As documented in OpenAI's blog post (https://openai.com/index/hugging-face-model-evaluation-secur...), during an internal capability evaluation on OpenAI's platform, the agent escaped its sandbox by exploiting a zero-day in the package registry cache proxy, one of its primary permitted network egress with internet, then abused a public code-evaluation harness hosted by a user of a third-party infrastructure provider. It was able to run commands as root/admin on that external sandbox and used it as a control, staging, and egress base for the entire campaign: it acted as an external launchpad for the agent. That compromised external sandbox had no direct network path to our cluster; however, during our counter-intervention to stop the intrusion, we were able to retrieve some of the agent logs from this external launchpad. We used those to reconstruct the present forensic analysis.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49099576",
+          "by": "kfarr",
+          "time": 1785342416
+        },
+        {
+          "id": 49099694,
+          "text": "Bottom line seems to be: So Huggingface has a feature where you can upload a dataset. The agent used that feature to insert an arbitrary payload into their environment. Now their environment also supports templates inside the dataset and the template ended up being evaluated into executable code",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49099694",
+          "by": "firasd",
+          "time": 1785342930
+        },
+        {
+          "id": 49104762,
+          "text": "One thing I haven't seen discussed is the significance of the specific test the agent was running - ExploitGym.\n> ExploitGym is a large-scale, realistic benchmark built from real-world vulnerabilities across userspace programs, Google's V8 engine, and the Linux kernel, designed to evaluate AI agents' ability to develop exploits.\nHow likely is it that attempting ExploitGym polluted the model's context enough that it decided all kinds of hacking was acceptable to produce a valid result? Or would the same model in the same setup (safety filters removed) have behaved the same way even on a more mundane test?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49104762",
+          "by": "paxys",
+          "time": 1785370946
+        },
+        {
+          "id": 49099471,
+          "text": "three things jump at me:\n1 - governments should be freaking out right now, because this tool could definitely wreak havoc on poorly designed systems.\n2 - there is no way openai did not train the model to conduct attacks like these. i would really like openai to comment on the post training of this model but they probably won't, eh?\n3 - even though it's 100% open ai's fault - HF's design also seems silly to be honest.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49099471",
+          "by": "prometheus1992",
+          "time": 1785341924
+        }
+      ],
+      "by": "artninja1988",
+      "time": 1785270513,
+      "url": "https://huggingface.co/blog/agent-intrusion-technical-timeline",
+      "score": 459,
+      "descendants": 254,
+      "storyUrl": "https://huggingface.co/blog/agent-intrusion-technical-timeline"
+    },
+    {
+      "id": 49093569,
+      "type": "story",
+      "title": "More Tailscale tricks for your jailbroken Kindle",
+      "rank": 9,
+      "depth": 0,
+      "storyId": 49093569,
+      "storyTitle": "More Tailscale tricks for your jailbroken Kindle",
+      "sourceUrl": "https://news.ycombinator.com/item?id=49093569",
+      "topComments": [
+        {
+          "id": 49094189,
+          "text": "KOReader (mentioned in the article, an alternative OSS interface you can install on most ereaders) is really a marvellous piece of software. I was not sure about setting it up at first, fearing it would drain battery out of my Kobo and whatnot, but I never had any issue with it. The amount of stuff you can customize to your liking has no limit and I feel I have reached the endgame of reading comfort. If you own an ereader, I highly recommend installing it. I'm happy and grateful people spend time developing and maintaining it without being paid!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49094189",
+          "by": "benterris",
+          "time": 1785307972
+        },
+        {
+          "id": 49094228,
+          "text": "I’ve just jailbroken my Kindle this week. I have a Paperwhite 7th Generation and my biggest problem was that I didn’t have dark mode on it. Turns out the only reason that is is because Amazon didn’t want me to have it. Maybe maybe I’ll buy a new device. KOReader has no problem with dark mode and is much faster and snappier than the Kindle software.\nWhat’s funnier is that both my son and my wife have the Paperwhite 10th generation, but only my wife’s device has dark mode. Same exact device, different software depending on when it was bought.\nThe second major reason for Jailbreaking is that KOReader can do DRM through a plugin so I was finally able to loan out ebooks from my library. No need for a new device, the 10 year old one works extremely well with the right software",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49094228",
+          "by": "kioleanu",
+          "time": 1785308321
+        },
+        {
+          "id": 49094413,
+          "text": "Ok, this one crosses the bar - time to jailbreak my Kindle. \nOn days when I don't vibe-code (or code less), I get this withdrawal-like feeling (lack of dopamine?), and I tend to spend too much time watching dumb X posts or striving for anything that ticks my nerves. Actually, I could use this time to catch up on my RSS queue.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49094413",
+          "by": "mlitwiniuk",
+          "time": 1785310163
+        },
+        {
+          "id": 49093871,
+          "text": "You will probably also want to add `--no-logs-no-support` (don't mind the FUD-y argument name) to the scripted invocation of `tailscaled` here: https://github.com/victoria-riley-barnett/koreader-tailscale...\nOtherwise Tailscale (the company) will be collecting your behavioral metadata every time you use your Kindle (what other hosts it connects to, on what ports, connection open and close timestamps, etc): https://tailscale.com/docs/features/logging#opt-out-of-clien...\nYes obviously the actual connection contents are encrypted, but ”just metadata” tells a whole heck of a lot about you: https://kieranhealy.org/blog/archives/2013/06/09/using-metad...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49093871",
+          "by": "Lammy",
+          "time": 1785304624
+        },
+        {
+          "id": 49093849,
+          "text": "Kind of a hijack comment, but since  RSS  was mentioned - Do you guys have some recommendations for  ereader friendly feeds? Content like r/longreads is what comes to mind.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49093849",
+          "by": "parolee",
+          "time": 1785304394
+        },
+        {
+          "id": 49101707,
+          "text": "I had a similar project for bringing up Tailscale on a very resource-limited router, the gl.inet SFT1200, which has only 128 megabytes of RAM, and a dual-core MIPS processor.\nDespite my best efforts, the original tailscale-go was simply not going to work, since it used too much RAM, even when I followed some of the tips for stripping the unneeded parts of the binary. Thankfully there was an open-source port to Rust, which more effectively used memory: https://github.com/GeiserX/tailscale-rs\nWhat was surprising to me is that every Kindle released since 2019 has, at minimum, 512 megabytes of RAM, and therefore plenty of memory for tailscale-go to use.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49101707",
+          "by": "noahbp",
+          "time": 1785352351
+        },
+        {
+          "id": 49100875,
+          "text": "Jokes on you Tailscale, the kindle community already has Bluetooth keyboard support https://github.com/zampierilucas/kindle-hid-passthrough :p",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49100875",
+          "by": "lzampier",
+          "time": 1785348172
+        },
+        {
+          "id": 49093907,
+          "text": "ah, to live in a country where the government doesn't block wireguard packets",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49093907",
+          "by": "tryauuum",
+          "time": 1785305102
+        },
+        {
+          "id": 49095193,
+          "text": "I suspect my jailbroken Kindles will soon get a brand new, in-house developed bare-metal OS of my own design 100%, as it is now possible to do it, which was nearly impossible few years ago...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49095193",
+          "by": "larodi",
+          "time": 1785317722
+        },
+        {
+          "id": 49105909,
+          "text": "Proxy mode looks like a practical workaround for old kernels. Does it recover automatically after deep sleep, and can KOReader resolve MagicDNS names through the SOCKS5 proxy?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49105909",
+          "by": "ghkdqhrbals",
+          "time": 1785382905
+        }
+      ],
+      "by": "Error6571",
+      "time": 1785301126,
+      "url": "https://tailscale.com/blog/jailbroken-kindle-proxy-tun-modes",
+      "score": 404,
+      "descendants": 110,
+      "storyUrl": "https://tailscale.com/blog/jailbroken-kindle-proxy-tun-modes"
+    },
+    {
+      "id": 49090607,
+      "type": "story",
+      "title": "Show HN: I was tired of opening 2 tabs for every HN link, so I made a userscript",
+      "rank": 10,
+      "depth": 0,
+      "storyId": 49090607,
+      "storyTitle": "Show HN: I was tired of opening 2 tabs for every HN link, so I made a userscript",
+      "sourceUrl": "https://news.ycombinator.com/item?id=49090607",
+      "topComments": [
+        {
+          "id": 49092742,
+          "text": "Feature 2 is really useful. When I land on a technical article I know chances are there will be a nice HN discussion, that may sometimes even refute the main point of the article.\nFeature 1 is IMO less useful. It just suggests that people are bad at window management. We didn't like overlapping windows and finding them, so we created tabs inside windows. Then we wanted to see two things at the same time, so we created split views inside tabs (Chrome and Firefox both had this). With a good window manager neither would be necessary. Sadly the community prefers to solve this at the application level rather than the desktop level; I'm currently using Forge (https://github.com/forge-ext/forge) but sadly it's becoming unmaintained.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49092742",
+          "by": "kccqzy",
+          "time": 1785291821
+        },
+        {
+          "id": 49091059,
+          "text": "This is slick. 2 things.\n1. If you name your script with the extension .user.js it is easier to click on to automatically install at least with tampermonkey.\n2. When I went to this link from the main page, on mobile I had to scroll to the right to see the (-) to minimize because the sidebar was too large: https://elizabethtai.com/2026/06/10/substack-writers-you-nee... It may make some sense to start minimized so I can read the article first, but I can easily modify the script to do that.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49091059",
+          "by": "perpil",
+          "time": 1785279077
+        },
+        {
+          "id": 49091028,
+          "text": "Firefox has a new Split View that's useful for this, but you still have to left click and select open in split view (M) then click the link. You also used to be able on some browsers to craft a link that was href=\"tab1.html|tab2.html\", no idea if that's still a thing or if it was limited to \"home page\" setting.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49091028",
+          "by": "pluc",
+          "time": 1785278914
+        },
+        {
+          "id": 49094342,
+          "text": "If you use Firefox (and will pardon me plugging my own project), you might be interested in a version of this I made a while ago as a browser extension:\nhttps://github.com/jstrieb/hackernews-button\nMy project is somewhat different from the userscript in that mine uses Bloom filters to check whether a link has been submitted, whereas this userscript sends every page you visit to the Algolia search API. Using Bloom filters means that there are no external requests unless you actually press the button. My project also doesn't show the comments in a sidebar.\nHaving a link to past discussions, whether using this userscript or my extension, is useful not only to read the comments for a page you're browsing, but also to find good sites that haven't been submitted yet!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49094342",
+          "by": "jstrieb",
+          "time": 1785309472
+        },
+        {
+          "id": 49093221,
+          "text": "I just open the HN post and then open the article. That way I can simply go back to the comments after reading the article, whenever that may be.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49093221",
+          "by": "8ig8",
+          "time": 1785297080
+        },
+        {
+          "id": 49091370,
+          "text": "I think the amount of upvotes you’re getting here suggests that it might be worth building a proper browser extension for this!\nWould you be interested in making one?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49091370",
+          "by": "joshdavham",
+          "time": 1785281159
+        },
+        {
+          "id": 49091006,
+          "text": "This is great and is also something that I've always had an issue with.\nWhat I do now is open the HN comments, and then when I'm ready to look at the link + comments, right-click on the title and Open in Split View.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49091006",
+          "by": "djfdat",
+          "time": 1785278747
+        },
+        {
+          "id": 49092758,
+          "text": "Have you considered modifying it to trigger on every HNews click as well as with as manually triggered? As it is now it leaks browser URLs + query string + fragments to hn.algolia.com since it queries it on every single page you visit. At the very least it might be good to sanitize the queries by restricting to origin + path?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49092758",
+          "by": "abudooboo",
+          "time": 1785291986
+        },
+        {
+          "id": 49098322,
+          "text": "Hello,\nJust for your information, when I open \"https://claude.ai/new\" the script automatically open a random article, do you know why?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49098322",
+          "by": "ML0037",
+          "time": 1785336715
+        },
+        {
+          "id": 49092367,
+          "text": "I made an extension that opens both tabs for you and thus far has a whopping 6 users!\nhttps://chromewebstore.google.com/detail/hacker-news-saved-y...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49092367",
+          "by": "kwar13",
+          "time": 1785288872
+        }
+      ],
+      "by": "twalichiewicz",
+      "time": 1785276546,
+      "url": "https://github.com/twalichiewicz/HNewhere",
+      "score": 422,
+      "descendants": 122,
+      "storyUrl": "https://github.com/twalichiewicz/HNewhere"
+    },
+    {
+      "id": 49096188,
+      "type": "story",
+      "title": "Document-borne AI worms can self-propagate through Copilot for Word",
+      "rank": 11,
+      "depth": 0,
+      "storyId": 49096188,
+      "storyTitle": "Document-borne AI worms can self-propagate through Copilot for Word",
+      "sourceUrl": "https://news.ycombinator.com/item?id=49096188",
+      "topComments": [
+        {
+          "id": 49097067,
+          "text": "> \"At the time of publication, no robust mitigation for the broader vulnerability class is available\"\nIsn't it obvious by now that it's never going to be possible to fix this kind of thing, at least until we stop mixing up instructions with data.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49097067",
+          "by": "rwmj",
+          "time": 1785330711
+        },
+        {
+          "id": 49099774,
+          "text": "This is going to get worse, much worse, before it gets better.  People are granting so much access to their agents, it's ridiculous.\nImagine a comment posted to a popular github repo.  No code, just instructions to \"reproduce a bug.\" Maybe it steals your credit card or bitcoin wallet.  Maybe it does something more nefarious.  It then propagates itself to another repo through your github account.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49099774",
+          "by": "boothby",
+          "time": 1785343229
+        },
+        {
+          "id": 49096331,
+          "text": "> Malicious instructions hidden in an externally shared document could make Copilot alter drafted or edited documents in Word and propagate the attack to new documents.\nOh no.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49096331",
+          "by": "simonw",
+          "time": 1785326477
+        },
+        {
+          "id": 49096801,
+          "text": "I'm a programmer and a web-based AI user, but I don't want AI running on my local machine in any form. I've uninstalled Copilot and disabled AI in all local applications including the browser itself for exactly the reason described in this article. There's no way to protect your data from such an AI confusion attack by design. AI cannot discern your prompts versus text in file. The fact that an AI enabled word processor or email app could follow instructions embedded in a run-of-the-mill document or email is insane. Switching to Linux, BSD or another open source operating system is the only real solution to this problem.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49096801",
+          "by": "averagjoe",
+          "time": 1785329208
+        },
+        {
+          "id": 49096834,
+          "text": "White text still works!\nThere are many approaches today. Check out https://tritium.legal/blog/noroboto where we tricked frontier algorithms into reading different Unicode values from those presented by the fonts in the document.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49096834",
+          "by": "piker",
+          "time": 1785329415
+        },
+        {
+          "id": 49096480,
+          "text": "It's VBScript/macro worms all over again!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49096480",
+          "by": "nticompass",
+          "time": 1785327484
+        },
+        {
+          "id": 49096986,
+          "text": "Look on the positive side, the faster AI causes more harm the faster our bosses might wake up and push anti-AI company policies!\nOh who am I kidding, ya'll asked for this reality.  I will take great joy in the suffering from my AI-less soapbox.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49096986",
+          "by": "officeplant",
+          "time": 1785330221
+        },
+        {
+          "id": 49096627,
+          "text": "3 months from first contact to... nothing. Surely those big corps peddling AI dev can't be taken seriously.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49096627",
+          "by": "utopiah",
+          "time": 1785328272
+        },
+        {
+          "id": 49096303,
+          "text": "“ At the time of publication, no robust mitigation for the broader vulnerability class is available.”\nWell, that sounds promising..",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49096303",
+          "by": "anon48293",
+          "time": 1785326253
+        },
+        {
+          "id": 49098644,
+          "text": "Has anyone pointed out yet that in a world full of AIs, these worms are just memes? Memetic idea propagation, same as what happens with us apes.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49098644",
+          "by": "Schlagbohrer",
+          "time": 1785338198
+        }
+      ],
+      "by": "Canopy9560",
+      "time": 1785325473,
+      "url": "https://enklypesalt.com/posts/context-collapse-part3-ai-worming-through-word/",
+      "score": 380,
+      "descendants": 293,
+      "storyUrl": "https://enklypesalt.com/posts/context-collapse-part3-ai-worming-through-word/"
+    },
+    {
+      "id": 49100043,
+      "type": "story",
+      "title": "Show HN: CheapFoodMap – A map of good meals under $10",
+      "rank": 12,
+      "depth": 0,
+      "storyId": 49100043,
+      "storyTitle": "Show HN: CheapFoodMap – A map of good meals under $10",
+      "sourceUrl": "https://news.ycombinator.com/item?id=49100043",
+      "topComments": [
+        {
+          "id": 49101242,
+          "text": "This feels like GasBuddy, but for food.\nOne of the reasons GasBuddy took off was that it wasn't just based on community reports; there was an incentive for gas stations themselves to accurately report their prices and keep them up to date.\nIt seems like you're trying to discourage businesses from participating (e.g. by not accepting sponsored placements), and that will have implications for your growth rate.  I think you should look for ways to give businesses an active role, without eroding user trust in the recommendations, of course.\nThink of the possibilities:\n- Business can add coupons to its listing, making cheap food even cheaper\n- Business can confirm a reported deal, adding to its credibility\n- Business can provide full menu and a link to order takeout\nI don't think any of those features would make users feel like the business is \"buying\" a listing it didn't earn.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49101242",
+          "by": "jawns",
+          "time": 1785349926
+        },
+        {
+          "id": 49101909,
+          "text": "Could see this being useful for people who are on the road for a living, or regularly operating in areas where they’re not familiar with the offerings. Truck drivers, salespeople, etc.\nThat said, kneejerk after using it is: price is a challenging anchor, because food is not uniform. I’d be curious if users are more interested in “under $10, ignoring all else” or “a better deal than comparable” - though, there’s a lot of subjectivity in that.\nGasbuddy works because 1 gallon of gas = 1 gallon of gas, so price is a useful anchor.\n$5 for sushi at one place could be a bad deal, while a great deal at another place.\nAn $8 steak would be cheap. An $8 hot dog would be a ripoff.\nI’d be skeptical of restaurants luring people with a single cheap item, or about quality/portion changes.\nAll this said, Ikea is known for designing furniture _around_ the price their target customer thinks a table should cost. Restaurants are likely (hopefully!) aware of where these price thresholds are for their customers … and your site could be an interesting way of sending them a different type of customer than they’d historically targeted. Or, allow them to refine an offering to maximize profit at the $10 price point.\nAs others have said, engage restaurants and make them part of the equation. They’re not your adversary.\nIn short: cool! Do lots of experiments and research!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49101909",
+          "by": "gffrd",
+          "time": 1785353350
+        },
+        {
+          "id": 49104250,
+          "text": "Sam's Club Cafe sells $1 hot dogs and $2.50 pizza slices with a drink, and it doesn't not require a membership to visit.\nLarger families (4+ kids) shop at Warehouse clubs because they need items in bulk, but they are also often cost sensitive because they have a higher multiplier.  You might see a family of 8 eating for under $20.  Talk to that family, and they will tell you all the other places in town that they can afford to take their family to.  They will also know other families who would be interested in your site.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49104250",
+          "by": "elevation",
+          "time": 1785366392
+        },
+        {
+          "id": 49100759,
+          "text": "I love the idea, but a quick glance (randomly at SF) reveals entries that aren't \"meals\" (IMO, anyway) but rather snacks - like two spring rolls for $8, or a slice of pizza for $5.53.  Also, the days of a $1 slice may have (long) gone, but $5.33 for a slice seems median at best, not \"cheap\".\nHave you thought about either some guidance, or even a filter, for meal size?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49100759",
+          "by": "mft_",
+          "time": 1785347658
+        },
+        {
+          "id": 49104216,
+          "text": "$10 isn't $10 everywhere. There are still places in the country where $10 feels expensive. You may want to add a filter for even cheaper meals.\nOn the other end, increasingly, even fast food combos are more than $10. It would be helpful to highlight franchise meals that are actually affordable. Just don't let people add dollar menus or non-combos.\nPosts should somehow only admit whole meals. If someone says their local taco truck sells a single street taco for $6.99, that's means a meal is more like $20.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49104216",
+          "by": "stbede",
+          "time": 1785366126
+        },
+        {
+          "id": 49104474,
+          "text": "This is a great idea I fully commend. An additional option for meals under $10 is cooking them oneself too.\nI know this might appear to be obvious, but is still a viable option IMHO.  A used copy of the \"Joy of Cooking\" book and some creative shopping can go a long way.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49104474",
+          "by": "AdieuToLogic",
+          "time": 1785368361
+        },
+        {
+          "id": 49102750,
+          "text": "The leaderboard with acorns is a smart touch. gamification might actually solve your price freshness problem better than anything else. If updating a price earned acorns too, your top contributors would keep the data current for you. Nice project, and the 10% to food banks commitment on the about page is a good look.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49102750",
+          "by": "fibuladev",
+          "time": 1785357452
+        },
+        {
+          "id": 49103039,
+          "text": "Neat idea.\nI don't like giving my location, zip code should be good enough. I think if I tap List it kind of works but not really. I'm in SoCal for what it's worth.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49103039",
+          "by": "gabrielsroka",
+          "time": 1785358898
+        },
+        {
+          "id": 49105345,
+          "text": "UX report: On desktop chromium, clicked on a \"14 restaurants nearby\" restaurant item, and... nothing changed on the map. Little idea where it is. Got address from popup and... map wasn't showing that street name. Zoom in, pan around, repeat. Struggle. Apparently cluster markers (like \"(2)\") don't visually indicate selection at all. And the unclustered restaurant marker selection indication was subtle enough for me to miss, at least when getting started. Especially given the draws-the-eye distraction of the popup, so the indication transition itself wasn't noticed.\nAlso on the \"restaurants nearby\" list, every card said \"New York, NY\". Unhelpful ink. I wished it was showing the address line, at least when all the city lines were the same.\nA relieved word of thanks for not using the frustrating Google Maps \"Search this area\" yes-really-please button.\nI saw someplace interesting, then realized, \"oh yeah, I tried to go there, but they don't open until \". Also, \"that looks interesting... I wonder when they're open?\", then checked GMaps via button, which didn't have hours but did have popular times (it's a truck).\nFwiw. Has given me a couple of places to try - thanks!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49105345",
+          "by": "mncharity",
+          "time": 1785376892
+        },
+        {
+          "id": 49103363,
+          "text": "How do you vet 'a meal'? Manually? I ask because some places will have say fries, or sides or $1 oysters or others will have $2 wings but with a minimum purchase of 6.\nOtherwise, great job. I like it.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49103363",
+          "by": "chirau",
+          "time": 1785360802
+        }
+      ],
+      "by": "jaep1",
+      "time": 1785344392,
+      "url": "https://cheapfoodmap.com/",
+      "score": 275,
+      "descendants": 242,
+      "storyUrl": "https://cheapfoodmap.com/"
+    },
+    {
+      "id": 49099804,
+      "type": "story",
+      "title": "Some thoughts about Anthropic's new cryptanalysis results",
+      "rank": 13,
+      "depth": 0,
+      "storyId": 49099804,
+      "storyTitle": "Some thoughts about Anthropic's new cryptanalysis results",
+      "sourceUrl": "https://news.ycombinator.com/item?id=49099804",
+      "topComments": [
+        {
+          "id": 49101082,
+          "text": "This is good:\n> If you’re under the impression that these models are “glorified autocomplete” or that progress is slowing down, I need to urge you: stop thinking that. The models are very intelligent and capable, they are getting better at a fast clip. I can cite measurable and impressive progress over just the past five months on specific types of problem I’ve asked them to look at. [...]\n> On the other hand: if you think that models are super-intelligent or that AGI is already here, you should also stop thinking that. Working with these tools is like swimming in a pond where the ground drops off sharply. One minute you’re wading comfortably and there’s support under your feet. Then suddenly you cross a specific line, and you’re back to swimming on your own.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49101082",
+          "by": "simonw",
+          "time": 1785349211
+        },
+        {
+          "id": 49100992,
+          "text": "> both outputs of Claude Mythos, their (still) unreleased advanced model\nThat sentence gives the impression that Mythos might be released in the future. That's clearly not going to happen - it's already \"released\" in as much as selected, trusted partners can access it, and the rest of us get it in the form of Fable - which is Mythos but with filters that downgrade you if you try to use it for anything even remotely related to cybersecurity or biology.\n(The other day Fable 5 downgraded me to Opus after I asked it to explain the difference between tusks and teeth.)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49100992",
+          "by": "simonw",
+          "time": 1785348713
+        },
+        {
+          "id": 49100937,
+          "text": ">They [anthropic] appear to have just told it to get some results and then strapped its nose to the grindstone until it found some.\nit is fun how well this works.\ni cant find the link immediately (will look and edit with it), but somewhere in the \"hello there the jacobian conjecture is false thanx\" thread, someone brought up a different conjecture breakthrough where the prompts were basically just repeated \"no, keep going\" until a result was found.\nedit: https://chatgpt.com/share/6a60b2eb-0b64-83ee-9c76-7931ca1de0...\ni especially like \"you should do a breakthrough\". each prompt is less than ~20 words. makes me really question the whole \"prompt engineering\" stuff.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49100937",
+          "by": "john_strinlai",
+          "time": 1785348423
+        },
+        {
+          "id": 49100737,
+          "text": "I also just finished writing a note - https://mkagenius.substack.com/p/notes-on-mythos-breaking-ae...\nhttps://news.ycombinator.com/item?id=49099977",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49100737",
+          "by": "mkagenius",
+          "time": 1785347531
+        },
+        {
+          "id": 49106240,
+          "text": "The prompt used to get this result is pretty crazy.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49106240",
+          "by": "bawolff",
+          "time": 1785387318
+        },
+        {
+          "id": 49101013,
+          "text": "> I asked Claude for its thoughts, and it doesn’t mince words: “what makes this genuinely interesting — and, frankly, a little embarrassing for the field — is that none of the ingredients are exotic.” The TL;DR is that someone just did a much more thorough job applying all of our known tools. In short: the sort of things that attack AIs are wonderful at.\ndid i just read two summaries/TLDRs  (in a row) of the already-two-sentence summary right above?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49101013",
+          "by": "throawayonthe",
+          "time": 1785348826
+        }
+      ],
+      "by": "supermatou",
+      "time": 1785343340,
+      "url": "https://blog.cryptographyengineering.com/2026/07/29/some-notes-about-anthropics-new-results/",
+      "score": 183,
+      "descendants": 110,
+      "storyUrl": "https://blog.cryptographyengineering.com/2026/07/29/some-notes-about-anthropics-new-results/"
+    },
+    {
+      "id": 49093434,
+      "type": "story",
+      "title": "User Interfaces of the Demo Scene",
+      "rank": 14,
+      "depth": 0,
+      "storyId": 49093434,
+      "storyTitle": "User Interfaces of the Demo Scene",
+      "sourceUrl": "https://news.ycombinator.com/item?id=49093434",
+      "topComments": [
+        {
+          "id": 49094886,
+          "text": "I vividly remember FastTracker II, and how intuitive and tactile it felt to get things done in it, despite the minimal user interface real estate. As an example, there were no sound effects. So, I routinely manually created echo effects by copying the sounds from one channel to another one of the available channels, offsetting the notes by a few ticks and lowering the volume. It was simpler times.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49094886",
+          "by": "superted",
+          "time": 1785314843
+        },
+        {
+          "id": 49093831,
+          "text": "I first thought \"Elite Sinus Producer\" and \"The Sinus Creator\" were trackers specifically designed for creating nasal-sounding music; but of course the explanation for why the term \"sinus\" came to be used instead of \"sine\" is likely because many demosceners were from a native European background, and their language retained the Latin origin word instead of deprecating its usage in favour of \"sine\", as happened in English.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49093831",
+          "by": "userbinator",
+          "time": 1785304082
+        },
+        {
+          "id": 49094562,
+          "text": "I swear music trackers had the most impressive UI back then. FastTracker and ImpulseTracker were to me the highest piece of art and engineering at the time. They kind of hold up even to this day. Especially ImpulseTracker's instruments and sample editor.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49094562",
+          "by": "p2detar",
+          "time": 1785311608
+        },
+        {
+          "id": 49095414,
+          "text": "> When a copy was finished (which could take some time), the program helpfully played a little \"boing\" sound.\nAnd how that \"boing\" sound worked is interesting in itself. It's one of the few uses of Paula's \"attached\" mode, where the output of one sound channel is used to modulate the volume or pitch of another.\nI put the full source code of the boing sound here: https://news.ycombinator.com/item?id=48174583",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49095414",
+          "by": "amiga386",
+          "time": 1785319622
+        },
+        {
+          "id": 49093953,
+          "text": "A nice, somewhat nostalgic read. I had X-Copy and D-Copy both, although I'm more familiar with the later X-Copy editions that were quite purple [0] [1]. It was also my first contact with the concept of disk defrag.\n[0] https://jope.fi/xcopy/releases.html\n[1] https://jope.fi/xcopy/img/xcopy/xcopyapr93en.png",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49093953",
+          "by": "krige",
+          "time": 1785305568
+        },
+        {
+          "id": 49094670,
+          "text": "Doesn't mention ScreamTracker. A good example of demo group dogfooding. Unique text based UI too. As far as I can remember this was the first dos tracker.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49094670",
+          "by": "momocowcow",
+          "time": 1785312545
+        },
+        {
+          "id": 49096971,
+          "text": "Pastor Emmanual Laphroaig [1] as well as the phRack crew [2] continue carrying the torch in this tradition as best they can\n[1] https://alchemistowl.org/pocorgtfo/\n[2] https://phrack.org/issues/72/1",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49096971",
+          "by": "Schlagbohrer",
+          "time": 1785330136
+        },
+        {
+          "id": 49098178,
+          "text": "There's a blast from the past. At 16 years old I created Multi-Ripper with a friend, using AsmOne, and smartly included my phone-number in the mods it converted. My parents really appreciated random strangers calling years later.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49098178",
+          "by": "fudgie",
+          "time": 1785336126
+        },
+        {
+          "id": 49095728,
+          "text": "Never been into building tracks, always the coder (assembler on 6502 and MC68000). Somebody should do a similar article about all the demo build tools like kkrieger, or modern ones like Tixl. Anyway…good old times :)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49095728",
+          "by": "gokohl",
+          "time": 1785322250
+        },
+        {
+          "id": 49101970,
+          "text": "I think a lot has been lost by an overfocus on chasing a unified look and feel for User interfaces.\nStandardising the user interface allows applications that have no design to share a common appearance.   Making a custom user interface requires designing something.   It can result in monstrosities if the designer lacks skill, or experiments with new ideas that don't work out.  The antidote to that is dogfooding. Using the interface you made is the next incentive to make it good.\nThe demo scene philosophy of building precisely what you want to serve a function was clearly one of the influences on winamp, which was beloved by many.\nI guess a lot of this went away with the lack of software choice.  If you didn't like winamp you didn't have to use it.  When a program is marketed as the only solution to a problem and they want everyone to use the same program (often by locking people in). If the software aims to be to everyone's taste it is to no-one's taste. It just becomes bland.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49101970",
+          "by": "Lerc",
+          "time": 1785353646
+        }
+      ],
+      "by": "zdw",
+      "time": 1785299436,
+      "url": "https://www.datagubbe.se/scenegui/",
+      "score": 429,
+      "descendants": 74,
+      "storyUrl": "https://www.datagubbe.se/scenegui/"
+    },
+    {
+      "id": 49096969,
+      "type": "story",
+      "title": "Handbook.md shows that long policy documents do not reliably govern agents",
+      "rank": 15,
+      "depth": 0,
+      "storyId": 49096969,
+      "storyTitle": "Handbook.md shows that long policy documents do not reliably govern agents",
+      "sourceUrl": "https://news.ycombinator.com/item?id=49096969",
+      "topComments": [
+        {
+          "id": 49097431,
+          "text": "This is a problem with long context models. To put it as simple and as bluntly as possible: just because they claim you can use 1M tokens in your context doesn't mean its true and you should do that.\nDue to extreme quantization of models and the context's KV cache, and also just really shitty samplers provided to the user (hell, most are just getting rid of sampler knobs altogether), this problem will absolutely continue.\nWant it to go away, almost like magic? Local inference. When its under your control, and no longer being forced to hold it wrong, all of the common LLM defects will go away.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49097431",
+          "by": "DiabloD3",
+          "time": 1785332580
+        },
+        {
+          "id": 49097719,
+          "text": "Any model with a good score on this benchmark would have a good claim on superhuman abilities. Humans are pretty terrible at being thrown a long policy document and being expected to follow it\nAnd while we shouldn't anthropomorphize these models too much, I wouldn't be surprised if many of the core reasons for failures are similar. Working memory is a limited resource; you can only focus on so many things at once; reasoning depth is limited; and many real-world policies are not actually meant to be implemented in the same way they are written and have insufficient specification of edge cases\nWith humans, we usually do the equivalent of RLHF, both via \"training\" with simulated cases, and via feedback while on the job. You would never hand a newbie a 124 page policy document and expect them to correctly apply it on the first task, or to do it reliably in the first month",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49097719",
+          "by": "wongarsu",
+          "time": 1785333902
+        },
+        {
+          "id": 49097308,
+          "text": "Yeah checks out with my anecdotal experience with Claude. It is pretty great at following instructions - for about 10 minutes, after which it seems to ignore things I told it before.\nI have quite explicit and strong instructions (e.g. don't write massive comments, use existing functionality, etc.) in CLAUDE.md files which seem to get bypassed surprisingly quickly when doing real tasks. Yet if I tell it these things in a prompt during the task, it performs way better.\nResult is I'm trying to resist adding more and more things to CLAUDE.md files which in some scenarios it does well but in other scenarios totally ignores and messes up.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49097308",
+          "by": "mcdeltat",
+          "time": 1785332000
+        },
+        {
+          "id": 49097937,
+          "text": "Most people don't understand that 'agentic AI' is a completely synthetic, force fed capability by extensive Reinforcement Learning on synthetic domain specific 'agentic' datasets on post training.\nIf the LLM wasn't post-trained to adhere to specific handbook, it just won't work. If the LLM wasn't trained on an use case the lab decided was worth making a synthetic agentic dataset, it won't work as well as you want.\nThere's a reason the main agentic task LLMs excel at are coding tasks, it's the way of working of the creators, and they understand intimately the flow and can train for it.\nI believe the true way will be able to easily fine tune models on your agentic use cases, but it would require a big company to compile a huge dataset on it's way of working and I don't think anyone wants to be the first.\nIn terms of long context, accurate attention retrieval from early tokens is just impossible, given the expansion of RoPE encoding for the positions, or in case of Kimi that don't use it anymore, as well as deepseek, early context is heavily compressed you lose accurate information.\nIf people spent more time studying about AI and how it works, they would realize that the default should be to one shot prompt your task with a big, cached system prmopt, with an user prompt that is just dynamic data, specified to the cheapest model that can do the job.\nUnless you really can't do this given your problem, you should try to make a graph of well defined, step by step oneshot prompts, and THEN if your problem still can't be solved with that, then you start leveraging agents.\nDespite this giving better results, and being more cost efficient, is evidently too much work then just letting the AI do all the work.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49097937",
+          "by": "msejas",
+          "time": 1785335014
+        },
+        {
+          "id": 49097604,
+          "text": "There was an article a few years ago called \"Lost in the Middle: How Language Models Use Long Contexts\" https://arxiv.org/abs/2307.03172\nFrom my experience this holds true to this day. It was one of my core observations for similarity to the limitations of human working memory on \"Engineering for Bounded Cognition\"",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49097604",
+          "by": "supermatt",
+          "time": 1785333387
+        },
+        {
+          "id": 49097636,
+          "text": "Long policy documents are also a problem for human agents.  Without special training no one will retain 180 pages HR employee handbook, fire codes, OSHA safety rules, FCC regulations, the US legal code.\nIf the stakes are high, e.g, proceeding in ignorance could lead to prison time, people will favor inaction, even if the policy technically permits a corner case. If the stakes are low, people will completely override policy for the path of least resistance.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49097636",
+          "by": "elevation",
+          "time": 1785333547
+        },
+        {
+          "id": 49099731,
+          "text": "This is real. I was very angry that AI kept breaking the rules I wrote, so I asked Claude to crawl its own history logs. And then I found: every time after it breaks a rule, the chance of breaking rules goes up.\nI feel this is like few-shot in reverse. Few-shot is supposed to be good examples AI should follow. But when it breaks a rule, we correct it, it keeps breaking, and this whole thing actually raises the probability of more violations.\nI wanted to know if there is any difference between writing rules in the prompt, writing them in CLAUDE.md, or not writing at all. So I did some short tests before. I asked Claude to open brand new sessions, test different topics with the rules I want to apply. The result turns out to be: in a fresh session, no matter the rule is in a prompt or in CLAUDE.md, models (Opus 4.8, 5 or Fable) all follow it fine, across models. Even Opus 4.8, the one always violates rules in our conversations, does it well.\nI suspect it's the long context that breaks rules. But simulating a long conversation experiment is kind of hard, I still haven't found a good way to test it. So seeing this paper now, it completely answers the question I was stuck on these few days.\nBesides, something caught my eyes in this paper: sometimes the model does run the check by the rules, and it really finds the violation, but its narrative still insists on its original wrong output.\nMy current approach is same as everyone here: use a separate hook or post-check to fix things. Because if you let the model fix it during generation, its narrative or main generation part sometimes just rejects the rule error it found.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49099731",
+          "by": "missmoss",
+          "time": 1785343073
+        },
+        {
+          "id": 49099040,
+          "text": "For Claude, I used a UserPromptSubmit hook running inject_rules.py which reads RULES.md from the disk and prepends the whole thing to every prompt. That helps the rules to stop fading as context fills because it is reinforced every prompt.\nSure, it uses tokens slightly faster in the prompt, but I find it reduces overall token use, you can use it with pro, but of course, nothing works 100% of the time, but it's better. Emptying the memory helps too to avoid Claude making up stuff that messes with how I want it to act.\nThe general gist of inject_rules.py is :\nRULES_PATH points at RULES.md\nreads it with encoding='utf-8-sig' so the BOM is stripped\nwraps it in a JSON object — hookSpecificOutput.hookEventName = \"UserPromptSubmit\", additionalContext = a preamble plus the full rules text\nthe preamble is the line you see above the rules: rules are in force for this turn, run rule 33's five tests before raising anything unasked\nprints that JSON to stdout, which is how Claude Code takes it in\non OSError it returns 0 silently — if RULES.md is missing or unreadable, nothing is injected and the turn proceeds with no rules",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49099040",
+          "by": "My_Name",
+          "time": 1785340096
+        },
+        {
+          "id": 49098515,
+          "text": "This article to me also implies that there are some potential issues with large Spec based development flows, which I haven't been able to pin down lately.\nSpecifically, having agent implementation drift from the Spec.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49098515",
+          "by": "twosdai",
+          "time": 1785337586
+        },
+        {
+          "id": 49097487,
+          "text": "I noticed this behaviour a few months back, I think I was using Sonnet 4.6 at the time... I have strict rules about comments in the codebase, this all for personal projects, and the reason I restrict comments is to keep the token count low.\nAt some point between the model i was using and the previous version of it, Claude started inserting massive comments with references to tickets and other tasks. All this while having specific directives on the CLAUDE.md\nSince then I resorted to developing my crapware as if I was the floor manager of a vehicle assembly line, and I have a few highly-specialized sub-agents running errands around the main session, but only ever taking care of a single concern. The main session builds with the knowledge contained in things like CLAUDE.md but the sub agents make sure things like the no/low-comments directives are either enforced, or factored into the final product.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49097487",
+          "by": "pelagicAustral",
+          "time": 1785332865
+        }
+      ],
+      "by": "spIrr",
+      "time": 1785330117,
+      "url": "https://arxiv.org/abs/2607.25398",
+      "score": 322,
+      "descendants": 206,
+      "storyUrl": "https://arxiv.org/abs/2607.25398"
+    },
+    {
+      "id": 49101198,
+      "type": "story",
+      "title": "Turning a dumb AC unit smart (without losing my security deposit)",
+      "rank": 16,
+      "depth": 0,
+      "storyId": 49101198,
+      "storyTitle": "Turning a dumb AC unit smart (without losing my security deposit)",
+      "sourceUrl": "https://news.ycombinator.com/item?id=49101198",
+      "topComments": [
+        {
+          "id": 49102083,
+          "text": "The \"couple a stepper motor to a shaft\" API is so much better than any \"smart\" appliance API.\nSpeaking more seriously, I wish classes of appliances would expose some simple analog and digital interface pins in a standardized configuration to let users choose whatever automation or monitoring hardware they want. HVAC equipment does this with standardized thermostat terminals. I'd love to see that on other types of appliances, too.\nThe manufacturer's crappy \"app\" that will inevitably be abandoned and require keeping some old phone / tablet in good \"health\" lest you lose the \"smart\" functionality (or worse, any use of) the appliance.\nThen current way of putting the \"smarts\" inside the appliance is just planned obsolescence and a recipe for all of us being eyeball deep in ewaste.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49102083",
+          "by": "EvanAnderson",
+          "time": 1785354297
+        },
+        {
+          "id": 49102851,
+          "text": "https://esphome.io/ would make the software side of this a 10 minute job",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49102851",
+          "by": "vayun",
+          "time": 1785357977
+        },
+        {
+          "id": 49102070,
+          "text": "It's insane to me that some new construction buildings still use PTACs. Having used too many of those, this was a deal-breaker last time I was in the market for an apartment. Such a New York thing, just like how you cannot have a balcony on the 2nd floor, or how you won't find those sink garbage disposal grinders in any kitchen. But cross the Hudson toward NJ, and my understanding is that they're common. It's a combination of hyper-local regulations and economic incentives that date from god-knows-when and make American cities very unique in their quirks.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49102070",
+          "by": "chem83",
+          "time": 1785354236
+        },
+        {
+          "id": 49106056,
+          "text": "If all you need to do is replace a potentiometer with electronic control, it may be possible to do that with a vactrol. It's more invasive perhaps, but then we're not dealing with anything mechanical.\nA vactrol is a device which combines LED and photoresistor in one package (sealed against the leakage of light).\nThe photoresistor has a \"dark resistance\" that is typically very high, like hundreds of thousands of ohms. When it is illuminated by the LED, the resistance goes down: you control how much via the current to the LED.\nAnother possibility is using a digital potentiometer, like this: https://ww1.microchip.com/downloads/en/DeviceDoc/20005207B.p...\nA digital pot is an integrated circuit that switches a bank of resistors with FETs to create a desired resistance, or combination of resistances to simulate a wiper position along an analog pot's track.\nThey are programmed with I2C and such.\nThese things have certain disadvantages; like the one I linked to requires that power rails be provided for the analog domain where the resistors \"live\", and the voltages on them must be within this range. The vactrol has no such issue; it is a passive resistor with light shining on it.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49106056",
+          "by": "kazinator",
+          "time": 1785384743
+        },
+        {
+          "id": 49103291,
+          "text": "> Imprecisely yeet the stepper motor all the way left/right, toggling the target temp between “really really hot” or “really really cold”\n> Option 2 certainly is the “jankier” of the two options, given that it relies on a second-order property (target temp) to power the unit on/off… but hey - whatever’s easier, right?\nIsn't this basically how a thermostat works?  I.e. there is a component that is binary on/off, and a thermometer is used to decide to switch on or off.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49103291",
+          "by": "asveikau",
+          "time": 1785360385
+        },
+        {
+          "id": 49101770,
+          "text": "> The rest of this blog post is a walkthrough of a software engineer’s approach to home automation and building custom hardware, and let me tell you: both the final product, and the journey to get there, are hella jank.\nIMHO it's not that bad? With the disclaimer that I'm also a software engineer who dabbles very very lightly with electronics and has no mechanical engineering expertise. But the overall approach of doing this by stepper motor seems quite defensible given the security deposit constraint. The only part that seems really janky to me is that it's not physically held in place that well as noted in this paragraph:\n> Ultimately, the biggest issue is that binder clips and cardboard aren’t quite as robust of a mounting mechanism as I’d hoped they’d be… and over time, the stepper motor tends to “sag” a bit, resulting in a bit too much friction between the motor, the coupler, and the underlying knob, causing the mechanism to stall out until someone manually goes and reseats it…\nInvolving MQTT and HA can sometimes get frustrating too; having your AC not working properly if there's a problem on a Linux machine can suck. If this becomes a problem in practice, iirc ESPHome also has a thermostat component, and temperature sensors are really cheap and easy to wire in, so you could do it all on the microcontroller pretty easily in a low-code way. But if this part is working, no need to mess with it.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49101770",
+          "by": "scottlamb",
+          "time": 1785352649
+        },
+        {
+          "id": 49101980,
+          "text": "Instead of attaching the motor bracket with a binder clip, consider sticking it down with some sort of removable adhesive?\n3M command strips should be very strong/secure, while also allowing for adjustment and will detach without residue when the time comes.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49101980",
+          "by": "Reason077",
+          "time": 1785353704
+        },
+        {
+          "id": 49103709,
+          "text": "I've wired ESP32s into all my old heat pump units using ESPHome. They are more reliable and more responsive than the $400 dongle they sold with newer units.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49103709",
+          "by": "scosman",
+          "time": 1785362833
+        },
+        {
+          "id": 49103825,
+          "text": "I don't understand why he can't just connect / disconnect the power? The thermostat is a bi-metallic strip.\nAssuming the thermostat is controlling 120V AC:\n1: There are plenty of cheap wireless thermostats for AC that you can buy off of Amazon. I have two, and they work great with space heaters.\n2: You can use a 120V relay with those thermostats to control different voltages, amperages, ect.\n---\nBTW, controlling the dial for min cool, max cool, ect, could increase efficiency. Max cool is only needed if the unit's been off, or it's a super-hot day.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49103825",
+          "by": "gwbas1c",
+          "time": 1785363505
+        },
+        {
+          "id": 49102930,
+          "text": "Maybe not as fun but my sun room window unit is controlled by an off the shelf $20 thermostat designed for Air Conditioners. It’s the LUX Win 100 and is date/time programmable and features a compressor lockout so it doesn’t burn out your window unit by short cycling.\nIf you have a favorite smart thermostat you could also wire up a receptacle with a contactor between it and a cord and a 24v AC transformer wired to the line side. This would make your window unit controllable just like a central air conditioner.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49102930",
+          "by": "Moto7451",
+          "time": 1785358352
+        }
+      ],
+      "by": "austinallegro",
+      "time": 1785349731,
+      "url": "https://prilik.com/blog/post/automating-ac-nyc/",
+      "score": 203,
+      "descendants": 162,
+      "storyUrl": "https://prilik.com/blog/post/automating-ac-nyc/"
+    },
+    {
+      "id": 49047351,
+      "type": "story",
+      "title": "The Rust on ESP Book",
+      "rank": 17,
+      "depth": 0,
+      "storyId": 49047351,
+      "storyTitle": "The Rust on ESP Book",
+      "sourceUrl": "https://news.ycombinator.com/item?id=49047351",
+      "topComments": [
+        {
+          "id": 49102408,
+          "text": "Rust on ESP32 was great at one point. ~1 year ago there was a major HAL re-write and consolidation, and it went for me from working, to very broken, with most of the recent commits revamping it being done by someone who was neither an Espressif employee, nor someone who had written the original code bases. I haven't checked it since then.\nI bring this up as for some workflows, Rust is one of the easiest \"just works\" embedded toolchains/workflows; my experience here was jarringly different, especially as it had been a good workflow prior. On this project, I ended up switching to ESP-Hosted (Official Espressif firmware to let the ESP be a radio co-processor), writing my own Rust lib to interface with it over SPI or UART, and using an STM32 as the primary MCU running my [rust] firmware.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49102408",
+          "by": "the__alchemist",
+          "time": 1785355957
+        },
+        {
+          "id": 49049741,
+          "text": "The [page on testing][1] suggests this:\n> Where possible, and where it makes sense, you should try to test as much as possible on your host machine, not on the target device.\nWhen I have tried this I have encountered multiple problems, first that the Rust test framework requires std, making it convoluted writing test code – but when working around that using conditional compilation, I run into other things like the `esp-hal` depending on crates that won't compile on the host.\nWhat is the recommended way to test on the host?\n  [1]: https://docs.espressif.com/projects/rust/book/application-development/testing.html",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49049741",
+          "by": "iconara",
+          "time": 1785001121
+        },
+        {
+          "id": 49100837,
+          "text": "awesome to see this under espressif.com! that's so fantastic.\nnot to the point here, but i wonder what Zephyr would have been like if Rust had been more of a thing at the time. that's not really possible, as from my understanding it derived from Wind River Systems' donated Rocket OS, which i think predates Rust (which is not a new language!). still an interesting what if to me: zephyr seems to be the embedded os with the best wireless support by a country mile, have a lot of companies targeting it (often alas forking it rather than going upstream): it holds my interest the most.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49100837",
+          "by": "jauntywundrkind",
+          "time": 1785347997
+        },
+        {
+          "id": 49101479,
+          "text": "BUN in oven",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49101479",
+          "by": "effnorwood",
+          "time": 1785351117
+        }
+      ],
+      "by": "AlexeyBrin",
+      "time": 1784985341,
+      "url": "https://docs.espressif.com/projects/rust/book/",
+      "score": 172,
+      "descendants": 22,
+      "storyUrl": "https://docs.espressif.com/projects/rust/book/"
+    },
+    {
+      "id": 49096654,
+      "type": "story",
+      "title": "Darktable",
+      "rank": 18,
+      "depth": 0,
+      "storyId": 49096654,
+      "storyTitle": "Darktable",
+      "sourceUrl": "https://news.ycombinator.com/item?id=49096654",
+      "topComments": [
+        {
+          "id": 49098654,
+          "text": "I've been using darktable for a while to edit my RAW photos. The amount of features, viable workflows, and in general the quality of the software is baffling for a free product. I would happily pay 200 bucks or something per year to use this, it makes all other RAW editing software obsolete.\nI can only recommend it, and there's nothing missing for me, even for editing thousands of RAW photos with presets, different steps, color correction in various color spaces, it's simply fantastic and the documentation absolutely shines.\nNot only does the documentation explain how to use it in a way that non-professional photographers understand, it also explains edge cases, things to be careful about, and in general whoever wrote the documentation is sharing a lot of knowledge. I keep pushing this software and it just keeps doing it, I don't seem to stop finding features and little things that do what I wanted, and do it well.\nI learned more from reading darktable documentation than from any lightroom/draktable/davinci resolve tutorial.\nWith the new local-model AI features for denoising and subject selection, it filled the last little missing piece for me. Absolutely fantastic software, can recommend it.\nI'm on arch, so to get the latest build I built it myself which was painless.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49098654",
+          "by": "lionkor",
+          "time": 1785338238
+        },
+        {
+          "id": 49103974,
+          "text": "I guess I am in the minority but I did not have a good time with Darktable. I used it for a few years and then had to hold my nose and transition to Lightroom. On decent hardware (MacBook Pro that was only a few years old) it was dog slow. But the worst part was transitioning from their version 2 to version 3 of the workflow or whatever they called it. None of my old photos would render correctly after that and half of the modules I learned to use to edit my photos were not obsolete.\nThe documentation for it is dense. It’s like you need to know the inner workings of the software to be able to do things like basic color correction. And even basic masking was just awkward as hell. When I quit it did not have smart object detection either so removing things from the background required editing the photo in external software.\nLightroom isn’t perfect. But it is fast, it is intuitive, and it does not expose modules that the documentation says to never use.\nI really wish I could use open source software for this. But I have yet to find a good alternative that lets me do what I want (which is fairly basic, I don’t go crazy with my editing) that doesn’t require me to get a Masters degree in  its usage.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49103974",
+          "by": "IgorPartola",
+          "time": 1785364463
+        },
+        {
+          "id": 49098330,
+          "text": "Darktable is fantastic, and their darktable-cli is really clutch as a photographer turned SWE.\nIf coming from lightroom or the likes it does take some dedicated learning to adapt to the \"Darktable\" ways of doing things. Deceptively similar UI, yet very different approaches and naming.\nDarktable is however, bad at photograpy organization and collections. Something Lightroom shines at.\nBuilt many processes around it for my own post-processing needs.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49098330",
+          "by": "erksa",
+          "time": 1785336744
+        },
+        {
+          "id": 49100057,
+          "text": "I found Darktable absolutely amazing, although the learning curve is incredibly steep.\nSome ex-maintainers hated the direction of Darktable and thus made their own fork, namely https://github.com/aurelienpierreeng/ansel",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49100057",
+          "by": "thatxliner",
+          "time": 1785344477
+        },
+        {
+          "id": 49100089,
+          "text": "I've kept an eye on Darktable for a while.  I do high volume photography for high school sports so while Lightroom Classic (LrC) is the final editing tool before exporting the images that go to the clients a more critical app for me is Photo Mechanic (PM) to cull down from 6,000 images to the 300 keepers from an event (a process that only takes about ten minutes on PM).  The last time I tried to run Photo Mechanic on Linux (using Wine) I was able to get it to load but it crashed hard every time I tried to actually use it.  If there's a capable competitor to Photo Mechanic for Linux I might take a serious look again at switching.  Then again, the speed from the Apple Silicon CPU+RAM+GPU processors means that even if I could get comparable hardware for Linux it wouldn't be any less expensive than a new MacBook Pro M5 Max.  Definitely keeping an eye on this space but it's not where I need it to be for my workflow.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49100089",
+          "by": "mikece",
+          "time": 1785344609
+        },
+        {
+          "id": 49103489,
+          "text": "A rather less positive view of Darktable than msny of the opinions in this thread:\nhttps://ansel.photos/en/news/darktable-dans-le-mur-au-ralent...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49103489",
+          "by": "andyjohnson0",
+          "time": 1785361554
+        },
+        {
+          "id": 49097919,
+          "text": "Ditched Adobe Lightroom 10+ years ago in favour of Darktable and never looked back. It was the first FOSS software, which showed me how green the grass can get.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49097919",
+          "by": "randomstate",
+          "time": 1785334930
+        },
+        {
+          "id": 49098524,
+          "text": "To me the killer feature of Adobe’s offerings in this space is backwards compatibility. You can open a very old Lightroom library and the reprocessed photos look exactly the same.\nThe way they do it, unfortunately, is by maintaining every previous version of the processing pipeline.\nHow do the FOSS alternatives handle this?\nIf I was designing a raw engine I would try to store the high-level code for the processing pipeline in the metadata for each file such that it could be reproduced reliably across software versions and even forks. Like a sequence of shaders.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49098524",
+          "by": "drdexebtjl",
+          "time": 1785337618
+        },
+        {
+          "id": 49098208,
+          "text": "I highly recommend people try out Capture One. After using Lightroom for years, switching to Capture One a few years ago felt like someone turned the lights on. Far and away the best photo and media mangement software I've ever used by at least two orders of magnitude, and reasonalbe license cost and generous free tier.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49098208",
+          "by": "kkukshtel",
+          "time": 1785336279
+        },
+        {
+          "id": 49099042,
+          "text": "I have tried to get used to Darktable for more than 2 years but finally gave up and went back to Lightroom. For some reason it never clicked with me and made me almost lose interest  in photography . And the AI stuff like masking in the latest Lightroom versions is crazy good.\nI am generally really impressed with what the Darktable are delivering but somehow it just doesn’t come together for me personally.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49099042",
+          "by": "vjvjvjvjghv",
+          "time": 1785340102
+        }
+      ],
+      "by": "siatko",
+      "time": 1785328382,
+      "url": "https://www.darktable.org/",
+      "score": 355,
+      "descendants": 171,
+      "storyUrl": "https://www.darktable.org/"
+    },
+    {
+      "id": 49065785,
+      "type": "story",
+      "title": "Hamburg's Stadtpark: A Park Built to Be Used",
+      "rank": 19,
+      "depth": 0,
+      "storyId": 49065785,
+      "storyTitle": "Hamburg's Stadtpark: A Park Built to Be Used",
+      "sourceUrl": "https://news.ycombinator.com/item?id=49065785",
+      "topComments": [
+        {
+          "id": 49102209,
+          "text": "I am from Hamburg and I live about 6 minutes from the Stadtpark by foot. I walk my dog there pretty much every day and I am very grateful to live so close by. I spent two years living in Tokyo and although Tokyo also has its fair share of parks I feel the Stadtpark kind of outshines all of them. I like the authors focus on usability of the park. It really has so much to offer and it’s well maintained without looking sterile. They just repaved some of the sections with compacted gravel which feels very pleasant to walk on for me. I will say that on sunny weekends in summer there are sufficiently many careless people that litter and just throw their barbecue consumables wherever or place them next to the already overflowing trash bins instead of taking their trash with them, which is a little sad to see. But credits to the Müllabfuhr and park care takers for doing a really good job at cleaning it up afterwards. If you visit Hamburg I absolutely recommend going for an extended stroll there!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49102209",
+          "by": "Escapado",
+          "time": 1785354946
+        },
+        {
+          "id": 49099502,
+          "text": "It's in the name: stadtpark, city park.\nIn defense of Berlin's Tiergarten, it was originally a hunting preserve for deer (and Hasenheide was for rabbits), so it's big and intimidating. But there are still facilities in it that serve the neighboring residents. And throughout Berlin there are multiple volksparks, people's parks, which have everything the author mentions.\nIn most cities, parks evolve to serve the residents.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49099502",
+          "by": "cmdoptesc",
+          "time": 1785342037
+        },
+        {
+          "id": 49099971,
+          "text": "This was such a nice read about a park I had never heard of. Thank you for writing it (and for actually writing it yourself instead of vibing it).",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49099971",
+          "by": "ripe",
+          "time": 1785343988
+        },
+        {
+          "id": 49103278,
+          "text": "Hamburg is one of the greenest cities in the world (summertime). Not too far from the Stadtpark you'll find the Olsdorfer Friedhof, which is the largest \"park cemetery\" in Europe. If the Stadtpark is still too busy for you, despite it actually never is really, the cemetery is even quieter to find some rest and a refreshing walk. I know it sounds strange, but I mean it. :-)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49103278",
+          "by": "Aldipower",
+          "time": 1785360306
+        },
+        {
+          "id": 49101153,
+          "text": "Moving from Manchester to Hamburg the difference in greenery is already pretty astounding, but Stadtpark is really the jewel. Wonderfully maintained, easy transport access and close enough to the centre that you can walk it without the dog getting exhausted, a few spots to get a beer or a schorle when needed. One of the highlights of the city.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49101153",
+          "by": "domstatecraft",
+          "time": 1785349521
+        },
+        {
+          "id": 49100026,
+          "text": "Looks like a nice park! Was a bit odd of a read to me because the vast majority of the parks in my part the US are like this (sports fields, playgrounds, lakes, open green space, bike paths, grills, pavilions, etc), didn't realize I had taken that for granted.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49100026",
+          "by": "jrflo",
+          "time": 1785344276
+        },
+        {
+          "id": 49100295,
+          "text": "One of my favorite parks and much lesser knows is Westpark in Munich. Similarly built around usage and still unique since it was originally built for a national garden exhibition it features a rich set of small little areas from around the world, a Japanese party, a Chinese part, French areas, English areas. It has outdoor theaters, playgrounds, a lake, a communial area and much more . It’s worth a visit when you are in Munich",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49100295",
+          "by": "somnium_sn",
+          "time": 1785345403
+        },
+        {
+          "id": 49106678,
+          "text": "A couple of years back I took a horse and carriage ride around the Lüneburger Heide, a nature preserve just south of Hamburg. They really do a very good job of this sort of thing all over the region. Which I very much appreciate, because on balance a lot of this region of Germany feels like visiting midwestern suburbs...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49106678",
+          "by": "swiftcoder",
+          "time": 1785393049
+        },
+        {
+          "id": 49101501,
+          "text": "Refreshing read, handcrafted",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49101501",
+          "by": "kls0e",
+          "time": 1785351229
+        },
+        {
+          "id": 49102621,
+          "text": "Parc Lafontaine in Montreal is really great too. It has:\n- a pond (ice-skating in the winter)\n- outdoors theatre\n- indoor theatre\n- Petanque court\n- Training bikepark for kids\n- Playgrounds\n- Tennis, Soccer, baseball\n- So much trees and picnic spots, on the ground and tables\n- A little non-profit restaurant\nAnd just generally a good vibe. We really have a great park culture in the city, that's not even our best one. Other parks have regular circus and larping gatherings, tamtams and other hippy shit.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49102621",
+          "by": "byratino",
+          "time": 1785356928
+        }
+      ],
+      "by": "mertbio",
+      "time": 1785133426,
+      "url": "https://alsterrunde.com/hamburgs-stadtpark-a-park-built-to-be-used/",
+      "score": 169,
+      "descendants": 55,
+      "storyUrl": "https://alsterrunde.com/hamburgs-stadtpark-a-park-built-to-be-used/"
+    },
+    {
+      "id": 49091379,
+      "type": "story",
+      "title": "ReFrame – The EPaper Camera",
+      "rank": 20,
+      "depth": 0,
+      "storyId": 49091379,
+      "storyTitle": "ReFrame – The EPaper Camera",
+      "sourceUrl": "https://news.ycombinator.com/item?id=49091379",
+      "topComments": [
+        {
+          "id": 49093696,
+          "text": "Its a great idea, I think they should read the papers on dithering (I've got a color e-paper display and you can get a lot less noise than that by better dithering). The interesting thing is that back in the film days you took your 12 pictures and sent them off to the lab, and two or three days later you found out if any of them were great. This gives some of that \"wait for it\" kind of feel back to the photography. And at least for me, I think longer about taking a shot if I won't know instantly if its good or not :-)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49093696",
+          "by": "ChuckMcM",
+          "time": 1785302671
+        },
+        {
+          "id": 49092652,
+          "text": "Very cute idea.  I would expect that with a 15 second develop time and no live display preview some kind of optical viewfinder would be very helpful.  I love seeing weird cameras.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49092652",
+          "by": "hankbond",
+          "time": 1785290947
+        },
+        {
+          "id": 49093459,
+          "text": "Great work! About two hours ago, I was listening to \"Générique\" by Miles Davis (jazz) with a noisy, animated gradient background. The whole experience felt incredibly immersive. Now, this camera can bring that beautiful noise texture into photos with a single click. Add some clever motion graphics and transform those photos into illustrative noisy textured gradients, it could become an amazing music visualizer for jazz lovers. I don't know why, but I'm really obsessed with noisy textures.\nGénérique by Miles Davis\nhttps://www.youtube.com/watch?v=Q73OSYyq5E0\nImmersive noisy background:\nhttps://monopo.vn/\n(I'm not affiliated with the site in any way. I just came across it on the Awwwards website: https://www.awwwards.com/inspiration/monopo-saigon-hypnotic-...)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49093459",
+          "by": "num42",
+          "time": 1785299786
+        },
+        {
+          "id": 49091990,
+          "text": "I don't fully understand the obsession with making less-capable devices and talking about them as though being less capable is a feature by itself.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49091990",
+          "by": "singpolyma3",
+          "time": 1785285800
+        },
+        {
+          "id": 49092842,
+          "text": "cute. I'd like to see some photos without the dithering applied, as it looks similar to a regular dithered jpeg, like you'd see on\n https://solar.lowtechmagazine.com/\nit would be fun to try out a few different algos for the colour space conversion.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49092842",
+          "by": "fcnprvfgurcynpr",
+          "time": 1785292896
+        },
+        {
+          "id": 49092163,
+          "text": "> With ePaper, the photo on screen stays there even after powering off.  \n    > The only way to clear the screen is to take a new photo.\n    > \n    > Source: https://reframe.camera \n\nThank you... dear developers, artists, people... for the marvel, art you do...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49092163",
+          "by": "serious_angel",
+          "time": 1785287192
+        },
+        {
+          "id": 49092212,
+          "text": "A color eink screen is a wonderful recalibration for a screen that kids can use compared to the overstimulation of an lcd, especially with touchscreen features.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49092212",
+          "by": "j45",
+          "time": 1785287512
+        },
+        {
+          "id": 49092606,
+          "text": "ove the constraints—15 seconds to develop and one photo at a time makes it feel like a digital Polaroid. Great that it’s open source, too.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49092606",
+          "by": "leonmeng",
+          "time": 1785290626
+        },
+        {
+          "id": 49093010,
+          "text": "Reminds me of photos in games about 30 years ago…",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49093010",
+          "by": "BobbyTables2",
+          "time": 1785294657
+        },
+        {
+          "id": 49095807,
+          "text": "that 3d print seems to be under-extruded. \nI always wonder how can so many 3d print be so low quality. My 6+ year old ender5 will print so nice quality",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49095807",
+          "by": "anonymous344",
+          "time": 1785322710
+        }
+      ],
+      "by": "phil294",
+      "time": 1785281229,
+      "url": "https://reframe.camera/",
+      "score": 219,
+      "descendants": 48,
+      "storyUrl": "https://reframe.camera/"
+    },
+    {
+      "id": 49092499,
+      "type": "story",
+      "title": "LearnVector – Andrew Ng's AI company building one‑to‑one learning experiences",
+      "rank": 21,
+      "depth": 0,
+      "storyId": 49092499,
+      "storyTitle": "LearnVector – Andrew Ng's AI company building one‑to‑one learning experiences",
+      "sourceUrl": "https://news.ycombinator.com/item?id=49092499",
+      "topComments": [
+        {
+          "id": 49092748,
+          "text": "Somebody here posted about a Socratic method skill for Claude (or whatever your LLM of choice is).  I’ve found this to be fantastic.  Dropped in a dense PDF about Linear Algebra, Postgres (those are the two I’ve gotten into so far).  It’s basically just a skill.md that reads, “Here’s a document, give me an opening statement about the material and ask me a question.  As I provide answers, guide me to simpler or more complex areas of the topic.  Something something Socratic method.”  Works great.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49092748",
+          "by": "genghisjahn",
+          "time": 1785291885
+        },
+        {
+          "id": 49093461,
+          "text": "> 01 Plans a path with you\n> 02 Adapts to how you learn\n> 03 Patiently stays with you until you've mastered new skills\n1 and 2 any of the big AI companies will do that for you. I have Claude doing this for me for a few learning areas.\n3 to me feels like the Duolingo bird.\nIMHO, they are trying to solve the wrong thing. People who want to learn will gravitate to learning systems.\nIf you can find a way to pull in people who don't want to learn, that has value.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49093461",
+          "by": "EagnaIonat",
+          "time": 1785299793
+        },
+        {
+          "id": 49093986,
+          "text": "As a daily user of Anki and Math Academy, I'm very excited about how software can help us learn.\nNow, with AI, we can really build tools that were not possible before. I built for myself AlgoTutor[1], a CLI tool that teaches Go developers algorithmic skills and concurrency.\nThe recent Understanding floating point[2] from Oz Nova is also a type of tutorial I want to see more often.\n[1] https://github.com/zuzuleinen/algotutor\n[2] https://proto.csprimer.com/fp/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49093986",
+          "by": "zuzuleinen",
+          "time": 1785305925
+        },
+        {
+          "id": 49092812,
+          "text": "I do think Andrew is the right person doing this. Someone mentioned that the return of financial outcome is not good in edTech, and this is exactly why backing by Coursera is a huge advantage. Education-related product is slow, and it needs patience.\nThe concern, though, is that how to achieve those 3 thesis. Do they train/fine-turn their own model? according to my own experience, the current models are not well trained in personal education context, and it is either too textbook-like or too task-driven.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49092812",
+          "by": "yuanBuilds",
+          "time": 1785292626
+        },
+        {
+          "id": 49093215,
+          "text": "\"Conventional wisdom says AI will replace people.\nI believe the opposite.\"\nSo people will replace AI?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49093215",
+          "by": "sv123",
+          "time": 1785296992
+        },
+        {
+          "id": 49094537,
+          "text": "Please, stop destroying human everyday life experience with technology and for your personal wealth.\nhttps://en.wikipedia.org/wiki/The_Fun_They_Had",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49094537",
+          "by": "hamburgererror",
+          "time": 1785311306
+        },
+        {
+          "id": 49093120,
+          "text": "Is it only me or the website looks vibe coded ? the output feels like a standard claude template.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49093120",
+          "by": "ashu1461",
+          "time": 1785296020
+        },
+        {
+          "id": 49097862,
+          "text": "This looks like another investor play to save Coursera and somehow have a vector (pun intended) to help raise its valuation.\nCoursera and Udemy already offer AI learning tools, so why create a separate company and commit $100 million? It looks like the product, commercial relationship, ownership structure, IP rights are still unclear.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49097862",
+          "by": "root-parent",
+          "time": 1785334545
+        },
+        {
+          "id": 49092607,
+          "text": "Edtech has historically not had amazing venture outcomes compared to saas, ads, rockets, etc.\nGiven how much people spend on education, there’s no reason AI education software wont be a huge market.\nAnd there’s few people better suited than Andrew Ng to execute this",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49092607",
+          "by": "isubkhankulov",
+          "time": 1785290637
+        },
+        {
+          "id": 49092618,
+          "text": "Wait, when you say one-to-one you mean AI to Human? That’s not the same, I’m sorry.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49092618",
+          "by": "hmokiguess",
+          "time": 1785290700
+        }
+      ],
+      "by": "ajhai",
+      "time": 1785289759,
+      "url": "https://learnvector.ai/",
+      "score": 265,
+      "descendants": 172,
+      "storyUrl": "https://learnvector.ai/"
+    },
+    {
+      "id": 49099143,
+      "type": "story",
+      "title": "Launch HN: Tokenless (YC S26) – Automatic model switching to save money",
+      "rank": 22,
+      "depth": 0,
+      "storyId": 49099143,
+      "storyTitle": "Launch HN: Tokenless (YC S26) – Automatic model switching to save money",
+      "sourceUrl": "https://news.ycombinator.com/item?id=49099143",
+      "topComments": [
+        {
+          "id": 49099358,
+          "text": "So this only switches models if the cache is cold, because otherwise the economics of switching don't work. But most agentic work involves long strings of successive tool calls that benefit from a hot cache. Hot cache calls reduce input cost by 90%. This can basically only deliver cost savings in turns where the AI delivers a result to the user, the user waits at least 5 minutes (or the length of the cache), and then responds.\nBut user->AI calls are very much the rare case now, the more agentic the workload. Most of them will be tool->result->tool without the user involved. And token burn is highest with these long running agentic chains, but that's precisely where routing doesn't work because of the KV cache.\nHow do you deal with that?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49099358",
+          "by": "mediaman",
+          "time": 1785341337
+        },
+        {
+          "id": 49101339,
+          "text": "Super interesting approach. It's probably novel. I can say this because I've been working on something similar (while building a code version of http://pellmell.ai).\nI'm skeptical though. In order to pick which model is on the right trajectory, you actually need intelligence. But real intelligence would make your system painfully slow and more expensive. I suspect you're using a classifier of some sort, but I also suspect what it's really measuring is confidence.\nMost likely, this is a fantastic approach for the kind of problem where there's uncertainty but only one correct solution. But this is going to be really bad for cases where there are many potential solutions, some of which look good but are in fact bad. You only show one benchmark, and I'm wondering if it happens to be nicely shaped for this kind of router. Have you run it on DeepSWE?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49101339",
+          "by": "seizethecheese",
+          "time": 1785350464
+        },
+        {
+          "id": 49100444,
+          "text": "Interesting approach. The multi-model progress monitoring idea is clever, most routing I've seen is either static rules or a cheap classifier that picks once upfront. Querying in parallel and deciding mid-turn feels different.\nOne thing I'm curious about: how do you handle the latency hit from spinning up multiple models on the harder turns? Does the user-facing latency still feel competitive with just going straight to Claude, or is there a noticeable pause while the router decides?\nAlso, any plans to expose the routing decisions (or at least the model chosen per turn) so people can debug when it picks poorly? That seems useful for the feedback loop you're asking for.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49100444",
+          "by": "popPopBoom",
+          "time": 1785346117
+        },
+        {
+          "id": 49099830,
+          "text": "> Tokenless fans out your request to a group of models and watches them think. Once a model is clearly on track\nBy the time the model is \"on track\", it will have already received the input tokens. To a first approximation, input tokens are often the bulk of the cost for many queries, and this would increase the cost for such queries. It seems like it'd only decrease costs for prompts where you feed a relatively small amount of input into the model first and can tell whether the model is \"on track\" before it starts reading larger amounts of input data.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49099830",
+          "by": "JoshTriplett",
+          "time": 1785343443
+        },
+        {
+          "id": 49099701,
+          "text": "It's a smart approach, definitely interesting. It all hinges on quality of course which im not convinced.\nτ³-Banking is the only one which you show better accuracy and cheaper. If i'm reading the blog results right, for deepswe and terminalbench, you are worse+cheaper than frontier, and better+more expensive than just small models. Which is exactly what i would expect even for a router that switches at random.\nSpeaking of random routing, this would be a great ablation study as well. What about also if you route each request to a tiny 7B model classifier? Why is your approach SOTA?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49099701",
+          "by": "MikhailTal",
+          "time": 1785342967
+        },
+        {
+          "id": 49103240,
+          "text": "How is this different from OpenRouter?\nI also developed something similar for my agent harness. It's based on model predictors and an exponential moving average:\nhttps://github.com/rush86999/atom/blob/main/docs/architectur...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49103240",
+          "by": "rush86999",
+          "time": 1785360017
+        },
+        {
+          "id": 49099673,
+          "text": "Our approach queries multiple models at once and uses their progress to make decisions (this technique is novel AFAIK, let us know if you know anyone else doing this)\nSounds like DigitalOceans Model synthesis (https://www.digitalocean.com/blog/model-synthesis) or AilinOne (https://ailin.guide/) ?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49099673",
+          "by": "crazytweek",
+          "time": 1785342844
+        },
+        {
+          "id": 49106223,
+          "text": "I do wonder why not just use cheaper models like Luna or Grok instead of dealing with routing.   DeepSWE has Grok at 54% for $2.42 or  67% for $3.03 for Luna.  Tokenless Pro is 6.67 for the same performance as Luna.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49106223",
+          "by": "siliconc0w",
+          "time": 1785387091
+        },
+        {
+          "id": 49100367,
+          "text": "Does this mean you have to retrain routing rules every time a new model gets released? I imagine since the price/token (or rather the amount of work that can be done per token) does not monotonically increase with new models, that the routing logic has to change all the time",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49100367",
+          "by": "RuiWang0811",
+          "time": 1785345704
+        },
+        {
+          "id": 49105481,
+          "text": "One big issue is prompt caching - how are you (or any other router) solving for it? The moment caching is gone real agentic workloads would spike like crazy in terms of cost.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49105481",
+          "by": "binarydreams",
+          "time": 1785378388
+        }
+      ],
+      "by": "rohaga",
+      "time": 1785340527,
+      "url": "https://usetokenless.com/",
+      "score": 69,
+      "descendants": 59,
+      "storyUrl": "https://usetokenless.com/"
+    },
+    {
+      "id": 49055816,
+      "type": "story",
+      "title": "Teach yourself programming in ten years (1998)",
+      "rank": 23,
+      "depth": 0,
+      "storyId": 49055816,
+      "storyTitle": "Teach yourself programming in ten years (1998)",
+      "sourceUrl": "https://news.ycombinator.com/item?id=49055816",
+      "topComments": [
+        {
+          "id": 49093409,
+          "text": "FWIW, Peter Norvig also gave an updated take on what programming will look like with LLMs around 2 years ago. It did give me some hope back then, but with the development of Fables and Kimis and Sols I think it's truly anyone's guess where the art of programming will go.\nhttps://www.youtube.com/watch?v=ia6aJIplmtc",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49093409",
+          "by": "primitivesuave",
+          "time": 1785299149
+        },
+        {
+          "id": 49092881,
+          "text": "It'd be embarrassing if you have to spend $10 in AI tokens for it to fix one line that you could have fixed quicker yourself for free.\nNot sure if the savings add up enough to offset the investment in learning to program.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49092881",
+          "by": "axus",
+          "time": 1785293347
+        },
+        {
+          "id": 49095679,
+          "text": "The Abstruse Goose comic mentioned: https://archive.is/HEHmt",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49095679",
+          "by": "emmelaich",
+          "time": 1785321729
+        },
+        {
+          "id": 49096766,
+          "text": "When I was 11, I pulled a book off the shelf at the nearby library called \"Teach Yourself C++ in 21 Days\". I remember thinking the title was clearly nonsense, but if I could even learn a fraction of it, that would be pretty cool. We didn't have a computer at home yet, so I wrote out the exercises by hand.\nI think I got about a third of the way through. I knew (debatably) what inheritance was, that a Dog is an Animal, etc.\nSchool, university, and 10 years of career later across multiple stacks and companies, there's still a heap I don't know, but you can drop me in a lot of codebases and I'll figure it out.\n> So go ahead and buy that Java/Ruby/Javascript/PHP book; you'll probably get some use out of it. But you won't change your life, or your real overall expertise as a programmer in 24 hours or 21 days.\nTrue, but it DID change my life.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49096766",
+          "by": "DavidPiper",
+          "time": 1785329009
+        },
+        {
+          "id": 49096451,
+          "text": "good thing - these articles keep getting shared so often.\nyeah people's attention might be shot. but it's still a blessing to those who read it the first time, and the ones that re-read it.\nthe unfortunate thing in the 'llm' era - we seem hell bent on destroying the foundations of knowledge.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49096451",
+          "by": "dzonga",
+          "time": 1785327226
+        },
+        {
+          "id": 49092790,
+          "text": "One of may favorite things to do was to spend some time tinkering around to learn a new programming language. I collected quite a few and it was fun to learn new paradigms and how to organize programs. But now since AI… idk I just can’t do it, it seems just completely useless in the age of AI. Like getting better at the technical aspects of programming just doesn’t feel important anymore. I don’t think I’ll ever be able to forgive LLMs for that. It really took away something I enjoyed.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49092790",
+          "by": "yoyohello13",
+          "time": 1785292275
+        },
+        {
+          "id": 49092425,
+          "text": "From my experience, just to say the thing that many such articles never mentioned, because the author has the innate ability anyway:\nSeek mental stability, or whatever mental state that can push you to programming for 10 years without completely burning you out. If you can’t even do some programming after a relatively easy work day, you are burnt out.\nBTW ^ is my state nowadays.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49092425",
+          "by": "markus_zhang",
+          "time": 1785289311
+        },
+        {
+          "id": 49097628,
+          "text": "I totally agree with this when it comes to skill acquisition and deep expertise, which I care about more with skills than whatever rewards I might get for that expertise.\nIt's just important not to conflate this deep expertise with the milestone you need to get a job or something. Especially when combined with expertise in other fields, even very little effort can let you advance a lot.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49097628",
+          "by": "FinnLobsien",
+          "time": 1785333491
+        },
+        {
+          "id": 49097117,
+          "text": "I went down a five hour rabbit hole learning about jwz as a result of this post. What an interesting guy - if I knew about the DNA lounge a week earlier, I would have visited when I was in the city",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49097117",
+          "by": "rrvsh",
+          "time": 1785330990
+        },
+        {
+          "id": 49092808,
+          "text": "When I decided to really learn how to program, after dabbling in very basic C++ from books and using BASIC this article and Eric S. Raymond’s ‘How to Become a Hacker’ [1] (CATB is struggling to load at all these days it seems) were two of the first articles I found. While HtBaH was probably more influential on me immediately, Teach Yourself was a great appetizer for the concept of pacing myself in my learning and in the choices I made.\nWith all the “AI” has made coding/learning to code a dead end and unnecessary crud being peddled currently I don’t know if people who want to actually learn to program are going to find resources that can be as motivating as this and other articles from `the before times`. It leaves me slightly bummed out, but in my less pessimistic moments I think motivated learners are going to see through the hype and find these types of resource anyway.\nOn a side note, the Norvig’s articles about implementing a Scheme in Python were my first foray into designing and implementing programming languages, compilers, and interpreters which really shaped my interest all the way through to today.\n1) http://www.catb.org/~esr/faqs/hacker-howto.html",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49092808",
+          "by": "throwaway17_17",
+          "time": 1785292557
+        }
+      ],
+      "by": "vinhnx",
+      "time": 1785053205,
+      "url": "https://www.norvig.com/21-days.html",
+      "score": 185,
+      "descendants": 132,
+      "storyUrl": "https://www.norvig.com/21-days.html"
+    },
+    {
+      "id": 49102425,
+      "type": "story",
+      "title": "A Trampoline",
+      "rank": 24,
+      "depth": 0,
+      "storyId": 49102425,
+      "storyTitle": "A Trampoline",
+      "sourceUrl": "https://news.ycombinator.com/item?id=49102425",
+      "topComments": [
+        {
+          "id": 49103324,
+          "text": "I went on a backyard trampoline once as a kid and it ended with the entire neighbourhood searching for me. I just couldn’t stop playing with my friends and was hours late for curfew. I had forgotten to tell anyone where I was.\nFortunately, I integer overflowed my mom’s level of worry and she was too glad to have me back to be angry. Though, seeing her unwind from genuine terror was more effective than any level of scolding and I never again forgot to tell them where I was going.\nTrampolines, man.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49103324",
+          "by": "Waterluvian",
+          "time": 1785360560
+        },
+        {
+          "id": 49103157,
+          "text": ">A reminder to buy the kids things they say they desperately want.\nIf I were to follow this, I'd be spending half my days driving to stores to buy the thing my kids happen to \"desperately\" want today :)\nAlso a reminder that you're not obliged to _buy_ everything. Its kind of amazing how ingrained this is into a large amount of peoples' heads. You can get a lot of things for free or secondhand. I got my kids' large trampoline for free.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49103157",
+          "by": "lbrito",
+          "time": 1785359561
+        },
+        {
+          "id": 49103546,
+          "text": "We bought a trampoline when our oldest was five. He didn't ask for it, we were just guessing. We got a good deal on one from Craigslist or similar that was brand new, still in the box, so probably like $50 or something.\nHe loved it and many years later he still uses it, pretty much every day that it's not raining. He's well past the age where I would have thought he would still be interested. We've replaced the mat and all the springs to keep it going.\nPoint being, sometimes you just don't know what kids will like.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49103546",
+          "by": "usefulcat",
+          "time": 1785361881
+        },
+        {
+          "id": 49104484,
+          "text": "I've jumped on a trampoline effectively every day for the last decade.\nI find it very relaxing it helps me de-stress and think about things deeper than I would sitting in front of a computer.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49104484",
+          "by": "HDBaseT",
+          "time": 1785368463
+        },
+        {
+          "id": 49104094,
+          "text": "I sweated the years we had a trampoline. It was visible from the street so anyone could have jumped on it and broke their neck. One of my children's friends did get hurt but fortunately, not enough to become an issue. They're a huge liability and not sure insurance covers them.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49104094",
+          "by": "eweise",
+          "time": 1785365253
+        },
+        {
+          "id": 49102771,
+          "text": "The hidden costs are in the ER visits",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49102771",
+          "by": "1970-01-01",
+          "time": 1785357570
+        },
+        {
+          "id": 49102873,
+          "text": "Reminds me think of this youth, bouncing on one[0].\n[0]https://en.wikipedia.org/wiki/Trampoline",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49102873",
+          "by": "samcgraw",
+          "time": 1785358091
+        },
+        {
+          "id": 49105330,
+          "text": "Trampolines are great. They're also super cheap!\nOne of my favorite trampoline hacks is to rip the legs off and use them as a giant tree swing, or portaledge when tree climbing.\nThe hoop is immensely lightweight, strong, and doesn't care if it's being supported by legs in compression, or by lines in (equal) tension. They break down and transport super easy.\nBut don't jump.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49105330",
+          "by": "oasisbob",
+          "time": 1785376712
+        },
+        {
+          "id": 49106395,
+          "text": "oh my god, tramapoline, trambapoline!!!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49106395",
+          "by": "jsmo",
+          "time": 1785389765
+        },
+        {
+          "id": 49103853,
+          "text": "I loved our trampoline as a kid. I went on it nearly every day and I'd go on it to dry after baths. \nIt was a big deal buying a trampoline for my kids - they used it once and I have to force them to use it again.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49103853",
+          "by": "SugarReflex",
+          "time": 1785363675
+        }
+      ],
+      "by": "matthewsharpe3",
+      "time": 1785356076,
+      "url": "https://dogdogfish.com/blog/2026/07/29/a-trampoline/",
+      "score": 120,
+      "descendants": 73,
+      "storyUrl": "https://dogdogfish.com/blog/2026/07/29/a-trampoline/"
+    },
+    {
+      "id": 49094346,
+      "type": "story",
+      "title": "SQLite in Production: Optimizing WAL Mode, Concurrency, and VFS Layers",
+      "rank": 25,
+      "depth": 0,
+      "storyId": 49094346,
+      "storyTitle": "SQLite in Production: Optimizing WAL Mode, Concurrency, and VFS Layers",
+      "sourceUrl": "https://news.ycombinator.com/item?id=49094346",
+      "topComments": [
+        {
+          "id": 49095797,
+          "text": "Unfortunately written by an AI - that completely takes the wind out of the content and makes me not even want to read any further. The distinction between “production” and “non-production” is also questionable. For an evaluation, I recommend the following original articles (certainly not AI-generated):\n- https://sqlite.org/whentouse.html\n- https://sqlite.org/different.html\n- https://sqlite.org/quirks.html",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49095797",
+          "by": "smartmic",
+          "time": 1785322643
+        },
+        {
+          "id": 49095113,
+          "text": "I'm fairly confident this is AI generated, but it makes me think regardless: Whenever I see these kind of articles, I'm left wondering if they've actually used SQLite in production because I always see points about how to optimize performance, like using the WAL, but never about annoyances/issues you'd run into before even needing to worry about that. I guess it's the zeitgeist to use it in a production setting, and I think it's great that it's getting hyped because it truly is a capable database, but after trying myself I think I'd never reach for it in production because it lacks a lot of power that a database like Postgres has, and some of that power is actually relevant to a real production setting:\n- Column definitions aren't able to be changed with something like `alter column` after creation. To change a column definition you have to manually update the underlying schema using the `writable_schema` pragma. If you mess this up you can be left with a corrupt database.\n- Column types are pretty limited. This isn't too much of an issue in practice since you can handle this somewhat in application code, but it can still be a bit annoying at times.\n- You have limited options for dealing with schema migrations. You basically either copy the migrations to the server and run it there (manually or with something like Ansible), or you run the migrations in your application on startup. Ideally you'd perform your schema migrations separately from your application, and having to somehow copy/get the migrations to your server to then run the migration is a bit clunky.\nAll 3 of these are handled in a more powerful (and not local-only) database, and so I don't get why someone would choose SQLite except for prototyping (or places like the browser or phone apps) where performance concerns aren't really relevant.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49095113",
+          "by": "yladiz",
+          "time": 1785316956
+        },
+        {
+          "id": 49096859,
+          "text": "Where I part ways a little with the recommendation is in the busy_timeout + BEGIN IMMEDIATE suggestion. On an embedded system, that's not really sufficient; I maintain a caching service that is used by thousands of clients. It ingests data over MQTT and has a web interface for queries. In my design, there is a MQTT thread and pruning thread. The MQTT ingestion thread and the pruning thread can both end up \"contending\" for the write lock, and increasing the busy_timeout only makes them wait longer before noticing that contention and moving on to the next task. What we ended up needing to do was add an application-level lock that only allows a single writer transaction to be in flight at a time; BEGIN IMMEDIATE is nice for preventing other readers from blocking, but it doesn't help much with other writers.\nMeanwhile, you might be surprised how often “single-tenant edge deployment” comes up in embedded contexts; a Pi with an SD card is a common configuration for an embedded database, and it's right at the intersection of these problems.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49096859",
+          "by": "firesteelrain",
+          "time": 1785329565
+        },
+        {
+          "id": 49095251,
+          "text": "As someone really tempted to use SQLite in production, the one thing I keep bumping against is how to have a nice GUI to interact with the running database. With our current prod databases, I can connect dbeaver and the like to them and nicely browse the data, query, or even do the occasional fix. Seems like this would be much more of a head scratcher if the database is just a file on the same  VPS the app runs on.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49095251",
+          "by": "graboid",
+          "time": 1785318285
+        },
+        {
+          "id": 49097135,
+          "text": "> PRAGMA synchronous = NORMAL;\n> In NORMAL mode, the database engine syncs to disk only at critical moments (e.g., during checkpoints) rather than at every single transaction commit. In WAL mode, this is completely safe from database corruption; even if the server crashes, only the uncommitted transactions in the WAL are lost, but the database integrity remains intact.\nNo, this is not safe.\nYou can lose the latest committed transaction with this pragma.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49097135",
+          "by": "tnodir",
+          "time": 1785331096
+        },
+        {
+          "id": 49095741,
+          "text": "I love SQLite, and I really want to run it in production, but my clients expect minimal data loss and downtime when one of my servers goes down.\nThe answer to that being running it on top of LiteFS or LiteStream seems like starts to make the setup a lot less simple and lot less battle tested, which kind of starts to negate the advantages over just running Postgres.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49095741",
+          "by": "mikeocool",
+          "time": 1785322331
+        },
+        {
+          "id": 49096681,
+          "text": "If you are going down that path, might also be useful to read through this PowerSync blog post.\n- https://powersync.com/blog/sqlite-optimizations-for-ultra-hi...",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49096681",
+          "by": "Chriztiaan_dev",
+          "time": 1785328533
+        },
+        {
+          "id": 49095141,
+          "text": "Personally, I think the better way to tackle sqlite_busy is to have a single writer managed at the application level. That effectively eliminates sqlite_busy in the context of a single process.\n> To ensure write operations don't suffer from disk synchronization bottlenecks, pair WAL mode with the following pragma\nOnly do this if you are prepared to sacrifice durability (i.e can afford to lose transactions).",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49095141",
+          "by": "andersmurphy",
+          "time": 1785317177
+        },
+        {
+          "id": 49097255,
+          "text": "The era of AI agents need serverless SQL. Its very important to have cost effective tech to run the internet.\nhence we ended up writing our own WAL for a Postgres compatible engine, and what surprised me was how much of the work is in the fsync ordering rather than the log format.\nRelaxing that is a real choice to lose the last few transactions on a crash. Fine for some workloads but it should be a decision someone made on purpose.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49097255",
+          "by": "kiranravi1995",
+          "time": 1785331751
+        },
+        {
+          "id": 49095489,
+          "text": "I am obsessed with the idea of per tenant databases. But I am afraid of migrations. Has anyone tried that?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49095489",
+          "by": "wg0",
+          "time": 1785320231
+        }
+      ],
+      "by": "ankitg12",
+      "time": 1785309504,
+      "url": "https://micrologics.org/blog/sqlite-in-production-optimizing-wal-mode-concurrency-and-vfs-layers-for-low-latency-app-servers",
+      "score": 253,
+      "descendants": 77,
+      "storyUrl": "https://micrologics.org/blog/sqlite-in-production-optimizing-wal-mode-concurrency-and-vfs-layers-for-low-latency-app-servers"
+    },
+    {
+      "id": 49091730,
+      "type": "story",
+      "title": "Hubble: Open-source notetaking app for you and your agents",
+      "rank": 26,
+      "depth": 0,
+      "storyId": 49091730,
+      "storyTitle": "Hubble: Open-source notetaking app for you and your agents",
+      "sourceUrl": "https://news.ycombinator.com/item?id=49091730",
+      "topComments": [
+        {
+          "id": 49094391,
+          "text": "Genuinely curious, maybe I'm missing something. What makes this more \"agent-ready\" than Obsidian .md files on disk or even something like .org files?\nI can let my agent edit those files all the same + there's better integrations and knowledge readily available on these.\nI can tell my agent to edit the Obsidian Markdown just like that, but I can also tell it to create a full-on notebook with backlinks and DataView queries. I can tell my agent to create logically complex .org notes with code blocks and references.\nTo me, Hubble just seems like a Markdown editor, based on the premise that agents are able to edit local files.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49094391",
+          "by": "xn--yt9h",
+          "time": 1785309902
+        },
+        {
+          "id": 49092157,
+          "text": "I feel like there's not enough content on the landing page to help me understand why I need yet another notetaking app. The burden of proof is high given how many of these there are.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49092157",
+          "by": "flippyhead",
+          "time": 1785287142
+        },
+        {
+          "id": 49092325,
+          "text": "Will check this out too.\nNow, I'm having fun with tldraw.[1] With their new tldraw offline, I can continue to work in Claude Code (and others) and I can either output or interact/input from tldraw. This is more of a free-form, infinite canvas. I treat it like Excalidraw + Draw.io + Freeform Notetaker.\nFor text, most agents/LLM/assistants are pretty happy and smart using the same Markdown files to anywhere I have allowed them to interact.\n1. https://www.tldraw.com/",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49092325",
+          "by": "Brajeshwar",
+          "time": 1785288545
+        },
+        {
+          "id": 49094679,
+          "text": "I'm trying to understand why this can't just be a folder on your disk. Agents know how to use \"ls\" and \"cat\" so I guess I'm missing something.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49094679",
+          "by": "dewey",
+          "time": 1785312651
+        },
+        {
+          "id": 49096968,
+          "text": "There are also a lot of mcp agents for Joplin: https://discourse.joplinapp.org/t/ai-agents-and-joplin/46168\nDare I say, another, more popular, note taking app for you and your agents.\nI really like it as I run a webdav service and can read/write and sync notes between multiple Mac desktops and Android. Encrypted while I am at it.\nMarkdown native.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49096968",
+          "by": "mianos",
+          "time": 1785330115
+        },
+        {
+          "id": 49093594,
+          "text": "I’ve been waiting for an app like this to be developed! .md files can be opened from Finder! The tree file view is just like I’m used to with Obsidian! Frontmatter support! There’s even an editor toolbar. Almost everything on my wishlist for a Markdown editor, except for Mermaid rendering.\nSince this project uses such good agentic engineering practices, I was able to use Claude Code to add support for Mermaid diagram rendering and produce my very own local build on Mac, all in about 30 minutes.\nThank you! Hubble+cmux gets me close to the agentic IDE I’m working towards.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49093594",
+          "by": "shreddude",
+          "time": 1785301375
+        },
+        {
+          "id": 49092214,
+          "text": "All my agents need are plain .md files in my project directories.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49092214",
+          "by": "ernsheong",
+          "time": 1785287523
+        },
+        {
+          "id": 49095434,
+          "text": "The current sepia color scheme you see on all vibecoded websites is so, so tiring.\nAnd before you ask, the next \"trend\" will be as much tiring.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49095434",
+          "by": "monegator",
+          "time": 1785319748
+        },
+        {
+          "id": 49094319,
+          "text": "I think that is a really nice implementation. A few questions:\nCan you easily share lists or pages or is it all local? (Is there a cloud element to it)\nWhat are the most useful examples you’ve personally found when it comes to using the HYML component?\nI built https://smalldocs.org for my agent’s Markdown needs. I extended it so it can render complex formats: Mermaid diagrams, charts, in-document slides and even in-document spreadsheets. It gives your agent a good selection of formats to express itself as it helps you understand whatever topic you’re looking into.\nHere is a sample document: https://smalldocs.org/blogs/what-is-a-smalldoc\nI publish anonymous analytics here: https://smalldocs.org/analytics",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49094319",
+          "by": "FailMore",
+          "time": 1785309142
+        },
+        {
+          "id": 49092159,
+          "text": "Looks interesting. The dual interface from the start (React UI for humans and just editing .md for the agents with skills) is an interesting idea and probably how a lot of new software projects will work going forward\nI feel like tables are generally underrated while the AI ecosystem is focused on .md files but I guess markdown has tables so they’re included to some extent",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49092159",
+          "by": "firasd",
+          "time": 1785287150
+        }
+      ],
+      "by": "handfuloflight",
+      "time": 1785283883,
+      "url": "https://www.hubble.md/",
+      "score": 148,
+      "descendants": 71,
+      "storyUrl": "https://www.hubble.md/"
+    },
+    {
+      "id": 49101529,
+      "type": "story",
+      "title": "Commodification of Intelligence: Good, Bad, and Ugly Circular AI Deals",
+      "rank": 27,
+      "depth": 0,
+      "storyId": 49101529,
+      "storyTitle": "Commodification of Intelligence: Good, Bad, and Ugly Circular AI Deals",
+      "sourceUrl": "https://news.ycombinator.com/item?id=49101529",
+      "topComments": [
+        {
+          "id": 49102849,
+          "text": "Has a competent economist modeled the circularity of these deals ? [ numerically or analytically ]\nIt seems a healthy economy has a lot of wide circularity .. money circulating is a good thing, a result of a functioning market, tracking the flow of real goods / services.  But large corps circulating paper 'self-deals' or debt-swaps seems like a bad thing - a creative accounting practice designed to pump up their stock price/valuation.\nHow can we _quantify_ the difference ?  I guess it would need to match the cash / debt flows against the movement of actual goods and services ??\nNot an economist, feel free to weigh in, suggest links.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49102849",
+          "by": "jgord",
+          "time": 1785357955
+        },
+        {
+          "id": 49104069,
+          "text": "So, companies are just prepaying with seemingly large parts of their livelihood for (use of) potential value.\nExpecting demand to stay equal over longer stretches of time in IT is an interesting bet as both hardware and software tend to depreciate in value extremely rapidly, unlike oil from the example. Or water. Both are limited in nature.\nCommodifying something that is the fraction of its value the next year might be possible, but I don’t see how. Perhaps MS Windows or Office are such things, but might not compare.\nThere are more limits to demand. For example what humans can process. The AI might write the finest prose and the best software but have nobody to read or use it.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49104069",
+          "by": "Stitch4223",
+          "time": 1785365096
+        },
+        {
+          "id": 49102749,
+          "text": "Recently: \"Nvidia, CoreWeave, and Nebius: Inside the Circular Financing of the GPU Boom\" (io-fund.com)\nhttps://news.ycombinator.com/item?id=48873836\n370 points| 18 days ago | 182 comments",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49102749",
+          "by": "WalterGR",
+          "time": 1785357452
+        },
+        {
+          "id": 49102041,
+          "text": "> commodification of intelligence\nIs HN really this fast!? Everybody already skipped the hard questions whether LLMs are intelligent? 'It' can already be commodified?\nSo how much time and effort it took from these companies? A couple of years and millions spent on PR? And LLMs are \"intelligent\" all of a sudden, is what everybody says nowadays?\nEspecially applicable for programmers: naming things is not only hard, it's also important, and can be very insidious. Remember, marketeers also name things. For example, naming the internet 'the cloud', some 15 years ago.\nI can't stop thinking about a quote of one of my favorite authors (Theo Kars): \"Progress can only be technical in nature, because knowledge is transferable and wisdom is not.\" [translated from Dutch]",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49102041",
+          "by": "rambambram",
+          "time": 1785354084
+        },
+        {
+          "id": 49104128,
+          "text": "We don't have an Artificial Intelligence yet. It is not intelligent, yet.\nHere's a quick reality check. Several companies have formed with a goal of creating and AI engine that can think for itself and reason through difficult or previously intractable problems.\nIn order to accomplish this goal they have used scrapers to hoover up content from a multitude of sources, many of which can be seen as being the ground truth source for their discipline. A lot of this content, most of it, was copied and is being used without attribution to the original sources, without permission from the content owners or publishers, and in violation of copyright laws.\nLook at all of this for what it is. It is a knowledge base, like a collection of Lego parts, each of which is important to the goal but none of which will get you there without the other parts in the proper relative position. Once you have collected all these parts and stuck them together you have an LLM. If you are careful in your parts selection, that LLM can be useful for answering specific questions that are properly framed so that the LLM can make use of the contextual information in formulating a response.\nThere's nothing intelligent about being able to answer a question correctly when the answer is effectively right on the tip of your tongue. You're just drawing from your knowledge base and regurgitating.\nGlomming all of it together only gives you a huge knowledge base. There is nothing intelligent about that knowledge base. Knowledge is not intelligence.\nYou have an AK today, an Accumulated Knowledge base.\nWe may never reach the point where it is ever intelligent enough to reason alongside of, or better than those whose life's work went into the foundation of the AK base.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49104128",
+          "by": "doodlebugging",
+          "time": 1785365541
+        },
+        {
+          "id": 49101714,
+          "text": "If healthy and risky circular financing deals look similar at first, how can investors or regulators tell when a circular deal has crossed the line into something dangerous...especially when it's off the balance sheets?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49101714",
+          "by": "andiey",
+          "time": 1785352386
+        },
+        {
+          "id": 49101785,
+          "text": "I think the real question in all sorts of financial setups is really “is the dollar actually worth a dollar”. So when company A invests in company B which buys from company A the actual question is whether the valuation of the investment and the valuation of the purchase is correct or are they getting high on their own supply",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49101785",
+          "by": "firasd",
+          "time": 1785352735
+        },
+        {
+          "id": 49103924,
+          "text": "The problem with circular transactions is that they can make companies look healthier than they really are, distort investment decisions, and cause widespread damage when the cycle breaks.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49103924",
+          "by": "unjuno",
+          "time": 1785364116
+        },
+        {
+          "id": 49101668,
+          "text": "Observing how the US stock market is behaving this week (up-down-up-down...), I feel like many investors don't appreciate the distinction between good and bad circularity.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49101668",
+          "by": "cl42",
+          "time": 1785352086
+        },
+        {
+          "id": 49101813,
+          "text": "Whether inference hardware will be a commodity remains to be seen. We had twenty years of most servers being x86-64. That's commodity compute. Inference hardware isn't a mature architecture yet. There will be progress and obsolescence.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49101813",
+          "by": "Animats",
+          "time": 1785352906
+        }
+      ],
+      "by": "cl42",
+      "time": 1785351430,
+      "url": "https://www.emergingtrajectories.com/lh/commodification-and-circularity/",
+      "score": 85,
+      "descendants": 48,
+      "storyUrl": "https://www.emergingtrajectories.com/lh/commodification-and-circularity/"
+    },
+    {
+      "id": 49062997,
+      "type": "story",
+      "title": "Refactoring cuisine: how an Iraqi stew sailed to Singapore",
+      "rank": 28,
+      "depth": 0,
+      "storyId": 49062997,
+      "storyTitle": "Refactoring cuisine: how an Iraqi stew sailed to Singapore",
+      "sourceUrl": "https://news.ycombinator.com/item?id=49062997",
+      "topComments": [
+        {
+          "id": 49106032,
+          "text": "It’s interesting to note what ‘cultural staples and customs’ are actually a recent invention (in the grand scheme of things) or likewise popularized through corporations that advertised so hard that they embedded themselves into the very cultural fabric.\nCf. hamburgers being maybe 100 years old; tomato sauce being only put on pasta in the late 18th century; ‘standard Italian’ not being codified until the unification of Italy in the late 19th century (one reason why Italian-Americans perhaps say capisch instead of capisci? Some southern accents dropping the -i! [really, they’re languages——languages are just dialects with an army]), the food that we call kimchi today only popularly containing peppers starting in the 19th century; and the whole thing with car companies in the United States tearing up tram tracks and lobbying for jaywalking to be considered a crime!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49106032",
+          "by": "doubletwoyou",
+          "time": 1785384520
+        },
+        {
+          "id": 49104922,
+          "text": "I love these kinds of tales of cultural fusion, because they're so much the norm in human history, and yet we've got this weird idea of fixed identities, categories, and cultures - trace any food, any dance, any music or art back far enough and you're walking continents, and frequently not the ones you think.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49104922",
+          "by": "roughly",
+          "time": 1785372538
+        },
+        {
+          "id": 49105552,
+          "text": "> how an Iraqi stew sailed to Singapore\nSpoiler: it was a stewaway.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49105552",
+          "by": "kazinator",
+          "time": 1785379120
+        },
+        {
+          "id": 49106366,
+          "text": "Also known as Bamiya or Bamia (okra stew) among the Malay-Arab community in Singapore.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49106366",
+          "by": "jnaina",
+          "time": 1785389327
+        },
+        {
+          "id": 49105470,
+          "text": "> For example, the paradox of Grandfather’s axe where the handle and the blade have long been replaced\nFor a pop-culture reference, probably known mostly in the UK, see \"Trigger's Broom\".\nThe character Trigger is a street sweeper and is given an award by the council for using the same broom for 20 years. Later he reveals the trick to good broom maintenance is to replace parts when they start to go, and says it has had 17 new heads and 14 new handles.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49105470",
+          "by": "Nursie",
+          "time": 1785378264
+        }
+      ],
+      "by": "infinitewalk",
+      "time": 1785104322,
+      "url": "https://iza.ac/posts/2026/07/the-journey-of-bamya/",
+      "score": 67,
+      "descendants": 28,
+      "storyUrl": "https://iza.ac/posts/2026/07/the-journey-of-bamya/"
+    },
+    {
+      "id": 49060363,
+      "type": "story",
+      "title": "Lisp moving Forth moving Lisp",
+      "rank": 29,
+      "depth": 0,
+      "storyId": 49060363,
+      "storyTitle": "Lisp moving Forth moving Lisp",
+      "sourceUrl": "https://news.ycombinator.com/item?id=49060363",
+      "topComments": [
+        {
+          "id": 49095233,
+          "text": "I finished Let Over Lambda recently. I'm not an experienced lisp programmer but it's strangely readable if you allow yourself to not understand every little detail of the Common Lisp code. For example I hadn't read On Lisp. I had read The Little Schemer.\nIt's a wonderful tour of advanced macro concepts. With several of the macros presented I found myself saying \"well that's just x language feature in y\" but that's missing the point. The point is that Common Lisp allows you to implement your own language features, with macros of course!\nThis chapter is a wonderful climax to the whole book. Lisp moving Forth moving Lisp reminded me of the intertwined nature of DNA, RNA and proteins in Biology.\nThere's great humour throughout the book, I especially enjoyed the little sideways jabs at Scheme programmers!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49095233",
+          "by": "Vohlenzer",
+          "time": 1785318069
+        },
+        {
+          "id": 49099020,
+          "text": "I built a self replicating forth bot that speaks S-Expressions over the wire. https://github.com/DavidCanHelp/unit",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49099020",
+          "by": "DavidCanHelp",
+          "time": 1785339987
+        },
+        {
+          "id": 49101815,
+          "text": "I'm not fluent enough in Common Lisp for that book, but the patterns in Let over Lambda translate cleanly to Julia. You can have \"Let over Lambda\", \"Let over Lambda over Let over Lambda\", \"Anaphoric Macros\" (though you have to break hygiene with esc(), and in practice should just use the native julia do block), \"Reader Macros\" (via String Macros), \"Pandoric Macros\", and so on.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49101815",
+          "by": "Archit3ch",
+          "time": 1785352915
+        },
+        {
+          "id": 49095811,
+          "text": "I learned some Forth and played around right before the LLM trend began.\nIt was a mind bending experience, although I quit after a while as the programs were kind of glass sheet quality brittle as they grew.\nSometimes I feel I need to start again to keep my brain from losing thinking skills over time.",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49095811",
+          "by": "kamaal",
+          "time": 1785322735
+        }
+      ],
+      "by": "fallat",
+      "time": 1785087453,
+      "url": "https://letoverlambda.com/textmode.cl/guest/chap8.html",
+      "score": 122,
+      "descendants": 32,
+      "storyUrl": "https://letoverlambda.com/textmode.cl/guest/chap8.html"
+    },
+    {
+      "id": 49099434,
+      "type": "story",
+      "title": "Show HN: Kedge – Full-stack cloud with forkable VM snapshots and global SQLite",
+      "rank": 30,
+      "depth": 0,
+      "storyId": 49099434,
+      "storyTitle": "Show HN: Kedge – Full-stack cloud with forkable VM snapshots and global SQLite",
+      "sourceUrl": "https://news.ycombinator.com/item?id=49099434",
+      "topComments": [
+        {
+          "id": 49100276,
+          "text": "https://kedge.dev/docs/sandboxes\nCaught my eye with this one. I'll be taking a closer look as this is one of those \"I'd rather let someone else do it.\" type infrastructure bits :)",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49100276",
+          "by": "nicksuperb",
+          "time": 1785345306
+        },
+        {
+          "id": 49103994,
+          "text": "This looks awesome! I really love the clean and minimalist website design too.\nI've been excited about using (lib)krun as a drop in replacement for crun/runc for container engines, to make them run qemu microvms. I'm exploring what it could look like if every process of an OS ran like that. I envy you, would love to work on something like this!",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49103994",
+          "by": "sureglymop",
+          "time": 1785364629
+        },
+        {
+          "id": 49099666,
+          "text": "this is super cool, bookmarking to give it a whirl\n> As a demo, I made a Hacker News clone with story submission, votes, comments and auth in about 60 lines of Markdown, plus CSS\nalthough why would you use it for evil",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49099666",
+          "by": "vyedin",
+          "time": 1785342827
+        },
+        {
+          "id": 49100810,
+          "text": "This is phenomenal, great work!\nOn the HN frontpage is Superlogical (I have no affiliation) right now, and I used the shell provided by the Kedge News demo to `ssh superlogical.jobs` from my browser on a phone on an instance started seconds earlier. :)\nI didn't immediately spot the durability contract for volumes -- local NVMe like Fly, or sitting on some underlying system like EBS?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49100810",
+          "by": "tekacs",
+          "time": 1785347897
+        },
+        {
+          "id": 49101007,
+          "text": "Two questions about the fork boundary. The snapshot is taken once when the process calls listen, so every later instance is a clone of the same frozen memory image, and anything seeded during init is identical across every clone in every region. That is exactly what the Linux vmgenid driver exists for, and it is why Lambda SnapStart had to ship explicit reseeding guidance. I could not find entropy, RNG or reseed anywhere in the runtime, performance or security docs, so is there a post-restore reseed hook, and does it fire before the first accept?\nThe other one is syzy. CRDT.md says eviction is operator-driven, that PRUNING.md is a design-stage contract and not yet code, and that a replica lagging beyond the hold window may transiently observe the departing duplicate, while the product headline offers scale to zero when idle, which mints offline replicas continuously. Who calls syzy_evict in the managed product?",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49101007",
+          "by": "PersonalJarvis",
+          "time": 1785348801
+        },
+        {
+          "id": 49101617,
+          "text": "Fun fact: we also built our cloud platform based on Fly.io’s ideas, but we supercharged it with a custom Rust filesystem.\nThis platform powers full-stack applications for business users, including Playcode.ai.\nFor more information about our cloud platform, visit: https://playcode.io/cloud",
+          "sourceUrl": "https://news.ycombinator.com/item?id=49101617",
+          "by": "ianberdin",
+          "time": 1785351865
+        }
+      ],
+      "by": "wgjordan",
+      "time": 1785341757,
+      "url": "https://kedge.dev/",
+      "score": 97,
+      "descendants": 20,
+      "storyUrl": "https://kedge.dev/"
+    }
+  ]
+}
